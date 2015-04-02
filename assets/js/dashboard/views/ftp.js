@@ -12,10 +12,11 @@ define([
             that.$el.html('');
 
             $.getJSON(base + 'api/ftp/getall', function (data) {
-
                 var template = _.template(ftplist);
                 template = template({list: data.data});
                 that.$el.html(template);
+                
+                $('[data-toggle="tooltip"]').tooltip();
             });
         },
         deleteftp: function (e) {
@@ -31,6 +32,10 @@ define([
                 confirm: function () {
                     $.getJSON(base + 'api/ftp/delftp/' + id, function (data) {
                         if (data.status) {
+                            console.log(data);
+                            noty({
+                                text: '!!! Deleted FTP entry.',
+                            });
                             that.render();
                         }
                     });

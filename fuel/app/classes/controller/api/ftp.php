@@ -35,7 +35,8 @@ class Controller_Api_Ftp extends Controller {
         $a = DB::insert('ftpdata')->set($data)->execute();
         if ($a) {
             echo json_encode(array(
-                'status' => true
+                'status' => true,
+                'request' => Input::post()
             ));
         }
     }
@@ -45,7 +46,8 @@ class Controller_Api_Ftp extends Controller {
         if (!Auth::check()) {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Not logged in'
+                'reason' => 'Not logged in',
+                'request' => Input::post()
             ));
             return;
         }
@@ -54,11 +56,13 @@ class Controller_Api_Ftp extends Controller {
 
         if ($result) {
             echo json_encode(array(
-                'status' => true
+                'status' => true,
+                'request' => Input::post()
             ));
         } else {
             echo json_encode(array(
-                'status' => false
+                'status' => false,
+                'request' => Input::post()
             ));
         }
     }

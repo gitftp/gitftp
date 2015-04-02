@@ -17,6 +17,16 @@ h6 {
 .btn {
   background-image: none;
 }
+.btn.btn-default {
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  border-color: #E8E8E8;
+}
+.btn.btn-default:hover {
+  background-image: none;
+  background-color: #eee;
+  border-color: #ddd;
+}
 .bb-loading:empty {
   height: 300px;
   background-image: url('../img/blank.gif');

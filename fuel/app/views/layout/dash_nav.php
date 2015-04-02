@@ -12,7 +12,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>">GITPLOY</a>
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"> <i class="fa fa-github-alt"></i> theploy</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -37,6 +37,11 @@
                             <li><a href="<?php echo Uri::base(false); ?>dashboard/#ftp">FTP servers</a></li>
                             <li><a href="<?php echo Uri::base(false); ?>dashboard/#git">GIT repos</a></li>
                         </ul>
+                        
+                        <ul class="nav navbar-nav navbar-right">
+                            <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                        </ul>
+                        
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>

@@ -6,10 +6,16 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <div style="height: 100px;"></div>
-            <p class="text-center" style="font-size: 3em">
-                Welcome to Gitploy
+            <div style="height: 60px;"></div>
+            <p class="text-center" style="color: #999">
+                <span style="font-size: 3em">
+                    <i class="fa fa-github fa-5x"></i><br>
+                    Welcome to theploy
+                </span>
+                <br>
+                The git to ftp deployment system.
             </p>
+               
         </div>
     </div>
 </div>

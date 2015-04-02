@@ -6,6 +6,7 @@ echo Asset::js(array(
     'vendor/bootstrap.min.js',
     'vendor/backbone.js',
     'vendor/jquery-confirm.min.js',
+    'vendor/jquery.noty.packaged.min.js',
     'main.js',
     ));
 ?>

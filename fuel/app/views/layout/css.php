@@ -5,4 +5,5 @@ echo Asset::css(array(
     'bootstrap-theme.css',
     'main.css',
     'jquery-confirm.min.css',
+    'font-awesome.min.css',
 ));

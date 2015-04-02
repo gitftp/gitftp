@@ -1,0 +1,51 @@
+<h3>
+    Add FTP Server
+    <a href="#ftp" class="btn btn-default pull-right">&lt;- List servers</a>
+</h3>
+<div style="height:20px;"></div>
+<p>
+    Add a FTP server's configuration, later you can assign it for deployment.
+</p>
+<div class="row">
+    <div class="col-md-6">
+        <div class="addftp-div">
+            <form action="" class="" id="addftp-form">
+                <div class="form-group">
+                    <label>Host name</label>
+                    <input type="text" name="host" class="form-control" placeholder="example.com">
+                </div>
+                <div class="form-group">
+                    <label>FTP username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </div>
+                <div class="form-group">
+                    <label>FTP password</label>
+                    <input type="text" name="pass" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label>Schema</label>
+                    <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps">
+                </div>
+                <div class="form-group">
+                    <label>Path to deploy</label>
+                    <input type="text" name="path" class="form-control" placeholder="Starting from root. EG: /public_html">
+                </div>
+                <div class="form-group">
+                    <label>FTP port</label>
+                    <input type="text" name="port" class="form-control" placeholder="Port of FTP">
+                </div>
+                <button style="submit" class="btn btn-primary">Save</button>
+            </form>
+        </div>	
+    </div>
+    <div class="col-md-6">
+        <p class="text-center"><strong>One line config:</strong>
+            <br>
+            <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
+        </p>
+    </div>
+</div>
+
+<br>
+<br>
+<br>

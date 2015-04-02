@@ -1,0 +1,79 @@
+<h3>
+    FTP servers
+    <a href="#ftp/add" class="btn btn-default pull-right">Add server</a>
+</h3>
+<div style="height:20px;"></div>
+
+<% if(list.length > 0){ %>
+
+<p>
+    Your recently added FTP servers.
+</p>
+
+<table class="table table-condensed table-hover">
+    <tr>
+        <th>
+            Host
+        </th>
+        <th>
+            Username
+        </th>
+        <th>
+            Password
+        </th>
+        <th>
+            Scheme
+        </th>
+        <th>
+            Path
+        </th>
+        <th>
+            Port
+        </th>
+        <th>
+
+        </th>
+    </tr>
+    <% $.each(list, function(i, a){ %>
+
+    <tr>
+        <td>
+            <%= a.host  %>
+        </td>
+        <td>
+            <%= a.username  %>
+        </td>
+        <td>
+            <%= a.pass  %>
+        </td>
+        <td>
+            <%= a.scheme  %>
+        </td>
+        <td>
+            <%= a.path  %>
+        </td>
+        <td>
+            <%= a.port  %>
+        </td>
+        <td>
+            <a href="#" class="deleteftp" data-id="<%= a.id %>">del</a>
+        </td>
+    </tr>    
+
+    <% }) %>
+</table>
+
+<% }else{ %>
+<hr>
+<p class="text-center">
+    <span style="font-size: 1.3em;color: #888">NOTHING ADDED YET</span>
+    <br>
+    <a class="btn btn-default" href="#/ftp/add">+ add now</a>
+</p>
+
+<% } %>
+
+
+<br>
+<br>
+<br>

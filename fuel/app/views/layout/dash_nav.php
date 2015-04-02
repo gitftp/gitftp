@@ -12,7 +12,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#">Gitploy</a>
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>">GITPLOY</a>
                     </div>
 
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
@@ -33,9 +33,9 @@
                                                     </li>
                                                 </ul>-->
                         <ul class="nav navbar-nav navbar-left">
-                            <li><a href="<?php echo Uri::base(false); ?>dashboard">Dashboard</a></li>
-                            <li><a href="<?php echo Uri::base(false); ?>dashboard/ftp">FTP servers</a></li>
-                            <li><a href="<?php echo Uri::base(false); ?>dashboard/git">GIT repos</a></li>
+                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#">Dashboard</a></li>
+                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#ftp">FTP servers</a></li>
+                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#git">GIT repos</a></li>
                         </ul>
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->

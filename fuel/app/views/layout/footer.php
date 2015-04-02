@@ -1,11 +1,3 @@
-<?php
-echo Asset::js(array(
-    'vendor/jquery-1.11.2.js',
-    'vendor/modernizr-2.8.3-respond-1.4.2.min.js',
-    'vendor/bootstrap.min.js',
-    'main.js',
-    ));
-?>
 <script>
 //    (function (b, o, i, l, e, r) {
 //        b.GoogleAnalyticsObject = l;

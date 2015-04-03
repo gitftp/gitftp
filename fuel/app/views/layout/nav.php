@@ -50,7 +50,7 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <p class="navbar-text">Signed in as <a style="text-transform: uppercase; font-size: 12px;" href="<?php echo Uri::base(false); ?>dashboard"><?php echo Auth::get_email('created_at'); ?></a></p>
+                                    <p class="navbar-text" style="font-style: italic;">You're in <a style="text-transform: capitalize;" href="<?php echo Uri::base(false); ?>dashboard"><?php echo Auth::get_screen_name(); ?> !</a></p>
                                 </li>
                                 <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             </ul>

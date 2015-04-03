@@ -1,5 +1,5 @@
 define([
-    'text!pages/content.html'
+    'text!pages/dashboard.html'
 ], function (page) {
     d = Backbone.View.extend({
         el: app.el,

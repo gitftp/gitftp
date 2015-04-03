@@ -1,16 +1,12 @@
-define([], function () {
-    Booking = Backbone.View.extend({
-        title: 'Bookings',
-        el: app.config.el,
+define([
+    'text!pages/dashboard.html'
+], function (page) {
+    d = Backbone.View.extend({
+        el: app.el,
         render: function (id) {
-            func.setTitle(this);
             var that = this;
-            func.getView('booking', function (d) {
-                that.html = d;
-                that.$el.html(_.template(that.html, {title: that.title}));
-                func.bindPlugins();
-            });
+            that.$el.html(page);
         }
     });
-    return Booking;
+    return d;
 });

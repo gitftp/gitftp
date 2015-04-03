@@ -1,0 +1,59 @@
+<h3>
+    Deployment
+    <a href="#deploy/new" class="btn btn-default pull-right"><i class="fa fa-plus fa-fw"></i> Create new</a>
+</h3>
+<p>
+    Projects are deployment configurations.
+</p>
+<div style="height:20px;"></div>
+
+<table class="table table-condensed table-hover">
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Repository
+        </th>
+        <th>
+            FTP
+        </th>
+        <th>
+            USERNAME
+        </th>
+        <th>
+            PASSWORD
+        </th>
+        <th>
+            KEY
+        </th>
+        <th>
+            
+        </th>
+    </tr>
+    <% $.each(list, function(i, a){ %>
+    <tr class="viewdeploy" style="cursor:pointer" data-id="<%= a.id %>">
+        <td>
+            <%= a.id %>
+        </td>
+        <td>
+            <%= a.repository %>
+        </td>
+        <td>
+            <%= a.ftp[0].host %> -> <%= a.ftp[0].username %>
+        </td>
+        <td>
+            <%= a.username %>
+        </td>
+        <td>
+            <%= a.password %>
+        </td>
+        <td>
+            <%= a.key %>
+        </td>
+        <td>
+            <a href="#" data-id="<%= a.id %>" class="deletedeploy"><i class="fa fa-trash-o fa-fw"></i></a>
+        </td>
+    </tr>
+    <% }) %>
+</table>

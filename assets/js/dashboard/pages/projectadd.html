@@ -1,0 +1,55 @@
+<h3>
+    Setup a Deployment
+    <a href="#deploy" class="btn btn-default pull-right"><i class="fa fa-arrow-left fa-fw"></i> List deploys</a>
+</h3>
+<p>
+    Configure your new deployment.
+</p>
+<div style="height:20px;"></div>
+
+<form action="" id="deploy-save-new">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="repo">GIT REPOSITORY</label>
+                <input type="text" name="repo" id="repo" placeholder="link to repo .git" class="form-control" required>
+                <p class="help-block">Link from bitbucket / github</p>
+            </div>
+            <div style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+                <p class="help-block">SSH keys not supported for the moment.</p>
+                <div class="form-group">
+                    <label for="repo">username</label>
+                    <input type="text" name="username" placeholder="Git host username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label for="repo">password</label>
+                    <input type="text" name="password" placeholder="Git host password" class="form-control" required>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <p class="text-center"><strong>SELECT FTP SERVER FOR DEPLOYMENT</strong></p>
+            <div class="form-group">
+                <label>PRODUCTION</label>
+                <select class="form-control" name="ftp-production" required>
+                    <option value=""> -none- </option>
+                    <% $.each(ftplist, function(i, a){ %>
+                    <option value="<%= a.id %>"><%= a.host %> - <%= a.username %></option>
+                    <% }) %>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label>ACCESS KEY</label>
+                <input class="form-control" name="key" placeholder="Something random" required>
+            </div>
+            
+            <button type="submit" class="btn btn-default"><i class="fa fa-save fa-fw"></i> Save deployment configuration</button>
+        </div>
+    </div>
+</form>
+
+<br>
+<br>
+<br>
+<br>

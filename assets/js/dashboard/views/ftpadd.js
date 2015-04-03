@@ -8,7 +8,6 @@ define([
             'submit #addftp-form': 'addftp',
             'keyup #addftp-form input': 'oneline'
         },
-        
         oneline: function () {
             var $target = $('.ftp-oneline');
             var str = '';
@@ -19,9 +18,8 @@ define([
             var path = $('input[name="path"]').val();
             var port = $('input[name="port"]').val();
 
-
-            if (host) {
-                if (scheme) {
+            if (/^(?!:\/\/)([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i.test(host) || /^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(host)) {
+                if (scheme && /ftp|ftps|sftp/.test(scheme)) {
                     str += scheme + '://';
                 } else {
                     str += 'ftp://';
@@ -72,6 +70,11 @@ define([
                         text: '!!! Added FTP server: ' + $this.find('[name="host"]').val()
                     });
                     Router.navigate('ftp', {trigger: true});
+                } else {
+                    $.alert({
+                        title: 'Something bad happened',
+                        content: data.reason
+                    });
                 }
             });
         }

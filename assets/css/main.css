@@ -5,6 +5,11 @@ body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;
   color: #555;
+  overflow-y: scroll;
+}
+.navbar-nav li.active a {
+  background-image: none !important;
+  background-color: #f8f8f8 !important;
 }
 h1,
 h2,

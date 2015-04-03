@@ -4,11 +4,11 @@
  */
 
 return array(
-	'default' => array(
-		'connection'  => array(
-			'dsn'        => 'mysql:host=craftpip.com;dbname=craftrzt_gitploy',
-			'username'   => 'craftrzt_gitploy',
-			'password'   => '_v&z-l0H..eX',
-		),
-	),
+    'default' => array(
+        'connection' => array(
+            'dsn' => 'mysql:host=pc.craftpip.com;dbname=craftrzt_gitploy',
+            'username' => 'root',
+            'password' => 'thisissparta',
+        ),
+    ),
 );

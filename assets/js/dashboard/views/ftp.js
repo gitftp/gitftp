@@ -37,6 +37,11 @@ define([
                                 text: '!!! Deleted FTP entry.',
                             });
                             that.render();
+                        }else{
+                            $.alert({
+                                'title': 'Something bad happened',
+                                'content' : data.reason
+                            });
                         }
                     });
                 }

@@ -11,5 +11,8 @@ class Controller_Welcome extends Controller {
         $view->body = View::forge('page/home');
         return $view;
     }
-
+    
+    public function action_test(){
+        Debug::constants();
+    }
 }

@@ -34,8 +34,8 @@
                                                 </ul>-->
                         <ul class="nav navbar-nav navbar-left">
                             <li><a href="<?php echo Uri::base(false); ?>dashboard/#">Dashboard</a></li>
-                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#ftp">FTP servers</a></li>
-                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#git">GIT repos</a></li>
+                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#proj"><i class="fa fa-code-fork fa-fw"></i> Project</a></li>
+                            <li><a href="<?php echo Uri::base(false); ?>dashboard/#ftp"><i class="fa fa-cloud-upload fa-fw"></i> FTP servers</a></li>
                         </ul>
                         
                         <ul class="nav navbar-nav navbar-right">

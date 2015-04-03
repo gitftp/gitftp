@@ -10,7 +10,7 @@
             <p class="text-center" style="color: #999">
                 <span style="font-size: 3em">
                     <i class="fa fa-github fa-5x"></i><br>
-                    Welcome to theploy
+                    Welcome to <i class="fa fa-git"></i>ftp
                 </span>
                 <br>
                 The git to ftp deployment system.

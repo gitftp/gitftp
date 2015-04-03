@@ -12,7 +12,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>                        
-                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"> <i class="fa fa-github-alt"></i> theploy</a>
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i>git-ftp</a>
                         <!--<a class="navbar-brand" href="#">Gitploy</a>-->
                     </div>
 
@@ -46,15 +46,29 @@
                                                         </ul>
                                                     </li>
                                                 </ul>-->
-                        <form class="navbar-form navbar-right" method="POST" action="<?php echo Uri::base(false) ?>user/login" role="search">
-                            <div class="form-group">
-                                <input type="text" name="email" class="form-control" placeholder="Email">
-                            </div>
-                            <div class="form-group">
-                                <input type="text" name="password" class="form-control" placeholder="Password">
-                            </div>
-                            <button type="submit" class="btn btn-default">Login</button>
-                        </form>
+                        <?php if (Auth::check()) { ?>
+
+                            <ul class="nav navbar-nav navbar-right">
+                                <li>
+                                    <p class="navbar-text">Signed in as <a style="text-transform: uppercase; font-size: 12px;" href="<?php echo Uri::base(false); ?>dashboard"><?php echo Auth::get_email('created_at'); ?></a></p>
+                                </li>
+                                <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                            </ul>
+
+                        <?php } else { ?>
+
+                            <form class="navbar-form navbar-right" method="POST" action="<?php echo Uri::base(false) ?>user/login" role="search">
+                                <div class="form-group">
+                                    <input type="text" name="email" class="form-control" placeholder="Email">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="password" class="form-control" placeholder="Password">
+                                </div>
+                                <button type="submit" class="btn btn-default">Login</button>
+                            </form>
+
+                        <?php } ?>
+
                     </div><!-- /.navbar-collapse -->
                 </div><!-- /.container-fluid -->
             </nav>

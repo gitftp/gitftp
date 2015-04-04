@@ -10,6 +10,40 @@ body{
     overflow-y: scroll;
 }
 
+.jconfirm{
+
+    &.git{
+        .jconfirm-bg{
+            background-color: rgba(0,0,0,.1) !important;
+        }
+        .jconfirm-box{
+
+            div.title{
+                font-weight: normal;
+                font-size: 22px;
+            }
+            div.content{
+
+            }
+            .buttons{
+
+                button{
+
+                }
+                button.btn-default{
+
+
+                    &:hover{
+
+                    }
+                }
+            }
+
+        }
+
+    }
+}
+
 .navbar-nav li.active a{
     background-image:none !important;
     background-color:#f8f8f8 !important;
@@ -21,11 +55,11 @@ h1,h2,h3,h4,h5,h6{
 
 .btn{
     background-image: none;
-    
+
     &.btn-default{
         background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
         border-color: #E8E8E8;
-        
+
         &:hover{
             background-image: none;
             background-color: #eee;
@@ -39,4 +73,24 @@ h1,h2,h3,h4,h5,h6{
     background-image: url('../img/blank.gif');
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.project-v-status{
+    background: #f8f8f8;
+    padding:5px 10px;
+    margin-top: 25px;
+    border: solid 1px #ddd;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.1);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+.well-cs{
+    background: #f8f8f8;
+    border-color: #ddd;
+}
+
+.active-cs{
+    background: #f8f8f8;
 }

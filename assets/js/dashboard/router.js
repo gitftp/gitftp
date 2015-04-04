@@ -4,7 +4,8 @@ define([
     'views/ftpadd',
     'views/project',
     'views/projectadd',
-], function (dashboard, ftpView, ftpAdd, projectView, projectaddView) {
+    'views/projectview',
+], function (dashboard, ftpView, ftpAdd, projectView, projectaddView, projectviewView) {
 
     if (!/dashboard/ig.test(location.href)) {
         return false;
@@ -18,7 +19,12 @@ define([
             'ftp/add': 'ftpAdd',
             'deploy': 'project',
             'deploy/new': 'projectadd',
+            'deploy/v/:id': 'projectview',
             ':any': 'fourofour'
+        },
+        projectview: function (id) {
+            app.obj.projectview = app.obj.projectview || new projectviewView();
+            app.obj.projectview.render(id);
         },
         projectadd: function () {
             app.obj.projectadd = app.obj.projectadd || new projectaddView();

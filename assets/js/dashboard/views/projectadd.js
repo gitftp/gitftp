@@ -1,23 +1,43 @@
 define([
     'text!pages/projectadd.html'
 ], function (page) {
-    
+
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'submit #deploy-save-new' : 'savenew'
+            'submit #deploy-save-new': 'savenew',
+            'keyup input#add-repo': 'calcname'
         },
-        savenew: function(e){
+        calcname: function (e) {
+            var $this = $(e.currentTarget);
+            var str = $this.val();
+            var tar = $('#deploy-save-new input[name="name"]');
+            var i = str.indexOf('.git');
+            if (i !== -1) {
+//                console.log(i, str.length);
+                if (i == str.length - 4) {
+                    var s = str.lastIndexOf('/');
+                    var o = str.substring(s + 1, str.length - 4);
+                    tar.val(o.toLowerCase());
+                } else {
+                    tar.val('');
+                }
+            } else {
+                tar.val('');
+            }
+
+        },
+        savenew: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
-            
-            $.post(base+'api/deploy/new', $this.serializeArray() ,function(data){
+
+            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);
-                
-                if(data.status){
-                    
+
+                if (data.status) {
+
                     $.alert({
                         title: 'Added',
                         content: 'The configuration is added, please proceed for first deployment.'
@@ -25,10 +45,11 @@ define([
                     Router.navigate('deploy', {
                         trigger: true
                     });
-                    
-                }else{
+
+                } else {
                     noty({
-                        text: 'there was a problem adding the configuration, i dont know what'
+                        text: data.reason,
+                        type: 'error'
                     });
                 }
             });
@@ -38,13 +59,13 @@ define([
             that.$el.html('');
             this.page = page;
             this.template = _.template(this.page);
-            
-            $.getJSON(base+'api/ftp/getall', function(data){
+
+            $.getJSON(base + 'api/ftp/getall', function (data) {
                 var page = that.template({'ftplist': data.data});
                 that.$el.html(page);
             });
         }
     });
-    
+
     return d;
 });

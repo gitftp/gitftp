@@ -23,7 +23,8 @@ define([
                             noty({
                                 text: '!! deleted',
                             });
-                            Router.navigate('deploy', {trigger: true});
+                            
+                            Backbone.history.loadUrl();
                         } else {
                             noty({
                                 text: 'there was problem while deleting'

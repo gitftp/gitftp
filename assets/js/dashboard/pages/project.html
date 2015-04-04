@@ -37,10 +37,11 @@
             <%= a.id %>
         </td>
         <td>
-            <%= a.repository %>
+            <%= a.name %><br>
+            <span style="color: #aaa">(<%= a.repository %>)</span>
         </td>
         <td>
-            <%= a.ftp[0].host %> -> <%= a.ftp[0].username %>
+            <strong>Host:</strong> <%= a.ftp[0].host %> <br> <strong>User:</strong> <%= a.ftp[0].username %>
         </td>
         <td>
             <%= a.username %>

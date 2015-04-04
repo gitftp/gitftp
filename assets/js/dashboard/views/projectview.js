@@ -20,8 +20,8 @@ define([
             });
         },
         startDeploy: function(){
-            $.get(base+'api/deploy/start/'+this.id, function(id){
-                
+            $.get(base+'api/deploy/start/'+this.id, function(data){
+                console.log(data);
             });
         }
     });

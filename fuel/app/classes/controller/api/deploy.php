@@ -115,7 +115,9 @@ class Controller_Api_Deploy extends Controller {
         if ($id == null || Auth::check()) {
             return false;
         }
-
+        
+        echo DOCROOT;
+        
         // lets start
     }
 

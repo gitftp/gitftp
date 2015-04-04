@@ -111,7 +111,7 @@ class Controller_Api_Deploy extends Controller {
         }
     }
     
-    public function start($id = null){
+    public function action_start($id = null){
         
         if($id == null || Auth::check()){
             return false;

@@ -114,13 +114,13 @@ class Controller_Api_Deploy extends Controller {
 
         if ($id == null || !Auth::check()) {
             return false;
+            
         }
         
         $repohome = DOCROOT.'fuel/repository';
         
-        
-        
-        echo $repohome;
+        $a = File::read_dir($repohome);
+        print_r($a);
         
         // lets start
     }

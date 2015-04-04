@@ -157,7 +157,12 @@ class Controller_Api_Deploy extends Controller {
         }
         
         array_push($log, 'Successfully cloned repository.');
-        
+        DB::update('deploy')
+                ->set(array(
+                    'cloned' => true
+                ))
+                ->where('id', $repo['id'])
+                ->execute();
         
         print_r($log);
         // lets start

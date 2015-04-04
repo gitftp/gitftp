@@ -114,44 +114,52 @@ class Controller_Api_Deploy extends Controller {
 
         if ($id == null || !Auth::check()) {
             return false;
-            
         }
-        
+
         $user_id = Auth::get_user_id()[1];
-        $repohome = DOCROOT.'fuel/repository';
+        $repohome = DOCROOT . 'fuel/repository';
         $repo = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         $repo = $repo[0];
-                
-        try{
+
+        try {
             //check if users folder is made or not
-            File::read_dir($repohome.'/'.$user_id);
-        }catch(Exception $e){
+            File::read_dir($repohome . '/' . $user_id);
+        } catch (Exception $e) {
             //make it 
             File::create_dir($repohome, $user_id, 0755);
         }
-        
-        $userdir = $repohome.'/'.$user_id;
-        
+
+        $userdir = $repohome . '/' . $user_id;
+
         try {
-            File::read_dir($userdir.'/'.$repo['name']);
+            File::read_dir($userdir . '/' . $repo['name']);
         } catch (Exception $ex) {
             //create dir for repo
             File::create_dir($userdir, $repo['name'], 0755);
         }
-        
-        $repodir = $userdir.'/'.$repo['name'];
-        
+
+        $repodir = $userdir . '/' . $repo['name'];
+
         $log = array();
-        
+
         chdir($userdir);
-        chdir($repodir);
-//        exec('git clone '.$repo['repository'].' '.$repo['name'], $cloning);
-      
-        exec('git clone https://github.com/craftpip/testrepo.git .', $cloning, $something);
-        
+
+        exec('git clone ' . $repo['repository'] . ' ' . $repo['name']);
+
         $a = File::read_dir($repodir);
-        print_r($a);
+
+        if (count($a) == 0) {
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'There was an error while cloning the repository. The bad news is, we dont know the error'
+            ));
+            return false;
+        }
         
+        array_push($log, 'Successfully cloned repository.');
+        
+        
+        print_r($log);
         // lets start
     }
 

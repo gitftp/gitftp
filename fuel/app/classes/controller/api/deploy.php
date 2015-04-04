@@ -111,12 +111,12 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_start($id = null) {
+        echo DOCROOT;
 
         if ($id == null || Auth::check()) {
             return false;
         }
         
-        echo DOCROOT;
         
         // lets start
     }

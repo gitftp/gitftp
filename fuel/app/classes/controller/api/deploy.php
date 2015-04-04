@@ -13,16 +13,16 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $user_id = Auth::get_user_id()[1];
-        
+
         $a = DB::select()->from('deploy')->where('user_id', $user_id);
-        
-        if($id != null){
+
+        if ($id != null) {
             $a = $a->and_where('id', $id);
         }
-        
+
         $a = $a->execute()->as_array();
 
-        
+
         foreach ($a as $k => $v) {
             $ub = unserialize($v['ftp']);
             $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
@@ -59,7 +59,6 @@ class Controller_Api_Deploy extends Controller {
                 'reason' => 'No access'
             ));
         }
-        
     }
 
     public function action_new() {
@@ -110,17 +109,14 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
     }
-    
-    public function action_start($id = null){
-        
-        if($id == null || Auth::check()){
+
+    public function action_start($id = null) {
+
+        if ($id == null || Auth::check()) {
             return false;
         }
-        
-        
+
         // lets start
-        
-        
     }
 
 }

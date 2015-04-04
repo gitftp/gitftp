@@ -117,15 +117,31 @@ class Controller_Api_Deploy extends Controller {
             
         }
         
+        $user_id = Auth::get_user_id()[1];
         $repohome = DOCROOT.'fuel/repository';
+        $repo = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
+        $repo = $repo[0];
+                
         try{
-            $a = File::read_dir($repohome);
+            //check if users folder is made or not
+            File::read_dir($repohome.'/'.$user_id);
         }catch(Exception $e){
-            File::create_dir(DOCROOT.'fuel', 'repository', 0755);
-            $a = File::read_dir($repohome);
+            //make it 
+            File::create_dir($repohome, $user_id, 0755);
         }
-
-        print_r($a);
+        
+        $userdir = $repohome.'/'.$user_id;
+        
+        echo $repo['name'];
+        
+        try {
+//            File::read_dir($userdir.'/'.$repo['name']);
+        } catch (Exception $ex) {
+            //create dir for repo
+            File::create_dir($repohome, $user_id, 0755);
+        }
+        
+        
         
         // lets start
     }

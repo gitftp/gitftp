@@ -147,7 +147,7 @@ class Controller_Api_Deploy extends Controller {
         chdir($repodir);
 //        exec('git clone '.$repo['repository'].' '.$repo['name'], $cloning);
       
-        exec('git clone https://github.com/craftpip/testrepo.git .', $cloning, $something);
+        exec('git clone https://github.com/craftpip/taestrepo.git .', $cloning, $something);
         print_r($cloning);
         echo '-----';
         print_r($something);

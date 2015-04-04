@@ -118,8 +118,13 @@ class Controller_Api_Deploy extends Controller {
         }
         
         $repohome = DOCROOT.'fuel/repository';
-        
-        $a = File::read_dir($repohome);
+        try{
+            $a = File::read_dir($repohome);
+        }catch(Exception $e){
+            File::create_dir(DOCROOT.'fuel', 'repository', 0755);
+            $a = File::read_dir($repohome);
+        }
+
         print_r($a);
         
         // lets start

@@ -144,8 +144,11 @@ class Controller_Api_Deploy extends Controller {
         $log = array();
         
         chdir($userdir);
-        exec('git clone '.$repo['repository'].' '.$repo['name'], $cloning);
+//        exec('git clone '.$repo['repository'].' '.$repo['name'], $cloning);
+      
+        exec('ls -l -a', $cloning);
         print_r($cloning);
+        
         // lets start
     }
 

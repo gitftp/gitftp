@@ -141,7 +141,12 @@ class Controller_Api_Deploy extends Controller {
         
         $repodir = $userdir.'/'.$repo['name'];
         
-        echo $repodir;
+        $log = array();
+        
+        chdir($userdir);
+        echo getcwd();
+//        $cloning = shell_exec('')
+        
         
         // lets start
     }

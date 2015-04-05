@@ -1,6 +1,6 @@
 define([
     'text!pages/projectview.html'
-], function (page) {
+], function (base) {
 
     d = Backbone.View.extend({
         el: app.el,
@@ -9,13 +9,15 @@ define([
         },
         render: function (id, whichpage) {
             var that = this;
-            console.log(arguments);
             that.$el.html('');
-            this.page = page;
-            this.template = _.template(this.page);
+            this.page = {
+                base: base
+            };
+            this.template = _.template(this.page.base);
             this.id = id;
-            $.getJSON(base + 'api/deploy/getall/'+id, function (data) {
-                var template = that.template({'list': data.data});
+            
+            $.getJSON(base + 'api/deploy/getall/'+id, function (data) {                
+                var template = that.template({'s': data.data[0]});
                 that.$el.html(template);
             });
         },

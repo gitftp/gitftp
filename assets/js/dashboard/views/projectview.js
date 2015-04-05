@@ -7,9 +7,9 @@ define([
         events: {
             'click .startdeploy': 'startDeploy'
         },
-        render: function (id) {
+        render: function (id, page) {
             var that = this;
-
+            console.log(arguments);
             that.$el.html('');
             this.page = page;
             this.template = _.template(this.page);

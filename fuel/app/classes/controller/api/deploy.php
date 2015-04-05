@@ -164,6 +164,8 @@ class Controller_Api_Deploy extends Controller {
                 ->where('id', $repo['id'])
                 ->execute();
         
+        
+        
         print_r($log);
         // lets start
     }

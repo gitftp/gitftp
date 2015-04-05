@@ -7,7 +7,7 @@ define([
         events: {
             'click .startdeploy': 'startDeploy'
         },
-        render: function (id, page) {
+        render: function (id, whichpage) {
             var that = this;
             console.log(arguments);
             that.$el.html('');

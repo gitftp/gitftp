@@ -1,23 +1,21 @@
 define([
     'text!pages/projectview.html'
-], function (base) {
+], function (page) {
 
     d = Backbone.View.extend({
         el: app.el,
         events: {
             'click .startdeploy': 'startDeploy'
         },
-        render: function (id, whichpage) {
+        render: function (id) {
             var that = this;
+
             that.$el.html('');
-            this.page = {
-                base: base
-            };
-            this.template = _.template(this.page.base);
+            this.page = page;
+            this.template = _.template(this.page);
             this.id = id;
-            
-            $.getJSON(base + 'api/deploy/getall/'+id, function (data) {                
-                var template = that.template({'s': data.data[0]});
+            $.getJSON(base + 'api/deploy/getall/'+id, function (data) {
+                var template = that.template({'list': data.data});
                 that.$el.html(template);
             });
         },

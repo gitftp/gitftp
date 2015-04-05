@@ -20,12 +20,11 @@ define([
             'deploy': 'project',
             'deploy/new': 'projectadd',
             'deploy/v/:id': 'projectview',
-            'deploy/v/:id/:page': 'projectview',
             ':any': 'fourofour'
         },
-        projectview: function (id, page) {
+        projectview: function (id) {
             app.obj.projectview = app.obj.projectview || new projectviewView();
-            app.obj.projectview.render(id, page);
+            app.obj.projectview.render(id);
         },
         projectadd: function () {
             app.obj.projectadd = app.obj.projectadd || new projectaddView();

@@ -628,6 +628,8 @@ class gitcore {
         $filesToSkip = array();
 
         foreach ($files as $i => $file) {
+            print_r($this->filesToIgnore);
+            die();
             foreach ($this->filesToIgnore[$this->currentlyDeploying] as $pattern) {
                 if ($this->patternMatch($pattern, $file)) {
                     unset($files[$i]);

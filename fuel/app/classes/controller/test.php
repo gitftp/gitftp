@@ -6,14 +6,13 @@ class Controller_Test extends Controller {
         echo '<pre>';
         $a = get_class();
         $b = new gitcore();
-        
+
 //        $b = $b->repodeploy('deploy', array(
 //            'repo' => DOCROOT . 'fuel/repository/228/testrepo'
 //        ));
-        
+
         $b->action = 'deploy';
         $b->repo = DOCROOT . 'fuel/repository/228/testrepo';
-        
         $b->ftp = array(
             'scheme' => 'ftps',
             'host' => 'craftpip.com',
@@ -25,9 +24,10 @@ class Controller_Test extends Controller {
             'skip' => array(),
             'purge' => array()
         );
+        $b->revision = '';
         
         $b = $b->startDeploy();
-        
+
         print_r($b);
     }
 

@@ -6,7 +6,6 @@ class Controller_Test extends Controller {
         echo '<pre>';
         $a = get_class();
         $b = new gitcore();
-
         $b->action = array('list');
         $b->repo = DOCROOT . 'fuel/repository/228/testrepo';
         $b->ftp = array(
@@ -21,14 +20,14 @@ class Controller_Test extends Controller {
             'purge' => array()
         );
         $b->revision = '';
-        
+
         $b = $b->startDeploy();
 
         print_r($b);
     }
 
     public function action_test() {
-        
+        echo function_exists('ssh2_connect');
     }
 
 }

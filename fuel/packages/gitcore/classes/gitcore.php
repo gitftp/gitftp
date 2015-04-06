@@ -18,7 +18,7 @@
 /**
  * PHPloy Class
  */
-class gitcore {
+class Gitcore {
 
     /**
      * @var string $phployVersion
@@ -149,7 +149,7 @@ class gitcore {
     /**
      * @var string $repo
      */
-    public $repo;
+    protected $repo;
 
     /**
      * @var string $mainRepo
@@ -228,28 +228,41 @@ class gitcore {
     /**
      * Constructor
      */
-    public function startDeploy() {
-
+    public function __construct() {
         $this->parseOptions();
 
-        $this->output("Starting FTP module.\r\n");
+        $this->output("\r\n<bgGreen>---------------------------------------------------");
+        $this->output("<bgGreen>|              PHPloy v{$this->phployVersion}              |");
+        $this->output("<bgGreen>---------------------------------------------------<reset>\r\n");
+
+        if ($this->displayHelp) {
+            $this->displayHelp();
+            return;
+        }
+
+        if ($this->displayVersion) {
+            return;
+        }
 
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
-                $this->output("PHPloy is running in LIST mode. No remote files will be modified.\r\n");
-                die();
+                $this->output("<yellow>PHPloy is running in LIST mode. No remote files will be modified.\r\n");
             }
 
+            // Submodules are turned off by default
+            if ($this->scanSubmodules) {
+                $this->checkSubmodules($this->repo);
+            }
+
+            // Find the revision number of HEAD at this point so that if 
+            // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
+
             $this->deploy($this->revision);
         } else {
             throw new \Exception("'{$this->repo}' is not Git repository.");
         }
-    }
-
-    public function __construct() {
-        
     }
 
     /**
@@ -281,52 +294,63 @@ class gitcore {
      * @return null
      */
     public function parseOptions() {
+        $options = getopt($this->shortopts, $this->longopts);
+        $this->debug('Command line options detected: ' . print_r($options, true));
 
-//        $options = getopt($this->shortopts, $this->longopts);
-//        $this->debug('Command line options detected: ' . print_r($options, true));
+        if (isset($options['no-colors'])) {
+            Ansi::$enabled = false;
+        }
+
         // -? command is not correctly parsed by getopt() (at least on Windows)
         // so need to check $argv variable instead
-//        global $argv;
-//        if (in_array('-?', $argv) or isset($options['help'])) {
-//            $this->displayHelp = true;
-//        }
-//        if (isset($options['debug'])) {
-        $this->debug = true;
-//        }
-//        if (isset($options['version'])) {
-//            $this->displayVersion = true;
-//        }
+        global $argv;
+        if (in_array('-?', $argv) or isset($options['help'])) {
+            $this->displayHelp = true;
+        }
 
-        if ($this->action == 'list') {
+        if (isset($options['debug'])) {
+            $this->debug = true;
+        }
+
+        if (isset($options['version'])) {
+            $this->displayVersion = true;
+        }
+
+        if (isset($options['l']) or isset($options['list'])) {
             $this->listFiles = true;
         }
 
-        if ($this->action == 'deploy') {
-            $this->server = $this->action;
+        if (isset($options['s']) or isset($options['server'])) {
+            $this->server = isset($options['s']) ? $options['s'] : $options['server'];
         }
 
-//        if (isset($options['o']) or isset($options['others'])) {
-//            $this->others = true;
-//        }
-//        if (isset($options['sync'])) {
-//            $this->sync = empty($options['sync']) ? 'sync' : $options['sync'];
-//        }
-//        if (isset($options['rollback'])) {
-//            $this->revision = ($options['rollback'] == '') ? 'HEAD^' : $options['rollback'];
-//        } else {
-//            $this->revision = 'HEAD';
-//        }
-//        if (isset($options['submodules'])) {
-//            $this->scanSubmodules = true;
-//        }
-//        if (isset($options['skip-subsubmodules'])) {
-//            $this->scanSubSubmodules = false;
-//        }
-//        if (isset($options['all'])) {
-//            $this->deployAll = true;
-//        }
-//        $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
-//        $this->repo = $option['repo'];
+        if (isset($options['o']) or isset($options['others'])) {
+            $this->others = true;
+        }
+
+        if (isset($options['sync'])) {
+            $this->sync = empty($options['sync']) ? 'sync' : $options['sync'];
+        }
+
+        if (isset($options['rollback'])) {
+            $this->revision = ($options['rollback'] == '') ? 'HEAD^' : $options['rollback'];
+        } else {
+            $this->revision = 'HEAD';
+        }
+
+        if (isset($options['submodules'])) {
+            $this->scanSubmodules = true;
+        }
+
+        if (isset($options['skip-subsubmodules'])) {
+            $this->scanSubSubmodules = false;
+        }
+
+        if (isset($options['all'])) {
+            $this->deployAll = true;
+        }
+
+        $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
         $this->mainRepo = $this->repo;
     }
 
@@ -416,36 +440,62 @@ class gitcore {
      * @return null
      */
     public function prepareServers() {
-
         $defaults = array(
             'scheme' => 'ftp',
-            'host' => 'localhost',
-            'user' => 'sadas',
-            'pass' => 'asdasd',
-            'port' => '21',
-            'path' => '/asd',
+            'host' => '',
+            'user' => '',
+            'pass' => '',
+            'port' => '',
+            'path' => '/',
             'passive' => true,
             'skip' => array(),
             'purge' => array()
         );
 
-//        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
-//        $servers = $this->parseCredentials($ini);
+        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
 
-        $servers['default'] = $this->ftp;
+        $servers = $this->parseCredentials($ini);
 
-//        foreach ($servers as $name => $options) {
-//            $options = array_merge($defaults, $options);
-        // Determine if a default server is configured
-//            if ($name == 'default') {
-        $this->defaultServer = true;
-//            }
-//            print_r($options);
-//            die();
+        foreach ($servers as $name => $options) {
 
-        $this->servers['default'] = http_build_url('', $servers['default']);
-        // Turn options into an URL so that Bridge can work with it.
-//        }
+            $options = array_merge($defaults, $options);
+
+            // Determine if a default server is configured
+            if ($name == 'default') {
+                $this->defaultServer = true;
+            }
+
+            // Re-merge parsed url in quickmode
+            if (isset($options['quickmode'])) {
+                $options = array_merge($options, parse_url($options['quickmode']));
+            }
+
+            if (!empty($servers[$name]['skip'])) {
+                $this->filesToIgnore[$name] = array_merge($this->globalFilesToIgnore, $servers[$name]['skip']);
+            }
+
+            if (!empty($servers[$name]['purge'])) {
+                $this->purgeDirs[$name] = $servers[$name]['purge'];
+            }
+
+            $this->filesToIgnore[$name][] = $this->deployIniFilename;
+
+            // Ask user a password if it empty
+            if ($options['pass'] === '') {
+                fputs(STDOUT, 'You have not provided a password for user "' . $options['user'] . '". Please enter a password: ');
+                $input = urlencode($this->getPassword());
+
+                if ($input == '') {
+                    $this->output("\r\n<green>You entered an empty password. All good, continuing deployment ...");
+                } else {
+                    $options['pass'] = $input;
+                    $this->output("\r\n<green>We got your password, thanks. Continuing deployment ...");
+                }
+            }
+
+            // Turn options into an URL so that Bridge can work with it.
+            $this->servers[$name] = http_build_url('', $options);
+        }
     }
 
     /**
@@ -529,9 +579,7 @@ class gitcore {
      * @return array
      * @throws Exception if unknown git diff status
      */
-    
     public function compare($localRevision) {
-        
         $remoteRevision = null;
         $tmpFile = tmpfile();
         $filesToUpload = array();
@@ -539,27 +587,20 @@ class gitcore {
         $filesToSkip = array();
         $output = array();
 
-//        if ($this->currentSubmoduleName) {
-//            $this->dotRevision = $this->currentSubmoduleName . '/' . $this->dotRevisionFilename;
-//        } else {
-//            $this->dotRevision = $this->dotRevisionFilename;
-//        }
+        if ($this->currentSubmoduleName) {
+            $this->dotRevision = $this->currentSubmoduleName . '/' . $this->dotRevisionFilename;
+        } else {
+            $this->dotRevision = $this->dotRevisionFilename;
+        }
 
         // Fetch the .revision file from the server and write it to $tmpFile
-//        $this->ftpDebug("Fetching {$this->dotRevision} file");
+        $this->ftpDebug("Fetching {$this->dotRevision} file");
 
-        if($this->revision){
-            $remoteRevision = $this->revision;
-        }else{
-            $this->output('No revision found. Fresh deployment - grab a coffee');
+        if ($this->connection->exists($this->dotRevision)) {
+            $remoteRevision = $this->connection->get($this->dotRevision);
+        } else {
+            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
         }
-        
-//        if ($this->connection->exists($this->dotRevision)) {
-//            $remoteRevision = $this->connection->get($this->dotRevision);
-//            echo '----------'.$remoteRevision;
-//        } else {
-//            $this->output('No revision found. Fresh deployment - grab a coffee');
-//        }
 
         // Use git to list the changed files between $remoteRevision and $localRevision
         // "-c core.quotepath=false" in command fixes special chars issue like ë, ä or ü in file names
@@ -574,7 +615,7 @@ class gitcore {
         }
 
         $output = $this->gitCommand($command);
-        
+
         /**
          * Git Status Codes
          *
@@ -628,8 +669,6 @@ class gitcore {
         $filesToSkip = array();
 
         foreach ($files as $i => $file) {
-            print_r($this->filesToIgnore);
-            die();
             foreach ($this->filesToIgnore[$this->currentlyDeploying] as $pattern) {
                 if ($this->patternMatch($pattern, $file)) {
                     unset($files[$i]);
@@ -656,8 +695,9 @@ class gitcore {
         $this->prepareServers();
 
         // Exit with an error if the specified server does not exist in deploy.ini
-//        if ($this->server != '' && !array_key_exists($this->server, $this->servers))
-//            throw new \Exception("The server \"{$this->server}\" is not defined in {$this->deployIniFilename}.");
+        if ($this->server != '' && !array_key_exists($this->server, $this->servers))
+            throw new \Exception("The server \"{$this->server}\" is not defined in {$this->deployIniFilename}.");
+
         // Loop through all the servers in deploy.ini
         foreach ($this->servers as $name => $server) {
 
@@ -665,11 +705,12 @@ class gitcore {
 
             // Deploys to ALL servers by default
             // If a server is specified, we skip all servers that don't match the one specified
-//            if ($this->server != '' && $this->server != $name)
-//                continue;
+            if ($this->server != '' && $this->server != $name)
+                continue;
+
             // If no server was specified in the command line but a default server configuration exists, we'll use that (as long as --all was not specified)
-//            elseif ($this->server == '' && $this->defaultServer == true && $name != 'default' && $this->deployAll == false)
-//                continue;
+            elseif ($this->server == '' && $this->defaultServer == true && $name != 'default' && $this->deployAll == false)
+                continue;
 
             $this->connect($server);
 
@@ -681,10 +722,7 @@ class gitcore {
 
             $files = $this->compare($revision);
 
-            print_r($files);
-
-            $this->output("\r\nSERVER: " . $name);
-
+            $this->output("\r\n<white>SERVER: " . $name);
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
@@ -717,7 +755,7 @@ class gitcore {
 
             // Done
             if (!$this->listFiles) {
-                $this->output("\r\n" . $this->humanFilesize($this->deploymentSize) . " Deployed");
+                $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------");
                 $this->deploymentSize = 0;
             }
         }
@@ -780,11 +818,11 @@ class gitcore {
      */
     public function connect($server) {
         try {
-
-            $connection = new bridge($server);
+            $connection = new Bridge($server);
             $this->connection = $connection;
         } catch (\Exception $e) {
-            echo 'error: ' . $e->getMessage();
+            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
+            // If we could not connect, what's the point of existing
             die();
         }
     }
@@ -822,7 +860,7 @@ class gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
@@ -883,7 +921,7 @@ class gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
         }
 
@@ -973,8 +1011,7 @@ class gitcore {
      * @param string $message
      */
     public function output($message) {
-//        echo Ansi::tagsToColors($message) . "\r\n";
-        echo $message . '<br>';
+        echo Ansi::tagsToColors($message) . "\r\n";
     }
 
     /**

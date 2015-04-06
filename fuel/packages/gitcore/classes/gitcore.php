@@ -529,6 +529,7 @@ class gitcore {
      * @return array
      * @throws Exception if unknown git diff status
      */
+    
     public function compare($localRevision) {
         
         $remoteRevision = null;
@@ -573,8 +574,7 @@ class gitcore {
         }
 
         $output = $this->gitCommand($command);
-        print_r($output);
-        die();
+        
         /**
          * Git Status Codes
          *

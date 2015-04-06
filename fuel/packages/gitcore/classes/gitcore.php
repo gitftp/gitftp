@@ -538,21 +538,27 @@ class gitcore {
         $filesToSkip = array();
         $output = array();
 
-        if ($this->currentSubmoduleName) {
-            $this->dotRevision = $this->currentSubmoduleName . '/' . $this->dotRevisionFilename;
-        } else {
-            $this->dotRevision = $this->dotRevisionFilename;
-        }
+//        if ($this->currentSubmoduleName) {
+//            $this->dotRevision = $this->currentSubmoduleName . '/' . $this->dotRevisionFilename;
+//        } else {
+//            $this->dotRevision = $this->dotRevisionFilename;
+//        }
 
         // Fetch the .revision file from the server and write it to $tmpFile
-        $this->ftpDebug("Fetching {$this->dotRevision} file");
+//        $this->ftpDebug("Fetching {$this->dotRevision} file");
 
-        if ($this->connection->exists($this->dotRevision)) {
-            $remoteRevision = $this->connection->get($this->dotRevision);
-            echo '----------'.$remoteRevision;
-        } else {
+        if($this->revision){
+            $remoteRevision = $this->revision;
+        }else{
             $this->output('No revision found. Fresh deployment - grab a coffee');
         }
+        
+//        if ($this->connection->exists($this->dotRevision)) {
+//            $remoteRevision = $this->connection->get($this->dotRevision);
+//            echo '----------'.$remoteRevision;
+//        } else {
+//            $this->output('No revision found. Fresh deployment - grab a coffee');
+//        }
 
         // Use git to list the changed files between $remoteRevision and $localRevision
         // "-c core.quotepath=false" in command fixes special chars issue like ë, ä or ü in file names
@@ -567,7 +573,8 @@ class gitcore {
         }
 
         $output = $this->gitCommand($command);
-
+        print_r($output);
+        die();
         /**
          * Git Status Codes
          *

@@ -7,11 +7,7 @@ class Controller_Test extends Controller {
         $a = get_class();
         $b = new gitcore();
 
-//        $b = $b->repodeploy('deploy', array(
-//            'repo' => DOCROOT . 'fuel/repository/228/testrepo'
-//        ));
-
-        $b->action = 'deploy';
+        $b->action = array('list');
         $b->repo = DOCROOT . 'fuel/repository/228/testrepo';
         $b->ftp = array(
             'scheme' => 'ftps',

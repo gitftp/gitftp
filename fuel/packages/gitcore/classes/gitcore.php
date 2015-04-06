@@ -149,7 +149,7 @@ class Gitcore {
     /**
      * @var string $repo
      */
-    protected $repo;
+    public $repo;
 
     /**
      * @var string $mainRepo
@@ -224,12 +224,13 @@ class Gitcore {
      * @var bool deployAll
      */
     protected $deployAll = false;
+    public $action = array();
 
     /**
      * Constructor
      */
     public function startDeploy() {
-        
+
         $this->parseOptions();
 
         $this->output("\r\n<bgGreen>---------------------------------------------------");
@@ -294,9 +295,8 @@ class Gitcore {
      *
      * @return null
      */
-    
     public function parseOptions() {
-        
+
         $options = getopt($this->shortopts, $this->longopts);
         $this->debug('Command line options detected: ' . print_r($options, true));
 
@@ -312,26 +312,32 @@ class Gitcore {
         }
 
 //        if (isset($options['debug'])) {
-            $this->debug = true;
+        $this->debug = true;
 //        }
 
         if (isset($options['version'])) {
             $this->displayVersion = true;
         }
 
-        if (isset($options['l']) or isset($options['list'])) {
+//        if (isset($options['l']) or isset($options['list'])) {
+//            $this->listFiles = true;
+//        }
+        if (isset($this->action['list'])) {
             $this->listFiles = true;
         }
 
-        if (isset($options['s']) or isset($options['server'])) {
-            $this->server = isset($options['s']) ? $options['s'] : $options['server'];
+//        if (isset($options['s']) or isset($options['server']) or isset($this->action['server'])) {
+//            $this->server = $this->action['server'];
+//        }
+        if (isset($this->action['server'])) {
+            $this->server = $this->action['server'];
         }
 
         if (isset($options['o']) or isset($options['others'])) {
             $this->others = true;
         }
 
-        if (isset($options['sync'])) {
+        if (isset($options['sync']) || isset($this->action['sync'])) {
             $this->sync = empty($options['sync']) ? 'sync' : $options['sync'];
         }
 
@@ -349,12 +355,12 @@ class Gitcore {
             $this->scanSubSubmodules = false;
         }
 
-        if (isset($options['all'])) {
+        if (isset($options['all']) || isset($this->action['all'])) {
             $this->deployAll = true;
         }
 
 //        $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
-        
+
         $this->mainRepo = $this->repo;
     }
 
@@ -864,7 +870,7 @@ class Gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
@@ -925,7 +931,7 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
         }
 
@@ -1016,7 +1022,7 @@ class Gitcore {
      */
     public function output($message) {
 //        echo Ansi::tagsToColors($message) . "\r\n";
-        echo $message.'<br>';
+        echo $message . '<br>';
     }
 
     /**

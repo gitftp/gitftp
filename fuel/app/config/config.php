@@ -252,6 +252,8 @@ return array(
          * );
          */
         'packages' => array(
+            'gitcore',
+            'bridge',
             'custom',
             'auth',
             'email',

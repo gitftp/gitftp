@@ -297,28 +297,23 @@ class Gitcore {
      */
     public function parseOptions() {
 
-        $options = getopt($this->shortopts, $this->longopts);
-        $this->debug('Command line options detected: ' . print_r($options, true));
-
-        if (isset($options['no-colors'])) {
-            Ansi::$enabled = false;
-        }
-
+//        $options = getopt($this->shortopts, $this->longopts);
+//        $this->debug('Command line options detected: ' . print_r($options, true));
+//        if (isset($options['no-colors'])) {
+//            Ansi::$enabled = false;
+//        }
         // -? command is not correctly parsed by getopt() (at least on Windows)
         // so need to check $argv variable instead
-        global $argv;
-        if (in_array('-?', $argv) or isset($options['help'])) {
-            $this->displayHelp = true;
-        }
-
+//        global $argv;
+//        if (in_array('-?', $argv) or isset($options['help'])) {
+//            $this->displayHelp = true;
+//        }
 //        if (isset($options['debug'])) {
         $this->debug = true;
 //        }
-
-        if (isset($options['version'])) {
-            $this->displayVersion = true;
-        }
-
+//        if (isset($options['version'])) {
+//            $this->displayVersion = true;
+//        }
 //        if (isset($options['l']) or isset($options['list'])) {
 //            $this->listFiles = true;
 //        }
@@ -333,29 +328,29 @@ class Gitcore {
             $this->server = $this->action['server'];
         }
 
-        if (isset($options['o']) or isset($options['others'])) {
-            $this->others = true;
+//        if (isset($options['o']) or isset($options['others'])) {
+//            $this->others = true;
+//        }
+
+        if (isset($this->action['sync'])) {
+            $this->sync = $this->action['sync'];
         }
 
-        if (isset($options['sync']) || isset($this->action['sync'])) {
-            $this->sync = empty($options['sync']) ? 'sync' : $options['sync'];
-        }
+//        if (isset($options['rollback'])) {
+//            $this->revision = ($options['rollback'] == '') ? 'HEAD^' : $options['rollback'];
+//        } else {
+//            $this->revision = 'HEAD';
+//        }
 
-        if (isset($options['rollback'])) {
-            $this->revision = ($options['rollback'] == '') ? 'HEAD^' : $options['rollback'];
-        } else {
-            $this->revision = 'HEAD';
-        }
+//        if (isset($options['submodules'])) {
+//            $this->scanSubmodules = true;
+//        }
+//
+//        if (isset($options['skip-subsubmodules'])) {
+//            $this->scanSubSubmodules = false;
+//        }
 
-        if (isset($options['submodules'])) {
-            $this->scanSubmodules = true;
-        }
-
-        if (isset($options['skip-subsubmodules'])) {
-            $this->scanSubSubmodules = false;
-        }
-
-        if (isset($options['all']) || isset($this->action['all'])) {
+        if (isset($this->action['all'])) {
             $this->deployAll = true;
         }
 
@@ -870,7 +865,7 @@ class Gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
@@ -931,7 +926,7 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
         }
 

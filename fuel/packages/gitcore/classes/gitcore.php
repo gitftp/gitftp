@@ -881,8 +881,6 @@ class Gitcore {
 
             // Make sure the folder exists in the FTP server.
             $dir = explode("/", dirname($file));
-            print_r($dir);
-            die();
             $path = "";
             $ret = true;
 
@@ -919,7 +917,7 @@ class Gitcore {
                     throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
                 }
 
-                $data = file_get_contents($file);
+                $data = file_get_contents($this->repo.'/'.$file);
                 $remoteFile = $file;
                 $uploaded = $this->connection->put($data, $remoteFile);
 

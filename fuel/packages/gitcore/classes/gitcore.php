@@ -916,10 +916,8 @@ class Gitcore {
                 if ($attempts == 10) {
                     throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
                 }
-                echo $this->repo;
-                die();
+                
                 $data = file_get_contents($this->repo.'/'.$file);
-                print_r($data);
                 $remoteFile = $file;
                 $uploaded = $this->connection->put($data, $remoteFile);
 
@@ -927,7 +925,7 @@ class Gitcore {
                     $attempts = $attempts + 1;
                     $this->output("<darkRed>Failed to upload {$file}. Retrying (attempt $attempts/10)... ");
                 } else {
-                    $this->deploymentSize += filesize(getcwd() . '/' . $file);
+                    $this->deploymentSize += filesize($this->repo . '/' . $file);
                 }
             }
 

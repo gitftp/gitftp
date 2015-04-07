@@ -457,7 +457,7 @@ class Gitcore {
             'purge' => array()
         );
 
-        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
+//        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
 
 //        $servers = $this->parseCredentials($ini);
 
@@ -702,7 +702,10 @@ class Gitcore {
      */
     public function deploy($revision = 'HEAD') {
         $this->prepareServers();
-
+        
+        print_r($this->servers);
+        die();
+        
         // Exit with an error if the specified server does not exist in deploy.ini
         if ($this->server != '' && !array_key_exists($this->server, $this->servers))
             throw new \Exception("The server \"{$this->server}\" is not defined in {$this->deployIniFilename}.");

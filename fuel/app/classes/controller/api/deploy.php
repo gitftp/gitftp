@@ -171,7 +171,7 @@ class Controller_Api_Deploy extends Controller {
                 ->execute();
 
         $ftp_id = unserialize($repo['ftp'])['production'];
-        $ftp = DB::select()->from('ftpdata')->where('id', $ftp)->execute()->as_array()[0];
+        $ftp = DB::select()->from('ftpdata')->where('id', $ftp_id)->execute()->as_array()[0];
         // ftp upload here.
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');

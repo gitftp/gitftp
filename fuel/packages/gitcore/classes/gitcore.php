@@ -468,7 +468,7 @@ class Gitcore {
         foreach ($servers as $name => $options) {
 
             $options = array_merge($defaults, $options);
-
+            
             // Determine if a default server is configured
             if ($name == 'default') {
                 $this->defaultServer = true;
@@ -881,6 +881,8 @@ class Gitcore {
 
             // Make sure the folder exists in the FTP server.
             $dir = explode("/", dirname($file));
+            print_r($dir);
+            die();
             $path = "";
             $ret = true;
 

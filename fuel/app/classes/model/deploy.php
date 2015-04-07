@@ -14,7 +14,8 @@ class Model_Deploy extends Model {
     }
 
     public function get($id = null) {
-
+        echo $id;
+        die();
         $q = DB::select()->from($this->table)
                 ->where('user_id', $this->user_id);
 

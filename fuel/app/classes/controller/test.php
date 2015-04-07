@@ -28,7 +28,8 @@ class Controller_Test extends Controller {
 
     public function action_test() {
 
-        exec(sprintf("%s > %s 2>&1 & echo $! >> %s", 'git status', 'asd.txt', 'pid.txt'));
+//        exec(sprintf("%s > %s 2>&1 & echo $! >> %s", 'git status', 'asd.txt', 'pid.txt'));
+        background::init();
     }
 
 }

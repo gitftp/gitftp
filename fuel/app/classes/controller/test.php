@@ -27,7 +27,9 @@ class Controller_Test extends Controller {
     }
 
     public function action_test() {
-        echo function_exists('ssh2_connect');
+        
+        exec(sprintf("%s > %s 2>&1 & echo $! >> %s", 'git status', 'asd.txt', 'pid.txt'));
+        
     }
 
 }

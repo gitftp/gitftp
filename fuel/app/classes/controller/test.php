@@ -6,7 +6,8 @@ class Controller_Test extends Controller {
         echo '<pre>';
         $a = get_class();
         $b = new gitcore();
-        $b->action = array('deploy');
+        
+        $b->action = array('list');
         $b->repo = DOCROOT . 'fuel/repository/228/testrepo';
         $b->ftp = array(
             'scheme' => 'ftps',
@@ -19,10 +20,9 @@ class Controller_Test extends Controller {
             'skip' => array(),
             'purge' => array()
         );
-        
         $b->revision = '';
         $b = $b->startDeploy();
-
+        
         print_r($b);
     }
 

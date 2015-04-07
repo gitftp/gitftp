@@ -341,7 +341,6 @@ class Gitcore {
 //        } else {
 //            $this->revision = 'HEAD';
 //        }
-
 //        if (isset($options['submodules'])) {
 //            $this->scanSubmodules = true;
 //        }
@@ -464,11 +463,11 @@ class Gitcore {
         $servers = array(
             'default' => $this->ftp
         );
-        
+
         foreach ($servers as $name => $options) {
 
             $options = array_merge($defaults, $options);
-            
+
             // Determine if a default server is configured
             if ($name == 'default') {
                 $this->defaultServer = true;
@@ -765,6 +764,7 @@ class Gitcore {
             // Done
             if (!$this->listFiles) {
                 $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------");
+//                $this-> im here
                 $this->deploymentSize = 0;
             }
         }
@@ -831,7 +831,7 @@ class Gitcore {
             $this->connection = $connection;
         } catch (\Exception $e) {
 //            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
-            echo 'error: '.$e->getMessage();
+            echo 'error: ' . $e->getMessage();
             // If we could not connect, what's the point of existing
             die();
         }
@@ -870,7 +870,7 @@ class Gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
@@ -916,8 +916,8 @@ class Gitcore {
                 if ($attempts == 10) {
                     throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
                 }
-                
-                $data = file_get_contents($this->repo.'/'.$file);
+
+                $data = file_get_contents($this->repo . '/' . $file);
                 $remoteFile = $file;
                 $uploaded = $this->connection->put($data, $remoteFile);
 
@@ -931,7 +931,7 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
         }
 

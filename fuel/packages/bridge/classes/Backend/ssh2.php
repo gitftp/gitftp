@@ -235,7 +235,7 @@ class Ssh2 implements Backend {
 		if(!function_exists('ssh2_connect')) {
 			return false;
 		}
-
+                
 		return true;
 	}
 	

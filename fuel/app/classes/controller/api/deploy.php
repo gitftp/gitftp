@@ -115,16 +115,16 @@ class Controller_Api_Deploy extends Controller {
         if ($id == null || !Auth::check()) {
             return false;
         }
-        
+
         $user_id = Auth::get_user_id()[1];
         $repohome = DOCROOT . 'fuel/repository';
         $repo = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         $repo = $repo[0];
 
         $a = DB::update('deploy')->set(array(
-            'status' => 'Cloning, working..'
-        ))->where('id', $id)->execute();
-        
+                    'status' => 'Cloning, working..'
+                ))->where('id', $id)->execute();
+
         try {
             //check if users folder is made or not
             File::read_dir($repohome . '/' . $user_id);
@@ -164,11 +164,35 @@ class Controller_Api_Deploy extends Controller {
 
         DB::update('deploy')
                 ->set(array(
-                    'cloned' => true
+                    'cloned' => true,
+                    'status' => 'Uploading, working..'
                 ))
                 ->where('id', $repo['id'])
                 ->execute();
 
+        $ftp_id = unserialize($repo['ftp'])['production'];
+        $ftp = DB::select()->from('ftpdata')->where('id', $ftp)->execute()->as_array()[0];
+        // ftp upload here.
+        $gitcore = new gitcore();
+        $gitcore->action = array('deploy');
+        $gitcore->repo = $repodir;
+
+
+        $gitcore->ftp = array(
+            'scheme' => $ftp['scheme'],
+            'host' => $ftp['host'],
+            'user' => $ftp['username'],
+            'pass' => $ftp['pass'],
+            'port' => $ftp['port'],
+            'path' => $ftp['path'],
+            'passive' => true,
+            'skip' => array(),
+            'purge' => array()
+        );
+
+        $gitcore->revision = '';
+        $gitcore->startDeploy();
+        array_push($log, $gitcore->log);
         print_r($log);
         // lets start
     }

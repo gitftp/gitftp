@@ -916,7 +916,8 @@ class Gitcore {
                 if ($attempts == 10) {
                     throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
                 }
-
+                echo $this->repo;
+                die();
                 $data = file_get_contents($this->repo.'/'.$file);
                 print_r($data);
                 $remoteFile = $file;

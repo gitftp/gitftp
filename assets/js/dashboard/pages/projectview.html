@@ -55,13 +55,13 @@ var s = list[0];
             <br>
             <%
             if(s.status.toLowerCase() == 'not initialized'){
-            var icon = 'fa fa-coffee fa-fw';
-            var disabled = '';
-            var txt = 'Start Deploy';
+                var icon = 'fa fa-coffee fa-fw';
+                var disabled = '';
+                var txt = 'Start Deploy';
             }else{
-            var icon = 'fa fa-spin fa-spinner fa-fw';
-            var disabled = 'disabled="disabled"';
-            var txt = 'Deploy in progress';
+                var icon = 'fa fa-spin fa-spinner fa-fw';
+                var disabled = 'disabled="disabled"';
+                var txt = 'Deploy in progress';
             }
             %>
             <button type="button" class="btn btn-default btn-lg startdeploy" <%= disabled %> ><i class="<%= icon %>"></i> <%= txt %></button>

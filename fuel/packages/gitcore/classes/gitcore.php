@@ -459,8 +459,12 @@ class Gitcore {
 
         $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
 
-        $servers = $this->parseCredentials($ini);
+//        $servers = $this->parseCredentials($ini);
 
+        $servers = array(
+            'default' => $this->ftp
+        );
+        
         foreach ($servers as $name => $options) {
 
             $options = array_merge($defaults, $options);

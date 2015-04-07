@@ -20,14 +20,14 @@ class Controller_Test extends Controller {
         );
         $b->revision = '';
         $b = $b->startDeploy();
-        
+
         print_r($b);
     }
 
     public function action_test() {
-
-//        exec(sprintf("%s > %s 2>&1 & echo $! >> %s", 'git status', 'asd.txt', 'pid.txt'));
-        bg::init();
+        $deploy = new Model_Deploy();
+        $a = $deploy->get();
+        print_r($a);
     }
 
 }

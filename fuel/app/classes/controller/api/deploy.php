@@ -117,19 +117,25 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $user_id = Auth::get_user_id()[1];
+        $deploy = new Model_Deploy();
         $repohome = DOCROOT . 'fuel/repository';
-        $repo = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
-        $repo = $repo[0];
+        $repo = $deploy->get()[0];
+        $log = array();
+        $record = new Model_Record();
 
-        $a = DB::update('deploy')->set(array(
-                    'status' => 'First deploy: Cloning..'
-                ))->where('id', $id)->execute();
+        $record_id = $record->insert(array(
+            'deploy_id' => $repo['id'],
+            'status' => 'working',
+            'triggerby' => 'user',
+        ));
+
+        $deploy->set($id, array(
+            'status' => 'First deploy: Cloning..'
+        ));
 
         try {
-            //check if users folder is made or not
             File::read_dir($repohome . '/' . $user_id);
         } catch (Exception $e) {
-            //make it 
             File::create_dir($repohome, $user_id, 0755);
         }
 
@@ -138,13 +144,10 @@ class Controller_Api_Deploy extends Controller {
         try {
             File::read_dir($userdir . '/' . $repo['name']);
         } catch (Exception $ex) {
-            //create dir for repo
             File::create_dir($userdir, $repo['name'], 0755);
         }
 
         $repodir = $userdir . '/' . $repo['name'];
-
-        $log = array();
 
         chdir($userdir);
 
@@ -153,31 +156,40 @@ class Controller_Api_Deploy extends Controller {
         $a = File::read_dir($repodir);
 
         if (count($a) == 0) {
+
+            $log['clone'] = 'Error while cloning repository.';
+            $log['clone_status'] = false;
+
             echo json_encode(array(
                 'status' => false,
                 'reason' => 'There was an error while cloning the repository. The bad news is, we dont know the error'
             ));
-            return false;
+
+            $deploy->set($id, array(
+                'cloned' => false,
+                'status' => 'Not initialized'
+            ));
+            
+        } else {
+            
+            $log['clone'] = 'Successfully cloned repository.';
+            $log['clone_status'] = true;
+
+            $deploy->set($id, array(
+                'cloned' => true,
+                'status' => 'First deploy: Uploading..'
+            ));
+            
         }
-
-        array_push($log, 'Successfully cloned repository.');
-
-        DB::update('deploy')
-                ->set(array(
-                    'cloned' => true,
-                    'status' => 'First deploy: Uploading..'
-                ))
-                ->where('id', $repo['id'])
-                ->execute();
 
         $ftp_id = unserialize($repo['ftp'])['production'];
         $ftp = DB::select()->from('ftpdata')->where('id', $ftp_id)->execute()->as_array()[0];
         // ftp upload here.
+        
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');
         $gitcore->repo = $repodir;
-
-
+        
         $gitcore->ftp = array(
             'scheme' => $ftp['scheme'],
             'host' => $ftp['host'],
@@ -193,7 +205,21 @@ class Controller_Api_Deploy extends Controller {
         $gitcore->revision = '';
         $gitcore->startDeploy();
         array_push($log, $gitcore->log);
-        print_r($log);
+        
+        $record->set($record_id, array(
+            'raw' => serialize($log),
+            'status' => true
+        ));
+        
+        $ftp_data = unserialize($repo['ftp']);
+        $ftp_data['revision'] = 'asda';
+                
+        $deploy->set(array(
+            'deployed' => true,
+            'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
+            'ftp' => serialize($ftp_data),
+        ));
+        
         // lets start
     }
 

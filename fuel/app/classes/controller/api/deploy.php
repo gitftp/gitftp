@@ -119,7 +119,7 @@ class Controller_Api_Deploy extends Controller {
         $user_id = Auth::get_user_id()[1];
         $deploy = new Model_Deploy();
         $repohome = DOCROOT . 'fuel/repository';
-        $repo = $deploy->get()[0];
+        $repo = $deploy->get($id)[0];
         $log = array();
         $record = new Model_Record();
 

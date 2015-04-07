@@ -122,7 +122,7 @@ class Controller_Api_Deploy extends Controller {
         $repo = $repo[0];
 
         $a = DB::update('deploy')->set(array(
-                    'status' => 'Cloning, working..'
+                    'status' => 'First deploy: Cloning..'
                 ))->where('id', $id)->execute();
 
         try {
@@ -165,7 +165,7 @@ class Controller_Api_Deploy extends Controller {
         DB::update('deploy')
                 ->set(array(
                     'cloned' => true,
-                    'status' => 'Uploading, working..'
+                    'status' => 'First deploy: Uploading..'
                 ))
                 ->where('id', $repo['id'])
                 ->execute();

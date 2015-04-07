@@ -6,7 +6,7 @@
  * and open the template in the editor.
  */
 
-class background {
+class bg {
 
     static function init() {
         echo 'asdadas';

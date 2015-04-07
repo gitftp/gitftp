@@ -918,6 +918,7 @@ class Gitcore {
                 }
 
                 $data = file_get_contents($this->repo.'/'.$file);
+                print_r($data);
                 $remoteFile = $file;
                 $uploaded = $this->connection->put($data, $remoteFile);
 

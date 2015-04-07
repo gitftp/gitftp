@@ -12,7 +12,7 @@
  */
 
 Autoloader::add_classes(array(
-    'gitcore' => __DIR__ . '/classes/background.php',
+    'background' => __DIR__ . '/classes/background.php',
     'gitcore' => __DIR__ . '/classes/gitcore.php',
 ));
 

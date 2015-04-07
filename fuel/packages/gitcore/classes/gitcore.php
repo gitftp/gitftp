@@ -225,6 +225,7 @@ class Gitcore {
      */
     protected $deployAll = false;
     public $action = array();
+    public $log = array();
 
     /**
      * Constructor
@@ -870,7 +871,7 @@ class Gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
@@ -931,7 +932,7 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
         }
 
@@ -1022,7 +1023,8 @@ class Gitcore {
      */
     public function output($message) {
 //        echo Ansi::tagsToColors($message) . "\r\n";
-        echo $message . '<br>';
+//        echo $message . '<br>';
+        array_push($this->log, $message);
     }
 
     /**
@@ -1034,6 +1036,7 @@ class Gitcore {
     public function debug($message) {
         if ($this->debug)
             $this->output("$message");
+        array_push($this->log, $message);
     }
 
     /**
@@ -1044,6 +1047,7 @@ class Gitcore {
      */
     public function ftpDebug($message) {
         $this->debug("<yellow>FTP: <darkYellow>$message");
+        array_push($this->log, $message);
     }
 
 }

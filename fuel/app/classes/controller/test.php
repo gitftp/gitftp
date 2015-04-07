@@ -6,7 +6,7 @@ class Controller_Test extends Controller {
         echo '<pre>';
         $a = get_class();
         $b = new gitcore();
-        $b->action = array('list');
+        $b->action = array('delpoy');
         $b->repo = DOCROOT . 'fuel/repository/228/testrepo';
         $b->ftp = array(
             'scheme' => 'ftps',
@@ -29,7 +29,7 @@ class Controller_Test extends Controller {
     public function action_test() {
 
 //        exec(sprintf("%s > %s 2>&1 & echo $! >> %s", 'git status', 'asd.txt', 'pid.txt'));
-        background::init();
+        bg::init();
     }
 
 }

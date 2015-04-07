@@ -325,7 +325,7 @@ class Gitcore {
 //            $this->server = $this->action['server'];
 //        }
         if (isset($this->action['server'])) {
-            $this->server = $this->action['server'];
+            $this->server = 'default';
         }
 
 //        if (isset($options['o']) or isset($options['others'])) {

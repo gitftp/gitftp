@@ -180,11 +180,8 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
         
-        print_r($repo);
         $ftp_id = unserialize($repo['ftp'])['production'];
-        echo print_r($ftp_id);
         $ftp = DB::select()->from('ftpdata')->where('id', $ftp_id)->execute()->as_array()[0];
-        echo print_r($ftp);
         // ftp upload here.
 
         $gitcore = new gitcore();
@@ -211,9 +208,9 @@ class Controller_Api_Deploy extends Controller {
             'raw' => serialize($log),
             'status' => true
         ));
-
+        
         $ftp_data = unserialize($repo['ftp']);
-        $ftp_data['revision'] = 'asda';
+        $ftp_data['revision'] = $gitcore->currentRevision();
 
         $deploy->set($id, array(
             'deployed' => true,
@@ -221,7 +218,11 @@ class Controller_Api_Deploy extends Controller {
             'ftp' => serialize($ftp_data),
             'status' => 'Idle'
         ));
-
+        
+        return json_encode(array(
+            'status' => true,
+        ));
+        
         // lets start
     }
 

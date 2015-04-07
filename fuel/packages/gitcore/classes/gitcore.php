@@ -273,7 +273,7 @@ class Gitcore {
      *
      * @return string with current revision hash
      */
-    private function currentRevision() {
+    public function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
         return $currentRevision[0];
     }

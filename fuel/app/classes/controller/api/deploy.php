@@ -215,7 +215,7 @@ class Controller_Api_Deploy extends Controller {
         $ftp_data = unserialize($repo['ftp']);
         $ftp_data['revision'] = 'asda';
 
-        $deploy->set(array(
+        $deploy->set($id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
             'ftp' => serialize($ftp_data),

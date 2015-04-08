@@ -12,7 +12,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>                        
-                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i>git-ftp</a>
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>
                         <!--<a class="navbar-brand" href="#">Gitploy</a>-->
                     </div>
 

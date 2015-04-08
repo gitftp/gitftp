@@ -44,7 +44,7 @@ class Controller_Api_Deploy extends Controller {
             echo shell_exec('chmod 777 -R -v');
             echo shell_exec('rm .git/ -R -v');
             echo shell_exec('rm * -R -v');
-            chdir($user_id);
+            chdir($user_dir);
             echo shell_exec('rmdir ' . $b[0]['name'] . '/ -v');
 //            File::delete_dir($repo_dir, true, true);
             

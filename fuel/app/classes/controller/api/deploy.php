@@ -36,7 +36,11 @@ class Controller_Api_Deploy extends Controller {
 
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
-        File::delete_dir($repo_dir);
+        chdir($repo_dir);
+        exec('chown www-data * -R');
+        exec('chgrp www-data * -R');
+        exec('chmod 777 -R');
+        File::delete_dir($repo_dir, true, true);
         die();
 
         if (count($b) != 0) {

@@ -234,10 +234,6 @@ class Gitcore {
 
         $this->parseOptions();
 
-        $this->output("\r\n<bgGreen>---------------------------------------------------");
-        $this->output("<bgGreen>|              PHPloy v{$this->phployVersion}              |");
-        $this->output("<bgGreen>---------------------------------------------------<reset>\r\n");
-
         if ($this->displayHelp) {
             $this->displayHelp();
             return;
@@ -250,7 +246,7 @@ class Gitcore {
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
-                $this->output("<yellow>PHPloy is running in LIST mode. No remote files will be modified.\r\n");
+                $this->output("Running in LIST mode. No remote files will be modified.");
             }
 
             // Submodules are turned off by default
@@ -275,6 +271,7 @@ class Gitcore {
      */
     public function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
+        $this->log['revisionOnSystem'] = $currentRevision;
         return $currentRevision[0];
     }
 
@@ -311,6 +308,7 @@ class Gitcore {
 //        }
 //        if (isset($options['debug'])) {
         $this->debug = true;
+        $this->log['debug'] = 'active';
 //        }
 //        if (isset($options['version'])) {
 //            $this->displayVersion = true;
@@ -458,7 +456,6 @@ class Gitcore {
         );
 
 //        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
-
 //        $servers = $this->parseCredentials($ini);
 
         $servers = array(
@@ -503,7 +500,9 @@ class Gitcore {
             }
 
             // Turn options into an URL so that Bridge can work with it.
+            $this->log['ftpserver-raw'] = $this->servers[$name];
             $this->servers[$name] = http_build_url('', $options);
+            $this->log['ftpserver'] = $this->servers[$name];
         }
     }
 
@@ -550,11 +549,11 @@ class Gitcore {
         // Escape special chars in string with a backslash
         $command = escapeshellcmd($command);
 
-        $this->debug("<yellow>CONSOLE:<darkYellow> $command");
+        $this->debug("CONSOLE: $command");
 
         exec($command, $output);
 
-        $this->debug('<darkYellow>' . implode("\r\n<darkYellow>", $output));
+        $this->debug('CONSOLE: output' . implode("\r\n<darkYellow>", $output));
 
         return $output;
     }
@@ -607,8 +606,10 @@ class Gitcore {
 
         if ($this->connection->exists($this->dotRevision)) {
             $remoteRevision = $this->connection->get($this->dotRevision);
+            $this->log['lastrevision'] = $remoteRevision;
         } else {
             $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
+            $this->log['lastrevision'] = 'No last revision found, fresh deployment';
         }
 
         // Use git to list the changed files between $remoteRevision and $localRevision
@@ -659,6 +660,12 @@ class Gitcore {
 
         $filesToSkip = array_merge($filteredFilesToUpload['filesToSkip'], $filteredFilesToDelete['filesToSkip']);
 
+        $this->log['files'] = array(
+            'delete' => $filesToDelete,
+            'upload' => $filesToUpload,
+            'skip' => $filesToSkip,
+        );
+
         return array(
             $this->currentlyDeploying => array(
                 'delete' => $filesToDelete,
@@ -702,9 +709,7 @@ class Gitcore {
      */
     public function deploy($revision = 'HEAD') {
         $this->prepareServers();
-        
-        print_r($this->servers);
-        
+
         // Exit with an error if the specified server does not exist in deploy.ini
         if ($this->server != '' && !array_key_exists($this->server, $this->servers))
             throw new \Exception("The server \"{$this->server}\" is not defined in {$this->deployIniFilename}.");
@@ -734,6 +739,8 @@ class Gitcore {
             $files = $this->compare($revision);
 
             $this->output("\r\n<white>SERVER: " . $name);
+            $this->log['deployon'] = $name;
+
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
@@ -766,6 +773,10 @@ class Gitcore {
 
             // Done
             if (!$this->listFiles) {
+                $this->log['deployed'] = array(
+                    'data' => $this->deploymentSize,
+                    'human' => $this->humanFilesize($this->deploymentSize)
+                );
                 $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------");
 //                $this-> im here
                 $this->deploymentSize = 0;
@@ -803,11 +814,12 @@ class Gitcore {
     public function listFiles($files) {
         if (count($files['upload']) == 0 && count($files['delete']) == 0) {
             $this->output("   No files to upload.");
+            $this->log['nofiles'] = 'No files to upload';
         }
 
         if (count($files['delete']) > 0) {
             $this->output("   <red>Files that will be deleted in next deployment:");
-
+            
             foreach ($files['delete'] as $file_to_delete) {
                 $this->output("      " . $file_to_delete);
             }
@@ -853,6 +865,7 @@ class Gitcore {
         // So, we have to revert the files the the state they were in that revision.
         if ($this->revision != 'HEAD') {
             $this->output("   Rolling back working copy");
+            $this->log['push'] = 'Rolling back working copy';
 
             // BUG: This does NOT work correctly for submodules & subsubmodules (and leaves them in an incorrect state)
             //      It technically should do a submodule update in the parent, not a checkout inside the submodule
@@ -868,16 +881,19 @@ class Gitcore {
         unset($files);
 
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed
+        $this->log['deleting']= array();
         foreach ($filesToDelete as $fileNo => $file) {
 
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
+            $this->log['deleting'][$fileNo] = "removed $fileNo of $numberOfFilesToDelete {$file}";
         }
 
         // Upload Files
+        $this->log['uploading']= array();
         foreach ($filesToUpload as $fileNo => $file) {
             if ($this->currentSubmoduleName)
                 $file = $this->currentSubmoduleName . '/' . $file;
@@ -934,8 +950,10 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
+            
+            $this->log['uploading'][$fileNo] = "^ $fileNo of $numberOfFilesToUpdate {$file}";
         }
 
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {
@@ -943,6 +961,7 @@ class Gitcore {
             $this->setRevision();
         } else {
             $this->output("   <gray>No files to upload.");
+            $this->log['nofiles'] = "No files to upload";
         }
 
         // If $this->revision is not HEAD, it means the rollback command was provided
@@ -977,7 +996,7 @@ class Gitcore {
             $localRevision = $this->sync;
         }
         $consoleMessage = "Updating remote revision file to " . $localRevision;
-
+        
         if ($this->sync) {
             $this->output("\r\n<yellow>SYNC: $consoleMessage");
         } else {
@@ -1048,7 +1067,7 @@ class Gitcore {
      * @param string $message Message to display on the console
      */
     public function ftpDebug($message) {
-        $this->debug("<yellow>FTP: <darkYellow>$message");
+        $this->debug("FTP: $message");
         array_push($this->log, $message);
     }
 

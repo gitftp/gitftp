@@ -8,7 +8,41 @@ define([
         el: app.el,
         events: {
             'click .startdeploy': 'startDeploy',
-            'change #deploy-add-privaterepo': 'priCheck'
+            'change #deploy-add-privaterepo': 'priCheck',
+            'click .watchRawData': 'getRawData'
+        },
+        getRawData: function (e) {
+            e.preventDefault();
+            var $this = $(e.currentTarget);
+            var id = $this.attr('data-id');
+            var that = this;
+            console.log(that.activityData.data);
+            var raw = '';
+
+            $.each(that.activityData.data, function (i, a) {
+                if (a.id == id) {
+                    var i = 0;
+                    $.each(a.raw, function (i, a) {
+                        if (typeof a == 'object') {
+                            $.each(a, function (i, b) {
+                                raw += i+' - '+b+'<br>';
+                                i += 1;
+                            });
+                        } else {
+                            raw += i+' - '+a+'<br>';
+                            i += 1;
+                        }
+                    });
+                    return false;
+                }
+            });
+
+            console.log(raw);
+            window.$a = $.alert({
+                title: 'raw',
+                content: '<pre>' + JSON.stringify(raw) + '</pre>',
+                animation: 'scale'
+            });
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);
@@ -56,6 +90,7 @@ define([
             var that = this;
             if (this.which == 'activity') {
                 $.getJSON(base + 'api/records/getall/' + this.id, function (data) {
+                    that.activityData = data;
                     var subPage = that.template[that.which]({
                         's': that.data.data[0],
                         'activity': data

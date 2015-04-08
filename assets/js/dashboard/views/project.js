@@ -1,7 +1,9 @@
 define([
     'text!pages/project.html'
 ], function (page) {
-
+    /**
+     * PROJECT LISTING.
+     */
     d = Backbone.View.extend({
         el: app.el,
         events: {

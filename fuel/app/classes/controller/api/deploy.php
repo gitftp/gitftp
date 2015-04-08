@@ -28,12 +28,18 @@ class Controller_Api_Deploy extends Controller {
             return false;
         }
 
-
-
         $user_id = Auth::get_user_id()[1];
         $b = DB::select()->from('deploy')->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
-
+        $status = strtolower($b[0]['status']);
+        
+        if ($status != 'idle' or $status != 'not initialized') {
+            return json_encode(array(
+                'status' => false,
+                'reason' => 'deploy busy, unable to delete in between of work',
+                'request' => $id
+            ));
+        }
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
         chdir($repo_dir);
@@ -41,7 +47,6 @@ class Controller_Api_Deploy extends Controller {
         echo shell_exec('chgrp www-data * -R');
         echo shell_exec('chmod 777 -R');
         File::delete_dir($repo_dir, true, true);
-        die();
 
         if (count($b) != 0) {
             DB::delete('deploy')->where('id', $id)->execute();

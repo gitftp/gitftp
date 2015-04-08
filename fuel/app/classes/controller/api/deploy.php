@@ -217,7 +217,7 @@ class Controller_Api_Deploy extends Controller {
             'status' => true
         ));
 
-        $ftp_data = $repo['ftp'];
+        $ftp_data = $repo['ftpdata'];
         $ftp_data['revision'] = $gitcore->currentRevision();
 
         $deploy->set($id, array(

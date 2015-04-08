@@ -20,9 +20,11 @@ define([
                 title: 'Sure?',
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
+                    $this.parents('tr').addClass('deleted').fadeTo(.5);
+                    
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
                         
-                        $this.parents('tr').addClass('deleted').fadeTo(.5);
+                        
                         if (data.status) {
                             noty({
                                 text: '!! deleted',

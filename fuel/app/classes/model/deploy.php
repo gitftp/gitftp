@@ -29,6 +29,7 @@ class Model_Deploy extends Model {
             $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
             $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
             $a[$k]['ftp'] = $c;
+//            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
         
         return $a;

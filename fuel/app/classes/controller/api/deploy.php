@@ -34,8 +34,8 @@ class Controller_Api_Deploy extends Controller {
 
         $status = strtolower($b[0]['status']);
 
-        if ( $status == 'idle' || $status == 'not initialized' ) {
-            
+        if ($status == 'idle' || $status == 'not initialized') {
+
             $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
             chdir($repo_dir);
@@ -46,9 +46,9 @@ class Controller_Api_Deploy extends Controller {
 //            echo shell_exec('rm * -R -v');
 //            chdir($user_dir);
 //            echo shell_exec('rmdir ' . $b[0]['name'] . '/ -v');
-            
+
             File::delete_dir($repo_dir, true, true);
-            
+
             if (count($b) != 0) {
                 DB::delete('deploy')->where('id', $id)->execute();
                 echo json_encode(array(
@@ -62,15 +62,13 @@ class Controller_Api_Deploy extends Controller {
                     'reason' => 'No access'
                 ));
             }
-            
-        }else{
+        } else {
             return json_encode(array(
                 'status' => false,
                 'reason' => 'deploy busy, unable to delete in between of work',
                 'request' => $id
             ));
         }
-
     }
 
     public function action_new() {
@@ -223,7 +221,7 @@ class Controller_Api_Deploy extends Controller {
 
         $ftp_data = $repo['ftpdata'];
         $ftp_data['revision'] = $gitcore->currentRevision();
-        
+
         $deploy->set($id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),

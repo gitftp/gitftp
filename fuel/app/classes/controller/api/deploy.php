@@ -13,22 +13,9 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $user_id = Auth::get_user_id()[1];
+        $deploy = new Model_Deploy();
 
-        $a = DB::select()->from('deploy')->where('user_id', $user_id);
-
-        if ($id != null) {
-            $a = $a->and_where('id', $id);
-        }
-
-        $a = $a->execute()->as_array();
-
-
-        foreach ($a as $k => $v) {
-            $ub = unserialize($v['ftp']);
-            $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
-            $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
-            $a[$k]['ftp'] = $c;
-        }
+        $a = $deploy->get($id);
 
         echo json_encode(array(
             'status' => true,
@@ -41,13 +28,18 @@ class Controller_Api_Deploy extends Controller {
             return false;
         }
 
-        $user_id = Auth::get_user_id()[1];
 
+
+        $user_id = Auth::get_user_id()[1];
         $b = DB::select()->from('deploy')->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
 
-        if (count($b) != 0) {
 
+        $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
+        File::delete_dir($repo_dir);
+        die();
+
+        if (count($b) != 0) {
             DB::delete('deploy')->where('id', $id)->execute();
             echo json_encode(array(
                 'status' => true,
@@ -180,7 +172,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => 'First deploy: Uploading..'
             ));
         }
-        
+
         $ftp_id = unserialize($repo['ftp'])['production'];
         $ftp = DB::select()->from('ftpdata')->where('id', $ftp_id)->execute()->as_array()[0];
         // ftp upload here.
@@ -209,7 +201,7 @@ class Controller_Api_Deploy extends Controller {
             'raw' => serialize($log),
             'status' => true
         ));
-        
+
         $ftp_data = unserialize($repo['ftp']);
         $ftp_data['revision'] = $gitcore->currentRevision();
 
@@ -219,11 +211,11 @@ class Controller_Api_Deploy extends Controller {
             'ftp' => serialize($ftp_data),
             'status' => 'Idle'
         ));
-        
+
         return json_encode(array(
             'status' => true,
         ));
-        
+
         // lets start
     }
 

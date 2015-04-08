@@ -21,8 +21,17 @@ class Model_Deploy extends Model {
         if ($id != null) {
             $q = $q->and_where('id', $id);
         }
-
-        return $q->execute()->as_array();
+        
+        $a = $q->execute()->as_array();
+        
+        foreach ($a as $k => $v) {
+            $ub = unserialize($v['ftp']);
+            $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
+            $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
+            $a[$k]['ftp'] = $c;
+        }
+        
+        return $a;
     }
 
     public function set($id, $set = array()) {

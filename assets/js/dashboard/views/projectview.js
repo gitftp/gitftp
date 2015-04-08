@@ -33,13 +33,16 @@ define([
                 settings: settingsView,
             };
 
-            that.$el.html('');
+            if (!$('.project-v-status').length) {
+                that.$el.html('');
+            }
 
             this.template = {
                 main: _.template(this.page.main),
                 activity: _.template(this.page.activity),
                 settings: _.template(this.page.settings)
             };
+
             this.id = id;
 
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
@@ -61,21 +64,24 @@ define([
                 });
             }
             if (this.which == 'settings') {
-                var subPage = this.template[this.which]({'s': this.data.data[0]});
-                $('.deploy-sub-page').html(subPage);
+                $.getJSON(base + 'api/ftp/getall', function (data) {
+                    var subPage = that.template[that.which]({
+                        's': that.data.data[0],
+                        'ftplist': data.data
+                    });
+                    $('.deploy-sub-page').html(subPage);
+                });
             }
-
         },
         startDeploy: function () {
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
+
                 if (data.status) {
                     $.alert({
                         title: 'Woohoo!',
                         content: 'Your repository is deployed for the first time !, Cheers'
                     });
-
                     Backbone.history.loadUrl();
-
                 } else {
                     $.alert({
                         title: 'Problem',

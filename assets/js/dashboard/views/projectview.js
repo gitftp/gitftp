@@ -25,11 +25,21 @@ define([
                     $.each(a.raw, function (i, a) {
                         if (typeof a == 'object') {
                             $.each(a, function (i, b) {
-                                raw += i+' - '+b+'<br>';
-                                i += 1;
+
+                                if (typeof b == 'object') {
+                                    $.each(b, function (i, c) {
+
+                                        raw += i + ' - ' + c + '<br>';
+                                        i += 1;
+                                    });
+                                } else {
+                                    raw += i + ' - ' + b + '<br>';
+                                    i += 1;
+                                }
+
                             });
                         } else {
-                            raw += i+' - '+a+'<br>';
+                            raw += i + ' - ' + a + '<br>';
                             i += 1;
                         }
                     });

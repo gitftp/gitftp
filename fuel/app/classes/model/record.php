@@ -26,6 +26,7 @@ class Model_Record extends Model {
         
         foreach ($r as $key => $value) {
             $r[$key]['raw'] = unserialize($r[$key]['raw']);
+            $r[$key]['date'] = Date::time_ago($r[$key]['date']);
         }
         
         return $r;

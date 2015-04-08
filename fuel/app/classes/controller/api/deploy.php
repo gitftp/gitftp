@@ -34,7 +34,33 @@ class Controller_Api_Deploy extends Controller {
 
         $status = strtolower($b[0]['status']);
 
-        if ( !($status == 'idle') || !($status == 'not initialized' )) {
+        if ( $status == 'idle' || $status == 'not initialized' ) {
+            
+            $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
+            $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
+            chdir($repo_dir);
+            echo shell_exec('chown www-data * -R');
+            echo shell_exec('chgrp www-data * -R');
+            echo shell_exec('chmod 777 -R');
+            echo shell_exec('rm .git/ -R');
+            echo shell_exec('rm * -R');
+            echo shell_exec('rm ' . $b[0]['name'] . ' -R');
+    //        File::delete_dir($repo_dir, true, true);
+            if (count($b) != 0) {
+                DB::delete('deploy')->where('id', $id)->execute();
+                echo json_encode(array(
+                    'status' => true,
+                    'request' => $id,
+                ));
+            } else {
+                echo json_encode(array(
+                    'status' => false,
+                    'request' => $id,
+                    'reason' => 'No access'
+                ));
+            }
+            
+        }else{
             return json_encode(array(
                 'status' => false,
                 'reason' => 'deploy busy, unable to delete in between of work',
@@ -42,31 +68,6 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
 
-        $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
-        $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['name'];
-        chdir($repo_dir);
-        echo shell_exec('chown www-data * -R');
-        echo shell_exec('chgrp www-data * -R');
-        echo shell_exec('chmod 777 -R');
-        echo shell_exec('rm .git/ -R');
-        echo shell_exec('rm * -R');
-        echo shell_exec('rm ' . $b[0]['name'] . ' -R');
-
-//        File::delete_dir($repo_dir, true, true);
-
-        if (count($b) != 0) {
-            DB::delete('deploy')->where('id', $id)->execute();
-            echo json_encode(array(
-                'status' => true,
-                'request' => $id,
-            ));
-        } else {
-            echo json_encode(array(
-                'status' => false,
-                'request' => $id,
-                'reason' => 'No access'
-            ));
-        }
     }
 
     public function action_new() {

@@ -45,15 +45,14 @@ class Controller_Api_Ftp extends Controller {
             return;
             
         }
-
+        $ftp = new Model_Ftp();
         $data = Input::post();
-        $user_id = Auth::get_user_id()[1];
-        $data['user_id'] = $user_id;
 
         $existing = DB::select()->from('ftpdata')
                         ->where('host', $data['host'])
                         ->and_where('username', $data['username'])
                         ->and_where('user_id', $user_id)
+                        ->and_where('path', $data['path'])
                         ->execute()->as_array();
 
         if (count($existing) > 0) {
@@ -63,7 +62,8 @@ class Controller_Api_Ftp extends Controller {
                 'reason' => 'A FTP account with the same host and username already exist.'
             ));
         } else {
-            $a = DB::insert('ftpdata')->set($data)->execute();
+            
+            $a = $ftp->insert($data);
             if ($a) {
                 echo json_encode(array(
                     'status' => true,

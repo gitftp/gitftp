@@ -1,8 +1,3 @@
-<%
-if(list.length != 0){
-var s = list[0];
-}
-%>
 
 <% JSON.stringify(s) %>
 
@@ -20,12 +15,18 @@ var s = list[0];
 </p>
 <div style="height:20px;"></div>
 
-
-
 <div class="well well-sm well-cs">
-    <strong><i class="fa fa-undo"></i> Last Deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
+    <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
+
+    <% if(s.ftpdata.revision){ %>
+    <br>
+    <strong>Revision on <%= s.ftp[0].host %>:</strong> <%= s.ftpdata.revision %>
+    <% } %>
+
     <div class="pull-right">
+        <% if(s.cloned == 0){ %>
         <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Cloned</strong> | 
+        <% } %>
         <strong><i class="fa fa-<%= (s.deployed == 0) ?  'times' : 'check' %>"></i> Deployed</strong>
     </div>
 </div>
@@ -33,32 +34,19 @@ var s = list[0];
 <div class="row">
     <div class="col-md-3">
         <div class="list-group">
-            <a href="#deploy/v/<%= s.id %>" class="list-group-item active-cs"><i class="fa fa-lock fa-fw"></i> Main page</a>
-            <a href="#deploy/v/<%= s.id %>/settings" class="list-group-item"><i class="fa fa-cog fa-fw"></i> Configure</a>
+            <a href="#deploy/v/<%= s.id %>" class="list-group-item <%= (v == 'activity') ? 'active-cs' : '' %>"><i class="fa fa-line-chart fa-fw"></i> Activity</a>
+            <a href="#deploy/v/<%= s.id %>/settings" class="list-group-item <%= (v == 'settings') ? 'active-cs' : '' %>"><i class="fa fa-cog fa-fw"></i> Configure</a>
         </div>
         <div style="height: 10px;"></div>
-        <!--        <div class="well well-sm well-cs">
-                    Server in use: <br>
-                    <strong>host:</strong> <% s.ftp[0].host %>  <br>
-                    <strong>username:</strong> <% s.ftp[0].username %>
-                </div>-->
+
+        <div class="well well-sm well-cs">
+            Server in use: <br>
+            <strong>host:</strong> <%= s.ftp[0].host %>  <br>
+            <strong>username:</strong> <%= s.ftp[0].username %>
+        </div>
+
     </div>
     <div class="col-md-9">
-        <% if(s.status.toLowerCase() == 'not initialized' || /First deploy/ig.test(s.status)){ %>
-        <br>
-        <br>
-        <br>
-        <p class="text-center">
-            Deploy for the first time, this will take time depending on the Size of your Repository. <br>
-            Grab a coffee
-            <br>
-            <br>
-            <% if(s.status.toLowerCase() == 'not initialized'){ %>
-            <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
-            <% }else{ %>
-            <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
-            <% } %>
-        </p>
-        <% } %>
+        <div class="deploy-sub-page bb-loading"></div>
     </div>
 </div>

@@ -70,9 +70,34 @@ h1,h2,h3,h4,h5,h6{
 
 .bb-loading:empty{
     height: 300px;
-    background-image: url('../img/blank.gif');
-    background-position: center;
-    background-repeat: no-repeat;
+    /*    background-image: url('../img/blank.gif');
+        background-position: center;
+        background-repeat: no-repeat;*/
+}
+.bb-loading{
+    position: relative;
+}
+.bb-loading:empty:before{
+    height: 60px;
+    width: 60px;
+    background: transparent;
+    content :'';
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: solid #aaa;
+    border-width: 3px 0px 0px 0px;
+    animation: spin 0.5s infinite linear;
+    border: solid 3px rgba(0,0,0,0);
+    border-top-color: #01b5e9;
+    border-bottom-color: #4cd964;
+}
+
+@keyframes spin{
+    from {transform: rotate(0deg); border-top-color: #01b5e9; border-bottom-color: #4cd964}
+    to   {transform: rotate(359deg); border-top-color: #4cd964; border-bottom-color: #01b5e9}
 }
 
 .project-v-status{
@@ -88,7 +113,8 @@ h1,h2,h3,h4,h5,h6{
 }
 .well-cs{
     background: #f8f8f8;
-    border-color: #ddd;
+    border-color: #d9d9d9;
+    box-shadow: none;
 }
 
 .active-cs{

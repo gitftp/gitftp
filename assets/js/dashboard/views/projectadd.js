@@ -6,7 +6,17 @@ define([
         el: app.el,
         events: {
             'submit #deploy-save-new': 'savenew',
-            'keyup input#add-repo': 'calcname'
+            'keyup input#add-repo': 'calcname',
+            'change #deploy-add-privaterepo': 'priCheck'
+        },
+        priCheck: function (e) {
+            var $this = $(e.currentTarget);
+            if ($this.prop('checked')) {
+                $('#deploy-add-privaterepo-div').show().find('input').removeAttr('disabled');
+            } else {
+                $('#deploy-add-privaterepo-div').hide().find('input').attr('disabled', true);
+
+            }
         },
         calcname: function (e) {
             var $this = $(e.currentTarget);

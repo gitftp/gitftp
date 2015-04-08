@@ -19,10 +19,16 @@ class Model_Record extends Model {
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {
-            $q = $q->and_where('id', $id);
+            $q = $q->and_where('deploy_id', $id);
         }
 
-        return $q->execute()->as_array();
+        $r = $q->order_by('id', 'DESC')->execute()->as_array();
+        
+        foreach ($r as $key => $value) {
+            $r[$key]['raw'] = unserialize($r[$key]['raw']);
+        }
+        
+        return $r;
     }
     
     /**

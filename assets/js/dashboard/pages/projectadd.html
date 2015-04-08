@@ -19,7 +19,12 @@
                 <label for="name">REPO NAME</label>
                 <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required>
             </div>
-            <div style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px;">
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="deploy-add-privaterepo"> This is a private Repository.
+                </label>
+            </div>
+            <div id="deploy-add-privaterepo-div" style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px; display:none">
                 <p class="help-block">SSH keys not supported for the moment.</p>
                 <div class="form-group">
                     <label for="username">username</label>
@@ -42,12 +47,12 @@
                     <% }) %>
                 </select>
             </div>
-            
+
             <div class="form-group">
                 <label>ACCESS KEY</label>
                 <input class="form-control" name="key" placeholder="Something random" required>
             </div>
-            
+
             <button type="submit" class="btn btn-default"><i class="fa fa-save fa-fw"></i> Save deployment configuration</button>
         </div>
     </div>

@@ -26,6 +26,7 @@ class Controller_Api_Deploy extends Controller {
         foreach ($a as $k => $v) {
             $ub = unserialize($v['ftp']);
             $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
+            $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
             $a[$k]['ftp'] = $c;
         }
 

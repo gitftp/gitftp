@@ -42,6 +42,7 @@ class Controller_Api_Deploy extends Controller {
             echo shell_exec('chown www-data * -R');
             echo shell_exec('chgrp www-data * -R');
             echo shell_exec('chmod 777 -R');
+            
 //            echo shell_exec('rm .git/ -R -v');
 //            echo shell_exec('rm * -R -v');
 //            chdir($user_dir);

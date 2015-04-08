@@ -20,16 +20,10 @@ class Controller_Api_Ftp extends Controller {
             ));
             return;
         }
-
-        $user_id = Auth::get_user_id()[1];
-        $data = DB::select()->from('ftpdata')->where('user_id', $user_id);
-
-        if ($id !== null) {
-            $data = $data->and_where('id', $id);
-        }
-
-        $data = $data->execute()->as_array();
-
+        
+        $ftp = new Model_Ftp();
+        $data = $ftp->get();
+        
         echo json_encode(array(
             'status' => true,
             'data' => $data

@@ -17,22 +17,21 @@ define([
             var id = $this.attr('data-id');
 
             $.confirm({
-                
                 title: 'Sure?',
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
-                    
-                    
+
+
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
-                        
+
                         $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
                         $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
-                        
+
                         if (data.status) {
                             noty({
                                 text: '!! deleted',
                             });
-                            
+
                             Backbone.history.loadUrl();
                         } else {
                             noty({

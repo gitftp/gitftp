@@ -500,7 +500,6 @@ class Gitcore {
             }
 
             // Turn options into an URL so that Bridge can work with it.
-            $this->log['ftpserver-raw'] = $this->servers[$name];
             $this->servers[$name] = http_build_url('', $options);
             $this->log['ftpserver'] = $this->servers[$name];
         }

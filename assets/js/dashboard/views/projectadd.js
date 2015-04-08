@@ -12,10 +12,9 @@ define([
         priCheck: function (e) {
             var $this = $(e.currentTarget);
             if ($this.prop('checked')) {
-                $('#deploy-add-privaterepo-div').show().find('input').removeAttr('disabled');
+                $('#deploy-add-privaterepo-div').show().find('input').removeAttr('disabled').attr('required', true);
             } else {
-                $('#deploy-add-privaterepo-div').hide().find('input').attr('disabled', true);
-
+                $('#deploy-add-privaterepo-div').hide().find('input').attr('disabled', true).removeAttr('required');
             }
         },
         calcname: function (e) {

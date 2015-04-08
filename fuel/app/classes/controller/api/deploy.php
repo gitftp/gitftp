@@ -31,7 +31,9 @@ class Controller_Api_Deploy extends Controller {
         $user_id = Auth::get_user_id()[1];
         $b = DB::select()->from('deploy')->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
+        
         $status = strtolower($b[0]['status']);
+        echo $status;
         
         if ($status != 'idle' or $status != 'not initialized') {
             return json_encode(array(

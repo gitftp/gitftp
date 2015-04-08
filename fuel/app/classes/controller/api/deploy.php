@@ -35,7 +35,7 @@ class Controller_Api_Deploy extends Controller {
         $status = strtolower($b[0]['status']);
         echo $status;
         
-        if ($status != 'idle' || $status != 'not initialized') {
+        if ($status != 'idle') {
             return json_encode(array(
                 'status' => false,
                 'reason' => 'deploy busy, unable to delete in between of work',

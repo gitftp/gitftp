@@ -43,7 +43,7 @@
                 <select class="form-control" name="ftp-production" required>
                     <option value=""> -none- </option>
                     <% $.each(ftplist, function(i, a){ %>
-                    <option value="<%= a.id %>"><%= a.host %> - <%= a.username %></option>
+                    <option value="<%= a.id %>"><%= a.host %><%= a.path %> - <%= a.username %></option>
                     <% }) %>
                 </select>
             </div>

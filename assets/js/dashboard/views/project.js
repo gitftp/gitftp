@@ -22,8 +22,8 @@ define([
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
                     
-                    $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
                     $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
+                    $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
                     
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
                         

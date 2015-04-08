@@ -1003,7 +1003,7 @@ class Gitcore {
         }
 
         try {
-            $this->connection->put($localRevision, $this->dotRevision);
+//            $this->connection->put($localRevision, $this->dotRevision);
         } catch (\Exception $e) {
             throw new \Exception("Could not update the revision file on server: $e->getMessage()");
         }

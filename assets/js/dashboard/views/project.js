@@ -17,10 +17,12 @@ define([
             var id = $this.attr('data-id');
 
             $.confirm({
+                
                 title: 'Sure?',
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
-                    $this.parents('tr').addClass('deleted').fadeTo(.5);
+                    $this.find('i').removeClass('fa-trash-o').addClass('fa-ban');
+                    $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .5);
                     
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
                         

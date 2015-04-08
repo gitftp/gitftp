@@ -48,6 +48,7 @@ class Controller_Api_Deploy extends Controller {
         echo shell_exec('chown www-data * -R');
         echo shell_exec('chgrp www-data * -R');
         echo shell_exec('chmod 777 -R');
+        
         File::delete_dir($repo_dir, true, true);
 
         if (count($b) != 0) {

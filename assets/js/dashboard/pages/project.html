@@ -6,7 +6,24 @@
     Projects are deployment configurations.
 </p>
 <div style="height:20px;"></div>
+<% if(list.length == 0){ %>
 
+<div class="space10"></div>
+<div class="space10"></div>
+<p class="text-center" style="color: #aaa;">
+    <span style="font-size: 20px;">Its empty here</span>
+    <br>
+    <span>Make sure you have a ftp server added and working to get started.</span>
+    <br>
+    <br>
+
+    <a href="#deploy/new" class="btn btn-default btn-lg">
+        <i class="fa fa-play fa-2x" style="color: #5ac8fa"></i> <br>
+        Add your first deploy!
+    </a>
+</p>
+
+<% }else{ %>
 <table class="table table-condensed table-hover">
     <tr>
         <th>
@@ -28,7 +45,7 @@
             KEY
         </th>
         <th>
-            
+
         </th>
     </tr>
     <% $.each(list, function(i, a){ %>
@@ -58,3 +75,4 @@
     </tr>
     <% }) %>
 </table>
+<% } %>

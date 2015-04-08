@@ -215,7 +215,7 @@ class Controller_Api_Deploy extends Controller {
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => true,
-            'date' => DateTime::getTimestamp(),
+            'date' => time(),
         ));
 
         $ftp_data = $repo['ftpdata'];

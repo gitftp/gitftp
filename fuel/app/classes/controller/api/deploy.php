@@ -219,7 +219,7 @@ class Controller_Api_Deploy extends Controller {
 
         $ftp_data = $repo['ftpdata'];
         $ftp_data['revision'] = $gitcore->currentRevision();
-
+        
         $deploy->set($id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),

@@ -185,8 +185,7 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
 
-        $ftp_id = unserialize($repo['ftp'])['production'];
-        $ftp = DB::select()->from('ftpdata')->where('id', $ftp_id)->execute()->as_array()[0];
+        $ftp = $repo['ftp'][0];
         // ftp upload here.
 
         $gitcore = new gitcore();

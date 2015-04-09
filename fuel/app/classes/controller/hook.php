@@ -13,7 +13,7 @@ class Controller_Hook extends Controller {
             return;
         }
 
-        $check = DB::select('key')->from('deploy')->where('id')
+        $check = DB::select('key')->from('deploy')->where('id', $deploy_id)->and_where('')
 
 
         $record = new Model_Record();

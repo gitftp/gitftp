@@ -13,7 +13,7 @@ class Controller_Hook extends Controller {
             return;
         }
 
-        $check = DB::select()->from('')
+        $check = DB::select('key')->from('')
 
 
         $record = new Model_Record();

@@ -70,19 +70,19 @@ h6 {
           animation: spin .5s infinite linear;
   border: solid 3px rgba(0, 0, 0, 0);
   border-top-color: #909295;
-  border-bottom-color: #ef3d37;
+  border-bottom-color: #4cd964;
 }
 @-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
     border-top-color: #909295;
-    border-bottom-color: #ef3d37;
+    border-bottom-color: #4cd964;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #ef3d37;
+    border-top-color: #4cd964;
     border-bottom-color: #909295;
   }
 }
@@ -91,12 +91,12 @@ h6 {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
     border-top-color: #909295;
-    border-bottom-color: #ef3d37;
+    border-bottom-color: #4cd964;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #ef3d37;
+    border-top-color: #4cd964;
     border-bottom-color: #909295;
   }
 }

@@ -6,16 +6,16 @@
 </h3>
 <div class="pull-right">
     <div class="project-v-status">
-        Status: <%= s.status %>
+        <%= s.status %>
     </div>
 </div>
 <div class="clearfix"></div>
+
 <p style="color: #aaa">
     <%= s.repository %>
 </p>
-<div style="height:20px;"></div>
 
-<div class="well well-sm well-cs">
+<div class="">
     <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
 
     <% if(s.ftpdata.revision){ %>

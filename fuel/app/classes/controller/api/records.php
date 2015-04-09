@@ -18,6 +18,7 @@ class Controller_Api_Records extends Controller {
         
         foreach ($data as $k => $v) {
             $data[$k]['file_add'] = unserialize($data[$k]['file_add']);
+            $data[$k]['file_add'] = unserialize($data[$k]['file_remove']);
         }
         
         echo json_encode(array(

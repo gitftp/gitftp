@@ -35,10 +35,9 @@
         </th>
     </tr>-->
     <% $.each(activity.data, function(i, a){ %>
-    <% JSON.stringify(a, null, 5) %>
     <tr>
         <%
-            switch('2'){
+            switch(a.status){
                 case '0': 
                 var ic = 'times';
                 var co = 'ff3b30';

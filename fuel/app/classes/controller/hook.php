@@ -53,6 +53,7 @@ class Controller_Hook extends Controller {
         exec('git reset --hard origin/master', $cmdreset);
         $log['reset'] = $cmdreset;
         
+        $ftp = $repo['ftp'][0];
         
         
         DB::insert('test')->set(array(

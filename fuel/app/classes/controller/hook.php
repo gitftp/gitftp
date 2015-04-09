@@ -42,7 +42,8 @@ class Controller_Hook extends Controller {
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
         
-        chdir($userdir);
+        chdir($repo_dir);
+        
         
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

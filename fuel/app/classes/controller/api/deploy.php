@@ -155,7 +155,7 @@ class Controller_Api_Deploy extends Controller {
                 echo json_encode(array(
                     'status' => false,
                     'request' => $i,
-                    'reason' => ''
+                    'reason' => 'Failed to update deploy configuration'
                 ));
             }
         }else{

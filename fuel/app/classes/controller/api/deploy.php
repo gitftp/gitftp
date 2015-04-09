@@ -292,7 +292,7 @@ class Controller_Api_Deploy extends Controller {
             return;
         }
 
-        array_push($log, $gitcore->log);
+        $log[] = $gitcore->log;
 
         $record->set($record_id, array(
             'raw' => serialize($log),

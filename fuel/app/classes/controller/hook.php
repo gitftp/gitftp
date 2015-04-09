@@ -13,8 +13,9 @@ class Controller_Hook extends Controller {
             return ;
         }
         
-        if(Input::method() != 'POST'){
-            
-        }
+        
+//        if(Input::method() != 'POST'){
+//            
+//        }
     }
 }

@@ -17,6 +17,10 @@ class Controller_Hook extends Controller {
         
         if(count($check) == 0){
             die('No such user or deploy found.');
+        }else{
+            
+            
+            
         }
 
 

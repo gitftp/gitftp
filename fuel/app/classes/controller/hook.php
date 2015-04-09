@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Welcome extends Controller {
+class Controller_Hook extends Controller {
 
     public function action_index() {
         $view = View::forge('layout/base_layout.mustache');

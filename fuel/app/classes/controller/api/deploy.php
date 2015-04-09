@@ -133,7 +133,9 @@ class Controller_Api_Deploy extends Controller {
         $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         if($a[0]['user_id'] == $user_id){
             
-            DB::update('deploy')
+            DB::update('deploy')->set(array(
+                ''
+            ))
             
         }
         

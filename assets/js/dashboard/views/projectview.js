@@ -29,7 +29,7 @@ define([
                         content: 'The configuration is added, please proceed for first deployment.'
                     });
                     
-                    Router.navigate('deploy', {trigger: true});
+                    Backbone.history.loadUrl();
                 } else {
                     noty({
                         text: data.reason,

@@ -91,7 +91,7 @@ class Controller_Hook extends Controller {
 
         
         $log['gitftpop'] = $gitcore->log;
-
+        
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => 1,
@@ -117,10 +117,10 @@ class Controller_Hook extends Controller {
             'status' => true,
         ));
         
-        
-        DB::insert('test')->set(array(
-            'test' => serialize($_REQUEST['payload'])
-        ))->execute();
+//        
+//        DB::insert('test')->set(array(
+//            'test' => serialize($_REQUEST['payload'])
+//        ))->execute();
     }
 
     public function action_get() {

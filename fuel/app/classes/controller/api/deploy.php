@@ -114,7 +114,11 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
     }
-
+    
+    public function action_edit($id){
+        
+    }
+    
     public function action_start($id = null) {
 
         if ($id == null || !Auth::check()) {

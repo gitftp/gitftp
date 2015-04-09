@@ -20,8 +20,9 @@ define([
             $this.find('select, input, button').attr('readonly', true);
             $.post(base + 'api/deploy/edit/' + that.id, $this.serializeArray(), function (data) {
                 $this.find('select, input, button').removeAttr('readonly');
+                
                 data = JSON.parse(data);
-
+                
                 if (data.status) {
                     $.alert({
                         title: 'Updated!',

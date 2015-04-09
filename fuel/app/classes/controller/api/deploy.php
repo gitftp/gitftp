@@ -292,7 +292,7 @@ class Controller_Api_Deploy extends Controller {
             return;
         }
 
-        $log[ftpop] = $gitcore->log;
+        $log[gitftpop] = $gitcore->log;
 
         $record->set($record_id, array(
             'raw' => serialize($log),

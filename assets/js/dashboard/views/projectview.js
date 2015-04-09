@@ -23,12 +23,10 @@ define([
                 data = JSON.parse(data);
 
                 if (data.status) {
-
                     $.alert({
                         title: 'Updated!',
                         content: 'The configuration was updated.'
                     });
-
                     Backbone.history.loadUrl();
                 } else {
                     noty({

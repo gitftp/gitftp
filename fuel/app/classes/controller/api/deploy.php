@@ -128,13 +128,14 @@ class Controller_Api_Deploy extends Controller {
          * initial revision to empty.
          */
         
-        print_r($i);
+//        print_r($i);
         
         $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         if($a[0]['user_id'] == $user_id){
             
             $ftp = unserialize($a['ftp']);
-            
+            print_r($ftp);
+            die();
             
             DB::update('deploy')->set(array(
                 'repository' => $i['repo'],

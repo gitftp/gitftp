@@ -25,10 +25,10 @@ define([
                 if (data.status) {
 
                     $.alert({
-                        title: 'Added',
+                        title: 'Updated',
                         content: 'The configuration is added, please proceed for first deployment.'
                     });
-                    
+
                     Backbone.history.loadUrl();
                 } else {
                     noty({

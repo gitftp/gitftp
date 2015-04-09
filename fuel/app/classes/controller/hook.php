@@ -50,7 +50,8 @@ class Controller_Hook extends Controller {
         $log['pull'] = $cmdpull;
         exec('git fetch --all', $cmdfetch);
         $log['fetch'] = $cmdfetch;
-        exec('git reset --hard origin/master');
+        exec('git reset --hard origin/master', $cmdreset);
+        $log['reset'] = $cmdreset;
         
         
         

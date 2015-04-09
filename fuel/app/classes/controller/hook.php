@@ -28,7 +28,7 @@ class Controller_Hook extends Controller {
         
         $record = new Model_Record();
         
-        DB::insert('records')->set(array(
+        $record_id = DB::insert('records')->set(array(
             'deploy_id' => (int) $deploy_id,
             'user_id' => (int) $user_id,
             'status' => 2,

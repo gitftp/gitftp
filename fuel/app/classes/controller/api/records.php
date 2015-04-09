@@ -16,7 +16,7 @@ class Controller_Api_Records extends Controller {
         
         print_r($data);
         
-        foreach ($data as $k => $v) {
+        foreach ($data['file_add'] as $k => $v) {
             $data[$k]
         }
         

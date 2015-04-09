@@ -39,7 +39,15 @@ define([
                     });
                 }
             });
-
+        },
+        updateView: function (e) {
+            var that = this;
+            if ($('.is-deploy-view-id').length) {
+                var id = $('.is-deploy-view-id').attr('data-id');
+                
+            }else{
+                
+            }
         },
         getRawData: function (e) {
             e.preventDefault();
@@ -119,6 +127,7 @@ define([
                 that.data = data;
                 that.$el.html(template);
                 that.renderChild();
+                that.updateView();
             });
         },
         renderChild: function () {
@@ -143,9 +152,15 @@ define([
                 });
             }
         },
-        startDeploy: function () {
+        startDeploy: function (e) {
+            var $this = $(e.currentTarget);
+            var that = this;
+            
+            var p = '<i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress';
+            var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
+            
+            $this.html(p);
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
-
                 if (data.status) {
                     $.alert({
                         title: 'Woohoo!',
@@ -157,6 +172,7 @@ define([
                         title: 'Problem',
                         content: 'There was a problem. RUN FOR YOUR LIFE!!!!'
                     });
+                    $this.html(f);
                 }
             });
         }

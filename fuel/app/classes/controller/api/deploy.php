@@ -134,7 +134,7 @@ class Controller_Api_Deploy extends Controller {
         if($a[0]['user_id'] == $user_id){
             
             $ftp = unserialize($a[0]['ftp']);
-            
+            $ftp['production'] = 
             
             DB::update('deploy')->set(array(
                 'repository' => $i['repo'],

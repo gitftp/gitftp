@@ -89,6 +89,7 @@ class Controller_Hook extends Controller {
             return;
         }
 
+        
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])
         ))->execute();

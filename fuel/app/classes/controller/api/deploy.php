@@ -191,7 +191,7 @@ class Controller_Api_Deploy extends Controller {
          */
         $record_id = $record->insert(array(
             'deploy_id' => $repo['id'],
-            'status' => 3,
+            'status' => 2,
             'triggerby' => 'user',
             'date' => time(),
         ));

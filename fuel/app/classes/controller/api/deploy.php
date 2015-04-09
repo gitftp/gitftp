@@ -256,7 +256,8 @@ class Controller_Api_Deploy extends Controller {
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
             'ftp' => serialize($ftp_data),
-            'status' => 'Idle'
+            'status' => 'Idle',
+            'ready' => 1
         ));
 
         return json_encode(array(

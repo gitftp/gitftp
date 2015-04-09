@@ -17,7 +17,7 @@ class Controller_Hook extends Controller {
                 ->execute()->as_array();
         
         if(count($check) == 0){
-            
+            die('No such user or deploy found.');
         }
 
 

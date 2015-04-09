@@ -33,6 +33,7 @@ class Controller_Hook extends Controller {
             'status' => 2,
             'date' => time(),
             'triggerby' => $i->pusher->name,
+            'avatar_url' => $i->pusher->name,
             'post_data' => serialize($i),
         ));
 

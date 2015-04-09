@@ -160,6 +160,7 @@ define([
             var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
             
             $this.html(p);
+            $this.attr('disabled', true);
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
                 if (data.status) {
                     $.alert({

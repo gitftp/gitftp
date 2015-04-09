@@ -6,7 +6,7 @@ class Controller_Hook extends Controller {
         echo '';
     }
     
-    public function action_i(){
+    public function action_io(){
         Debug::constants();
     }
 }

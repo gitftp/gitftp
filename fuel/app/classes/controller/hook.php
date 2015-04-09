@@ -13,9 +13,13 @@ class Controller_Hook extends Controller {
             return ;
         }
         
-        DB::insert('test')->set();
+        DB::insert('test')->set(array(
+            'test' => serialize(Input::post())
+        ));
 //        if(Input::method() != 'POST'){
 //            
 //        }
     }
+    
+    
 }

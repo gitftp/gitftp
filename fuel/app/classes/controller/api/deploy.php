@@ -136,7 +136,7 @@ class Controller_Api_Deploy extends Controller {
             DB::update('deploy')->set(array(
                 'repository' => $i['repo'],
                 'name' => $i['name'],
-                'username' => (empty($i['username'])) ? '' : 
+                'username' => (empty($i['username'])) ? '' : $i['username'],
             ))
             
         }

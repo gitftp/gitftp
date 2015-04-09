@@ -111,10 +111,6 @@ class Controller_Hook extends Controller {
             'status' => 'Idle',
             'ready' => 1
         ));
-
-        return json_encode(array(
-            'status' => true,
-        ));
         
 //        
 //        DB::insert('test')->set(array(

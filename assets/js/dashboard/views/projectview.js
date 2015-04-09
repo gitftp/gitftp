@@ -57,7 +57,7 @@ define([
             var id = $this.attr('data-id');
             var that = this;
             console.log(that.activityData.data);
-            var raw = '';
+            var raw = that.activityData.data;
 //            $.each(that.activityData.data, function (i, a) {
 //                if (a.id == id) {
 //                    var i = 0;

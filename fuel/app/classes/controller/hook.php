@@ -27,17 +27,17 @@ class Controller_Hook extends Controller {
         $i = json_decode($i);
         
         $record = new Model_Record();
-//        $record_id = $record->insert(array(
-//            'deploy_id' => (int) $deploy_id,
-//            'user_id' => (int) $user_id,
-//            'status' => 2,
-//            'date' => time(),
-//            'triggerby' => $i->pusher->name,
-//            'avatar_url' => $i->sender->avatar_url,
-//            'post_data' => serialize($i),
-//            'commit_count' => count($i->commits),
-//            'commit_message' => $i->commits[0]->message
-//        ));
+        $record_id = $record->insert(array(
+            'deploy_id' => (int) $deploy_id,
+            'user_id' => (int) $user_id,
+            'status' => 2,
+            'date' => time(),
+            'triggerby' => $i->pusher->name,
+            'avatar_url' => $i->sender->avatar_url,
+            'post_data' => serialize($i),
+            'commit_count' => count($i->commits),
+            'commit_message' => $i->commits[0]->message
+        ));
 
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

@@ -2,18 +2,19 @@
 <div class="well well-sm well-cs">
     <i class="fa fa-warning"></i> Incorrect configuration might hang things out.
 </div>
+<form action="" id="deploy-view-form-edit">
 <div class="form-group">
     <label for="add-repo">GIT REPOSITORY</label>
     <input type="text" name="repo" id="add-repo" placeholder="link to repo .git" class="form-control" value="<%= s.repository %>" required>
     <p class="help-block">You might change this if you shift your repository.</p>
 </div>
 <div class="form-group">
-    <label for="name">REPO NAME</label>
-    <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required value="<%= s.name %>" readonly="readonly">
+    <label for="name">DEPLOY NAME</label>
+    <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required value="<%= s.name %>">
 </div>
 <div class="checkbox">
     <label>
-        <input type="checkbox" id="deploy-add-privaterepo" <%= (s.username !== '') ? 'checked' : '' %> > This is a private Repository.
+        <input type="checkbox" id="deploy-add-privaterepo" <%= (s.username == '') ? '' : 'checked' %> > This is a private Repository.
     </label>
 </div>
 <div id="deploy-add-privaterepo-div" style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px; <%= (s.username == '') ? 'display:none;' : '' %>">
@@ -53,6 +54,7 @@
 </div>
 
 <button type="submit" class="btn btn-default"><i class="fa fa-save fa-fw"></i> Save deployment configuration</button>
+</form>
 <br>
 <br>
 <br>

@@ -9,7 +9,37 @@ define([
         events: {
             'click .startdeploy': 'startDeploy',
             'change #deploy-add-privaterepo': 'priCheck',
-            'click .watchRawData': 'getRawData'
+            'click .watchRawData': 'getRawData',
+            'submit #deploy-view-form-edit': 'editConfiguration'
+        },
+        editConfiguration: function (e) {
+            var that = this;
+            var $this = $(e.currentTarget);
+            e.preventDefault();
+
+            $this.find('select, input').attr('readonly', true);
+            $.post(base + 'api/deploy/edit/' + that.id, $this.serializeArray(), function (data) {
+                $this.find('select, input').removeAttr('readonly');
+                data = JSON.parse(data);
+
+                if (data.status) {
+
+                    $.alert({
+                        title: 'Added',
+                        content: 'The configuration is added, please proceed for first deployment.'
+                    });
+                    Router.navigate('deploy', {
+                        trigger: true
+                    });
+
+                } else {
+                    noty({
+                        text: data.reason,
+                        type: 'error'
+                    });
+                }
+            });
+
         },
         getRawData: function (e) {
             e.preventDefault();
@@ -18,7 +48,6 @@ define([
             var that = this;
             console.log(that.activityData.data);
             var raw = '';
-
             $.each(that.activityData.data, function (i, a) {
                 if (a.id == id) {
                     var i = 0;
@@ -46,7 +75,6 @@ define([
                     return false;
                 }
             });
-
             console.log(raw);
             window.$a = $.alert({
                 title: 'raw',
@@ -76,7 +104,6 @@ define([
                 activity: activityView,
                 settings: settingsView,
             };
-
             if (!$('.project-v-status').length) {
                 that.$el.html('');
             }
@@ -86,9 +113,7 @@ define([
                 activity: _.template(this.page.activity),
                 settings: _.template(this.page.settings)
             };
-
             this.id = id;
-
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 var template = that.template.main({'s': data.data[0], 'v': that.which});
                 that.data = data;
@@ -136,6 +161,5 @@ define([
             });
         }
     });
-
     return d;
 });

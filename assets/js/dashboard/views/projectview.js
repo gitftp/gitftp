@@ -25,7 +25,7 @@ define([
                 }catch(e){
                     noty({
                         text: 'something bad happened'
-                    })
+                    });
                 }
                 
                 if (data.status) {

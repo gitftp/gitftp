@@ -16,7 +16,9 @@ class Controller_Hook extends Controller {
         $check = DB::select('key')->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
                 ->execute()->as_array();
         
-        if()
+        if(count($check) == 0){
+            
+        }
 
 
         $record = new Model_Record();

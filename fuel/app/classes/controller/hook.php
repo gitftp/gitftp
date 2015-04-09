@@ -40,7 +40,7 @@ class Controller_Hook extends Controller {
             'commit_message' => $i->commits[0]->message
         ))->execute();
         
-        $repo = 
+        $repo = ''
         
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

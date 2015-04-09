@@ -88,7 +88,7 @@ define([
             console.log(raw);
             window.$a = $.alert({
                 title: 'raw',
-                content: '<pre>' + JSON.stringify(raw) + '</pre>',
+                content: '<pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 animation: 'scale'
             });
         },

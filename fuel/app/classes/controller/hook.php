@@ -13,6 +13,7 @@ class Controller_Hook extends Controller {
             return ;
         }
         
+        $record = new Model_Record();
         
         
         

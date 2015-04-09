@@ -24,6 +24,7 @@ class Controller_Hook extends Controller {
         }
 
         $i = $_REQUEST['payload'];
+        
         $record = new Model_Record();
         $record_id = $record->insert(array(
             'deploy_id' => $deploy_id,
@@ -31,7 +32,7 @@ class Controller_Hook extends Controller {
             'status' => 2,
             'date' => time(),
             'triggerby' => 'GitHub',
-            'post_data' => serialize($_REQUEST['payload']),
+            'post_data' => serialize($i),
         ));
 
         DB::insert('test')->set(array(

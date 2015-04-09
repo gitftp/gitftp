@@ -9,11 +9,9 @@
             <div style="height: 60px;"></div>
             <p class="text-center" style="color: #999">
                 <span style="font-size: 3em">
-                    <i class="fa fa-github fa-5x"></i><br>
-                    Welcome to <i class="fa fa-git"></i>ftp
+                    <?php echo Asset::img('logo.png'); ?> <br>
+                    <span style="font-weight: 100">Set your workflow.</span>
                 </span>
-                <br>
-                The git to ftp deployment system.
             </p>
                
         </div>

@@ -64,8 +64,8 @@ h6 {
   border-radius: 50%;
   border: solid #aaa;
   border-width: 3px 0px 0px 0px;
-  -webkit-animation: spin 0.5s infinite linear;
-          animation: spin 0.5s infinite linear;
+  -webkit-animation: spin 1s infinite linear;
+          animation: spin 1s infinite linear;
   border: solid 3px rgba(0, 0, 0, 0);
   border-top-color: #01b5e9;
   border-bottom-color: #4cd964;

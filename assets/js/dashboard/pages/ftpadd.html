@@ -1,5 +1,15 @@
+<% 
+if (ftp.length != 0){
+    var f = ftp[0];
+    var e = true;
+}else{
+    var e = false;
+}
+%>
+
+
 <h3>
-    Add FTP Server
+    <%= (e) ? 'Edit' : 'Add' %> FTP Server
     <a href="#ftp" class="btn btn-default pull-right"><i class="fa fa-arrow-left fa-fw"></i> List Servers</a>
 </h3>
 <div style="height:20px;"></div>
@@ -10,29 +20,34 @@
     <div class="col-md-6">
         <div class="addftp-div">
             <form action="" class="" id="addftp-form">
+                
+                <% if(false){ %>
+                    <input type="hidden" name="id" value="<%= f['id'] %>">
+                <% } %>
+                       
                 <div class="form-group">
                     <label>Host name</label>
-                    <input type="text" name="host" class="form-control" placeholder="example.com / IP address">
+                    <input type="text" name="host" class="form-control" placeholder="example.com / IP address" value="<%= (e) ? f['host'] : '' %>">
                 </div>
                 <div class="form-group">
                     <label>FTP username</label>
-                    <input type="text" name="username" class="form-control" placeholder="Username">
+                    <input type="text" name="username" class="form-control" placeholder="Username" value="<%= (e) ? f['username'] : '' %>">
                 </div>
                 <div class="form-group">
                     <label>FTP password</label>
-                    <input type="text" name="pass" class="form-control" placeholder="Password">
+                    <input type="text" name="pass" class="form-control" placeholder="Password" value="<%= (e) ? f['pass'] : '' %>">
                 </div>
                 <div class="form-group">
                     <label>Schema</label>
-                    <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps">
+                    <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps" value="<%= (e) ? f['scheme'] : '' %>">
                 </div>
                 <div class="form-group">
                     <label>Path to deploy</label>
-                    <input type="text" name="path" class="form-control" placeholder="Starting from root. EG: /public_html">
+                    <input type="text" name="path" class="form-control" placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
                 </div>
                 <div class="form-group">
                     <label>FTP port</label>
-                    <input type="text" name="port" class="form-control" placeholder="Port of FTP">
+                    <input type="text" name="port" class="form-control" placeholder="Port of FTP" value="<%= (e) ? f['port'] : '' %>">
                 </div>
                 <button style="submit" class="btn btn-primary">Save</button>
             </form>

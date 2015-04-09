@@ -11,8 +11,9 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
-                        </button>                        
-                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>
+                        </button>
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"> <?php echo Asset::img('logo.png', array('style'=>'height: 40px; margin-top: -9px;')); ?> </a>
+                        <!--<a class="navbar-brand" href="<?php // echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
                         <!--<a class="navbar-brand" href="#">Gitploy</a>-->
                     </div>
 

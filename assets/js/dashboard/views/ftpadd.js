@@ -54,20 +54,45 @@ define([
         },
         render: function (id) {
             var that = this;
+            
+            
             that.$el.html('');
-            that.$el.html(ftpadd);
+            if(id){
+                $.getJSON(base+'api/ftp/getall/'+id, function(data){
+                    var template = _.template(ftpadd);
+                    template = template({
+                        'ftp': data.data
+                    });
+                    that.$el.html(template);
+                });
+                that.id = id;
+            }else{
+                var template = _.template(ftpadd);
+                template = template({
+                    'ftp': []
+                });
+                that.$el.html(template);
+                that.id = false;
+            }
         },
         addftp: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
-
-            $.post(base + 'api/ftp/addftp', $this.serializeArray(), function (data) {
+            var that = this;
+            
+            if(this.id){
+                var to = 'editftp/'+this.id;
+            }else{
+                var to = 'addftp';
+            }
+            
+            $.post(base + 'api/ftp/'+to, $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);
                 if (data.status) {
                     noty({
-                        text: '!!! Added FTP server: ' + $this.find('[name="host"]').val()
+                        text: '!!! '+ ((this.id) ? 'Edited' : 'Added') +' FTP server: ' + $this.find('[name="host"]').val()
                     });
                     Router.navigate('ftp', {trigger: true});
                 } else {

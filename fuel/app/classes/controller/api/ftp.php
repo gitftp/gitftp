@@ -45,8 +45,10 @@ class Controller_Api_Ftp extends Controller {
             return;
             
         }
+        
         $ftp = new Model_Ftp();
         $data = Input::post();
+        $user_id = Auth::get_user_id()[1];
 
         $existing = DB::select()->from('ftpdata')
                         ->where('host', $data['host'])
@@ -64,6 +66,50 @@ class Controller_Api_Ftp extends Controller {
         } else {
             
             $a = $ftp->insert($data);
+            if ($a) {
+                echo json_encode(array(
+                    'status' => true,
+                    'request' => Input::post()
+                ));
+            }
+        }
+    }
+
+    /**
+     * editing a FTP server.
+     * @return boolean
+     */
+    public function action_editftp($id) {
+        if (!Auth::check()) {
+
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'Not logged in',
+                'request' => Input::post()
+            ));
+            return;
+            
+        }
+        
+        $ftp = new Model_Ftp();
+        $data = Input::post();
+        $user_id = Auth::get_user_id()[1];
+        
+//        $existing = DB::select()->from('ftpdata')
+//                        ->where('host', $data['host'])
+//                        ->and_where('username', $data['username'])
+//                        ->and_where('user_id', $user_id)
+//                        ->and_where('path', $data['path'])
+//                        ->execute()->as_array();
+
+        if (false) {
+            echo json_encode(array(
+                'status' => false,
+                'request' => Input::post(),
+                'reason' => 'A FTP account with the same host and username already exist OR you didnt change anything ?.'
+            ));
+        } else {
+            $a = $ftp->set($id, $data);
             if ($a) {
                 echo json_encode(array(
                     'status' => true,

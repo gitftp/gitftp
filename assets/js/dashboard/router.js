@@ -17,6 +17,7 @@ define([
             'home': 'dashboard',
             'ftp': 'ftpView',
             'ftp/add': 'ftpAdd',
+            'ftp/edit/:id': 'ftpAdd',
             'deploy': 'project',
             'deploy/new': 'projectadd',
             'deploy/v/:id': 'projectview',
@@ -43,9 +44,9 @@ define([
             app.obj.ftpView = app.obj.ftpView || new ftpView();
             app.obj.ftpView.render();
         },
-        ftpAdd: function () {
+        ftpAdd: function (id) {
             app.obj.ftpAdd = app.obj.ftpAdd || new ftpAdd();
-            app.obj.ftpAdd.render();
+            app.obj.ftpAdd.render(id);
         },
         fourofour: function(){
             Router.navigate('home', {trigger: true});

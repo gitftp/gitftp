@@ -14,6 +14,8 @@ class Controller_Api_Records extends Controller {
         $record = new Model_Record();
         $data = $record->get($id);
         
+        print_r($data);
+        
         echo json_encode(array(
             'status' => true,
             'data' => $data

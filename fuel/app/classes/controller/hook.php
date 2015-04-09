@@ -13,6 +13,9 @@ class Controller_Hook extends Controller {
             return ;
         }
         
+        $check = DB::select())
+        
+        
         $record = new Model_Record();
         $record_id = $record->insert(array(
             'deploy_id' => $deploy_id,

@@ -247,6 +247,7 @@ class Controller_Api_Deploy extends Controller {
             ));
 
             return;
+            
         } else {
 
             $log['clone'] = 'Successfully cloned repository.';

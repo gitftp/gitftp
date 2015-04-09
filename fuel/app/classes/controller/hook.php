@@ -38,7 +38,7 @@ class Controller_Hook extends Controller {
             'post_data' => serialize($i),
             'commit_count' => count($i->commits),
             'commit_message' => $i->commits[0]->message
-        ))
+        ))->execute();
         
         $record_id = $record->insert(array(
         ));

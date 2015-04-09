@@ -47,7 +47,7 @@ class Controller_Hook extends Controller {
         $a = DB::select()->from('test')->execute()->as_array();
         $a = json_decode(unserialize($a[1]['test']));
         
-        echo $a['ref'];
+        echo $a->ref;
     }
 
 }

@@ -136,7 +136,7 @@ class Controller_Api_Deploy extends Controller {
             $ftp = unserialize($a[0]['ftp']);
             $ftp['production'] = $i['ftp-production'];
             
-            DB::update('deploy')->set(array(
+            $b = DB::update('deploy')->set(array(
                 'repository' => $i['repo'],
                 'name' => $i['name'],
                 'username' => (empty($i['username'])) ? '' : $i['username'],

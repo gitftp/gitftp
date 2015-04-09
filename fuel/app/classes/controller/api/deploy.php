@@ -162,7 +162,7 @@ class Controller_Api_Deploy extends Controller {
 
         chdir($userdir);
 
-        exec('git clone ' . $repo['repository'] . ' ' . $repo['name']);
+        exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['name']);
 
         $a = File::read_dir($repodir);
 

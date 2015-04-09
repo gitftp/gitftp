@@ -151,6 +151,8 @@ class Controller_Api_Deploy extends Controller {
                     'request' => $i
                 ));
             }
+        }else{
+            
         }
         
 //        $ftp = array(

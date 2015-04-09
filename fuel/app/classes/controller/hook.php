@@ -19,6 +19,7 @@ class Controller_Hook extends Controller {
             'user_id' => $user_id,
             'status' => 2,
             'date' => date(),
+            
         ));
         
         

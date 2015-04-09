@@ -7,6 +7,6 @@ class Controller_Hook extends Controller {
     }
     
     public function action_i(){
-        Debug::constants();
+        
     }
 }

@@ -240,7 +240,7 @@ class Controller_Api_Deploy extends Controller {
             ));
 
             $record->set($record_id, array(
-                'status' => false,
+                'status' => 0,
             ));
 
             return;

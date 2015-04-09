@@ -44,9 +44,9 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                
-            }else{
-                
+
+            } else {
+
             }
         },
         getRawData: function (e) {
@@ -155,10 +155,10 @@ define([
         startDeploy: function (e) {
             var $this = $(e.currentTarget);
             var that = this;
-            
+
             var p = '<i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress';
             var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
-            
+
             $this.html(p);
             $this.attr('disabled', true);
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {

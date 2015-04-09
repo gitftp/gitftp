@@ -12,8 +12,8 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"> <?php echo Asset::img('logo-sm.png', array('style'=>'height: 40px; margin-top: -9px;')); ?> </a>
-                        <!--<a class="navbar-brand" href="<?php // echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
+                        <a class="navbar-brand" href="<?php echo Uri::base(false); ?>"> <?php echo Asset::img('logo-sm.png', array('style' => 'height: 40px; margin-top: -9px;')); ?> </a>
+                        <!--<a class="navbar-brand" href="<?php // echo Uri::base(false);  ?>"><i class="fa fa-git fa-fw"></i></a>-->
                         <!--<a class="navbar-brand" href="#">Gitploy</a>-->
                     </div>
 
@@ -51,7 +51,7 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li>
-                                    <p class="navbar-text" style="font-style: italic;">You're in <a style="text-transform: capitalize;" href="<?php echo Uri::base(false); ?>dashboard"><?php echo Auth::get_screen_name(); ?> !</a></p>
+                                    <a href="<?php echo Uri::base(false); ?>dashboard"><i class="fa fa-home fa-fw"></i> Sup? <?php echo Auth::get_screen_name(); ?></a>
                                 </li>
                                 <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             </ul>

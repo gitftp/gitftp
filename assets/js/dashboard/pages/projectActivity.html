@@ -8,9 +8,9 @@
     <br>
     <br>
     <% if(/cloning|uploading/.test(s.status.toLowerCase())){ %>
-        <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
-    <% }else{ %>
         <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
+    <% }else{ %>
+        <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
     <% } %>
 </p>
 <% }else{ %>

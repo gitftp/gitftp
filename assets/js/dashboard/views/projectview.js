@@ -58,33 +58,33 @@ define([
             var that = this;
             console.log(that.activityData.data);
             var raw = '';
-            $.each(that.activityData.data, function (i, a) {
-                if (a.id == id) {
-                    var i = 0;
-                    $.each(a.raw, function (i, a) {
-                        if (typeof a == 'object') {
-                            $.each(a, function (i, b) {
-
-                                if (typeof b == 'object') {
-                                    $.each(b, function (i, c) {
-
-                                        raw += i + ' - ' + c + '<br>';
-                                        i += 1;
-                                    });
-                                } else {
-                                    raw += i + ' - ' + b + '<br>';
-                                    i += 1;
-                                }
-
-                            });
-                        } else {
-                            raw += i + ' - ' + a + '<br>';
-                            i += 1;
-                        }
-                    });
-                    return false;
-                }
-            });
+//            $.each(that.activityData.data, function (i, a) {
+//                if (a.id == id) {
+//                    var i = 0;
+//                    $.each(a.raw, function (i, a) {
+//                        if (typeof a == 'object') {
+//                            $.each(a, function (i, b) {
+//
+//                                if (typeof b == 'object') {
+//                                    $.each(b, function (i, c) {
+//
+//                                        raw += i + ' - ' + c + '<br>';
+//                                        i += 1;
+//                                    });
+//                                } else {
+//                                    raw += i + ' - ' + b + '<br>';
+//                                    i += 1;
+//                                }
+//
+//                            });
+//                        } else {
+//                            raw += i + ' - ' + a + '<br>';
+//                            i += 1;
+//                        }
+//                    });
+//                    return false;
+//                }
+//            });
             console.log(raw);
             window.$a = $.alert({
                 title: 'raw',

@@ -42,22 +42,22 @@ class Controller_Hook extends Controller {
                 ))->execute();
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
-        
+
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
-        
+
         exec('git pull --rebase --depth=1', $cmdpull);
         $log['pull'] = $cmdpull;
         exec('git fetch --all', $cmdfetch);
         $log['fetch'] = $cmdfetch;
         exec('git reset --hard origin/master', $cmdreset);
         $log['reset'] = $cmdreset;
-        
+
         $ftp = unserialize($repo['ftp']);
-        
+
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
         $ftpdata = $ftpdata[0];
-        
+
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');
         $gitcore->repo = $repo_dir;
@@ -75,9 +75,20 @@ class Controller_Hook extends Controller {
         );
 
         $gitcore->revision = $ftp['revision'];
-        
-        
-        
+
+
+        try {
+            $gitcore->startDeploy();
+        } catch (Exception $ex) {
+
+            array_push($log, $gitcore->log);
+            $record->set($record_id, array(
+                'raw' => serialize($log),
+                'status' => 0,
+            ));
+            return;
+        }
+
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])
         ))->execute();

@@ -139,7 +139,7 @@ class Controller_Api_Deploy extends Controller {
                 'username' => (empty($i['username'])) ? '' : $i['username'],
                 'password' => (empty($i['password'])) ? '' : $i['password'],
                 'key' => $i['key'],
-            ))
+            ));
             
         }
         

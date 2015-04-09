@@ -19,9 +19,6 @@ class Controller_Hook extends Controller {
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])
         ))->execute();
-//        if(Input::method() != 'POST'){
-//            
-//        }
     }
     
     public function action_get(){

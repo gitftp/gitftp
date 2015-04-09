@@ -145,18 +145,19 @@ class Controller_Api_Deploy extends Controller {
                 'ftp' => serialize($ftp)
             ));
             
+            
         }
         
 //        $ftp = array(
 //            'production' => $i['ftp-production'],
 //        );
 //        
-//        if ($a[1] !== 0) {
-//            echo json_encode(array(
-//                'status' => true,
-//                'request' => $i
-//            ));
-//        }
+        if ($a[1] !== 0) {
+            echo json_encode(array(
+                'status' => true,
+                'request' => $i
+            ));
+        }
     }
 
     public function action_start($id = null) {

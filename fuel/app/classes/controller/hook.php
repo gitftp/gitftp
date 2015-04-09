@@ -22,6 +22,7 @@ class Controller_Hook extends Controller {
                 die('The key provided doesnt match');
             }
         }
+        
         $repo = $repo[0];
         $i = $_REQUEST['payload'];
         $i = json_decode($i);

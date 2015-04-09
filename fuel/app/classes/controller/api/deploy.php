@@ -130,7 +130,7 @@ class Controller_Api_Deploy extends Controller {
         
         print_r($i);
         
-        
+        $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         
 //        $ftp = array(
 //            'production' => $i['ftp-production'],

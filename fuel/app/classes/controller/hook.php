@@ -90,7 +90,32 @@ class Controller_Hook extends Controller {
         }
 
         
-        
+                $log['gitftpop'] = $gitcore->log;
+
+        $record->set($record_id, array(
+            'raw' => serialize($log),
+            'status' => 1,
+            'amount_deployed' => $log['gitftpop']['deployed']['human'],
+            'amount_deployed_raw' => $log['gitftpop']['deployed']['data'],
+            'file_add' => serialize($log['gitftpop']['files']['upload']),
+            'file_remove' => serialize($log['gitftpop']['files']['delete']),
+            'file_skip' => serialize($log['gitftpop']['files']['skip']),
+        ));
+
+        $ftp_data = $repo['ftpdata'];
+        $ftp_data['revision'] = $gitcore->currentRevision();
+
+        $deploy->set($id, array(
+            'deployed' => true,
+            'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
+            'ftp' => serialize($ftp_data),
+            'status' => 'Idle',
+            'ready' => 1
+        ));
+
+        return json_encode(array(
+            'status' => true,
+        ));
         
         
         DB::insert('test')->set(array(

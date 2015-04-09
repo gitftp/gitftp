@@ -74,7 +74,8 @@ class Controller_Hook extends Controller {
             'purge' => array()
         );
 
-        $gitcore->revision = '';
+        $gitcore->revision = $ftp['revision'];
+        
         
         
         DB::insert('test')->set(array(

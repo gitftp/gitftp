@@ -25,8 +25,8 @@ define([
                 if (data.status) {
 
                     $.alert({
-                        title: 'Updated',
-                        content: 'The configuration is added, please proceed for first deployment.'
+                        title: 'Updated!',
+                        content: 'The configuration was updated.'
                     });
 
                     Backbone.history.loadUrl();

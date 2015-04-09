@@ -224,7 +224,7 @@ class Controller_Api_Deploy extends Controller {
 
         if (count($a) == 0) {
             
-            
+            $log['cloneOP'] = $gitcloneop;
             $log['clone'] = 'Error while cloning repository.';
             $log['clone_status'] = false;
 

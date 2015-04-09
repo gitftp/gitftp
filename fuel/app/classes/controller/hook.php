@@ -19,7 +19,7 @@ class Controller_Hook extends Controller {
             'user_id' => $user_id,
             'status' => 2,
             'date' => date(),
-            'triggerby' => 'asd',
+            'triggerby' => 'GitHub',
             'post_data' => serialize($_REQUEST['payload']),
         ));
         

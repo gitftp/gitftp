@@ -223,7 +223,8 @@ class Controller_Api_Deploy extends Controller {
         $a = File::read_dir($repodir);
 
         if (count($a) == 0) {
-
+            
+            
             $log['clone'] = 'Error while cloning repository.';
             $log['clone_status'] = false;
 

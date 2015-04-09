@@ -29,7 +29,7 @@ class Controller_Hook extends Controller {
         $record = new Model_Record();
         $record_id = $record->insert(array(
             'deploy_id' => $deploy_id,
-            'user_id' => $user_id,
+            'user_id' => (int) $user_id,
             'status' => 2,
             'date' => time(),
             'triggerby' => $i->pusher->name,

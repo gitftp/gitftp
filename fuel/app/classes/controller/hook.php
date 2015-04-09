@@ -25,6 +25,7 @@ class Controller_Hook extends Controller {
 
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
+        
         echo $i->ref;
 //        $record = new Model_Record();
 //        $record_id = $record->insert(array(

@@ -44,6 +44,7 @@ class Controller_Hook extends Controller {
         
         chdir($repo_dir);
         
+        $log = array();
         
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

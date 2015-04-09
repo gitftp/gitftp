@@ -29,6 +29,7 @@ class Controller_Hook extends Controller {
         $log = array();
 
         $record = new Model_Record();
+        $deploy = new Model_Deploy();
 
         list($record_id, $asd) = DB::insert('records')->set(array(
                     'deploy_id' => (int) $deploy_id,

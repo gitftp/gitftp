@@ -29,7 +29,7 @@ class Controller_Hook extends Controller {
 //            'deploy_id' => $deploy_id,
 //            'user_id' => $user_id,
 //            'status' => 2,
-//            'date' => date(),
+//            'date' => time(),
 //            'triggerby' => 'GitHub',
 //            'post_data' => serialize($_REQUEST['payload']),
 //        ));

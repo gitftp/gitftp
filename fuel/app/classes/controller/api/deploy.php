@@ -152,6 +152,11 @@ class Controller_Api_Deploy extends Controller {
                 ));
             }else{
                 
+                echo json_encode(array(
+                    'status' => false,
+                    'request' => $i
+                ));
+            }
         }else{
             return 'you are not permitted to do that';
         }

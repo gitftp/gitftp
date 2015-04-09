@@ -114,11 +114,49 @@ class Controller_Api_Deploy extends Controller {
             ));
         }
     }
-    
-    public function action_edit($id){
-        
+
+    public function action_edit($id) {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        $i = Input::post();
+        $user_id = Auth::get_user_id()[1];
+
+
+        /*
+         * FTP setup,
+         * initial revision to empty.
+         */
+        $ftp = array(
+            'production' => $i['ftp-production'],
+            'revision' => ''
+        );
+
+        $a = DB::insert('deploy')->set(array(
+                    'repository' => $i['repo'],
+                    'username' => ($i['username']) ? $i['username'] : '',
+                    'name' => $i['name'],
+                    'password' => ($i['password']) ? $i['password'] : '',
+                    'user_id' => $user_id,
+                    'ftp' => serialize($ftp),
+                    'key' => $i['key'],
+                    'cloned' => false,
+                    'deployed' => false,
+                    'lastdeploy' => false,
+                    'status' => 'to be initialized',
+                    'ready' => false,
+                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
+                ))->execute();
+
+        if ($a[1] !== 0) {
+            echo json_encode(array(
+                'status' => true,
+                'request' => $i
+            ));
+        }
     }
-    
+
     public function action_start($id = null) {
 
         if ($id == null || !Auth::check()) {
@@ -243,7 +281,7 @@ class Controller_Api_Deploy extends Controller {
                 'raw' => serialize($log),
                 'status' => false,
             ));
-            return ;
+            return;
         }
 
         array_push($log, $gitcore->log);

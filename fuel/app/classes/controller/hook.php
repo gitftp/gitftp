@@ -13,7 +13,7 @@ class Controller_Hook extends Controller {
             return ;
         }
         
-        DB::insert('test')->set(Input::post());
+        DB::insert('test')->set();
 //        if(Input::method() != 'POST'){
 //            
 //        }

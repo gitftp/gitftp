@@ -54,6 +54,23 @@ class Controller_Hook extends Controller {
         $log['reset'] = $cmdreset;
         
         $ftp = $repo['ftp'][0];
+        $gitcore = new gitcore();
+        $gitcore->action = array('deploy');
+        $gitcore->repo = $repodir;
+
+        $gitcore->ftp = array(
+            'scheme' => $ftp['scheme'],
+            'host' => $ftp['host'],
+            'user' => $ftp['username'],
+            'pass' => $ftp['pass'],
+            'port' => $ftp['port'],
+            'path' => $ftp['path'],
+            'passive' => true,
+            'skip' => array(),
+            'purge' => array()
+        );
+
+        $gitcore->revision = '';
         
         
         DB::insert('test')->set(array(

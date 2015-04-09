@@ -776,6 +776,7 @@ class Gitcore {
                     'data' => $this->deploymentSize,
                     'human' => $this->humanFilesize($this->deploymentSize)
                 );
+                
                 $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------");
 //                $this-> im here
                 $this->deploymentSize = 0;

@@ -150,7 +150,8 @@ class Controller_Api_Deploy extends Controller {
                     'status' => true,
                     'request' => $i
                 ));
-            }
+            }else{
+                
         }else{
             return 'you are not permitted to do that';
         }

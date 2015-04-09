@@ -16,6 +16,10 @@ class Controller_Api_Records extends Controller {
         
         print_r($data);
         
+        foreach ($data as $k => $v) {
+            $data
+        }
+        
         echo json_encode(array(
             'status' => true,
             'data' => $data

@@ -6,7 +6,7 @@ class Controller_Hook extends Controller {
         echo '';
     }
     
-    public function action_i($user_id, $deploy_id, $key){
+    public function action_i($user_id, $deploy_id, $key = null){
         
     }
 }

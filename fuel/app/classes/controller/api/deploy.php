@@ -130,23 +130,7 @@ class Controller_Api_Deploy extends Controller {
         $ftp = array(
             'production' => $i['ftp-production'],
         );
-
-        $a = DB::insert('deploy')->set(array(
-                    'repository' => $i['repo'],
-                    'username' => ($i['username']) ? $i['username'] : '',
-                    'name' => $i['name'],
-                    'password' => ($i['password']) ? $i['password'] : '',
-                    'user_id' => $user_id,
-                    'ftp' => serialize($ftp),
-                    'key' => $i['key'],
-                    'cloned' => false,
-                    'deployed' => false,
-                    'lastdeploy' => false,
-                    'status' => 'to be initialized',
-                    'ready' => false,
-                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
-                ))->execute();
-
+        
         if ($a[1] !== 0) {
             echo json_encode(array(
                 'status' => true,

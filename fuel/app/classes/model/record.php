@@ -15,7 +15,9 @@ class Model_Record extends Model {
 
     public function get($id = null) {
 
-        $q = DB::select()->from($this->table)
+        $q = DB::select(array(
+            
+        ))->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {

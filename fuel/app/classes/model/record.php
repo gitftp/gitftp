@@ -15,20 +15,7 @@ class Model_Record extends Model {
 
     public function get($id = null) {
 
-        $q = DB::select(array(
-            'id', 
-            'deploy_id',
-            'user_id',
-            'status',
-            'amount_deployed_raw',
-            'amount_deployed',
-            'date',
-            'triggerby',
-            'post_data',
-            'file_add',
-            'file_remove',
-            'file_skip',
-        ))->from($this->table)
+        $q = DB::select()->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {

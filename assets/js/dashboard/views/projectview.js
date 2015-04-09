@@ -23,7 +23,9 @@ define([
                 try{
                     data = JSON.parse(data);
                 }catch(e){
-                    
+                    noty({
+                        
+                    })
                 }
                 
                 if (data.status) {

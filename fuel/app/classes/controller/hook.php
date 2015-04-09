@@ -46,7 +46,7 @@ class Controller_Hook extends Controller {
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
         
-        
+        exec('git pull --rebase --depth=1 ')
         
         
         DB::insert('test')->set(array(

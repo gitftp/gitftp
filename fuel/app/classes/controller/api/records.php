@@ -14,8 +14,6 @@ class Controller_Api_Records extends Controller {
         $record = new Model_Record();
         $data = $record->get($id);
         
-        print_r($data);
-        
         foreach ($data as $k => $v) {
             $data[$k]['file_add'] = unserialize($data[$k]['file_add']);
             $data[$k]['file_remove'] = unserialize($data[$k]['file_remove']);

@@ -137,6 +137,7 @@ class Controller_Api_Deploy extends Controller {
                 'repository' => $i['repo'],
                 'name' => $i['name'],
                 'username' => (empty($i['username'])) ? '' : $i['username'],
+                'password' => (empty($i['username'])) ? '' : $i['username'],
             ))
             
         }

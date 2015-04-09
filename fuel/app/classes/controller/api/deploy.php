@@ -152,13 +152,8 @@ class Controller_Api_Deploy extends Controller {
                 ));
             }
         }else{
-            return 'you are not permitted to do that'
+            return 'you are not permitted to do that';
         }
-        
-//        $ftp = array(
-//            'production' => $i['ftp-production'],
-//        );
-//        
     }
 
     public function action_start($id = null) {

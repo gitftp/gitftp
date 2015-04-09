@@ -134,7 +134,7 @@ class Controller_Api_Deploy extends Controller {
         if($a[0]['user_id'] == $user_id){
             
             DB::update('deploy')->set(array(
-                'repo' => $i['repo'],
+                'repository' => $i['repo'],
                 ''
             ))
             

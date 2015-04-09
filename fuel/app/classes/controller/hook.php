@@ -54,6 +54,7 @@ class Controller_Hook extends Controller {
         $log['reset'] = $cmdreset;
         
         $ftp = $repo['ftp'][0];
+        
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');
         $gitcore->repo = $repodir;

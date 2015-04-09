@@ -112,10 +112,6 @@ class Controller_Hook extends Controller {
             'ready' => 1
         ));
         
-//        
-//        DB::insert('test')->set(array(
-//            'test' => serialize($_REQUEST['payload'])
-//        ))->execute();
     }
 
     public function action_get() {

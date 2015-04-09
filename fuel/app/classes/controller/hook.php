@@ -15,7 +15,8 @@ class Controller_Hook extends Controller {
         
         $record = new Model_Record();
         $record_id = $record->insert(array(
-            'deploy_id' => $deploy_id
+            'deploy_id' => $deploy_id,
+            'user_id' => $deploy_id,
         ));
         
         

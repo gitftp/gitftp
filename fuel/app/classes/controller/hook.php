@@ -14,7 +14,7 @@ class Controller_Hook extends Controller {
 //        }
         
         DB::insert('test')->set(array(
-            'test' => serialize(Input::post()).$HTTP_RAW_POST_DATA
+            'test' => serialize(Input::post())
         ))->execute();
 //        if(Input::method() != 'POST'){
 //            

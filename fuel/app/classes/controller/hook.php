@@ -57,7 +57,7 @@ class Controller_Hook extends Controller {
         
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');
-        $gitcore->repo = $repodir;
+        $gitcore->repo = $repo_dir;
 
         $gitcore->ftp = array(
             'scheme' => $ftp['scheme'],

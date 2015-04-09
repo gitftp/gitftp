@@ -604,7 +604,8 @@ class Gitcore {
         $this->ftpDebug("Fetching {$this->dotRevision} file");
 
 //        if ($this->connection->exists($this->dotRevision)) {
-            $remoteRevision = $this->revision;
+            if(empty($remoteRevision))
+                $remoteRevision = $this->revision;
             $this->log['lastrevision'] = $remoteRevision;
 //        } else {
 //            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');

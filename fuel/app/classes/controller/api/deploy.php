@@ -42,7 +42,7 @@ class Controller_Api_Deploy extends Controller {
             echo shell_exec('chown www-data * -R');
             echo shell_exec('chgrp www-data * -R');
             echo shell_exec('chmod 777 -R');
-            
+
 //            echo shell_exec('rm .git/ -R -v');
 //            echo shell_exec('rm * -R -v');
 //            chdir($user_dir);
@@ -81,43 +81,36 @@ class Controller_Api_Deploy extends Controller {
         $i = Input::post();
         $user_id = Auth::get_user_id()[1];
 
+
+        /*
+         * FTP setup,
+         * initial revision to empty.
+         */
         $ftp = array(
-            'production' => $i['ftp-production']
+            'production' => $i['ftp-production'],
+            'revision' => ''
         );
 
-        $b = DB::select()->from('deploy')
-                        ->where('name', $i['name'])
-                        ->and_where('user_id', $user_id)
-                        ->execute()->as_array();
+        $a = DB::insert('deploy')->set(array(
+                    'repository' => $i['repo'],
+                    'username' => ($i['username']) ? $i['username'] : '',
+                    'name' => $i['name'],
+                    'password' => ($i['password']) ? $i['password'] : '',
+                    'user_id' => $user_id,
+                    'ftp' => serialize($ftp),
+                    'key' => $i['key'],
+                    'cloned' => false,
+                    'deployed' => false,
+                    'lastdeploy' => false,
+                    'status' => 'to be initialized',
+                    'ready' => false,
+                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
+                ))->execute();
 
-        if (count($b) == 0) {
-
-            $a = DB::insert('deploy')->set(array(
-                        'repository' => $i['repo'],
-                        'username' => ($i['username']) ? $i['username'] : '',
-                        'name' => $i['name'],
-                        'password' => ($i['password']) ? $i['password'] : '',
-                        'user_id' => $user_id,
-                        'ftp' => serialize($ftp),
-                        'key' => $i['key'],
-                        'cloned' => false,
-                        'deployed' => false,
-                        'lastdeploy' => false,
-                        'status' => 'Not initialized',
-                        'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
-                    ))->execute();
-
-            if ($a[1] !== 0) {
-                echo json_encode(array(
-                    'status' => true,
-                    'request' => $i
-                ));
-            }
-        } else {
+        if ($a[1] !== 0) {
             echo json_encode(array(
-                'status' => false,
-                'request' => $i,
-                'reason' => 'A deploy with same name already exist'
+                'status' => true,
+                'request' => $i
             ));
         }
     }
@@ -130,19 +123,36 @@ class Controller_Api_Deploy extends Controller {
 
         $user_id = Auth::get_user_id()[1];
         $deploy = new Model_Deploy();
+
+        /*
+         * set repohome.
+         */
         $repohome = DOCROOT . 'fuel/repository';
+
+        /*
+         * get repo data.
+         */
         $repo = $deploy->get($id)[0];
+
+        /*
+         * maintain log.
+         */
         $log = array();
+
         $record = new Model_Record();
 
+        /*
+         * insert record to maintain.
+         */
         $record_id = $record->insert(array(
             'deploy_id' => $repo['id'],
-            'status' => 'working',
+            'status' => 'Working',
             'triggerby' => 'user',
+            'date' => time(),
         ));
 
         $deploy->set($id, array(
-            'status' => 'First deploy: Cloning..'
+            'status' => 'cloning'
         ));
 
         try {
@@ -154,16 +164,16 @@ class Controller_Api_Deploy extends Controller {
         $userdir = $repohome . '/' . $user_id;
 
         try {
-            File::read_dir($userdir . '/' . $repo['name']);
+            File::read_dir($userdir . '/' . $repo['id']);
         } catch (Exception $ex) {
-            File::create_dir($userdir, $repo['name'], 0755);
+            File::create_dir($userdir, $repo['id'], 0755);
         }
 
-        $repodir = $userdir . '/' . $repo['name'];
+        $repodir = $userdir . '/' . $repo['id'];
 
         chdir($userdir);
 
-        exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['name']);
+        exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id']);
 
         $a = File::read_dir($repodir);
 
@@ -179,8 +189,16 @@ class Controller_Api_Deploy extends Controller {
 
             $deploy->set($id, array(
                 'cloned' => false,
-                'status' => 'Not initialized'
+                'status' => 'to be initialized',
+                'deployed' => false,
+                'cloned' => false,
             ));
+
+            $record->set($record_id, array(
+                'status' => false,
+            ));
+
+            return;
         } else {
 
             $log['clone'] = 'Successfully cloned repository.';
@@ -188,7 +206,7 @@ class Controller_Api_Deploy extends Controller {
 
             $deploy->set($id, array(
                 'cloned' => true,
-                'status' => 'First deploy: Uploading..'
+                'status' => 'uploading'
             ));
         }
 
@@ -212,14 +230,23 @@ class Controller_Api_Deploy extends Controller {
         );
 
         $gitcore->revision = '';
-        $gitcore->startDeploy();
-        
+
+        try {
+            $gitcore->startDeploy();
+        } catch (Exception $ex) {
+            array_push($log, $gitcore->log);
+            $record->set($record_id, array(
+                'raw' => serialize($log),
+                'status' => false,
+            ));
+            return ;
+        }
+
         array_push($log, $gitcore->log);
 
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => true,
-            'date' => time(),
         ));
 
         $ftp_data = $repo['ftpdata'];

@@ -818,7 +818,7 @@ class Gitcore {
 
         if (count($files['delete']) > 0) {
             $this->output("   <red>Files that will be deleted in next deployment:");
-            
+
             foreach ($files['delete'] as $file_to_delete) {
                 $this->output("      " . $file_to_delete);
             }
@@ -845,9 +845,8 @@ class Gitcore {
             $this->connection = $connection;
         } catch (\Exception $e) {
 //            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
-            echo 'error: ' . $e->getMessage();
+            $this->log['ftpconnecterror'] = $e->getMessage();
             // If we could not connect, what's the point of existing
-            die();
         }
     }
 
@@ -880,19 +879,19 @@ class Gitcore {
         unset($files);
 
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed
-        $this->log['deleting']= array();
+        $this->log['deleting'] = array();
         foreach ($filesToDelete as $fileNo => $file) {
 
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
             $this->log['deleting'][$fileNo] = "removed $fileNo of $numberOfFilesToDelete {$file}";
         }
 
         // Upload Files
-        $this->log['uploading']= array();
+        $this->log['uploading'] = array();
         foreach ($filesToUpload as $fileNo => $file) {
             if ($this->currentSubmoduleName)
                 $file = $this->currentSubmoduleName . '/' . $file;
@@ -949,9 +948,9 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
-            
+
             $this->log['uploading'][$fileNo] = "^ $fileNo of $numberOfFilesToUpdate {$file}";
         }
 
@@ -995,7 +994,7 @@ class Gitcore {
             $localRevision = $this->sync;
         }
         $consoleMessage = "Updating remote revision file to " . $localRevision;
-        
+
         if ($this->sync) {
             $this->output("\r\n<yellow>SYNC: $consoleMessage");
         } else {

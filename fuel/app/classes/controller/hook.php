@@ -35,8 +35,8 @@ class Controller_Hook extends Controller {
             'triggerby' => $i->pusher->name,
             'avatar_url' => $i->sender->avatar_url,
             'post_data' => serialize($i),
-            'commits_count' => count($i->commits),
-            ''
+            'commit_count' => count($i->commits),
+            'commit_desc'
         ));
 
         DB::insert('test')->set(array(

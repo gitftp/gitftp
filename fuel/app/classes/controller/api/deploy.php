@@ -300,7 +300,8 @@ class Controller_Api_Deploy extends Controller {
             'amount_deployed' => $log['gitftpop']['deployed']['human'],
             'deployed_bytes' => $log['gitftpop']['deployed']['data'],
             'file_add' => count($log['gitftpop']['files']['upload']),
-            'file_remove' => count($log['gitftpop']['files']),
+            'file_remove' => count($log['gitftpop']['files']['delete']),
+            'file_remove' => count($log['gitftpop']['files']['delete']),
         ));
 
         $ftp_data = $repo['ftpdata'];

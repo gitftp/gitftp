@@ -17,9 +17,9 @@ define([
             var $this = $(e.currentTarget);
             e.preventDefault();
 
-            $this.find('select, input').attr('readonly', true);
+            $this.find('select, input, button').attr('readonly', true);
             $.post(base + 'api/deploy/edit/' + that.id, $this.serializeArray(), function (data) {
-                $this.find('select, input').removeAttr('readonly');
+                $this.find('select, input, button').removeAttr('readonly');
                 data = JSON.parse(data);
 
                 if (data.status) {

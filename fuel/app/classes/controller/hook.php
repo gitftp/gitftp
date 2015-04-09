@@ -13,35 +13,35 @@ class Controller_Hook extends Controller {
         }
 
         $check = DB::select('key')->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
-                ->execute()->as_array();
-        
-        if(count($check) == 0){
+                        ->execute()->as_array();
+
+        if (count($check) == 0) {
             die('No such user or deploy found.');
-        }else{
-            if($key != $check[0]['key']){
+        } else {
+            if ($key != $check[0]['key']) {
                 die('The key provided doesnt match');
             }
         }
 
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
-        
+
         $record = new Model_Record();
-        
+
         list($record_id, $asd) = DB::insert('records')->set(array(
-            'deploy_id' => (int) $deploy_id,
-            'user_id' => (int) $user_id,
-            'status' => 2,
-            'date' => time(),
-            'triggerby' => $i->pusher->name,
-            'avatar_url' => $i->sender->avatar_url,
-            'post_data' => serialize($i),
-            'commit_count' => count($i->commits),
-            'commit_message' => $i->commits[0]->message
-        ))->execute();
-        
-        $repo = DOCROOT.'fuel/repository/'.$user_id.'/'.$deploy_id
-        
+                    'deploy_id' => (int) $deploy_id,
+                    'user_id' => (int) $user_id,
+                    'status' => 2,
+                    'date' => time(),
+                    'triggerby' => $i->pusher->name,
+                    'avatar_url' => $i->sender->avatar_url,
+                    'post_data' => serialize($i),
+                    'commit_count' => count($i->commits),
+                    'commit_message' => $i->commits[0]->message
+                ))->execute();
+
+        $repo = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
+
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])
         ))->execute();

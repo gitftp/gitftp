@@ -25,7 +25,7 @@ class Controller_Hook extends Controller {
 
         $i = $_REQUEST['payload'];
         
-//        $i['']
+        $i['']
         
 //        $record = new Model_Record();
 //        $record_id = $record->insert(array(
@@ -45,9 +45,7 @@ class Controller_Hook extends Controller {
     public function action_get() {
         echo '<pre>';
         $a = DB::select()->from('test')->execute()->as_array();
-        $a = json_decode(unserialize($a[1]['test']));
-        
-        echo $a->ref;
+        print_r(json_decode(unserialize($a[1]['test'])));
     }
 
 }

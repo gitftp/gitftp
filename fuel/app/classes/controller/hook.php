@@ -56,6 +56,7 @@ class Controller_Hook extends Controller {
         $ftp = unserialize($repo['ftp']);
         
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
+        $ftpdata = $ftpdata[0];
         
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');

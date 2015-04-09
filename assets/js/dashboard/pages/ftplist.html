@@ -13,7 +13,16 @@
 <table class="table table-condensed table-hover">
     <tr>
         <th>
+            Scheme
+        </th>
+        <th>
             Host
+        </th>
+        <th>
+            Port
+        </th>
+        <th>
+            Path
         </th>
         <th>
             Username
@@ -22,38 +31,29 @@
             Password
         </th>
         <th>
-            Scheme
-        </th>
-        <th>
-            Path
-        </th>
-        <th>
-            Port
-        </th>
-        <th>
-
+            
         </th>
     </tr>
     <% $.each(list, function(i, a){ %>
 
     <tr>
         <td>
-            <%= a.host  %>
-        </td>
-        <td>
-            <%= a.username  %>
-        </td>
-        <td>
-            <%= a.pass  %>
-        </td>
-        <td>
             <%= a.scheme  %>
+        </td>
+        <td>
+            <%= a.host  %>
         </td>
         <td>
             <%= a.path  %>
         </td>
         <td>
             <%= a.port  %>
+        </td>
+        <td>
+            <%= a.username  %>
+        </td>
+        <td>
+            <%= a.pass  %>
         </td>
         <td>
             <a href="#ftp/edit/<%= a.id %>" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;

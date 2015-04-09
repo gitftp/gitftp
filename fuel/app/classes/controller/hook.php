@@ -25,6 +25,7 @@ class Controller_Hook extends Controller {
 
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
+        $log = array();
 
         $record = new Model_Record();
 
@@ -44,7 +45,6 @@ class Controller_Hook extends Controller {
         
         chdir($repo_dir);
         
-        $log = array();
         
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

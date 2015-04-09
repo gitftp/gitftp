@@ -90,7 +90,7 @@ define([
                 title: 'Raw Output',
                 content: '<pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 animation: 'scale',
-                confirmButton: 'Amazing!'
+                confirmButton: 'Amazin!'
             });
         },
         priCheck: function (e) {

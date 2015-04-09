@@ -93,6 +93,7 @@ class Controller_Hook extends Controller {
 
         
         $log['gitftpop'] = $gitcore->log;
+        print_r($log);
         
         $record->set($record_id, array(
             'raw' => serialize($log),
@@ -105,7 +106,7 @@ class Controller_Hook extends Controller {
         ));
         
         $ftp['revision'] = $gitcore->currentRevision();
-
+        
         $deploy->set($deploy_id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),

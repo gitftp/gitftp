@@ -101,8 +101,8 @@ class Controller_Hook extends Controller {
             'file_remove' => serialize($log['gitftpop']['files']['delete']),
             'file_skip' => serialize($log['gitftpop']['files']['skip']),
         ));
-
-        $ftp_data['revision'] = $gitcore->currentRevision();
+        
+        $ftp['revision'] = $gitcore->currentRevision();
 
         $deploy->set($id, array(
             'deployed' => true,

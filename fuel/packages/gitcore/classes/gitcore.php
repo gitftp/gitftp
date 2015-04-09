@@ -605,13 +605,13 @@ class Gitcore {
 
 //        if ($this->connection->exists($this->dotRevision)) {
             if(empty($this->revision)){
-                
-            }
                 $remoteRevision = $this->revision;
-            $this->log['lastrevision'] = $remoteRevision;
+                $this->log['lastrevision'] = $remoteRevision;
+            }else{
+                $this->log['lastrevision'] = 'No last revision found, fresh deployment';
+            }
 //        } else {
 //            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
-            $this->log['lastrevision'] = 'No last revision found, fresh deployment';
 //        }
 
         // Use git to list the changed files between $remoteRevision and $localRevision

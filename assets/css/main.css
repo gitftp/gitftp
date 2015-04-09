@@ -118,5 +118,5 @@ h6 {
 }
 .active-cs {
   background: #f8f8f8;
-  color: #ef3d37;
+  color: #ef3d37 !important;
 }

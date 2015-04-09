@@ -12,7 +12,7 @@ class Controller_Hook extends Controller {
             die('Something is missing');
         }
 
-        $check = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
+        $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
 
         if (count($check) == 0) {

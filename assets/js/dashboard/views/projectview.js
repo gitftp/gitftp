@@ -89,7 +89,8 @@ define([
             window.$a = $.alert({
                 title: 'Raw Output',
                 content: '<pre>' + JSON.stringify(raw, null, 2) + '</pre>',
-                animation: 'scale'
+                animation: 'scale',
+                confirmButton: 'Amazing!'
             });
         },
         priCheck: function (e) {

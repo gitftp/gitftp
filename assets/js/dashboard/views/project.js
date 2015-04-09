@@ -21,7 +21,6 @@ define([
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
 
-
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
 
                         $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);

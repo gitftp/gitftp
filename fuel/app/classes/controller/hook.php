@@ -24,15 +24,15 @@ class Controller_Hook extends Controller {
         }
 
         
-//        $record = new Model_Record();
-//        $record_id = $record->insert(array(
-//            'deploy_id' => $deploy_id,
-//            'user_id' => $user_id,
-//            'status' => 2,
-//            'date' => time(),
-//            'triggerby' => 'GitHub',
-//            'post_data' => serialize($_REQUEST['payload']),
-//        ));
+        $record = new Model_Record();
+        $record_id = $record->insert(array(
+            'deploy_id' => $deploy_id,
+            'user_id' => $user_id,
+            'status' => 2,
+            'date' => time(),
+            'triggerby' => 'GitHub',
+            'post_data' => serialize($_REQUEST['payload']),
+        ));
 
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

@@ -21,7 +21,6 @@ class Controller_Hook extends Controller {
             'date' => date(),
             'triggerby' => 'asd',
             'post_data' => serialize($_REQUEST['payload']),
-            
         ));
         
         

@@ -22,6 +22,7 @@ class Controller_Hook extends Controller {
     }
     
     public function action_get(){
+        echo '<pre>';
         
     }
 }

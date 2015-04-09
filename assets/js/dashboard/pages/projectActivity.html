@@ -37,6 +37,8 @@
     <% $.each(activity.data, function(i, a){ %>
     <%= JSON.stringify(a, null, 5) %>
     <tr>
+        <%%>
+        
         <td>
             <i class="fa fa-<%= (a.status) ? 'check' : 'times' %> fa-fw" style="<%= (a.status) ? 'color:#4cd964' : 'color:#ff3b30' %> "></i>
         </td>

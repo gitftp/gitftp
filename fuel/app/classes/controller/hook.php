@@ -14,7 +14,7 @@ class Controller_Hook extends Controller {
         }
         
         $record = new Model_Record();
-        
+        $record->insert()
         
         
         DB::insert('test')->set(array(

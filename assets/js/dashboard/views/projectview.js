@@ -152,8 +152,9 @@ define([
                         'ftplist': data.data
                     });
                     $('.deploy-sub-page').html(subPage);
-                    
-                    $('[data-toggle="tooltip"]').tooltip();
+                    setTimeout(function(){
+                        $('[data-toggle="tooltip"]').tooltip();
+                    })
                 });
             }
         },

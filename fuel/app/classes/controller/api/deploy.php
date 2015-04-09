@@ -221,10 +221,11 @@ class Controller_Api_Deploy extends Controller {
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
         
         $a = File::read_dir($repodir);
+        
+        $log['cloneOP'] = $gitcloneop;
 
         if (count($a) == 0) {
             
-            $log['cloneOP'] = $gitcloneop;
             $log['clone'] = 'Error while cloning repository.';
             $log['clone_status'] = false;
 

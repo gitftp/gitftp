@@ -297,6 +297,7 @@ class Controller_Api_Deploy extends Controller {
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => 1,
+            'amount_deployed' => 
         ));
 
         $ftp_data = $repo['ftpdata'];

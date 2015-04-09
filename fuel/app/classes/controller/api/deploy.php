@@ -298,7 +298,7 @@ class Controller_Api_Deploy extends Controller {
             'raw' => serialize($log),
             'status' => 1,
             'amount_deployed' => $log['gitftpop']['deployed']['human'],
-            'deployed_bytes' => $log['gitftpop']['deployed']['human'],
+            'deployed_bytes' => $log['gitftpop']['deployed']['data'],
             
         ));
 

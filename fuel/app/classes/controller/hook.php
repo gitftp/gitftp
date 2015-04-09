@@ -48,7 +48,7 @@ class Controller_Hook extends Controller {
         
         exec('git pull --rebase --depth=1', $cmdpull);
         $log['pull'] = $cmdpull;
-        exec('git fetch --all');
+        exec('git fetch --all', $cmdfetch);
         
         
         DB::insert('test')->set(array(

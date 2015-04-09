@@ -127,7 +127,6 @@ class Controller_Api_Deploy extends Controller {
          * FTP setup,
          * initial revision to empty.
          */
-        
         $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
         if($a[0]['user_id'] == $user_id){
             

@@ -30,7 +30,7 @@ define([
                 
                 if (data.status) {
                     $.alert({
-                        title: 'Updated!',
+                        title: 'Updated! '+data.request.name,
                         content: 'The configuration was updated.'
                     });
                     Backbone.history.loadUrl();

@@ -38,7 +38,7 @@ class Model_Record extends Model {
         $r = $q->order_by('id', 'DESC')->execute()->as_array();
         
         foreach ($r as $key => $value) {
-//            $r[$key]['raw'] = unserialize($r[$key]['raw']);
+            $r[$key]['raw'] = unserialize($r[$key]['raw']);
             $r[$key]['date'] = Date::time_ago($r[$key]['date']);
         }
         

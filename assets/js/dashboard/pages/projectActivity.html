@@ -67,8 +67,8 @@
             <%= a.amount_deployed %>
         </td>
         <td>
-            <span><i class="fa fa-plus fa-fw"></i> <%= a.file_add.length %></span> &nbsp;
-            <span><i class="fa fa-minus fa-fw"></i> <%= a.file_remove.length %></span>
+            <span><i class="fa fa-plus fa-fw" data-toggle="tooltip" data-placement="left" title="Edit"></i> <%= a.file_add.length %></span> &nbsp;
+            <span><i class="fa fa-minus fa-fw" data-toggle="tooltip" data-placement="left" title="Edit"></i> <%= a.file_remove.length %></span>
         </td>
         <td>
             <a href="#" class="watchRawData" data-id="<%= a.id %>" title="View raw console data">

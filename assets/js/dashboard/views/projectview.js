@@ -24,7 +24,7 @@ define([
                     data = JSON.parse(data);
                 }catch(e){
                     noty({
-                        
+                        text: 'something bad happened'
                     })
                 }
                 

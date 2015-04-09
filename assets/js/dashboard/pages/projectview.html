@@ -14,23 +14,7 @@
 <p style="color: #aaa">
     <%= s.repository %>
 </p>
-
-<div class="">
-    <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
-
-    <% if(s.ftpdata.revision){ %>
-    <br>
-    <strong>Revision on <%= s.ftp[0].host %>:</strong> <%= s.ftpdata.revision %>
-    <% } %>
-
-    <div class="pull-right">
-        <% if(s.cloned == 0){ %>
-        <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Cloned</strong> | 
-        <% } %>
-        <strong><i class="fa fa-<%= (s.deployed == 0) ?  'times' : 'check' %>"></i> Deployed</strong>
-    </div>
-</div>
-
+<div style="height: 10px;"></div>
 <div class="row">
     <div class="col-md-3">
         <div class="list-group">
@@ -47,6 +31,23 @@
 
     </div>
     <div class="col-md-9">
+
+        <div class="well well-sm well-cs">
+            <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
+
+            <% if(s.ftpdata.revision){ %>
+            <br>
+            <strong>Revision on <%= s.ftp[0].host %>:</strong> <%= s.ftpdata.revision %>
+            <% } %>
+
+            <div class="pull-right">
+                <% if(s.cloned == 0){ %>
+                <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Cloned</strong> | 
+                <% } %>
+                <strong><i class="fa fa-<%= (s.deployed == 0) ?  'times' : 'check' %>"></i> Deployed</strong>
+            </div>
+        </div>
+        
         <div class="deploy-sub-page bb-loading"></div>
     </div>
 </div>

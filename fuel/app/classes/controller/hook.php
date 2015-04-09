@@ -63,12 +63,12 @@ class Controller_Hook extends Controller {
         $gitcore->repo = $repo_dir;
 
         $gitcore->ftp = array(
-            'scheme' => $ftp['scheme'],
-            'host' => $ftp['host'],
-            'user' => $ftp['username'],
-            'pass' => $ftp['pass'],
-            'port' => $ftp['port'],
-            'path' => $ftp['path'],
+            'scheme' => $ftpdata['scheme'],
+            'host' => $ftpdata['host'],
+            'user' => $ftpdata['username'],
+            'pass' => $ftpdata['pass'],
+            'port' => $ftpdata['port'],
+            'path' => $ftpdata['path'],
             'passive' => true,
             'skip' => array(),
             'purge' => array()

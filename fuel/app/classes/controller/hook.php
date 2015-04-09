@@ -48,6 +48,8 @@ class Controller_Hook extends Controller {
         
         exec('git pull --rebase --depth=1', $cmdpull);
         $log['pull'] = $cmdpull;
+        exec('git fetch --all');
+        
         
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

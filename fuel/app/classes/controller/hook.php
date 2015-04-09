@@ -32,7 +32,7 @@ class Controller_Hook extends Controller {
             'user_id' => $user_id,
             'status' => 2,
             'date' => time(),
-            'triggerby' => $i[''],
+            'triggerby' => $i->pusher->name,
             'post_data' => serialize($i),
         ));
 

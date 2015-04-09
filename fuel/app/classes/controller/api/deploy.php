@@ -143,7 +143,7 @@ class Controller_Api_Deploy extends Controller {
                 'password' => (empty($i['password'])) ? '' : $i['password'],
                 'key' => $i['key'],
                 'ftp' => serialize($ftp)
-            ));
+            ))->execute();
             
             if ($b[1] !== 0) {
                 echo json_encode(array(

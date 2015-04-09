@@ -128,6 +128,11 @@ class Controller_Api_Deploy extends Controller {
          * initial revision to empty.
          */
         
+        print_r($i);
+        
+        $ftp = array(
+            'production' => $i['ftp-production'],
+        );
         
         if ($a[1] !== 0) {
             echo json_encode(array(

@@ -18,21 +18,21 @@ class Controller_Hook extends Controller {
         if(count($check) == 0){
             die('No such user or deploy found.');
         }else{
-            
-            if()
-            
+            if($key != $check[0]['key']){
+                die('The key provided doesnt match');
+            }
         }
 
-
-        $record = new Model_Record();
-        $record_id = $record->insert(array(
-            'deploy_id' => $deploy_id,
-            'user_id' => $user_id,
-            'status' => 2,
-            'date' => date(),
-            'triggerby' => 'GitHub',
-            'post_data' => serialize($_REQUEST['payload']),
-        ));
+        
+//        $record = new Model_Record();
+//        $record_id = $record->insert(array(
+//            'deploy_id' => $deploy_id,
+//            'user_id' => $user_id,
+//            'status' => 2,
+//            'date' => date(),
+//            'triggerby' => 'GitHub',
+//            'post_data' => serialize($_REQUEST['payload']),
+//        ));
 
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST['payload'])

@@ -10,7 +10,10 @@ class Controller_Hook extends Controller {
         
         if($user_id == null || $deploy_id == null || $key == null){
             echo '404 brother';
+            return ;
         }
         
+        if()
+            
     }
 }

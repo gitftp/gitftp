@@ -53,7 +53,7 @@ class Controller_Hook extends Controller {
         exec('git reset --hard origin/master', $cmdreset);
         $log['reset'] = $cmdreset;
         
-        $ftp = $repo;
+        $ftp = unserialize($repo['ftp']);
         
         $gitcore = new gitcore();
         $gitcore->action = array('deploy');

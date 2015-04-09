@@ -603,13 +603,13 @@ class Gitcore {
         // Fetch the .revision file from the server and write it to $tmpFile
         $this->ftpDebug("Fetching {$this->dotRevision} file");
 
-        if ($this->connection->exists($this->dotRevision)) {
+//        if ($this->connection->exists($this->dotRevision)) {
             $remoteRevision = $this->connection->get($this->dotRevision);
             $this->log['lastrevision'] = $remoteRevision;
-        } else {
-            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
+//        } else {
+//            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
             $this->log['lastrevision'] = 'No last revision found, fresh deployment';
-        }
+//        }
 
         // Use git to list the changed files between $remoteRevision and $localRevision
         // "-c core.quotepath=false" in command fixes special chars issue like ë, ä or ü in file names

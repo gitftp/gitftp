@@ -23,6 +23,6 @@ class Controller_Hook extends Controller {
     
     public function action_get(){
         echo '<pre>';
-        echo DB::select()->from('test')->execute()->as_array();
+        print_r(DB::select()->from('test')->execute()->as_array());
     }
 }

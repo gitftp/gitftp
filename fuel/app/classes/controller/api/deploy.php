@@ -129,7 +129,6 @@ class Controller_Api_Deploy extends Controller {
          */
         $ftp = array(
             'production' => $i['ftp-production'],
-            'revision' => ''
         );
 
         $a = DB::insert('deploy')->set(array(

@@ -7,6 +7,6 @@ class Controller_Hook extends Controller {
     }
     
     public function action_i($user_id, $deploy_id, $key){
-        asdas
+        echo 'asd';
     }
 }

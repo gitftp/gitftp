@@ -17,7 +17,7 @@ class Controller_Api_Records extends Controller {
         print_r($data);
         
         foreach ($data as $k => $v) {
-            $data[0]['file_']
+            $data[$k]['file_']
         }
         
         echo json_encode(array(

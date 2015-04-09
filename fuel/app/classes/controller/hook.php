@@ -24,7 +24,7 @@ class Controller_Hook extends Controller {
     public function action_get(){
         echo '<pre>';
         $a = DB::select()->from('test')->execute()->as_array();
-        
+        print_r($a);
 //        print_r(unserialize());
     }
 }

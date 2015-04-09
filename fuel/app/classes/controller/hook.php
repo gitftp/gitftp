@@ -107,7 +107,7 @@ class Controller_Hook extends Controller {
         $deploy->set($id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
-            'ftp' => serialize($ftp_data),
+            'ftp' => serialize($ftp),
             'status' => 'Idle',
             'ready' => 1
         ));

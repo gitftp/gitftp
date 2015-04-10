@@ -215,12 +215,15 @@ class Controller_Api_Deploy extends Controller {
         $userdir = $repohome . '/' . $user_id;
 
         try {
+            
             $log['repo_dir'] = "Created user dir at $repohome / $user_id";
             File::read_dir($userdir . '/' . $repo['id']);
             
         } catch (Exception $ex) {
+            
             File::create_dir($userdir, $repo['id'], 0755);
             $log['repo_dir'] = "Created user dir at $repohome / $user_id";
+            
         }
 
         $repodir = $userdir . '/' . $repo['id'];

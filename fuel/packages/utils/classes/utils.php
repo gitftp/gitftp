@@ -12,6 +12,7 @@ class utils {
 //    [path] => 
 //    [port] => 
 //)
+        
         $b = array(
             'hostname' => $a['host'],
             'username' => $a['username'],
@@ -19,7 +20,7 @@ class utils {
             'timeout' => 120,
             'port' => $a['port'],
             'passive' => true,
-            'ssl_mode' => false,
+            'ssl_mode' => ,
             'debug' => false
         );
         $c = Ftp::forge(array(

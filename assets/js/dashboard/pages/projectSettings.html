@@ -7,7 +7,7 @@
     <label for="add-repo">GIT REPOSITORY</label>
     <input type="text" name="repo" id="add-repo" <%= (s.ready == 0) ?  '' : 'readonly="readonly"' %> placeholder="link to repo .git" class="form-control" value="<%= s.repository %>" required>
     <p class="help-block">
-        <%= (s.ready == 0) ? 'You cannot change the repo URL after you do a fresh deploy.' : 'Repository is deployed and URL cannot be changed.' %>
+        <%= (s.ready == 0) ? 'You cannot change the repo URL after you do a fresh deploy.' : 'Repository is deployed and URL cannot be altered.' %>
     </p>
 </div>
 <div class="form-group">

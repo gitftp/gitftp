@@ -122,40 +122,40 @@ class Controller_Api_Deploy extends Controller {
 
         $i = Input::post();
         $user_id = Auth::get_user_id()[1];
-        
+
         /*
          * FTP setup,
          * initial revision to empty.
          */
         $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
-        if($a[0]['user_id'] == $user_id){
-            
+        if ($a[0]['user_id'] == $user_id) {
+
             $ftp = unserialize($a[0]['ftp']);
             $ftp['production'] = $i['ftp-production'];
-            
+
             $b = DB::update('deploy')->set(array(
-                'repository' => $i['repo'],
-                'name' => $i['name'],
-                'username' => (empty($i['username'])) ? '' : $i['username'],
-                'password' => (empty($i['password'])) ? '' : $i['password'],
-                'key' => $i['key'],
-                'ftp' => serialize($ftp)
-            ))->where('id', $id)->execute();
-            
+                        'repository' => $i['repo'],
+                        'name' => $i['name'],
+                        'username' => (empty($i['username'])) ? '' : $i['username'],
+                        'password' => (empty($i['password'])) ? '' : $i['password'],
+                        'key' => $i['key'],
+                        'ftp' => serialize($ftp)
+                    ))->where('id', $id)->execute();
+
             if ($b[1] !== 0) {
                 echo json_encode(array(
                     'status' => true,
                     'request' => $i
                 ));
-            }else{
-                
+            } else {
+
                 echo json_encode(array(
                     'status' => false,
                     'request' => $i,
                     'reason' => 'Failed to update deploy configuration, please try again.'
                 ));
             }
-        }else{
+        } else {
             return 'you are not permitted to do that';
         }
     }
@@ -219,13 +219,13 @@ class Controller_Api_Deploy extends Controller {
         chdir($userdir);
 
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
-        
+
         $a = File::read_dir($repodir);
-        
+
         $log['cloneOP'] = $gitcloneop;
 
         if (count($a) == 0) {
-            
+
             $log['clone'] = 'Error while cloning repository.';
             $log['clone_status'] = false;
 
@@ -247,7 +247,6 @@ class Controller_Api_Deploy extends Controller {
             ));
 
             return;
-            
         } else {
 
             $log['clone'] = 'Successfully cloned repository.';
@@ -263,6 +262,28 @@ class Controller_Api_Deploy extends Controller {
         // ftp upload here.
 
         $gitcore = new gitcore();
+        
+        $gitcore->options = array(
+            'repo' => DOCROOT . 'fuel/repository/228/49',
+            'debug' => true,
+            'server' => 'default',
+            'ftp' => array(
+                'default' => array(
+                    'scheme' => 'ftps',
+                    'host' => 'craftpip.com',
+                    'user' => 'craftrzt',
+                    'pass' => '6?1Hj8I9k8a3',
+                    'port' => '21',
+                    'path' => '/testrepo',
+                    'passive' => true,
+                    'skip' => array(),
+                    'purge' => array(),
+                )
+            ),
+            'revision' => '',
+        );
+
+        // old
         $gitcore->action = array('deploy');
         $gitcore->repo = $repodir;
 
@@ -277,13 +298,14 @@ class Controller_Api_Deploy extends Controller {
             'skip' => array(),
             'purge' => array()
         );
-
         $gitcore->revision = '';
+        // old end
+
 
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {
-            
+
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
                 'raw' => serialize($log),

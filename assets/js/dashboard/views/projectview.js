@@ -46,7 +46,7 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                setTimeout(function () {
+                this.process = setTimeout(function () {
                     that.updateViewProcess(id);
                 }, 1000);
             } else {

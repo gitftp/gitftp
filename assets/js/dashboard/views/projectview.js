@@ -140,7 +140,7 @@ define([
                 if (data.status) {
                     $.alert({
                         title: 'Deploy complete!',
-                        content: 'Your repository files are successfully deployed, <br>Dont forget to add the POST hook to your git host provider.'
+                        content: 'Your repository files are successfully deployed, <br>Don\'t forget to add the POST hook to your git host provider.'
                     });
                     Backbone.history.loadUrl();
                 } else {

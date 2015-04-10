@@ -46,7 +46,7 @@ class Model_Record extends Model {
      * 
      * @param type $ar
      */
-    public function set($id, $set = array()) {
+    public function set($id, $set = array(), direct) {
 
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 

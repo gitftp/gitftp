@@ -30,7 +30,7 @@ class utils {
         try{
             $c->change_dir($a['path']);
         } catch (Exception $ex) {
-
+            return $ex->getMessage()
         }
         
         $c->close();

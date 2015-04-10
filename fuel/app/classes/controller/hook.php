@@ -122,7 +122,7 @@ class Controller_Hook extends Controller {
             'file_add' => serialize($log['gitftpop']['gitftpop']['files']['upload']),
             'file_remove' => serialize($log['gitftpop']['gitftpop']['files']['delete']),
             'file_skip' => serialize($log['gitftpop']['gitftpop']['files']['skip']),
-        ), false);
+        ), true);
         
         $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
         echo '------------';
@@ -135,7 +135,7 @@ class Controller_Hook extends Controller {
             'ftp' => serialize($ftp),
             'status' => 'Idle',
             'ready' => 1
-        ));
+        ), true);
     }
 
     public function action_get() {

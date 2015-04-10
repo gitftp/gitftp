@@ -31,7 +31,9 @@ class Controller_Api_Ftp extends Controller {
     }
 
     public function action_testftp($id){
-        
+        if($id == null){
+            
+        }
     }
     
     /**

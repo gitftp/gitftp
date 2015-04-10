@@ -419,9 +419,8 @@ class gitcore
             'purge' => array()
         );
         
-        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
-        
-        $servers = $this->parseCredentials($ini);
+//        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
+//        $servers = $this->parseCredentials($ini);
         
         foreach ($servers as $name => $options) {
 

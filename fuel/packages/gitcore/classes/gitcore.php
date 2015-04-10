@@ -422,7 +422,7 @@ class gitcore
         $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
         
         $servers = $this->parseCredentials($ini);
-        
+        echo '<pre>';
         print_r($servers);
         die();
         foreach ($servers as $name => $options) {

@@ -10,7 +10,7 @@ window.app = {
 require([
     "router",
     "process"
-], function (router) {
+], function (router, process) {
 
     window.Router = new router.router();
 

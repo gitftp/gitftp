@@ -419,9 +419,12 @@ class gitcore
             'purge' => array()
         );
         
-//        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
-//        $servers = $this->parseCredentials($ini);
+        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
+        $servers = $this->parseCredentials($ini);
+        
+        print_r($servers);
         $servers = $this->options['ftp'];
+        print_r($servers);
         
         foreach ($servers as $name => $options) {
 

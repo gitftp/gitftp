@@ -146,7 +146,7 @@ define([
                 } else {
                     $.alert({
                         title: 'Problem',
-                        content: 'There was a problem. RUN FOR YOUR LIFE!!!!'
+                        content: data.reason
                     });
                     $this.html(f);
                 }

@@ -209,7 +209,8 @@ class gitcore
     public $options = array(
         'debug' => 'true',
 //        'version' => 'true',
-        'list' => 'true',
+//        'list' => 'true',
+        'server' => 'true',
     );
     
     /**

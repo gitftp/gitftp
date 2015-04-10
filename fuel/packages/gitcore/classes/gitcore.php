@@ -683,7 +683,6 @@ class Gitcore {
     public function deploy($revision = 'HEAD') {
         $this->prepareServers();
 
-        // Loop through all the servers in deploy.ini
         foreach ($this->servers as $name => $server) {
 
             $this->currentlyDeploying = $name;

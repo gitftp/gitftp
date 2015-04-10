@@ -231,7 +231,7 @@ class Gitcore {
              * get current local version hash
              */
             $this->localRevision = $this->currentRevision();
-            $this->log['ftpRevision'] = 'ftp hash: ' . $this->localRevision;
+            $this->log['ftpRevision'] = 'ftp hash: ' . $this->revision;
             $this->log['localRevision'] = 'Deploy ftp to hash: ' . $this->localRevision;
             $this->deploy($this->localRevision);
         } else {

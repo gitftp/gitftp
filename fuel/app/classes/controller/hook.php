@@ -90,7 +90,7 @@ class Controller_Hook extends Controller {
             print_r($log);
             return;
         }
-        
+
         $log['gitftpop'] = $gitcore->log;
         print_r($log);
 

@@ -47,10 +47,9 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                
-                this.process_id = id;
+
             } else {
-                this.process_id = 0;
+                
             }
         },
         updateViewProcess: function (id) {
@@ -59,7 +58,7 @@ define([
                 console.log('here', data);
                 data = data.data[0];
                 $('.project-v-status').html(data.status);
-                
+
                 that.updateView();
             });
         },

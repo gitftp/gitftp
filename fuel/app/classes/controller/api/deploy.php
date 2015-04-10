@@ -202,6 +202,7 @@ class Controller_Api_Deploy extends Controller {
 
         try {
             File::read_dir($repohome . '/' . $user_id);
+            $log['user_dir'] = '';
         } catch (Exception $e) {
             File::create_dir($repohome, $user_id, 0755);
         }
@@ -219,7 +220,7 @@ class Controller_Api_Deploy extends Controller {
         chdir($userdir);
 
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
-
+        
         $a = File::read_dir($repodir);
 
         $log['cloneOP'] = $gitcloneop;

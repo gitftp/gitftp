@@ -671,6 +671,7 @@ class gitcore
         if ($this->server != '' && !array_key_exists($this->server, $this->servers))
             throw new \Exception("The server \"{$this->server}\" is not defined in {$this->deployIniFilename}.");
 
+            
         // Loop through all the servers in deploy.ini
         foreach ($this->servers as $name => $server) {
 

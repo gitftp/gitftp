@@ -56,7 +56,6 @@ class Controller_Hook extends Controller {
         $log['reset'] = $cmdreset;
 
         $ftp = unserialize($repo['ftp']);
-        die();
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
         $ftpdata = $ftpdata[0];
 
@@ -89,6 +88,7 @@ class Controller_Hook extends Controller {
             ));
             return;
         }
+//        die();
 
 
         $log['gitftpop'] = $gitcore->log;

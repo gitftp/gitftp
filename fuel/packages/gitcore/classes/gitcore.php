@@ -739,9 +739,9 @@ class gitcore {
             // Done
             if (!$this->listFiles) {
                 $this->output("".$this->humanFilesize($this->deploymentSize) . " Deployed");
-                $this->deploymentSize = 0;
                 $this->log['gitftpop']['deployed']['data'] = $this->deploymentSize;
                 $this->log['gitftpop']['deployed']['human'] = $this->humanFilesize($this->deploymentSize);
+                $this->deploymentSize = 0;
             }
         }
     }

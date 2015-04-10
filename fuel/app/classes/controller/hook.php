@@ -204,7 +204,7 @@ class gitcore
      * @var bool deployAll
      */
     protected $deployAll = false;
-
+    
     /**
      * Constructor
      */
@@ -1010,6 +1010,7 @@ class gitcore
     public function output($message) 
     {
         echo Ansi::tagsToColors($message) . "\r\n";
+        
     }
 
     /**

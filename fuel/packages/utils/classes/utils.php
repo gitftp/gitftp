@@ -14,7 +14,7 @@ class utils {
 //)
         $b = array(
             'hostname' => $a['host'],
-            'username' => '',
+            'username' => $a['username'],
             'password' => '',
             'timeout' => 120,
             'port' => 21,

@@ -2,10 +2,6 @@
 
 class gitcore
 {
-
-    /**
-     * @var string $phployVersion
-     */
     protected $phployVersion = '3.0.16-stable';
 
     /**

@@ -332,7 +332,16 @@ class Controller_Api_Deploy extends Controller {
 //        $gitcore->revision = '';
         // old end
 
-        
+        $ftp3 = Ftp::forge(array(
+    'hostname' => 'fuelphp.com',
+    'username' => '',
+    'password' => '',
+    'timeout'  => 90,
+    'port'     => 21,
+    'passive'  => true,
+    'ssl_mode' => false,
+    'debug'    => false
+));
 
         try {
             $gitcore->startDeploy();

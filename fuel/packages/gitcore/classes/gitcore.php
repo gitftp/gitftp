@@ -289,7 +289,7 @@ class gitcore {
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
-                $this->output("PHPloy is running in LIST mode. No remote files will be modified.");
+                $this->output("gitftp is running in LIST mode. No remote files will be modified.");
             }
 
             // Submodules are turned off by default

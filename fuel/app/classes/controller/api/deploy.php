@@ -240,7 +240,9 @@ class Controller_Api_Deploy extends Controller {
                 'raw' => serialize($log)
             ));
             $deploy->set($id, array(
-                'status' => 'Idle'
+                'status' => 'Idle',
+                'cloned' => 0,
+                'deployed' => 0,
             ))
             die();
         }

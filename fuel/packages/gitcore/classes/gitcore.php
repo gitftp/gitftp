@@ -426,6 +426,7 @@ class gitcore
         print_r($servers);
 //        $servers = $this->options['ftp'];
         print_r($this->options['ftp']);
+        die();
         
         foreach ($servers as $name => $options) {
 

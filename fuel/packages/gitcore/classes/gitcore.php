@@ -952,6 +952,7 @@ class gitcore {
         }
         $consoleMessage = "Updating remote revision file to " . $localRevision;
         $this->log['gitftpop']['revision'] = $localRevision;
+        
         if ($this->sync) {
             $this->output("SYNC: $consoleMessage");
         } else {

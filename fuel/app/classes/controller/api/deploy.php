@@ -346,7 +346,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => 0,
             ));
             $deploy->set($id, array(
-                ''
+                'cloned' => 0,
             ))
             return;
         }

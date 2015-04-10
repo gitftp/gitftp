@@ -24,7 +24,7 @@ class utils {
             'debug' => true
         );
 
-            $c = Ftp::forge($b);
+        $c = Ftp::forge($b);
         
         $c->change_dir($a['path']);
         

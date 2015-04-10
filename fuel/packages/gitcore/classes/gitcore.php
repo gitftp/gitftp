@@ -737,7 +737,6 @@ class Gitcore {
             }
 
             $files = $this->compare($revision);
-            die();
 
             $this->output("\r\n<white>SERVER: " . $name);
             $this->log['deployon'] = $name;
@@ -746,6 +745,7 @@ class Gitcore {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
                 $this->push($files[$this->currentlyDeploying]);
+                die();
                 // Purge
                 if (isset($this->purgeDirs[$name]) && count($this->purgeDirs[$name]) > 0) {
                     $this->purge($this->purgeDirs[$name]);

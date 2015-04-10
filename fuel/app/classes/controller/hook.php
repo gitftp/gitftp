@@ -61,6 +61,8 @@ class Controller_Hook extends Controller {
         $ftpdata = $ftpdata[0];
 
         $gitcore = new gitcore();
+        
+        
         $gitcore->action = array('deploy');
         $gitcore->repo = $repo_dir;
 
@@ -77,6 +79,7 @@ class Controller_Hook extends Controller {
         );
         $gitcore->revision = $ftp['revision'];
 
+        
         
         try {
             $gitcore->startDeploy();

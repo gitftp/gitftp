@@ -26,7 +26,7 @@ class utils {
         try{
             $c = Ftp::forge($b);
         } catch (Exception $ex) {
-            throw new $ex->getMessage();
+            throw new \Exception("'{$this->repo}' is not Git repository.");
         }
 
     }

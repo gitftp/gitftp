@@ -901,7 +901,6 @@ class Gitcore {
         // Upload Files
         $this->log['uploading'] = array();
         
-        die();
         foreach ($filesToUpload as $fileNo => $file) {
             if ($this->currentSubmoduleName)
                 $file = $this->currentSubmoduleName . '/' . $file;
@@ -935,6 +934,7 @@ class Gitcore {
                 }
             }
 
+        die();
             // Now upload the file, attempting 10 times 
             // before exiting with a failure message
             $uploaded = false;

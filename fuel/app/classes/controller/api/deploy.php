@@ -232,7 +232,11 @@ class Controller_Api_Deploy extends Controller {
         
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
         
-        $a = File::read_dir($repodir);
+        try {
+            $a = File::read_dir($repodir);
+        } catch (Exception $ex) {
+            
+        }
 
         $log['cloneOP'] = $gitcloneop;
 

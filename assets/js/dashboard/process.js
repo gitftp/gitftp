@@ -26,7 +26,10 @@ define([
             var that = this;
             this.process_id = setTimeout(function () {
                 
+                
                 if ($('.is-deploy-view-id').length) {
+                    
+                }
                 
                 that.runProcess();
             }, 1500);

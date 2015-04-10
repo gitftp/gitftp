@@ -687,7 +687,6 @@ class Gitcore {
 
             $this->currentlyDeploying = $name;
 
-
             $this->connect($server);
 
             if ($this->sync) {

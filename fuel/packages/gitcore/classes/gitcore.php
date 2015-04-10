@@ -733,11 +733,11 @@ class Gitcore {
             if ($this->sync) {
                 $this->dotRevision = $this->dotRevisionFilename;
                 $this->setRevision();
-                die();
                 continue;
             }
 
             $files = $this->compare($revision);
+            die();
 
             $this->output("\r\n<white>SERVER: " . $name);
             $this->log['deployon'] = $name;

@@ -12,6 +12,7 @@ define([
         testFtp: function(){
             var form = $('#addftp-form').serializeArray();
             $.post(base+'api/ftp/testftp', form, function(d){
+                d = JSON.parse(d);
                 $.alert({
                     title: 
                 })

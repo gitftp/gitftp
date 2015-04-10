@@ -314,12 +314,12 @@ class Controller_Api_Deploy extends Controller {
 
 
         $ftp_test_data = utils::test_ftp($ftp);
-        if $ftp_test_datas != 'Ftp server is ready to rock.') {
+        if ($ftp_test_data != 'Ftp server is ready to rock.') {
             echo json_encode(array(
                 'status' => false,
-                '$ftp_test_datas' => $a
+                '$ftp_test_datas' => $ftp_test_data
             ));
-            
+
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
                 'raw' => serialize($log),

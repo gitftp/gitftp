@@ -52,7 +52,11 @@ class Bridge {
      * Change directory
      */
     public function cd($directory) {
-        return $this->backend->cd($directory);
+        try{
+            return $this->backend->cd($directory);
+        } catch (Exception $ex) {
+
+        }
     }
 
     /**

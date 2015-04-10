@@ -93,7 +93,7 @@ class Controller_Hook extends Controller {
 
         
         $log['gitftpop'] = $gitcore->log;
-        ech o$gitcore->revision;
+        echo $gitcore->revision;
 //        print_r($log);
         
         $record->set($record_id, array(

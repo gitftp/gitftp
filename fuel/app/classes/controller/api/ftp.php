@@ -35,11 +35,13 @@ class Controller_Api_Ftp extends Controller {
             $a = utils::test_ftp(Input::post());
             if($a == 'Ftp server is ready to rock.'){
                 echo json_encode(array(
-                   'status' => true 
+                   'status' => true,
+                    
                 ));
             }else{
                 echo json_encode(array(
-                   'status' => true 
+                    'status' => false,
+                    'reason' => $a
                 ));
             }
         }

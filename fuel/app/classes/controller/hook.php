@@ -227,7 +227,7 @@ class gitcore
         }
 
         if (isset($options['s']) or isset($options['server'])) {
-            $this->server = isset($options['s']) ? $options['s'] : $options['server'];
+            $this->server = 
         }
 
         if (isset($options['o']) or isset($options['others'])) {

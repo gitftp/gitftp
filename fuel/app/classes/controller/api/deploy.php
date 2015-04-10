@@ -314,6 +314,10 @@ class Controller_Api_Deploy extends Controller {
             'revision' => '',
         );
         
+        
+        utils::test_ftp()
+        
+        
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

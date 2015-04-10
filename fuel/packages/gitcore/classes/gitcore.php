@@ -668,6 +668,7 @@ class gitcore
         $this->prepareServers();
         
         print_r($this->servers);
+        die();
 
         // Exit with an error if the specified server does not exist in deploy.ini
         if ($this->server != '' && !array_key_exists($this->server, $this->servers))

@@ -265,7 +265,7 @@ class gitcore
             $this->deployAll = true;
         }
 
-        $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
+        $this->repo = $options['repo']
         $this->mainRepo = $this->repo;
 
 

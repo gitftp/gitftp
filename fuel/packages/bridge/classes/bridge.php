@@ -64,11 +64,10 @@ class Bridge {
      */
     public function pwd() {
         try{
-            
+            return $this->backend->pwd();
         } catch (Exception $ex) {
-
+           throw new \Exception("No such file or directory.");
         }
-        return $this->backend->pwd();
     }
 
     /**

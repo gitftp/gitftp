@@ -140,7 +140,7 @@ define([
                 if (data.status) {
                     $.alert({
                         title: 'Deploy complete!',
-                        content: 'Your repository files are successfully deployed'
+                        content: 'Your repository files are successfully deployed, <br>'
                     });
                     Backbone.history.loadUrl();
                 } else {

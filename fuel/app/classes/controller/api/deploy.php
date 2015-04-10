@@ -238,7 +238,8 @@ class Controller_Api_Deploy extends Controller {
             $log['dir read failure'] = 'Internal dir read failure.';
             echo json_encode(array('status'=>false));
             $record->set($record_id, array(
-                'status' => 0
+                'status' => 0,
+                'raw' => serialize($log)
             ));
             die();
         }

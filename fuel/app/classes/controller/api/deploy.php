@@ -315,7 +315,7 @@ class Controller_Api_Deploy extends Controller {
         );
         
         
-        utils::test_ftp()
+        utils::test_ftp($ftp);
         
         
         try {

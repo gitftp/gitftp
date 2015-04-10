@@ -235,7 +235,7 @@ class Controller_Api_Deploy extends Controller {
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            
+            File::create_dir()
         }
 
         $log['cloneOP'] = $gitcloneop;

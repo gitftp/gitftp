@@ -689,11 +689,11 @@ class Gitcore {
 
             $this->connect($server);
 
-            if ($this->sync) {
-                $this->dotRevision = $this->dotRevisionFilename;
-                $this->setRevision();
-                continue;
-            }
+//            if ($this->sync) {
+//                $this->dotRevision = $this->dotRevisionFilename;
+//                $this->setRevision();
+//                continue;
+//            }
 
             $files = $this->compare($revision);
 

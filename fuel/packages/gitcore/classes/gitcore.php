@@ -695,7 +695,7 @@ class Gitcore {
 //                continue;
 //            }
 
-            $files = $this->compare($this->);
+            $files = $this->compare($this->revisiion);
             
 //            $this->output("\r\n<white>SERVER: " . $name);
 //            $this->log['deployon'] = $name;

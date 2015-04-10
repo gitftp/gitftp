@@ -874,8 +874,9 @@ class Gitcore {
             echo $this->revision.'---';
 
             // Updating local revision - so the right revision will be set to server after rolling back
+            echo $this->localRevision.'---';
             $this->localRevision = $this->currentRevision();
-            echo $this->revision.'---';
+            echo $this->localRevision.'---';
             die();
         }
 

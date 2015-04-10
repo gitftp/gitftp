@@ -271,8 +271,8 @@ class gitcore
 
         $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
         $this->mainRepo = $this->repo;
-        $this->parseOptions();
 
+        
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {

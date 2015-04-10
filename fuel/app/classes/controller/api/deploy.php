@@ -319,6 +319,17 @@ class Controller_Api_Deploy extends Controller {
                 'status' => false,
                 'reason' => $a
             ));
+            array_push($log, $gitcore->log);
+            $record->set($record_id, array(
+                'raw' => serialize($log),
+                'status' => 0,
+            ));
+            $deploy->set($id, array(
+                'cloned' => 0,
+                'deployed' => 0,
+                'status' => 'to be initialized',
+                'ready' => 0
+            ));
             
         }
 

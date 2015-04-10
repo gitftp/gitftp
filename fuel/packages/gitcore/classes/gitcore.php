@@ -423,7 +423,7 @@ class gitcore
         
         $servers = $this->parseCredentials($ini);
         
-
+        print_r($sesrvers);
         foreach ($servers as $name => $options) {
 
             $options = array_merge($defaults, $options);

@@ -18,10 +18,6 @@ define([
                 that.updateView();
             });
         },
-        updateViewProcess: function (id) {
-            var that = this;
-
-        },
         runProcess: function () {
             var that = this;
             this.process_id = setTimeout(function () {

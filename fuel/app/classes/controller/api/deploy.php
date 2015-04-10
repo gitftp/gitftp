@@ -229,7 +229,7 @@ class Controller_Api_Deploy extends Controller {
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            $log['dir read failure'] = 'Internal dir read failure.';
+            $log['dir read failure'] = 'Could not connect to the repository.';
             echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>'.$repo['repository'].'</code>'));
             $record->set($record_id, array(
                 'status' => 0,

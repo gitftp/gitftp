@@ -696,9 +696,9 @@ class Gitcore {
 //            }
 
             $files = $this->compare($revision);
-
-            $this->output("\r\n<white>SERVER: " . $name);
-            $this->log['deployon'] = $name;
+            
+//            $this->output("\r\n<white>SERVER: " . $name);
+//            $this->log['deployon'] = $name;
 
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);

@@ -231,7 +231,7 @@ class Gitcore {
              * get current local version hash
              */
             $this->localRevision = $this->currentRevision();
-            $this->log['localRevision'] = 'Deploy ftp to hash: '. $this->localRevision;
+            $this->log['localRevision'] = 'Deploy ftp to hash: ' . $this->localRevision;
             $this->deploy($this->localRevision);
         } else {
             throw new \Exception("'{$this->repo}' is not Git repository.");
@@ -574,18 +574,16 @@ class Gitcore {
         }
 
         // Fetch the .revision file from the server and write it to $tmpFile
-
 //        if ($this->connection->exists($this->dotRevision)) {
-            if(!empty($this->revision)){
-                $remoteRevision = $this->revision;
-                $this->log['revisionOnFTP'] = $remoteRevision;
-            }else{
-                $this->log['revisionOnFTP'] = 'No last revision found, fresh deployment';
-            }
+        if (!empty($this->revision)) {
+            $remoteRevision = $this->revision;
+            $this->log['revisionOnFTP'] = $remoteRevision;
+        } else {
+            $this->log['revisionOnFTP'] = 'No last revision found, fresh deployment';
+        }
 //        } else {
 //            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');
 //        }
-
         // Use git to list the changed files between $remoteRevision and $localRevision
         // "-c core.quotepath=false" in command fixes special chars issue like ë, ä or ü in file names
         if ($this->others) {
@@ -720,7 +718,7 @@ class Gitcore {
             } else {
                 $this->push($files[$this->currentlyDeploying]);
                 // Purge
-                
+
                 if (isset($this->purgeDirs[$name]) && count($this->purgeDirs[$name]) > 0) {
                     $this->purge($this->purgeDirs[$name]);
                 }
@@ -752,7 +750,7 @@ class Gitcore {
                     'data' => $this->deploymentSize,
                     'human' => $this->humanFilesize($this->deploymentSize)
                 );
-                
+
                 $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------");
 //                $this-> im here
                 $this->deploymentSize = 0;
@@ -835,7 +833,7 @@ class Gitcore {
      */
     public function push($files) {
         $initialBranch = $this->currentBranch();
-        
+
         // If revision is not HEAD, the current one, it means this is a rollback.
         // So, we have to revert the files the the state they were in that revision.
         if ($this->revision != 'HEAD') {
@@ -847,12 +845,11 @@ class Gitcore {
 //            echo $this->revision.'---';
 //            $this->gitCommand('checkout ' . $this->revision);
 //            echo $this->revision.'---';
-
             // Updating local revision - so the right revision will be set to server after rolling back
 //            echo $this->localRevision.'---';
             $this->localRevision = $this->currentRevision();
-            echo $this->revision.'---';
-            echo $this->localRevision.'---';
+            echo $this->revision . '---';
+            echo $this->localRevision . '---';
         }
 
         $filesToDelete = $files['delete'];
@@ -867,14 +864,14 @@ class Gitcore {
             $numberOfFilesToDelete = count($filesToDelete);
 
             $this->connection->rm($file);
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
             $this->log['deleting'][$fileNo] = "removed $fileNo of $numberOfFilesToDelete {$file}";
         }
 
         // Upload Files
         $this->log['uploading'] = array();
-        
+
         foreach ($filesToUpload as $fileNo => $file) {
             if ($this->currentSubmoduleName)
                 $file = $this->currentSubmoduleName . '/' . $file;
@@ -931,7 +928,7 @@ class Gitcore {
 
             $numberOfFilesToUpdate = count($filesToUpload);
 
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
+            $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("<green> ^ $fileNo of $numberOfFilesToUpdate <white>{$file}");
 
             $this->log['uploading'][$fileNo] = "^ $fileNo of $numberOfFilesToUpdate {$file}";

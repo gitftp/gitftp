@@ -34,7 +34,7 @@ class Controller_Api_Deploy extends Controller {
 
         $status = strtolower($b[0]['status']);
 
-        if ($status == 'idle' || $status == 'TO BE INITIALIZED') {
+        if ($status == 'idle' || $status == 'to be initialized') {
 
             $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['id'];

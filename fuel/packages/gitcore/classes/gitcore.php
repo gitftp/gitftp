@@ -775,11 +775,11 @@ class gitcore {
      */
     public function listFiles($files) {
         if (count($files['upload']) == 0 && count($files['delete']) == 0) {
-            $this->output("   No files to upload.");
+            $this->output("No files to upload.");
         }
 
         if (count($files['delete']) > 0) {
-            $this->output("   <red>Files that will be deleted in next deployment:");
+            $this->output("Files that will be deleted in next deployment:");
 
             foreach ($files['delete'] as $file_to_delete) {
                 $this->output("      " . $file_to_delete);

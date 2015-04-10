@@ -57,7 +57,7 @@ define([
                 
                 this.process_id = id;
             } else {
-                
+                this.process_id = 0;
             }
         },
         updateViewProcess: function (id) {

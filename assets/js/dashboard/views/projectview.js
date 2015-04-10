@@ -100,7 +100,6 @@ define([
                 that.data = data;
                 that.$el.html(template);
                 that.renderChild();
-                that.updateView();
             });
         },
         renderChild: function () {

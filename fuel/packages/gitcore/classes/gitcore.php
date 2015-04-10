@@ -872,10 +872,11 @@ class Gitcore {
             echo $this->revision.'---';
             $this->gitCommand('checkout ' . $this->revision);
             echo $this->revision.'---';
-            die();
 
             // Updating local revision - so the right revision will be set to server after rolling back
             $this->localRevision = $this->currentRevision();
+            echo $this->revision.'---';
+            die();
         }
 
         $filesToDelete = $files['delete'];

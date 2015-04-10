@@ -50,9 +50,9 @@ class Controller_Hook extends Controller {
 
         exec('git pull --rebase', $cmdpull);
         $log['pull'] = $cmdpull;
-        exec('git fetch --all ', $cmdfetch);
+        exec('git fetch --all', $cmdfetch);
         $log['fetch'] = $cmdfetch;
-        exec('git reset --hard origin/master ', $cmdreset);
+        exec('git reset --hard origin/master', $cmdreset);
         $log['reset'] = $cmdreset;
 
         $ftp = unserialize($repo['ftp']);

@@ -687,11 +687,6 @@ class Gitcore {
 
             $this->currentlyDeploying = $name;
 
-            // Deploys to ALL servers by default
-            // If a server is specified, we skip all servers that don't match the one specified
-            if ($this->server != '' && $this->server != $name)
-                continue;
-
             // If no server was specified in the command line but a default server configuration exists, we'll use that (as long as --all was not specified)
             elseif ($this->server == '' && $this->defaultServer == true && $name != 'default' && $this->deployAll == false)
                 continue;

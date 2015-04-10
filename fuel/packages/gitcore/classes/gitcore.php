@@ -231,7 +231,8 @@ class Gitcore {
              * get current local version hash
              */
             $this->localRevision = $this->currentRevision();
-            $this->log['revisionOnSystem'] = $this->localRevision;
+            
+            $this->log['localRevision'] = $this->localRevision;
             $this->deploy($this->localRevision);
         } else {
             throw new \Exception("'{$this->repo}' is not Git repository.");

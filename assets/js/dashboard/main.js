@@ -8,7 +8,8 @@ window.app = {
  */
 
 require([
-    "router"
+    "router",
+    "process"
 ], function (router) {
 
     window.Router = new router.router();

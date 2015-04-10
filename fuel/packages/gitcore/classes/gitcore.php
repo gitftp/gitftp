@@ -925,7 +925,6 @@ class gitcore {
         /*
          * WE SKIP THIS FOR NOW.
          */
-        
         $localRevision = $this->localRevision;
         if ($this->sync && $this->sync != 'sync') {
             $localRevision = $this->sync;

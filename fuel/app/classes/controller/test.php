@@ -53,11 +53,6 @@ class Controller_Test extends Controller {
         } catch (Exception $ex) {
             
             print_r($ex);
-            $record->set($record_id, array(
-                'raw' => serialize($log),
-                'status' => 0,
-            ));
-            return;
         }
     }
 

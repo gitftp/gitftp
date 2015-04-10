@@ -53,7 +53,7 @@ class Controller_Test extends Controller {
         } catch (Exception $ex) {
             print_r($ex);
         }
-        
+        echo '--------------';
         print_r($gitcore->log);
         
     }

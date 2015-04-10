@@ -237,7 +237,7 @@ class gitcore {
     public function startDeploy() {
         $options = $this->options;
         if (isset($options['debug'])) {
-            $this->debug = true;
+            $this->debug = $options['debug'];
         }
 
         if (isset($options['version'])) {

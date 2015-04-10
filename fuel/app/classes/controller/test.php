@@ -29,7 +29,7 @@ class Controller_Test extends Controller {
         $gitcore = new gitcore();
         
         $gitcore->options = array(
-            repo => $repodir.
+            repo => $repodir,
         );
 
         $gitcore->ftp = array(

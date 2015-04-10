@@ -1,6 +1,5 @@
 define([
-    'text!pages/dashboard.html'
-], function (page) {
+], function () {
     
     process_id: 0,
         updateView: function (e) {

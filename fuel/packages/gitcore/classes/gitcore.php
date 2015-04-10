@@ -805,7 +805,7 @@ class Gitcore {
         try {
             $connection = new bridge($server);
             $this->connection = $connection;
-            $this->log['ftp']
+            $this->log['ftpconnect'] = 'connected'
         } catch (\Exception $e) {
 //            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
             $this->log['ftpconnecterror'] = $e->getMessage();

@@ -51,7 +51,6 @@ class Controller_Test extends Controller {
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {
-            
             print_r($ex);
         }
     }

@@ -55,6 +55,8 @@ define([
         },
         updateViewProcess: function (id) {
             var that = this;
+            if(this.run){
+                
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 console.log('here', data);
                 data = data.data[0];

@@ -9,13 +9,13 @@ define([
             'keyup #addftp-form input': 'oneline',
             'click .ftp-connectionTest': 'testFtp',
         },
-        testFtp: function(){
+        testFtp: function () {
             var form = $('#addftp-form').serializeArray();
-            $.post(base+'api/ftp/testftp', form, function(d){
+            $.post(base + 'api/ftp/testftp', form, function (d) {
                 d = JSON.parse(d);
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',
-                    content: (d.status) ? 'Connection established successfully'
+                    content: (d.status) ? 'Connection established successfully' : ''
                 })
             });
         },
@@ -65,11 +65,11 @@ define([
         },
         render: function (id) {
             var that = this;
-            
-            
+
+
             that.$el.html('');
-            if(id){
-                $.getJSON(base+'api/ftp/getall/'+id, function(data){
+            if (id) {
+                $.getJSON(base + 'api/ftp/getall/' + id, function (data) {
                     var template = _.template(ftpadd);
                     template = template({
                         'ftp': data.data
@@ -77,7 +77,7 @@ define([
                     that.$el.html(template);
                 });
                 that.id = id;
-            }else{
+            } else {
                 var template = _.template(ftpadd);
                 template = template({
                     'ftp': []
@@ -91,19 +91,19 @@ define([
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
             var that = this;
-            
-            if(this.id){
-                var to = 'editftp/'+this.id;
-            }else{
+
+            if (this.id) {
+                var to = 'editftp/' + this.id;
+            } else {
                 var to = 'addftp';
             }
-            
-            $.post(base + 'api/ftp/'+to, $this.serializeArray(), function (data) {
+
+            $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);
                 if (data.status) {
                     noty({
-                        text: '!!! '+ ((this.id) ? 'Edited' : 'Added') +' FTP server: ' + $this.find('[name="host"]').val()
+                        text: '!!! ' + ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()
                     });
                     Router.navigate('ftp', {trigger: true});
                 } else {

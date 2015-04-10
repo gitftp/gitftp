@@ -332,6 +332,7 @@ class Controller_Api_Deploy extends Controller {
 //        $gitcore->revision = '';
         // old end
 
+        
 
         try {
             $gitcore->startDeploy();

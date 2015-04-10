@@ -35,7 +35,7 @@ class Model_Deploy extends Model {
         return $a;
     }
 
-    public function set($id, $set = array()) {
+    public function set($id, $set = array(), $direct = false) {
 
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 

@@ -21,7 +21,6 @@ class Controller_Api_Deploy extends Controller {
             'status' => true,
             'data' => $a
         ));
-        
     }
 
     public function action_delete($id = null) {
@@ -224,23 +223,22 @@ class Controller_Api_Deploy extends Controller {
         $repodir = $userdir . '/' . $repo['id'];
 
         chdir($userdir);
-        
-        if(!empty($repo['username']) && !empty($repo['password'])){
-            
+
+        if (!empty($repo['username']) && !empty($repo['password'])) {
+
             $repo_url = parse_url($repo['repository']);
             $repo_url['user'] = $repo['username'];
             $repo_url['pass'] = $repo['password'];
             $repo['repository'] = http_build_url($repo_url);
-            
         }
-        
+
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
 
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            $log['dir read failure'] = 'Could not connect to the repository provided: '.$repo['repository'];
-            echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>'.$repo['repository'].'</code>'));
+            $log['dir read failure'] = 'Could not connect to the repository provided: ' . $repo['repository'];
+            echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>' . $repo['repository'] . '</code>'));
             $record->set($record_id, array(
                 'status' => 0,
                 'raw' => serialize($log)
@@ -313,22 +311,22 @@ class Controller_Api_Deploy extends Controller {
             ),
             'revision' => '',
         );
-        
-        
+
+
         $error = utils::test_ftp($ftp);
-        
-        if($a == 'Ftp server is ready to rock.'){
-                echo json_encode(array(
-                   'status' => true
-                ));
-            }else{
-                echo json_encode(array(
-                    'status' => false,
-                    'reason' => $a
-                ));
-            }
-        
-        
+
+        if ($a == 'Ftp server is ready to rock.') {
+            echo json_encode(array(
+                'status' => true
+            ));
+        } else {
+            echo json_encode(array(
+                'status' => false,
+                'reason' => $a
+            ));
+        }
+
+
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

@@ -264,7 +264,7 @@ class Controller_Api_Deploy extends Controller {
         $gitcore = new gitcore();
         
         $gitcore->options = array(
-            'repo' => DOCROOT . 'fuel/repository/228/49',
+            'repo' => $repodir,
             'debug' => true,
             'server' => 'default',
             'ftp' => array(

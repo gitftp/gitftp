@@ -26,7 +26,7 @@ define([
             });
         },
         init: function(){
-            
+            this.runProcess();
         }
     };
 

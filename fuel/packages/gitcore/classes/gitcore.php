@@ -992,8 +992,8 @@ class gitcore
      */
     public function output($message) 
     {
-        echo Ansi::tagsToColors($message) . "\r\n";
-        
+//        echo Ansi::tagsToColors($message) . "\r\n";
+        echo $message.'<br>';
     }
 
     /**

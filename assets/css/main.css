@@ -66,38 +66,38 @@ h6 {
   border-radius: 50%;
   border: solid #aaa;
   border-width: 3px 0px 0px 0px;
-  -webkit-animation: spin .5s infinite linear;
-          animation: spin .5s infinite linear;
+  -webkit-animation: spin .5s infinite ease;
+          animation: spin .5s infinite ease;
   border: solid 3px rgba(0, 0, 0, 0);
-  border-top-color: #909295;
-  border-bottom-color: #4cd964;
+  border-top-color: #4cd964;
+  border-bottom-color: #8e8e93;
 }
 @-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
-    border-top-color: #909295;
-    border-bottom-color: #4cd964;
+    border-top-color: #4cd964;
+    border-bottom-color: #8e8e93;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #4cd964;
-    border-bottom-color: #909295;
+    border-top-color: #8e8e93;
+    border-bottom-color: #4cd964;
   }
 }
 @keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
-    border-top-color: #909295;
-    border-bottom-color: #4cd964;
+    border-top-color: #4cd964;
+    border-bottom-color: #8e8e93;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #4cd964;
-    border-bottom-color: #909295;
+    border-top-color: #8e8e93;
+    border-bottom-color: #4cd964;
   }
 }
 .project-v-status {

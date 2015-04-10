@@ -227,6 +227,9 @@ class Gitcore {
                 $this->checkSubmodules($this->repo);
             }
 
+            /*
+             * get current local version
+             */
             $this->localRevision = $this->currentRevision();
             $this->log['revisionOnSystem'] = $this->localRevision;
             $this->deploy($this->localRevision);

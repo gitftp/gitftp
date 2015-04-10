@@ -212,7 +212,7 @@ class gitcore
 //        'list' => 'true',
         'server' => 'default',
 //        'others' => 'true,',
-        
+        'sync' => 'all'
     );
     
     /**

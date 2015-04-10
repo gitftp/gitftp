@@ -35,9 +35,9 @@ class Controller_Test extends Controller {
             'ftp' => array(
                 'scheme' => 'ftps',
                 'host' => 'craftpip.com',
-                'user' => asd,
-                'pass' => $asd,
-                'port' => $asda,
+                'user' => 'craftrzt',
+                'pass' => '6?1Hj8I9k8a3',
+                'port' => '$asda',
                 'path' => '/testrepo',
                 'passive' => true,
                 'skip' => array(),

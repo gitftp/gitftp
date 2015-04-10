@@ -117,11 +117,11 @@ class Controller_Hook extends Controller {
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => 1,
-            'amount_deployed' => $log['gitftpop']['deployed']['human'],
-            'amount_deployed_raw' => $log['gitftpop']['deployed']['data'],
-            'file_add' => serialize($log['gitftpop']['files']['upload']),
-            'file_remove' => serialize($log['gitftpop']['files']['delete']),
-            'file_skip' => serialize($log['gitftpop']['files']['skip']),
+            'amount_deployed' => $log['gitftpop']['gitftpop']['deployed']['human'],
+            'amount_deployed_raw' => $log['gitftpop']['gitftpop']['deployed']['data'],
+            'file_add' => serialize($log['gitftpop']['gitftpop']['files']['upload']),
+            'file_remove' => serialize($log['gitftpop']['gitftpop']['files']['delete']),
+            'file_skip' => serialize($log['gitftpop']['gitftpop']['files']['skip']),
         ));
 
         $ftp['revision'] = $gitcore->currentRevision();

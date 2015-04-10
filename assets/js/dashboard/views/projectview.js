@@ -48,9 +48,8 @@ define([
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
                 this.updateViewProcess(id);
-                this.run = true;
             } else {
-                this.run = false;
+                
             }
         },
         updateViewProcess: function (id) {

@@ -17,7 +17,6 @@ require([
         var h = location.hash;
         var l = h.substr(1);
         var j = l.split('/')[0];
-        console.log(j);
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
     });

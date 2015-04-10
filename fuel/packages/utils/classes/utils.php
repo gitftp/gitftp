@@ -22,7 +22,11 @@ class utils {
             'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
             'debug' => true
         );
+        try{
+            
+        } catch (Exception $ex) {
 
+        }
         $c = Ftp::forge($b);
         
         $c->change_dir($a['path']);

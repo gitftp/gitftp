@@ -782,7 +782,7 @@ class gitcore {
             $this->output("Files to be deleted");
 
             foreach ($files['delete'] as $file_to_delete) {
-                $this->output("      " . $file_to_delete);
+                $this->output($file_to_delete);
             }
         }
 

@@ -26,8 +26,9 @@ define([
             });
         },
         runProcess: function(){
+            var that = this;
             this.process_id = setTimeout(function(){
-                
+                that.
             });
         },
         init: function(){

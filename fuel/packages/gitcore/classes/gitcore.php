@@ -787,10 +787,10 @@ class gitcore {
         }
 
         if (count($files['upload']) > 0) {
-            $this->output("   <green>Files that will be uploaded in next deployment:");
+            $this->output("Files that will be uploaded in next deployment:");
 
             foreach ($files['upload'] as $file_to_upload) {
-                $this->output("      " . $file_to_upload);
+                $this->output("" . $file_to_upload);
             }
         }
     }

@@ -46,8 +46,11 @@ class Model_Record extends Model {
      * 
      * @param type $ar
      */
-    public function set($id, $set = array(), $direct) {
-
+    public function set($id, $set = array(), $direct = false) {
+        
+        if($direct){
+            
+        }
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {

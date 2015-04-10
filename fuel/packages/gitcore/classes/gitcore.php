@@ -203,7 +203,9 @@ class gitcore {
      * @var bool deployAll
      */
     public $deployAll = false;
+    
     public $log = array();
+    
     public $options = array(
         'debug' => 'true',
 //        'version' => 'true',
@@ -213,6 +215,20 @@ class gitcore {
 //        'sync' => 'all',
 //        'rollback' => 'hash',
         'repo' => 'path/to/repo',
+        'ftp' => array(
+            'default' => array(
+                'scheme' => 'ftps',
+                'host' => 'craftpip.com',
+                'user' => 'craftrzt',
+                'pass' => '6?1Hj8I9k8a3',
+                'port' => '21',
+                'path' => '/testrepo',
+                'passive' => true,
+                'skip' => array(),
+                'purge' => array(),
+            )
+        ),
+        'revision' => '',
     );
 
     /**
@@ -266,8 +282,10 @@ class gitcore {
         $this->mainRepo = $this->repo;
 
         chdir($this->repo);
-
-
+        
+        // log
+        $this->output('Starting deploy');
+        
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
@@ -415,7 +433,7 @@ class gitcore {
 //        print_r($servers);
 
         $servers = $this->options['ftp'];
-        print_r($this->options['ftp']);
+        $this->output($servers);
 
         foreach ($servers as $name => $options) {
 
@@ -610,7 +628,12 @@ class gitcore {
         $filesToDelete = $filteredFilesToDelete['files'];
 
         $filesToSkip = array_merge($filteredFilesToUpload['filesToSkip'], $filteredFilesToDelete['filesToSkip']);
-
+        
+        //log
+        $this->log['gitftpop']['files']['upload'] = $filesToUpload;
+        $this->log['gitftpop']['files']['delete'] = $filesToDelete;
+        $this->log['gitftpop']['files']['skip'] = $filesToSkip;
+        
         return array(
             $this->currentlyDeploying => array(
                 'delete' => $filesToDelete,
@@ -683,7 +706,6 @@ class gitcore {
 
             $files = $this->compare($revision);
 
-            $this->output("\r\n<white>SERVER: " . $name);
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
@@ -891,7 +913,7 @@ class gitcore {
             // Set revision on server
             $this->setRevision();
         } else {
-            $this->output("   <gray>No files to upload.");
+            $this->output("No files to upload.");
         }
 
         // If $this->revision is not HEAD, it means the rollback command was provided
@@ -977,7 +999,10 @@ class gitcore {
      */
     public function output($message) {
 //        echo Ansi::tagsToColors($message) . "\r\n";
-        echo $message . '<br>';
+        if($this->debug){
+            echo $message . '<br>';
+        }
+        array_push($this->log, $message);
     }
 
     /**

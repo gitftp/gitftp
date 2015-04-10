@@ -327,7 +327,7 @@ class Controller_Api_Deploy extends Controller {
         ));
 
         $ftp_data = $repo['ftpdata'];
-        $ftp_data['revision'] = $gitcore->currentRevision();
+        $ftp_data['revision'] = $log['gitftpop']['revision'];
 
         $deploy->set($id, array(
             'deployed' => true,

@@ -124,7 +124,7 @@ class Controller_Hook extends Controller {
             'file_skip' => serialize($log['gitftpop']['gitftpop']['files']['skip']),
         ));
 
-        $ftp['revision'] = $log['gitftpop']['gitftpop'];
+        $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
 
         $deploy->set($deploy_id, array(
             'deployed' => true,

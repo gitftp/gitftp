@@ -423,7 +423,7 @@ class gitcore
         
         $servers = $this->parseCredentials($ini);
         
-        print_r($sesrvers);
+        print_r($servers);
         die();
         foreach ($servers as $name => $options) {
 

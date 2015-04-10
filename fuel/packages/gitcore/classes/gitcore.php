@@ -721,7 +721,7 @@ class gitcore {
                     $this->repo = $submodule['path'];
                     $this->currentSubmoduleName = $submodule['name'];
 
-                    $this->output("\r\n<gray>SUBMODULE: " . $this->currentSubmoduleName);
+                    $this->output("SUBMODULE: " . $this->currentSubmoduleName);
 
                     $files = $this->compare($revision);
 

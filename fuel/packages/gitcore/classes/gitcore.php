@@ -744,8 +744,8 @@ class Gitcore {
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
-                $this->push($files[$this->currentlyDeploying]);
                 die();
+                $this->push($files[$this->currentlyDeploying]);
                 // Purge
                 if (isset($this->purgeDirs[$name]) && count($this->purgeDirs[$name]) > 0) {
                     $this->purge($this->purgeDirs[$name]);

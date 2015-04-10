@@ -10,7 +10,8 @@ define([
             'click .ftp-connectionTest': 'testFtp',
         },
         testFtp: function(){
-            var form = $('#addftp-form')
+            var form = $('#addftp-form').serializeArray();
+            
         },
         oneline: function () {
             var $target = $('.ftp-oneline');

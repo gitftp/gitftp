@@ -48,6 +48,7 @@ define([
                 var id = $('.is-deploy-view-id').attr('data-id');
 
                 $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                    console.log(data);
 //                    $('.project-v-status').html(data);
                 });
 

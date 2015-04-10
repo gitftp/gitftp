@@ -981,7 +981,7 @@ class gitcore {
                 continue;
             }
 
-            $this->output("<red>Purging <white> ...");
+            $this->output("Purging ...");
 
             foreach ($tmpFiles as $file) {
                 $this->connection->rm($file);

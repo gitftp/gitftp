@@ -38,7 +38,7 @@ class Controller_Test extends Controller {
                     'host' => 'craftpip.com',
                     'user' => 'craftrzt',
                     'pass' => '6?1Hj8I9k8a3',
-                    'port' => '$asda',
+                    'port' => '21',
                     'path' => '/testrepo',
                     'passive' => true,
                     'skip' => array(),

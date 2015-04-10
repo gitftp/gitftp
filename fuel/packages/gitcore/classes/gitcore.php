@@ -951,7 +951,7 @@ class gitcore {
         $consoleMessage = "Updating remote revision file to " . $localRevision;
 
         if ($this->sync) {
-            $this->output("\r\n<yellow>SYNC: $consoleMessage");
+            $this->output("SYNC: $consoleMessage");
         } else {
             $this->ftpDebug($consoleMessage);
         }

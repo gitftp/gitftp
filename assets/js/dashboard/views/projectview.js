@@ -58,6 +58,11 @@ define([
             var that = this;
             console.log(that.activityData.data);
             var raw = that.activityData.data;
+            
+            $.each(that.activityData.data, function(i, a){
+                
+            });
+            
 //            $.each(that.activityData.data, function (i, a) {
 //                if (a.id == id) {
 //                    var i = 0;

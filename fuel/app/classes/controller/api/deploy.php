@@ -330,7 +330,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => 'to be initialized',
                 'ready' => 0
             ));
-            
+            die();
         }
 
 

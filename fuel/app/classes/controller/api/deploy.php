@@ -49,7 +49,6 @@ class Controller_Api_Deploy extends Controller {
                 
             }
             
-
             if (count($b) != 0) {
                 DB::delete('deploy')->where('id', $id)->execute();
                 echo json_encode(array(

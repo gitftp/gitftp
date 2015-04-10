@@ -227,8 +227,6 @@ class Gitcore {
                 $this->checkSubmodules($this->repo);
             }
 
-            // Find the revision number of HEAD at this point so that if 
-            // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
             $this->log['revisionOnSystem'] = $this->localRevision;
             $this->deploy($this->localRevision);

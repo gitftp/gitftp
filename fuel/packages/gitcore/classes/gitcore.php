@@ -265,7 +265,7 @@ class gitcore
             $this->deployAll = true;
         }
 
-        $this->repo = $options['repo']
+        $this->repo = $options['repo'];
         $this->mainRepo = $this->repo;
 
 

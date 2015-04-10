@@ -741,6 +741,7 @@ class gitcore {
                 $this->output("".$this->humanFilesize($this->deploymentSize) . " Deployed");
                 $this->deploymentSize = 0;
                 $this->log['gitftpop']['deployed']['data'] = $this->deploymentSize;
+                $this->log['gitftpop']['deployed']['humna'] = $this->deploymentSize;
             }
         }
     }

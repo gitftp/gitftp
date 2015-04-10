@@ -465,10 +465,10 @@ class gitcore {
                 $input = urlencode($this->getPassword());
 
                 if ($input == '') {
-                    $this->output("\r\n<green>You entered an empty password. All good, continuing deployment ...");
+                    $this->output("You entered an empty password. All good, continuing deployment ...");
                 } else {
                     $options['pass'] = $input;
-                    $this->output("\r\n<green>We got your password, thanks. Continuing deployment ...");
+                    $this->output("We got your password, thanks. Continuing deployment ...");
                 }
             }
 

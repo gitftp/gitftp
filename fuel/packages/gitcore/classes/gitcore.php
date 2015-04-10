@@ -703,7 +703,7 @@ class gitcore {
             try{
                 $this->connect($server);
             } catch (Exception $ex) {
-
+                
             }
 
             if ($this->sync) {

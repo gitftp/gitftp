@@ -345,6 +345,9 @@ class Controller_Api_Deploy extends Controller {
                 'raw' => serialize($log),
                 'status' => 0,
             ));
+            $deploy->set($id, array(
+                ''
+            ))
             return;
         }
 

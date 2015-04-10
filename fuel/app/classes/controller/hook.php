@@ -77,7 +77,7 @@ class Controller_Hook extends Controller {
         );
 
         $gitcore->revision = $ftp['revision'];
-
+        echo $gitcore->revision;
 
         try {
             $gitcore->startDeploy();

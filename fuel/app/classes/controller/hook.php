@@ -214,19 +214,6 @@ class gitcore
     {
         $this->parseOptions();
 
-        $this->output("\r\n<bgGreen>---------------------------------------------------");
-        $this->output("<bgGreen>|              PHPloy v{$this->phployVersion}              |");
-        $this->output("<bgGreen>---------------------------------------------------<reset>\r\n");
-
-        if ($this->displayHelp) {
-            $this->displayHelp();
-            return;
-        }
-
-        if ($this->displayVersion) {
-            return;
-        }
-
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {

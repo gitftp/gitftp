@@ -41,11 +41,8 @@ class Controller_Test extends Controller {
                 'skip' => array(),
                 'purge' => array()
             ),
-            revision = ''
+            revision => '',
         );
-
-
-        $gitcore->revision = '';
 
         try {
             $gitcore->startDeploy();

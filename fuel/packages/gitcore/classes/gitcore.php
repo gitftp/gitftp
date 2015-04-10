@@ -213,7 +213,7 @@ class gitcore
         'server' => 'default',
 //        'others' => 'true,',
 //        'sync' => 'all',
-//        'rollback' => 'hash'
+//        'rollback' => 'hash',
     );
     
     /**

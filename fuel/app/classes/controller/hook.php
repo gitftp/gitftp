@@ -213,10 +213,6 @@ class gitcore
     public function __construct()
     {
 
-        if (isset($options['no-colors'])) {
-            Ansi::$enabled = false;
-        }
-
         // -? command is not correctly parsed by getopt() (at least on Windows)
         // so need to check $argv variable instead
         global $argv;

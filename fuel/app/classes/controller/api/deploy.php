@@ -225,7 +225,8 @@ class Controller_Api_Deploy extends Controller {
         chdir($userdir);
         
         //test
-                        echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>'.$repo['repository'].'</code>'));
+        echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>'.$repo['repository'].'</code>'));
+        
 
         //test
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);

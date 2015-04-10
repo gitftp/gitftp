@@ -878,7 +878,6 @@ class Gitcore {
             $this->localRevision = $this->currentRevision();
             echo $this->revision.'---';
             echo $this->localRevision.'---';
-//            die();
         }
 
         $filesToDelete = $files['delete'];

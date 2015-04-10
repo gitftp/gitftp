@@ -703,7 +703,7 @@ class gitcore {
             try{
                 $this->connect($server);
             } catch (Exception $ex) {
-                throw new \Exception("");
+                throw new \Exception("Could not connect to ftp server.");
             }
 
             if ($this->sync) {

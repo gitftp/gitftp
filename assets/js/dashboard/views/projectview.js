@@ -46,15 +46,21 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-
-                $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
-                    console.log('here', data);
-//                    $('.project-v-status').html(data);
-                });
-
+                setTimeout(function () {
+                    that.updateViewProcess(id);
+                }, 1000);
             } else {
 
             }
+        },
+        updateViewProcess: function (id) {
+            var that = this;
+            $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                console.log('here', data);
+                data = data.data[0];
+                $('.project-v-status').html(data.status);
+                that.updateView();
+            });
         },
         getRawData: function (e) {
             e.preventDefault();

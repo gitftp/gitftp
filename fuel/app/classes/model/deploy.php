@@ -14,16 +14,16 @@ class Model_Deploy extends Model {
     }
 
     public function get($id = null) {
-        
+
         $q = DB::select()->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {
             $q = $q->and_where('id', $id);
         }
-        
+
         $a = $q->execute()->as_array();
-        
+
         foreach ($a as $k => $v) {
             $ub = unserialize($v['ftp']);
             $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
@@ -31,18 +31,18 @@ class Model_Deploy extends Model {
             $a[$k]['ftp'] = $c;
 //            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
-        
+
         return $a;
     }
 
     public function set($id, $set = array(), $direct = false) {
 
-    if(!$direct)}
-    
-        $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
+        if (!$direct) {
+            $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return false;
+            if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+                return false;
+            }
         }
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();

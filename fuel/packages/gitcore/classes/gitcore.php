@@ -823,7 +823,7 @@ class gitcore {
         // If revision is not HEAD, the current one, it means this is a rollback.
         // So, we have to revert the files the the state they were in that revision.
         if ($this->revision != 'HEAD') {
-            $this->output("   Rolling back working copy");
+            $this->output("Rolling back working copy");
 
             // BUG: This does NOT work correctly for submodules & subsubmodules (and leaves them in an incorrect state)
             //      It technically should do a submodule update in the parent, not a checkout inside the submodule
@@ -845,7 +845,7 @@ class gitcore {
 
             $this->connection->rm($file);
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-            $this->output("<red>removed $fileNo of $numberOfFilesToDelete <white>{$file}");
+            $this->output("removed $fileNo of $numberOfFilesToDelete <white>{$file}");
         }
 
         // Upload Files

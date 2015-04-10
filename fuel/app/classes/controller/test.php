@@ -27,7 +27,7 @@ class Controller_Test extends Controller {
     public function action_test() {
         
         $gitcore = new gitcore();
-        $gitcore->action = array('deploy');
+        
         $gitcore->repo = $repodir;
 
         $gitcore->ftp = array(

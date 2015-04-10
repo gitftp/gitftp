@@ -228,7 +228,7 @@ class Gitcore {
             }
 
             /*
-             * get current local version
+             * get current local version hash
              */
             $this->localRevision = $this->currentRevision();
             $this->log['revisionOnSystem'] = $this->localRevision;

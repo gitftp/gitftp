@@ -573,7 +573,7 @@ class gitcore {
         }
 
         // Fetch the .revision file from the server and write it to $tmpFile
-        $this->ftpDebug("Fetching remote");
+        $this->ftpDebug("Fetching Remote revision.");
 
 //        if ($this->connection->exists($this->dotRevision)) {
 //            $remoteRevision = $this->connection->get($this->dotRevision);

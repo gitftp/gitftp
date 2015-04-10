@@ -5,7 +5,7 @@ define([
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'click .deleteftp': 'deleteftp'
+            'click .deleteftp': 'deleteftp',
         },
         render: function (id) {
             var that = this;

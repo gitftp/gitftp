@@ -125,8 +125,9 @@ class Controller_Hook extends Controller {
         ));
         
         $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
-        
+        echo '------------';
         print_r($ftp);
+        echo '------------';
         
         $deploy->set($deploy_id, array(
             'deployed' => true,

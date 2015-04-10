@@ -1,12 +1,9 @@
 define([
 ], function () {
-    
-    
+
+
     var process = {
-        
-    }
-        
-    process_id: 0,
+        process_id: 0,
         updateView: function (e) {
             var that = this;
             if ($('.is-deploy-view-id').length) {
@@ -28,6 +25,9 @@ define([
                 that.updateView();
             });
         },
+    }
+
+
     return d;
 });
         

@@ -12,7 +12,9 @@ class utils {
 //    [path] => 
 //    [port] => 
 //)
-        
+        $b = array(
+            
+        )
         $c = Ftp::forge(array(
             'hostname' => 'fuelphp.com',
             'username' => '',

@@ -1000,7 +1000,7 @@ class gitcore {
     public function output($message) {
 //        echo Ansi::tagsToColors($message) . "\r\n";
         if($this->debug){
-            echo $message . '<br>';
+            print_r($message) . '<br>';
         }
         array_push($this->log, $message);
     }

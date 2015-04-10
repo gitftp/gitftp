@@ -15,7 +15,7 @@ define([
                 d = JSON.parse(d);
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',
-                    content: 
+                    content: (d.status)
                 })
             });
         },

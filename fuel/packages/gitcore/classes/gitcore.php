@@ -578,7 +578,7 @@ class gitcore {
         if ($this->connection->exists($this->dotRevision)) {
             $remoteRevision = $this->connection->get($this->dotRevision);
         } else {
-            $this->output('Fresh deployment - grab a coffee');
+            $this->output('Fresh deployment, grab a coffee');
         }
 
         // Use git to list the changed files between $remoteRevision and $localRevision

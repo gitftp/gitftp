@@ -29,10 +29,10 @@ class Controller_Test extends Controller {
         $gitcore = new gitcore();
 
         $gitcore->options = array(
-            repo => $repodir,
-            debug => true,
-            server => 'default',
-            ftp => array(
+            'repo' => $repodir,
+            'debug' => true,
+            'server' => 'default',
+            'ftp' => array(
                 'scheme' => $ftp['scheme'],
                 'host' => $ftp['host'],
                 'user' => $ftp['username'],
@@ -43,7 +43,7 @@ class Controller_Test extends Controller {
                 'skip' => array(),
                 'purge' => array()
             ),
-            revision => '',
+            'revision' => '',
         );
 
         try {

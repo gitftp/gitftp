@@ -61,6 +61,7 @@ class Bridge {
      */
     public function pwd() {
         $a = $this->backend->pwd();
+        echo $a.'asdas';
         return $a;
     }
 

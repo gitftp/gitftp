@@ -28,7 +28,9 @@ class Controller_Test extends Controller {
         
         $gitcore = new gitcore();
         
-        $gitcore->repo = $repodir;
+        $gitcore->options = array(
+            repo => $repodir.
+        );
 
         $gitcore->ftp = array(
             'scheme' => $ftp['scheme'],

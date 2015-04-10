@@ -25,9 +25,35 @@ class Controller_Test extends Controller {
     }
 
     public function action_test() {
-        $deploy = new Model_Deploy();
-        $a = $deploy->get();
-        print_r($a);
+        $gitcore = new gitcore();
+        $gitcore->action = array('deploy');
+        $gitcore->repo = $repodir;
+
+        $gitcore->ftp = array(
+            'scheme' => $ftp['scheme'],
+            'host' => $ftp['host'],
+            'user' => $ftp['username'],
+            'pass' => $ftp['pass'],
+            'port' => $ftp['port'],
+            'path' => $ftp['path'],
+            'passive' => true,
+            'skip' => array(),
+            'purge' => array()
+        );
+
+        $gitcore->revision = '';
+
+        try {
+            $gitcore->startDeploy();
+        } catch (Exception $ex) {
+
+            array_push($log, $gitcore->log);
+            $record->set($record_id, array(
+                'raw' => serialize($log),
+                'status' => 0,
+            ));
+            return;
+        }
     }
 
 }

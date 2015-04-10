@@ -106,7 +106,7 @@ class Controller_Hook extends Controller {
             $record->set($record_id, array(
                 'raw' => serialize($log),
                 'status' => 0,
-            ), true);
+                    ), true);
             print_r($log);
             return;
         }
@@ -122,20 +122,20 @@ class Controller_Hook extends Controller {
             'file_add' => serialize($log['gitftpop']['gitftpop']['files']['upload']),
             'file_remove' => serialize($log['gitftpop']['gitftpop']['files']['delete']),
             'file_skip' => serialize($log['gitftpop']['gitftpop']['files']['skip']),
-        ), true);
-        
+                ), true);
+
         $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
         echo '------------';
         print_r($ftp);
         echo '------------';
-        
+
         $deploy->set($deploy_id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
             'ftp' => serialize($ftp),
             'status' => 'Idle',
             'ready' => 1
-        ), true);
+                ), true);
     }
 
     public function action_get() {

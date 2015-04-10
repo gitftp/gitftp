@@ -32,7 +32,7 @@ define([
             var that = this;
             this.process_id = setTimeout(function(){
                 that.updateView();
-            });
+            }, 1500);
         },
         init: function(){
             this.runProcess();

@@ -30,6 +30,7 @@ class Controller_Test extends Controller {
         
         $gitcore->options = array(
             repo => $repodir,
+            ftp => 
         );
 
         $gitcore->ftp = array(

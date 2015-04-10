@@ -313,8 +313,8 @@ class Controller_Api_Deploy extends Controller {
         );
 
 
-        $error = utils::test_ftp($ftp);
-        if ($a != 'Ftp server is ready to rock.') {
+        $ftp_test_datas = utils::test_ftp($ftp);
+        if $error != 'Ftp server is ready to rock.') {
             echo json_encode(array(
                 'status' => false,
                 'reason' => $a

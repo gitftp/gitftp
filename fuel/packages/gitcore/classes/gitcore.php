@@ -703,7 +703,7 @@ class gitcore {
             try{
                 $this->connect($server);
             } catch (Exception $ex) {
-                
+                throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
             }
 
             if ($this->sync) {

@@ -25,7 +25,7 @@ class utils {
         try{
             $c = Ftp::forge($b);
         } catch (Exception $ex) {
-
+            return $ex->getMessage();
         }
         
         $c->change_dir($a['path']);

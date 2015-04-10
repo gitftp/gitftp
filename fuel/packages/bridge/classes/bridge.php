@@ -55,7 +55,7 @@ class Bridge {
         try{
             return $this->backend->cd($directory);
         } catch (Exception $ex) {
-
+           throw new \Exception("No such file or directory.");
         }
     }
 

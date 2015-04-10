@@ -227,7 +227,7 @@ class Controller_Api_Deploy extends Controller {
         if(!empty($repo['username']) && !empty($repo['password'])){
             
             $repo_url = parse_url($repo['repository']);
-            $repo_url['user'] = 'username';
+            $repo_url['user'] = $repo['username'];
             $repo_url['pass'] = 'passwrd';
             
         }

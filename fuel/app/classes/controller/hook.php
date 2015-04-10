@@ -22,7 +22,7 @@ use Banago\Bridge\Bridge;
 /**
  * PHPloy Class
  */
-class PHPloy
+class gitcore
 {
 
     /**

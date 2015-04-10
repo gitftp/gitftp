@@ -6,7 +6,8 @@ define([
         el: app.el,
         events: {
             'submit #addftp-form': 'addftp',
-            'keyup #addftp-form input': 'oneline'
+            'keyup #addftp-form input': 'oneline',
+            'click .ftp-connectionTest': 'testFtp',
         },
         oneline: function () {
             var $target = $('.ftp-oneline');

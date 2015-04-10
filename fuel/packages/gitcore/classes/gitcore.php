@@ -729,11 +729,11 @@ class Gitcore {
                 continue;
 
             $this->connect($server);
-            die();
 
             if ($this->sync) {
                 $this->dotRevision = $this->dotRevisionFilename;
                 $this->setRevision();
+                die();
                 continue;
             }
 

@@ -243,7 +243,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => 'Idle',
                 'cloned' => 0,
                 'deployed' => 0,
-            ))
+            ));
             die();
         }
 

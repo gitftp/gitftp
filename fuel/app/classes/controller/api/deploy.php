@@ -319,7 +319,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => false,
                 'reason' => $ftp_test_data
             ));
-
+            $log['ftpconnectstatus'] = $ftp_test_data;
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
                 'raw' => serialize($log),

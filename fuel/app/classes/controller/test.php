@@ -51,7 +51,7 @@ class Controller_Test extends Controller {
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {
-
+            
             $record->set($record_id, array(
                 'raw' => serialize($log),
                 'status' => 0,

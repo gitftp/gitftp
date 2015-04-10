@@ -229,6 +229,7 @@ class Gitcore {
 
             if ($this->listFiles) {
                 $this->output("Running in LIST mode. No remote files will be modified.");
+                $this->log['listmode'] = 'true'
             }
 
             // Submodules are turned off by default

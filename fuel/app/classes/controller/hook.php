@@ -48,7 +48,7 @@ class Controller_Hook extends Controller {
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
 
-        shell_exec('git pull --rebase', $cmdpull);
+        $cmdpull = shell_exec('git pull --rebase');
         $log['pull'] = $cmdpull;
         shell_exec('git fetch --all', $cmdfetch);
         $log['fetch'] = $cmdfetch;

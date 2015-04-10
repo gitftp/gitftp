@@ -28,7 +28,7 @@ class utils {
         
         $c->change_dir($a['path']);
         
-        $c->close()
+        $c->close();
     }
 
 }

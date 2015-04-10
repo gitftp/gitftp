@@ -524,7 +524,7 @@ class gitcore {
 
         exec($command, $output);
 
-        $this->debug('<darkYellow>' . implode("\r\n<darkYellow>", $output));
+        $this->debug('<darkYellow>' . implode("", $output));
 
         return $output;
     }

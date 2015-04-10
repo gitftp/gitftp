@@ -36,7 +36,6 @@ class Controller_Api_Ftp extends Controller {
         }
         
         
-        
     }
     
     /**

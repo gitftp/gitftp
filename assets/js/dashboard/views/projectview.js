@@ -149,6 +149,7 @@ define([
                         content: data.reason
                     });
                     $this.html(f);
+                    $this.removeAttr('disabled');
                 }
             });
         }

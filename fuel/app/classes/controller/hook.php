@@ -61,8 +61,6 @@ class Controller_Hook extends Controller {
         $ftpdata = $ftpdata[0];
 
         $gitcore = new gitcore();
-        echo $ftp['revision'];
-        die();
         $gitcore->options = array(
             'repo' => $repo_dir,
             'debug' => true,

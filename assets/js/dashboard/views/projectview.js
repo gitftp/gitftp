@@ -139,7 +139,7 @@ define([
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
                 if (data.status) {
                     $.alert({
-                        title: 'Deployed!',
+                        title: 'Deploy complete!',
                         content: ''
                     });
                     Backbone.history.loadUrl();

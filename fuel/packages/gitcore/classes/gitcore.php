@@ -744,7 +744,6 @@ class Gitcore {
             if ($this->listFiles === true) {
                 $this->listFiles($files[$this->currentlyDeploying]);
             } else {
-                die();
                 $this->push($files[$this->currentlyDeploying]);
                 // Purge
                 if (isset($this->purgeDirs[$name]) && count($this->purgeDirs[$name]) > 0) {
@@ -861,7 +860,8 @@ class Gitcore {
      */
     public function push($files) {
         $initialBranch = $this->currentBranch();
-
+        
+                die();
         // If revision is not HEAD, the current one, it means this is a rollback.
         // So, we have to revert the files the the state they were in that revision.
         if ($this->revision != 'HEAD') {

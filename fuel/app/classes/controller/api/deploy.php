@@ -38,7 +38,7 @@ class Controller_Api_Deploy extends Controller {
 
             $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['id'];
-            
+
             try {
                 chdir($repo_dir);
                 echo shell_exec('chown www-data * -R');
@@ -48,7 +48,7 @@ class Controller_Api_Deploy extends Controller {
             } catch (Exception $ex) {
                 
             }
-            
+
             if (count($b) != 0) {
                 DB::delete('deploy')->where('id', $id)->execute();
                 echo json_encode(array(
@@ -200,41 +200,37 @@ class Controller_Api_Deploy extends Controller {
 
         try {
             File::read_dir($repohome . '/' . $user_id);
-            
+
             $log['user_dir'] = "user dir exist $repohome / $user_id";
-            
         } catch (Exception $e) {
             File::create_dir($repohome, $user_id, 0755);
-            
+
             $log['user_dir'] = "Created user dir at $repohome / $user_id";
-            
         }
 
         $userdir = $repohome . '/' . $user_id;
 
         try {
-            
-            $log['repo_dir'] = "Repo dir exist $userdir / ".$repo['id'];
+
+            $log['repo_dir'] = "Repo dir exist $userdir / " . $repo['id'];
             File::read_dir($userdir . '/' . $repo['id']);
-            
         } catch (Exception $ex) {
-            
+
             File::create_dir($userdir, $repo['id'], 0755);
-            $log['repo_dir'] = "Created repo dir at $userdir / ".$repo['id'];
-            
+            $log['repo_dir'] = "Created repo dir at $userdir / " . $repo['id'];
         }
 
         $repodir = $userdir . '/' . $repo['id'];
 
         chdir($userdir);
-        
+
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
-        
+
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
             $log['dir read failure'] = 'Internal dir read failure.';
-            echo json_encode(array('status'=>false, 'reason'=>'There was a problem deploying your repository, please try again.'));
+            echo json_encode(array('status' => false, 'reason' => 'There was a problem deploying your repository, please try again.'));
             $record->set($record_id, array(
                 'status' => 0,
                 'raw' => serialize($log)

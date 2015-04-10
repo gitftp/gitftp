@@ -234,7 +234,7 @@ class Controller_Api_Deploy extends Controller {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
             $log['dir read failure'] = 'Internal dir read failure.';
-            echo json_encode(array('status'=>false));
+            echo json_encode(array('status'=>false, 'reason'=>'Backend failure'));
             $record->set($record_id, array(
                 'status' => 0,
                 'raw' => serialize($log)

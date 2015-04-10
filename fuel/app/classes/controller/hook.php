@@ -14,7 +14,7 @@ class Controller_Hook extends Controller {
 
         $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
-        
+
         if (count($repo) == 0) {
             die('No such user or deploy found.');
         } else {
@@ -44,6 +44,10 @@ class Controller_Hook extends Controller {
                     'commit_message' => $i->commits[0]->message
                 ))->execute();
 
+        $deploy->set($deploy_id, array(
+            'status' => 'processing'
+                ), true);
+
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
         $log['dir'] = $repo_dir;
         chdir($repo_dir);
@@ -59,6 +63,10 @@ class Controller_Hook extends Controller {
         $ftp = unserialize($repo['ftp']);
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
         $ftpdata = $ftpdata[0];
+
+        $deploy->set($deploy_id, array(
+            'status' => 'deploying'
+                ), true);
 
         $gitcore = new gitcore();
         $gitcore->options = array(
@@ -106,7 +114,13 @@ class Controller_Hook extends Controller {
                 'raw' => serialize($log),
                 'status' => 0,
                     ), true);
+
             print_r($log);
+
+            $deploy->set($deploy_id, array(
+                'status' => 'Idle'
+                    ), true);
+
             return;
         }
 

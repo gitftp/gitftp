@@ -48,13 +48,12 @@ class Model_Record extends Model {
      */
     public function set($id, $set = array(), $direct = false) {
         
-        if($direct){
-            
-        }
-        $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
+        if(!$direct){
+            $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return false;
+            if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+                return false;
+            }
         }
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();

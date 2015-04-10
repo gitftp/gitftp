@@ -211,7 +211,8 @@ class gitcore
 //        'version' => 'true',
 //        'list' => 'true',
         'server' => 'default',
-        'others' => 'true,'
+//        'others' => 'true,',
+        
     );
     
     /**

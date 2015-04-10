@@ -30,7 +30,7 @@ class Controller_Api_Ftp extends Controller {
         ));
     }
 
-    public function action_testftp(){
+    public function action_testftp($id){
         
     }
     

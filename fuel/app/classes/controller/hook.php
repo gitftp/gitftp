@@ -106,7 +106,7 @@ class Controller_Hook extends Controller {
             $record->set($record_id, array(
                 'raw' => serialize($log),
                 'status' => 0,
-            ));
+            ), true);
             print_r($log);
             return;
         }

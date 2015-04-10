@@ -58,7 +58,7 @@ define([
             console.log(raw);
             window.$a = $.alert({
                 title: 'Raw Output',
-                content: 'Raw data is useful while debugging the problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
+                content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 animation: 'scale',
                 confirmButton: 'Amazing!'
             });

@@ -258,7 +258,7 @@ class Gitcore {
             // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
             $this->log['revisionOnSystem'] = $this->localRevision;
-            $this->deploy($this->revision);
+            $this->deploy($this->localRevision);
         } else {
             throw new \Exception("'{$this->repo}' is not Git repository.");
         }

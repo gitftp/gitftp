@@ -900,6 +900,7 @@ class Gitcore {
 
         // Upload Files
         $this->log['uploading'] = array();
+        
         die();
         foreach ($filesToUpload as $fileNo => $file) {
             if ($this->currentSubmoduleName)

@@ -75,9 +75,9 @@ class Controller_Hook extends Controller {
             'skip' => array(),
             'purge' => array()
         );
-
         $gitcore->revision = $ftp['revision'];
 
+        
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

@@ -20,9 +20,10 @@ class utils {
             'timeout' => 120,
             'port' => $a['port'],
             'passive' => true,
-            'ssl_mode' => $a[''],
-            'debug' => false
+            'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
+            'debug' => true
         );
+        
         $c = Ftp::forge(array(
             'hostname' => 'fuelphp.com',
             'username' => '',

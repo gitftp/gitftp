@@ -216,15 +216,6 @@ class Gitcore {
 
         $this->parseOptions();
 
-        if ($this->displayHelp) {
-            $this->displayHelp();
-            return;
-        }
-
-        if ($this->displayVersion) {
-            return;
-        }
-
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {

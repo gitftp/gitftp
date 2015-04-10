@@ -17,7 +17,7 @@ class utils {
             'username' => $a['username'],
             'password' => $a['pass'],
             'timeout' => 120,
-            'port' => $a['post'],
+            'port' => $a['port'],
             'passive' => true,
             'ssl_mode' => false,
             'debug' => false

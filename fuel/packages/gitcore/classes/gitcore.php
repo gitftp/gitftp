@@ -1016,7 +1016,7 @@ class gitcore
      */
     public function ftpDebug($message) 
     {
-        $this->debug("<yellow>FTP: <darkYellow>$message");
+        $this->debug("$message");
     }
 
 }

@@ -79,7 +79,7 @@ class Controller_Hook extends Controller {
                     'purge' => array()
                 )
             ),
-            'revision' => '',
+            'revision' => $ftp['revision'],
         );
 
 //        $gitcore->action = array('deploy');

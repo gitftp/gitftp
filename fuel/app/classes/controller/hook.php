@@ -77,7 +77,6 @@ class Controller_Hook extends Controller {
         );
 
         $gitcore->revision = $ftp['revision'];
-        echo $gitcore->revision;
 
         try {
             $gitcore->startDeploy();
@@ -93,7 +92,6 @@ class Controller_Hook extends Controller {
 
 
         $log['gitftpop'] = $gitcore->log;
-        echo $gitcore->revision;
         print_r($log);
 
         $record->set($record_id, array(

@@ -30,7 +30,7 @@ class utils {
             throw new \Exception($ex->getMessage());
         }
         
-        $c->cd($directory)
+        $c->cd($a['path']);
         
     }
 

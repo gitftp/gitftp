@@ -10,7 +10,7 @@ define([
             'click .ftp-connectionTest': 'testFtp',
         },
         testFtp: function(){
-            
+            var form = $('.')
         },
         oneline: function () {
             var $target = $('.ftp-oneline');

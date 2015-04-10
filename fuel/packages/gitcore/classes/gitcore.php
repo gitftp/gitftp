@@ -423,6 +423,7 @@ class gitcore
         $servers = $this->parseCredentials($ini);
         
         print_r($servers);
+//        $servers = $this->options['ftp'];
         print_r($this->options['ftp']);
         
         foreach ($servers as $name => $options) {

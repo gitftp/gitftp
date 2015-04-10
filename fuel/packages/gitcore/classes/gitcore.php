@@ -779,7 +779,7 @@ class gitcore {
         }
 
         if (count($files['delete']) > 0) {
-            $this->output("Files that will be deleted in next deployment:");
+            $this->output("Files to be deleted");
 
             foreach ($files['delete'] as $file_to_delete) {
                 $this->output("      " . $file_to_delete);

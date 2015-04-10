@@ -228,8 +228,7 @@ class Gitcore {
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
-                $this->output("Running in LIST mode. No remote files will be modified.");
-                $this->log['listmode'] = 'true'
+                $this->log['listmode'] = 'list more active';
             }
 
             // Submodules are turned off by default

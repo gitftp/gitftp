@@ -13,7 +13,7 @@ define([
             var form = $('#addftp-form').serializeArray();
             $.post(base+'api/ftp/testftp', form, function(d){
                 $.alert({
-                    
+                    title: 
                 })
             });
         },

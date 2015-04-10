@@ -226,7 +226,6 @@ class gitcore
         if (isset($options['debug'])) {
             $this->debug = true;
         }
-        chdir($this->repo);
 
         if (isset($options['version'])) {
             $this->displayVersion = true;
@@ -268,6 +267,8 @@ class gitcore
 
         $this->repo = $options['repo'];
         $this->mainRepo = $this->repo;
+        
+        chdir($this->repo);
 
 
         if (file_exists("$this->repo/.git")) {

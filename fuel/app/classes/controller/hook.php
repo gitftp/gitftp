@@ -213,9 +213,6 @@ class gitcore
     public function __construct()
     {
 
-        $options = getopt($this->shortopts, $this->longopts);
-        $this->debug('Command line options detected: ' . print_r($options, true));
-
         if (isset($options['no-colors'])) {
             Ansi::$enabled = false;
         }
@@ -272,7 +269,7 @@ class gitcore
         $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
         $this->mainRepo = $this->repo;
 
-        
+
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {

@@ -863,7 +863,7 @@ class Gitcore {
         
         // If revision is not HEAD, the current one, it means this is a rollback.
         // So, we have to revert the files the the state they were in that revision.
-        if ($this->revision != 'HEAD' && false) {
+        if ($this->revision != 'HEAD') {
             $this->output("   Rolling back working copy");
             $this->log['push'] = 'Rolling back working copy';
 

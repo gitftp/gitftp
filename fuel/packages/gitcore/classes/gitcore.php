@@ -797,7 +797,7 @@ class gitcore
             $connection = new Bridge($server);
             $this->connection = $connection;            
         } catch (\Exception $e) {
-            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
+//            echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");
             // If we could not connect, what's the point of existing
             die();
         }        

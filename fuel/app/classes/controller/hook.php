@@ -44,7 +44,7 @@ class Controller_Hook extends Controller {
                 ))->execute();
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
-
+        $log['dir'] = $repo_dir;
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
 

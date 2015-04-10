@@ -139,8 +139,8 @@ define([
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
                 if (data.status) {
                     $.alert({
-                        title: 'Woohoo!',
-                        content: data.reason
+                        title: 'Deployed!',
+                        content: ''
                     });
                     Backbone.history.loadUrl();
                 } else {

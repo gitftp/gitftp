@@ -30,10 +30,13 @@ class Controller_Api_Ftp extends Controller {
         ));
     }
 
-    public function action_testftp($id){
+    public function action_testftp($id = null){
         if($id == null){
             json_encode(array('status'=>false));
         }
+        
+        
+        
     }
     
     /**

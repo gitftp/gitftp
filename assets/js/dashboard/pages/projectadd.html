@@ -40,7 +40,7 @@
             <div class="form-group">
                 <label>FTP SERVER TO DEPLOY</label>
                 <select class="form-control" name="ftp-production" required>
-                    <option value=""> -none- </option>
+                    <option value=""> - Select a FTP server - </option>
                     <% $.each(ftplist, function(i, a){ %>
                     <option value="<%= a.id %>"><%= a.host %><%= a.path %> - <%= a.username %></option>
                     <% }) %>

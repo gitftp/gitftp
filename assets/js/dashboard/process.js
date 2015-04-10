@@ -25,6 +25,9 @@ define([
                 that.updateView();
             });
         },
+        runProcess: function(){
+            
+        },
         init: function(){
             this.runProcess();
         }

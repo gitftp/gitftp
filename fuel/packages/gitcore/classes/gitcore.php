@@ -384,7 +384,7 @@ class gitcore {
                     'path' => $repo . '/' . $name . '/' . $line[1]
                 );
                 $this->filesToIgnore[] = $line[1];
-                $this->output(sprintf('      Found sub-submodule %s.', "$name/$line[1]"));
+                $this->output(sprintf('Found sub-submodule %s.', "$name/$line[1]"));
             }
         }
     }

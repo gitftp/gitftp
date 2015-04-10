@@ -207,7 +207,7 @@ class gitcore {
     public $log = array();
     
     public $options = array(
-        'debug' => 'true',
+        'debug' => 'false',
 //        'version' => 'true',
 //        'list' => 'true',
         'server' => 'default',

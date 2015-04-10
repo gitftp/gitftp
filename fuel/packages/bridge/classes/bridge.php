@@ -52,22 +52,14 @@ class Bridge {
      * Change directory
      */
     public function cd($directory) {
-        try{
-            return $this->backend->cd($directory);
-        } catch (Exception $ex) {
-           throw new \Exception("No such file or directory.");
-        }
+        return $this->backend->cd($directory);
     }
 
     /**
      * Change directory
      */
     public function pwd() {
-        try{
-            return $this->backend->pwd();
-        } catch (Exception $ex) {
-           throw new \Exception("No such file or directory.");
-        }
+        return $this->backend->pwd();
     }
 
     /**

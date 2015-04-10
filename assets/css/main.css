@@ -35,6 +35,9 @@ h6 {
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   border-color: #E8E8E8;
 }
+.btn.btn-default.btn-gitftp {
+  color: #EF3D3D;
+}
 .btn.btn-default:hover {
   background-image: none;
   background-color: #eee;

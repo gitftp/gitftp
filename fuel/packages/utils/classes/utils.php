@@ -32,7 +32,7 @@ class utils {
 
         $c->change_dir($a['path']);
         if ($ftp->close()) {
-            // connection wasn't open
+            
         }
     }
 

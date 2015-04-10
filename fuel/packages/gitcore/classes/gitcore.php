@@ -869,12 +869,12 @@ class Gitcore {
 
             // BUG: This does NOT work correctly for submodules & subsubmodules (and leaves them in an incorrect state)
             //      It technically should do a submodule update in the parent, not a checkout inside the submodule
-            echo $this->revision.'---';
-            $this->gitCommand('checkout ' . $this->revision);
-            echo $this->revision.'---';
+//            echo $this->revision.'---';
+//            $this->gitCommand('checkout ' . $this->revision);
+//            echo $this->revision.'---';
 
             // Updating local revision - so the right revision will be set to server after rolling back
-            echo $this->localRevision.'---';
+//            echo $this->localRevision.'---';
             $this->localRevision = $this->currentRevision();
             echo $this->revision.'---';
             echo $this->localRevision.'---';

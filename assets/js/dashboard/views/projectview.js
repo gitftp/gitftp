@@ -63,7 +63,7 @@ define([
                 data = data.data[0];
                 $('.project-v-status').html(data.status);
 
-                that.updateView();
+                that.updateViewProcess();
             });
         },
         getRawData: function (e) {

@@ -231,7 +231,6 @@ class Gitcore {
              * get current local version hash
              */
             $this->localRevision = $this->currentRevision();
-            
             $this->log['localRevision'] = $this->localRevision;
             $this->deploy($this->localRevision);
         } else {

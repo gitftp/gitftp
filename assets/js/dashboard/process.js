@@ -28,7 +28,7 @@ define([
                 
                 
                 if ($('.is-deploy-view-id').length) {
-                    
+                    that.deployView();
                 }
                 
                 that.runProcess();

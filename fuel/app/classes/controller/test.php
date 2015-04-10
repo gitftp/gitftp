@@ -54,7 +54,7 @@ class Controller_Test extends Controller {
             print_r($ex);
         }
         
-        
+        print_r($gitcore->log);
         
     }
 

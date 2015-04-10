@@ -896,7 +896,11 @@ class gitcore {
                         }
 
                         // Go home
-                        $this->connection->cd($origin);
+                        try{
+                            $this->connection->cd($origin);
+                        } catch (Exception $ex) {
+
+                        }
                     }
                 }
             }

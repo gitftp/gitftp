@@ -229,7 +229,7 @@ class Controller_Api_Deploy extends Controller {
         $repodir = $userdir . '/' . $repo['id'];
 
         chdir($userdir);
-
+        
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
         
         $a = File::read_dir($repodir);

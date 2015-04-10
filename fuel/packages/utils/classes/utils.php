@@ -23,8 +23,11 @@ class utils {
             'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
             'debug' => true
         );
-        
-        $c = Ftp::forge($b);
+        try{
+            $c = Ftp::forge($b);            
+        } catch (Exception $ex) {
+
+        }
 
     }
 

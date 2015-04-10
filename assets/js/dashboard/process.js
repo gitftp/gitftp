@@ -6,17 +6,16 @@ define([
         process_id: 0,
         updateView: function (e) {
             var that = this;
+            
             /*
-             * 
+             * Project view page.
              */
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
                 setTimeout(function () {
                     that.updateViewProcess(id);
                 }, 1500);
-            } else {
-
-            }
+            } 
         },
         updateViewProcess: function (id) {
             var that = this;

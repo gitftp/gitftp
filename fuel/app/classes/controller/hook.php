@@ -125,7 +125,9 @@ class Controller_Hook extends Controller {
         ));
         
         $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
-
+        
+        print_r($ftp);
+        
         $deploy->set($deploy_id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),

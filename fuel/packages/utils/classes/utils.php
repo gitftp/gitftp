@@ -32,7 +32,7 @@ class utils {
         } catch (Exception $ex) {
             return $ex->getMessage();
         }
-        return 'Ftp is ready to rock.';
+        return 'Ftp server is ready to rock.';
         $c->close();
     }
 

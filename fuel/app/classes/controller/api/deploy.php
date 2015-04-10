@@ -319,6 +319,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => false,
                 'reason' => $a
             ));
+            
         }
 
 

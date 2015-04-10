@@ -262,22 +262,22 @@ class Controller_Api_Deploy extends Controller {
         // ftp upload here.
 
         $gitcore = new gitcore();
-        
+
         $gitcore->options = array(
             'repo' => $repodir,
             'debug' => true,
             'server' => 'default',
             'ftp' => array(
                 'default' => array(
-                    'scheme' => 'ftps',
-                    'host' => 'craftpip.com',
-                    'user' => 'craftrzt',
-                    'pass' => '6?1Hj8I9k8a3',
-                    'port' => '21',
-                    'path' => '/testrepo',
+                    'scheme' => $ftp['scheme'],
+                    'host' => $ftp['host'],
+                    'user' => $ftp['username'],
+                    'pass' => $ftp['pass'],
+                    'port' => $ftp['port'],
+                    'path' => $ftp['path'],
                     'passive' => true,
                     'skip' => array(),
-                    'purge' => array(),
+                    'purge' => array()
                 )
             ),
             'revision' => '',

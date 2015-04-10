@@ -223,10 +223,10 @@ class gitcore
     public function startDeploy()
     {
     	$options = $this->options;
-        
         if (isset($options['debug'])) {
             $this->debug = true;
         }
+        chdir($this->repo);
 
         if (isset($options['version'])) {
             $this->displayVersion = true;

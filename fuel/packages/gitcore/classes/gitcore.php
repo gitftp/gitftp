@@ -207,7 +207,8 @@ class gitcore
     
     public $log = array();
     public $options = array(
-        
+        'debug' => 'true',
+        ''
     );
     
     /**

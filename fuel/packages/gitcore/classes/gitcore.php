@@ -922,9 +922,6 @@ class gitcore {
         // By default we update the revision file to the local revision, 
         // unless the sync command was called with a specific revision
         
-        /*
-         * WE SKIP THIS FOR NOW.
-         */
         $localRevision = $this->localRevision;
         if ($this->sync && $this->sync != 'sync') {
             $localRevision = $this->sync;
@@ -936,8 +933,10 @@ class gitcore {
         } else {
             $this->ftpDebug($consoleMessage);
         }
-
         try {
+            /*
+             * WE SKIP THIS FOR NOW.
+             */
 //            $this->connection->put($localRevision, $this->dotRevision);
         } catch (\Exception $e) {
             throw new \Exception("Could not update the revision file on server: $e->getMessage()");

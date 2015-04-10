@@ -2,7 +2,7 @@
 
 class gitcore
 {
-    protected $phployVersion = '3.0.16-stable';
+    public $phployVersion = '3.0.16-stable';
 
     /**
      * @var string $revision
@@ -91,7 +91,7 @@ class gitcore
      *
      * @var string $shortops
      */
-    protected $shortopts = 'los:';
+    public $shortopts = 'los:';
 
     /**
      * List of available "long" command line options, prefixed by double-hyphen
@@ -114,32 +114,32 @@ class gitcore
      * 
      * @var array $longopts
      */
-    protected $longopts  = array('no-colors', 'help', 'list', 'rollback::', 'server:', 'sync::', 'submodules', 'skip-subsubmodules', 'others', 'debug', 'version', 'all');
+    public $longopts  = array('no-colors', 'help', 'list', 'rollback::', 'server:', 'sync::', 'submodules', 'skip-subsubmodules', 'others', 'debug', 'version', 'all');
 
     /**
      * @var bool|resource $connection
      */
-    protected $connection = false;
+    public $connection = false;
 
     /**
      * @var string $server
      */
-    protected $server = '';
+    public $server = '';
 
     /**
      * @var string $repo
      */
-    protected $repo;
+    public $repo;
 
     /**
      * @var string $mainRepo
      */
-    protected $mainRepo;
+    public $mainRepo;
 
     /**
      * @var bool|string $currentSubmoduleName
      */
-    protected $currentSubmoduleName = false;
+    public $currentSubmoduleName = false;
 
     /**
      * Holds the path to the .revision file
@@ -148,62 +148,62 @@ class gitcore
      * 
      * @var string $dotRevision
      */
-    protected $dotRevision;
+    public $dotRevision;
 
     /**
      * Whether phploy is running in list mode (--list or -l commands)
      * @var bool $listFiles
      */
-    protected $listFiles = false;
+    public $listFiles = false;
 
     /**
      * Whether the --help command line option was given
      * @var bool $displayHelp
      */
-    protected $displayHelp = false;
+    public $displayHelp = false;
 
     /**
      * Whether the --version command line option was given
      * @var bool $displayHelp
      */
-    protected $displayVersion = false;
+    public $displayVersion = false;
 
     /**
      * Whether the --sync command line option was given
      * @var bool $sync
      */
-    protected $sync = false;
+    public $sync = false;
 
     /**
      * Whether phploy should ignore .gitignore (--others or -o commands)
      * @var bool $others
      */
-    protected $others = false;
+    public $others = false;
 
     /**
      * Whether to print extra debugging info to the console, especially for git & FTP commands
      * Activated using --debug command line option
      * @var bool $debug
      */
-    protected $debug = false;
+    public $debug = false;
 
     /**
      * Keep track of current deployment size
      * @var int $deploymentSize
      */
-    protected $deploymentSize = 0;
+    public $deploymentSize = 0;
     
     /**
      * Keep track of if a default server has been configured
      * @var bool $defaultServer
      */
-    protected $defaultServer = false;
+    public $defaultServer = false;
 
     /**
      * Weather the --all command line option was given
      * @var bool deployAll
      */
-    protected $deployAll = false;
+    public $deployAll = false;
     
     /**
      * Constructor

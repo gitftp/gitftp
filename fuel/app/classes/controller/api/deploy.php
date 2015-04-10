@@ -224,6 +224,9 @@ class Controller_Api_Deploy extends Controller {
 
         chdir($userdir);
         
+        if(!empty($repo['username']) && !empty($repo['password'])){
+            
+        }
         //test
         $repo_url = parse_url($repo['repository']);
         $repo_url['user'] = 'username';

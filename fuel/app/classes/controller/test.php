@@ -33,15 +33,17 @@ class Controller_Test extends Controller {
             'debug' => true,
             'server' => 'default',
             'ftp' => array(
-                'scheme' => 'ftps',
-                'host' => 'craftpip.com',
-                'user' => 'craftrzt',
-                'pass' => '6?1Hj8I9k8a3',
-                'port' => '$asda',
-                'path' => '/testrepo',
-                'passive' => true,
-                'skip' => array(),
-                'purge' => array()
+                'default' => array(
+                    'scheme' => 'ftps',
+                    'host' => 'craftpip.com',
+                    'user' => 'craftrzt',
+                    'pass' => '6?1Hj8I9k8a3',
+                    'port' => '$asda',
+                    'path' => '/testrepo',
+                    'passive' => true,
+                    'skip' => array(),
+                    'purge' => array(),
+                )
             ),
             'revision' => '',
         );

@@ -63,6 +63,11 @@ class Bridge {
      * Change directory
      */
     public function pwd() {
+        try{
+            
+        } catch (Exception $ex) {
+
+        }
         return $this->backend->pwd();
     }
 

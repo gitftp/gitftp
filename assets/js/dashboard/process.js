@@ -25,7 +25,7 @@ define([
         runProcess: function () {
             var that = this;
             this.process_id = setTimeout(function () {
-                that.updateView();
+                that.runProcess();
             }, 1500);
         },
         init: function () {

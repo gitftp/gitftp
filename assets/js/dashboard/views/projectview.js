@@ -61,7 +61,7 @@ define([
             
             $.each(that.activityData.data, function(i, a){
                 if(a.id == id){
-                    raw = a;
+                    raw = a.raw;
                 }
             });
             

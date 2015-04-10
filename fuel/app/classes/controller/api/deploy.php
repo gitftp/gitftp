@@ -21,6 +21,7 @@ class Controller_Api_Deploy extends Controller {
             'status' => true,
             'data' => $a
         ));
+        
     }
 
     public function action_delete($id = null) {

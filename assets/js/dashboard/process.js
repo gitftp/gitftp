@@ -4,7 +4,7 @@ define([
 
     var process = {
         process_id: 0,
-        updateView: function (e) {
+        deployView: function (e) {
             var that = this;
             
             /*

@@ -26,7 +26,7 @@ define([
             });
         },
         runProcess: function(){
-            
+            this.process_id = 
         },
         init: function(){
             this.runProcess();

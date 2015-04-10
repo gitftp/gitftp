@@ -77,7 +77,6 @@ class Controller_Hook extends Controller {
 
         $gitcore->revision = $ftp['revision'];
 
-        die();
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

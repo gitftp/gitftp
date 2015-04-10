@@ -61,8 +61,27 @@ class Controller_Hook extends Controller {
         $ftpdata = $ftpdata[0];
 
         $gitcore = new gitcore();
-        
-        
+
+        $gitcore->options = array(
+            'repo' => $repodir,
+            'debug' => true,
+            'server' => 'default',
+            'ftp' => array(
+                'default' => array(
+                    'scheme' => $ftp['scheme'],
+                    'host' => $ftp['host'],
+                    'user' => $ftp['username'],
+                    'pass' => $ftp['pass'],
+                    'port' => $ftp['port'],
+                    'path' => $ftp['path'],
+                    'passive' => true,
+                    'skip' => array(),
+                    'purge' => array()
+                )
+            ),
+            'revision' => '',
+        );
+
         $gitcore->action = array('deploy');
         $gitcore->repo = $repo_dir;
 
@@ -79,8 +98,8 @@ class Controller_Hook extends Controller {
         );
         $gitcore->revision = $ftp['revision'];
 
-        
-        
+
+
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

@@ -229,7 +229,7 @@ class Controller_Api_Deploy extends Controller {
             $repo_url = parse_url($repo['repository']);
             $repo_url['user'] = $repo['username'];
             $repo_url['pass'] = $repo['password'];
-            $repo_url = http_build_url($repo_url);
+            $repo['repository'] = http_build_url($repo_url);
             
         }
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);

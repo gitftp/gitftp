@@ -55,7 +55,8 @@ define([
         },
         updateViewProcess: function (id) {
             var that = this;
-            if(this.run){
+            if(!this.run)
+                return false;
                 
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 console.log('here', data);

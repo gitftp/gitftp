@@ -225,6 +225,7 @@ class Controller_Api_Deploy extends Controller {
         chdir($userdir);
         
         //test
+        
         echo json_encode(array('status' => false, 'reason' => 'There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>'.$repo['repository'].'</code>'));
         print_r(parse_url($repo['repository']));
         die();

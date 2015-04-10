@@ -27,8 +27,11 @@ class utils {
         } catch (Exception $ex) {
             return $ex->getMessage();
         }
-        
-        $c->change_dir($a['path']);
+        try{
+            $c->change_dir($a['path']);
+        } catch (Exception $ex) {
+
+        }
         
         $c->close();
     }

@@ -46,7 +46,7 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                if(this.process_id !== id){
+                if(this.process_id == id){
                     return false;
                 }
                 

@@ -50,9 +50,9 @@ class Controller_Hook extends Controller {
 
         $cmdpull = shell_exec('git pull --rebase');
         $log['pull'] = $cmdpull;
-        shell_exec('git fetch --all', $cmdfetch);
+        $cmdfetch = shell_exec('git fetch --all');
         $log['fetch'] = $cmdfetch;
-        shell_exec('git reset --hard origin/master', $cmdreset);
+        $cmdreset = shell_exec('git reset --hard origin/master');
         $log['reset'] = $cmdreset;
 
         $ftp = unserialize($repo['ftp']);
@@ -123,7 +123,7 @@ class Controller_Hook extends Controller {
         print_r(json_decode(unserialize($a[1]['test'])));
         $repo_dir = DOCROOT . 'fuel/repository/228/46';
         $log = array();
-        
+
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
 

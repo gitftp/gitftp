@@ -16,7 +16,7 @@ define([
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',
                     content: (d.status) ? 'Connection established successfully' : ''
-                })
+                });
             });
         },
         oneline: function () {

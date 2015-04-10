@@ -19,7 +19,7 @@ class gitcore
      *
      * @var string $currentlyDeploying
      */
-    public $currentlyDeploying = 'default';
+    public $currentlyDeploying = '';
 
     /**
      * A list of files that should NOT be uploaded to the remote server

@@ -14,7 +14,7 @@ define([
             $.post(base+'api/ftp/testftp', form, function(d){
                 d = JSON.parse(d);
                 $.alert({
-                    title: (d.status) ? ''
+                    title: (d.status) ? 'Successful' : 'Falied',
                 })
             });
         },

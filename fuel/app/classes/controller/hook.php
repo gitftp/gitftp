@@ -205,6 +205,8 @@ class gitcore
      */
     public $deployAll = false;
     
+    public $log = array();
+
     /**
      * Constructor
      */

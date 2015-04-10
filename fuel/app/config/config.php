@@ -254,7 +254,8 @@ return array(
         'packages' => array(
             'gitcore',
             'bridge',
-            'custom',
+//            'custom',
+            'utils',
             'auth',
             'email',
             'parser',

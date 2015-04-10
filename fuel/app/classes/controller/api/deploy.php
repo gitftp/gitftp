@@ -216,13 +216,13 @@ class Controller_Api_Deploy extends Controller {
 
         try {
             
-            $log['repo_dir'] = "Repo dir exist $userdir / $repo['id']";
+            $log['repo_dir'] = "Repo dir exist $userdir / ".$repo['id'];
             File::read_dir($userdir . '/' . $repo['id']);
             
         } catch (Exception $ex) {
             
             File::create_dir($userdir, $repo['id'], 0755);
-            $log['repo_dir'] = "Created repo dir at $userdir / $repo['id']";
+            $log['repo_dir'] = "Created repo dir at $userdir / ".$repo['id'];
             
         }
 

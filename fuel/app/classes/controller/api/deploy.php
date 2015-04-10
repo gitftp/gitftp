@@ -284,21 +284,21 @@ class Controller_Api_Deploy extends Controller {
         );
 
         // old
-        $gitcore->action = array('deploy');
-        $gitcore->repo = $repodir;
-
-        $gitcore->ftp = array(
-            'scheme' => $ftp['scheme'],
-            'host' => $ftp['host'],
-            'user' => $ftp['username'],
-            'pass' => $ftp['pass'],
-            'port' => $ftp['port'],
-            'path' => $ftp['path'],
-            'passive' => true,
-            'skip' => array(),
-            'purge' => array()
-        );
-        $gitcore->revision = '';
+//        $gitcore->action = array('deploy');
+//        $gitcore->repo = $repodir;
+//
+//        $gitcore->ftp = array(
+//            'scheme' => $ftp['scheme'],
+//            'host' => $ftp['host'],
+//            'user' => $ftp['username'],
+//            'pass' => $ftp['pass'],
+//            'port' => $ftp['port'],
+//            'path' => $ftp['path'],
+//            'passive' => true,
+//            'skip' => array(),
+//            'purge' => array()
+//        );
+//        $gitcore->revision = '';
         // old end
 
 

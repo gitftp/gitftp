@@ -31,7 +31,6 @@ define([
                 }
                 
                 that.runProcess();
-                
             }, 1500);
         },
         init: function () {

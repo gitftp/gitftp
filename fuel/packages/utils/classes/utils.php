@@ -13,8 +13,15 @@ class utils {
 //    [port] => 
 //)
         $b = array(
-            
-        )
+            'hostname' => 'fuelphp.com',
+            'username' => '',
+            'password' => '',
+            'timeout' => 120,
+            'port' => 21,
+            'passive' => true,
+            'ssl_mode' => false,
+            'debug' => false
+        );
         $c = Ftp::forge(array(
             'hostname' => 'fuelphp.com',
             'username' => '',

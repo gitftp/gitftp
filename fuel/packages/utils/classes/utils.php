@@ -12,7 +12,7 @@ class utils {
 //    [path] => 
 //    [port] => 
 //)
-        
+
         $b = array(
             'hostname' => $a['host'],
             'username' => $a['username'],
@@ -23,15 +23,17 @@ class utils {
             'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
             'debug' => true
         );
-        
-        try{
+
+        try {
             $c = Ftp::forge($b);
         } catch (Exception $ex) {
             throw new \Exception($ex->getMessage());
         }
-        
+
         $c->change_dir($a['path']);
-        
+        if ($ftp->close()) {
+            // connection wasn't open
+        }
     }
 
 }

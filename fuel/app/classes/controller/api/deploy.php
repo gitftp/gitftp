@@ -235,7 +235,9 @@ class Controller_Api_Deploy extends Controller {
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            $log['dir read failure'] = 'Internal dir read failure.'
+            $log['dir read failure'] = 'Internal dir read failure.';
+            
+            die();
         }
 
         $log['cloneOP'] = $gitcloneop;

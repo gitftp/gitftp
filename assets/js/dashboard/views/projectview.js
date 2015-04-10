@@ -60,7 +60,9 @@ define([
             var raw = that.activityData.data;
             
             $.each(that.activityData.data, function(i, a){
-                
+                if(a.id == id){
+                    
+                }
             });
             
 //            $.each(that.activityData.data, function (i, a) {

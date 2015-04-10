@@ -6,11 +6,9 @@ define([
         process_id: 0,
         deployView: function (e) {
             var that = this;
-
             /*
              * Project view page.
              */
-
             var id = $('.is-deploy-view-id').attr('data-id');
 
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {

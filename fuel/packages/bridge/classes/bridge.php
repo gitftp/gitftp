@@ -52,6 +52,7 @@ class Bridge {
      * Change directory
      */
     public function cd($directory) {
+        
         return $this->backend->cd($directory);
     }
 
@@ -59,7 +60,8 @@ class Bridge {
      * Change directory
      */
     public function pwd() {
-        return $this->backend->pwd();
+        $a = $this->backend->pwd();
+        return $a;
     }
 
     /**

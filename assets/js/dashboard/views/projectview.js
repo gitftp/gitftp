@@ -42,6 +42,7 @@ define([
                 }
             });
         },
+        process_id: 0,
         updateView: function (e) {
             var that = this;
             if ($('.is-deploy-view-id').length) {

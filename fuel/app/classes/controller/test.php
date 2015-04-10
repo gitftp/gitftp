@@ -27,9 +27,9 @@ class Controller_Test extends Controller {
     public function action_test() {
 
         $gitcore = new gitcore();
-
+        
         $gitcore->options = array(
-            'repo' => $repodir,
+            'repo' => DOCROOT.'fuel/repository/228/49',
             'debug' => true,
             'server' => 'default',
             'ftp' => array(

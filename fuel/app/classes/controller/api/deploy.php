@@ -318,6 +318,8 @@ class Controller_Api_Deploy extends Controller {
         $error = utils::test_ftp($ftp);
         
         
+        
+        
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

@@ -11,9 +11,9 @@ define([
         },
         testFtp: function(){
             var form = $('#addftp-form').serializeArray();
-            $.post(base+'api/ftp/testftp', form, function(console.log){
+            $.post(base+'api/ftp/testftp', form, function(d){
                 
-            })
+            });
         },
         oneline: function () {
             var $target = $('.ftp-oneline');

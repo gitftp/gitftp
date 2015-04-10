@@ -206,7 +206,10 @@ class gitcore
     public $deployAll = false;
     
     public $log = array();
-
+    public $options = array(
+        
+    );
+    
     /**
      * Constructor
      */

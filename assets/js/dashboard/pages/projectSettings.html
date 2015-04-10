@@ -5,7 +5,7 @@
 <form action="" id="deploy-view-form-edit">
 <div class="form-group">
     <label for="add-repo">GIT REPOSITORY</label>
-    <input type="text" name="repo" id="add-repo" <% (!s.ready) ?  '' : 'readonly="readonly"' %> placeholder="link to repo .git" class="form-control" value="<%= s.repository %>" required>
+    <input type="text" name="repo" id="add-repo" <% (s.ready) ?  '' : 'readonly="readonly"' %> placeholder="link to repo .git" class="form-control" value="<%= s.repository %>" required>
     <p class="help-block">You might change this if you shift your repository.</p>
 </div>
 <div class="form-group">

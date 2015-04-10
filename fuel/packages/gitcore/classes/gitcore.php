@@ -740,6 +740,7 @@ class gitcore {
             if (!$this->listFiles) {
                 $this->output("".$this->humanFilesize($this->deploymentSize) . " Deployed");
                 $this->deploymentSize = 0;
+                $this->log['']
             }
         }
     }

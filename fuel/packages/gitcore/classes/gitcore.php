@@ -891,6 +891,7 @@ class gitcore {
                                 $this->connection->cd($path);
                             } catch (Exception $ex) {
 
+                            throw new \Exception("No such file or directory.");
                             }
                             $pathsThatExist[$path] = true;
                         }

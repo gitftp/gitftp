@@ -212,7 +212,7 @@ class gitcore
      */
     public function __construct()
     {
-    	
+    	$options = $this->options;
         if (isset($options['debug'])) {
             $this->debug = true;
         }

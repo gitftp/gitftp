@@ -212,62 +212,7 @@ class gitcore
      */
     public function __construct()
     {
-    	
-        $this->parseOptions();
 
-        if (file_exists("$this->repo/.git")) {
-
-            if ($this->listFiles) {
-                $this->output("<yellow>PHPloy is running in LIST mode. No remote files will be modified.\r\n");
-            }
-            
-            // Submodules are turned off by default
-            if( $this->scanSubmodules ) {
-                $this->checkSubmodules($this->repo);
-            }
-
-            // Find the revision number of HEAD at this point so that if 
-            // you make commit during deployment, the rev will be right.
-            $this->localRevision = $this->currentRevision();
-            
-            $this->deploy($this->revision);
-
-        } else {
-            throw new \Exception("'{$this->repo}' is not Git repository.");
-        }
-    }
-    
-    /**
-     * Get current revision
-     *
-     * @return string with current revision hash
-     */
-    private function currentRevision() {
-        $currentRevision = $this->gitCommand('rev-parse HEAD');
-        return $currentRevision[0];
-    }
-
-    /**
-     * Displays the various command line options
-     *
-     * @return null
-     */
-    public function displayHelp()
-    {
-        // $this->output();
-        $readMe = __DIR__ . '/readme.md';
-        if (file_exists($readMe))
-            $this->output(file_get_contents($readMe));
-    }
-
-    /**
-     * Parse CLI options
-     * For descriptions of the various options, see the comments for $this->longopts
-     *
-     * @return null
-     */
-    public function parseOptions()
-    {
         $options = getopt($this->shortopts, $this->longopts);
         $this->debug('Command line options detected: ' . print_r($options, true));
 
@@ -326,6 +271,51 @@ class gitcore
 
         $this->repo = isset($opts['repo']) ? rtrim($opts['repo'], '/') : getcwd();
         $this->mainRepo = $this->repo;
+        $this->parseOptions();
+
+        if (file_exists("$this->repo/.git")) {
+
+            if ($this->listFiles) {
+                $this->output("<yellow>PHPloy is running in LIST mode. No remote files will be modified.\r\n");
+            }
+            
+            // Submodules are turned off by default
+            if( $this->scanSubmodules ) {
+                $this->checkSubmodules($this->repo);
+            }
+
+            // Find the revision number of HEAD at this point so that if 
+            // you make commit during deployment, the rev will be right.
+            $this->localRevision = $this->currentRevision();
+            
+            $this->deploy($this->revision);
+
+        } else {
+            throw new \Exception("'{$this->repo}' is not Git repository.");
+        }
+    }
+    
+    /**
+     * Get current revision
+     *
+     * @return string with current revision hash
+     */
+    private function currentRevision() {
+        $currentRevision = $this->gitCommand('rev-parse HEAD');
+        return $currentRevision[0];
+    }
+
+    /**
+     * Displays the various command line options
+     *
+     * @return null
+     */
+    public function displayHelp()
+    {
+        // $this->output();
+        $readMe = __DIR__ . '/readme.md';
+        if (file_exists($readMe))
+            $this->output(file_get_contents($readMe));
     }
 
     /**

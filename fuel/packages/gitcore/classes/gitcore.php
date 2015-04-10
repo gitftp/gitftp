@@ -887,7 +887,11 @@ class gitcore {
                             $this->output("Created directory '$path'.");
                             $pathsThatExist[$path] = true;
                         } else {
-                            $this->connection->cd($path);
+                            try{
+                                $this->connection->cd($path);
+                            } catch (Exception $ex) {
+
+                            }
                             $pathsThatExist[$path] = true;
                         }
 

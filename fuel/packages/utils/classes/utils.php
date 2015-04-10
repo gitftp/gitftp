@@ -20,7 +20,7 @@ class utils {
             'timeout' => 120,
             'port' => $a['port'],
             'passive' => true,
-            'ssl_mode' => ,
+            'ssl_mode' => $a[''],
             'debug' => false
         );
         $c = Ftp::forge(array(

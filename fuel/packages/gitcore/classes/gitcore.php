@@ -845,7 +845,7 @@ class gitcore {
 
             $this->connection->rm($file);
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-            $this->output("removed $fileNo of $numberOfFilesToDelete <white>{$file}");
+            $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
         }
 
         // Upload Files
@@ -897,7 +897,7 @@ class gitcore {
 
                 if (!$uploaded) {
                     $attempts = $attempts + 1;
-                    $this->output("<darkRed>Failed to upload {$file}. Retrying (attempt $attempts/10)... ");
+                    $this->output("Failed to upload {$file}. Retrying (attempt $attempts/10)... ");
                 } else {
                     $this->deploymentSize += filesize(getcwd() . '/' . $file);
                 }

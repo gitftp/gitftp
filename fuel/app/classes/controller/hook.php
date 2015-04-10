@@ -22,7 +22,7 @@ class Controller_Hook extends Controller {
                 die('The key provided doesnt match');
             }
         }
-        
+
         $repo = $repo[0];
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
@@ -48,11 +48,11 @@ class Controller_Hook extends Controller {
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
 
-        exec('git pull --rebase --depth=1', $cmdpull);
+        exec('git pull --rebase', $cmdpull);
         $log['pull'] = $cmdpull;
-        exec('git fetch --all', $cmdfetch);
+        exec('git fetch --all ', $cmdfetch);
         $log['fetch'] = $cmdfetch;
-        exec('git reset --hard origin/master', $cmdreset);
+        exec('git reset --hard origin/master ', $cmdreset);
         $log['reset'] = $cmdreset;
 
         $ftp = unserialize($repo['ftp']);
@@ -91,11 +91,11 @@ class Controller_Hook extends Controller {
             return;
         }
 
-        
+
         $log['gitftpop'] = $gitcore->log;
         echo $gitcore->revision;
         print_r($log);
-        
+
         $record->set($record_id, array(
             'raw' => serialize($log),
             'status' => 1,
@@ -105,9 +105,9 @@ class Controller_Hook extends Controller {
             'file_remove' => serialize($log['gitftpop']['files']['delete']),
             'file_skip' => serialize($log['gitftpop']['files']['skip']),
         ));
-        
+
         $ftp['revision'] = $gitcore->currentRevision();
-        
+
         $deploy->set($deploy_id, array(
             'deployed' => true,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
@@ -115,13 +115,25 @@ class Controller_Hook extends Controller {
             'status' => 'Idle',
             'ready' => 1
         ));
-        
     }
 
     public function action_get() {
         echo '<pre>';
         $a = DB::select()->from('test')->execute()->as_array();
         print_r(json_decode(unserialize($a[1]['test'])));
+        $repo_dir = DOCROOT . 'fuel/repository/228/46';
+        $log = array();
+        
+        chdir($repo_dir);
+        $log['hook'] = 'POST hook received, starting with deploy';
+
+        exec('git pull --rebase', $cmdpull);
+        $log['pull'] = $cmdpull;
+        exec('git fetch --all ', $cmdfetch);
+        $log['fetch'] = $cmdfetch;
+        exec('git reset --hard origin/master ', $cmdreset);
+        $log['reset'] = $cmdreset;
+        print_r($log);
     }
 
 }

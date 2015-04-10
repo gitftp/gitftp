@@ -26,7 +26,7 @@ class utils {
         try{
             $c = Ftp::forge($b);
         } catch (Exception $ex) {
-            throw new '';
+            throw new $ex->getMessage();
             print_r($ex->getMessage());
         }
 

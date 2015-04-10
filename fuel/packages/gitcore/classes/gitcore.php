@@ -605,9 +605,9 @@ class Gitcore {
 //        if ($this->connection->exists($this->dotRevision)) {
             if(!empty($this->revision)){
                 $remoteRevision = $this->revision;
-                $this->log['lastrevision'] = $remoteRevision;
+                $this->log['revisionOnFTP'] = $remoteRevision;
             }else{
-                $this->log['lastrevision'] = 'No last revision found, fresh deployment';
+                $this->log['revisionOnFTP'] = 'No last revision found, fresh deployment';
             }
 //        } else {
 //            $this->output('<yellow>|----[ No revision found. Fresh deployment - grab a coffee ]----|');

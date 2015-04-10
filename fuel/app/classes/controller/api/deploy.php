@@ -239,6 +239,9 @@ class Controller_Api_Deploy extends Controller {
                 'status' => 0,
                 'raw' => serialize($log)
             ));
+            $deploy->set($id, array(
+                'status' => 'Idle'
+            ))
             die();
         }
 

@@ -11,7 +11,7 @@
  */
 
 Autoloader::add_classes(array(
-	'idconvert'           => __DIR__.'/classes/idconvert.php',	
+	'utils'           => __DIR__.'/classes/idconvert.php',	
 ));
 
 

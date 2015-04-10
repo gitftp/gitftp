@@ -47,16 +47,16 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                setTimeout(function(){
+                setTimeout(function () {
                     this.updateViewProcess(id);
                 }, 1500)
             } else {
-                
+
             }
         },
         updateViewProcess: function (id) {
             var that = this;
-            
+
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 console.log('here', data);
                 data = data.data[0];

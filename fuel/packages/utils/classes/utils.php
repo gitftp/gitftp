@@ -8,7 +8,7 @@ class utils {
             'hostname' => 'fuelphp.com',
             'username' => '',
             'password' => '',
-            'timeout' => 90,
+            'timeout' => 120,
             'port' => 21,
             'passive' => true,
             'ssl_mode' => false,

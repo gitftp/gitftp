@@ -50,7 +50,7 @@ define([
                     that.updateViewProcess(id);
                 }, 1000);
             } else {
-
+                
             }
         },
         updateViewProcess: function (id) {

@@ -66,6 +66,7 @@ define([
                 console.log('here', data);
                 data = data.data[0];
                 $('.project-v-status').html(data.status);
+                
                 that.updateView();
             });
         },

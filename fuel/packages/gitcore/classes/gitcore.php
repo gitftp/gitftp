@@ -728,8 +728,8 @@ class Gitcore {
             elseif ($this->server == '' && $this->defaultServer == true && $name != 'default' && $this->deployAll == false)
                 continue;
 
-            die();
             $this->connect($server);
+            die();
 
             if ($this->sync) {
                 $this->dotRevision = $this->dotRevisionFilename;

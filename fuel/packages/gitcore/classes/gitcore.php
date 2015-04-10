@@ -967,7 +967,7 @@ class Gitcore {
             // Set revision on server
             $this->setRevision();
         } else {
-            $this->output(No files to upload.");
+            $this->output("No files to upload.");
             $this->log['nofiles'] = "No files to upload";
         }
 

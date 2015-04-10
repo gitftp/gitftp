@@ -338,7 +338,7 @@ class Controller_Api_Deploy extends Controller {
         } catch (Exception $ex) {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Failed to connect to ftp server,'
+                'reason' => 'Failed to connect to ftp server, or the destination directory not found,'
             ));
             array_push($log, $gitcore->log);
             $record->set($record_id, array(

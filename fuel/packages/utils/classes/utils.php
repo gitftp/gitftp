@@ -13,7 +13,7 @@ class utils {
 //    [port] => 
 //)
         $b = array(
-            'hostname' => 'fuelphp.com',
+            'hostname' => $a['host'],
             'username' => '',
             'password' => '',
             'timeout' => 120,

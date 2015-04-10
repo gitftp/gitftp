@@ -25,7 +25,10 @@ define([
                 that.updateView();
             });
         },
-    }
+        init: function(){
+            
+        }
+    };
 
 
     return process;

@@ -317,7 +317,7 @@ class Controller_Api_Deploy extends Controller {
         if ($ftp_test_data != 'Ftp server is ready to rock.') {
             echo json_encode(array(
                 'status' => false,
-                '$ftp_test_datas' => $ftp_test_data
+                'reason' => $ftp_test_data
             ));
 
             array_push($log, $gitcore->log);

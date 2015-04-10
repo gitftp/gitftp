@@ -224,7 +224,6 @@ class Controller_Api_Deploy extends Controller {
 
         chdir($userdir);
         
-        die();
         
         exec('git clone --depth 1 ' . $repo['repository'] . ' ' . $repo['id'], $gitcloneop);
 

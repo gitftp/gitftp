@@ -1,27 +1,5 @@
 <?php
-/**
- * PHPloy - A PHP Deployment Script
- *
- * @package PHPloy
- * @author Baki Goxhaj <banago@gmail.com>
- * @author Bruno De Barros <bruno@terraduo.com>
- * @author Fadion Dashi <jonidashi@gmail.com>
- * @author Simon East <simon+github@yump.com.au>
- * @author Mark Beech <mbeech@mark-beech.co.uk>
- * @author Guido Hendriks 
- * @link https://github.com/banago/PHPloy
- * @licence MIT Licence
- * @version 3.0.16-stable
- */
- 
-namespace Banago\PHPloy;
 
-use Banago\PHPloy\Ansi;
-use Banago\Bridge\Bridge;
-
-/**
- * PHPloy Class
- */
 class gitcore
 {
 

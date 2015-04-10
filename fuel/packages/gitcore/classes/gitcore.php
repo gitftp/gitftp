@@ -214,6 +214,7 @@ class gitcore
 //        'others' => 'true,',
 //        'sync' => 'all',
 //        'rollback' => 'hash',
+        'repo' => 'pathtorepo'
     );
     
     /**

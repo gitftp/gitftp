@@ -738,7 +738,7 @@ class gitcore {
 
             // Done
             if (!$this->listFiles) {
-                $this->output("\r\n<green>----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed");
+                $this->output("$this->humanFilesize($this->deploymentSize) . " Deployed");
                 $this->deploymentSize = 0;
             }
         }

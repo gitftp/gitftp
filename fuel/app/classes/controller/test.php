@@ -31,7 +31,7 @@ class Controller_Test extends Controller {
         $gitcore->options = array(
             repo => $repodir,
             debug => true,
-            server => 'default'.
+            server => 'default',
             ftp => array(
                 'scheme' => $ftp['scheme'],
                 'host' => $ftp['host'],

@@ -709,7 +709,6 @@ class Gitcore {
      */
     public function deploy($revision = 'HEAD') {
         $this->prepareServers();
-//        die();
 
         // Exit with an error if the specified server does not exist in deploy.ini
         if ($this->server != '' && !array_key_exists($this->server, $this->servers))
@@ -729,6 +728,7 @@ class Gitcore {
             elseif ($this->server == '' && $this->defaultServer == true && $name != 'default' && $this->deployAll == false)
                 continue;
 
+            die();
             $this->connect($server);
 
             if ($this->sync) {

@@ -20,17 +20,17 @@ define([
             $this.find('select, input, button').attr('readonly', true);
             $.post(base + 'api/deploy/edit/' + that.id, $this.serializeArray(), function (data) {
                 $this.find('select, input, button').removeAttr('readonly');
-                try{
+                try {
                     data = JSON.parse(data);
-                }catch(e){
+                } catch (e) {
                     noty({
                         text: 'something bad happened'
                     });
                 }
-                
+
                 if (data.status) {
                     $.alert({
-                        title: 'Updated! '+data.request.name,
+                        title: 'Updated! ' + data.request.name,
                         content: 'The configuration was updated.'
                     });
                     Backbone.history.loadUrl();
@@ -46,9 +46,15 @@ define([
             var that = this;
             if ($('.is-deploy-view-id').length) {
                 var id = $('.is-deploy-view-id').attr('data-id');
-                
-                
-                
+
+                $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                    var template = that.template.main({'s': data.data[0], 'v': that.which});
+                    that.data = data;
+                    that.$el.html(template);
+                    that.renderChild();
+                    that.updateView();
+                });
+
             } else {
 
             }
@@ -60,9 +66,9 @@ define([
             var that = this;
             console.log(that.activityData.data);
             var raw = that.activityData.data;
-            
-            $.each(that.activityData.data, function(i, a){
-                if(a.id == id){
+
+            $.each(that.activityData.data, function (i, a) {
+                if (a.id == id) {
                     raw = a.raw;
                 }
             });
@@ -133,9 +139,9 @@ define([
                         'ftplist': data.data
                     });
                     $('.deploy-sub-page').html(subPage);
-                    setTimeout(function(){
+                    setTimeout(function () {
                         $('[data-toggle="tooltip"]').tooltip();
-                    },500);
+                    }, 500);
                 });
             }
         },

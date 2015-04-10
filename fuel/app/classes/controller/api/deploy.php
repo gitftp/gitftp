@@ -337,8 +337,8 @@ class Controller_Api_Deploy extends Controller {
             $gitcore->startDeploy();
         } catch (Exception $ex) {
             echo json_encode(array(
-                
-            ))l
+                'status' => true
+            ));
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
                 'raw' => serialize($log),

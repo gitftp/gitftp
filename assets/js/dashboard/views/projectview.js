@@ -49,7 +49,7 @@ define([
                 var id = $('.is-deploy-view-id').attr('data-id');
                 setTimeout(function () {
                     that.updateViewProcess(id);
-                }, 1500)
+                }, 1500);
             } else {
 
             }

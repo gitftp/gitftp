@@ -210,7 +210,7 @@ class gitcore
         'debug' => 'true',
 //        'version' => 'true',
 //        'list' => 'true',
-        'server' => 'true',
+        'server' => 'default',
     );
     
     /**

@@ -15,9 +15,9 @@ class utils {
         $b = array(
             'hostname' => $a['host'],
             'username' => $a['username'],
-            'password' => '',
+            'password' => $a['pass'],
             'timeout' => 120,
-            'port' => 21,
+            'port' => $a['post'],
             'passive' => true,
             'ssl_mode' => false,
             'debug' => false

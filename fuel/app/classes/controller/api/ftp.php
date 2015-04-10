@@ -32,8 +32,11 @@ class Controller_Api_Ftp extends Controller {
 
     public function action_testftp(){
         if(Input::method() == 'POST'){
-            
-            utils::test_ftp(Input::post());
+            try{
+                utils::test_ftp(Input::post());
+            } catch (Exception $ex) {
+
+            }
         }
     }
     

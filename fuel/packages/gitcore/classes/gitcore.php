@@ -273,7 +273,7 @@ class gitcore
         if (file_exists("$this->repo/.git")) {
 
             if ($this->listFiles) {
-                $this->output("<yellow>PHPloy is running in LIST mode. No remote files will be modified.\r\n");
+                $this->output("PHPloy is running in LIST mode. No remote files will be modified.");
             }
             
             // Submodules are turned off by default

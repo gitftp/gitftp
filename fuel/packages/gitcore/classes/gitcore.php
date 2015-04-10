@@ -875,7 +875,12 @@ class gitcore {
                     $path .= $dir[$i] . '/';
 
                     if (!isset($pathsThatExist[$path])) {
-                        $origin = $this->connection->pwd();
+                        
+                        try{
+                            $origin = $this->connection->pwd();
+                        } catch (Exception $ex) {
+                            throw new \Exception("Could not connect to ftp server.");
+                        }
 
                         if (!$this->connection->exists($path)) {
                             $this->connection->mkdir($path);

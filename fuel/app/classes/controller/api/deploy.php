@@ -228,7 +228,7 @@ class Controller_Api_Deploy extends Controller {
             
             $repo_url = parse_url($repo['repository']);
             $repo_url['user'] = $repo['username'];
-            $repo_url['pass'] = 'passwrd';
+            $repo_url['pass'] = $repo['password'];
             
         }
         //test

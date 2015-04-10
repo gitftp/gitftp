@@ -580,8 +580,8 @@ class gitcore {
 //        } else {
 //            $this->output('Fresh deployment, grab a coffee');
 //        }
-        if ($this->options['revision']) {
-            $remoteRevision = $this->connection->get($this->dotRevision);
+        if (isset($this->options['revision'])) {
+            $remoteRevision = $this->options['revision'];
         } else {
             $this->output('Fresh deployment, grab a coffee');
         }

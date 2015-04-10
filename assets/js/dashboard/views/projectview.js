@@ -48,11 +48,7 @@ define([
                 var id = $('.is-deploy-view-id').attr('data-id');
 
                 $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
-                    var template = that.template.main({'s': data.data[0], 'v': that.which});
-                    that.data = data;
-                    that.$el.html(template);
-                    that.renderChild();
-                    that.updateView();
+                    
                 });
 
             } else {

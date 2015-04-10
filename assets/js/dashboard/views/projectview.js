@@ -140,7 +140,7 @@ define([
                 if (data.status) {
                     $.alert({
                         title: 'Woohoo!',
-                        content: 'Your repository is deployed for the first time !, Cheers'
+                        content: data.reason
                     });
                     Backbone.history.loadUrl();
                 } else {

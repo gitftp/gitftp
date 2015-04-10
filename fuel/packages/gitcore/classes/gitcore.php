@@ -257,6 +257,7 @@ class Gitcore {
             // Find the revision number of HEAD at this point so that if 
             // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
+            $this->log['revisionOnSystem'] = $this->localRevision;
 
             $this->deploy($this->revision);
         } else {
@@ -271,7 +272,6 @@ class Gitcore {
      */
     public function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
-        $this->log['revisionOnSystem'] = $currentRevision;
         return $currentRevision[0];
     }
 

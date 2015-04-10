@@ -899,7 +899,7 @@ class gitcore {
                         try{
                             $this->connection->cd($origin);
                         } catch (Exception $ex) {
-
+                            throw new \Exception("No such file or directory.");
                         }
                     }
                 }

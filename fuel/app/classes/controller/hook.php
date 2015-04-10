@@ -212,6 +212,7 @@ class gitcore
      */
     public function __construct()
     {
+    	
         $this->parseOptions();
 
         if (file_exists("$this->repo/.git")) {

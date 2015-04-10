@@ -987,7 +987,7 @@ class gitcore {
                 $this->connection->rm($file);
             }
 
-            $this->output("<red>Purged <white>{$dir}");
+            $this->output("Purged {$dir}");
             $this->connection->cd($origin);
         }
     }

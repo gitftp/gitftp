@@ -23,11 +23,10 @@ class utils {
             'debug' => true
         );
         try{
-            
+            $c = Ftp::forge($b);
         } catch (Exception $ex) {
 
         }
-        $c = Ftp::forge($b);
         
         $c->change_dir($a['path']);
         

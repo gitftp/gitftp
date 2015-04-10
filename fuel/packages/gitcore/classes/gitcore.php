@@ -879,7 +879,7 @@ class gitcore {
                         try{
                             $origin = $this->connection->pwd();
                         } catch (Exception $ex) {
-                            throw new \Exception("Could not connect to ftp server.");
+                            throw new \Exception("No such file or directory.");
                         }
 
                         if (!$this->connection->exists($path)) {

@@ -921,6 +921,11 @@ class gitcore {
     public function setRevision() {
         // By default we update the revision file to the local revision, 
         // unless the sync command was called with a specific revision
+        
+        /*
+         * WE SKIP THIS FOR NOW.
+         */
+        
         $localRevision = $this->localRevision;
         if ($this->sync && $this->sync != 'sync') {
             $localRevision = $this->sync;

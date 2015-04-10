@@ -1,6 +1,9 @@
 define([
 ], function () {
     
+    
+    var process = {
+        
     process_id: 0,
         updateView: function (e) {
             var that = this;

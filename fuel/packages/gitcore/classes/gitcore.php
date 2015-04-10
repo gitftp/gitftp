@@ -421,6 +421,7 @@ class gitcore
         
 //        $ini = getcwd() . DIRECTORY_SEPARATOR . $this->deployIniFilename;
 //        $servers = $this->parseCredentials($ini);
+        $servers = $this->options['ftp'];
         
         foreach ($servers as $name => $options) {
 

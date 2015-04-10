@@ -213,13 +213,6 @@ class gitcore
     public function __construct()
     {
 
-        // -? command is not correctly parsed by getopt() (at least on Windows)
-        // so need to check $argv variable instead
-        global $argv;
-        if (in_array('-?', $argv) or isset($options['help'])) {
-            $this->displayHelp = true;
-        }
-
         if (isset($options['debug'])) {
             $this->debug = true;
         }

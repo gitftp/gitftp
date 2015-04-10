@@ -86,6 +86,7 @@ class Controller_Hook extends Controller {
                 'raw' => serialize($log),
                 'status' => 0,
             ));
+            print_r($log);
             return;
         }
 //        die();

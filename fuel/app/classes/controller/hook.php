@@ -48,11 +48,11 @@ class Controller_Hook extends Controller {
         chdir($repo_dir);
         $log['hook'] = 'POST hook received, starting with deploy';
 
-        exec('git pull --rebase', $cmdpull);
+        shell_exec('git pull --rebase', $cmdpull);
         $log['pull'] = $cmdpull;
-        exec('git fetch --all', $cmdfetch);
+        shell_exec('git fetch --all', $cmdfetch);
         $log['fetch'] = $cmdfetch;
-        exec('git reset --hard origin/master', $cmdreset);
+        shell_exec('git reset --hard origin/master', $cmdreset);
         $log['reset'] = $cmdreset;
 
         $ftp = unserialize($repo['ftp']);

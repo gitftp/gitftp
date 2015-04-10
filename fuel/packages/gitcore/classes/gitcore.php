@@ -601,7 +601,6 @@ class Gitcore {
         }
 
         // Fetch the .revision file from the server and write it to $tmpFile
-        $this->ftpDebug("Fetching {$this->dotRevision} file");
 
 //        if ($this->connection->exists($this->dotRevision)) {
             if(empty($this->revision)){

@@ -15,7 +15,8 @@ define([
                 data = data.data[0];
                 var el = $('.project-v-status');
                 el.html(data.status);
-                if()
+                if(data.status){
+                    
                 el.addClass("project-co-loading");
             });
         },

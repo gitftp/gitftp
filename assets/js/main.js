@@ -19,7 +19,7 @@ $(function () {
             confirm: function(){
                 location.reload();
             },
-            confirmButton: 'Reload'
+            confirmButton: '<i class="fa fa-reload fa-fw"></i> Reload'
         })
     }
     window._debug = true;

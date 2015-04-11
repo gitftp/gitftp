@@ -53,7 +53,9 @@ define([
             this.page = page;
             this.template = _.template(this.page);
             _ajax({
-                
+                url: base+ 'api/deploy/getall',
+                dataType: 'json',
+                method: 'get',
             }).done(function(data){
                 var template = that.template({'list': data.data});
                 that.$el.html(template);

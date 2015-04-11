@@ -30,6 +30,10 @@ class Controller_Hook extends Controller {
         ))->execute();
         
         $payload = utils::parsePayload($_REQUEST, $deploy_id);
+        
+        DB::insert('test')->set(array(
+            'test'=> 'asdasda'
+        ))->execute();
         $log = array();
         $record = new Model_Record();
         $deploy = new Model_Deploy();

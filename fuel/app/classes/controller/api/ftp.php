@@ -131,7 +131,10 @@ class Controller_Api_Ftp extends Controller {
                     'request' => Input::post()
                 ));
             }else{
-                
+                echo json_encode(array(
+                    'status' => true,
+                    'request' => Input::post()
+                ));
             }
         }
     }

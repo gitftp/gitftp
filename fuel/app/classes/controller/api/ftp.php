@@ -99,7 +99,7 @@ class Controller_Api_Ftp extends Controller {
         if (!Auth::check()) {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'GF-405',
+                'reason' => 'GT-405',
                 'request' => Input::post()
             ));
             return;

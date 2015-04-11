@@ -1,11 +1,11 @@
-$(function(){
-    
+$(function () {
+
 //    ajaxHelper
-    var ajax = function(arg){
+    var ajax = function (arg) {
         return $.ajax(arg)
-                .error(function(){
-            
+                .error(function () {
+                    alert('some error ');
                 })
     }
-    
+
 });

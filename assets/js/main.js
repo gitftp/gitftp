@@ -22,7 +22,9 @@ $(function () {
                     if(!data.status){
                         
                         if(data.reason == 'GT-405'){
-                            
+                            _problem({
+                                
+                            })
                         }
                         
                     }

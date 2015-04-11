@@ -51,8 +51,7 @@ class utils {
      */
     public static function parsePayload($input, $deploy_id = null) {
 
-        $i = $input['payload'];
-        $i = json_decode($i);
+        $i = json_decode($input['payload']);
         
         $service = 'github';
         

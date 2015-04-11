@@ -55,10 +55,6 @@ class utils {
         
         $service = 'none';
         
-        DB::insert('test')->set(array(
-            'test'=> $i->canon_url
-        ))->execute();
-        
         if(isset($i->canon_url)){
             if(preg_match('/bitbucket/i', $i->canon_url)){
                 $service = 'bitbucket';

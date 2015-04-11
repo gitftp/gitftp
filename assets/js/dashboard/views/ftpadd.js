@@ -115,9 +115,6 @@ define([
                         });
                     }
                 }
-            })
-
-            $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {
             });
         }
     });

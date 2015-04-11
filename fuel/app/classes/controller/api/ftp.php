@@ -100,7 +100,7 @@ class Controller_Api_Ftp extends Controller {
 
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'You have logged out,',
+                'reason' => 'You have logged out, please refresh your page to login.',
                 'request' => Input::post()
             ));
             return;

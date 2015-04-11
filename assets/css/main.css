@@ -118,8 +118,8 @@ h6 {
 }
 .project-co-Idle {
   background-color: white;
-  background: -webkit-linear-gradient(top, #ffffff 0%, #4cd964 100%);
-  background: linear-gradient(to bottom, #ffffff 0%, #4cd964 100%);
+  background: -webkit-linear-gradient(top, #ff3b30 0%, #4cd964 100%);
+  background: linear-gradient(to bottom, #ff3b30 0%, #4cd964 100%);
   border-color: #ddd;
   color: #333;
   -webkit-animation: statusprocessing 1s linear infinite;

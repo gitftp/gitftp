@@ -39,6 +39,7 @@ class Controller_Hook extends Controller {
                     'raw' => serialize($log),
                     'triggerby' => $i->pusher->name,
                     'avatar_url' => $i->sender->avatar_url,
+                    'hash' => $i->after,
                     'post_data' => serialize($i),
                     'commit_count' => count($i->commits),
                     'commit_message' => $i->commits[0]->message

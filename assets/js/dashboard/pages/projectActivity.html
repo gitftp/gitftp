@@ -25,7 +25,7 @@
         <th>
         </th>
         <th>
-            Time
+            On
         </th>
         <th>
             by
@@ -61,10 +61,10 @@
         </td>
         <td>
             <%= a.date %>
+            <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
+            <%= a.triggerby %> commited
         </td>
         <td>
-            <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
-            <%= a.triggerby %>
         </td>
         <td>
             <%= a.amount_deployed %>

@@ -13,28 +13,28 @@ class utils {
 //    [port] => 
 //)
 
-//        $b = array(
-//            'hostname' => $a['host'],
-//            'username' => $a['username'],
-//            'password' => $a['pass'],
-//            'timeout' => 30,
-//            'port' => $a['port'],
-//            'passive' => true,
-//            'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
-//            'debug' => true
-//        );
-//        try{
-//            $c = \FtpTwo::forge($b);
-//        } catch (Exception $ex) {
-//            return $ex->getMessage();
-//        }
-//        try{
-//            $c->change_dir($a['path']);
-//        } catch (Exception $ex) {
-//            return 'The directory '.$a['path'].' does not exist.';
-//        }
-//        return 'Ftp server is ready to rock.';
-//        $c->close();
+        $b = array(
+            'hostname' => $a['host'],
+            'username' => $a['username'],
+            'password' => $a['pass'],
+            'timeout' => 30,
+            'port' => $a['port'],
+            'passive' => true,
+            'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
+            'debug' => true
+        );
+        try{
+            $c = Ftpalt::forge($b);
+        } catch (Exception $ex) {
+            return $ex->getMessage();
+        }
+        try{
+            $c->change_dir($a['path']);
+        } catch (Exception $ex) {
+            return 'The directory '.$a['path'].' does not exist.';
+        }
+        return 'Ftp server is ready to rock.';
+        $c->close();
     }
 
 }

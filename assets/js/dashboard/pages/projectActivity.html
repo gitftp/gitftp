@@ -60,7 +60,7 @@
             <%= (a.hash) ? ' <code>'+a.hash.substr(0, 6)+'</code>' : '' %>
             <br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
-            <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+a.commit_message+'</strong>' : '' %>
+            <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+a.commit_message.substr(0, 46)+'</strong>' : '' %>
         </td>
         <td>
             <strong><%= a.amount_deployed %></strong> of Payload

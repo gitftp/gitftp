@@ -24,7 +24,7 @@ class utils {
             'debug' => true
         );
         try{
-            $c = Ftp::forge($b);
+            $c = \Fuel\Core\Ftp::forge($b);
         } catch (Exception $ex) {
             return $ex->getMessage();
         }

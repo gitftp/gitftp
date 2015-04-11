@@ -139,7 +139,20 @@ class Controller_Hook extends Controller {
     public function action_get() {
         echo '<pre>';
         $a = DB::select()->from('test')->execute()->as_array();
-        print_r($a);
+        print_r(json_decode(unserialize($a[1]['test'])));
+        $repo_dir = DOCROOT . 'fuel/repository/228/46';
+        $log = array();
+
+        chdir($repo_dir);
+        $log['hook'] = 'POST hook received, starting with deploy';
+
+        exec('git pull --rebase', $cmdpull);
+        $log['pull'] = $cmdpull;
+        exec('git fetch --all ', $cmdfetch);
+        $log['fetch'] = $cmdfetch;
+        exec('git reset --hard origin/master ', $cmdreset);
+        $log['reset'] = $cmdreset;
+        print_r($log);
     }
     public function action_put(){
         DB::insert('test')->set(array(

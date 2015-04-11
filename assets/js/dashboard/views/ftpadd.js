@@ -97,7 +97,7 @@ define([
                 var to = 'addftp';
             }
 
-            ajax({
+            _ajax({
                 url : base+'api/ftp/'+to,
                 data : $this.serializeArray(),
                 success: function(){

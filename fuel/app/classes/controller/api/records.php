@@ -34,6 +34,7 @@ class Controller_Api_Records extends Controller {
             return $arg;
         }
         
+        $g = '';
         
     }
 }

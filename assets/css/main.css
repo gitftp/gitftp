@@ -55,8 +55,6 @@ h6 {
 .bb-loading {
   position: relative;
 }
-/*@loading: #01b5e9;
-@loadingg: #4cd964;*/
 .bb-loading:empty:before {
   height: 60px;
   width: 60px;
@@ -72,39 +70,39 @@ h6 {
   -webkit-animation: spin .5s infinite linear;
           animation: spin .5s infinite linear;
   border: solid 2px rgba(0, 0, 0, 0);
-  border-top-color: #4cd964;
-  border-bottom-color: #8e8e93;
+  border-top-color: #01b5e9;
+  border-bottom-color: #4cd964;
 }
 @-webkit-keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
-    border-top-color: #4cd964;
-    border-bottom-color: #8e8e93;
+    border-top-color: #01b5e9;
+    border-bottom-color: #4cd964;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #8e8e93;
-    border-bottom-color: #4cd964;
+    border-top-color: #4cd964;
+    border-bottom-color: #01b5e9;
   }
 }
 @keyframes spin {
   from {
     -webkit-transform: rotate(0deg);
             transform: rotate(0deg);
-    border-top-color: #4cd964;
-    border-bottom-color: #8e8e93;
+    border-top-color: #01b5e9;
+    border-bottom-color: #4cd964;
   }
   to {
     -webkit-transform: rotate(359deg);
             transform: rotate(359deg);
-    border-top-color: #8e8e93;
-    border-bottom-color: #4cd964;
+    border-top-color: #4cd964;
+    border-bottom-color: #01b5e9;
   }
 }
 .project-v-status {
-  background: #f8f8f8;
+  background: #676767;
   padding: 5px 10px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);

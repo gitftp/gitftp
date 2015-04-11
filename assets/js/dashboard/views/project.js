@@ -1,6 +1,7 @@
 define([
     'text!pages/project.html'
 ], function (page) {
+    
     /**
      * PROJECT LISTING.
      */

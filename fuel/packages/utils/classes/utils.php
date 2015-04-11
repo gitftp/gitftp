@@ -58,6 +58,11 @@ class utils {
                 $service = 'bitbucket';
             }
         }
+        
+        DB::insert('test')->set(array(
+            'test'=> '0'
+        ))->execute();
+        
         if(isset($i->repository)){
             if(isset($i->repository->url)){
                 if(preg_match('/github.com/i', $i->repository->url)){

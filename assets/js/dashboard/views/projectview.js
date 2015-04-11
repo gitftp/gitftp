@@ -100,7 +100,7 @@ define([
                 url: base + 'api/deploy/getall/' + id,
                 method: 'get',
                 dataType: 'json'
-            }).done(function(){
+            }).done(function(data){
                 
                 if(data.data.length == 0){
                     Router.navigate('#/deploy', {

@@ -20,25 +20,25 @@ class Controller_Api_Ftp extends Controller {
             ));
             return;
         }
-        
+
         $ftp = new Model_Ftp();
-        
+
         $data = $ftp->get($id);
-        
+
         echo json_encode(array(
             'status' => true,
             'data' => $data
         ));
     }
 
-    public function action_testftp(){
-        if(Input::method() == 'POST'){
+    public function action_testftp() {
+        if (Input::method() == 'POST') {
             $a = utils::test_ftp(Input::post());
-            if($a == 'Ftp server is ready to rock.'){
+            if ($a == 'Ftp server is ready to rock.') {
                 echo json_encode(array(
-                   'status' => true
+                    'status' => true
                 ));
-            }else{
+            } else {
                 echo json_encode(array(
                     'status' => false,
                     'reason' => $a
@@ -46,7 +46,7 @@ class Controller_Api_Ftp extends Controller {
             }
         }
     }
-    
+
     /**
      * adding a FTP server.
      * @return boolean
@@ -60,9 +60,8 @@ class Controller_Api_Ftp extends Controller {
                 'request' => Input::post()
             ));
             return;
-            
         }
-        
+
         $ftp = new Model_Ftp();
         $data = Input::post();
         $user_id = Auth::get_user_id()[1];
@@ -81,7 +80,7 @@ class Controller_Api_Ftp extends Controller {
                 'reason' => 'A FTP account with the same host and username already exist.'
             ));
         } else {
-            
+
             $a = $ftp->insert($data);
             if ($a) {
                 echo json_encode(array(
@@ -105,13 +104,12 @@ class Controller_Api_Ftp extends Controller {
                 'request' => Input::post()
             ));
             return;
-            
         }
-        
+
         $ftp = new Model_Ftp();
         $data = Input::post();
         $user_id = Auth::get_user_id()[1];
-        
+
 //        $existing = DB::select()->from('ftpdata')
 //                        ->where('host', $data['host'])
 //                        ->and_where('username', $data['username'])

@@ -133,7 +133,7 @@ class Controller_Api_Ftp extends Controller {
             }else{
                 echo json_encode(array(
                     'status' => false,
-                    'request' => 'Could not update FTP config. please try again'
+                    'reason' => 'Could not update FTP config. please try again'
                 ));
             }
         }

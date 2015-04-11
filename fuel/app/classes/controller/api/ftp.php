@@ -126,15 +126,14 @@ class Controller_Api_Ftp extends Controller {
                 'reason' => 'A FTP account with the same host and username already exist OR you didnt change anything ?.'
             ));
         } else {
-            echo 'insert';
             $a = $ftp->set($id, $data);
+            print_r($a);
             if ($a) {
                 echo json_encode(array(
                     'status' => true,
                     'request' => Input::post()
                 ));
             }
-            echo 'END';
         }
     }
 

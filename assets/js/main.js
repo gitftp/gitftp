@@ -18,7 +18,7 @@ $(function () {
                         default: 
                             alert('error :'+data.status);
                     }
-                })
+                }).done()
     }
     window._problem = function (a) {
         var b = {};

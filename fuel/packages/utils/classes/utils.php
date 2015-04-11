@@ -68,10 +68,6 @@ class utils {
         
         if($service == 'github'){
             $lc = count($i->commits)-1;
-            echo '-------------';
-            print_r($lc);
-            echo '-------------';
-            
             return array(
                 'pushby' => $i->pusher->name,
                 'avatar_url' => $i->sender->avatar_url,

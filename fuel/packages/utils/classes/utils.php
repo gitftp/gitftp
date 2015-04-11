@@ -60,14 +60,14 @@ class utils {
         ))->execute();
         
         if(isset($i->canon_url)){
-            if(preg_match('/bitbucket.com/i', $i->canon_url)){
+            if(preg_match('/bitbucket/i', $i->canon_url)){
                 $service = 'bitbucket';
             }
         }
         
         if(isset($i->repository)){
             if(isset($i->repository->url)){
-                if(preg_match('/github.com/i', $i->repository->url)){
+                if(preg_match('/github/i', $i->repository->url)){
                     $service = 'github';
                 }
             }

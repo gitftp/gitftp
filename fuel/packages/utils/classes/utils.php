@@ -63,10 +63,6 @@ class utils {
             }
         }
         
-        DB::insert('test')->set(array(
-            'test'=> $service
-        ))->execute();
-        
         if(isset($i->repository)){
             if(isset($i->repository->url)){
                 if(preg_match('/github.com/i', $i->repository->url)){
@@ -74,10 +70,6 @@ class utils {
                 }
             }
         }
-
-        DB::insert('test')->set(array(
-            'test'=> $service
-        ))->execute();
                 
         if($service == 'github'){
             $lc = count($i->commits)-1;

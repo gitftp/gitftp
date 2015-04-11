@@ -16,7 +16,7 @@ class utils {
             'hostname' => $a['host'],
             'username' => $a['username'],
             'password' => $a['pass'],
-            'timeout' => 120,
+            'timeout' => 30,
             'port' => $a['port'],
             'passive' => true,
             'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,

@@ -15,7 +15,8 @@ define([
                 data = data.data[0];
                 var el = $('.project-v-status');
                 el.html(data.status);
-                el.project-co-loading
+                if()
+                el.addClass("project-co-loading");
             });
         },
         runProcess: function () {

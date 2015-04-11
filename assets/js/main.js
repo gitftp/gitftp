@@ -21,7 +21,10 @@ $(function () {
     window._problem = function (a) {
         var b = {};
         $.extend(b, a, {
-            
+            title: 'Problem',
+            content: a.text,
+            icon: 'fa fa-rocket',
+            confirmButtonClass: 'btn-warning'
         })
 
         $.confirm({

@@ -38,7 +38,7 @@ class Bridge {
         }
         //Secondary option, try to use ftp functions as backend
         else if (in_array($scheme, Ftp::getAvailableProtocols())) {
-            $this->backend = new Ftp($url, $options);
+            $this->backend = new FTP_bridge($url, $options);
         }
         //Third option, use curl functions as backend
         else if (in_array($scheme, Curl::getAvailableProtocols())) {

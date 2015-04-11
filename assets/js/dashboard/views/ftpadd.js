@@ -101,24 +101,23 @@ define([
                 url : base+'api/ftp/'+to,
                 data : $this.serializeArray(),
                 success: function(){
-                    
+                    $this.find('select, input').removeAttr('readonly');
+                    data = JSON.parse(data);
+                    if (data.status) {
+                        noty({
+                            text: '!!! ' + ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()
+                        });
+                        Router.navigate('ftp', {trigger: true});
+                    } else {
+                        $.alert({
+                            title: 'Something bad happened',
+                            content: data.reason
+                        });
+                    }
                 }
             })
 
             $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {
-                $this.find('select, input').removeAttr('readonly');
-                data = JSON.parse(data);
-                if (data.status) {
-                    noty({
-                        text: '!!! ' + ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()
-                    });
-                    Router.navigate('ftp', {trigger: true});
-                } else {
-                    $.alert({
-                        title: 'Something bad happened',
-                        content: data.reason
-                    });
-                }
             });
         }
     });

@@ -122,6 +122,8 @@ h6 {
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   border-color: #ddd;
   color: #333;
+  -webkit-animation: status;
+          animation: status;
 }
 @-webkit-keyframes statusprocessing {
   1% {

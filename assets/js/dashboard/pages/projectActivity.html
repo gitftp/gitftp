@@ -59,7 +59,7 @@
             <span><%= a.date %></span>
             <%= (a.hash) ? ' <code>'+a.hash.substr(0, 6)+'</code>' : '' %>
             <br>
-            <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '<img src="'base+assets/img/user.png'"/>' %>
+            <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '<img src="'base+'assets/img/user.png"/>' %>
             <%
             if(a.commit_message){
                 if(a.commit_message.length > 36){

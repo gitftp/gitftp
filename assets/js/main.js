@@ -6,7 +6,7 @@ $(function () {
                 .error(function (data) {
                     switch (data.status) {
                         case '0':
-                            $.alert({})
+                            $.alert({title: 'Problem'})
                             break;
                     }
                 })

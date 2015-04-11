@@ -100,7 +100,7 @@ class Controller_Api_Ftp extends Controller {
 
             echo json_encode(array(
                 'status' => false,
-                'reason' => '',
+                'reason' => '403',
                 'request' => Input::post()
             ));
             return;

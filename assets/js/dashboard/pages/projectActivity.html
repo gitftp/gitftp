@@ -61,7 +61,7 @@
             <i class="fa fa-<%= ic %> fa-fw" data-toggle="tooltip" data-placement="left" title="<%= ct %>" style="color: #<%= co %> "></i>
         </td>
         <td>
-            <%= a.date %> <br>
+            <span style="text-transform: uppercase; "><%= a.date %></span> <br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
             <strong><%= a.triggerby %></strong> commited <strong><%= a.commit_message %></strong>
         </td>

@@ -100,6 +100,7 @@ define([
             _ajax({
                 url : base+'api/ftp/'+to,
                 data : $this.serializeArray(),
+                method : 'post',
                 success: function(){
                     $this.find('select, input').removeAttr('readonly');
                     data = JSON.parse(data);

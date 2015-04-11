@@ -14,7 +14,6 @@ class FtpConnectionException extends \FuelException {}
 
 class FtpFileAccessException extends \FuelException {}
 
-
 /**
  * FTP Class
  *

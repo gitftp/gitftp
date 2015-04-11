@@ -60,6 +60,7 @@ class utils {
         }
         if(isset($i->repository)){
             
+//            url
         }
         
         if($service == 'github'){

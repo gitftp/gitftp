@@ -52,7 +52,9 @@ define([
             that.$el.html('');
             this.page = page;
             this.template = _.template(this.page);
-
+            _ajax({
+                
+            })
             $.getJSON(base + 'api/deploy/getall', function (data) {
                 var template = that.template({'list': data.data});
                 that.$el.html(template);

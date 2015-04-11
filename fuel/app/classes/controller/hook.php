@@ -147,13 +147,13 @@ class Controller_Hook extends Controller {
             'test' => serialize($_REQUEST)
         ))->execute();
     }
+
     public function action_test() {
         $a = 'asdasdasdsadasbitbucket.com sdasdasd';
         
-        if(preg_match('/github.com/i', $i->repository->url)){
-                    $service = 'github';
-                }
-        
+        if (preg_match('/bitbucket.com/i', $i->canon_url)) {
+            $service = 'bitbucket';
+        }
     }
 
 }

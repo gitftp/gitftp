@@ -13,7 +13,7 @@ require([
 ], function (router, process) {
 
 
-    if()
+    if(window.location)
 
     window.Router = new router.router();
 

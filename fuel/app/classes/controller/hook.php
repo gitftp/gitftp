@@ -154,5 +154,7 @@ class Controller_Hook extends Controller {
         $log['reset'] = $cmdreset;
         print_r($log);
     }
-
+    public function action_put(){
+        
+    }
 }

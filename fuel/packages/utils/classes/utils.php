@@ -52,9 +52,11 @@ class utils {
     public static function parsePayload($input, $deploy_id = null) {
 
         $i = json_decode($input['payload']);
+        
         $service = 'none';
+        
         DB::insert('test')->set(array(
-            'test'=> $service
+            'test'=> $i->canon_url
         ))->execute();
         
         if(isset($i->canon_url)){

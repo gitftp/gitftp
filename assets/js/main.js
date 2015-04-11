@@ -8,7 +8,8 @@ $(function () {
                         case '0':
                             $.alert({
                                 title: 'Problem', 
-                                content: 'Servers have gone away, please check if you have a active internet connection.'
+                                content: 'Servers have gone away, please check if you have a active internet connection.',
+                                icon: 'fa fa-'
                             })
                             break;
                     }

@@ -12,6 +12,9 @@ require([
     "process"
 ], function (router, process) {
 
+
+    if()
+
     window.Router = new router.router();
 
     Backbone.history.on('all', function () {

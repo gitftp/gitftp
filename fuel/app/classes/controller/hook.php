@@ -26,8 +26,9 @@ class Controller_Hook extends Controller {
         $repo = $repo[0];
         
         DB::insert('test')->set(array(
-            'test'=> $service
+            'test'=> 'asdasda'
         ))->execute();
+        
         $payload = utils::parsePayload($_REQUEST, $deploy_id);
         $log = array();
         $record = new Model_Record();

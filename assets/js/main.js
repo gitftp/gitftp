@@ -1,7 +1,7 @@
 $(function(){
     
 //    ajaxHelper
-    var ajax = function(){
+    var ajax = function(arg){
         
     }
     

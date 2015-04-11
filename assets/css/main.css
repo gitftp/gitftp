@@ -115,6 +115,8 @@ h6 {
   color: rgba(255, 255, 255, 0.9);
   border: solid 1px #FAFAFA;
   font-weight: 800;
+  -webkit-transition: background 2s;
+          transition: background 2s;
 }
 .project-co-Idle {
   background-color: white;

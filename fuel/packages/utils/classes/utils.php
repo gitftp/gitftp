@@ -36,7 +36,8 @@ class utils {
         return 'Ftp server is ready to rock.';
         $c->close();
     }
-
+    
+    public static function 
 }
 
 /* end of file auth.php */

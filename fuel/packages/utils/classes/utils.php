@@ -24,7 +24,7 @@ class utils {
             'debug' => true
         );
         try{
-            $c = ftpalt::forge($b);
+            $c = ftp::forge($b);
         } catch (Exception $ex) {
             return $ex->getMessage();
         }

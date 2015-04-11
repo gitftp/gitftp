@@ -935,7 +935,7 @@ class gitcore {
             $numberOfFilesToUpdate = count($filesToUpload);
 
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
-            $this->output("^ $fileNo of $numberOfFilesToUpdate {$file}");
+            $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
         }
 
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {

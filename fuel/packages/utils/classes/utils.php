@@ -57,7 +57,7 @@ class utils {
         
         
         if($service == 'github'){
-//            $latestcommit = (count($i->commmits)-1);
+            $latestcommit = count($i->commmits);
             return array(
                 'pushby' => $i->pusher->name,
                 'avatar_url' => $i->sender->avatar_url,

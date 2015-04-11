@@ -42,8 +42,10 @@
         <div class="well well-sm well-cs">
             <%
             if(s.lastdeploy == 0){
+                var ld = 'Not deployed yet';
+            }else{
+            
             }
-            var ld = (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy
             %>
             <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= ld %>
 

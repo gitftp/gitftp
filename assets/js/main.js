@@ -23,7 +23,7 @@ $(function () {
         $.extend(b, a, {
             title: 'Problem',
             content: a.text,
-            icon: 'fa fa-rocket',
+            icon: 'fa fa-warning',
             confirmButtonClass: 'btn-warning'
         });
         $.confirm(b);

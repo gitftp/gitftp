@@ -18,8 +18,10 @@ $(function () {
             icon: 'fa fa-rocket',
             confirm: function(){
                 location.reload();
+                return false;
             },
-            confirmButton: '<i class="fa fa-reload fa-fw"></i> Reload'
+            confirmButton: '<i class="fa fa-reload fa-fw"></i> Reload',
+            confirmButtonClass: 'btn-warning'
         })
     }
     window._debug = true;

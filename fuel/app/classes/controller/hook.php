@@ -27,8 +27,9 @@ class Controller_Hook extends Controller {
         
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
+        
         $log = array();
-
+        
         $record = new Model_Record();
         $deploy = new Model_Deploy();
 

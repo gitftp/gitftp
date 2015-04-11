@@ -15,7 +15,7 @@ define([
                 data = data.data[0];
                 var el = $('.project-v-status');
                 el.html(data.status);
-                if(data.status){
+                if(data.status !== 'Idle'){
                     el.removeClass("project-co-loading");
                 }else{
                     el.addClass("project-co-loading");

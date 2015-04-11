@@ -57,10 +57,9 @@ define([
                 dataType: 'json',
                 method: 'get',
             }).done(function(data){
+                
                 var template = that.template({'list': data.data});
                 that.$el.html(template);
-            });
-            $.getJSON(base + 'api/deploy/getall', function (data) {
             });
         }
     });

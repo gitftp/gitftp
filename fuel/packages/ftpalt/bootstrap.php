@@ -12,8 +12,7 @@
  */
 
 Autoloader::add_classes(array(
-    'bg' => __DIR__ . '/classes/bg.php',
-    'gitcore' => __DIR__ . '/classes/gitcore.php',
+    'ftpalt' => __DIR__ . '/classes/ftpalt.php',
 ));
 
 

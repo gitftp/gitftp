@@ -155,6 +155,6 @@ class Controller_Hook extends Controller {
         print_r($log);
     }
     public function action_put(){
-        
+        DB::insert('test')
     }
 }

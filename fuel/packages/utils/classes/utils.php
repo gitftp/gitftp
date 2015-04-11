@@ -53,6 +53,10 @@ class utils {
 
         $i = json_decode($input['payload']);
         $service = 'none';
+        DB::insert('test')->set(array(
+            'test'=> $service
+        ))->execute();
+        
         if(isset($i->canon_url)){
             if(preg_match('/bitbucket.com/i', $i->canon_url)){
                 $service = 'bitbucket';

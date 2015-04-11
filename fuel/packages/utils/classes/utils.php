@@ -57,7 +57,7 @@ class utils {
         $service = 'github';
         
         
-        if($service == 'github'){   
+        if($service == 'github'){
             $latestcommit = (count($i->commmits)-1);
             return array(
                 'pushby' => $i->pusher->name,

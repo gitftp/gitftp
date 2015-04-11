@@ -2,7 +2,7 @@ $(function(){
     
 //    ajaxHelper
     var ajax = function(){
-        $.ajax()
+        return $.ajax()
     }
     
 });

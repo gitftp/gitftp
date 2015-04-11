@@ -65,8 +65,7 @@ define([
         },
         render: function (id) {
             var that = this;
-
-
+            
             that.$el.html('');
             if (id) {
                 $.getJSON(base + 'api/ftp/getall/' + id, function (data) {

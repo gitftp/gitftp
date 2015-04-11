@@ -16,11 +16,6 @@ $(function () {
             title: 'Problem',
             content: a.text,
             icon: 'fa fa-rocket',
-            confirm: function(){
-                location.reload();
-                return false;
-            },
-            confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
             confirmButtonClass: 'btn-warning'
         })
     }

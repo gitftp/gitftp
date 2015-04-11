@@ -161,7 +161,7 @@ class Curl implements Backend {
 	 */
 	public function exists($path) {
 		throw new \Exception("Unable to check if file/folder exists using cURL backend. This functionality has not yet been implemented.");
-    }	
+        }
 
 	/**
 	 * Delete a file from remote server

@@ -24,12 +24,9 @@ class Controller_Hook extends Controller {
         }
 
         $repo = $repo[0];
-        
-        $i = $_REQUEST['payload'];
-        $i = json_decode($i);
-        
+
+        $payload = utils::parsePayload($_REQUEST, $deploy_id);
         $log = array();
-        
         $record = new Model_Record();
         $deploy = new Model_Deploy();
 
@@ -39,12 +36,12 @@ class Controller_Hook extends Controller {
                     'status' => 2,
                     'date' => time(),
                     'raw' => serialize($log),
-                    'triggerby' => $i->pusher->name,
-                    'avatar_url' => $i->sender->avatar_url,
-                    'hash' => $i->after,
-                    'post_data' => serialize($i),
-                    'commit_count' => count($i->commits),
-                    'commit_message' => $i->commits[0]->message
+                    'triggerby' => $payload['pushby'],
+                    'avatar_url' => $payload['avatar_url'],
+                    'hash' => $payload['hash'],
+                    'post_data' => $payload['post_data'],
+                    'commit_count' => $payload['commit_count'],
+                    'commit_message' => $payload['commit_message']
                 ))->execute();
 
         $deploy->set($deploy_id, array(
@@ -91,7 +88,7 @@ class Controller_Hook extends Controller {
             ),
             'revision' => $ftp['revision'],
         );
-        
+
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {
@@ -143,11 +140,12 @@ class Controller_Hook extends Controller {
         $a = DB::select()->from('test')->execute()->as_array();
         print_r(json_decode(unserialize($a[1]['test'])['payload']));
 //        print_r(json_decode(unserialize($a[1]['payload'])));
-        
     }
-    public function action_put(){
+
+    public function action_put() {
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST)
         ))->execute();
     }
+
 }

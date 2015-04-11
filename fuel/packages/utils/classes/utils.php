@@ -23,23 +23,57 @@ class utils {
             'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
             'debug' => true
         );
-        try{
+        try {
             $c = \Fuel\Core\Ftp::forge($b);
         } catch (Exception $ex) {
             return $ex->getMessage();
         }
-        try{
+        try {
             $c->change_dir($a['path']);
         } catch (Exception $ex) {
-            return 'The directory '.$a['path'].' does not exist in the FTP server.';
+            return 'The directory ' . $a['path'] . ' does not exist in the FTP server.';
         }
         return 'Ftp server is ready to rock.';
         $c->close();
     }
-    
-    public static function parsePayload($input){
+
+    /**
+     * Returns array
+     * pushby
+     * avatar_url
+     * hash
+     * post_data
+     * commit_count
+     * commit_message
+     * 
+     * @param type $input -> payload.
+     * @param type $deploy_id -> deploy to id optional
+     */
+    public static function parsePayload($input, $deploy_id = null) {
+
+        $i = $input['payload'];
+        $i = json_decode($i);
         
+        $service = 'github';
+        
+        
+        if($service == 'github'){   
+            $latestcommit = (count($i->commmits)-1);
+            return array(
+                'pushby' => $i->pusher->name,
+                'avatar_url' => $i->sender->avatar_url,
+                'hash' => $i->after,
+                'post_data' => serialize($i),
+                'commit_count' => count($i->commits),
+                'commit_message' => $i->commits[$latestcommit]->message
+            );
+        }
+        
+        if($service == 'bitbucket'){
+            
+        }
     }
+
 }
 
 /* end of file auth.php */

@@ -26,7 +26,7 @@ class FtpFileAccessException extends \FuelException {}
  * @author		Phil Sturgeon
  * @link		http://docs.fuelphp.com/classes/ftp.html
  */
-class Ftp_2
+class Ftp
 {
 	public static $initialized = false;
 

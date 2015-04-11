@@ -133,7 +133,7 @@ class Controller_Api_Ftp extends Controller {
             }else{
                 echo json_encode(array(
                     'status' => false,
-                    'reason' => '',
+                    'reason' => 'Cannot update with the same values,',
                     'request' => $id
                 ));
             }

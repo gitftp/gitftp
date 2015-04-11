@@ -33,8 +33,6 @@ class Controller_Api_Records extends Controller {
         if(count($arg) == 0){
             return $arg;
         }
-        
-        $g = '';
-        
+        return $arg;
     }
 }

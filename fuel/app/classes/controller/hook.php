@@ -157,6 +157,6 @@ class Controller_Hook extends Controller {
     public function action_put(){
         DB::insert('test')->set(array(
             'test' => serialize($_REQUEST)
-        ))
+        ))->execute();
     }
 }

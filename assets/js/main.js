@@ -19,7 +19,8 @@ $(function () {
                 })
     }
     window._problem = function (a) {
-        
+        var b = {};
+        $.extend(b, a)
 
         $.confirm({
             title: 'Problem',

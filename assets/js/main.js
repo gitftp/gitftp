@@ -25,14 +25,8 @@ $(function () {
             content: a.text,
             icon: 'fa fa-rocket',
             confirmButtonClass: 'btn-warning'
-        })
-
-        $.confirm({
-            title: 'Problem',
-            content: a.text,
-            icon: 'fa fa-rocket',
-            confirmButtonClass: 'btn-warning'
-        })
+        });
+        $.confirm(b);
     }
     window._debug = true;
 });

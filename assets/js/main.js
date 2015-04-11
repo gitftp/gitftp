@@ -5,7 +5,7 @@ $(function(){
         return $.ajax(arg)
                 .error(function(){
             
-        })
+                })
     }
     
 });

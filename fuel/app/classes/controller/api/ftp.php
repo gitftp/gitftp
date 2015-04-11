@@ -97,7 +97,6 @@ class Controller_Api_Ftp extends Controller {
      */
     public function action_editftp($id) {
         if (!Auth::check()) {
-
             echo json_encode(array(
                 'status' => false,
                 'reason' => '403',

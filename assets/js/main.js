@@ -4,9 +4,7 @@ $(function(){
     var ajax = function(){
         var a = arguments;
         
-        $.ajax({
-            
-        })
+        $.ajax()
         
     }
     

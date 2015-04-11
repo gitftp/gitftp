@@ -29,9 +29,7 @@ class Controller_Hook extends Controller {
         
         $repo = $repo[0];
         
-        
         $payload = utils::parsePayload($_REQUEST, $deploy_id);
-        
         
         $log = array();
         $record = new Model_Record();

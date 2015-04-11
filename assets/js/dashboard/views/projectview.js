@@ -112,10 +112,6 @@ define([
                 that.data = data;
                 that.$el.html(template);
                 that.renderChild();
-            })
-            
-            $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
-                
             });
         },
         renderChild: function () {

@@ -58,7 +58,9 @@ define([
                 method: 'get',
             }).done(function(data){
                 if(data.data.length == 0){
-                    
+                    Router.navigate('#/deploy', {
+                        trigger: true
+                    })
                     return false;
                 }
                 var template = that.template({'list': data.data});

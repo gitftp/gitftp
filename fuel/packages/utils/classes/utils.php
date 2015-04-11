@@ -58,7 +58,7 @@ class utils {
         
         if($service == 'github'){
             
-            print_r($i->commits);
+            print_r(count($i->commits));
             
             return array(
                 'pushby' => $i->pusher->name,

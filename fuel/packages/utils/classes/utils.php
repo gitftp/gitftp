@@ -68,7 +68,7 @@ class utils {
                 'hash' => $i->after,
                 'post_data' => serialize($i),
                 'commit_count' => count($i->commits),
-                'commit_message' => $i->commits[0]->message
+                'commit_message' => $i->commits[$lc]->message
             );
         }
         

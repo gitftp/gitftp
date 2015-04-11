@@ -19,7 +19,7 @@ $(function () {
                             alert('error :'+data.status);
                     }
                 }).always(function(data){
-                    console.log(data);
+                    
                 })
     }
     window._problem = function (a) {

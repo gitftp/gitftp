@@ -154,6 +154,7 @@ class Controller_Hook extends Controller {
         if (preg_match('/bitbucket.com/i', $i->canon_url)) {
             $service = 'bitbucket';
         }
+        echo $service;
     }
 
 }

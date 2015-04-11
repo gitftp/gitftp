@@ -313,6 +313,9 @@ class Controller_Api_Deploy extends Controller {
 
         $gitcore = new gitcore();
         
+        /*
+         * check if ftp server is proper.
+         */
         $ftp_test_data = utils::test_ftp($ftp);
         if ($ftp_test_data != 'Ftp server is ready to rock.') {
             echo json_encode(array(

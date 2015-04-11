@@ -19,7 +19,7 @@ $(function () {
                 })
     }
     window._problem = function (a) {
-
+        
 
         $.confirm({
             title: 'Problem',

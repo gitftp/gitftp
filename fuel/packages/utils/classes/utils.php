@@ -54,7 +54,7 @@ class utils {
         $i = json_decode($input['payload']);
         
         if(isset($i->canon_url)){
-            if()
+            if(preg_match('', $i->canon_url))
         }
         
         if($service == 'github'){

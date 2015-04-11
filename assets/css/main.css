@@ -130,8 +130,8 @@ h6 {
           animation: statusprocessing 1s linear infinite;
   /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
   background-size: 400% 400%;
-  -webkit-animation: statusprocessing 1s ease infinite;
-          animation: statusprocessing 1s ease infinite;
+  -webkit-animation: statusprocessing 1s infinite infinite;
+          animation: statusprocessing 1s infinite infinite;
 }
 @-webkit-keyframes statusprocessing {
   0% {

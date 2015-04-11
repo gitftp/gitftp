@@ -101,7 +101,7 @@ define([
                 url: base + 'api/ftp/' + to,
                 data: $this.serializeArray(),
                 method: 'post',
-                type : 'json'
+                dataType : 'json'
             }).done(function (data) {
                 
                 $this.find('select, input').removeAttr('readonly');

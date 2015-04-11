@@ -102,6 +102,7 @@ define([
                 data : $this.serializeArray(),
                 method : 'post',
                 success: function(){
+                    
                     $this.find('select, input').removeAttr('readonly');
                     data = JSON.parse(data);
                     if (data.status) {
@@ -115,6 +116,7 @@ define([
                             content: data.reason
                         });
                     }
+                    
                 }
             });
         }

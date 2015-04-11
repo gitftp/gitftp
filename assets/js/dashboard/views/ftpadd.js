@@ -98,7 +98,7 @@ define([
             }
 
             ajax({
-                url : base+''
+                url : base+'api/ftp/'+to
             })
 
             $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {

@@ -10,9 +10,6 @@
  * @link       http://fuelphp.com
  */
 
-namespace Fuel\Core;
-
-
 class FtpConnectionException extends \FuelException {}
 
 class FtpFileAccessException extends \FuelException {}

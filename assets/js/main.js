@@ -20,7 +20,7 @@ $(function () {
                 location.reload();
                 return false;
             },
-            confirmButton: '<i class="fa fa-reload fa-fw"></i> Reload',
+            confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
             confirmButtonClass: 'btn-warning'
         })
     }

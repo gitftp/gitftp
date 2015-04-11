@@ -10,14 +10,12 @@ $(function () {
                     }
                 })
     }
-    window._problem = function(){
-        
-                            $.confirm({
-                                title: 'Problem', 
-                                content: 'Servers have gone away, please check if you have a active internet connection.',
-                                icon: 'fa fa-rocket',
-                                
-                            })
+    window._problem = function () {
+        $.confirm({
+            title: 'Problem',
+            content: 'Servers have gone away, please check if you have a active internet connection.',
+            icon: 'fa fa-rocket',
+        })
     }
     window._debug = true;
 });

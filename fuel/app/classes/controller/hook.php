@@ -8,10 +8,6 @@ class Controller_Hook extends Controller {
 
     public function action_i($user_id = null, $deploy_id = null, $key = null) {
         
-        DB::insert('test')->set(array(
-            'test'=> '0'
-        ))->execute();
-        
         if ($user_id == null || $deploy_id == null || $key == null || Input::method() != 'POST') {
             die('Something is missing');
         }

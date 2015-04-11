@@ -1,5 +1,5 @@
 
-
+alert('asda');
 $(function () {
     if ($('#ftpadd').length) {
         $('#ftpadd').on('submit', function (e) {

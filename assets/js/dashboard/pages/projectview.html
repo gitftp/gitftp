@@ -51,7 +51,7 @@
 
             <% if(s.ftpdata.revision){ %>
             <br>
-            <strong>Revision on <%= s.ftp[0].host %>:</strong> # <%= s.ftpdata.revision.substring(0, 6) %>
+            <strong>Revision on <%= s.ftp[0].host %>:</strong> <code><%= s.ftpdata.revision.substring(0, 6) %></code>
             <% } %>
 
             <div class="pull-right">

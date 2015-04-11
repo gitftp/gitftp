@@ -123,6 +123,7 @@ define([
                     that.activityData = data;
                     console.log(that.template);
                     var subPage = that.template.activity;
+                    console.log(subPage);
                     subPage = subPage({
                         's': that.data.data[0],
                         'activity': data

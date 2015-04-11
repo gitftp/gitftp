@@ -53,7 +53,9 @@ class utils {
 
         $i = json_decode($input['payload']);
         
-        
+        if(isset($i->canon_url)){
+            
+        }
         
         if($service == 'github'){
             $lc = count($i->commits)-1;

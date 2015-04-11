@@ -40,6 +40,10 @@
     <div class="col-md-9">
 
         <div class="well well-sm well-cs">
+            <%
+            
+            
+            %>
             <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= (s.lastdeploy == 0) ?  'Not deployed yet' : s.lastdeploy %>
 
             <% if(s.ftpdata.revision){ %>

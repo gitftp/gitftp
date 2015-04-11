@@ -14,11 +14,12 @@ define([
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 data = data.data[0];
                 var el = $('.project-v-status');
-                el.html(data.status);
                 if(data.status !== 'Idle'){
                     el.removeClass("project-co-loading");
+                    el.html(data.status);
                 }else{
                     el.addClass("project-co-loading");
+                    el.html(data.status);
                 }
             });
         },

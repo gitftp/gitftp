@@ -59,7 +59,7 @@ class utils {
         if($service == 'github'){
             
             echo '-------------';
-            print_r(count($i->commits));
+            print_r(count($i->commits)-1);
             echo '-------------';
             
             return array(

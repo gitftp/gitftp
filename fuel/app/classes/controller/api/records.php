@@ -21,7 +21,7 @@ class Controller_Api_Records extends Controller {
         foreach ($data as $k => $v) {
             $data[$k]['file_add'] = $this->newLine(unserialize($data[$k]['file_add']));
             $data[$k]['file_remove'] = $this->newLine(unserialize($data[$k]['file_remove']));
-            $data[$k]['file_skip'] = unserialize($data[$k]['file_skip']);
+            $data[$k]['file_skip'] = $this->newLine(unserialize($data[$k]['file_skip']));
         }
 
         echo json_encode(array(

@@ -8,6 +8,9 @@ body {
   overflow-y: scroll;
   box-shadow: inset 0px 2px #EF3D3D;
 }
+a:hover {
+  text-decoration: none;
+}
 .jconfirm.git .jconfirm-bg {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }

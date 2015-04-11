@@ -65,10 +65,7 @@ class utils {
                 }
             }
         }
-        
-        DB::insert('test')->set(array(
-            'test'=> $service
-        ))->execute();
+
                 
         if($service == 'github'){
             $lc = count($i->commits)-1;

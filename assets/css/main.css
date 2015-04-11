@@ -120,6 +120,7 @@ h6 {
   background-color: white;
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  border-color: white;
 }
 .well-cs {
   background: #fff;

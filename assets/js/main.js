@@ -18,7 +18,8 @@ $(function () {
             icon: 'fa fa-rocket',
             confirm: function(){
                 location.reload();
-            }
+            },
+            confirmButton: 'Reload'
         })
     }
     window._debug = true;

@@ -123,6 +123,22 @@ h6 {
   border-color: #ddd;
   color: #333;
 }
+@-webkit-keyframes statusprocessing {
+  1% {
+    asda: 'sada';
+  }
+  100% {
+    asd: asd;
+  }
+}
+@keyframes statusprocessing {
+  1% {
+    asda: 'sada';
+  }
+  100% {
+    asd: asd;
+  }
+}
 .well-cs {
   background: #fff;
   border-color: #ddd;

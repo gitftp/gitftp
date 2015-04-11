@@ -23,7 +23,7 @@ class utils {
             'debug' => true
         );
         try{
-            $c = Ftp::forge($b);
+            $c = \Ftp::forge($b);
         } catch (Exception $ex) {
             return $ex->getMessage();
         }

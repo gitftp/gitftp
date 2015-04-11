@@ -83,7 +83,7 @@ class utils {
             return array(
                 'pushby' => $i->user,
                 'avatar_url' => '',
-                'hash' => $i->after,
+                'hash' => $i->commits[$lc]->raw_node,
                 'post_data' => serialize($i),
                 'commit_count' => count($i->commits),
                 'commit_message' => $i->commits[$lc]->message

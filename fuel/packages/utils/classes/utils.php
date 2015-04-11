@@ -23,7 +23,7 @@ class utils {
             'debug' => true
         );
         try{
-            $c = \FtpTwo::forge($b);
+//            $c = \FtpTwo::forge($b);
         } catch (Exception $ex) {
             return $ex->getMessage();
         }

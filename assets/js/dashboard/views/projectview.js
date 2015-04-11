@@ -118,6 +118,7 @@ define([
         renderChild: function () {
             var that = this;
             if (this.which == 'activity') {
+                
                 $.getJSON(base + 'api/records/getall/' + this.id, function (data) {
                     that.activityData = data;
                     var subPage = that.template[that.which]({

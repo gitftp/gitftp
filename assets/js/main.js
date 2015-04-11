@@ -6,7 +6,10 @@ $(function () {
                 .error(function (data) {
                     switch (data.status) {
                         case '0':
-                            $.alert({title: 'Problem', content: 'Servers have gone away, please check if you have a active internet connection.'})
+                            $.alert({
+                                title: 'Problem', 
+                                content: 'Servers have gone away, please check if you have a active internet connection.'
+                            })
                             break;
                     }
                 })

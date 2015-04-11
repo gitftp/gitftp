@@ -57,14 +57,16 @@ class utils {
         
         
         if($service == 'github'){
-            $latestcommit = count($i->commmits)-1;
+            
+            print_r($i->commits);
+            
             return array(
                 'pushby' => $i->pusher->name,
                 'avatar_url' => $i->sender->avatar_url,
                 'hash' => $i->after,
                 'post_data' => serialize($i),
                 'commit_count' => count($i->commits),
-                'commit_message' => $i->commits[$latestcommit]->message
+                'commit_message' => $i->commits[0]->message
             );
         }
         

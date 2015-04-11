@@ -13,7 +13,7 @@ require([
 ], function (router, process) {
 
 
-    if(/dashboard/ig.test(window.location)){
+    if(!/dashboard/ig.test(window.location)){
         
     }
 

@@ -95,7 +95,17 @@ define([
                 settings: _.template(this.page.settings)
             };
             this.id = id;
+            
+            
+            
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                
+                if(data.data.length == 0){
+                    Router.navigate('#/deploy', {
+                        trigger: true
+                    });
+                    return false;
+                }
                 var template = that.template.main({'s': data.data[0], 'v': that.which});
                 that.data = data;
                 that.$el.html(template);

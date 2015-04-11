@@ -147,5 +147,8 @@ class Controller_Hook extends Controller {
             'test' => serialize($_REQUEST)
         ))->execute();
     }
+    public function action_test() {
+        
+    }
 
 }

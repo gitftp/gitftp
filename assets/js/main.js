@@ -7,20 +7,20 @@ $(function () {
                     switch (data.status) {
                         case 0:
                             _problem({
-                                text: 'Servers have gone away, please check if you have a active internet connection.'
+                                content: 'Servers have gone away, please check if you have a active internet connection.',
+                                confirm: function () {
+                                    location.reload();
+                                    return false;
+                                },
+                                confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
                             });
                             break;
                     }
                 })
     }
     window._problem = function (a) {
-        
-            confirm: function(){
-                location.reload();
-                return false;
-            },
-            confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
-            
+
+
         $.confirm({
             title: 'Problem',
             content: a.text,

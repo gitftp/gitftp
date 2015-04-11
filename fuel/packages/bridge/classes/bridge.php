@@ -11,7 +11,7 @@
  */
 require_once 'backend.php';
 require_once 'Backend/Curl.php';
-require_once 'Backend/FTP_bridge.php';
+require_once 'Backend/Ftp.php';
 require_once 'Backend/ssh2.php';
 
 class Bridge {

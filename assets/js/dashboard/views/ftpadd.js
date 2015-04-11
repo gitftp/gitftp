@@ -100,7 +100,7 @@ define([
             _ajax({
                 url: base + 'api/ftp/' + to,
                 data: $this.serializeArray(),
-                method: 'post',
+                method: 'get',
                 dataType : 'json'
             }).done(function (data) {
                 

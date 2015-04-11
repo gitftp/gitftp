@@ -61,9 +61,9 @@
             <br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
             <%
-            var commit = a.commit_message.substr(0, 46);
+            var commit_message = a.commit_message.substr(0, 46);
             %>
-            <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'++'</strong>' : '' %>
+            <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+commit_message+'</strong>' : '' %>
         </td>
         <td>
             <strong><%= a.amount_deployed %></strong> of Payload

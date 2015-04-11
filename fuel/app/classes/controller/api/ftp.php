@@ -97,6 +97,7 @@ class Controller_Api_Ftp extends Controller {
      * @return boolean
      */
     public function action_editftp($id) {
+        echo 'asda';
         if (!Auth::check()) {
 
             echo json_encode(array(

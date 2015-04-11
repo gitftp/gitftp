@@ -103,7 +103,7 @@ define([
             }).done(function(data){
                 
                 if(data.data.length == 0){
-                    Router.navigate('#/deploy', {
+                    Router.navigate('#deploy', {
                         trigger: true
                     });
                     return false;

@@ -333,26 +333,26 @@ class Controller_Api_Deploy extends Controller {
         );
 
 
-        // $ftp_test_data = utils::test_ftp($ftp);
-        // if ($ftp_test_data != 'Ftp server is ready to rock.') {
-        //     echo json_encode(array(
-        //         'status' => false,
-        //         'reason' => $ftp_test_data
-        //     ));
-        //     $log['ftpconnectstatus'] = $ftp_test_data;
-        //     array_push($log, $gitcore->log);
-        //     $record->set($record_id, array(
-        //         'raw' => serialize($log),
-        //         'status' => 0,
-        //     ));
-        //     $deploy->set($id, array(
-        //         'cloned' => 0,
-        //         'deployed' => 0,
-        //         'status' => 'to be initialized',
-        //         'ready' => 0
-        //     ));
-        //     die();
-        // }
+         $ftp_test_data = utils::test_ftp($ftp);
+         if ($ftp_test_data != 'Ftp server is ready to rock.') {
+             echo json_encode(array(
+                 'status' => false,
+                 'reason' => $ftp_test_data
+             ));
+             $log['ftpconnectstatus'] = $ftp_test_data;
+             array_push($log, $gitcore->log);
+             $record->set($record_id, array(
+                 'raw' => serialize($log),
+                 'status' => 0,
+             ));
+             $deploy->set($id, array(
+                 'cloned' => 0,
+                 'deployed' => 0,
+                 'status' => 'to be initialized',
+                 'ready' => 0
+             ));
+             die();
+         }
 
 
         try {

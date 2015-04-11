@@ -116,6 +116,10 @@ h6 {
   border: solid 1px #FAFAFA;
   font-weight: 800;
 }
+.project-co-Idle {
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+}
 .well-cs {
   background: #fff;
   border-color: #ddd;

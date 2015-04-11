@@ -28,7 +28,7 @@ $(function () {
                                     window.location.reload();
                                 },
                                 confirmButton: 'Login',
-                            })
+                            });
                         }
                         
                     }

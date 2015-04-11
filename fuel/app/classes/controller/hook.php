@@ -139,7 +139,7 @@ class Controller_Hook extends Controller {
     public function action_get() {
         echo '<pre>';
         $a = DB::select()->from('test')->execute()->as_array();
-        print_r(unserialize($a[1]['test']));
+        print_r(unserialize($a[1]['test'])['payload']);
 //        print_r(json_decode(unserialize($a[1]['payload'])));
         
     }

@@ -29,7 +29,7 @@ class Controller_Api_Records extends Controller {
             'data' => $data
         ));
     }
-    public function newLine(){
+    public function newLine($arg){
         
     }
 }

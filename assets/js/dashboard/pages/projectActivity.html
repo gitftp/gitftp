@@ -74,7 +74,7 @@
             }
             %>
             <strong><%= a.triggerby %></strong>
-            <%= (a.commit_message) ? ' deployed <strong data-toggle="tooltip" data-placement="top" title="'+a.commit_message+'">'+commit_message+'</strong>' : '' %>
+            <%= commit_message %>
         </td>
         <td>
             <strong><%= a.amount_deployed %></strong> of Payload

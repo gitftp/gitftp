@@ -14,8 +14,8 @@ define([
             $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                 data = data.data[0];
                 var el = $('.project-v-status');
-                $('.project-v-status').html(data.status);
-                .project-co-loading
+                el.html(data.status);
+                el.project-co-loading
             });
         },
         runProcess: function () {

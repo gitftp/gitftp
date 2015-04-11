@@ -108,7 +108,8 @@ h6 {
   padding: 5px 10px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-color: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   font-weight: normal;
   text-transform: uppercase;
   font-size: 12px;

@@ -126,19 +126,25 @@ h6 {
           animation: infinite statusprocessing 2s;
 }
 @-webkit-keyframes statusprocessing {
-  1% {
-    asda: 'sada';
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 51% 100%;
   }
   100% {
-    asd: asd;
+    background-position: 50% 0%;
   }
 }
 @keyframes statusprocessing {
-  1% {
-    asda: 'sada';
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 51% 100%;
   }
   100% {
-    asd: asd;
+    background-position: 50% 0%;
   }
 }
 .well-cs {

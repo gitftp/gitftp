@@ -1,6 +1,6 @@
 $(function(){
     
-    ajaxHelper = function(){
+    var ajaxHelper = function(){
         
     }
     

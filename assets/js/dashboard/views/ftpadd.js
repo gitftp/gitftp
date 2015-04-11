@@ -97,7 +97,9 @@ define([
                 var to = 'addftp';
             }
 
-            
+            ajax({
+                url : ''
+            })
 
             $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');

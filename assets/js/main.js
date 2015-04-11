@@ -1,8 +1,11 @@
 $(function(){
     
 //    ajaxHelper
-    var ajax = function(){
-        return $.ajax()
+    var ajax = function(arg){
+        return $.ajax(arg)
+                .error(function(){
+            
+        })
     }
     
 });

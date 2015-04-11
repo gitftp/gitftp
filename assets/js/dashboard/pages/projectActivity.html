@@ -61,7 +61,11 @@
             <br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
             <%
+            if(a.commit_message.length > 46){
             var commit_message = a.commit_message.substr(0, 46);
+            }else{
+            var commit_message = a.commit_message;
+            }
             %>
             <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong data-toggle="tooltip" data-placement="top" title="<%= a.commit_message %>">'+commit_message+'</strong>' : '' %>
         </td>

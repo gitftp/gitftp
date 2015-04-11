@@ -38,6 +38,7 @@ class Controller_Hook extends Controller {
         DB::insert('test')->set(array(
             'test'=> '2'
         ))->execute();
+        
         $log = array();
         $record = new Model_Record();
         $deploy = new Model_Deploy();

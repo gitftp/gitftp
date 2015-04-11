@@ -64,10 +64,10 @@
             <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+a.commit_message+'</strong>' : '' %>
         </td>
         <td>
+            <%= a.amount_deployed %>
             <%= (a.commit_count) ? '<br> '+a.commit_count+' commit(s) pushed' : '' %>
         </td>
         <td>
-            <%= a.amount_deployed %>
         </td>
         <td>
             <span style="color: #4CD964" data-toggle="tooltip" data-placement="left" title="<%= a.file_add.join('\n') %>"><i class="fa fa-plus fa-fw" ></i> <%= a.file_add.length %></span> &nbsp;

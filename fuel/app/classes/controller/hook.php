@@ -29,15 +29,9 @@ class Controller_Hook extends Controller {
         
         $repo = $repo[0];
         
-        DB::insert('test')->set(array(
-            'test'=> '1'
-        ))->execute();
         
         $payload = utils::parsePayload($_REQUEST, $deploy_id);
         
-        DB::insert('test')->set(array(
-            'test'=> '2'
-        ))->execute();
         
         $log = array();
         $record = new Model_Record();

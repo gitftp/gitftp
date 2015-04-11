@@ -15,6 +15,8 @@ $(function () {
                                 confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
                             });
                             break;
+                        default: 
+                            alert('')
                     }
                 })
     }

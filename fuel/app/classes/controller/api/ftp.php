@@ -23,7 +23,7 @@ class Controller_Api_Ftp extends Controller {
         
         $ftp = new Model_Ftp();
         
-        $data = $ftp->get();
+        $data = $ftp->get($id);
         
         echo json_encode(array(
             'status' => true,

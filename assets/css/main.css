@@ -123,10 +123,8 @@ h6 {
   border-color: #ddd;
   color: #333;
   -webkit-animation: statusprocessing 1s linear infinite;
-          animation: statusprocessing 1s linear infinite;
-  background: -webkit-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
-  background: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%)
-  /* W3C */
+          animation: statusprocessing 1s linear infinite
+  /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);  W3C */
 }
 @-webkit-keyframes statusprocessing {
   0% {

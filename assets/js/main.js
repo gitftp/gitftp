@@ -23,7 +23,7 @@ $(function () {
                         
                         if(data.reason == 'GT-405'){
                             _problem({
-                                
+                                content: 'You\'re not logged in, please login to proceed.'
                             })
                         }
                         

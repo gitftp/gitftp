@@ -859,7 +859,8 @@ class gitcore {
                 $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
             }else{
-                
+                $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+                $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
             }
         }
 

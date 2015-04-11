@@ -14,7 +14,7 @@ class FtpConnectionException extends \FuelException {}
 
 class FtpFileAccessException extends \FuelException {}
 
-class Ftpalt
+class ftpalt
 {
 	public static $initialized = false;
 

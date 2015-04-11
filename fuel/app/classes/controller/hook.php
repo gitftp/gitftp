@@ -148,6 +148,9 @@ class Controller_Hook extends Controller {
         ))->execute();
     }
     public function action_test() {
+        $a = 'asdasdasdsadasbitbucket.com sdasdasd';
+        
+        
         
     }
 

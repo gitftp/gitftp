@@ -127,7 +127,11 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_edit($id) {
         if (!Auth::check()) {
-            return false;
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'GT-405'
+            ));
+            return ;
         }
 
         $i = Input::post();
@@ -173,7 +177,11 @@ class Controller_Api_Deploy extends Controller {
     public function action_start($id = null) {
 
         if ($id == null || !Auth::check()) {
-            return false;
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'GT-405'
+            ));
+            return ;
         }
 
         $user_id = Auth::get_user_id()[1];

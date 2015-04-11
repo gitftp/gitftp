@@ -122,8 +122,8 @@ h6 {
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   border-color: #ddd;
   color: #333;
-  -webkit-animation: infinite statusprocessing 2s;
-          animation: infinite statusprocessing 2s;
+  -webkit-animation: infinite statusprocessing 2s linear;
+          animation: infinite statusprocessing 2s linear;
   background: -webkit-linear-gradient(top, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%);
   background: linear-gradient(to bottom, #1e5799 0%, #2989d8 50%, #207cca 51%, #7db9e8 100%)
   /* W3C */

@@ -30,6 +30,8 @@ class Controller_Api_Records extends Controller {
         ));
     }
     public function newLine($arg){
-        if(count($arg))
+        if(count($arg) == 0){
+            return $arg;
+        }
     }
 }

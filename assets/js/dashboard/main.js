@@ -27,6 +27,4 @@ require([
     process.init();
     Backbone.history.start();
 
-
-
 });

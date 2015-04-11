@@ -53,7 +53,7 @@ class utils {
 
         $i = json_decode($input['payload']);
         
-        $service = 'github';
+        
         
         if($service == 'github'){
             $lc = count($i->commits)-1;

@@ -16,6 +16,9 @@ $(function () {
             title: 'Problem',
             content: a.text,
             icon: 'fa fa-rocket',
+            confirm: function(){
+                
+            }
         })
     }
     window._debug = true;

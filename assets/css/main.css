@@ -122,8 +122,8 @@ h6 {
 .project-co-Idle {
   background-color: white;
   border-color: #ddd;
-  background-image: -webkit-linear-gradient(top, #8e8e93 0%, #4cd964 100%);
-  background-image: linear-gradient(to bottom, #8e8e93 0%, #4cd964 100%);
+  background: -webkit-linear-gradient(top, #8e8e93 0%, #4cd964 100%);
+  background: linear-gradient(to bottom, #8e8e93 0%, #4cd964 100%);
   color: white;
   /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
   background-size: 400% 400%;

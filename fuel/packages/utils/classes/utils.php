@@ -60,7 +60,9 @@ class utils {
         }
         if(isset($i->repository)){
             if(isset($i->repository->url)){
-                if(preg_match('/github.com/i', ))
+                if(preg_match('/github.com/i', $i->repository->url)){
+                    
+                }
             }
         }
         

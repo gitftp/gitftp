@@ -97,6 +97,8 @@ define([
                 var to = 'addftp';
             }
 
+            
+
             $.post(base + 'api/ftp/' + to, $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);

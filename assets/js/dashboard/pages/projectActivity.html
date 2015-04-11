@@ -58,7 +58,8 @@
         </td>
         <td>
             <span><%= a.date %></span>
-            <%= (a.hash) ? '<span><strong>Rev:</strong> <code>'+a.hash.substr(0, 6)+'</code></span>' : '' %><br>
+            <%= (a.hash) ? '<span><strong>Rev:</strong> <code>'+a.hash.substr(0, 6)+'</code></span>' : '' %>
+            <br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
             <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+a.commit_message+'</strong>' : '' %>
         </td>

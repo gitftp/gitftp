@@ -12,13 +12,11 @@ require([
     "process"
 ], function (router, process) {
 
-
     if(!/dashboard/ig.test(window.location)){
-        
+        return false;
     }
 
     window.Router = new router.router();
-
     Backbone.history.on('all', function () {
         var h = location.hash;
         var l = h.substr(1);

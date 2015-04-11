@@ -130,6 +130,8 @@ class Controller_Api_Ftp extends Controller {
                     'status' => true,
                     'request' => Input::post()
                 ));
+            }else{
+                
             }
         }
     }

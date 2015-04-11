@@ -16,7 +16,7 @@ $(function () {
                             });
                             break;
                         default: 
-                            alert('error :'+data.status)
+                            alert('error :'+data.status);
                     }
                 })
     }

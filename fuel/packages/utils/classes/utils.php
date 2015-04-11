@@ -55,7 +55,6 @@ class utils {
         
         $service = 'github';
         
-        
         if($service == 'github'){
             $lc = count($i->commits)-1;
             echo '-------------';

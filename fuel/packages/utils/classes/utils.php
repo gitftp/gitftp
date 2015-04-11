@@ -59,8 +59,9 @@ class utils {
             }
         }
         if(isset($i->repository)){
-            
-//            url
+            if(isset($i->repository->url)){
+                if(preg_match('/github.com/i', ))
+            }
         }
         
         if($service == 'github'){

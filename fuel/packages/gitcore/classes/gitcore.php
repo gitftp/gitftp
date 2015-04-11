@@ -857,10 +857,9 @@ class gitcore {
             $this->output("going to remove file :".$this->connection->exists('kevin - Copy - Copy - Copy.txt'));
             if($this->connection->exists($file)){
                 $this->connection->rm($file);
+                $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+                $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
             }
-            $this->output("shit");
-            $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-            $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
         }
 
         // Upload Files

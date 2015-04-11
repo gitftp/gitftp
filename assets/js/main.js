@@ -17,7 +17,7 @@ $(function () {
             content: a.text,
             icon: 'fa fa-rocket',
             confirm: function(){
-                location.reload()
+                location.reload();
             }
         })
     }

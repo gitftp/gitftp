@@ -54,12 +54,11 @@ define([
             this.template = _.template(this.page);
             _ajax({
                 
-            }).done(function(){
-                
-            });
-            $.getJSON(base + 'api/deploy/getall', function (data) {
+            }).done(function(data){
                 var template = that.template({'list': data.data});
                 that.$el.html(template);
+            });
+            $.getJSON(base + 'api/deploy/getall', function (data) {
             });
         }
     });

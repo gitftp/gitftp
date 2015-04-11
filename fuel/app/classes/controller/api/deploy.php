@@ -9,7 +9,11 @@ class Controller_Api_Deploy extends Controller {
     public function action_getall($id = null) {
 
         if (!Auth::check()) {
-            return false;
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'GT-405'
+            ));
+            return ;
         }
 
         $user_id = Auth::get_user_id()[1];
@@ -25,7 +29,11 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_delete($id = null) {
         if (!Auth::check()) {
-            return false;
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'GT-405'
+            ));
+            return;
         }
 
         $user_id = Auth::get_user_id()[1];
@@ -73,7 +81,11 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_new() {
         if (!Auth::check()) {
-            return false;
+            echo json_encode(array(
+                'status' => false,
+                'reason' => 'GT-405'
+            ));
+            return ;
         }
 
         $i = Input::post();

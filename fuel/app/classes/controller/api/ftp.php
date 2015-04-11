@@ -15,7 +15,7 @@ class Controller_Api_Ftp extends Controller {
         if (!Auth::check()) {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Not logged in',
+                'reason' => 'GT-405',
                 'request' => Input::post()
             ));
             return;

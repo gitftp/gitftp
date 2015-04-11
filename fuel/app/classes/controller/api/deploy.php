@@ -310,6 +310,9 @@ class Controller_Api_Deploy extends Controller {
         $ftp = $repo['ftp'][0];
         // ftp upload here.
 
+
+        $gitcore = new gitcore();
+        
         $ftp_test_data = utils::test_ftp($ftp);
         if ($ftp_test_data != 'Ftp server is ready to rock.') {
             echo json_encode(array(
@@ -330,8 +333,6 @@ class Controller_Api_Deploy extends Controller {
             ));
             die();
         }
-
-        $gitcore = new gitcore();
 
         $gitcore->options = array(
             'repo' => $repodir,

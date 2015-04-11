@@ -122,7 +122,8 @@ define([
                 $.getJSON(base + 'api/records/getall/' + this.id, function (data) {
                     that.activityData = data;
                     console.log(that.template);
-                    var subPage = that.template[that.which]({
+                    var subPage = that.template[that.which];
+                    subPage = subPage({
                         's': that.data.data[0],
                         'activity': data
                     });

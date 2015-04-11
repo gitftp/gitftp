@@ -59,6 +59,7 @@ define([
             }).done(function(data){
                 if(data.data.length == 0){
                     
+                    return false;
                 }
                 var template = that.template({'list': data.data});
                 that.$el.html(template);

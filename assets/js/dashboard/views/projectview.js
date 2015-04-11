@@ -96,9 +96,11 @@ define([
             };
             this.id = id;
             
-            
-            
-            $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+            _ajax({
+                url: base + 'api/deploy/getall/' + id,
+                method: 'get',
+                dataType: 'json'
+            }).done(function(){
                 
                 if(data.data.length == 0){
                     Router.navigate('#/deploy', {
@@ -110,6 +112,10 @@ define([
                 that.data = data;
                 that.$el.html(template);
                 that.renderChild();
+            })
+            
+            $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                
             });
         },
         renderChild: function () {

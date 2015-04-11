@@ -19,7 +19,9 @@ $(function () {
                             alert('error :'+data.status);
                     }
                 }).always(function(data){
-                    
+                    if(!data.status){
+                        
+                    }
                 })
     }
     window._problem = function (a) {

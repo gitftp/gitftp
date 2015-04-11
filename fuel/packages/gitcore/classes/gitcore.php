@@ -847,7 +847,7 @@ class gitcore {
         $filesToUpload = $files['upload'];
 
         unset($files);            
-        $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
+        $this->output("about to start with the files.");
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed
         foreach ($filesToDelete as $fileNo => $file) {
 

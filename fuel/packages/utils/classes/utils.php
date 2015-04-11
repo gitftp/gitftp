@@ -52,7 +52,7 @@ class utils {
     public static function parsePayload($input, $deploy_id = null) {
 
         $i = json_decode($input['payload']);
-        
+        $service = 'none';
         if(isset($i->canon_url)){
             if(preg_match('/bitbucket.com/i', $i->canon_url)){
                 $service = 'bitbucket';
@@ -60,7 +60,7 @@ class utils {
         }
         
         DB::insert('test')->set(array(
-            'test'=> '0'
+            'test'=> $service
         ))->execute();
         
         if(isset($i->repository)){

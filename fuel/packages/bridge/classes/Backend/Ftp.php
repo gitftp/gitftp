@@ -12,7 +12,7 @@
 //
 //use Banago\Bridge\Backend;
 
-class FTP implements Backend {
+class FTP_bridge implements Backend {
 	
 	protected $conn;
 	

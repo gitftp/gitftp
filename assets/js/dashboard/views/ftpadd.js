@@ -105,7 +105,6 @@ define([
             }).done(function (data) {
                 
                 $this.find('select, input').removeAttr('readonly');
-                data = JSON.parse(data);
                 if (data.status) {
                     noty({
                         text: '!!! ' + ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()

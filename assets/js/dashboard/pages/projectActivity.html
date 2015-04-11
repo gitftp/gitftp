@@ -62,7 +62,7 @@
             <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' deployed <strong>'+a.commit_message+'</strong>' : '' %>
         </td>
         <td>
-            <%= (a.hash) ? '<span><strong>Rev:</strong> '+a.hash.substr(0, 6)+'</span>' : '' %>
+            <%= (a.hash) ? '<span><strong>Rev:</strong> <code>'+a.hash.substr(0, 6)+'</code></span>' : '' %>
             <%= (a.commit_count) ? '<br> '+a.commit_count+' commit(s) pushed' : '' %>
         </td>
         <td>

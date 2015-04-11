@@ -37,7 +37,7 @@ class utils {
         $c->close();
     }
     
-    public static function 
+    public static function parsePayload()
 }
 
 /* end of file auth.php */

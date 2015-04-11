@@ -150,9 +150,12 @@ class Controller_Hook extends Controller {
 
     public function action_test() {
         $a = 'asdasdasdgithub.comet.com sdasdasd';
-        
+
         if (preg_match('/bitbucket.com/i', $a)) {
             $service = 'bitbucket';
+        }
+        if (preg_match('/github.com/i', $a)) {
+            $service = 'github';
         }
         echo $service;
     }

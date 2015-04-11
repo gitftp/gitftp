@@ -24,6 +24,7 @@ class Controller_Hook extends Controller {
         }
 
         $repo = $repo[0];
+        
         $i = $_REQUEST['payload'];
         $i = json_decode($i);
         $log = array();

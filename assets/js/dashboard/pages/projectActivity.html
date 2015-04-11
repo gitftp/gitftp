@@ -8,9 +8,9 @@
     <br>
     <br>
     <% if(/cloning|uploading/.test(s.status.toLowerCase())){ %>
-        <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
+    <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
     <% }else{ %>
-        <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
+    <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
     <% } %>
 </p>
 <br>
@@ -21,7 +21,7 @@
 <% if(activity.data.length != 0 ){ %>
 <p style="font-size: 20px;">Recent deploy list</p>
 <table class="table table-condensed">
-<!--    <tr>
+    <tr>
         <th>
         </th>
         <th>
@@ -36,26 +36,26 @@
         <th>
             More
         </th>
-    </tr>-->
+    </tr>
     <% $.each(activity.data, function(i, a){ %>
     <tr>
         <%
-            switch(a.status){
-                case '0': 
-                var ic = 'times';
-                var co = 'ff3b30';
-                break;
-                case '1':
-                var ic = 'check';
-                var co = '4cd964';
-                break;
-                case '2':
-                var ic = 'spin fa-spinner';
-                var co = 'FF9500';
-                break;
-            }
+        switch(a.status){
+        case '0': 
+        var ic = 'times';
+        var co = 'ff3b30';
+        break;
+        case '1':
+        var ic = 'check';
+        var co = '4cd964';
+        break;
+        case '2':
+        var ic = 'spin fa-spinner';
+        var co = 'FF9500';
+        break;
+        }
         %>
-        
+
         <td>
             <i class="fa fa-<%= ic %> fa-fw" style="color: #<%= co %> "></i>
         </td>

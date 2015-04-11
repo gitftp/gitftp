@@ -81,7 +81,7 @@ class utils {
         if($service == 'bitbucket'){
             $lc = count($i->commits)-1;
             return array(
-                'pushby' => $i->user,
+                'pushby' => $i->commits[$lc]->author,
                 'avatar_url' => '',
                 'hash' => $i->commits[$lc]->raw_node,
                 'post_data' => serialize($i),

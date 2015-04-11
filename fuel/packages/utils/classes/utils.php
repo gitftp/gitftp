@@ -55,6 +55,7 @@ class utils {
         
         $service = 'none';
         
+        
         if(isset($i->canon_url)){
             if(preg_match('/bitbucket/i', $i->canon_url)){
                 $service = 'bitbucket';
@@ -69,6 +70,10 @@ class utils {
             }
         }
                 
+        DB::insert('test')->set(array(
+            'test'=> $service
+        ))->execute();
+        
         if($service == 'github'){
             $lc = count($i->commits)-1;
             return array(

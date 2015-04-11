@@ -14,14 +14,6 @@ class FtpConnectionException extends \FuelException {}
 
 class FtpFileAccessException extends \FuelException {}
 
-/**
- * FTP Class
- *
- * @package		Fuel
- * @category	Core
- * @author		Phil Sturgeon
- * @link		http://docs.fuelphp.com/classes/ftp.html
- */
 class Ftpalt
 {
 	public static $initialized = false;

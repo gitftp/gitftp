@@ -846,13 +846,13 @@ class gitcore {
         $filesToDelete = $files['delete'];
         $filesToUpload = $files['upload'];
 
-        unset($files);
-
+        unset($files);            
+        $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed
         foreach ($filesToDelete as $fileNo => $file) {
 
             $numberOfFilesToDelete = count($filesToDelete);
-
+            
             $this->connection->rm($file);
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
             $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");

@@ -44,7 +44,7 @@
             if(s.lastdeploy == 0){
                 var ld = 'Not deployed yet';
             }else{
-                var ld = new Date(s.lastdeploy);
+                var ld = s.lastdeploy;
             }
             %>
             <strong><i class="fa fa-undo"></i> Last deploy at:</strong> <%= ld %>

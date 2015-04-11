@@ -854,7 +854,7 @@ class gitcore {
 
             $numberOfFilesToDelete = count($filesToDelete);
             
-            $this->output("going to remove file");
+            $this->output("going to remove file".$this->connection->rm($file););
             $this->connection->rm($file);
             $this->output("shit");
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);

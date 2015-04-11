@@ -12,6 +12,8 @@ class utils {
 //    [path] => 
 //    [port] => 
 //)
+//
+//
 //        $b = array(
 //            'hostname' => $a['host'],
 //            'username' => $a['username'],

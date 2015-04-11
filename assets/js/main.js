@@ -21,7 +21,9 @@ $(function () {
                 }).always(function(data){
                     if(!data.status){
                         
-                        if(data.reason == '')
+                        if(data.reason == ){
+                            
+                        }
                         
                     }
                 })

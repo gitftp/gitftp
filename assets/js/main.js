@@ -10,10 +10,10 @@ $(function () {
                     }
                 })
     }
-    window._problem = function () {
+    window._problem = function (a) {
         $.confirm({
             title: 'Problem',
-            content: 'Servers have gone away, please check if you have a active internet connection.',
+            content: a.text,
             icon: 'fa fa-rocket',
         })
     }

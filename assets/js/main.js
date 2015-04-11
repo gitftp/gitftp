@@ -4,7 +4,7 @@ $(function () {
     window._ajax = function (arg) {
         return $.ajax(arg)
                 .error(function (data) {
-                    alert('some error ',data);
+                    console.log('some error ',data);
                 })
     }
 

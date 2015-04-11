@@ -19,7 +19,7 @@ define([
                     el.html(data.status);
                 }else{
                     el.addClass("project-co-loading");
-                    el.html('<i class="fa fa-spin fa-refresh"></i> '+data.status);
+                    el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> '+data.status);
                 }
             });
         },

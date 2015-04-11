@@ -19,7 +19,7 @@ class Controller_Api_Records extends Controller {
         $data = $record->get($id);
 
         foreach ($data as $k => $v) {
-            $data[$k]['file_add'] = unserialize($data[$k]['file_add']);
+            $data[$k]['file_add'] = $this->newLine(unserialize($data[$k]['file_add']));
             $data[$k]['file_remove'] = $this->newLine(unserialize($data[$k]['file_remove']));
             $data[$k]['file_skip'] = unserialize($data[$k]['file_skip']);
         }

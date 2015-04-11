@@ -55,7 +55,7 @@ class utils {
         
         if(isset($i->canon_url)){
             if(preg_match('/bitbucket.com/i', $i->canon_url)){
-                
+                $service == 'bitbucket';
             }
         }
         

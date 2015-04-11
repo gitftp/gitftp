@@ -57,8 +57,8 @@
             <i class="fa fa-<%= ic %> fa-fw" data-toggle="tooltip" data-placement="right" title="<%= ct %>" style="color: #<%= co %> "></i>
         </td>
         <td>
-            <span><%= a.date %></span> <br>
-            <span><%= (a.hash) ? 'Rev: '+a.hash : ''; %></span>
+            <span><%= a.date %></span> 
+            <%= (a.hash) ? '<br><span>Rev: '+a.hash+'</span>' : ''; %>
         </td>
         <td>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>

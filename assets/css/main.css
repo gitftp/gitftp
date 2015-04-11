@@ -116,8 +116,8 @@ h6 {
   color: #444;
   border: solid 1px #FAFAFA;
   font-weight: 800;
-  -webkit-transition: all .5s;
-          transition: all .5s;
+  -webkit-transition: all 2s;
+          transition: all 2s;
 }
 .project-co-loading {
   background-color: white;

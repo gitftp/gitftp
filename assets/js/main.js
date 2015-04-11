@@ -26,7 +26,8 @@ $(function () {
                                 content: 'You\'re not logged in, please login to proceed.',
                                 confirm: function(){
                                     window.location.reload();
-                                }
+                                },
+                                confirmButton: 'Login',
                             })
                         }
                         

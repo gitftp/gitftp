@@ -18,7 +18,7 @@ $(function () {
                         default: 
                             alert('error :'+data.status);
                     }
-                }).always(function(){
+                }).always(function(data){
                     
                 })
     }

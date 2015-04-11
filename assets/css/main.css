@@ -108,6 +108,8 @@ h6 {
   padding: 5px 10px;
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   font-weight: normal;
   text-transform: uppercase;
   font-size: 12px;
@@ -120,8 +122,6 @@ h6 {
 }
 .project-co-Idle {
   background-color: white;
-  background: -webkit-linear-gradient(top, #5ac8fa 0%, #007aff 100%);
-  background: linear-gradient(to bottom, #5ac8fa 0%, #007aff 100%);
   border-color: #ddd;
   color: white;
   -webkit-animation: statusprocessing 1s linear infinite;

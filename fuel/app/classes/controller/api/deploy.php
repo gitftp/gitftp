@@ -309,30 +309,7 @@ class Controller_Api_Deploy extends Controller {
 
         $ftp = $repo['ftp'][0];
         // ftp upload here.
-
-        $gitcore = new gitcore();
-
-        $gitcore->options = array(
-            'repo' => $repodir,
-            'debug' => false,
-            'server' => 'default',
-            'ftp' => array(
-                'default' => array(
-                    'scheme' => $ftp['scheme'],
-                    'host' => $ftp['host'],
-                    'user' => $ftp['username'],
-                    'pass' => $ftp['pass'],
-                    'port' => $ftp['port'],
-                    'path' => $ftp['path'],
-                    'passive' => true,
-                    'skip' => array(),
-                    'purge' => array()
-                )
-            ),
-            'revision' => '',
-        );
-
-
+        
          $ftp_test_data = utils::test_ftp($ftp);
          if ($ftp_test_data != 'Ftp server is ready to rock.') {
              echo json_encode(array(
@@ -353,6 +330,30 @@ class Controller_Api_Deploy extends Controller {
              ));
              die();
          }
+
+        $gitcore = new gitcore();
+
+        $gitcore->options = array(
+            'repo' => $repodir,
+            'debug' => false,
+            'server' => 'default',
+            'ftp' => array(
+                'default' => array(
+                    'scheme' => $ftp['scheme'],
+                    'host' => $ftp['host'],
+
+                    'user' => $ftp['username'],
+                    'pass' => $ftp['pass'],
+                    'port' => $ftp['port'],
+                    'path' => $ftp['path'],
+                    'passive' => true,
+                    'skip' => array(),
+                    'purge' => array()
+                )
+            ),
+            'revision' => '',
+        );
+
 
 
         try {

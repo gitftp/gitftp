@@ -13,7 +13,9 @@ require([
 ], function (router, process) {
 
 
-    if(window.location)
+    if(/dashboard/ig.test(window.location)){
+        
+    }
 
     window.Router = new router.router();
 

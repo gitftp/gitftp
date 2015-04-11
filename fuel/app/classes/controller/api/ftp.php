@@ -127,6 +127,7 @@ class Controller_Api_Ftp extends Controller {
             ));
         } else {
             $a = $ftp->set($id, $data);
+            print_r($a);
             if ($a) {
                 echo json_encode(array(
                     'status' => true,

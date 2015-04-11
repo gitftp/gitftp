@@ -57,7 +57,9 @@ define([
                 dataType: 'json',
                 method: 'get',
             }).done(function(data){
-                if()
+                if(data.data.length == 0){
+                    
+                }
                 var template = that.template({'list': data.data});
                 that.$el.html(template);
             });

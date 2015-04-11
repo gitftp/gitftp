@@ -58,7 +58,9 @@ class utils {
                 $service == 'bitbucket';
             }
         }
-        
+        if(isset($i->repository)){
+            
+        }
         
         if($service == 'github'){
             $lc = count($i->commits)-1;

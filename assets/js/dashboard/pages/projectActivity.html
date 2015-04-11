@@ -60,9 +60,10 @@
             <span><%= a.date %></span><br>
             <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
             <strong><%= a.triggerby %></strong><%= (a.commit_message) ? ' commited <strong>'+a.commit_message+'</strong>' : '' %>
+            <%= (a.hash) ? '<span>Rev: '+a.hash.substr(0, 6)+'</span>' : '' %>
         </td>
         <td>
-            <%= (a.hash) ? '<span>Rev: '+a.hash.substr(0, 6)+'</span>' : '' %>
+            
         </td>
         <td>
             <%= a.amount_deployed %>

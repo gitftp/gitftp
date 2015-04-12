@@ -29,7 +29,7 @@ define([
                 confirm: function () {
                     $.confirm({
                         title: 'Really sure?',
-                        content: '',
+                        content: 'You cannot undo this action.',
                         icon: 'fa fa-question',
                         confirmButton: 'Remove',
                         confirmButtonClass: 'btn-danger',

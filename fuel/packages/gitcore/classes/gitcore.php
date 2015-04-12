@@ -848,7 +848,7 @@ class gitcore {
         $filesToUpload = $files['upload'];
 
         unset($files);
-        $this->output("about to start with the files.");
+        $this->output("Starting processing files.");
         //custom
         $totalcount = count($filesToDelete)+count($filesToUpload);
         $curr = 0;

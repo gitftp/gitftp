@@ -51,6 +51,9 @@ h6 {
   background-color: #eee;
   border-color: #ddd;
 }
+.viewdeploy {
+  margin-bottom: 30px;
+}
 .viewdeploy.delete {
   opacity: 0.3;
 }

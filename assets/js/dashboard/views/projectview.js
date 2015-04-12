@@ -124,7 +124,8 @@ define([
                     method: 'get',
                     dataType: 'json',
                     data: {
-                        
+                        offset: '3',
+                        limit: '3'
                     }
                 })
                 $.getJSON(base + 'api/records/getall/' + this.id, function (data) {

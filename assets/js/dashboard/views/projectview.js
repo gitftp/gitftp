@@ -46,7 +46,7 @@ define([
                                     Backbone.history.loadUrl();
                                 } else {
                                     noty({
-                                        text: 'there was problem while deleting'
+                                        text: 'Oh Snap,'
                                     });
                                 }
                             });

@@ -10,7 +10,8 @@ define([
             'click .startdeploy': 'startDeploy',
             'change #deploy-add-privaterepo': 'priCheck',
             'click .watchRawData': 'getRawData',
-            'submit #deploy-view-form-edit': 'editConfiguration'
+            'submit #deploy-view-form-edit': 'editConfiguration',
+            'click .activity-data-records-view-more': 'renderMore'
         },
         editConfiguration: function (e) {
             var that = this;

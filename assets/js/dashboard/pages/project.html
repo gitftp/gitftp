@@ -40,7 +40,7 @@
                 <div class="clearfix"></div>
             </div>
             <span style="color: #aaa">(<%= a.repository %>)</span><br>
-            <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= moment(a.lastdeploy).format('d/m/y hh:mm:s a') %></span></span>
+            <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= moment(a.lastdeploy).format('d/m/y hh:mm:ss a') %></span></span>
         </div>
     </div>
     <% }) %>

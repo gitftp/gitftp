@@ -124,7 +124,6 @@ define([
                     method: 'get',
                     dataType: 'json',
                     data: {
-                        offset: '',
                         limit: '10'
                     }
                 }).done(function(data){

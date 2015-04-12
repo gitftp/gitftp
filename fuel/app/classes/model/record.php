@@ -23,6 +23,10 @@ class Model_Record extends Model {
         }
         if($limit){
             
+            
+            if($offset){
+                
+            }
         }
 
         $r = $q->order_by('id', 'DESC')->execute()->as_array();

@@ -37,6 +37,7 @@ define([
                     $('.dynamicTime').each(function(i, a){
                         var $this = $(this);
                         var timestamp = $this.attr('data-timestamp');
+                        $this.html(timestamp);
                     });
                     
                 }

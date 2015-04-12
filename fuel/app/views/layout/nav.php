@@ -65,7 +65,7 @@
                                 <div class="form-group">
                                     <input type="text" name="password" class="form-control" placeholder="Password" value="thisissparta">
                                 </div>
-                                <button type="submit" class="btn btn-warning">Login</button>
+                                <button type="submit" class="btn btn-danger">Login</button>
                             </form>
 
                         <?php } ?>

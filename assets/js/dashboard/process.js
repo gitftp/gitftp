@@ -4,10 +4,10 @@ define([
     var process = {
         process_id: 0,
         deployView: function (e) {
-            var that = this;
             /*
              * Project view page.
              */
+            var that = this;
             setTimeout(function () {
                 if ($('.is-deploy-view-id').length) {
                     var id = $('.is-deploy-view-id').attr('data-id');
@@ -24,7 +24,7 @@ define([
                     });
                 }
                 that.deployView();
-            }, 1500);
+            }, 2000);
         },
         runProcess: function () {
             var that = this;

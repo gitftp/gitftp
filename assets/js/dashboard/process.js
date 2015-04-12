@@ -39,7 +39,7 @@ define([
                         var timestamp = parseInt($this.attr('data-timestamp'));
                         var diff = parseInt((new Date()).getTime().toString().substr(0, 11))-timestamp;
 //                        var timeec = (new Date()).getTime()-timestamp;
-                        $this.html(moment.duration(timeec).humanize());
+                        $this.html(moment.duration(diff).humanize());
                     });
                     
                 }

@@ -26,6 +26,9 @@ define([
                 that.deployView();
             }, 1500);
         },
+        timeUpdate: function(){
+            
+        },
         runProcess: function () {
             this.deployView();
         },

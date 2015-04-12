@@ -41,7 +41,7 @@ define([
                                 $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
                                 if (data.status) {
                                     noty({
-                                        text: '',
+                                        text: 'Successfuly removed deploy config.',
                                     });
                                     Backbone.history.loadUrl();
                                 } else {

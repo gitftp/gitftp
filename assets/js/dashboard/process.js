@@ -36,7 +36,7 @@ define([
                 if($('.dynamicTime').length){
                     
                 }
-                    
+                that.timeUpdate();
             }, 1000);
         },
         runProcess: function () {

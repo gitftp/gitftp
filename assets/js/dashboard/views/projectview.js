@@ -11,7 +11,7 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .watchRawData': 'getRawData',
             'submit #deploy-view-form-edit': 'editConfiguration',
-            'click .activity-data-records-view-more': 'renderMore'
+            'click .activity-data-records-view-more': 'renderMoreActivity'
         },
         editConfiguration: function (e) {
             var that = this;

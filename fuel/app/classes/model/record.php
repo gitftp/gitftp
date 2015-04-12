@@ -13,7 +13,7 @@ class Model_Record extends Model {
         }
     }
 
-    public function get($id = null) {
+    public function get($id = null, $limit = false, $offset = false) {
 
         $q = DB::select()->from($this->table)
                 ->where('user_id', $this->user_id);
@@ -21,6 +21,7 @@ class Model_Record extends Model {
         if ($id != null) {
             $q = $q->and_where('deploy_id', $id);
         }
+        if()
 
         $r = $q->order_by('id', 'DESC')->execute()->as_array();
         

@@ -3,6 +3,7 @@ define([
 
     var process = {
         process_id: 0,
+        
         deployView: function (e) {
             var that = this;
             /*

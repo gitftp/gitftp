@@ -39,7 +39,7 @@ class Model_Record extends Model {
     }
     public function get_count($id = null){
         $q = DB::select('id')->from($this->table)
-                ->where('id', $id)
+                ->where('user_id', $id);
     }
     
     /**

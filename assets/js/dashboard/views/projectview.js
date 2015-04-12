@@ -132,7 +132,7 @@ define([
                     var subPage = that.template[that.which]({
                         's': that.data.data[0],
                         'activity': data,
-                        'more': false
+                        'more': true
                     });
                     $('.deploy-sub-page').html(subPage);
                 });

@@ -41,6 +41,8 @@ class Model_Record extends Model {
         $q = DB::select('id')->from($this->table)
                 ->where('user_id', $this->user_id)
                 ->and_where('deploy_id', $id)
+                ->execute()
+                ->as_array();
     }
     
     /**

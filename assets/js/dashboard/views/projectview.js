@@ -162,7 +162,8 @@ define([
                 method: 'get',
                 dataType: 'json',
                 data: {
-                    limit: '10'
+                    limit: '10',
+                    offset: count,
                 }
             }).done(function (data) {
                 that.activityData = data;

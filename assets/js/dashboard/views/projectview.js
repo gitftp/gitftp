@@ -180,7 +180,6 @@ define([
                     'renderedCount': count+10
                 });
                 $this.parents('td')
-                $this.html('<i class="fa fa-spin fa-refresh"></i> Getting data');
                 $('.deploy-sub-page table tbody').append(subPage);
             });
         },

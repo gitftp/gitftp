@@ -340,7 +340,7 @@ class Controller_Api_Deploy extends Controller {
         $gitcore->options = array(
             'repo' => $repodir,
             'debug' => false,
-            'deploy_id' => 
+            'deploy_id' => $id,
             'server' => 'default',
             'ftp' => array(
                 'default' => array(

@@ -36,8 +36,8 @@
 
                         <ul class="nav navbar-nav navbar-left">
                             <li class="home"><a href="<?php echo Uri::base(false); ?>dashboard/#home">Dashboard</a></li>
-                            <li class="active deploy"><a href="<?php echo Uri::base(false); ?>dashboard/#deploy"><i class="fa fa-bolt fa-fw"></i> Deploy</a></li>
-                            <li class="ftp"><a href="<?php echo Uri::base(false); ?>dashboard/#ftp"><i class="fa fa-cloud-upload fa-fw"></i> FTP servers</a></li>
+                            <li class="deploy"><a href="<?php echo Uri::base(false); ?>dashboard/#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Deploy</a></li>
+                            <li class="ftp"><a href="<?php echo Uri::base(false); ?>dashboard/#ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">

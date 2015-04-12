@@ -11,7 +11,43 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .watchRawData': 'getRawData',
             'submit #deploy-view-form-edit': 'editConfiguration',
-            'click .activity-data-records-view-more': 'renderMoreActivity'
+            'click .activity-data-records-view-more': 'renderMoreActivity',
+            'click .deploy-delete-deploy': 'delete'
+        },
+        delete: function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            var $this = $(e.currentTarget);
+            var id = $this.attr('data-id');
+
+            $.confirm({
+                title: 'Sure?',
+                content: 'Are you sure to remove this Deploy <br><strong>All related deploy records and files will be erased, except for linked FTP servers and its contents.</strong>',
+                icon: 'fa fa-info',
+                confirmButton: 'Remove',
+                confirmButtonClass: 'btn-danger',
+                autoClose: 'cancel|10000',
+                confirm: function () {
+                    
+                    $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
+
+                        $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
+                        $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
+
+                        if (data.status) {
+                            noty({
+                                text: '!! deleted',
+                            });
+
+                            Backbone.history.loadUrl();
+                        } else {
+                            noty({
+                                text: 'there was problem while deleting'
+                            });
+                        }
+                    });
+                }
+            });
         },
         editConfiguration: function (e) {
             var that = this;

@@ -9,7 +9,8 @@ define([
         el: app.el,
         events: {
             'click .viewdeploy': 'goto',
-            'click .deletedeploy': 'delete'
+            'click .deletedeploy': 'delete',
+            
         },
         delete: function (e) {
             e.stopPropagation();

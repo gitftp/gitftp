@@ -30,7 +30,7 @@ define([
             /*
              * Time update . class name: .dynamicTime
              */
-            
+            var that = this;
         },
         runProcess: function () {
             this.deployView();

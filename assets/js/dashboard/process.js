@@ -26,6 +26,7 @@ define([
                 that.deployView();
             }, 1500);
         },
+        timeUpdateInterval : 1,
         timeUpdate: function () {
             /*
              * Time update . class name: .dynamicTime

@@ -127,8 +127,8 @@ define([
                         offset: '3',
                         limit: '3'
                     }
-                })
-                $.getJSON(base + 'api/records/getall/' + this.id, function (data) {
+                }).done(function(data){
+                    
                     that.activityData = data;
                     console.log(that.template);
                     var subPage = that.template[that.which]({
@@ -136,7 +136,7 @@ define([
                         'activity': data
                     });
                     $('.deploy-sub-page').html(subPage);
-                });
+                })
             }
             if (this.which == 'settings') {
                 $.getJSON(base + 'api/ftp/getall', function (data) {

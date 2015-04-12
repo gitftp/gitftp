@@ -31,6 +31,9 @@ define([
              * Time update . class name: .dynamicTime
              */
             var that = this;
+            setTimeout(function(){
+                
+            }, 1000);
         },
         runProcess: function () {
             this.deployView();

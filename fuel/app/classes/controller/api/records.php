@@ -14,7 +14,9 @@ class Controller_Api_Records extends Controller {
             ));
             return;
         }
-
+        $get = Input::get('limit');
+        $limit = Input::get('limit') ? '' : '';
+        
         $record = new Model_Record();
         $data = $record->get($id);
 

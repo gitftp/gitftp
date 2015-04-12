@@ -38,7 +38,7 @@ define([
                         var $this = $(this);
                         var timestamp = parseInt($this.attr('data-timestamp'));
                         $this.attr('data-timestamp', timestamp+1);
-                        $this.html(moment.duration(timestamp).humanize());
+                        $this.html(moment.duration(moment(timestamp).unix()).humanize());
                     });
                     
                 }

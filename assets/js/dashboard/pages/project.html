@@ -27,6 +27,8 @@
 
 
 <% $.each(list, function(i, a){ %>
+<div class="row">
+    
 <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
     <div class="project-list-block">
         <div class="header">
@@ -41,6 +43,7 @@
         <span style="color: #aaa">(<%= a.repository %>)</span>
         <a href="<%= a.repository %>" target="empty" data-id="<%= a.id %>" class=""><i class="fa fa-external-link fa-fw"></i></a>
     </div>
+</div>
 </div>
 <% }) %>
 

@@ -133,7 +133,8 @@ define([
                         's': that.data.data[0],
                         'activity': data,
                         'more': 'false',
-                        'count': data.count
+                        'count': data.count,
+                        'renderedCount' : 10
                     });
                     $('.deploy-sub-page').html(subPage);
                 });

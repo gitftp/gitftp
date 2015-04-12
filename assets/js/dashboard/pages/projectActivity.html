@@ -99,6 +99,8 @@
         $('[data-toggle="tooltip"]').tooltip();
     </script>
     <% }); %>
+<% if(!more){ %>
     <% if(activity.data.length != 0 ){ %>
 </table>
     <% } %>
+<% } %>

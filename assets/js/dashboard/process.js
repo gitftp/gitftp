@@ -26,22 +26,22 @@ define([
                 that.deployView();
             }, 1500);
         },
-        timeUpdate: function(){
+        timeUpdate: function () {
             /*
              * Time update . class name: .dynamicTime
              */
             var that = this;
-            setTimeout(function(){
-                if($('.dynamicTime').length){
-                    
-                    $('.dynamicTime').each(function(i, a){
+            setTimeout(function () {
+                if ($('.dynamicTime').length) {
+
+                    $('.dynamicTime').each(function (i, a) {
                         var $this = $(this);
-                        var timestamp = (new Date(parseInt($this.attr('data-timestamp'))*1000)).getTime();
+                        var timestamp = (new Date(parseInt($this.attr('data-timestamp')) * 1000)).getTime();
                         var currtime = parseInt((new Date()).getTime().toString());
-                        var diff = currtime-timestamp;
-                        $this.html(moment.duration(diff).humanize()+' ago');
+                        var diff = currtime - timestamp;
+                        $this.html(moment.duration(diff).humanize() + ' ago');
                     });
-                    
+
                 }
                 that.timeUpdate();
             }, 10000);

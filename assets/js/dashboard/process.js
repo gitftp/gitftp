@@ -44,6 +44,7 @@ define([
                         var currtime = parseInt((new Date()).getTime().toString().substr(0, 10));
                         console.log(currtime);
                         var diff = currtime-timestamp;
+                        console.log(diff);
                         $this.html(moment.duration(diff).humanize()+' ago');
                     });
                     

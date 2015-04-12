@@ -157,7 +157,7 @@ define([
         renderMoreActivity: function (e) {
             e.preventDefault();
             $this = $(e.currentTarget);
-            $this.html('<i class="fa fa-spin fa-refresh">')
+            $this.html('<i class="fa fa-spin fa-refresh"></i> ')
             var count = $('tr.activity-data-records').length;
             var that = this;
             _ajax({

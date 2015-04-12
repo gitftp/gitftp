@@ -36,6 +36,7 @@ define([
             }else{
                 this.timeUpdateInterval = 1;
             }
+            
             setTimeout(function () {
                 if ($('.dynamicTime').length) {
 

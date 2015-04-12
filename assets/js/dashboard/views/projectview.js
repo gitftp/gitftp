@@ -179,6 +179,8 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
+                $this.attr('disabled', true);
+                $this.html('<i class="fa fa-spin fa-refresh"></i> Getting data');
                 $('.deploy-sub-page table tbody').append(subPage);
             });
         },

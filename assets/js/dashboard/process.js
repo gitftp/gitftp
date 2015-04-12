@@ -46,6 +46,9 @@ define([
                 }
                 that.timeUpdate();
             }, time);
+            if(time == 1){
+                
+            }
         },
         runProcess: function () {
             this.deployView();

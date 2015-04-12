@@ -44,7 +44,7 @@ define([
                     
                 }
                 that.timeUpdate();
-            }, 1000);
+            }, 5000);
         },
         runProcess: function () {
             this.deployView();

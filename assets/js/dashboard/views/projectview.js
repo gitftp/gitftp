@@ -156,7 +156,7 @@ define([
         },
         renderMoreActivity: function () {
             var count = $('tr.activity-data-records').length;
-            
+            var that = this;
             _ajax({
                 url: base + 'api/records/getall/' + this.id,
                 method: 'get',

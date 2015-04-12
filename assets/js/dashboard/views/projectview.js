@@ -128,7 +128,6 @@ define([
                         limit: '3'
                     }
                 }).done(function(data){
-                    
                     that.activityData = data;
                     console.log(that.template);
                     var subPage = that.template[that.which]({

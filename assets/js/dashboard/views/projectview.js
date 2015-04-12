@@ -95,20 +95,20 @@ define([
                 settings: _.template(this.page.settings)
             };
             this.id = id;
-            
+
             _ajax({
                 url: base + 'api/deploy/getall/' + id,
                 method: 'get',
                 dataType: 'json'
-            }).done(function(data){
-                
-                if(data.data.length == 0){
+            }).done(function (data) {
+
+                if (data.data.length == 0) {
                     Router.navigate('#deploy', {
                         trigger: true
                     });
                     return false;
                 }
-                
+
                 var template = that.template.main({'s': data.data[0], 'v': that.which});
                 that.data = data;
                 that.$el.html(template);
@@ -118,26 +118,26 @@ define([
         renderChild: function () {
             var that = this;
             if (this.which == 'activity') {
-                
+
                 _ajax({
-                    url : base+ 'api/records/getall/'+this.id,
+                    url: base + 'api/records/getall/' + this.id,
                     method: 'get',
                     dataType: 'json',
                     data: {
                         limit: '10'
                     }
-                }).done(function(data){
+                }).done(function (data) {
                     that.activityData = data;
                     console.log(that.template);
                     var subPage = that.template[that.which]({
                         's': that.data.data[0],
                         'activity': data,
                         'more': false,
-                        'count' : 
+                        'count': data.count
                     });
                     $('.deploy-sub-page').html(subPage);
                 });
-                
+
             }
             if (this.which == 'settings') {
                 $.getJSON(base + 'api/ftp/getall', function (data) {

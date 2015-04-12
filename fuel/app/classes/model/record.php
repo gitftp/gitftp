@@ -22,9 +22,9 @@ class Model_Record extends Model {
             $q = $q->and_where('deploy_id', $id);
         }
         if($limit){
-            
+            $q = $q->limit($limit);
             if($offset){
-                
+                $q = $q->offset($offset);
             }
         }
 

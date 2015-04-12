@@ -154,7 +154,8 @@ define([
                 });
             }
         },
-        renderMoreActivity: function () {
+        renderMoreActivity: function (e) {
+            e.preventDefault();
             var count = $('tr.activity-data-records').length;
             var that = this;
             _ajax({

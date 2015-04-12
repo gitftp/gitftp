@@ -35,7 +35,8 @@ define([
                 if($('.dynamicTime').length){
                     
                     $('.dynamicTime').each(function(i, a){
-                        
+                        var $this = $(this);
+                        var 
                     });
                     
                 }

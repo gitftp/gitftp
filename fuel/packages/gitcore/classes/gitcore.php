@@ -855,7 +855,7 @@ class gitcore {
         $deploy = new Model_Deploy();
         $deploy_id = $this->options['deploy_id'];
         //end custom
-        $this->output("about to start with the files.");
+        $this->output("files to process $totalcount");
         
         
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed

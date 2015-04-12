@@ -26,7 +26,6 @@ define([
                 icon: 'fa fa-info',
                 confirmButton: 'Remove',
                 confirmButtonClass: 'btn-danger',
-                autoClose: 'cancel|10000',
                 confirm: function () {
                     $.confirm({
                         title: 'Sure?',

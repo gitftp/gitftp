@@ -357,8 +357,6 @@ class Controller_Api_Deploy extends Controller {
             'revision' => '',
         );
 
-
-
         try {
             $gitcore->startDeploy();
         } catch (Exception $ex) {

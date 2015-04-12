@@ -32,7 +32,7 @@ define([
              */
             var that = this;
             setTimeout(function(){
-                
+                if()
             }, 1000);
         },
         runProcess: function () {

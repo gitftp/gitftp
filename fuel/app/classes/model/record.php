@@ -43,6 +43,7 @@ class Model_Record extends Model {
                 ->and_where('deploy_id', $id)
                 ->execute()
                 ->as_array();
+        return count($q);
     }
     
     /**

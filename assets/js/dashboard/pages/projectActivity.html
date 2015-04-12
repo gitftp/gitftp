@@ -18,20 +18,20 @@
     <br>
     <br>
     <% } %>
-<% } %>
 
-<% if(activity.data.length != 0 ){ %>
-<p style="font-size: 20px;">Recent deploy list</p>
-<table class="table table-condensed">
-    <tr>
-        <th>
-        </th>
-        <th>
-            Details
-        </th>
-        <th colspan="3">
-        </th>
-    </tr>
+    <% if(activity.data.length != 0 ){ %>
+    <p style="font-size: 20px;">Recent deploy list</p>
+    <table class="table table-condensed">
+        <tr>
+            <th>
+            </th>
+            <th>
+                Details
+            </th>
+            <th colspan="3">
+            </th>
+        </tr>
+    <% } %>
 <% } %>
     <% $.each(activity.data, function(i, a){ %>
     <tr>

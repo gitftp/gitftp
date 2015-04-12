@@ -41,7 +41,7 @@ define([
 //                        var timeec = (new Date()).getTime()-timestamp;
                         var timestamp = (new Date(parseInt($this.attr('data-timestamp'))*1000)).getTime();
                         console.log(timestamp);
-                        var currtime = parseInt((new Date()).getTime().toString().substr(0, 10));
+                        var currtime = parseInt((new Date()).getTime().toString());
                         console.log(currtime);
                         var diff = currtime-timestamp;
                         console.log(diff);

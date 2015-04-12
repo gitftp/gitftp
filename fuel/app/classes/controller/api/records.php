@@ -30,7 +30,8 @@ class Controller_Api_Records extends Controller {
 
         echo json_encode(array(
             'status' => true,
-            'data' => $data
+            'data' => $data,
+            'count' => 
         ));
     }
     public function newLine($arg){

@@ -29,7 +29,7 @@ define([
                 confirm: function () {
                     $.confirm({
                         title: 'Really sure?',
-                        content: 'Are you sure to remove this Deploy <br><strong>All related deploy records and files will be erased, except for linked FTP servers and its contents.</strong>',
+                        content: '',
                         icon: 'fa fa-question',
                         confirmButton: 'Remove',
                         confirmButtonClass: 'btn-danger',

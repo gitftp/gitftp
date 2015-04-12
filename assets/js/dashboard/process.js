@@ -32,8 +32,9 @@ define([
              */
             var that = this;
             setTimeout(function(){
-                
                 if($('.dynamicTime').length){
+                    
+                    
                     
                 }
                 that.timeUpdate();

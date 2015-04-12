@@ -31,11 +31,10 @@ define([
              * Time update . class name: .dynamicTime
              */
             var that = this;
-            this.timeUpdateInterval = 1;
             if(this.timeUpdateInterval == 1){
-
-            }else{
                 
+            }else{
+                this.timeUpdateInterval = 1;
             }
             setTimeout(function () {
                 if ($('.dynamicTime').length) {

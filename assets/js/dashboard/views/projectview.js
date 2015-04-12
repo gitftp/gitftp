@@ -155,6 +155,7 @@ define([
             }
         },
         renderMoreActivity: function () {
+            $('.')
             _ajax({
                 url: base + 'api/records/getall/' + this.id,
                 method: 'get',

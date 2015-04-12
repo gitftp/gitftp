@@ -124,8 +124,8 @@ define([
                     method: 'get',
                     dataType: 'json',
                     data: {
-                        offset: '3',
-                        limit: '3'
+                        offset: '',
+                        limit: '10'
                     }
                 }).done(function(data){
                     that.activityData = data;

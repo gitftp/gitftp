@@ -362,7 +362,7 @@ class Controller_Api_Deploy extends Controller {
         } catch (Exception $ex) {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Failed to connect to ftp server, or the destination directory not found, or no permissions granted. '.  serialize($ex->getMessage())
+                'reason' => 'Failed to connect to ftp server, or the destination directory not found, or no permissions granted. '. $ex->getMessage()
             ));
             array_push($log, $gitcore->log);
             $record->set($record_id, array(

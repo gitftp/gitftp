@@ -175,7 +175,7 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
-                $('.deploy-sub-page').html(subPage);
+                $('.deploy-sub-page').append(subPage);
             });
         },
         startDeploy: function (e) {

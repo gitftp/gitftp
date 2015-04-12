@@ -28,7 +28,9 @@ define([
                 confirmButtonClass: 'btn-danger',
                 autoClose: 'cancel|10000',
                 confirm: function () {
-                    
+                    $.confirm({
+                        
+                    });
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
 
                         $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);

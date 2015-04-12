@@ -37,6 +37,7 @@ define([
                     $('.dynamicTime').each(function(i, a){
                         var $this = $(this);
                         var timestamp = parseInt($this.attr('data-timestamp'));
+                        var timeec = (new Date()).getTime()-timestamp;
                         $this.html(moment.duration(moment(timestamp).unix()).humanize());
                     });
                     

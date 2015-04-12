@@ -45,8 +45,8 @@ define([
 
                 }
                 that.timeUpdate();
-            }, time);
-            if(time == 1){
+            }, this.timeUpdateInterval);
+            if(this.timeUpdateInterval == 1){
                 
             }
         },

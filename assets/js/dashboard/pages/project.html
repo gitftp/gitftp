@@ -26,7 +26,7 @@
 <% }else{ %>
 
 <div class="row">
-<% $.each(list, function(i, a){ %>
+    <% $.each(list, function(i, a){ %>
     <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
         <div class="project-list-block">
             <div class="header">
@@ -43,7 +43,7 @@
             <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= a.ftp[0].host %></span></span>
         </div>
     </div>
-<% }) %>
+    <% }) %>
 </div>
 
 <br>

@@ -58,6 +58,9 @@ h6 {
   background-color: #eee;
   border-color: #ddd;
 }
+.btn.btn-link:hover {
+  text-decoration: none;
+}
 .viewdeploy {
   margin-bottom: 30px;
 }

@@ -4,6 +4,7 @@
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;
+  background-color: #FCFCFC;
   color: #555;
   overflow-y: scroll;
   box-shadow: inset 0px 2px #EF3D3D;
@@ -21,6 +22,10 @@ a:hover {
 .navbar-nav li.active a {
   background-image: none !important;
   background-color: #f8f8f8 !important;
+}
+.navbar-default {
+  background: -webkit-linear-gradient(top, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
 }
 h1,
 h2,
@@ -46,8 +51,20 @@ h6 {
   background-color: #eee;
   border-color: #ddd;
 }
-.viewdeploy.deleted {
+.viewdeploy.delete {
   opacity: 0.3;
+}
+.viewdeploy .project-list-block {
+  background-color: #fff;
+  padding: 10px;
+}
+.viewdeploy .project-list-block .header > span {
+  vertical-align: middle;
+  display: inline-block;
+}
+.viewdeploy .project-list-block .header span.head {
+  font-size: 24px;
+  padding-top: 0px;
 }
 .bb-loading:empty {
   height: 300px
@@ -107,6 +124,7 @@ h6 {
 .project-v-status {
   padding: 5px 10px;
   border-radius: 4px;
+  margin-top: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
@@ -118,6 +136,8 @@ h6 {
   font-weight: 800;
   -webkit-transition: all 1s;
           transition: all 1s;
+  width: 200px;
+  text-align: center;
 }
 .project-co-loading {
   background-color: white;

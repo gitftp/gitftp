@@ -210,6 +210,7 @@ class gitcore {
         'debug' => 'false',
 //        'version' => 'true',
 //        'list' => 'true',
+        'deploy_id' => 'deploy_id',
         'server' => 'default',
 //        'others' => 'true,',
 //        'sync' => 'all',
@@ -849,11 +850,17 @@ class gitcore {
         unset($files);
         $this->output("about to start with the files.");
         
+        //custom
+        $totalcount = count($filesToDelete)+count($filesToUpload);
+        $curr = 0;
+        $deploy = new Model_Deploy();
+        $deploy_id = $this->options['deploy_id'];
+        //end custom
+        
+        
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed
         foreach ($filesToDelete as $fileNo => $file) {
-
             $numberOfFilesToDelete = count($filesToDelete);
-            
             if($this->connection->exists($file)){
                 $this->connection->rm($file);
                 $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
@@ -862,6 +869,11 @@ class gitcore {
                 $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
             }
+            
+            $curr += 1;
+            $deploy->set(array(
+                'status' => "deploying $curr of $totalcount"
+            ));
         }
 
         // Upload Files
@@ -936,6 +948,11 @@ class gitcore {
 
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
             $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
+
+            $curr += 1;
+            $deploy->set(array(
+                'status' => "deploying $curr of $totalcount"
+            ));
         }
 
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {

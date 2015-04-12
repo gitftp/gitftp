@@ -1,7 +1,7 @@
 <?php echo View::forge('layout/dash_nav'); ?>
 
-
-<div class="container">
+<div style="height: 30px;"></div>
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <div class="bb-wrapper bb-loading"></div>

@@ -72,6 +72,7 @@ class Controller_Hook extends Controller {
         $gitcore = new gitcore();
         $gitcore->options = array(
             'repo' => $repo_dir,
+            'deploy_id' => $deploy_id,
             'debug' => true,
             'server' => 'default',
             'ftp' => array(

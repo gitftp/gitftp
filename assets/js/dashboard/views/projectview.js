@@ -156,6 +156,7 @@ define([
         },
         renderMoreActivity: function (e) {
             e.preventDefault();
+            $this = $(e.currentTarget);
             var count = $('tr.activity-data-records').length;
             var that = this;
             _ajax({

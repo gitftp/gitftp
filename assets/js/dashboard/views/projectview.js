@@ -177,7 +177,7 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
-                $('.deploy-sub-page table').append(subPage);
+                $('.deploy-sub-page table tbody').append(subPage);
             });
         },
         startDeploy: function (e) {

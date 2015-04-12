@@ -23,7 +23,6 @@ class Model_Record extends Model {
         }
         if($limit){
             
-            
             if($offset){
                 
             }

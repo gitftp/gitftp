@@ -46,8 +46,9 @@ define([
                 }
                 that.timeUpdate();
             }, this.timeUpdateInterval);
+            
             if(this.timeUpdateInterval == 1){
-                this.timeUpdateInterval = 1000;
+                this.timeUpdateInterval = 10000;
             }
         },
         runProcess: function () {

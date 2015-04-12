@@ -131,7 +131,8 @@ define([
                     console.log(that.template);
                     var subPage = that.template[that.which]({
                         's': that.data.data[0],
-                        'activity': data
+                        'activity': data,
+                        'more': false
                     });
                     $('.deploy-sub-page').html(subPage);
                 });

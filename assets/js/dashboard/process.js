@@ -28,8 +28,9 @@ define([
         },
         timeUpdate: function(){
             /*
-             * Time update . class name: 
+             * Time update . class name: .dynamicTime
              */
+            
         },
         runProcess: function () {
             this.deployView();

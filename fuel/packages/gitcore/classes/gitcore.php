@@ -849,13 +849,13 @@ class gitcore {
 
         unset($files);
         $this->output("about to start with the files.");
-        
         //custom
         $totalcount = count($filesToDelete)+count($filesToUpload);
         $curr = 0;
         $deploy = new Model_Deploy();
         $deploy_id = $this->options['deploy_id'];
         //end custom
+        $this->output("about to start with the files.");
         
         
         // TODO: perhaps detect whether file is actually present, and whether delete is successful/skipped/failed

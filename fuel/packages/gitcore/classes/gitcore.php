@@ -871,9 +871,11 @@ class gitcore {
             }
             
             $curr += 1;
-            $deploy->set($deploy_id, array(
-                'status' => "deploying $curr of $totalcount"
-            ), true);
+            if($curr%5 == 0){
+                $deploy->set($deploy_id, array(
+                    'status' => "deploying $curr of $totalcount"
+                ), true);
+            }
         }
 
         // Upload Files

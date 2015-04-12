@@ -871,7 +871,7 @@ class gitcore {
             }
             
             $curr += 1;
-            if($curr%5 == 0){
+            if($curr%2 == 0){
                 $deploy->set($deploy_id, array(
                     'status' => "deploying $curr of $totalcount"
                 ), true);

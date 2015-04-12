@@ -34,7 +34,9 @@ define([
             setTimeout(function(){
                 if($('.dynamicTime').length){
                     
-                    
+                    $('.dynamicTime').each(function(i, a){
+                        
+                    });
                     
                 }
                 that.timeUpdate();

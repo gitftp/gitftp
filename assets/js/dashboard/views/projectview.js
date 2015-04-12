@@ -43,7 +43,6 @@ define([
                                     noty({
                                         text: '!! deleted',
                                     });
-
                                     Backbone.history.loadUrl();
                                 } else {
                                     noty({

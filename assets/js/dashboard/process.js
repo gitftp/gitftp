@@ -45,11 +45,11 @@ define([
 
                 }
                 that.timeUpdate();
+                if (this.timeUpdateInterval == 1) {
+                    this.timeUpdateInterval = 10000;
+                }
             }, this.timeUpdateInterval);
 
-            if (this.timeUpdateInterval == 1) {
-                this.timeUpdateInterval = 10000;
-            }
         },
         runProcess: function () {
             this.deployView();

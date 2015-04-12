@@ -32,7 +32,7 @@ define([
              */
             var that = this;
             if(this.timeUpdateInterval == 1){
-                
+                this.timeUpdateInterval = 1000;
             }else{
                 this.timeUpdateInterval = 1;
             }

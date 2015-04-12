@@ -173,7 +173,7 @@ define([
                     'activity': data,
                     'more': 'false',
                     'count': data.count,
-                    'renderedCount': 10
+                    'renderedCount': count+10
                 });
                 $('.deploy-sub-page').html(subPage);
             });

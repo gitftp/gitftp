@@ -135,7 +135,7 @@ define([
                         'activity': data,
                         'more': 'false',
                         'count': data.count,
-                        'renderedCount' : 10
+                        'renderedCount': 10
                     });
                     $('.deploy-sub-page').html(subPage);
                 });
@@ -154,8 +154,26 @@ define([
                 });
             }
         },
-        renderMoreActivity: function(){
-            
+        renderMoreActivity: function () {
+            _ajax({
+                url: base + 'api/records/getall/' + this.id,
+                method: 'get',
+                dataType: 'json',
+                data: {
+                    limit: '10'
+                }
+            }).done(function (data) {
+                that.activityData = data;
+                console.log(that.template);
+                var subPage = that.template[that.which]({
+                    's': that.data.data[0],
+                    'activity': data,
+                    'more': 'false',
+                    'count': data.count,
+                    'renderedCount': 10
+                });
+                $('.deploy-sub-page').html(subPage);
+            });
         },
         startDeploy: function (e) {
             var $this = $(e.currentTarget);

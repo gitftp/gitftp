@@ -120,7 +120,12 @@ define([
             if (this.which == 'activity') {
                 
                 _ajax({
-                    url : base+ 'api/records/getall/'+this.id
+                    url : base+ 'api/records/getall/'+this.id,
+                    method: 'get',
+                    dataType: 'json',
+                    data: {
+                        
+                    }
                 })
                 $.getJSON(base + 'api/records/getall/' + this.id, function (data) {
                     that.activityData = data;

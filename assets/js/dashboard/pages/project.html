@@ -28,22 +28,21 @@
 
 <% $.each(list, function(i, a){ %>
 <div class="row">
-    
-<div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
-    <div class="project-list-block">
-        <div class="header">
-            <p>
-                <span class="head">
-                    <%= a.name %>
-                </span>
-                <span class="text-right"><%= a.status %></span>
-            </p>
-            <div class="clearfix"></div>
+    <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
+        <div class="project-list-block">
+            <div class="header">
+                <p>
+                    <span class="head">
+                        <%= a.name %>
+                    </span>
+                    <span class="text-right"><%= a.status %></span>
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <span style="color: #aaa">(<%= a.repository %>)</span>
+            <a href="<%= a.repository %>" target="empty" data-id="<%= a.id %>" class=""><i class="fa fa-external-link fa-fw"></i></a>
         </div>
-        <span style="color: #aaa">(<%= a.repository %>)</span>
-        <a href="<%= a.repository %>" target="empty" data-id="<%= a.id %>" class=""><i class="fa fa-external-link fa-fw"></i></a>
     </div>
-</div>
 </div>
 <% }) %>
 

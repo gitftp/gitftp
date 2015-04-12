@@ -39,8 +39,8 @@ define([
                         var timestamp = parseInt($this.attr('data-timestamp'));
                         var timeec = Math.round((new Date()).getTime() / 1000)-timestamp;
 //                        var timeec = (new Date()).getTime()-timestamp;
-                        $this.html(moment.duration(timeec, 'miliseconds').humanize());
-                    timestamp
+                        $this.html(moment.duration(timestamp, 'miliseconds').humanize());
+                    });
                     
                 }
                 that.timeUpdate();

@@ -136,7 +136,6 @@ define([
                     });
                     $('.deploy-sub-page').html(subPage);
                 });
-                
             }
             if (this.which == 'settings') {
                 $.getJSON(base + 'api/ftp/getall', function (data) {

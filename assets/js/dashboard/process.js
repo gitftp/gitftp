@@ -32,6 +32,11 @@ define([
              */
             var that = this;
             this.timeUpdateInterval = 1;
+            if(this.timeUpdateInterval == 1){
+
+            }else{
+                
+            }
             setTimeout(function () {
                 if ($('.dynamicTime').length) {
 
@@ -46,9 +51,6 @@ define([
                 }
                 that.timeUpdate();
             }, this.timeUpdateInterval);
-            if(this.timeUpdateInterval == 1){
-                
-            }
         },
         runProcess: function () {
             this.deployView();

@@ -62,8 +62,8 @@ h6 {
   border: solid 1px #ddd;
   padding: 5px 15px 10px;
   border-radius: 4px;
-  -webkit-transition: border-color 0.2s;
-          transition: border-color 0.2s;
+  -webkit-transition: border .2s;
+          transition: border .2s;
 }
 .viewdeploy .project-list-block .header > span {
   vertical-align: middle;

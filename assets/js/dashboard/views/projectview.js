@@ -46,7 +46,7 @@ define([
                                     Backbone.history.loadUrl();
                                 } else {
                                     noty({
-                                        text: 'Oh Snap,'
+                                        text: 'D\'oh! '
                                     });
                                 }
                             });

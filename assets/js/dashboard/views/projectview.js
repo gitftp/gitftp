@@ -41,7 +41,7 @@ define([
                                 $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
                                 if (data.status) {
                                     noty({
-                                        text: '!! deleted',
+                                        text: '',
                                     });
                                     Backbone.history.loadUrl();
                                 } else {

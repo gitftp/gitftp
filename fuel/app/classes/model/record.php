@@ -21,7 +21,9 @@ class Model_Record extends Model {
         if ($id != null) {
             $q = $q->and_where('deploy_id', $id);
         }
-        if()
+        if($limit){
+            
+        }
 
         $r = $q->order_by('id', 'DESC')->execute()->as_array();
         

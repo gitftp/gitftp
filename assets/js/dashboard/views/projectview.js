@@ -34,22 +34,25 @@ define([
                         icon: 'fa fa-info',
                         confirmButton: 'Remove',
                         confirmButtonClass: 'btn-danger',
-                        autoClose: 'cancel|10000',                        
-                    });
-                    $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
+                        autoClose: 'cancel|10000',
+                        confirm: function(){
+                            
+                            $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
 
-                        $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
-                        $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
+                                $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
+                                $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
 
-                        if (data.status) {
-                            noty({
-                                text: '!! deleted',
-                            });
+                                if (data.status) {
+                                    noty({
+                                        text: '!! deleted',
+                                    });
 
-                            Backbone.history.loadUrl();
-                        } else {
-                            noty({
-                                text: 'there was problem while deleting'
+                                    Backbone.history.loadUrl();
+                                } else {
+                                    noty({
+                                        text: 'there was problem while deleting'
+                                    });
+                                }
                             });
                         }
                     });

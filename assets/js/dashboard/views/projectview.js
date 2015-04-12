@@ -179,7 +179,7 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
-                $this.parents('td')
+                $this.parents('td').html('page')
                 $('.deploy-sub-page table tbody').append(subPage);
             });
         },

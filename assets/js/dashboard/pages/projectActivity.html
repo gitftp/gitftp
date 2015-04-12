@@ -95,17 +95,18 @@
             </a>
         </td>
     </tr>
+    <% }); %>
+    
     <% if(count > renderedCount){ %>
-    <% } %>
     <tr>
         <td colspan="5">
             <button type="button">View more</button>
         </td>
     </tr>
+    <% } %>
     <script>
         $('[data-toggle="tooltip"]').tooltip();
     </script>
-    <% }); %>
 <% if(more == 'false'){ %>
     <% if(activity.data.length != 0 ){ %>
 </table>

@@ -43,7 +43,7 @@ h6 {
 }
 .btn {
   background-image: none;
-  border: none;
+  border: none !important;
 }
 .btn.btn-default {
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);

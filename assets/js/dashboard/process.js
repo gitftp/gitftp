@@ -27,7 +27,7 @@ define([
             }, 1500);
         },
         runProcess: function () {
-            
+            this.deployView();
         },
         init: function () {
             this.runProcess();

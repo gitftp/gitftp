@@ -36,8 +36,9 @@ define([
                     
                     $('.dynamicTime').each(function(i, a){
                         var $this = $(this);
-                        var timestamp = $this.attr('data-timestamp');
-                        $this.html(timestamp);
+                        var timestamp = parseInt($this.attr('data-timestamp'));
+                        $this.attr('data-timestamp', timestamp+1);
+                        $this.html(moment.duration(timestamp).humanize());
                     });
                     
                 }
@@ -46,6 +47,7 @@ define([
         },
         runProcess: function () {
             this.deployView();
+            this.timeUpdate();
         },
         init: function () {
             this.runProcess();

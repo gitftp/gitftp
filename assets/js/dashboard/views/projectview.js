@@ -154,6 +154,9 @@ define([
                 });
             }
         },
+        renderMoreActivity: function(){
+            
+        },
         startDeploy: function (e) {
             var $this = $(e.currentTarget);
             var that = this;

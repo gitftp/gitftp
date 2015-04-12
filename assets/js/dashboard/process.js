@@ -24,10 +24,10 @@ define([
                     });
                 }
                 that.deployView();
-            }, 2000);
+            }, 1500);
         },
         runProcess: function () {
-            var that = this;
+            
         },
         init: function () {
             this.runProcess();

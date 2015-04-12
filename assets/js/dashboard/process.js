@@ -41,7 +41,7 @@ define([
 //                        var timeec = (new Date()).getTime()-timestamp;
                         var timestamp = (new Date(parseInt($this.attr('data-timestamp'))*1000)).getTime();
                         var currtime = parseInt((new Date()).getTime().toString().substr(0, 10));
-                        var diff = -timestamp;
+                        var diff = currtime-timestamp;
                         $this.html(moment.duration(diff).humanize()+' ago');
                     });
                     

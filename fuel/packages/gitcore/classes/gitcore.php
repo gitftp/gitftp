@@ -871,9 +871,9 @@ class gitcore {
             }
             
             $curr += 1;
-            $deploy->set(array(
+            $deploy->set($deploy_id, array(
                 'status' => "deploying $curr of $totalcount"
-            ));
+            ), true);
         }
 
         // Upload Files
@@ -950,9 +950,9 @@ class gitcore {
             $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
 
             $curr += 1;
-            $deploy->set(array(
+            $deploy->set($deploy_id, array(
                 'status' => "deploying $curr of $totalcount"
-            ));
+            ), true);
         }
 
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {

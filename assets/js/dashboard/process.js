@@ -10,9 +10,7 @@ define([
              */
             this.process_id = setTimeout(function () {
                 if ($('.is-deploy-view-id').length) {
-
                     var id = $('.is-deploy-view-id').attr('data-id');
-
                     $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                         data = data.data[0];
                         var el = $('.project-v-status');

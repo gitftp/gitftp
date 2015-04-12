@@ -71,6 +71,9 @@ h6 {
   font-size: 24px;
   padding-top: 0px;
 }
+.viewdeploy .project-list-block:hover {
+  border-color: #EF3D37;
+}
 .bb-loading:empty {
   height: 300px
   /*    background-image: url('../img/blank.gif');

@@ -46,7 +46,7 @@ define([
                                     Backbone.history.loadUrl();
                                 } else {
                                     noty({
-                                        text: 'D\'oh! '
+                                        text: 'D\'oh! error removing the deploy'
                                     });
                                 }
                             });

@@ -28,7 +28,7 @@ define([
                 confirmButtonClass: 'btn-danger',
                 confirm: function () {
                     $.confirm({
-                        title: 'Sure?',
+                        title: 'Really sure?',
                         content: 'Are you sure to remove this Deploy <br><strong>All related deploy records and files will be erased, except for linked FTP servers and its contents.</strong>',
                         icon: 'fa fa-info',
                         confirmButton: 'Remove',

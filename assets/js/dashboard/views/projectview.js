@@ -35,6 +35,7 @@ define([
                         confirmButton: 'Remove',
                         confirmButtonClass: 'btn-danger',
                         autoClose: 'cancel|10000',
+                        animation: 'zoom',
                         confirm: function(){
                             $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
 

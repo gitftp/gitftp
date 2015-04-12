@@ -38,7 +38,7 @@ define([
                         var $this = $(this);
                         var timestamp = (new Date(parseInt($this.attr('data-timestamp'))*1000)).getTime();
                         var diff = parseInt((new Date()).getTime().toString().substr(0, 10))-timestamp;
-//                        var timeec = (new Date()).getTime()-timestamp;
+                        var timeec = (new Date()).getTime()-timestamp;
                         $this.html(moment.duration(timestamp).humanize());
                     });
                     

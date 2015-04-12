@@ -10,10 +10,10 @@ body {
   box-shadow: inset 0px 2px #EF3D3D;
 }
 ::-moz-selection {
-  background: #fff;
+  background: #eee;
 }
 ::selection {
-  background: #fff;
+  background: #eee;
 }
 a:hover {
   text-decoration: none;

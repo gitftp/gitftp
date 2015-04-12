@@ -32,12 +32,6 @@ define([
              * Time update . class name: .dynamicTime
              */
             var that = this;
-            if(this.timeUpdateInterval == 1){
-                this.timeUpdateInterval = 1000;
-            }else{
-                this.timeUpdateInterval = 1;
-            }
-            
             setTimeout(function () {
                 if ($('.dynamicTime').length) {
 
@@ -52,6 +46,9 @@ define([
                 }
                 that.timeUpdate();
             }, this.timeUpdateInterval);
+            if(this.timeUpdateInterval == 1){
+                this.timeUpdateInterval = 1000;
+            }
         },
         runProcess: function () {
             this.deployView();

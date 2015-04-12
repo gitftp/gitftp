@@ -26,7 +26,7 @@ define([
                 that.deployView();
             }, 1500);
         },
-        timeUpdateInterval : 1,
+        timeUpdateInterval: 1,
         timeUpdate: function () {
             /*
              * Time update . class name: .dynamicTime
@@ -46,8 +46,8 @@ define([
                 }
                 that.timeUpdate();
             }, this.timeUpdateInterval);
-            
-            if(this.timeUpdateInterval == 1){
+
+            if (this.timeUpdateInterval == 1) {
                 this.timeUpdateInterval = 10000;
             }
         },

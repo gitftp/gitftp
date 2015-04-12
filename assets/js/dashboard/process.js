@@ -32,7 +32,11 @@ define([
              */
             var that = this;
             setTimeout(function(){
-                if()
+                
+                if($('.dynamicTime').length){
+                    
+                }
+                    
             }, 1000);
         },
         runProcess: function () {

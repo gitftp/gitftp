@@ -19,7 +19,7 @@ class Controller_Api_Records extends Controller {
         $limit = $get['limit'] ? $get['limit'] : '';
         
         $record = new Model_Record();
-        $data = $record->get($id);
+        $data = $record->get($id, $limit, $offset);
 
         foreach ($data as $k => $v) {
             $data[$k]['file_add'] = $this->newLine(unserialize($data[$k]['file_add']));

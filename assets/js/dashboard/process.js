@@ -27,7 +27,9 @@ define([
             }, 1500);
         },
         timeUpdate: function(){
-            
+            /*
+             * Time update . class name: 
+             */
         },
         runProcess: function () {
             this.deployView();

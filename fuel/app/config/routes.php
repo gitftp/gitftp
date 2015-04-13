@@ -14,6 +14,15 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 if(preg_match('/localhost/', $host)){
     $base = 'http://localhost/';
 }
+if(preg_match('/localhost/', $host)){
+    $base = 'http://localhost/';
+}
+if(preg_match('/localhost/', $host)){
+    $base = 'http://localhost/';
+}
+if(preg_match('/localhost/', $host)){
+    $base = 'http://localhost/';
+}
 
 define('base', $base);
 define('is_dash', $is_dash);

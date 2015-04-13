@@ -19,7 +19,8 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     
 }
 
-define('base', $base);
+define('dash_url', $dash_url);
+define('home_url', $home_url);
 define('is_dash', $is_dash);
 
 return array(

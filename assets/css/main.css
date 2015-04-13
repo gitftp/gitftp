@@ -218,3 +218,19 @@ h6 {
   -webkit-animation: drop 2s ease;
           animation: drop 2s ease;
 }
+@-webkit-keyframes drop {
+  from {
+    margin-top: -20px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}
+@keyframes drop {
+  from {
+    margin-top: -20px;
+  }
+  to {
+    margin-top: 0px;
+  }
+}

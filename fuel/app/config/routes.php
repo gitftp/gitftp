@@ -20,7 +20,7 @@ if(preg_match('/stg.gitftp.com/', $host)){
 if(preg_match('/git.gitftp.com/', $host)){
     $base = 'http://gitftp.com/';
 }
-if(preg_match('/gitftp.com/', $host)){
+if('/gitftp.com/' == $host){
     $base = 'http://git.gitftp.com/';
 }
 

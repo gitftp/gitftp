@@ -14,6 +14,8 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 }
 if(preg_match('/localhost/', $host)){
     
+}else{
+    
 }
 
 define('is_dash', $is_dash);

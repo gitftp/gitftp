@@ -1,7 +1,7 @@
 <?php
 
 class Controller_Test extends Controller {
-    public function action_test2(){
+    public function action_testw(){
         echo is_dash;
         echo '<br>';
         echo home_url;

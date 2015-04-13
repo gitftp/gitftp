@@ -12,7 +12,8 @@ class Controller_Test extends Controller {
     }
     public function action_testo(){
         Auth::login('bonifacepereira@gmail.com', 'thisissparta');
-        DB::select()->from('deploy')->execute()->as_array();
+        $a  = DB::select()->from('deploy')->execute()->as_array();
+        print_r($a);
     }
     public function action_index() {
         echo '<pre>';

@@ -4,6 +4,8 @@
  * Hosting configuration for homepage and dashboard application.
  */
 $host = $_SERVER['HTTP_HOST']
+if($host == 'git.gitftp.com')
+        
 define('SITE', $which_server);
 
 return array(

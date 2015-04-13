@@ -4,9 +4,7 @@
  * Hosting configuration for homepage and dashboard application.
  */
 $host = $_SERVER['HTTP_HOST']
-
 define('SITE', $which_server);
-$a = 'welcome/index';
 
 return array(
     '_root_' => 'welcome/index', // The default route

@@ -3,9 +3,14 @@
 class Controller_Dashboard extends Controller {
 
     public function action_index() {
+        if(){
+            
+        }
+            
         if(!Auth::check()){
             Response::redirect(base);
         }
+        
         
         $view = View::forge('layout/base_layout.mustache');
         $view->css = View::forge('layout/css');

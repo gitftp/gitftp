@@ -9,11 +9,11 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = true;
     $controller = 'dashboard/index';
     $dash_url = $host;
-    $home_url = ($host == 'git.gitftp.com') ? 'http://gitftp.com': 'http://localhost/gitploy';
+    $home_url = ($host == 'git.gitftp.com') ? 'http://gitftp.com/': 'http://localhost/gitploy/';
 }else{
     $controller = 'welcome/index';
     $is_dash = false;
-    $dash_url = ($host == 'gitftp.com') ? 'http://git.gitftp.com': 'http://stg.gitftp.com';
+    $dash_url = ($host == 'gitftp.com') ? 'http://git.gitftp.com/': 'http://stg.gitftp.com/';
     $home_url = $host;
 }
 

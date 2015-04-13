@@ -11,13 +11,13 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $controller = 'welcome/index';
     $is_dash = false;
 }
-if('/localhost/', $host){
+if('/localhost/' == $host){
     $base = 'http://stg.gitftp.com/';
 }
-if('/stg.gitftp.com/', $host){
+if('/stg.gitftp.com/' == $host){
     $base = 'http://localhost/';
 }
-if('/git.gitftp.com/', $host){
+if('/git.gitftp.com/' == $host){
     $base = 'http://gitftp.com/';
 }
 if('/gitftp.com/' == $host){

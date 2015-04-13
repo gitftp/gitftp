@@ -11,7 +11,7 @@ class Controller_Test extends Controller {
         echo Auth::check();
     }
     public function action_testo(){
-         Auth::login('bonifacepereira@gmail.com', 'thisissparta');
+        Auth::login('bonifacepereira@gmail.com', 'thisissparta');
         $a = DB::select()->from('deploy')->execute()->as_array();
         print_r($a);
     }

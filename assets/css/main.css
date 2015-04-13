@@ -218,8 +218,8 @@ h6 {
   overflow: hidden;
 }
 .dash-nav .drop {
-  -webkit-animation: drop 1s ease-in;
-          animation: drop 1s ease-in;
+  -webkit-animation: drop 0.7s ease-in;
+          animation: drop 0.7s ease-in;
 }
 @-webkit-keyframes drop {
   from {

@@ -220,7 +220,7 @@ h6 {
 }
 @-webkit-keyframes drop {
   from {
-    margin-top: -20px;
+    margin-top: 200px;
   }
   to {
     margin-top: 0px;
@@ -228,7 +228,7 @@ h6 {
 }
 @keyframes drop {
   from {
-    margin-top: -20px;
+    margin-top: 200px;
   }
   to {
     margin-top: 0px;

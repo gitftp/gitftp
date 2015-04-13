@@ -5,7 +5,7 @@ class Controller_Dashboard extends Controller {
     public function action_index() {
         if(!Auth::check()){
             if(is_dash){
-                
+                Response::redirect(base);
             }else{
                 Response::redirect('/');
             }

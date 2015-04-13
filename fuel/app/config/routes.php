@@ -7,6 +7,8 @@ $host = $_SERVER['HTTP_HOST'];
 if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = true;
     $controller = 'dashboard/index';
+    $dash_url = 'http://stg.gitftp.com/';
+    $home_url = 'http://localhost/gitploy';
 }else{
     $controller = 'welcome/index';
     $is_dash = false;

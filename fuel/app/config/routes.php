@@ -7,9 +7,8 @@ $host = $_SERVER['HTTP_HOST']
 if($host == 'git.gitftp.com'){
     $is_dash = true;
 }else{
-    $is_dash = true;
+    $is_dash = false;
 }
-        
 define('SITE', $which_server);
 
 return array(

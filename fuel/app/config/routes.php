@@ -6,8 +6,8 @@
 $host = $_SERVER['HTTP_HOST'];
 
 if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
-    $is_dash = true;
     $controller = 'welcome/index'; // change this to dashboard.
+    $is_dash = true;
     $dash_url = 'http://'.$host.'/';
     $home_url = ($host == 'git.gitftp.com') ? 'http://gitftp.com/': 'http://stg-home.gitftp.com/';
 }else{

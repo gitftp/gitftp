@@ -5,7 +5,7 @@
  */
 $host = $_SERVER['HTTP_HOST']
 if($host == 'git.gitftp.com'){
-    
+    $which_server = 'dashboard'
 }else{
     
 }

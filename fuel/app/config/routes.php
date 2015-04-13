@@ -17,13 +17,13 @@ if('localhost' == $host){
     $home_url = 'http://stg.gitftp.com/';
 }
 if('stg.gitftp.com' == $host){
-    $base = 'http://localhost/';
+    $dash_url = 'http://localhost/';
 }
 if('git.gitftp.com' == $host){
-    $base = 'http://gitftp.com/';
+    $dash_url = 'http://gitftp.com/';
 }
 if('gitftp.com' == $host){
-    $base = 'http://git.gitftp.com/';
+    $dash_url = 'http://git.gitftp.com/';
 }
 
 define('base', $base);

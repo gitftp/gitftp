@@ -215,6 +215,7 @@ h6 {
 }
 .dash-nav {
   top: 2px;
+  overflow: hidden;
 }
 .dash-nav .drop {
   -webkit-animation: drop 0.5s ease-in;

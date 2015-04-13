@@ -50,8 +50,6 @@ class Fuel
 	 * @var  string  constant used for when testing the app in a staging env.
 	 */
 	const STAGE = 'stage';
-        
-	const AMAZON = 'amazon';
 
 	/**
 	 * @var  int  No logging

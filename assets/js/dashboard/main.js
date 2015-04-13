@@ -12,7 +12,7 @@ require([
     "process"
 ], function (router, process) {
 
-    if(!/dashboard/ig.test(window.location)){
+    if(!is_dash){
         return false;
     }
     

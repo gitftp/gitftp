@@ -34,7 +34,7 @@
                                                     </li>
                                                 </ul>-->
 
-                        <ul class="nav navbar-nav navbar-left">
+                        <ul class="nav navbar-nav navbar-left drop">
                             <li class="home"><a href="<?php echo Uri::base(false); ?>#home">Dashboard</a></li>
                             <li class="deploy"><a href="<?php echo Uri::base(false); ?>#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Deploy</a></li>
                             <li class="ftp"><a href="<?php echo Uri::base(false); ?>#ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>

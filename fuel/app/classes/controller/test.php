@@ -1,7 +1,9 @@
 <?php
 
 class Controller_Test extends Controller {
-
+    public function action_test2(){
+        
+    }
     public function action_index() {
         echo '<pre>';
         $b = new gitcore();

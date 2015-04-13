@@ -27,7 +27,7 @@ Autoloader::register();
 if ($_SERVER['HTTP_HOST'] == 'localhost') {
     Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
 } else if ($_SERVER['HTTP_HOST'] == 'git.gitftp.com' || $_SERVER['HTTP_HOST'] == 'gitftp.com' || $_SERVER['HTTP_HOST'] == '54.149.18.148') {
-    Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::PRODUCTION);
+    Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
 } else {
     Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::TEST);
 }

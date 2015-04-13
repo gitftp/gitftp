@@ -16,7 +16,7 @@ if(preg_match('/localhost/', $host)){
 }else{
     
 }
-
+define('base', $base);
 define('is_dash', $is_dash);
 return array(
     '_root_' => $controller, // The default route

@@ -12,7 +12,7 @@ class Controller_Test extends Controller {
     }
     public function action_testo(){
         Auth::login('bonifacepereira@gmail.com', 'thisissparta');
-        
+        DB::select()->from('deploy')->execute()->as_array();
     }
     public function action_index() {
         echo '<pre>';

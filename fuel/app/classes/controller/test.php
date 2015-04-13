@@ -2,7 +2,9 @@
 
 class Controller_Test extends Controller {
     public function action_test2(){
-        
+        echo '<br>';
+        echo is_dash;
+        echo '<br>';
     }
     public function action_index() {
         echo '<pre>';

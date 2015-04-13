@@ -21,6 +21,7 @@ define('dash_url', $dash_url);
 define('home_url', $home_url);
 define('is_dash', $is_dash);
 echo dash_url;
+echo '<br>';
 echo home_url;
 
 return array(

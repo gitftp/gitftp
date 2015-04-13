@@ -213,3 +213,6 @@ h6 {
   -webkit-animation-duration: .5s !important;
           animation-duration: .5s !important;
 }
+.dash-nav {
+  top: 2px;
+}

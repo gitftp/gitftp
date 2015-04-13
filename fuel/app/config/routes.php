@@ -20,7 +20,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 define('dash_url', $dash_url);
 define('home_url', $home_url);
 define('is_dash', $is_dash);
-
+echo dash_url;
 return array(
     '_root_' => $controller, // The default route
     'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),

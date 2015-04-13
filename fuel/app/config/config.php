@@ -14,6 +14,10 @@
  * If you want to override the default configuration, add the keys you
  * want to change here, and assign new values to them.
  */
+
+echo 'config file';
+
+
 return array(
     /**
      * base_url - The base URL of the application.

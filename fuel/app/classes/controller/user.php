@@ -26,7 +26,7 @@ class Controller_User extends Controller {
             
             if (Auth::validate_user($a['email'], $a['password'])) {
                 Auth::login($a['email'], $a['password']);
-                Response::redirect();
+                Response::redirect(dash_url);
             } else {
                 Response::redirect(home_url);
             }

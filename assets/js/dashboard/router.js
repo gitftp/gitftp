@@ -7,11 +7,7 @@ define([
     'views/projectview',
 ], function (dashboard, ftpView, ftpAdd, projectView, projectaddView, projectviewView) {
 
-    if (!/dashboard/ig.test(location.href)) {
-        return false;
-    }
-
-    var r = Backbone.Router.extend({
+var r = Backbone.Router.extend({
         routes: {
             '': 'fourofour',
             'home': 'dashboard',

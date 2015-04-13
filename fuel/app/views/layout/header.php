@@ -8,4 +8,5 @@
 <script>
     var base = '<?php echo Uri::base(false); ?>';
     var home_url = '<?php echo home_url; ?>';
+    var home_url = '<?php echo dash_url; ?>';
 </script>

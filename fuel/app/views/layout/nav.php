@@ -63,7 +63,7 @@
                                     <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo (!is_dash)? 'bonifacepereira@gmail.com' : '' ?>">
                                 </div>
                                 <div class="form-group">
-                                    <input type="text" name="password" class="form-control" placeholder="Password" value="<?php echo (!is_dash)? 'bonifacepereira@gmail.com' : '' ?>">
+                                    <input type="text" name="password" class="form-control" placeholder="Password" value="<?php echo (!is_dash)? 'thisissparta' : '' ?>">
                                 </div>
                                 <button type="submit" class="btn btn-danger">Login</button>
                             </form>

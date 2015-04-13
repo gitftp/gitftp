@@ -13,7 +13,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 }
 
 if('localhost' == $host){
-    $base = 'http://stg.gitftp.com/';
+    $dash_url = 'http://stg.gitftp.com/';
 }
 if('stg.gitftp.com' == $host){
     $base = 'http://localhost/';

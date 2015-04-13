@@ -17,7 +17,7 @@ if('localhost' == $host){
     $home_url = 'http://localhost/gitploy';
 }
 if('stg.gitftp.com' == $host){
-    $dash_url = 'http://localhost/';
+    $dash_url = 'http://localhost/gitploy';
 }
 if('git.gitftp.com' == $host){
     $dash_url = 'http://gitftp.com/';

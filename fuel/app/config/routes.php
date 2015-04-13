@@ -17,11 +17,11 @@ if(preg_match('/localhost/', $host)){
 if(preg_match('/stg.gitftp.com/', $host)){
     $base = 'http://localhost/';
 }
-if(preg_match('/localhost/', $host)){
-    $base = 'http://localhost/';
+if(preg_match('/git.gitftp.com/', $host)){
+    $base = 'http://gitftp.com/';
 }
 if(preg_match('/gitftp.com/', $host)){
-    $base = 'http://localhost/';
+    $base = 'http://git.gitftp.com/';
 }
 
 define('base', $base);

@@ -32,7 +32,7 @@ return array(
 	 *
 	 * Paths specified here are suffixed with the sub-folder paths defined below.
 	 */
-	'paths' => array('http://cdn.gitftp.com/'),
+	'paths' => array('assets/'),
 
 	/**
 	 * Asset Sub-folders

@@ -11,8 +11,8 @@ if($host == 'git.gitftp.com'){
     $controller = 'welcome/index';
     $is_dash = false;
 }
-define('SITE', $is_dash);
 
+define('SITE', $is_dash);
 return array(
     '_root_' => $controller, // The default route
     'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),

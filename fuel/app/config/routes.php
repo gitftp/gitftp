@@ -7,7 +7,7 @@ $host = $_SERVER['HTTP_HOST'];
 
 if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = true;
-    $controller = 'dashboard/index';
+    $controller = 'welcome/index';
     $dash_url = $host;
     $home_url = ($host == 'git.gitftp.com') ? 'http://gitftp.com/': 'http://stg-home.gitftp.com/';
 }else{

@@ -3,11 +3,8 @@
 class Controller_Dashboard extends Controller {
 
     public function action_index() {
-        if(){
-            Response::redirect(base);
-        }
             
-        if(!Auth::check()){
+        if(!Auth::check() or !is_dash){
             Response::redirect(base);
         }
         

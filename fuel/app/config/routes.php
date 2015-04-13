@@ -4,7 +4,6 @@
  * Hosting configuration for homepage and dashboard application.
  */
 $host = $_SERVER['HTTP_HOST'];
-echo $host;
 if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = true;
     $controller = 'dashboard/index';

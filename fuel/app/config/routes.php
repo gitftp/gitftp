@@ -6,7 +6,9 @@
 $host = $_SERVER['HTTP_HOST']
 if($host == 'git.gitftp.com'){
     $is_dash = true;
+    $controller = 'dashboard/index';
 }else{
+    $controller = 'welcome/index';
     $is_dash = false;
 }
 define('SITE', $is_dash);

@@ -20,7 +20,7 @@ if(preg_match('/stg.gitftp.com/', $host)){
 if(preg_match('/localhost/', $host)){
     $base = 'http://localhost/';
 }
-if(preg_match('/localhost/', $host)){
+if(preg_match('/gitftp.com/', $host)){
     $base = 'http://localhost/';
 }
 

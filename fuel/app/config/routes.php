@@ -5,6 +5,10 @@
  */
 $host = $_SERVER['HTTP_HOST'];
 
+if($host == 'gitftp.com'){
+    header('Location: http://www.gitftp.com/');
+}
+
 if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 //    $controller = 'welcome/index'; // change this to dashboard.
     $controller = 'dashboard/index';

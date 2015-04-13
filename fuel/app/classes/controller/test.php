@@ -2,7 +2,6 @@
 
 class Controller_Test extends Controller {
     public function action_test2(){
-        echo '<br>';
         echo is_dash;
         echo '<br>';
         echo home_url;

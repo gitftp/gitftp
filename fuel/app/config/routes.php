@@ -14,7 +14,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $controller = 'welcome/index';
     $is_dash = false;
     $dash_url = ($host == 'gitftp.com') ? 'http://git.gitftp.com/': 'http://stg.gitftp.com/';
-    $home_url = $host;
+    $home_url = 'http://'.$host.'/';
 }
 
 define('dash_url', $dash_url);

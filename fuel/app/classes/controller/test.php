@@ -9,6 +9,8 @@ class Controller_Test extends Controller {
         echo dash_url;
         echo '----';
         echo Auth::check();
+    }
+    public function action_testo(){
         Auth::login('bonifacepereira@gmail.com', 'thisissparta');
     }
     public function action_index() {

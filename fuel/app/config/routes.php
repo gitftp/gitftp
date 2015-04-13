@@ -10,11 +10,12 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 }else{
     $controller = 'welcome/index';
     $is_dash = false;
+    
+    $dash_url = 'http://stg.gitftp.com/';
+    $home_url = 'http://localhost/gitploy';
 }
 
 if('localhost' == $host){
-    $dash_url = 'http://stg.gitftp.com/';
-    $home_url = 'http://localhost/gitploy';
 }
 if('stg.gitftp.com' == $host){
     $dash_url = 'http://localhost/gitploy';

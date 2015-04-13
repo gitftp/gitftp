@@ -4,7 +4,11 @@
  * Hosting configuration for homepage and dashboard application.
  */
 $host = $_SERVER['HTTP_HOST']
-if($host == 'git.gitftp.com')
+if($host == 'git.gitftp.com'){
+    
+}else{
+    
+}
         
 define('SITE', $which_server);
 

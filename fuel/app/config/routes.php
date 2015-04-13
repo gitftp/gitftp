@@ -14,7 +14,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 if(preg_match('/localhost/', $host)){
     $base = 'http://stg.gitftp.com/';
 }
-if(preg_match('/localhost/', $host)){
+if(preg_match('/stg.gitftp.com/', $host)){
     $base = 'http://localhost/';
 }
 if(preg_match('/localhost/', $host)){

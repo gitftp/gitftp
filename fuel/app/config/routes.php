@@ -12,7 +12,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = false;
 }
 if(preg_match('/localhost/', $host)){
-    
+    $base = '';
 }else{
     
 }

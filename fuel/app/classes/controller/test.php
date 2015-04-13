@@ -12,6 +12,7 @@ class Controller_Test extends Controller {
     }
     public function action_testo(){
         Auth::login('bonifacepereira@gmail.com', 'thisissparta');
+        $a = new Model_Deploy();
     }
     public function action_index() {
         echo '<pre>';

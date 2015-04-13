@@ -6,7 +6,7 @@
 return array(
     'default' => array(
         'connection' => array(
-            'dsn' => 'mysql:host=gitftp.com;dbname=gitftp',
+            'dsn' => 'mysql:host=git.gitftp.com;dbname=gitftp',
             'username' => 'gitftp',
             'password' => 'thisissparta',
         ),

@@ -9,7 +9,7 @@ class Controller_Test extends Controller {
         echo '<br>';
         echo dash_url;
         echo '----';
-        
+        Auth::check();
     }
     public function action_index() {
         echo '<pre>';

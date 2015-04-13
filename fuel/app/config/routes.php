@@ -14,7 +14,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
 
 if('localhost' == $host){
     $dash_url = 'http://stg.gitftp.com/';
-    $home_url = 'http://localhost/gitftp';
+    $home_url = 'http://localhost/gitploy';
 }
 if('stg.gitftp.com' == $host){
     $dash_url = 'http://localhost/';

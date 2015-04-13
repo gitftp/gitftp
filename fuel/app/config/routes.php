@@ -14,7 +14,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $is_dash = false;
 }
 
-define('SITE', $is_dash);
+define('is_dash', $is_dash);
 return array(
     '_root_' => $controller, // The default route
     'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),

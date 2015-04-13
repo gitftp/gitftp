@@ -7,5 +7,5 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <script>
     var base = '<?php echo Uri::base(false); ?>';
-    var home_url = '<?php echo Uri::base(false); ?>';
+    var home_url = '<?php echo home_url; ?>';
 </script>

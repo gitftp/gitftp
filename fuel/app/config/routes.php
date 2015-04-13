@@ -12,7 +12,7 @@ if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
     $controller = 'welcome/index';
     $is_dash = false;
 }
-
+if()
 
 define('is_dash', $is_dash);
 return array(

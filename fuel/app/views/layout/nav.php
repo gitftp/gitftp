@@ -53,7 +53,7 @@
                                 <li>
                                     <a href="<?php echo Uri::base(false); ?>dashboard"><i class="fa fa-home fa-fw"></i> Hola, <?php echo Auth::get_screen_name(); ?></a>
                                 </li>
-                                <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                                <li><a href="<?php echo dash_url ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                             </ul>
 
                         <?php } else { ?>

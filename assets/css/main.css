@@ -223,17 +223,17 @@ h6 {
 }
 @-webkit-keyframes drop {
   from {
-    margin-top: -100px;
+    opacity: 0;
   }
   to {
-    margin-top: 0px;
+    opacity: 1;
   }
 }
 @keyframes drop {
   from {
-    margin-top: -100px;
+    opacity: 0;
   }
   to {
-    margin-top: 0px;
+    opacity: 1;
   }
 }

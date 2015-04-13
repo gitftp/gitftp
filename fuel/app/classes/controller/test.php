@@ -8,6 +8,7 @@ class Controller_Test extends Controller {
         echo home_url;
         echo '<br>';
         echo dash_url;
+        echo '----';
         
     }
     public function action_index() {

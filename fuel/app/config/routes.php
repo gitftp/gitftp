@@ -9,7 +9,7 @@ if($host == 'git.gitftp.com'){
 }else{
     $is_dash = false;
 }
-define('SITE', $which_server);
+define('SITE', $is_dash);
 
 return array(
     '_root_' => 'welcome/index', // The default route

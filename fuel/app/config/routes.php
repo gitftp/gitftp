@@ -5,7 +5,7 @@
  */
 $host = $_SERVER['HTTP_HOST'];
 
-if($host == 'git.gitftp.com' preg_match('/git.gitftp.com/i', $host) {
+if(preg_match('/git.gitftp.com/i', $host) {
     $is_dash = true;
     $controller = 'dashboard/index';
 }else{

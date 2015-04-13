@@ -215,4 +215,6 @@ h6 {
 }
 .dash-nav {
   top: 2px;
+  -webkit-animation: drop 2s ease;
+          animation: drop 2s ease;
 }

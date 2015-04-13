@@ -9,5 +9,5 @@
     var base = '<?php echo Uri::base(false); ?>';
     var home_url = '<?php echo home_url; ?>';
     var dash_url = '<?php echo dash_url; ?>';
-    var is_dash = '<?php echo dash_url; ?>';
+    var is_dash = '<?php echo is_dash; ?>';
 </script>

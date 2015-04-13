@@ -217,8 +217,8 @@ h6 {
   top: 2px;
 }
 .dash-nav .drop {
-  -webkit-animation: drop 2s ease;
-          animation: drop 2s ease;
+  -webkit-animation: drop 0.5s ease-in;
+          animation: drop 0.5s ease-in;
 }
 @-webkit-keyframes drop {
   from {

@@ -5,6 +5,7 @@ class Controller_Test extends Controller {
         echo '<br>';
         echo is_dash;
         echo '<br>';
+        echo home_url;
     }
     public function action_index() {
         echo '<pre>';

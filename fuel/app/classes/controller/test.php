@@ -5,11 +5,11 @@ class Controller_Test extends Controller {
         echo '<br>';
         echo is_dash;
         echo '<br>';
-        echo home_url;
+//        echo home_url;
         echo '<br>';
-        echo dash_url;
+//        echo dash_url;
         echo '----';
-        echo Auth::check();
+//        echo Auth::check();
     }
     public function action_index() {
         echo '<pre>';

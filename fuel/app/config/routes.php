@@ -27,6 +27,7 @@ if('gitftp.com' == $host){
 
 define('base', $base);
 define('is_dash', $is_dash);
+
 return array(
     '_root_' => $controller, // The default route
     'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),

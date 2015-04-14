@@ -31,7 +31,8 @@ define([
                         data: {
                             
                         },
-                        
+                        method: 'post',
+                        dataType: 'json'
                     }).done(function(){
                         
                         data = data.data[0];

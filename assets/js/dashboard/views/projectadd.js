@@ -75,7 +75,7 @@ define([
             }).done(function(data){
                 if(data.data.length == 0){
                     $.confirm({
-                        
+                        title: 'No FTP servers found.'
                     })
                 }
                 var page = that.template({'ftplist': data.data});

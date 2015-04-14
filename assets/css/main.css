@@ -230,8 +230,8 @@ h6 {
           animation: drop 0.7s ease-in;
 }
 .bb-wrapper > * {
-  -webkit-animation: pagedrop 0.2s ease-in;
-          animation: pagedrop 0.2s ease-in;
+  -webkit-animation: pagedrop 0.2s ease-out;
+          animation: pagedrop 0.2s ease-out;
 }
 @-webkit-keyframes pagedrop {
   from {

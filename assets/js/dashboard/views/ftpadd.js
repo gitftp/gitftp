@@ -110,9 +110,6 @@ define([
                     dataType: 'json',
                     method: 'get',
                 }).done(function(data){
-                    
-                })
-                $.getJSON(base + 'api/ftp/getall/' + id, function (data) {
                     var template = _.template(ftpadd);
                     template = template({
                         'ftp': data.data

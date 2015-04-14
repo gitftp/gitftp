@@ -11,7 +11,7 @@ define([
                 method: 'get',
                 dataType: 'json',
             }).done(function(data){
-                that.$el.html(JSON.stringify(data));
+                that.$el.html(that.template(data));
             })
         },
     });

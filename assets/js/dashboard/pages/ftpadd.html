@@ -50,9 +50,9 @@ if (ftp.length != 0){
                     <input type="text" name="port" class="form-control" placeholder="Port of FTP" value="<%= (e) ? f['port'] : '' %>">
                 </div>
                 <button style="submit" class="btn btn-primary">Save</button>
-                <%= if(e){ %> 
+                <% if(e){ %> 
                 <button style="button" class="btn ftp-server-delete btn-danger">Remove</button>
-                <%= } %>
+                <% } %>
             </form>
         </div>	
     </div>

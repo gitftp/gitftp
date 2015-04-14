@@ -5,6 +5,7 @@ define([
         el: app.el,
         render: function (id) {
             var that = this;
+            this.template = _.template(page);
             _ajax({
                 url : base+'api/deploy/dashdata',
                 method: 'get',

@@ -105,7 +105,7 @@ define([
             that.$el.html('');
             if (id) {
                 
-                
+                _ajax()
                 $.getJSON(base + 'api/ftp/getall/' + id, function (data) {
                     var template = _.template(ftpadd);
                     template = template({

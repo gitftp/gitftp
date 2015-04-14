@@ -14,7 +14,9 @@ class Controller_Api_Deploy extends Controller {
         $disk_usage_human = $a[0];
         echo json_encode(array(
             'status'=> true,
-            
+            'user'=> array(
+                'diskused' => $disk_usage_human,
+            )
         ))
     }
     public function action_getonly($id = null) {

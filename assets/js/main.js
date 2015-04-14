@@ -35,7 +35,7 @@ $(function () {
                             break;
                         case 200:
                             _problem({
-                                content: 'Something unwanted happened, <br>200',
+                                content: 'Something unexpected happened, <br>200',
                                 confirm: function () {
                                     history.back();
                                 },

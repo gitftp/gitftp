@@ -128,6 +128,7 @@ define([
                 activity: activityView,
                 settings: settingsView,
             };
+            
             if (!$('.project-v-status').length) {
                 that.$el.html('');
             }

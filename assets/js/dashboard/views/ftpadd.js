@@ -59,7 +59,7 @@ define([
                     title: (d.status) ? 'Successful' : 'Falied',
                     content: (d.status) ? 'Connection established successfully' : d.reason
                 });
-                $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').attr('disabled', true);
+                $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner').attr('disabled');
             });
         },
         oneline: function () {

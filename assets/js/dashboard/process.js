@@ -23,8 +23,9 @@ define([
                         }
                     });
                 }
-                if($('.is-deploy-list-id'))
+                if($('.is-deploy-list-id').length){
                     
+                }
                 that.deployView();
             }, 1500);
         },

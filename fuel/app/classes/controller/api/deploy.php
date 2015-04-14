@@ -6,7 +6,8 @@ class Controller_Api_Deploy extends Controller {
         
     }
     public function action_dashdata(){
-        $a = new Model_Deploy();
+        $deploy = new Model_Deploy();
+        $user_id = Auth::get_user_id()[1];
         disk_free_space(DOCROOT.'fuel/repository/'.)
     }
     public function action_getonly($id = null) {

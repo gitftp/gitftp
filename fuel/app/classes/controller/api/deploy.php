@@ -19,7 +19,7 @@ class Controller_Api_Deploy extends Controller {
             'lastdeploy',
             'name',
         ));
-        foreach ($deploy_list as $key => $value) {
+        foreach ($deploy_list as $k => $v) {
             
         }
         echo json_encode(array(

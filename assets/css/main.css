@@ -51,6 +51,7 @@ h6 {
 .btn.btn-default {
   background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  border: solid 1px !important;
   border-color: #E8E8E8;
 }
 .btn.btn-default.btn-gitftp {

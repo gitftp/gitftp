@@ -236,8 +236,8 @@ h6 {
 @-webkit-keyframes pagedrop {
   from {
     opacity: 0;
-    -webkit-transform: translate(0, -30px);
-            transform: translate(0, -30px);
+    -webkit-transform: translate(0, -20px);
+            transform: translate(0, -20px);
   }
   to {
     opacity: 1;
@@ -248,8 +248,8 @@ h6 {
 @keyframes pagedrop {
   from {
     opacity: 0;
-    -webkit-transform: translate(0, -30px);
-            transform: translate(0, -30px);
+    -webkit-transform: translate(0, -20px);
+            transform: translate(0, -20px);
   }
   to {
     opacity: 1;

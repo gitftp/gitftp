@@ -9,7 +9,8 @@ class Controller_Api_Deploy extends Controller {
     public function action_getonly($id = null) {
         $a = $_POST;
         $deploy = new Model_Deploy();
-        print_r($a['select']);
+        $a = explode(',', $a['select']);
+        print_r($a);
         print_r(array('id', 'name'));
 //        $b = $deploy->get(null, $a['select']);
 //        echo json_encode(array(

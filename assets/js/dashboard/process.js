@@ -25,8 +25,8 @@ define([
                 }
                 if($('.is-deploy-list-id').length){
                     
-                    var id = $('.is-deploy-view-id').attr('data-id');
-                    $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                    var id = $('.is-deploy-list-id').attr('data-id');
+                    $.getJSON(base + 'api/deploy/getonly/' + id, function (data) {
                         data = data.data[0];
                         var el = $('.project-v-status');
                         if (data.status == 'Idle' || data.status == 'to be initialized') {

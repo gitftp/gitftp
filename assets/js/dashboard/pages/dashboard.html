@@ -12,7 +12,7 @@
     <div class="col-md-4">
         <div class="list-group">
             <% $.each(data.deploy, function(i, a){ %>
-              <a href="#" class="list-group-item">
+            <a href="#deploy/v/<%= a.id %>" class="list-group-item">
                 <h4 class="list-group-item-heading"><%= a.repository %></h4>
                 <p class="list-group-item-text"><%= a.status %></p>
               </a>

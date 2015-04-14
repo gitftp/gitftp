@@ -1,0 +1,48 @@
+<h3>
+    Usage Summary
+</h3>
+<p>
+    Have a glance at your repositories and its usage.
+</p>
+<div style="height:20px;"></div>
+<pre>
+    <%= JSON.stringify(data) %>
+</pre>
+<div class="row">
+    <div class="col-md-8">
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Deploys</h3>
+            </div>
+            <div class="panel-body">
+                
+            </div>
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>REPO</th>
+                    <th>Status</th>
+                </tr>
+                
+            </table>
+        </div>
+        <div class="list-group">
+            <% $.each(data.deploy, function(i, a){ %>
+            <a href="#deploy/v/<%= a.id %>" class="list-group-item">
+                <h4 class="list-group-item-heading"><%= a.repository %></h4>
+                <p class="list-group-item-text"><%= a.status %></p>
+            </a>
+            <% }) %>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="dash-block">
+            Hello: <%= data.user.name %> <br>
+            Your ID: <%= data.user.id %> <br>
+            Email-id: <%= data.user.email %> <br>
+            Deployed: <%= data.deploy.length %>
+        </div>
+    </div>
+</div>

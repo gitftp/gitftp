@@ -9,9 +9,8 @@ class Controller_Api_Deploy extends Controller {
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];
         $dir = DOCROOT.'fuel/repository/'.$user_id;
-        $free = disk_free_space($dir);
         $total = disk_total_space($dir);
-        echo utils::humanize_data($total-$free);
+        echo utils::humanize_data($total);
     }
     public function action_getonly($id = null) {
         $a = $_POST;

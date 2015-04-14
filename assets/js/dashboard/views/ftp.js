@@ -11,7 +11,7 @@ define([
         viewFtp: function(e){
             e.preventDefault();
             var $this = $(e.currentTarget);
-            
+            var id = $this.attr('data-id');
         },
         render: function (id) {
             var that = this;

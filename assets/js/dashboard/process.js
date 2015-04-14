@@ -38,16 +38,8 @@ define([
                         $.each(data.data, function(i, a){
                             $target = $('.is-deploy-list-id[data-id="'+a.id+'"]');
                             $target.find('.status').html('('+a.status+')');
-                        })
+                        });
                         
-                        var el = $('.project-v-status');
-                        if (data.status == 'Idle' || data.status == 'to be initialized') {
-                            el.removeClass("project-co-loading");
-                            el.html(data.status);
-                        } else {
-                            el.addClass("project-co-loading");
-                            el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> ' + data.status);
-                        }
                     });
                 }
                 that.deployView();

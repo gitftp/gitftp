@@ -5,7 +5,11 @@ define([
         el: app.el,
         render: function (id) {
             var that = this;
-            that.$el.html(page);
+            _ajax({
+                
+            }).done(function(data){
+                that.$el.html(page);
+            })
         },
     });
     return d;

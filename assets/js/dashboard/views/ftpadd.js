@@ -52,7 +52,8 @@ define([
             _ajax({
                 url: base + 'api/ftp/testftp',
                 dataType: 'json',
-                method: 'post'
+                method: 'post',
+                data: form.serializeArray()
             }).done(function (d) {
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',

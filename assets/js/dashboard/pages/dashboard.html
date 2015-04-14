@@ -10,22 +10,22 @@
 </pre>
 <div class="row">
     <div class="col-md-8">
-        
-        
+
+
         <div class="panel panel-default">
-  <div class="panel-heading">
-    <h3 class="panel-title">Panel title</h3>
-  </div>
-  <div class="panel-body">
-    Panel content
-  </div>
-</div>
+            <div class="panel-heading">
+                <h3 class="panel-title">Deploys</h3>
+            </div>
+            <div class="panel-body">
+                Panel content
+            </div>
+        </div>
         <div class="list-group">
             <% $.each(data.deploy, function(i, a){ %>
             <a href="#deploy/v/<%= a.id %>" class="list-group-item">
                 <h4 class="list-group-item-heading"><%= a.repository %></h4>
                 <p class="list-group-item-text"><%= a.status %></p>
-              </a>
+            </a>
             <% }) %>
         </div>
     </div>

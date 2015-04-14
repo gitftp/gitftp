@@ -26,7 +26,6 @@ require([
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         
-        console.log($subpage.length);
         if($subpage.length){
             
             $subpage = $('.page-subview');

@@ -17,6 +17,7 @@ class Controller_Api_Deploy extends Controller {
             'id',
             'status',
             'lastdeploy',
+            'name',
         ));
         echo json_encode(array(
             'status'=> true,

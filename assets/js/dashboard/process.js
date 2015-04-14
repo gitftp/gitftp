@@ -36,6 +36,7 @@ define([
                     }).done(function(data){
                         
                         data = data.data[0];
+                        $.each(data)
                         var el = $('.project-v-status');
                         if (data.status == 'Idle' || data.status == 'to be initialized') {
                             el.removeClass("project-co-loading");

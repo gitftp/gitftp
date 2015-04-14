@@ -14,6 +14,7 @@ class Controller_Api_Deploy extends Controller {
         echo '<pre>';
         $disk_usage = $a[0];
         $disk_usage_human = utils::humanize_data($a[0]);
+        echo $disk_usage_human;
     }
     public function action_getonly($id = null) {
         $a = $_POST;

@@ -8,7 +8,27 @@
 <div style="height:20px;"></div>
 
 <% if(list.length > 0){ %>
+    <% $.each(list, function(i, a){ %>
 
+    <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
+        <div class="project-list-block">
+            <div class="header">
+                <p>
+                    <span class="head">
+                        <i class="fa fa-server fa-fw"></i>
+                        <%= a.host %>
+                    </span> 
+                    <span class="">(<%= a.username %>)</span>
+                    
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <span style="color: #aaa">Scheme: (<%= a.scheme %>)</span><br>
+            <span>to folder <%= a.path %> <span class="pull-right"><%= moment(a.created_at).format('D/MMMM/YYYY hh:mm a') %></span></span>
+        </div>
+    </div>
+
+    <% }) %>
 <div class="table-responsive">
 <table class="table table-condensed table-hover">
     <tr>
@@ -34,27 +54,6 @@
             
         </th>
     </tr>
-    <% $.each(list, function(i, a){ %>
-
-    <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
-        <div class="project-list-block">
-            <div class="header">
-                <p>
-                    <span class="head">
-                        <i class="fa fa-server fa-fw"></i>
-                        <%= a.host %>
-                    </span> 
-                    <span class="">(<%= a.username %>)</span>
-                    
-                </p>
-                <div class="clearfix"></div>
-            </div>
-            <span style="color: #aaa">Scheme: (<%= a.scheme %>)</span><br>
-            <span>to folder <%= a.path %> <span class="pull-right"><%= moment(a.created_at).format('D/MMMM/YYYY hh:mm a') %></span></span>
-        </div>
-    </div>
-
-    <% }) %>
 
     <% $.each(list, function(i, a){ %>
     <tr>

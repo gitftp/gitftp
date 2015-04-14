@@ -18,7 +18,7 @@ class Model_Deploy extends Model {
         if (count($select) == 0) {
             $q = DB::select();
         } else {
-            $q = DB::select_array($s);
+            $q = DB::select_array($select);
         }
 
         $q = $q->from($this->table)

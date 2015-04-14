@@ -19,7 +19,7 @@ class Controller_Api_Deploy extends Controller {
             'user'=> array(
                 'diskused' => $disk_usage_human,
             ),
-            'deploy' => 
+            'deploy' => $deploy_list,
         ))
     }
     public function action_getonly($id = null) {

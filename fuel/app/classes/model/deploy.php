@@ -16,9 +16,9 @@ class Model_Deploy extends Model {
     public function get($id = null, $select = array()) {
         
         if(count($select) == 0){
-            
+            $s = '*';
         }else{
-            
+            $s = 
         }
         
         $q = DB::select()->from($this->table)

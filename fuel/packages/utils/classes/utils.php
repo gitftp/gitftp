@@ -99,7 +99,7 @@ class utils {
         }
     }
     
-    public static function humanize_data($data){
+    public static function humanize_data($bytes){
         $decimals = 2;
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);

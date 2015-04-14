@@ -24,7 +24,7 @@ define([
                         if (data.status) {
                             console.log(data);
                             noty({
-                                text: '!!! Deleted FTP entry.',
+                                text: 'Deleted FTP server.',
                             });
                             that.render();
                         }else{

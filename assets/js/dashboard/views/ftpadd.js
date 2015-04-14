@@ -8,6 +8,7 @@ define([
             'submit #addftp-form': 'addftp',
             'keyup #addftp-form input': 'oneline',
             'click .ftp-connectionTest': 'testFtp',
+            'click .ftp-connectionTest': 'deleteftp',
         },
         deleteftp: function (e) {
             e.preventDefault();

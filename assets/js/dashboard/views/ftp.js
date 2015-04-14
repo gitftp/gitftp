@@ -8,8 +8,9 @@ define([
             'click .deleteftp': 'deleteftp',
             'click .ftp-servers-list': 'viewFtp'
         },
-        viewFtp: function(){
-
+        viewFtp: function(e){
+            e.preventDefault();
+            
         },
         render: function (id) {
             var that = this;

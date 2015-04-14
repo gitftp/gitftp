@@ -129,9 +129,7 @@ define([
                 settings: settingsView,
             };
             
-            if (!$('.project-v-status').length) {
-                that.$el.html('');
-            }
+            var is_loaded = (!$('.project-v-status').length) ? '' : '';
 
             this.template = {
                 main: _.template(this.page.main),

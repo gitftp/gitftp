@@ -18,7 +18,7 @@ class Controller_Api_Deploy extends Controller {
             'status'=> true,
             'user'=> array(
                 'diskused' => $disk_usage_human,
-                'user_id' => Auth::get_user_id(),
+                'user_id' => Auth::get_user_id()[1],
                 'user_name' => Auth::get_screen_name(),
             ),
             'deploy' => $deploy_list,

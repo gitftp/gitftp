@@ -12,8 +12,8 @@ class Controller_Api_Deploy extends Controller {
         $a = shell_exec("du -s $dir");
         $a = explode('	', $a);
         echo '<pre>';
-        echo $a[0];
-        echo utils::humanize_data($a[0]);
+        $disk_usage = $a[0];
+        $disk_usage_human = utils::humanize_data($a[0]);
     }
     public function action_getonly($id = null) {
         $a = $_POST;

@@ -32,7 +32,7 @@ require([
             try{
                 var l = k[3];
             }catch (e){
-                
+                var l = false;
             }
             $subpage.removeClass('active-cs');
             if(l){

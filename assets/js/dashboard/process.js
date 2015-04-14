@@ -36,7 +36,7 @@ define([
                     }).done(function(data){
                         
                         $.each(data.data, function(i, a){
-                            $target = $('.is-deploy-list-id').find()
+                            $target = $('.is-deploy-list-id')
                             a.id
                         })
                         

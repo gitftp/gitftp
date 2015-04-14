@@ -30,7 +30,11 @@ require([
             
             $subpage = $('.page-subview');
             var l = k[3];
-            if(l)
+            if(l){
+                
+            }else{
+                
+            }
             $subpage.removeClass('active-cs');
             $('.subview-'+l).addClass('active-cs');
             

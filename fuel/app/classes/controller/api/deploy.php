@@ -10,8 +10,6 @@ class Controller_Api_Deploy extends Controller {
         $a = $_POST;
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
-        print_r($a);
-        print_r(array('id', 'name'));
 //        $b = $deploy->get(null, $a['select']);
 //        echo json_encode(array(
 //            'status' => true,

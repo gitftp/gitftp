@@ -30,8 +30,12 @@
                     <td>
                         <%= a.id %>
                     </td>
+                    
+                    
+                    <td>
+                        <a href="#deploy/v/<%= a.id %>" class="">View</a>
+                    </td>
                 </tr>
-                <a href="#deploy/v/<%= a.id %>" class="">View</a>
                     <h4 class="list-group-item-heading"><%= a.repository %></h4>
                     <p class="list-group-item-text"><%= a.status %></p>
                 

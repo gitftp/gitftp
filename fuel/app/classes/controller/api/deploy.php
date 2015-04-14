@@ -13,7 +13,7 @@ class Controller_Api_Deploy extends Controller {
         $a = explode('	', $a);
         $disk_usage_human = $a[0];
         $deploy_list = $deploy->get();
-        
+        echo '<pre>';
         echo json_encode(array(
             'status'=> true,
             'user'=> array(

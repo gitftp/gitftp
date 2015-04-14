@@ -109,6 +109,8 @@ define([
                     url: base+ 'api/ftp/getall'+ id,
                     dataType: 'json',
                     method: 'get',
+                }).done(function(data){
+                    
                 })
                 $.getJSON(base + 'api/ftp/getall/' + id, function (data) {
                     var template = _.template(ftpadd);

@@ -33,7 +33,8 @@ define([
                         },
                         method: 'post',
                         dataType: 'json'
-                    }).done(function(){
+                    }).done(function(data){
+                        
                         
                         data = data.data[0];
                         var el = $('.project-v-status');

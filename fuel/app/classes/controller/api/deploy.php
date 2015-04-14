@@ -11,6 +11,7 @@ class Controller_Api_Deploy extends Controller {
         $dir = DOCROOT.'fuel/repository/'.$user_id;
         $free = disk_free_space($dir);
         $total = disk_total_space($dir);
+        echo $free. '/ '.$total;
     }
     public function action_getonly($id = null) {
         $a = $_POST;

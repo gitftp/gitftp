@@ -29,7 +29,7 @@ define([
                     _ajax({
                         url : base + 'api/deploy/getonly/' + id,
                         data: {
-                            select: 'id,'
+                            select: 'id,name'
                         },
                         method: 'post',
                         dataType: 'json'

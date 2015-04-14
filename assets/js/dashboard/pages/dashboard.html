@@ -9,7 +9,7 @@
     <%= JSON.stringify(data) %>
 </pre>
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <div class="list-group">
             <% $.each(data.deploy, function(i, a){ %>
             <a href="#deploy/v/<%= a.id %>" class="list-group-item">
@@ -18,9 +18,6 @@
               </a>
             <% }) %>
         </div>
-    </div>
-    <div class="col-md-4">
-        
     </div>
     <div class="col-md-4">
         <div class="dash-block">

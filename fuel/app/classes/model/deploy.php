@@ -13,7 +13,7 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, $select = array()) {
+    public function get($id = null, $select) {
         
         if(count($select) == 0){
             $s = '*';

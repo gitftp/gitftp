@@ -41,7 +41,7 @@ define([
                 cancel: function(){
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                 }
-            })
+            });
 
         },
         testFtp: function (e) {

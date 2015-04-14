@@ -37,6 +37,7 @@ define([
                         
                         $.each(data.data, function(i, a){
                             $target = $('.is-deploy-list-id[data-id="'+a.id+'"]');
+                            $target.find('.status').html('('++')')
                             a.id
                         })
                         

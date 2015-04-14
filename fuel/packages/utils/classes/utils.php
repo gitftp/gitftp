@@ -103,13 +103,7 @@ class utils {
         $decimals = 2;
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
-        
-//        $bytes = $data;
-//        $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
-//        $base = 1024;
-//        $class = min((int)log($bytes , $base) , count($si_prefix) - 1);
-//        return sprintf('%1.2f' , $bytes / pow($base,$class)) . ' ' . $si_prefix[$class];
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];        
     }
 
 }

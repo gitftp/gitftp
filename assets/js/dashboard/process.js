@@ -47,7 +47,7 @@ define([
                     });
                 }
                 that.deployView();
-            }, 1500);
+            }, 2000);
         },
         timeUpdateInterval: 1,
         timeUpdate: function () {

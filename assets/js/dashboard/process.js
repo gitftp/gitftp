@@ -28,10 +28,7 @@ define([
                     var id = $('.is-deploy-list-id').attr('data-id');
                     _ajax({
                         
-                    }).done(function(){
-                        
-                    });
-                    $.getJSON(base + 'api/deploy/getonly/' + id, function (data) {
+                    }).done(function(){ 
                         data = data.data[0];
                         var el = $('.project-v-status');
                         if (data.status == 'Idle' || data.status == 'to be initialized') {

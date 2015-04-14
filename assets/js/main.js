@@ -33,6 +33,15 @@ $(function () {
                                 confrimButton: '<i class="fa fa-arrow-left fa-fw"></i> Back'
                             });
                             break;
+                        case 200:
+                            _problem({
+                                content: 'Something unwanted happened, <br>500',
+                                confirm: function () {
+                                    history.back();
+                                },
+                                confrimButton: '<i class="fa fa-arrow-left fa-fw"></i> Back'
+                            });
+                            break;
                         default:
                             alert('error :' + data.status);
                     }

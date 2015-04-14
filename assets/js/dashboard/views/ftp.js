@@ -12,7 +12,9 @@ define([
             e.preventDefault();
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
-            Router.navigate('')
+            Router.navigate('#ftp/edit/'+id, {
+                trigger: true
+            });
         },
         render: function (id) {
             var that = this;

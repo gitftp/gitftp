@@ -29,6 +29,9 @@ require([
         if(/deploy/ig.test(k[0])){
             
             $subpage = $('.page-subview');
+            try{
+                
+            }catch ()
             var l = k[3];
             $subpage.removeClass('active-cs');
             if(l){

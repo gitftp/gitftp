@@ -10,7 +10,7 @@ define([
                 method: 'get',
                 dataType: 'json',
             }).done(function(data){
-                that.$el.html(page);
+                that.$el.html();
             })
         },
     });

@@ -27,35 +27,6 @@ define([
                 $('[data-toggle="tooltip"]').tooltip();
             });
         },
-        deleteftp: function (e) {
-            e.preventDefault();
-
-            var $this = $(e.currentTarget);
-            var id = $this.attr('data-id');
-            var that = this;
-
-            $.confirm({
-                title: 'are you sure?',
-                content: 'Are you sure to delete the FTP server.',
-                confirm: function () {
-                    $.getJSON(base + 'api/ftp/delftp/' + id, function (data) {
-                        if (data.status) {
-                            console.log(data);
-                            noty({
-                                text: '!!! Deleted FTP entry.',
-                            });
-                            that.render();
-                        }else{
-                            $.alert({
-                                'title': 'Something bad happened',
-                                'content' : data.reason
-                            });
-                        }
-                    });
-                }
-            })
-
-        }
     });
 
     return d;

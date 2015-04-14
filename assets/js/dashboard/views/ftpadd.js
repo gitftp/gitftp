@@ -26,7 +26,7 @@ define([
                             noty({
                                 text: 'Deleted FTP server.',
                             });
-                            that.render();
+                            
                         }else{
                             $.alert({
                                 'title': 'Something bad happened',

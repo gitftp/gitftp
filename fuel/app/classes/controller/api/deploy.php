@@ -11,6 +11,7 @@ class Controller_Api_Deploy extends Controller {
         $dir = DOCROOT.'fuel/repository/'.$user_id;
         $a = shell_exec("du -s $dir");
         $a = explode(' ', $a);
+        echo '<pre>';
         echo $a[0];
 //        echo utils::humanize_data($a);
     }

@@ -25,7 +25,6 @@ define([
                 }
                 if($('.is-deploy-list-id').length){
                     
-                    var id = $('.is-deploy-list-id').attr('data-id');
                     _ajax({
                         url : base + 'api/deploy/getonly/',
                         data: {

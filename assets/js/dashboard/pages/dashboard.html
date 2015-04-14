@@ -13,9 +13,9 @@
 
 
         <div class="panel panel-default">
-<!--            <div class="panel-heading">
-                Deploys
-            </div>-->
+            <!--            <div class="panel-heading">
+                            Deploys
+                        </div>-->
             <div class="panel-body">
                 You have <%= data.deploy.length %> active delpoy running.
             </div>
@@ -42,7 +42,7 @@
                         <a href="#deploy/v/<%= a.id %>" class="btn btn-link">View <i class="fa fa-arrow-right"></i></a>
                     </td>
                 </tr>
-                
+
                 <% }) %>
             </table>
         </div>
@@ -54,8 +54,14 @@
             <div class="panel-body">
                 <h3 style="margin-top: 0px;"><%= data.user.name %></h3>
                 Email-id: <%= data.user.email %> <br>
-                Your ID: <%= data.user.id %> - 
-                Deployed: <%= data.deploy.length %>
+                Customer ID: <%= data.user.id %> <br>
+                
+                Deploy Used:
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;">
+                        <span class="sr-only">60% Complete</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

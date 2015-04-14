@@ -56,7 +56,7 @@
             <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= moment(a.lastdeploy).format('D/MMMM/YYYY hh:mm a') %></span></span>
         </div>
     </div>
-    
+
     <% }) %>
 
     <% $.each(list, function(i, a){ %>
@@ -83,7 +83,7 @@
             <a href="#ftp/edit/<%= a.id %>" data-toggle="tooltip" data-placement="left" title="Edit"><i class="fa fa-pencil"></i></a>&nbsp;&nbsp;
             <a href="#" class="deleteftp" data-id="<%= a.id %>" data-toggle="tooltip" data-placement="bottom" title="Remove"><i class="fa fa-trash-o"></i></a>
         </td>
-    </tr>    
+    </tr>
 
     <% }) %>
 </table>
@@ -112,7 +112,7 @@
 
     <a href="#ftp/add" class="btn btn-default btn-lg">
         <i class="fa fa-server fa-2x" style="color: #ef3d37"></i> <br>
-        Create first FTP server
+        Add your FTP server!
     </a>
 </p>
 <% } %>

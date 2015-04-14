@@ -12,10 +12,10 @@ require([
     "process"
 ], function (router, process) {
 
-    if(!is_dash){
+    if (!is_dash) {
         return false;
     }
-    
+
     window.Router = new router.router();
     Backbone.history.on('all', function () {
         var h = location.hash;

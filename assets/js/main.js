@@ -15,24 +15,33 @@ $(function () {
                                 confirmButton: '<i class="fa fa-refresh fa-fw"></i> Reload',
                             });
                             break;
-                        default: 
-                            alert('error :'+data.status);
-                    }
-                }).always(function(data){
-                    if(!data.status){
-                        
-                        if(data.reason == 'GT-405'){
+                        case 404:
                             _problem({
-                                content: 'You\'re not logged in, please login to proceed.',
-                                confirm: function(){
-                                    window.location.reload();
+                                content: 'Page not found, <br>404',
+                                confirm: function () {
+                                    history.back();
                                 },
-                                confirmButton: 'Login',
+                                confrimButton: '<i class="fa fa-arrow-left fa-fw"></i> Back'
                             });
-                        }
-                        
+                            break;
+                        default:
+                            alert('error :' + data.status);
                     }
-                });
+                }).always(function (data) {
+            if (!data.status) {
+
+                if (data.reason == 'GT-405') {
+                    _problem({
+                        content: 'You\'re not logged in, please login to proceed.',
+                        confirm: function () {
+                            window.location.reload();
+                        },
+                        confirmButton: 'Login',
+                    });
+                }
+
+            }
+        });
     }
     window._problem = function (a) {
         var b = {};

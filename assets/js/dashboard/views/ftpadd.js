@@ -16,7 +16,7 @@ define([
             var id = $this.attr('data-id');
             var that = this;
             $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').attr('disabled', true);
-            
+
             $.confirm({
                 title: 'are you sure?',
                 content: 'Are you sure to delete the FTP server.',
@@ -31,10 +31,10 @@ define([
                             Router.navigate('ftp', {
                                 trigger: true
                             });
-                        }else{
+                        } else {
                             $.alert({
                                 'title': 'Something bad happened',
-                                'content' : data.reason
+                                'content': data.reason
                             });
                         }
                     });
@@ -47,8 +47,11 @@ define([
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
             $this.find('')
-            $.post(base + 'api/ftp/testftp', form, function (d) {
-                d = JSON.parse(d);
+            _ajax({
+                url: base + 'api/ftp/testftp',
+                dataType: 'json',
+                method: 'post'
+            }).done(function (d) {
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',
                     content: (d.status) ? 'Connection established successfully' : d.reason
@@ -104,18 +107,18 @@ define([
 
             that.$el.html('');
             if (id) {
-                
+
                 _ajax({
-                    url: base+ 'api/ftp/getall'+ id,
+                    url: base + 'api/ftp/getall/' + id,
                     dataType: 'json',
                     method: 'get',
-                }).done(function(data){
+                }).done(function (data) {
                     var template = _.template(ftpadd);
                     template = template({
                         'ftp': data.data
                     });
                     that.$el.html(template);
-                    if(id){
+                    if (id) {
                         that.oneline();
                     }
                 });
@@ -145,9 +148,9 @@ define([
                 url: base + 'api/ftp/' + to,
                 data: $this.serializeArray(),
                 method: 'post',
-                dataType : 'json'
+                dataType: 'json'
             }).done(function (data) {
-                
+
                 $this.find('select, input').removeAttr('readonly');
                 if (data.status) {
                     noty({
@@ -160,7 +163,7 @@ define([
                         content: data.reason
                     });
                 }
-                
+
             });
         }
     });

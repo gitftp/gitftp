@@ -71,12 +71,11 @@ define([
             
             _ajax({
                 
-            }).done(function(){
-                
-            })
-            $.getJSON(base + 'api/ftp/getall', function (data) {
+            }).done(function(data){
                 var page = that.template({'ftplist': data.data});
                 that.$el.html(page);
+            });
+            $.getJSON(base + 'api/ftp/getall', function (data) {
             });
         }
     });

@@ -98,6 +98,10 @@ class utils {
             );
         }
     }
+    
+    public static humanize_data(){
+        
+    }
 
 }
 

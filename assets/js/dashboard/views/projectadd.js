@@ -77,7 +77,12 @@ define([
                     $.confirm({
                         title: 'No FTP servers found.',
                         content: 'To setup a deploy, you first need to add a FTP server configuration.',
-                        confirmButton: 'Add ftp'
+                        confirmButton: 'Add ftp',
+                        confirm: function(){
+                            Router.navigate('', {
+                                trigger: true
+                            });
+                        }
                     })
                 }
                 var page = that.template({'ftplist': data.data});

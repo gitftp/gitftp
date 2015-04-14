@@ -101,7 +101,7 @@ class utils {
     
     public static humanize_data($data){
         
-        $bytes = disk_free_space("."); 
+        $bytes = $data;
         $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'EB', 'ZB', 'YB' );
         $base = 1024;
         $class = min((int)log($bytes , $base) , count($si_prefix) - 1);

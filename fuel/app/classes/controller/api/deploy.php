@@ -9,7 +9,7 @@ class Controller_Api_Deploy extends Controller {
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];
         $dir = DOCROOT.'fuel/repository/'.$user_id;
-        $a = shell_exec("du -hs $dir");
+        $a = shell_exec("du -s $dir");
         echo $a;
 //        echo utils::humanize_data($a);
     }

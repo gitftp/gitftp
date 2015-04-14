@@ -82,7 +82,8 @@ define([
                             Router.navigate('#ftp/add', {
                                 trigger: true
                             });
-                        }
+                        },
+                        confirmButtonClass: 'btn-success'
                     })
                 }
                 var page = that.template({'ftplist': data.data});

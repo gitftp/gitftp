@@ -26,7 +26,9 @@ define([
                             noty({
                                 text: 'Deleted FTP server.',
                             });
-                            
+                            Router.navigate('ftp', {
+                                trigger: true
+                            });
                         }else{
                             $.alert({
                                 'title': 'Something bad happened',

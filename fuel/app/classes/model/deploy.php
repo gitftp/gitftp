@@ -13,9 +13,15 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, $select = '*') {
+    public function get($id = null, $select = array()) {
         
-        $q = DB::select($select)->from($this->table)
+        if(count($select) == 0){
+            $s = '*';
+        }else{
+            $s = $select;
+        }
+        
+        $q = DB::select($s)->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {
@@ -32,6 +38,7 @@ class Model_Deploy extends Model {
                 $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
                 $a[$k]['ftp'] = $c;
             }
+//            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
 
         return $a;

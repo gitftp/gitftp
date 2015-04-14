@@ -33,12 +33,10 @@ define([
                         method: 'post',
                         dataType: 'json'
                     }).done(function(data){
-                        
                         $.each(data.data, function(i, a){
                             $target = $('.is-deploy-list[data-id="'+a.id+'"]');
                             $target.find('.status').html('('+a.status+')');
                         });
-                        
                     });
                 }
                 that.deployView();

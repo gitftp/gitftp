@@ -73,6 +73,9 @@ define([
                 url: base + 'api/ftp/getall',
                 dataType: 'json',
             }).done(function(data){
+                if(data.data.length == 0){
+                    
+                }
                 var page = that.template({'ftplist': data.data});
                 that.$el.html(page);
             });

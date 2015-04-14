@@ -636,9 +636,9 @@ class gitcore {
         $filesToSkip = array_merge($filteredFilesToUpload['filesToSkip'], $filteredFilesToDelete['filesToSkip']);
         
         //log
-        $this->log['gitftpop']['files']['upload'] = $filesToUpload;
-        $this->log['gitftpop']['files']['delete'] = $filesToDelete;
-        $this->log['gitftpop']['files']['skip'] = $filesToSkip;
+        $this->log['gitftpop']['files']['upload'] = count($filesToUpload);
+        $this->log['gitftpop']['files']['delete'] = count($filesToDelete);
+        $this->log['gitftpop']['files']['skip'] = count($filesToSkip);
         
         return array(
             $this->currentlyDeploying => array(
@@ -864,10 +864,10 @@ class gitcore {
             if($this->connection->exists($file)){
                 $this->connection->rm($file);
                 $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-                $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->output("removed $fileNo of $numberOfFilesToDelete {$file}");
             }else{
                 $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-                $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
             }
             
             $curr += 1;
@@ -904,7 +904,7 @@ class gitcore {
 
                         if (!$this->connection->exists($path)) {
                             $this->connection->mkdir($path);
-                            $this->output("Created directory '$path'.");
+//                            $this->output("Created directory '$path'.");
                             $pathsThatExist[$path] = true;
                         } else {
                             try{
@@ -949,7 +949,7 @@ class gitcore {
             $numberOfFilesToUpdate = count($filesToUpload);
 
             $fileNo = str_pad( ++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
-            $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
+//            $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
 
             $curr += 1;
             if($curr%2 == 0){

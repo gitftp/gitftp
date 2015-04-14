@@ -29,7 +29,7 @@ require([
         if(/deploy/ig.test(k[0])){
             
             $subpage = $('.page-subview');
-            var l = k;
+            var l = k[];
             if(l)
             $subpage.removeClass('active-cs');
             $('.subview-'+l).addClass('active-cs');

@@ -26,7 +26,7 @@ $(function () {
                             break;
                         case 500:
                             _problem({
-                                content: 'Page not found, <br>404',
+                                content: 'The code has gone crazy, <br>500',
                                 confirm: function () {
                                     history.back();
                                 },

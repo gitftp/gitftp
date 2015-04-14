@@ -27,7 +27,8 @@ define([
                     
                     var id = $('.is-deploy-list-id').attr('data-id');
                     _ajax({
-                        
+                        url : base + 'api/deploy/getonly/' + id,
+                        data: 
                     }).done(function(){
                         
                         data = data.data[0];

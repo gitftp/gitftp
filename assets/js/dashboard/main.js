@@ -24,8 +24,9 @@ require([
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         $subpage = $('.page-subview');
-        if()
-        a.split('/')
+        if($subpage.length){
+            h.split('/')
+        }
 //        subview
     });
     process.init();

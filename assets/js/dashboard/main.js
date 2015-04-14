@@ -26,7 +26,7 @@ require([
         $subpage = $('.page-subview');
         if($subpage.length){
             var k = h.split('/');
-            
+            $subpage.removeClass('')
         }
 //        subview
     });

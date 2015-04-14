@@ -10,6 +10,7 @@ define([
         },
         viewFtp: function(e){
             e.preventDefault();
+            var $this = $(e.currentTarget);
             
         },
         render: function (id) {

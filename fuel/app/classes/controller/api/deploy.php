@@ -6,7 +6,7 @@ class Controller_Api_Deploy extends Controller {
         
     }
     public function action_dashdata(){
-        
+        $a = new Model_Deploy();
         disk_free_space(DOCROOT.'fuel/repository/'.)
     }
     public function action_getonly($id = null) {

@@ -23,7 +23,8 @@ require([
         var j = l.split('/')[0];
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
-        console.log(h);
+        
+        a.split('/')
 //        subview
     });
     process.init();

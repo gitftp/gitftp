@@ -22,16 +22,19 @@ require([
         var l = h.substr(1);
         var j = l.split('/')[0];
         var k = h.split('/');
-        $subpage = $('.page-subview');
         
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
+        
         console.log($subpage.length);
         if($subpage.length){
+            
+            $subpage = $('.page-subview');
             var l = k[k.length-1];
             console.log(l);
             $subpage.removeClass('active-cs');
             $('.subview-'+l).addClass('active-cs');
+            
         }
 //        subview
     });

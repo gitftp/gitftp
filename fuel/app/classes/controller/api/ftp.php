@@ -22,10 +22,7 @@ class Controller_Api_Ftp extends Controller {
         }
 
         $ftp = new Model_Ftp();
-        $deploy new Model_Deploy();
         $data = $ftp->get($id);
-        
-        
         
         echo json_encode(array(
             'status' => true,

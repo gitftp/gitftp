@@ -20,10 +20,10 @@ class Controller_Api_Deploy extends Controller {
             'name',
         ));
         foreach ($deploy_list as $k => $v) {
-            $id = $v['id'];
+        $id = $v['id'];
         $a = shell_exec("du -hs $dir/$id");
         $a = explode('	', $a);
-        
+        $deploy_list[$k]['size'] = $a;
         }
         echo json_encode(array(
             'status'=> true,

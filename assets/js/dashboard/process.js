@@ -42,7 +42,7 @@ define([
                     });
                 }
                 that.deployView();
-            }, 2000);
+            }, 2500);
         },
         timeUpdateInterval: 1,
         timeUpdate: function () {

@@ -293,7 +293,7 @@ class Controller_Api_Deploy extends Controller {
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            $log['dir read failure'] = 'Could not connect to the repository provided: ' . $repo['repository'];
+            $log['dir read failure'] = 'Could not connect to the repository provided: <br>URL: <code>'.$repo['repository'].'</code>'
             echo json_encode(array('status' => false, 'reason' => 'Doh, There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>' . $repo['repository'] . '</code>'));
             $record->set($record_id, array(
                 'status' => 0,

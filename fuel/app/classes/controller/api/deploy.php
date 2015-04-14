@@ -5,7 +5,9 @@ class Controller_Api_Deploy extends Controller {
     public function action_index() {
         
     }
-
+    public function action_dashdata(){
+        
+    }
     public function action_getonly($id = null) {
         $a = $_POST;
         $deploy = new Model_Deploy();

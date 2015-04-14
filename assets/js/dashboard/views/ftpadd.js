@@ -17,7 +17,7 @@ define([
             var that = this;
             $this.find('i').removeClass('fa-trash').addClass('fa-spin fa-spinner').attr('disabled', true);
             $.confirm({
-                title: 'are you sure?',
+                title: 'Are you sure?',
                 content: 'Are you sure to delete the FTP server.',
                 confirm: function () {
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');

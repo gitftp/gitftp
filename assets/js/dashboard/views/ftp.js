@@ -6,6 +6,7 @@ define([
         el: app.el,
         events: {
             'click .deleteftp': 'deleteftp',
+            'click .ftp-servers-list': ''
         },
         render: function (id) {
             var that = this;

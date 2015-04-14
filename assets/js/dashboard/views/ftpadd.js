@@ -56,7 +56,7 @@ define([
                 data: form
             }).done(function (d) {
                 $.alert({
-                    title: (d.status) ? '<i class="fa fa-check"></i> Successful' : 'Falied',
+                    title: (d.status) ? '<i class="fa fa-check"></i> Successful' : '<i class="fa fa-times"></i> Falied',
                     content: (d.status) ? 'Connection established successfully' : d.reason
                 });
                 $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner').removeAttr('disabled');

@@ -64,13 +64,16 @@ h6 {
 .btn.btn-link:hover {
   text-decoration: none;
 }
-.viewdeploy {
+.viewdeploy,
+.ftp-servers-list {
   margin-bottom: 30px;
 }
-.viewdeploy.delete {
+.viewdeploy.delete,
+.ftp-servers-list.delete {
   opacity: 0.3;
 }
-.viewdeploy .project-list-block {
+.viewdeploy .project-list-block,
+.ftp-servers-list .project-list-block {
   background-color: #fff;
   border: solid 1px #ddd;
   padding: 5px 15px 10px;
@@ -78,18 +81,22 @@ h6 {
   -webkit-transition: border .2s;
           transition: border .2s;
 }
-.viewdeploy .project-list-block .header > span {
+.viewdeploy .project-list-block .header > span,
+.ftp-servers-list .project-list-block .header > span {
   vertical-align: middle;
   display: inline-block;
 }
-.viewdeploy .project-list-block .header span.head {
+.viewdeploy .project-list-block .header span.head,
+.ftp-servers-list .project-list-block .header span.head {
   font-size: 24px;
   padding-top: 0px;
 }
-.viewdeploy .project-list-block:hover {
+.viewdeploy .project-list-block:hover,
+.ftp-servers-list .project-list-block:hover {
   border-color: #EF3D37;
 }
-.viewdeploy .project-list-block:active {
+.viewdeploy .project-list-block:active,
+.ftp-servers-list .project-list-block:active {
   -webkit-transform: scale(0.98);
       -ms-transform: scale(0.98);
           transform: scale(0.98);

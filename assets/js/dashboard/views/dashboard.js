@@ -6,7 +6,7 @@ define([
         render: function (id) {
             var that = this;
             _ajax({
-                
+                url : base+'api/deploy/dashdata',
             }).done(function(data){
                 that.$el.html(page);
             })

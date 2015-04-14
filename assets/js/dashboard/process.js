@@ -23,7 +23,7 @@ define([
                         }
                     });
                 }
-                if($('.is-deploy-list-id').length){
+                if($('.is-deploy-list').length){
                     
                     _ajax({
                         url : base + 'api/deploy/getonly/',

@@ -21,7 +21,7 @@ class Controller_Api_Deploy extends Controller {
         ));
         foreach ($deploy_list as $k => $v) {
             $a = shell_exec("du -hs $dir");
-            $a = explode('	', $a);
+        $a = explode('	', $a);
         }
         echo json_encode(array(
             'status'=> true,

@@ -34,7 +34,7 @@ require([
             if(l){
                 $('.subview-'+l).addClass('active-cs');
             }else{
-                $('.subview-'+l).addClass('active-cs');
+                $('.subview-activity').addClass('active-cs');
             }
             
         }

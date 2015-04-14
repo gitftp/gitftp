@@ -17,27 +17,27 @@
                 <h3 class="panel-title">Deploys</h3>
             </div>
             <div class="panel-body">
-                
+                asd
             </div>
             <table>
                 <tr>
                     <th>ID</th>
                     <th>REPO</th>
-                    <th>Status</th>
+                    <th>STATUS</th>
                 </tr>
                 <% $.each(data.deploy, function(i, a){ %>
                 <tr>
                     <td>
                         <%= a.id %>
                     </td>
-                    
-                    
+                    <td>
+                        <h4 class="list-group-item-heading"><%= a.repository %></h4>
+                        <p class="list-group-item-text"><%= a.status %></p>
+                    </td>
                     <td>
                         <a href="#deploy/v/<%= a.id %>" class="">View</a>
                     </td>
                 </tr>
-                    <h4 class="list-group-item-heading"><%= a.repository %></h4>
-                    <p class="list-group-item-text"><%= a.status %></p>
                 
                 <% }) %>
             </table>

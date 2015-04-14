@@ -12,7 +12,6 @@ define([
         },
         deleteftp: function (e) {
             e.preventDefault();
-
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
             var that = this;

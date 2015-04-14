@@ -18,10 +18,10 @@ class Model_Deploy extends Model {
         if(count($select) == 0){
             $s = '*';
         }else{
-            $s = 
+            $s = $select;
         }
         
-        $q = DB::select()->from($this->table)
+        $q = DB::select($s)->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {

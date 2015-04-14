@@ -7,7 +7,7 @@ class Controller_Api_Deploy extends Controller {
     }
     public function action_dashdata(){
         
-        
+        disk_free_space ( string $directory )
         
     }
     public function action_getonly($id = null) {

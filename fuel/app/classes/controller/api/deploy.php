@@ -5,7 +5,7 @@ class Controller_Api_Deploy extends Controller {
     public function action_index() {
         
     }
-    publuc function action_getonly(){
+    publuc function action_getonly($action){
         
     }
     public function action_getall($id = null) {

@@ -68,7 +68,12 @@ define([
             that.$el.html('');
             this.page = page;
             this.template = _.template(this.page);
-
+            
+            _ajax({
+                
+            }).done(function(){
+                
+            })
             $.getJSON(base + 'api/ftp/getall', function (data) {
                 var page = that.template({'ftplist': data.data});
                 that.$el.html(page);

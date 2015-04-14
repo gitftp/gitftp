@@ -14,14 +14,16 @@ class Model_Deploy extends Model {
     }
 
     public function get($id = null, $select = array()) {
-        
-        if(count($select) == 0){
+
+        if (count($select) == 0) {
             $s = '*';
-        }else{
+            $q = DB::select($s);
+        } else {
             $s = $select;
+            $q = DB::select_array($s);
         }
-        
-        $q = DB::select($s)->from($this->table)
+
+        $q = $q->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {
@@ -31,8 +33,8 @@ class Model_Deploy extends Model {
         $a = $q->execute()->as_array();
 
         foreach ($a as $k => $v) {
-            
-            if(isset($v['ftp'])){
+
+            if (isset($v['ftp'])) {
                 $ub = unserialize($v['ftp']);
                 $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
                 $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);

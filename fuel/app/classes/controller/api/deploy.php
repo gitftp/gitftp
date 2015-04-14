@@ -19,7 +19,9 @@ class Controller_Api_Deploy extends Controller {
             'lastdeploy',
             'name',
         ));
-        
+        foreach ($deploy_list as $key => $value) {
+            
+        }
         echo json_encode(array(
             'status'=> true,
             'user'=> array(

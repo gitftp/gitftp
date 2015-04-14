@@ -12,6 +12,7 @@ define([
             e.preventDefault();
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
+            Router.navigate('')
         },
         render: function (id) {
             var that = this;

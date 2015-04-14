@@ -16,7 +16,7 @@ class Controller_Api_Deploy extends Controller {
             'repository',
             'id',
             'status',
-            'lastdeployed',
+            'lastdeploy',
         ));
         echo '<pre>';
         echo json_encode(array(

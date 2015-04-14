@@ -22,11 +22,10 @@ require([
         var l = h.substr(1);
         var j = l.split('/')[0];
         var k = h.split('/');
+        $subpage = $('.page-subview');
         
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
-        $subpage = $('.page-subview');
-        
         console.log($subpage.length);
         if($subpage.length){
             var l = k[k.length-1];

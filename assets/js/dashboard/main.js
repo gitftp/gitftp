@@ -23,7 +23,7 @@ require([
         var j = l.split('/')[0];
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
-        $subpage = page-subview;
+        $subpage = $('.page-subview');
         if()
         a.split('/')
 //        subview

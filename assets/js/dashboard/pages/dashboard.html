@@ -24,7 +24,7 @@
                     <th class="text-right">ID</th>
                     <th>REPO</th>
                     <th class="text-center">SIZE (on disk)</th>
-                    <th class="text-right">STATUS</th>
+                    <th class="text-center">STATUS</th>
                 </tr>
                 <% $.each(data.deploy, function(i, a){ %>
                 <tr>
@@ -38,7 +38,7 @@
                     <td class="text-center">
                         <%= a.size %>
                     </td>
-                    <td class="text-right">
+                    <td class="text-center">
                         <a href="#deploy/v/<%= a.id %>" class="btn btn-link">View <i class="fa fa-arrow-right"></i></a>
                     </td>
                 </tr>

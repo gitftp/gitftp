@@ -15,8 +15,7 @@ class Model_Deploy extends Model {
 
     public function get($id = null, $select = '*') {
         
-        
-        $q = DB::select($s)->from($this->table)
+        $q = DB::select($select)->from($this->table)
                 ->where('user_id', $this->user_id);
 
         if ($id != null) {

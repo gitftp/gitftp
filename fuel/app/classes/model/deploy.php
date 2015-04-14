@@ -13,7 +13,7 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, array()) {
+    public function get($id = null, $select = array()) {
 
         $q = DB::select()->from($this->table)
                 ->where('user_id', $this->user_id);

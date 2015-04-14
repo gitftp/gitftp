@@ -83,7 +83,9 @@ define([
                                 trigger: true
                             });
                         },
-                        
+                        cancel: function(){
+                            
+                        }
                     })
                 }
                 var page = that.template({'ftplist': data.data});

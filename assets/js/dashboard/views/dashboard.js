@@ -6,7 +6,7 @@ define([
         render: function (id) {
             var that = this;
             that.$el.html(page);
-        }
+        },
     });
     return d;
 });

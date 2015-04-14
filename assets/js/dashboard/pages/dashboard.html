@@ -1,0 +1,62 @@
+<h3>
+    Usage Summary
+</h3>
+<p>
+    Have a glance at your repositories and its usage.
+</p>
+<div style="height:20px;"></div>
+<pre>
+    <%= JSON.stringify(data) %>
+</pre>
+<div class="row">
+    <div class="col-md-8">
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Deploys</h3>
+            </div>
+            <div class="panel-body">
+                You have <%= data.deploy.length %> active delpoy running.
+            </div>
+            <table class="table table-condensed table-hover">
+                <tr>
+                    <th class="text-right">ID</th>
+                    <th>REPO</th>
+                    <th class="text-center">SIZE (on disk)</th>
+                    <th class="text-center">STATUS</th>
+                </tr>
+                <% $.each(data.deploy, function(i, a){ %>
+                <tr>
+                    <td class="text-right">
+                        <%= a.id %>
+                    </td>
+                    <td>
+                        <h4 class="list-group-item-heading"><%= a.name %> (<%= a.status %>)</h4>
+                        <p class="list-group-item-text"><%= a.repository %></p>
+                    </td>
+                    <td class="text-center">
+                        <%= a.size %>
+                    </td>
+                    <td class="text-center">
+                        <a href="#deploy/v/<%= a.id %>" class="btn btn-link">View <i class="fa fa-arrow-right"></i></a>
+                    </td>
+                </tr>
+                
+                <% }) %>
+            </table>
+        </div>
+        <div class="list-group">
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <h3><%= data.user.name %></h3>
+                Your ID: <%= data.user.id %> <br>
+                Email-id: <%= data.user.email %> <br>
+                Deployed: <%= data.deploy.length %>
+            </div>
+        </div>
+    </div>
+</div>

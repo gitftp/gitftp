@@ -108,7 +108,7 @@ define([
                 _ajax({
                     url: base+ 'api/ftp/getall'+ id,
                     dataType: 'json',
-                    method: 'get'
+                    method: 'get',
                 })
                 $.getJSON(base + 'api/ftp/getall/' + id, function (data) {
                     var template = _.template(ftpadd);

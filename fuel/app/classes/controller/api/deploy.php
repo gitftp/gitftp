@@ -11,7 +11,7 @@ class Controller_Api_Deploy extends Controller {
         $dir = DOCROOT.'fuel/repository/'.$user_id;
         $a = shell_exec("du -hs $dir");
         $a = explode('	', $a);
-        echo $disk_usage_human = $a[0];
+        $disk_usage_human = $a[0];
     }
     public function action_getonly($id = null) {
         $a = $_POST;

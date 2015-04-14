@@ -24,6 +24,7 @@ require([
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         
+        if()
         a.split('/')
 //        subview
     });

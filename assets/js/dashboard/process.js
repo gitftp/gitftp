@@ -36,7 +36,8 @@ define([
                     }).done(function(data){
                         
                         $.each(data.data, function(i, a){
-                            
+                            $target = $('')
+                            a.id
                         })
                         
                         var el = $('.project-v-status');

@@ -39,6 +39,27 @@
     </tr>
     <% $.each(list, function(i, a){ %>
 
+    <div class="viewdeploy col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
+        <div class="project-list-block">
+            <div class="header">
+                <p>
+                    <span class="head">
+                        <i class="fa fa-cloud-upload fa-fw"></i>
+                        <%= a.name %>
+                    </span> 
+                    <span class="">(<%= a.status %>)</span>
+                    
+                </p>
+                <div class="clearfix"></div>
+            </div>
+            <span style="color: #aaa">(<%= a.repository %>)</span><br>
+            <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= moment(a.lastdeploy).format('D/MMMM/YYYY hh:mm a') %></span></span>
+        </div>
+    </div>
+    
+    <% }) %>
+
+    <% $.each(list, function(i, a){ %>
     <tr>
         <td>
             <%= a.scheme  %>

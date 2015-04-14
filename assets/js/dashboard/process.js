@@ -26,8 +26,9 @@ define([
                 if($('.is-deploy-list-id').length){
                     
                     var id = $('.is-deploy-list-id').attr('data-id');
+                    
                     _ajax({
-                        
+                        url : 
                     }).done(function(){ 
                         data = data.data[0];
                         var el = $('.project-v-status');

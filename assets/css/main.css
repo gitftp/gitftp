@@ -230,8 +230,8 @@ h6 {
           animation: drop 0.7s ease-in;
 }
 .bb-wrapper > * {
-  -webkit-animation: pagedrop 0.1s cubic-bezier(0.43, 0.96, 0.53, 0.98);
-          animation: pagedrop 0.1s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+  -webkit-animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+          animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
 }
 @-webkit-keyframes pagedrop {
   from {

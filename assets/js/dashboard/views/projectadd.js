@@ -82,9 +82,6 @@ define([
                             Router.navigate('#ftp/add', {
                                 trigger: true
                             });
-                        },
-                        cancel: function(){
-                            
                         }
                     })
                 }

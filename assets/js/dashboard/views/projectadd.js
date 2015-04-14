@@ -79,7 +79,7 @@ define([
                         content: 'To setup a deploy, you first need to add a FTP server configuration.',
                         confirmButton: 'Add ftp',
                         confirm: function(){
-                            Router.navigate('ftp/add', {
+                            Router.navigate('#ftp/add', {
                                 trigger: true
                             });
                         }

@@ -25,7 +25,7 @@ require([
         $('.navbar-nav li.' + j).addClass('active');
         $subpage = $('.page-subview');
         if($subpage.length){
-            h.split('/')
+            h.split('/');
         }
 //        subview
     });

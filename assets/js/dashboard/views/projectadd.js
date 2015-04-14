@@ -70,12 +70,13 @@ define([
             this.template = _.template(this.page);
             
             _ajax({
-                
+                url: base + 'api/ftp/getall',
+                dataType: 'json',
             }).done(function(data){
                 var page = that.template({'ftplist': data.data});
                 that.$el.html(page);
             });
-            $.getJSON(base + 'api/ftp/getall', function (data) {
+            $.getJSON(, function (data) {
             });
         }
     });

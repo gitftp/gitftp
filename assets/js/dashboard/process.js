@@ -23,7 +23,8 @@ define([
                         }
                     });
                 }
-                
+                if($('.is-deploy-list-id'))
+                    
                 that.deployView();
             }, 1500);
         },

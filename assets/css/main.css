@@ -222,7 +222,7 @@ h6 {
           animation-duration: .5s !important;
 }
 .dash-nav {
-  top: 2px;
+  /*top: 2px;*/
   overflow: hidden;
 }
 .dash-nav .drop {

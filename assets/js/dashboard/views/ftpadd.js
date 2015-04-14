@@ -15,13 +15,12 @@ define([
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
             var that = this;
-            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').attr('disabled', true);
-
+            $this.find('i').removeClass('fa-trash').addClass('fa-spin fa-spinner').attr('disabled', true);
             $.confirm({
                 title: 'are you sure?',
                 content: 'Are you sure to delete the FTP server.',
                 confirm: function () {
-                    $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner').removeAttr('disabled');
+                    $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                     $.getJSON(base + 'api/ftp/delftp/' + id, function (data) {
                         if (data.status) {
                             console.log(data);
@@ -38,6 +37,9 @@ define([
                             });
                         }
                     });
+                },
+                cancel: function(){
+                    $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                 }
             })
 

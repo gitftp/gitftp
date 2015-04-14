@@ -26,7 +26,7 @@ require([
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         
-        if(/deploy/.test(k[0])){
+        if(/deploy/ig.test(k[0])){
             
             $subpage = $('.page-subview');
             var l = k[k.length-1];

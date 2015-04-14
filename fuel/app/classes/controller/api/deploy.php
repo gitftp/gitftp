@@ -316,7 +316,7 @@ class Controller_Api_Deploy extends Controller {
 
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Doh, there was an error while cloning the repository. <br>URL: <code>'.$repo['repository'].'</code>',
+                'reason' => 'Doh, there was an error while processing the repository. <br>URL: <code>'.$repo['repository'].'</code>',
             ));
 
             $deploy->set($id, array(

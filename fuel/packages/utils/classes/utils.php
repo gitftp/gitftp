@@ -13,10 +13,6 @@ class utils {
 //    [port] => 
 //)
         
-        if($a){
-            
-        }
-        
         $b = array(
             'hostname' => $a['host'],
             'username' => $a['username'],

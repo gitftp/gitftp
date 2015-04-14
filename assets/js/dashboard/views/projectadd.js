@@ -82,7 +82,8 @@ define([
                             Router.navigate('#ftp/add', {
                                 trigger: true
                             });
-                        }
+                        },
+                        
                     })
                 }
                 var page = that.template({'ftplist': data.data});

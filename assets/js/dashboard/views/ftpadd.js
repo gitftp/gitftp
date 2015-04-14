@@ -18,7 +18,7 @@ define([
             $this.find('i').removeClass('fa-trash').addClass('fa-spin fa-spinner').attr('disabled', true);
             $.confirm({
                 title: 'Are you sure?',
-                content: 'Are you sure to delete the FTP server.',
+                content: 'Are you sure to remove the FTP server.',
                 confirm: function () {
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                     $.getJSON(base + 'api/ftp/delftp/' + id, function (data) {

@@ -311,7 +311,7 @@ class Controller_Api_Deploy extends Controller {
 
         if (count($a) == 0) {
 
-            $log['clone'] = 'Error while cloning repository.';
+            $log['clone'] = 'Error while processing repository.';
             $log['clone_status'] = false;
 
             echo json_encode(array(

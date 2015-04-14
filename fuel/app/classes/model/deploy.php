@@ -15,11 +15,6 @@ class Model_Deploy extends Model {
 
     public function get($id = null, $select = '*') {
         
-        if(count($select) == 0){
-            $s = '*';
-        }else{
-            $s = $select;
-        }
         
         $q = DB::select($s)->from($this->table)
                 ->where('user_id', $this->user_id);

@@ -53,7 +53,7 @@ define([
                 url: base + 'api/ftp/testftp',
                 dataType: 'json',
                 method: 'post',
-                data: form.
+                data: form
             }).done(function (d) {
                 $.alert({
                     title: (d.status) ? 'Successful' : 'Falied',

@@ -24,6 +24,7 @@ require([
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         $subpage = $('.page-subview');
+        console.log($subpage.length);
         if($subpage.length){
             var k = h.split('/');
             var l = k[k.length-1];

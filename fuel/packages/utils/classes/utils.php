@@ -99,8 +99,7 @@ class utils {
         }
     }
     
-    public static humanize_data($data){
-        
+    public static function humanize_data($data){
         $bytes = $data;
         $si_prefix = array( 'B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB' );
         $base = 1024;

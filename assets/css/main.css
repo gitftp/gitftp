@@ -229,6 +229,10 @@ h6 {
   -webkit-animation: drop 0.7s ease-in;
           animation: drop 0.7s ease-in;
 }
+.bb-wrapper > * {
+  -webkit-animation: drop 0.7s ease-in;
+          animation: drop 0.7s ease-in;
+}
 @-webkit-keyframes drop {
   from {
     opacity: 0;

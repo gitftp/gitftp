@@ -23,6 +23,7 @@ define([
                         }
                     });
                 }
+                
                 that.deployView();
             }, 1500);
         },

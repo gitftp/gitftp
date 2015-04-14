@@ -6,7 +6,7 @@ class Controller_Api_Deploy extends Controller {
         
     }
     public function action_getonly($id = null){
-        
+        print_r($_GET);
     }
     public function action_getall($id = null) {
 

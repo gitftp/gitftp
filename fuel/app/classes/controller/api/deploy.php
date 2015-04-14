@@ -10,6 +10,7 @@ class Controller_Api_Deploy extends Controller {
         $a = $_POST;
         $a = explode(',', $a);
         $deploy = new Model_Deploy();
+        $deploy->get($id, $select)
     }
 
     public function action_getall($id = null) {

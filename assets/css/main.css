@@ -233,6 +233,12 @@ h6 {
   -webkit-animation: drop 0.2s ease-in;
           animation: drop 0.2s ease-in;
 }
+@-webkit-keyframes pagedrop {
+  
+}
+@keyframes pagedrop {
+  
+}
 @-webkit-keyframes drop {
   from {
     opacity: 0;

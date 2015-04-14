@@ -79,7 +79,6 @@ define([
             this.timeUpdate();
         },
         init: function () {
-            return false;
             this.runProcess();
         }
     };

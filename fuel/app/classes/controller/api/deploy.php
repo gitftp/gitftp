@@ -13,7 +13,7 @@ class Controller_Api_Deploy extends Controller {
         $a = explode('	', $a);
         echo '<pre>';
         echo $a[0];
-//        echo utils::humanize_data($a);
+        echo utils::humanize_data($a[0]);
     }
     public function action_getonly($id = null) {
         $a = $_POST;

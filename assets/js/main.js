@@ -24,6 +24,15 @@ $(function () {
                                 confrimButton: '<i class="fa fa-arrow-left fa-fw"></i> Back'
                             });
                             break;
+                        case 500:
+                            _problem({
+                                content: 'Page not found, <br>404',
+                                confirm: function () {
+                                    history.back();
+                                },
+                                confrimButton: '<i class="fa fa-arrow-left fa-fw"></i> Back'
+                            });
+                            break;
                         default:
                             alert('error :' + data.status);
                     }

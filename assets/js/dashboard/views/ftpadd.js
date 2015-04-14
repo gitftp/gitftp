@@ -110,6 +110,9 @@ define([
                         'ftp': data.data
                     });
                     that.$el.html(template);
+                    if(id){
+                        oneline
+                    }
                 });
                 that.id = id;
             } else {

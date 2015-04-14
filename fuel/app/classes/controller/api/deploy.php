@@ -14,7 +14,7 @@ class Controller_Api_Deploy extends Controller {
         $disk_usage_human = $a[0];
         $deploy_list = $deploy->get(null, array(
             'repository',
-            'id'
+            'id',
             'status',
             'lastdeployed',
         ));

@@ -7,6 +7,8 @@ define([
             var that = this;
             _ajax({
                 url : base+'api/deploy/dashdata',
+                method: 'get',
+                dataType: 'json',
             }).done(function(data){
                 that.$el.html(page);
             })

@@ -26,7 +26,11 @@
                     <th>Status</th>
                 </tr>
                 <% $.each(data.deploy, function(i, a){ %>
-                <tr></tr>
+                <tr>
+                    <td>
+                        
+                    </td>
+                </tr>
                 <a href="#deploy/v/<%= a.id %>" class="list-group-item">
                     <h4 class="list-group-item-heading"><%= a.repository %></h4>
                     <p class="list-group-item-text"><%= a.status %></p>

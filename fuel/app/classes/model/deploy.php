@@ -16,8 +16,7 @@ class Model_Deploy extends Model {
     public function get($id = null, $select = array()) {
 
         if (count($select) == 0) {
-            $s = '*';
-            $q = DB::select($s);
+            $q = DB::select();
         } else {
             $s = $select;
             $q = DB::select_array($s);

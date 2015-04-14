@@ -24,7 +24,7 @@ class Controller_Api_Deploy extends Controller {
         $id = $v['id'];
         $a = shell_exec("du -hs $dir/$id");
         $a = explode('	', $a);
-        $deploy_list[$k]['size'] = $a;
+        $deploy_list[$k]['size'] = $a[0];
         }
         
         echo json_encode(array(

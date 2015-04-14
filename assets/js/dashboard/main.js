@@ -27,7 +27,7 @@ require([
         if($subpage.length){
             var k = h.split('/');
             $subpage.removeClass('active-cs');
-            
+            $('')
         }
 //        subview
     });

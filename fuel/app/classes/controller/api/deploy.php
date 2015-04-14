@@ -20,8 +20,8 @@ class Controller_Api_Deploy extends Controller {
             'name',
         ));
         foreach ($deploy_list as $k => $v) {
-            
-        $a = shell_exec("du -hs $dir");
+            $id = $v['id'];
+        $a = shell_exec("du -hs $dir/$id");
         $a = explode('	', $a);
         
         }

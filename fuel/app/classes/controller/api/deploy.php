@@ -20,7 +20,7 @@ class Controller_Api_Deploy extends Controller {
                 'diskused' => $disk_usage_human,
                 'user_id' => Auth::get_user_id()[1],
                 'user_name' => Auth::get_screen_name(),
-                'user_name' => Auth::get_name(),
+                'name' => Auth::get_name(),
                 'user_email' => Auth::get_email(),
             ),
             'deploy' => $deploy_list,

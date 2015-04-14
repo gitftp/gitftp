@@ -8,7 +8,6 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_getonly($id = null) {
         $a = $_POST;
-        $a = explode(',', $a['select']);
         $deploy = new Model_Deploy();
         print_r($a);
         $b = $deploy->get(null, $a);

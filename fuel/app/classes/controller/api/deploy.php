@@ -20,7 +20,7 @@ class Controller_Api_Deploy extends Controller {
             'name',
         ));
         foreach ($deploy_list as $k => $v) {
-            
+            $b = 
         }
         echo json_encode(array(
             'status'=> true,

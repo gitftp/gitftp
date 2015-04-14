@@ -8,7 +8,8 @@ class Controller_Api_Deploy extends Controller {
     public function action_dashdata(){
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];
-        echo disk_free_space(DOCROOT.'fuel/repository/'.$user_id);
+        $free = disk_free_space(DOCROOT.'fuel/repository/'.$user_id);
+        $total = disk_total_space($directory)
     }
     public function action_getonly($id = null) {
         $a = $_POST;

@@ -48,7 +48,7 @@ define([
             e.preventDefault();
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
-            $this.find('')
+            $this.find('');
             _ajax({
                 url: base + 'api/ftp/testftp',
                 dataType: 'json',

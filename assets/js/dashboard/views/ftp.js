@@ -17,7 +17,7 @@ define([
         },
         render: function (id) {
             var that = this;
-            this.el = $('<div class="ftplist-wrapper bb-loading">').appendTo(this.$el);
+            this.$el.html(this.el = $('<div class="ftplist-wrapper bb-loading">'));
 
             $.getJSON(base + 'api/ftp/getall', function (data) {
                 var template = _.template(ftplist);

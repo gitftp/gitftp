@@ -108,8 +108,8 @@ define([
         },
         render: function (id) {
             var that = this;
-            
-            this.el = $('<div class="ftpadd-wrapper bb-loading">').appendTo(this.$el);
+
+            this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
             if (id) {
 
                 _ajax({

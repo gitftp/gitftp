@@ -23,6 +23,7 @@ class Controller_User extends Controller {
     public function post_login() {
         $a = Input::post();
         
+        
         if (Auth::validate_user($a['email'], $a['password'])) {
             Auth::login($a['email'], $a['password']);
             Response::redirect(dash_url);

@@ -26,7 +26,9 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="home-tagline">
-					Push your changes to Github or Bitbucket, and deploy them on your server.
+					<p>
+						Push your changes to Github or Bitbucket, and deploy them on your server.
+					</p>
 				</div>
 			</div>
 		</div>

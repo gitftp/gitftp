@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <h3 class="title text-center">
-                	Login
+                	Login to your a/c
                 </h3>
                 <form action="">
                 	<div class="form-group">

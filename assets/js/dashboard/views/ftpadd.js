@@ -109,7 +109,7 @@ define([
         render: function (id) {
             var that = this;
             
-            this.el = $('<div class="projectlist-wrapper bb-loading">').appendTo(this.$el);
+            this.el = $('<div class="ftpadd-wrapper bb-loading">').appendTo(this.$el);
             if (id) {
 
                 _ajax({
@@ -121,7 +121,7 @@ define([
                     template = template({
                         'ftp': data.data
                     });
-                    that.el.html(template);
+                    that.$el.html(template);
                     if (id) {
                         that.oneline();
                     }

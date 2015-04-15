@@ -11,7 +11,7 @@
             <div class="col-md-12">
                 <div style="height: 40px;"></div>
                 <p class="text-center" style="color: #444">
-                    <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?><br>
+                    <?php echo Asset::img('logo-w.png', array('class', 'logo-image')); ?><br>
                     <span style="font-size: 3em;font-weight: 100; text-transform: lowercase;">Push &amp; Deploy</span>
                 </p>
             </div>

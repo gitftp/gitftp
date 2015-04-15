@@ -13,7 +13,7 @@
                 <div style="height: 40px;"></div>
                 <p class="text-center" style="color: #444">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
-                    <span style="font-size: 3em; text-transform: uppercase;">Commit, Push, Deploy &amp; Yolo</span>
+                    <span style="font-size: 3em; text-transform: uppercase;">Commit, Push, Deploy &amp; Work</span>
                 </p>
             </div>
         </div>

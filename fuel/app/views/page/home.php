@@ -11,7 +11,7 @@
                 <div style="height: 60px;"></div>
                 <p class="text-center" style="color: #999">
                     <span style="font-size: 3em">
-                        <?php echo Asset::img('logo.png'); ?> <br>
+                        <?php echo Asset::img('logo.png', array('style'=> 'width: 100%')); ?> <br>
                         <span style="font-weight: 100">Set your workflow.</span>
                     </span>
                 </p>

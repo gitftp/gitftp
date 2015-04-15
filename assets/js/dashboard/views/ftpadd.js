@@ -108,9 +108,8 @@ define([
         },
         render: function (id) {
             var that = this;
+            
             this.el = $('<div class="projectlist-wrapper bb-loading">').appendTo(this.$el);
-
-            that.$el.html('');
             if (id) {
 
                 _ajax({

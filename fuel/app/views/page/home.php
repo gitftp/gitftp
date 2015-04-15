@@ -14,7 +14,7 @@
                     <?php echo Asset::img('logo-w.png', array('class', 'logo-image')); ?><br>
                     <span style="font-size: 3em;font-weight: 100; text-transform: lowercase;">Push &amp; Deploy</span>
                     <br>
-                    <a href="<?php echo Uri::base(false) ?>signup" class="btn btn-default">Get Started</a>
+                    <a href="<?php echo Uri::base(false) ?>signup" class="btn btn-default btn-lg">Get Started</a>
                 </p>
             </div>
         </div>

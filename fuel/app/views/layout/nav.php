@@ -60,10 +60,10 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li class="login">
-                                    <a href="<?php echo Uri::base(false) ?>login"><i class="fa fa-sign-in fa-fw"></i> LOGIN</a>
+                                    <a href="<?php echo Uri::base(false) ?>login">LOGIN</a>
                                 </li>
                                 <li class="signup">
-                                    <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-user-plus fa-fw"></i> SIGNUP</a>
+                                    <a href="<?php echo Uri::base(false) ?>signup">SIGNUP</a>
                                 </li>
                             </ul>
 

@@ -6,6 +6,7 @@ define([
         render: function (id) {
             var that = this;
             this.el = $('<div class="dashboard-wrapper bb-loading">').appendTo(this.$el);
+            this.el = $('<div class="dashboard-wrapper bb-loading">')
             this.template = _.template(page);
             _ajax({
                 url : base+'api/deploy/dashdata',

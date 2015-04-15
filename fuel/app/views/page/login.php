@@ -14,7 +14,7 @@
                 	Login to <span class="blue">gitftp</span>.com
                 </h3>
                 <div class="space20"></div>
-                <form action="<?php echo home_url ?>user/login">
+                <form action="<?php echo home_url ?>user/login" method="post">
                 	<div class="form-group">
                 		<label for="email">Email</label>
                 		<input type="email" id="email" name="email" placeholder="Your email" class="form-control input-lg">

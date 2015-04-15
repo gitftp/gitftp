@@ -3,7 +3,8 @@
 class Controller_Test extends Controller {
     public function action_g(){
        $email = "hey@craftpip.com";
-       echo utils::get_gravatar($email);
+       $g = utils::get_gravatar($email);
+       echo "<img src='$g' />";
     }
     public function action_testw(){
         echo is_dash;

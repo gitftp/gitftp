@@ -21,15 +21,13 @@ class Controller_User extends Controller {
     }
 
     public function post_login() {
-        if (Input::method() == 'POST') {
-            $a = Input::post();
-            
-            if (Auth::validate_user($a['email'], $a['password'])) {
-                Auth::login($a['email'], $a['password']);
-                Response::redirect(dash_url);
-            } else {
-                Response::redirect(home_url);
-            }
+        $a = Input::post();
+
+        if (Auth::validate_user($a['email'], $a['password'])) {
+            Auth::login($a['email'], $a['password']);
+            Response::redirect(dash_url);
+        } else {
+            Response::redirect(home_url);
         }
     }
 

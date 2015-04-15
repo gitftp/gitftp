@@ -60,7 +60,7 @@
 				<div class="block">
 					<p class="title">2. Detect changes</p>
 					<p>
-						We gather the add and modified files from your repository since last deployment
+						We gather the add and modified files from your repository since last deployment, and stage them up for upload.
 					</p>
 				</div>
 			</div>

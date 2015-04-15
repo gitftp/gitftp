@@ -121,7 +121,7 @@ define([
                     template = template({
                         'ftp': data.data
                     });
-                    that.$el.html(template);
+                    that.el.html(template);
                     if (id) {
                         that.oneline();
                     }
@@ -132,7 +132,7 @@ define([
                 template = template({
                     'ftp': []
                 });
-                that.$el.html(template);
+                that.el.html(template);
                 that.id = false;
             }
         },

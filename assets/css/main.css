@@ -229,7 +229,7 @@ h6 {
   -webkit-animation: drop 0.7s ease-in;
           animation: drop 0.7s ease-in;
 }
-.bb-wrapper > * {
+.bb-wrapper > div > * {
   -webkit-animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
           animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
 }

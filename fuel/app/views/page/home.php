@@ -60,7 +60,7 @@
 				<div class="block">
 					<p class="title">2. Detect changes</p>
 					<p>
-						We gather the add and modified files from your repository since last deployment, and stage them up for upload.
+						We investiate the add and modified files from your repository since last deployment, and stage them up for upload.
 					</p>
 				</div>
 			</div>
@@ -68,7 +68,6 @@
 				<div class="block">
 					<p class="title">3. We deploy</p>
 					<p>You commit the changes and we deploy it</p>
-					
 				</div>
 			</div>
 		</div>

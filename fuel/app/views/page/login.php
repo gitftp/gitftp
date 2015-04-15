@@ -6,17 +6,21 @@
 
 <div class="home-login">
     <?php echo View::forge('layout/nav'); ?>
-    <div style="height: 40px;"></div>
+    <div style="height: 20px;"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
-                <h3 class="title">
+            <div class="col-md-4 col-md-offset-4">
+                <h3 class="title text-center">
                 	Login
                 </h3>
                 <form action="">
                 	<div class="form-group">
                 		<label for="email">Email</label>
-                		<input type="email" id="email">
+                		<input type="email" id="email" name="email" placeholder="Your email" class="form-control">
+                	</div>
+                	<div class="form-group">
+                		<label for="email">Password</label>
+                		<input type="password" id="password" name="password" placeholder="Your password" class="form-control">
                 	</div>
                 </form>
             </div>

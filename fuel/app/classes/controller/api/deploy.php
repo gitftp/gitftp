@@ -315,7 +315,7 @@ class Controller_Api_Deploy extends Controller {
             die();
         }
 
-        $log['cloneOP'] = $gitcloneop;
+        $log['processingOP'] = $gitcloneop;
 
         if (count($a) == 0) {
 

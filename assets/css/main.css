@@ -283,3 +283,6 @@ h6 {
   background-size: cover;
   background-position: center;
 }
+.home-image img.logo-image {
+  width: 50%;
+}

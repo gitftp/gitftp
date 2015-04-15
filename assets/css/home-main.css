@@ -36,6 +36,9 @@
 .deploy-process .block {
   text-align: center;
 }
+.deploy-process .block .title {
+  font-size: 18px;
+}
 .space5 {
   height: 5px;
 }

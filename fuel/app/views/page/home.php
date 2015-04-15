@@ -20,8 +20,9 @@
                 <form>
                     <div class="form-group">
                         <label>
-                            
+                            Username
                         </label>
+                        <input type="text">
                     </div>
                 </form>
             </div>

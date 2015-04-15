@@ -47,16 +47,22 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-			<div class="block">
-				1. Make changes
-			</div>
+				<div class="block">
+					1. Make changes
+				</div>
 
 			</div>
 			<div class="col-md-4">
-				2. Detect changes
+				<div class="block">
+					2. Detect changes
+					
+				</div>
 			</div>
 			<div class="col-md-4">
-				3. We deploy
+				<div class="block">
+					3. We deploy
+					
+				</div>
 			</div>
 		</div>
 	</div>

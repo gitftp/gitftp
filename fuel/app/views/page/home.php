@@ -41,7 +41,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<h3 class="text-center">
-					The Three Step Magic.
+					the three step magic.
 				</h3>
 			</div>
 		</div>

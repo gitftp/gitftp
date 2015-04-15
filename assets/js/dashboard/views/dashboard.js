@@ -5,6 +5,7 @@ define([
         el: app.el,
         render: function (id) {
             var that = this;
+            this.el = $('<div class="ftplist-wrapper bb-loading">').appendTo(this.$el);
             this.template = _.template(page);
             _ajax({
                 url : base+'api/deploy/dashdata',

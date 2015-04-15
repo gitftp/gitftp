@@ -35,3 +35,13 @@
         </div>
     </div>
 </div>
+
+<div class="bg-gray">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4">
+				
+			</div>
+		</div>
+	</div>
+</div>

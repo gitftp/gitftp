@@ -1,0 +1,288 @@
+/* ==========================================================================
+    www.GITFTP.com
+    Git deploy automation software
+   ========================================================================== */
+body {
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  background-color: #fff;
+  background-color: #FCFCFC;
+  color: #555;
+  overflow-y: scroll;
+  box-shadow: inset 0px 2px #EF3D3D;
+}
+::-moz-selection {
+  background: red;
+  color: white;
+}
+::selection {
+  background: red;
+  color: white;
+}
+a:hover {
+  text-decoration: none;
+}
+.jconfirm.git .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+.jconfirm.git .jconfirm-box div.title {
+  font-weight: normal;
+  font-size: 22px;
+}
+.navbar-nav li.active a {
+  background-image: none !important;
+  background-color: #f8f8f8 !important;
+}
+.navbar-default {
+  background: -webkit-linear-gradient(top, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
+  background: linear-gradient(to bottom, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+.btn {
+  background-image: none;
+  border: none !important;
+}
+.btn.btn-default {
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  border-color: #E8E8E8;
+}
+.btn.btn-default.btn-gitftp {
+  color: #EF3D3D;
+}
+.btn.btn-default:hover {
+  background-image: none;
+  background-color: #eee;
+  border-color: #ddd;
+}
+.btn.btn-link:hover {
+  text-decoration: none;
+}
+.viewdeploy,
+.ftp-servers-list {
+  margin-bottom: 30px;
+}
+.viewdeploy.delete,
+.ftp-servers-list.delete {
+  opacity: 0.3;
+}
+.viewdeploy .project-list-block,
+.ftp-servers-list .project-list-block {
+  background-color: #fff;
+  border: solid 1px #ddd;
+  padding: 5px 15px 10px;
+  border-radius: 4px;
+  -webkit-transition: border .2s;
+          transition: border .2s;
+}
+.viewdeploy .project-list-block .header > span,
+.ftp-servers-list .project-list-block .header > span {
+  vertical-align: middle;
+  display: inline-block;
+}
+.viewdeploy .project-list-block .header span.head,
+.ftp-servers-list .project-list-block .header span.head {
+  font-size: 24px;
+  padding-top: 0px;
+}
+.viewdeploy .project-list-block:hover,
+.ftp-servers-list .project-list-block:hover {
+  border-color: #EF3D37;
+}
+.viewdeploy .project-list-block:active,
+.ftp-servers-list .project-list-block:active {
+  -webkit-transform: scale(0.98);
+      -ms-transform: scale(0.98);
+          transform: scale(0.98);
+}
+.bb-loading:empty {
+  height: 300px
+  /*    background-image: url('../img/blank.gif');
+        background-position: center;
+        background-repeat: no-repeat;*/
+}
+.bb-loading {
+  position: relative;
+}
+.bb-loading:empty:before {
+  height: 60px;
+  width: 60px;
+  background: transparent;
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  margin-left: -30px;
+  border-radius: 50%;
+  border: solid #aaa;
+  border-width: 3px 0px 0px 0px;
+  -webkit-animation: spin .5s infinite linear;
+          animation: spin .5s infinite linear;
+  border: solid 2px rgba(0, 0, 0, 0);
+  border-top-color: #01b5e9;
+  border-bottom-color: #4cd964;
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    border-top-color: #01b5e9;
+    border-bottom-color: #4cd964;
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+    border-top-color: #4cd964;
+    border-bottom-color: #01b5e9;
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+    border-top-color: #01b5e9;
+    border-bottom-color: #4cd964;
+  }
+  to {
+    -webkit-transform: rotate(359deg);
+            transform: rotate(359deg);
+    border-top-color: #4cd964;
+    border-bottom-color: #01b5e9;
+  }
+}
+.project-v-status {
+  padding: 5px 10px;
+  border-radius: 4px;
+  margin-top: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: #444;
+  border: solid 1px #FAFAFA;
+  font-weight: 800;
+  -webkit-transition: all 1s;
+          transition: all 1s;
+  width: 200px;
+  text-align: center;
+}
+.project-co-loading {
+  background-color: white;
+  border-color: #4cd964;
+  /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
+  background-image: -webkit-linear-gradient(top, #5ac8fa 0%, #4cd964 100%);
+  background-image: linear-gradient(to bottom, #5ac8fa 0%, #4cd964 100%);
+  color: white;
+  /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
+  background-size: 400% 400%;
+  -webkit-animation: statusprocessing 1s infinite ease;
+          animation: statusprocessing 1s infinite ease;
+}
+@-webkit-keyframes statusprocessing {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+@keyframes statusprocessing {
+  0% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 50% 0%;
+  }
+}
+.well-cs {
+  background: #fff;
+  border-color: #ddd;
+  box-shadow: none;
+}
+.active-cs {
+  background: #f8f8f8;
+  color: #ef3d37 !important;
+}
+.fa-spin {
+  -webkit-animation-duration: .5s !important;
+          animation-duration: .5s !important;
+}
+.dash-nav {
+  /*top: 2px;*/
+  overflow: hidden;
+}
+.dash-nav .drop {
+  -webkit-animation: drop 0.7s ease-in;
+          animation: drop 0.7s ease-in;
+}
+.bb-wrapper > div > * {
+  -webkit-animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+          animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+}
+@-webkit-keyframes pagedrop {
+  from {
+    opacity: 0;
+    -webkit-transform: translate(0, -20px);
+            transform: translate(0, -20px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+@keyframes pagedrop {
+  from {
+    opacity: 0;
+    -webkit-transform: translate(0, -20px);
+            transform: translate(0, -20px);
+  }
+  to {
+    opacity: 1;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
+  }
+}
+@-webkit-keyframes drop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes drop {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.dash-block {
+  padding: 5px;
+  background: white;
+  border-radius: 4px;
+}
+.home-image {
+  /*background-image: url('../img/home.jpg');*/
+  background-size: cover;
+  background-position: center;
+}
+.home-image img.logo-image {
+  width: 50%;
+}

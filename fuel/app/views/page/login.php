@@ -22,6 +22,7 @@
                 		<label for="email">Password</label>
                 		<input type="password" id="password" name="password" placeholder="Your password" class="form-control">
                 	</div>
+                	<button type="submit" class="btn btn-default">Login</button>
                 </form>
             </div>
         </div>

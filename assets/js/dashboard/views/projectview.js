@@ -116,7 +116,7 @@ define([
         },
         render: function (id, which) {
             var that = this;
-            $('<div class="projectview-wrapper">')
+            $('<div class="projectview-wrapper">').appendTo()
             
             if (which == null) {
                 this.which = 'activity';

@@ -24,7 +24,7 @@
                 		<input type="password" id="password" name="password" placeholder="Your password" class="form-control input-lg">
                 	</div>
                 	<button type="submit" class="btn btn-primary btn-block btn-lg">
-	                	<i class="fa fa-lock fa-fw"></i> Login
+	                	<i class="fa fa-lock fa-fw" style="float:left"></i> Login
                 	</button>
                 </form>
             </div>

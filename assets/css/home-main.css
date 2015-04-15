@@ -12,6 +12,9 @@
 .home-image span {
   color: white;
 }
+.home-login h3.title {
+  font-weight: 100;
+}
 .bg-blue {
   background: #63c5f0;
 }

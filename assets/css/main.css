@@ -280,4 +280,6 @@ h6 {
 }
 .home-image {
   background-image: url('../img/home.jpg');
+  background-size: cover;
+  background-position: center;
 }

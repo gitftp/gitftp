@@ -9,7 +9,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-12">
                 <div style="height: 60px;"></div>
                 <p class="text-center" style="color: #999">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>

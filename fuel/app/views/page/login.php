@@ -4,7 +4,7 @@
 <?php echo Asset::css('home-main.css'); ?>
 <?php echo Asset::js('home-main.js'); ?>
 
-<div class="home-image">
+<div class="home-login">
     <?php echo View::forge('layout/nav'); ?>
     <div class="container">
         <div class="row">

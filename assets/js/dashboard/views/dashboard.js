@@ -13,7 +13,7 @@ define([
                 dataType: 'json',
             }).done(function(data){
                 that.el.html(that.template({data: data}));
-            })
+            });
         },
     });
     return d;

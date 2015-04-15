@@ -59,8 +59,9 @@
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">2. Detect changes</p>
-					<p>You commit the changes and we deploy it</p>
-					
+					<p>
+						
+					</p>
 				</div>
 			</div>
 			<div class="col-md-4">

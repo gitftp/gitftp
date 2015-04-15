@@ -15,3 +15,9 @@
 .bg-gray {
   background: #f8f8f8;
 }
+.home-tagline {
+  padding: 20px;
+}
+.home-tagline p {
+  text-align: center;
+}

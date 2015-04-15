@@ -59,9 +59,13 @@
                         <?php } else { ?>
 
                             <ul class="nav navbar=nav navbar-right">
+                                <li></li>
                                 <li>
+                                    <a href="<?php echo home_url ?>"><i class="fa fa-user-new fa-fw"></i> Signup</a>
+                                </li>
+                            </ul>
 
-                            <form class="navbar-form" method="POST" action="<?php echo dash_url ?>user/login" role="search">
+                            <form class="navbar-form navbar-right" method="POST" action="<?php echo dash_url ?>user/login" role="search">
                                 <div class="form-group">
                                     <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo (!is_dash)? 'bonifacepereira@gmail.com' : '' ?>">
                                 </div>
@@ -70,12 +74,6 @@
                                 </div>
                                 <button type="submit" class="btn btn-danger">Login</button>
                             </form>
-                                    
-                                </li>
-                                <li>
-                                    <a href="<?php echo home_url ?>"><i class="fa fa-user-new fa-fw"></i> Signup</a>
-                                </li>
-                            </ul>
 
 
                         <?php } ?>

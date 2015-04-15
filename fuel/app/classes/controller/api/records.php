@@ -23,7 +23,7 @@ class Controller_Api_Records extends Controller {
         $data = $record->get($id, $limit, $offset);
 
         foreach ($data as $k => $v) {
-            $data[$k]['file_add'] = $this->newLine(unserialize($data[$k]['file_add']));
+            $data[$k]['file_add'] = $data[$k]['file_add'];
             $data[$k]['file_remove'] = $this->newLine(unserialize($data[$k]['file_remove']));
             $data[$k]['file_skip'] = $this->newLine(unserialize($data[$k]['file_skip']));
         }
@@ -33,11 +33,5 @@ class Controller_Api_Records extends Controller {
             'data' => $data,
             'count' => $record->get_count($id)
         ));
-    }
-    public function newLine($arg){
-        if(count($arg) == 0){
-            return $arg;
-        }
-        return $arg;
     }
 }

@@ -62,7 +62,7 @@
                                 <li class="login">
                                     <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-sign-in fa-fw"></i> Login</a>
                                 </li>
-                                <li style="background: #ddd;">
+                                <li class="signup">
                                     <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-user-plus fa-fw"></i> Signup</a>
                                 </li>
                             </ul>

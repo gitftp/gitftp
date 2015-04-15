@@ -65,7 +65,7 @@ define([
         },
         render: function (id) {
             var that = this;
-            that.$el.html('');
+            this.el = $('<div class="projectview-wrapper bb-loading">').appendTo(this.$el);
             this.page = page;
             this.template = _.template(this.page);
             

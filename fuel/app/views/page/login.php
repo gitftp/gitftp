@@ -6,11 +6,10 @@
 
 <div class="home-login">
     <?php echo View::forge('layout/nav'); ?>
+    <div style="height: 40px;"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <div style="height: 40px;"></div>
-                
                 
             </div>
         </div>

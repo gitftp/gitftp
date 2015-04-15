@@ -17,6 +17,7 @@
                 </p>
             </div>
             <div class="col-md-4">
+                <h4>Register</h4>
                 <form>
                     <div class="form-group">
                         <label>

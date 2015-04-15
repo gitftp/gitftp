@@ -40,7 +40,7 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-4">
-				
+				1. Push changes
 			</div>
 		</div>
 	</div>

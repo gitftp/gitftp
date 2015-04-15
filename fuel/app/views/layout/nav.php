@@ -68,6 +68,12 @@
                                 <button type="submit" class="btn btn-danger">Login</button>
                             </form>
 
+                            <ul class="nav navbar=nav navbar-right">
+                                <li>
+                                    
+                                </li>
+                            </ul>
+
                         <?php } ?>
 
                     </div><!-- /.navbar-collapse -->

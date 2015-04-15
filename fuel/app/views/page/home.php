@@ -13,6 +13,8 @@
                 <p class="text-center" style="color: #444">
                     <?php echo Asset::img('logo-w.png', array('class', 'logo-image')); ?><br>
                     <span style="font-size: 3em;font-weight: 100; text-transform: lowercase;">Push &amp; Deploy</span>
+                    <br>
+                    <a href="<?php echo home_url ?>signup" class="btn btn-default">Get Started</a>
                 </p>
             </div>
         </div>

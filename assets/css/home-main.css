@@ -1,0 +1,9 @@
+.home-image {
+  /*background-image: url('../img/home.jpg');*/
+  background-size: cover;
+  background-position: center;
+  background: #ef3d37;
+}
+.home-image img.logo-image {
+  width: 50%;
+}

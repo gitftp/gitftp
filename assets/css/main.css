@@ -278,11 +278,3 @@ h6 {
   background: white;
   border-radius: 4px;
 }
-.home-image {
-  /*background-image: url('../img/home.jpg');*/
-  background-size: cover;
-  background-position: center;
-}
-.home-image img.logo-image {
-  width: 50%;
-}

@@ -1,4 +1,13 @@
+<?php echo View::forge('layout/nav'); ?>
 
+<div style="height: 30px;"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bb-wrapper bb-loading"></div>
+        </div>
+    </div>
+</div>
                             <form class="navbar-form navbar-right" method="POST" action="<?php echo dash_url ?>user/login" role="search">
                                 <div class="form-group">
                                     <input type="text" name="email" class="form-control" placeholder="Email" value="">

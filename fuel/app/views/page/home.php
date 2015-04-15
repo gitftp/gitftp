@@ -21,4 +21,4 @@
         </div>
     </div>
 </div>
-<div class="">
+<div class="bg-gray"></div>

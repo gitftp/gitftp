@@ -1,8 +1,9 @@
 .home-image {
+  background: #ef3d37;
   background-image: url('../img/home.jpg');
   background-size: cover;
   background-position: center;
-  background: #ef3d37;
+  color: white;
 }
 .home-image img.logo-image {
   width: 50%;

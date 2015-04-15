@@ -47,7 +47,7 @@
 		</div>
 		<div class="row">
 			<div class="col-md-4">
-				1. Push changes
+				1. Make changes
 			</div>
 			<div class="col-md-4">
 				2. Detect changes

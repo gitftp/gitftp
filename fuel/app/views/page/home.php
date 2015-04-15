@@ -50,7 +50,9 @@
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">1. Make changes</p>
-					<p>You commit the changes and we deploy it</p>
+					<p>
+						Commit and push your changes to your repository.
+					</p>
 				</div>
 
 			</div>

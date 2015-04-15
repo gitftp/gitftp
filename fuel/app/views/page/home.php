@@ -14,7 +14,7 @@
                     <p style="color: #444">
                         <?php echo Asset::img('logo-w.png', array('class', 'logo-image')); ?><br>
                     <!-- <p style="font-size: 3em;font-weight: 100; text-transform: lowercase;">Push &amp; Deploy</p> -->
-                    <p style="font-size: 3em;font-weight: 100; text-transform: lowercase;">GIT auto deployment. </p>
+                    <p style="font-size: 3em;font-weight: 100; text-transform: lowercase;">GIT auto deployment. Simplified.</p>
                     <a href="<?php echo Uri::base(false) ?>signup" class="btn btn-default btn-lg">Get Started</a>
                     </p>
                 </div>

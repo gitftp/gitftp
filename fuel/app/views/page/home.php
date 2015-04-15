@@ -22,7 +22,7 @@
                         <label>
                             Username
                         </label>
-                        <input type="text">
+                        <input type="text" placeholder="something" class="form-control">
                     </div>
                 </form>
             </div>

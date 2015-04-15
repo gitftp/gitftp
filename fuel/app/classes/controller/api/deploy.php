@@ -431,8 +431,8 @@ class Controller_Api_Deploy extends Controller {
             'amount_deployed' => $log['gitftpop']['gitftpop']['deployed']['human'],
             'amount_deployed_raw' => $log['gitftpop']['gitftpop']['deployed']['data'],
             'file_add' => $log['gitftpop']['gitftpop']['files']['upload'],
-            'file_remove' => serialize($log['gitftpop']['gitftpop']['files']['delete']),
-            'file_skip' => serialize($log['gitftpop']['gitftpop']['files']['skip']),
+            'file_remove' => $log['gitftpop']['gitftpop']['files']['delete'],
+            'file_skip' => $log['gitftpop']['gitftpop']['files']['skip'],
         ));
 
         $ftp_data = $repo['ftpdata'];

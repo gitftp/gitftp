@@ -36,7 +36,7 @@
     </div>
 </div>
 
-<div class="bg-gray">
+<div class="bg-gray deploy-process">
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
@@ -48,7 +48,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				1. Make changes
-				
+
 			</div>
 			<div class="col-md-4">
 				2. Detect changes

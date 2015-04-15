@@ -1,5 +1,5 @@
 $(function () {
-    $('.home-image').css({
-        'height': $(window).outerHeight()
-    });
+//    $('.home-image').css({
+//        'height': $(window).outerHeight()
+//    });
 });

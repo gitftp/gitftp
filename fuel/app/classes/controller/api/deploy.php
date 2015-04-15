@@ -341,8 +341,8 @@ class Controller_Api_Deploy extends Controller {
             return;
         } else {
 
-            $log['clone'] = 'Successfully processed repository.';
-            $log['clone_status'] = true;
+            $log['processing'] = 'Successfully processed repository.';
+            $log['processing_status'] = true;
 
             $deploy->set($id, array(
                 'cloned' => true,

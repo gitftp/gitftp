@@ -52,9 +52,9 @@
 					<p class="title">1. You commit</p>
 					<p>
 						Automate deploys by pushing your changes to the git repository. We look after the rest.
+						Your FTP server will be updated with your changes in seconds.
 					</p>
 				</div>
-
 			</div>
 			<div class="col-md-4">
 				<div class="block">

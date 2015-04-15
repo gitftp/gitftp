@@ -5,7 +5,7 @@ define([
         el: app.el,
         render: function (id) {
             var that = this;
-            this.el = $('<div class="dashboard-wrapper bb-loading">').appendTo(this.$el);
+            this.$el.html(this.el = $('<div class="dashboard-wrapper bb-loading">'));
             
             this.template = _.template(page);
             _ajax({

@@ -1,6 +1,9 @@
 <?php
 
 class Controller_Test extends Controller {
+    public function action_g(){
+        
+    }
     public function action_testw(){
         echo is_dash;
         echo '<br>';

@@ -61,7 +61,7 @@
                             <ul class="nav navbar=nav navbar-right">
                                 <li>
 
-                            <form class="navbar-form navbar-right" method="POST" action="<?php echo dash_url ?>user/login" role="search">
+                            <form class="navbar-form" method="POST" action="<?php echo dash_url ?>user/login" role="search">
                                 <div class="form-group">
                                     <input type="text" name="email" class="form-control" placeholder="Email" value="<?php echo (!is_dash)? 'bonifacepereira@gmail.com' : '' ?>">
                                 </div>

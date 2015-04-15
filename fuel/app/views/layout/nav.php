@@ -70,7 +70,7 @@
 
                             <ul class="nav navbar=nav navbar-right">
                                 <li>
-                                    
+                                    <a href="<?php echo dash_url ?>"><i class="fa fa-home fa-fw"></i> Hola, <?php echo Auth::get_screen_name(); ?></a>
                                 </li>
                             </ul>
 

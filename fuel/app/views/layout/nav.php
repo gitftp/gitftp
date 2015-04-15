@@ -60,7 +60,7 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li></li>
-                                <li style="background: black;">
+                                <li style="background: #ddd;">
                                     <a href="<?php echo home_url ?>"><i class="fa fa-user-plus fa-fw"></i> Signup</a>
                                 </li>
                             </ul>

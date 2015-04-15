@@ -49,18 +49,21 @@
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">1. Make changes</p>
+					<p></p>
 				</div>
 
 			</div>
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">2. Detect chang</p>es
+					<p></p>
 					
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">3. We deploy</p>
+					<p></p>
 					
 				</div>
 			</div>

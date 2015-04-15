@@ -40,7 +40,9 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				The Three Step Magic.
+				<h3>
+					The Three Step Magic.
+				</h3>
 			</div>
 		</div>
 		<div class="row">

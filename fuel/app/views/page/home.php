@@ -13,7 +13,7 @@
                 <div style="height: 40px;"></div>
                 <p class="text-center" style="color: #999">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
-                    <span style="font-size: 3em">Automated Push and Deploy from Github or Bitbucket to </span>
+                    <span style="font-size: 3em">Just Push and Deploy</span>
                 </p>
             </div>
         </div>

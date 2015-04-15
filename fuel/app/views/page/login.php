@@ -11,7 +11,7 @@
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
                 <h3 class="title text-center">
-                	Login to <span class="red">gitftp</span>
+                	Login to <span class="blue">gitftp</span>
                 </h3>
                 <form action="">
                 	<div class="form-group">

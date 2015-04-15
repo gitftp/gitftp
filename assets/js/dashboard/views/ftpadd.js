@@ -121,7 +121,7 @@ define([
                     template = template({
                         'ftp': data.data
                     });
-                    that.$el.html(template);
+                    that.el.html(template);
                     if (id) {
                         that.oneline();
                     }

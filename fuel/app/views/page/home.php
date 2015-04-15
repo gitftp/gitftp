@@ -10,10 +10,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div style="height: 40px;"></div>
-                <p class="text-center" style="color: #444">
+                <div home-image>
+                <p style="color: #444">
                     <?php echo Asset::img('logo-w.png', array('class', 'logo-image')); ?><br>
                     <span style="font-size: 3em;font-weight: 100; text-transform: lowercase;">Push &amp; Deploy</span>
-                    
                     <a href="<?php echo Uri::base(false) ?>signup" class="btn btn-default btn-lg">Get Started</a>
                 </p>
             </div>

@@ -15,7 +15,8 @@
                 </h3>
                 <form action="">
                 	<div class="form-group">
-                		<label for="email"></label>
+                		<label for="email">Email</label>
+                		<input type="email" id="email">
                 	</div>
                 </form>
             </div>

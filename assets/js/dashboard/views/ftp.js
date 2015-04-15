@@ -17,12 +17,12 @@ define([
         },
         render: function (id) {
             var that = this;
-            that.$el.html('');
+            this.el = $('<div class="ftpadd-wrapper bb-loading">').appendTo(this.$el);
 
             $.getJSON(base + 'api/ftp/getall', function (data) {
                 var template = _.template(ftplist);
                 template = template({list: data.data});
-                that.$el.html(template);
+                that.el.html(template);
                 
                 $('[data-toggle="tooltip"]').tooltip();
             });

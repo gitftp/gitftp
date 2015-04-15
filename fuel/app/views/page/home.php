@@ -49,7 +49,7 @@
 		<div class="row">
 			<div class="col-md-4">
 				<div class="block">
-					<p class="title">1. Make changes</p>
+					<p class="title">1. You commit</p>
 					<p>
 						Automate deploys by pushing your changes to the git repository. We proceed with the rest.
 					</p>

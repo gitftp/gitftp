@@ -117,7 +117,6 @@ define([
         render: function (id, which) {
             var that = this;
             $('<div class="projectview-wrapper bb-loading">').appendTo(this.$el);
-            return false;
             
             if (which == null) {
                 this.which = 'activity';

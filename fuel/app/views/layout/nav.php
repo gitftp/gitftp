@@ -59,12 +59,23 @@
                         <?php } else { ?>
 
                             <ul class="nav navbar-nav navbar-right">
-                                <li></li>
+                                <li>
+                                    <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-user-plus fa-fw"></i> login</a>
+                                </li>
                                 <li style="background: #ddd;">
                                     <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-user-plus fa-fw"></i> Signup</a>
                                 </li>
                             </ul>
 
+                            <form class="navbar-form navbar-right" method="POST" action="<?php echo dash_url ?>user/login" role="search">
+                                <div class="form-group">
+                                    <input type="text" name="email" class="form-control" placeholder="Email" value="">
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" name="password" class="form-control" placeholder="Password" value="">
+                                </div>
+                                <button type="submit" class="btn btn-danger">Login</button>
+                            </form>
                         <?php } ?>
 
                     </div><!-- /.navbar-collapse -->

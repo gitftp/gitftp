@@ -59,7 +59,7 @@
                         <?php } else { ?>
 
                             <ul class="nav navbar-nav navbar-right">
-                                <li>
+                                <li class="login">
                                     <a href="<?php echo Uri::base(false) ?>signup"><i class="fa fa-sign-in fa-fw"></i> Login</a>
                                 </li>
                                 <li style="background: #ddd;">

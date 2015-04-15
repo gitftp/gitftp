@@ -51,6 +51,7 @@
 				<div class="block">
 					<p class="title">1. Make changes</p>
 					<p>
+						
 					</p>
 				</div>
 

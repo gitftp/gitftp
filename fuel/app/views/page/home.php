@@ -14,7 +14,7 @@
                 <p class="text-center" style="color: #999">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
                     <span style="font-size: 3em">
-                        <span style="font-weight: 100">Push &amp; Deploy</span>
+                        <span style="font-weight: 100">GIT and FTP together</span>
                     </span>
                 </p>
             </div>

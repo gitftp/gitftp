@@ -58,7 +58,7 @@
 			</div>
 			<div class="col-md-4">
 				<div class="block">
-					<p class="title">2. Detect changes</p>
+					<p class="title">2. We Detect</p>
 					<p>
 						We investiate the add and modified files from your repository since last deployment, and stage them up for upload.
 					</p>

@@ -13,9 +13,8 @@
                 <div style="height: 40px;"></div>
                 <p class="text-center" style="color: #999">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
-                    <span style="font-size: 3em">
-                        <span style="font-weight: 100">Push changes to GitHub or Bitbucket</span>
-                    </span>
+                    <span style="font-size: 3em">Push changes to GitHub or Bitbucket</span>
+                    <span>font-size: 3em"</span>
                 </p>
             </div>
         </div>

@@ -69,7 +69,7 @@
 					<p class="title">3. We deploy</p>
 					<p>
 						We make the changes on FTP servers and ensure everything is updated.
-						You are kept updated with details upload status,
+						You are kept updated with details upload status and console log.
 					</p>
 				</div>
 			</div>

@@ -14,7 +14,7 @@
                 <p class="text-center" style="color: #999">
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
                     <span style="font-size: 3em">
-                        <span style="font-weight: 100">git and ftp are friends</span>
+                        <span style="font-weight: 100">git and ftp are now friends</span>
                     </span>
                 </p>
             </div>

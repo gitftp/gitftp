@@ -3,11 +3,6 @@
 class Controller_Login extends Controller {
     
     public function action_index() {
-            
-        if(!Auth::check() or !is_dash){
-            Response::redirect(home_url);
-        }
-        
         $view = View::forge('layout/base_layout.mustache');
         $view->css = View::forge('layout/css');
         $view->js = View::forge('layout/js');

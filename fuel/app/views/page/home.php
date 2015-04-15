@@ -67,7 +67,7 @@
 			<div class="col-md-4">
 				<div class="block">
 					<p class="title">3. We deploy</p>
-					<p>We make the changes on FTP servers</p>
+					<p>We make the changes on FTP servers and ensure everything is updated.</p>
 				</div>
 			</div>
 		</div>

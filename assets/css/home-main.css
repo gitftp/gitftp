@@ -1,6 +1,12 @@
 .red {
   color: #ef3d37;
 }
+.blue {
+  color: #63c5f0;
+}
+.gray {
+  color: #f8f8f8;
+}
 .home-image {
   background: #f8f8f8;
   background-image: url('../img/home.jpg');

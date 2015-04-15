@@ -331,7 +331,6 @@ class Controller_Api_Deploy extends Controller {
                 'cloned' => false,
                 'status' => 'to be initialized',
                 'deployed' => false,
-                'cloned' => false,
             ));
 
             $record->set($record_id, array(

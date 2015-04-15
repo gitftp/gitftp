@@ -259,7 +259,7 @@ class Controller_Api_Deploy extends Controller {
         ));
 
         $deploy->set($id, array(
-            'status' => 'cloning'
+            'status' => 'processing'
         ));
 
         try {

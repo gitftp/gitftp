@@ -10,7 +10,10 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                
+                <h3 class="title">
+                	Login
+                </h3>
+                <form action=""></form>
             </div>
         </div>
     </div>

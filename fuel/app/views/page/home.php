@@ -15,7 +15,7 @@
                     <?php echo Asset::img('logo.png', array('class', 'logo-image')); ?> <br>
                     <span style="font-size: 3em">Push changes to GitHub or Bitbucket</span>
                     <br>
-                    <span style="font-size: 3em">Deploy changes to the server.</span>
+                    <span style="font-size: 2em">Deploy changes to the server.</span>
                 </p>
             </div>
         </div>

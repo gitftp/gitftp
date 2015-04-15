@@ -6,6 +6,7 @@ class Controller_Test extends Controller {
         $default = "http://www.somewhere.com/homestar.jpg";
         $size = 40;
         $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
+        
     }
     public function action_testw(){
         echo is_dash;

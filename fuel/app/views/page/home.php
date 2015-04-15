@@ -51,7 +51,7 @@
 				<div class="block">
 					<p class="title">1. Make changes</p>
 					<p>
-						Commit and push your changes to your repository.
+						
 					</p>
 				</div>
 

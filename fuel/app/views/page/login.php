@@ -13,7 +13,7 @@
                 <h3 class="title text-center">
                 	Login to <span class="blue">gitftp</span>
                 </h3>
-                <div class="space10"></div>
+                <div class="space20"></div>
                 <form action="">
                 	<div class="form-group">
                 		<label for="email">Email</label>

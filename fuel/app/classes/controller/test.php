@@ -3,7 +3,7 @@
 class Controller_Test extends Controller {
     public function action_g(){
        $email = "hey@craftpip.com";
-        $default = 'wavatar';
+        $default = 'identicon';
         $size = 400;
         $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=" . urlencode( $default ) . "&s=" . $size;
         echo "<img src='$grav_url'/>";

@@ -15,6 +15,12 @@
 .bg-blue {
   background: #63c5f0;
 }
+.bg-red {
+  background: #ef3d37;
+}
+.bg-gray {
+  background: #f8f8f8;
+}
 .home-tagline {
   padding: 20px;
 }

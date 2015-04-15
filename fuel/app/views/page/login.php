@@ -6,7 +6,7 @@
 
 <div class="home-login">
     <?php echo View::forge('layout/nav'); ?>
-    <div style="height: 20px;"></div>
+    <div style="height: 40px;"></div>
     <div class="container">
         <div class="row">
             <div class="col-md-4 col-md-offset-4">

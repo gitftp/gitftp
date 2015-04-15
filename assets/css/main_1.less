@@ -1,0 +1,258 @@
+
+/* ==========================================================================
+    www.GITFTP.com
+    Git deploy automation software
+   ========================================================================== */
+
+body{
+    font-family: "Segoe UI",Frutiger,"Frutiger Linotype","Dejavu Sans","Helvetica Neue",Arial,sans-serif;
+    background-color: #fff;
+    background-color: #FCFCFC;
+    color: #555;
+    overflow-y: scroll;
+    box-shadow: inset 0px 2px #EF3D3D;
+}
+::selection{
+    background: red;
+    color: white;
+}
+a{
+    &:hover{
+        text-decoration: none;
+    }
+}
+.jconfirm{
+
+    &.git{
+        .jconfirm-bg{
+            background-color: rgba(0,0,0,.1) !important;
+        }
+        .jconfirm-box{
+
+            div.title{
+                font-weight: normal;
+                font-size: 22px;
+            }
+            div.content{
+
+            }
+            .buttons{
+
+                button{
+
+                }
+                button.btn-default{
+
+
+                    &:hover{
+
+                    }
+                }
+            }
+
+        }
+
+    }
+}
+
+.navbar-nav li.active a{
+    background-image:none !important;
+    background-color:#f8f8f8 !important;
+}
+
+.navbar-default{
+    background: linear-gradient(to bottom, #fff 0%, rgba(248,248,248,.9) 100%)
+}
+
+h1,h2,h3,h4,h5,h6{
+    font-weight: normal;
+}
+
+.btn{
+    background-image: none;
+    border: none !important;
+
+    &.btn-default{
+        background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+        border-color: #E8E8E8;
+        &.btn-gitftp{
+            color: #EF3D3D;
+        }
+        &:hover{
+            background-image: none;
+            background-color: #eee;
+            border-color: #ddd;
+        }
+    }
+    &.btn-link{
+        &:hover{
+            text-decoration: none;
+        }
+    }
+}
+.viewdeploy, .ftp-servers-list{
+    margin-bottom: 30px;
+    
+    &.delete{       
+        opacity: 0.3;
+    }
+    .project-list-block{
+        background-color: #fff;
+        border: solid 1px #ddd;
+        padding: 5px 15px 10px; 
+        border-radius: 4px;
+        transition: border .2s;
+        
+        .header{
+            > span{
+                vertical-align: middle;
+                display:inline-block;
+            }
+            span.head{
+                font-size: 24px;
+                padding-top: 0px;
+            }
+        }
+        
+        &:hover{
+            border-color: #EF3D37;
+        }
+        
+        &:active{
+            transform: scale(0.98);
+        }
+    }
+}
+
+.bb-loading:empty{
+    height: 300px;
+    /*    background-image: url('../img/blank.gif');
+        background-position: center;
+        background-repeat: no-repeat;*/
+}
+.bb-loading{
+    position: relative;
+}
+
+@loading: #01b5e9;
+@loadingg: #4cd964;
+.bb-loading:empty:before{
+    height: 60px;
+    width: 60px;
+    background: transparent;
+    content :'';
+    position: absolute;
+    left: 50%;
+    top: 30%;
+    margin-left: -30px;
+    border-radius: 50%;
+    border: solid #aaa;
+    border-width: 3px 0px 0px 0px;
+    animation: spin .5s infinite linear;
+    border: solid 2px rgba(0,0,0,0);
+    border-top-color: @loading;
+    border-bottom-color: @loadingg;
+}
+
+@keyframes spin{
+    from {transform: rotate(0deg); border-top-color: @loading; border-bottom-color: @loadingg}
+    to   {transform: rotate(359deg); border-top-color: @loadingg; border-bottom-color: @loading}
+}
+
+.project-v-status{
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-top: 20px;
+    
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: #444;
+    border: solid 1px #FAFAFA;
+    font-weight : 800;
+    transition: all 1s;
+    width: 200px;
+    text-align: center;
+}
+
+.project-co-loading{
+    background-color: white;
+    border-color: #4cd964;
+    /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
+    background-image: linear-gradient(to bottom, #5ac8fa 0%, #4cd964 100%);
+    color: white;
+    /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
+    background-size: 400% 400%;
+    animation: statusprocessing 1s infinite ease;
+}
+
+@keyframes statusprocessing{
+    0%{background-position:50% 0%}
+    50%{background-position:50% 100%}
+    100%{background-position:50% 0%}
+}
+
+.well-cs{
+    background: #fff;
+    border-color: #ddd;
+    box-shadow: none;
+}
+
+.active-cs{
+    background: #f8f8f8;
+    color: #ef3d37 !important;
+}
+.fa-spin{
+    animation-duration: .5s !important;
+}
+
+.dash-nav{
+    /*top: 2px;*/
+    overflow: hidden;
+}
+.dash-nav .drop{
+    animation: drop .7s ease-in;
+}
+.bb-wrapper > div > *{
+    animation: pagedrop .2s cubic-bezier(.43,.96,.53,.98);
+}
+@keyframes pagedrop{
+    from{
+        opacity: 0;
+        transform: translate(0, -20px);
+    }
+    to{
+        opacity: 1;
+        transform: translate(0, 0);
+    }
+}
+@keyframes drop{
+    from{
+        opacity: 0;
+    }
+    to{
+        opacity: 1;
+    }
+}
+
+.dash-block{
+    padding: 5px;
+    background: white;
+    border-radius: 4px;
+}
+
+
+
+// Home page stylings
+
+.home-image{
+    /*background-image: url('../img/home.jpg');*/
+    background-size: cover;
+    background-position: center;
+    
+    img.logo-image{
+        width: 50%;
+    }
+}

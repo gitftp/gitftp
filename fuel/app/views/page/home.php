@@ -51,7 +51,7 @@
 				<div class="block">
 					<p class="title">1. Make changes</p>
 					<p>
-						Automate deploys by pushing your changes to the git repository.
+						Automate deploys by pushing your changes to the git repository. We proceed with the rest.
 					</p>
 				</div>
 

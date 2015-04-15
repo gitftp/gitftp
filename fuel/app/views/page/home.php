@@ -18,17 +18,6 @@
                     </span>
                 </p>
             </div>
-            <div class="col-md-4">
-                <h4>Register</h4>
-                <form>
-                    <div class="form-group">
-                        <label>
-                            Username
-                        </label>
-                        <input type="text" placeholder="something" class="form-control">
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 </div>

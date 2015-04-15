@@ -20,7 +20,7 @@ class Controller_User extends Controller {
         ));
     }
 
-    public function action_login() {
+    public function post_login() {
         if (Input::method() == 'POST') {
             $a = Input::post();
             

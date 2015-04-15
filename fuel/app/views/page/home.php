@@ -23,15 +23,15 @@
     </div>
 </div>
 <div class="bg-blue">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<div class="home-tagline">
-					<p>
-						Push your changes to Github or Bitbucket, and deploy them on your Server.
-					</p>
-				</div>
-			</div>
-		</div>
-	</div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="home-tagline">
+                    <p>
+                        Push your changes to Github or Bitbucket, and deploy them on your Server.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

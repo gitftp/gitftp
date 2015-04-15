@@ -42,6 +42,12 @@
 			<div class="col-md-4">
 				1. Push changes
 			</div>
+			<div class="col-md-4">
+				2. Detect changes
+			</div>
+			<div class="col-md-4">
+				3. We deploy
+			</div>
 		</div>
 	</div>
 </div>

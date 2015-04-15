@@ -9,3 +9,6 @@
 .home-image img.logo-image {
   width: 50%;
 }
+.home-image span {
+  color: white;
+}

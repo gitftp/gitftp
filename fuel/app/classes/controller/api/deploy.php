@@ -34,6 +34,7 @@ class Controller_Api_Deploy extends Controller {
                 'id' => Auth::get_user_id()[1],
                 'name' => Auth::get_screen_name(),
                 'email' => Auth::get_email(),
+                'avatar' => utils::get_gravatar($email)
             ),
             'deploy' => $deploy_list,
         ));

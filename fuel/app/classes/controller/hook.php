@@ -23,7 +23,7 @@ class Controller_Hook extends Controller {
                 die('The key provided doesnt match');
             }
             if($repo['ready'] == 0){
-                die('')
+                die('The deploy is not initialized.')
             }
         }
         

@@ -222,7 +222,7 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
-                $this.parents('tr').html('=================').remove();
+                $this.parents('tr').html('=========really ?========').remove();
                 $('.deploy-sub-page table tbody').append(subPage);
             });
         },

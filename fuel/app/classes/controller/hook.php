@@ -72,6 +72,32 @@ class Controller_Hook extends Controller {
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
         $ftpdata = $ftpdata[0];
 
+        
+                /*
+         * check if ftp server is proper.
+         */
+        $ftp_test_data = utils::test_ftp($ftpdata);
+        if ($ftp_test_data != 'Ftp server is ready to rock.') {
+            echo json_encode(array(
+                'status' => false,
+                'reason' => $ftp_test_data
+            ));
+            $log['ftpconnectstatus'] = $ftp_test_data;
+            array_push($log, $gitcore->log);
+            $record->set($record_id, array(
+                'raw' => serialize($log),
+                'status' => 0,
+            ));
+            $deploy->set($id, array(
+                'cloned' => 0,
+                'deployed' => 0,
+                'status' => 'to be initialized',
+                'ready' => 0
+            ));
+            die();
+        }
+        
+        
         $deploy->set($deploy_id, array(
             'status' => 'deploying'
                 ), true);

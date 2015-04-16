@@ -15,15 +15,15 @@ class Controller_Hook extends Controller {
         $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
         
-        if($repo['ready'] == 0){
-            
-        }
 
         if (count($repo) == 0) {
             die('No such user or deploy found.');
         } else {
             if ($key != $repo[0]['key']) {
                 die('The key provided doesnt match');
+            }
+            if($repo['ready'] == 0){
+                die('')
             }
         }
         

@@ -20,15 +20,21 @@ class Controller_User extends Controller {
         ));
     }
 
-    public function post_login() {
+    public function action_login() {
         $a = Input::post();
-        
         
         if (Auth::validate_user($a['email'], $a['password'])) {
             Auth::login($a['email'], $a['password']);
-            Response::redirect(dash_url);
+            echo json_encode(array(
+                'status' => true,
+                'redirect' => dash_url,
+                ));
         } else {
-            Response::redirect(home_url);
+            echo json_encode(array(
+                'status' => false,
+                'redirect' => null,
+                'reason' => 'The Email and Pasword do not match, please re-try again.'
+                ));
         }
     }
 

@@ -22,10 +22,10 @@ class Controller_Hook extends Controller {
             if ($key != $repo[0]['key']) {
                 die('The key provided doesnt match');
             }
-            if($repo['ready'] == 0){
+            if($repo[0]['ready'] == 0){
                 die('The deploy is not initialized yet.');
             }
-            if($repo['active'] == 0){
+            if($repo[0]['active'] == 0){
                 die('Auto deploy of this project is disabled');
             }
         }

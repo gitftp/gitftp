@@ -26,7 +26,7 @@ class Controller_Hook extends Controller {
                 die('The deploy is not initialized yet.');
             }
             if($repo['active'] == 0){
-                
+                die('')
             }
         }
         

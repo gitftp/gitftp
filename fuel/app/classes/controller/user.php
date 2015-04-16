@@ -33,7 +33,7 @@ class Controller_User extends Controller {
             echo json_encode(array(
                 'status' => false,
                 'redirect' => null,
-                'reason' => 'The Email and Password do not match, please re-try again.'
+                'reason' => 'Your Email and Password do not match, please re-try again.'
                 ));
         }
     }

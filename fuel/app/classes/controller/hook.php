@@ -7,14 +7,14 @@ class Controller_Hook extends Controller {
     }
 
     public function action_i($user_id = null, $deploy_id = null, $key = null) {
-        
+
         if ($user_id == null || $deploy_id == null || $key == null || Input::method() != 'POST') {
             die('Something is missing');
         }
 
         $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
-        
+
 
         if (count($repo) == 0) {
             die('No such user or deploy found.');
@@ -22,18 +22,18 @@ class Controller_Hook extends Controller {
             if ($key != $repo[0]['key']) {
                 die('The key provided doesnt match');
             }
-            if($repo[0]['ready'] == 0){
+            if ($repo[0]['ready'] == 0) {
                 die('The deploy is not initialized yet.');
             }
-            if($repo[0]['active'] == 0){
+            if ($repo[0]['active'] == 0) {
                 die('Auto deploy of this project is disabled');
             }
         }
-        
+
         $repo = $repo[0];
-        
+
         $payload = utils::parsePayload($_REQUEST, $deploy_id);
-        
+
         $log = array();
         $record = new Model_Record();
         $deploy = new Model_Deploy();
@@ -72,12 +72,13 @@ class Controller_Hook extends Controller {
         $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
         $ftpdata = $ftpdata[0];
 
-        
-                /*
+
+        /*
          * check if ftp server is proper.
          */
         $ftp_test_data = utils::test_ftp($ftpdata);
         if ($ftp_test_data != 'Ftp server is ready to rock.') {
+
             echo json_encode(array(
                 'status' => false,
                 'reason' => $ftp_test_data
@@ -96,8 +97,8 @@ class Controller_Hook extends Controller {
             ));
             die();
         }
-        
-        
+
+
         $deploy->set($deploy_id, array(
             'status' => 'deploying'
                 ), true);

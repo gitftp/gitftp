@@ -222,7 +222,7 @@ define([
                     'count': data.count,
                     'renderedCount': count+10
                 });
-                $this.parents('td').html('=================');
+                $this.parents('tr').html('=================').remove();
                 $('.deploy-sub-page table tbody').append(subPage);
             });
         },

@@ -21,17 +21,17 @@ if($host == 'gitftp.com'){
     header('Location: http://www.gitftp.com/');
 }
 
-if(preg_match('/git.gitftp.com|stg.gitftp.com/i', $host)) {
+if(preg_match('/console.gitftp.com|stg.gitftp.com/i', $host)) {
 //    $controller = 'welcome/index'; // change this to dashboard.
     $controller = 'dashboard/index';
     $is_dash = true;
     $dash_url = 'http://'.$host.'/';
-    $home_url = ($host == 'git.gitftp.com') ? 'http://www.gitftp.com/': 'http://stg-home.gitftp.com/';
-    $profiling = ($host == 'git.gitftp.com') ? false : true;
+    $home_url = ($host == 'console.gitftp.com') ? 'http://www.gitftp.com/': 'http://stg-home.gitftp.com/';
+    $profiling = ($host == 'console.gitftp.com') ? false : true;
 }else{
     $controller = 'welcome/index';
     $is_dash = false;
-    $dash_url = ($host == 'www.gitftp.com') ? 'http://git.gitftp.com/': 'http://stg.gitftp.com/';
+    $dash_url = ($host == 'www.gitftp.com') ? 'http://console.gitftp.com/': 'http://stg.gitftp.com/';
     $home_url = 'http://'.$host.'/';
     $profiling = ($host == 'www.gitftp.com') ? false : true;
 }

@@ -69,6 +69,8 @@ $(function () {
                     content: data.reason
                 });
                 
+                var error = '';
+                
                 $('.signup-form-error').show();
                 $('.signup-form-error').show();
 

@@ -66,7 +66,9 @@ class Controller_User extends Controller {
                 'status' => false,
                 'reason' => 'Fields could not be validated',
                 'fields' => array(
-                    'username' => $v->error('username') ? $v->error('username')->get_message() : true
+                    'username' => $v->error('username') ? $v->error('username')->get_message() : null,
+                    'username' => $v->error('username') ? $v->error('username')->get_message() : null,
+                    'username' => $v->error('username') ? $v->error('username')->get_message() : null,
                 )
             ));
         }

@@ -68,6 +68,9 @@ $(function () {
                     title: 'Problem here.',
                     content: data.reason
                 });
+                
+                $('.signup-form-error').show();
+                $('.signup-form-error').show();
 
             }
         }).error(function () {

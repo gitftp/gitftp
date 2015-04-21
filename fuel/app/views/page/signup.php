@@ -10,10 +10,14 @@
     <div class="space20"></div>
     <div class="container">
         <div class="row">
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-12">
                 <h3 class="title text-center">
                     Signup to <span class="blue">gitftp</span>.com
                 </h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="space20"></div>
                 <form id="home-signup-module" action="<?php echo Uri::base(false) ?>user/login" method="POST">
                     <div class="row">

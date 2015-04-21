@@ -70,7 +70,7 @@ $(function () {
                 });
                 
                 var error = '';
-                $.each(data.fields, function(){
+                $.each(data.fields, function(i, a){
                     
                 });
                 $('.signup-form-error').show();

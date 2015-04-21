@@ -70,7 +70,9 @@ $(function () {
                 });
                 
                 var error = '';
-                
+                $.each(data.fields, function(){
+                    
+                });
                 $('.signup-form-error').show();
                 $('.signup-form-error').show();
 

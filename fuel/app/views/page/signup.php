@@ -18,7 +18,7 @@
                 <form id="home-signup-module" action="<?php echo Uri::base(false) ?>user/login" method="POST">
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="alert alert-info hide signup-form-error"></div>
+                            <div class="alert alert-info signup-form-error" style="display:none"></div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">

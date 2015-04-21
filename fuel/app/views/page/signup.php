@@ -18,7 +18,7 @@
                 <form id="home-signup-module" action="<?php echo Uri::base(false) ?>user/login" method="POST">
                     <div class="row">
                         <div class="col-md-12"><>
-                            <div class="col-md-6"></div>
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="fullname">Fullname</label>
                                 <input tabindex="1" type="text" id="fullname" name="fullname" placeholder="John Doe" class="form-control input-lg">

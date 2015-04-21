@@ -66,7 +66,7 @@ class Controller_User extends Controller {
                 'status' => false,
                 'reason' => 'Fields could not be validated',
                 'fields' => array(
-                    
+                    'username' => 
                 )
             ));
         }

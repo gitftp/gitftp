@@ -62,9 +62,10 @@ class Controller_User extends Controller {
         if ($v->run()) {
             echo 'success';
         } else {
-            echo1 json_encode(array(
+            echo json_encode(array(
                 'status' => false,
-                '1reason' => 'Fields could not be validated'
+                'reason' => 'Fields could not be validated',
+                
             ));
         }
         die();

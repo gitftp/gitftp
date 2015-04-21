@@ -71,7 +71,9 @@ $(function () {
                 
                 var error = '<ul>';
                 $.each(data.fields, function(i, a){
-                    error+='<li>'+a+'</li>';
+                    if(a !== null){
+                        error+='<li>'+a+'</li>';
+                    }
                 });
                 error+='</ul>';
                 $('.signup-form-error').html(error);

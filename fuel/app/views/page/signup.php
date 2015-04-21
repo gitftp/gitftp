@@ -19,7 +19,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="alert alert-danger">
-                                asdasd
+                                
                             </div>
                         </div>
                         <div class="col-md-6">

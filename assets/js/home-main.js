@@ -69,9 +69,9 @@ $(function () {
                     content: data.reason
                 });
                 
-                var error = '';
+                var error = '<ul>';
                 $.each(data.fields, function(i, a){
-                    
+                    error
                 });
                 $('.signup-form-error').show();
                 $('.signup-form-error').show();

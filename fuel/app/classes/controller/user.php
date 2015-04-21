@@ -69,6 +69,7 @@ class Controller_User extends Controller {
                     'username' => $v->error('username') ? $v->error('username')->get_message() : null,
                     'password' => $v->error('password') ? $v->error('password')->get_message() : null,
                     'fullname' => $v->error('fullname') ? $v->error('fullname')->get_message() : null,
+                    'email' => $v->error('email') ? $v->error('email')->get_message() : null,
                 )
             ));
         }

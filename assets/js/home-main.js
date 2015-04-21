@@ -73,6 +73,7 @@ $(function () {
                 $.each(data.fields, function(i, a){
                     error+= a;
                 });
+                error+='</ul>'
                 $('.signup-form-error').show();
                 $('.signup-form-error').show();
 

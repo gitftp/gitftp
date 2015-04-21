@@ -64,7 +64,7 @@ class Controller_User extends Controller {
         } else {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'The form seems to have .',
+                'reason' => 'The form seems to have Invalid.',
                 'fields' => array(
                     'username' => $v->error('username') ? $v->error('username')->get_message() : null,
                     'password' => $v->error('password') ? $v->error('password')->get_message() : null,

@@ -17,7 +17,9 @@
                 <div class="space20"></div>
                 <form id="home-signup-module" action="<?php echo Uri::base(false) ?>user/login" method="POST">
                     <div class="row">
-                        <div class="col-md-12"><>
+                        <div class="col-md-12">
+                            
+                        </div>
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="fullname">Fullname</label>

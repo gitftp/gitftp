@@ -74,7 +74,7 @@ $(function () {
                     error+='<li>'+a+'</li>';
                 });
                 error+='</ul>';
-                $('.signup-form-error').show();
+                $('.signup-form-error').html(error);
                 $('.signup-form-error').show();
 
             }

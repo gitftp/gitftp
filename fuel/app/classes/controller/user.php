@@ -58,13 +58,35 @@ class Controller_User extends Controller {
         $v->add('password', $i['password'])->add_rule('required')->add_rule('min_length', 4);
         $v->add('fullname', $i['fullname'])->add_rule('required');
         $v->add('email', $i['email'])->add_rule('required')->add_rule('valid_email');
+        $v->set_message('required', ':field is required');
+        $v->set_message('valid_email', ':value is not a valid email.');
 
         if ($v->run()) {
-            echo 'success';
+            // username, password, email, group, extras
+            try {
+                $id = Auth::create_user($i['username'], $i['password'], $i['email'], 1, array(
+                            'fullname' => $i['fullname'],
+                            'repo_limit' => 2,
+                            'verified' => 0
+                ));
+            } catch (Exception $exc) {
+                echo json_encode(array(
+                    'status' => false,
+                    'reason' => $exc->getMessage()
+                ));
+                die();
+            }
+
+            
+            echo json_encode(array(
+                'status' => true,
+                'redirect' => dash_url
+            ));
+            
         } else {
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'The form seems to have Invalid data.',
+                'reason' => 'The form seems to have missed something or has invalid data.',
                 'fields' => array(
                     'username' => $v->error('username') ? $v->error('username')->get_message() : null,
                     'password' => $v->error('password') ? $v->error('password')->get_message() : null,
@@ -73,17 +95,6 @@ class Controller_User extends Controller {
                 )
             ));
         }
-        die();
-
-        $id = Auth::create_user(
-                        $i['username'], // username
-                        $i['password'], //password 
-                        $i['email'], //email
-                        1, //group
-                        array(//extras
-                    'fullname' => $i['fullname'],
-                        )
-        );
     }
 
 }

@@ -59,7 +59,7 @@ $(function () {
                     content: 'You are logged in, redirecting you.'
                 });
                 location.href = data.redirect;
-                
+
             } else {
 
                 $this.find('button[type="submit"]').html('Signup').removeAttr('disabled');

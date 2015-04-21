@@ -65,7 +65,9 @@ class Controller_User extends Controller {
             echo json_encode(array(
                 'status' => false,
                 'reason' => 'Fields could not be validated',
-                
+                'fields' => array(
+                    
+                )
             ));
         }
         die();

@@ -11,7 +11,8 @@ class utils {
             return false;
         
         foreach ($op as $k => $v) {
-            $op[$k] = preg_split('/\s+/', $v);
+            $b = preg_split('/\s+/', $v);
+            $op[$k] 
         }
         return $op;
     }

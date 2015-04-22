@@ -8,7 +8,7 @@ body {
   background-color: #FCFCFC;
   color: #555;
   overflow-y: scroll;
-  box-shadow: inset 0px 2px #EF3D3D;
+  box-shadow: inset 0px 2px #62c7f2;
 }
 ::-moz-selection {
   background: #aaa;

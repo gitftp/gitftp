@@ -9,48 +9,34 @@
 
 <form action="" id="deploy-save-new">
     <div class="row">
-        <div class="col-md-12">
-        	<div class="row">
-        		<div class="col-md-6">
-		            <div class="form-group">
-		                <label for="name">REPO NAME</label>
-		                <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required>
-		                <p class="help-block">Something descriptive.</p>
-		            </div>
-        		</div>
-        		<div class="col-md-6">
-		            <div class="form-group">
-		                <label for="add-repo">GIT REPOSITORY</label>
-		                <input type="text" name="repo" id="add-repo" placeholder="link to repo .git" class="form-control" required>
-		                <p class="help-block">Only <i class="fa fa-bitbucket"></i> Bitbucket &amp;  <i class="fa fa-github"></i> GitHub are supported.</p>
-		            </div>
-		            <div class="checkbox">
-		                <label>
-		                    <input type="checkbox" id="deploy-add-privaterepo"> This is a private Repository.
-		                </label>
-		            </div>
-		            <div id="deploy-add-privaterepo-div" class="green-bg" style="padding: 5px; border-radius: 4px; margin-bottom: 10px; display:none">
-		                <p class="help-block">SSH keys not supported for the moment.</p>
-		                <div class="row">
-		                	<div class="col-md-6">
-				                <div class="form-group">
-				                    <label for="username">Username</label>
-				                    <input type="text" name="username" id="username" placeholder="Git host username" class="form-control">
-				                </div>
-		                	</div>
-		                	<div class="col-md-6">
-				                <div class="form-group">
-				                    <label for="repo">Password</label>
-				                    <input type="text" name="password" placeholder="Git host password" class="form-control">
-				                    <p class="help-block"><i class="fa fa-lock"></i> Secured.</p>
-				                </div>
-		                	</div>
-		                </div>
-		            </div>
-        		</div>
-        	</div>
-    	</div>
-    	<div class="col-md-12">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="name">REPO NAME</label>
+                <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required>
+                <p class="help-block">Something descriptive.</p>
+            </div>
+            <div class="form-group">
+                <label for="add-repo">GIT REPOSITORY</label>
+                <input type="text" name="repo" id="add-repo" placeholder="link to repo .git" class="form-control" required>
+                <p class="help-block">Only <i class="fa fa-bitbucket"></i> Bitbucket &amp;  <i class="fa fa-github"></i> GitHub are supported.</p>
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" id="deploy-add-privaterepo"> This is a private Repository.
+                </label>
+            </div>
+            <div id="deploy-add-privaterepo-div" style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px; display:none">
+                <p class="help-block">SSH keys not supported for the moment.</p>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" id="username" placeholder="Git host username" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="repo">Password</label>
+                    <input type="text" name="password" placeholder="Git host password" class="form-control">
+                    <p class="help-block"><i class="fa fa-lock"></i> Secured with us.</p>
+                </div>
+            </div>
             <div class="form-group">
                 <label>FTP SERVER TO DEPLOY</label>
                 <select class="form-control" name="ftp-production" required>

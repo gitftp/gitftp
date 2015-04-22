@@ -63,7 +63,12 @@
                             <input type="text" placeholder="Production_Abc" name="">
                         </td>
                         <td>
-                            <input type="text" placeholder="Production_Abc" name="">
+                             <select class="form-control" name="ftp-production" required>
+                    <option value=""> - Select a FTP server - </option>
+                    <% $.each(ftplist, function(i, a){ %>
+                    <option value="<%= a.id %>"><%= a.host %><%= a.path %> - <%= a.username %></option>
+                    <% }) %>
+                </select>
                         </td>
                     </tr>
                 </tbody>

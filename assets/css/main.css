@@ -41,6 +41,9 @@
 .redalt {
   color: #ef4036;
 }
+.redalt-bg {
+  background: #ef4036;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

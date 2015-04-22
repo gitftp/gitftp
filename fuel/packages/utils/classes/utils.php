@@ -2,7 +2,7 @@
 
 class utils {
     
-    public static function gitcommand(){
+    public static function gitcommand($arg){
         
     }
     

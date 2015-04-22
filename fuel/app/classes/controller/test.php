@@ -18,7 +18,8 @@ class Controller_Test extends Controller {
         echo Auth::check();
     }
     public function action_ab(){
-        utils::gitGetBranches('https://github.com/craftpip/jquery-confirm');
+        $a = utils::gitGetBranches('https://github.com/craftpip/jquery-confirm');
+        print_r($a);
     }
     public function action_testo() {
         Auth::login('bonifacepereira@gmail.com', 'thisissparta');

@@ -32,6 +32,15 @@
 .orange-bg {
   background: #f7941d;
 }
+.darkblue {
+  color: #4173b9;
+}
+.darkblue-bg {
+  background: #4173b9;
+}
+.redalt {
+  color: #ef4036;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

@@ -69,6 +69,12 @@ body {
 a:hover {
   text-decoration: none;
 }
+input {
+  border: solid 2px #eee;
+}
+input:hover {
+  border: solid 2px #666;
+}
 .jconfirm.git .jconfirm-bg {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }

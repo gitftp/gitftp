@@ -8,6 +8,9 @@
 .white {
   color: white !important;
 }
+.white * {
+  color: white !important;
+}
 .red-bg {
   background: #ef3d3d;
 }

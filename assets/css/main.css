@@ -70,12 +70,11 @@ a:hover {
   text-decoration: none;
 }
 input {
-  border-size: 2px;
+  border-size: 2px !important;
 }
 input:focus,
 input:active {
   border-color: #62c7f2 !important;
-  border-size: 2px;
   box-shadow: none !important;
 }
 .jconfirm.git .jconfirm-bg {

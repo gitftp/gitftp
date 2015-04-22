@@ -72,7 +72,8 @@ a:hover {
 input {
   border: solid 2px #eee;
 }
-input:focus {
+input:focus,
+input:actie {
   border: solid 2px #666;
 }
 .jconfirm.git .jconfirm-bg {

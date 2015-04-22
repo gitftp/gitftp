@@ -14,7 +14,11 @@ class utils {
         }
         return $url;
     }
-    
+    /**
+     * Test a ftp server, and if the path exists.
+     * @param type $a
+     * @return string
+     */
     public static function test_ftp($a = array()) {
         $b = array(
             'hostname' => $a['host'],

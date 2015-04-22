@@ -41,7 +41,7 @@
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li><a href="#" onclick="Backbone.history.loadUrl(); return false;"  data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom"><i class="fa fa-refresh fa-fw"></i></a></li>
+                            <li><a href="#" onclick="Backbone.history.loadUrl(); return false;"  data-toggle="tooltip" data-placement="bottom" title="Reload"><i class="fa fa-refresh fa-fw"></i></a></li>
                             <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                         </ul>
 

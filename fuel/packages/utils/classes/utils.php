@@ -1,7 +1,10 @@
 <?php
 
 class utils {
-    
+    /**
+     * Executes an Git command and returns the results.
+     * @param type $arg
+     */
     public static function gitcommand($arg){
         
     }

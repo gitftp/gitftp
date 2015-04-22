@@ -7,6 +7,7 @@ class utils {
      */
     public static function gitCommand($arg){
         exec('git ls-remote --heads https://github.com/craftpip/jquery-confirm', $op);
+        return $op;
     }
     
     /**

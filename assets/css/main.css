@@ -5,6 +5,9 @@
 .red {
   color: #ef3d3d;
 }
+.white {
+  color: white !important;
+}
 .red-bg {
   background: #ef3d3d;
 }

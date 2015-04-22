@@ -30,7 +30,7 @@ a:hover {
 }
 .navbar-nav li.active a {
   background-image: none !important;
-  background-color: #62c7f2 !important;
+  background-color: #f8f8f8 !important;
 }
 .navbar-default {
   background: -webkit-linear-gradient(top, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
@@ -54,7 +54,7 @@ h6 {
   border-color: #E8E8E8;
 }
 .btn.btn-default.btn-gitftp {
-  color: #62c7f2;
+  color: #EF3D3D;
 }
 .btn.btn-default:hover {
   background-image: none;

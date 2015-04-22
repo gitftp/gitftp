@@ -23,6 +23,9 @@
 .green {
   color: #66bd61;
 }
+.green-bg {
+  background: #66bd61;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

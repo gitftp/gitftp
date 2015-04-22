@@ -16,7 +16,6 @@ class utils {
     }
 
     public static function test_ftp($a = array()) {
-        
         $b = array(
             'hostname' => $a['host'],
             'username' => $a['username'],

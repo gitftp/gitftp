@@ -12,7 +12,7 @@ class utils {
         
         foreach ($op as $k => $v) {
             $b = preg_split('/\s+/', $v);
-            $b = explode('/', $b);
+            $b = explode('/', $b[1]);
             $op[$k] = $b[2];
         }
         return $op;

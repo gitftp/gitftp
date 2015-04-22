@@ -11,11 +11,11 @@ body {
   box-shadow: inset 0px 2px #EF3D3D;
 }
 ::-moz-selection {
-  background: red;
+  background: #aaa;
   color: white;
 }
 ::selection {
-  background: red;
+  background: #aaa;
   color: white;
 }
 a:hover {

@@ -5,7 +5,7 @@ class utils {
      * Executes an Git command and returns the results.
      * @param type $arg
      */
-    public static function getBranches($arg){
+    public static function gitGetBranches($arg){
         exec('git ls-remote --heads https://github.com/craftpip/jquery-confirm', $op);
         return $op;
     }

@@ -3,6 +3,7 @@
 class utils {
     /**
      * Get avatar of an email address.
+     * 
      * @param type $email
      * @param type $s
      * @param type $d

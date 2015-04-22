@@ -70,7 +70,6 @@ a:hover {
   text-decoration: none;
 }
 input {
-  border-color: !important;
   border-size: 2px;
 }
 input:focus,

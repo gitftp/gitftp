@@ -126,6 +126,11 @@ h6 {
 .btn.btn-success {
   background: #66bd61;
 }
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active {
+  background: #55b54f;
+}
 .btn.btn-link:hover {
   text-decoration: none;
 }

@@ -154,7 +154,9 @@ h1,h2,h3,h4,h5,h6{
     }
     &.btn-success{
         background: @green;
-        
+        &:hover, &:focus, &:active{
+            background: darken(@green, 5%);
+        }
     }
     &.btn-link{
         &:hover{

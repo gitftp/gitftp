@@ -48,7 +48,7 @@ define([
             e.preventDefault();
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
-            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').attr('disabled', true);
+            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').prop('disabled', true);
             _ajax({
                 url: base + 'api/ftp/testftp',
                 dataType: 'json',

@@ -123,6 +123,9 @@ h6 {
   background-color: #eee;
   border-color: #ddd;
 }
+.btn.btn-success {
+  background: #66bd61;
+}
 .btn.btn-link:hover {
   text-decoration: none;
 }

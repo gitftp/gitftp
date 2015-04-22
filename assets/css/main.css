@@ -5,10 +5,10 @@
 .red {
   color: #ef3d3d;
 }
-.white {
+.white-c {
   color: white !important;
 }
-.white * {
+.white-c * {
   color: white !important;
 }
 .red-bg {

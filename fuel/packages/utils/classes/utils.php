@@ -11,7 +11,7 @@ class utils {
             return false;
         
         foreach ($op as $k => $v) {
-            $op[$k]
+            $op[$k] = explode('\t', $v);
         }
         return $op;
     }

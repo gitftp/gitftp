@@ -73,7 +73,7 @@ input {
   border: solid 2px #eee;
 }
 input:focus,
-input:actie {
+input:active {
   border: solid 2px #666;
 }
 .jconfirm.git .jconfirm-bg {

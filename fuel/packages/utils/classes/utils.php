@@ -9,10 +9,10 @@ class utils {
         exec("git ls-remote --heads $repo", $op);
         if(empty($op))
             return false;
-//        
-//        foreach ($op as $k => $v) {
-//            $op[$k]
-//        }
+        
+        foreach ($op as $k => $v) {
+            $op[$k]
+        }
         return $op;
     }
     

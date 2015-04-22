@@ -1,6 +1,11 @@
 <?php
 
 class utils {
+    
+    public static function gitcommand(){
+        
+    }
+    
     /**
      * Get avatar of an email address.
      * 

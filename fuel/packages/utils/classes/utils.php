@@ -7,9 +7,9 @@ class utils {
      */
     public static function gitGetBranches($repo){
         exec("git ls-remote --heads $repo", $op);
-        if(empty($op)){
+        if(empty($op))
             return false;
-        }
+        
         foreach ($op as $key => $value) {
             
         }

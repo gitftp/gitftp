@@ -14,6 +14,7 @@ class utils {
         }
         return $url;
     }
+    
     /**
      * Test a ftp server, and if the path exists.
      * 

@@ -159,7 +159,7 @@ define([
                 $this.find('select, input').removeAttr('readonly');
                 if (data.status) {
                     noty({
-                        text: 'Successfuly' + ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()
+                        text: ((this.id) ? 'Edited' : 'Added') + ' FTP server: ' + $this.find('[name="host"]').val()
                     });
                     Router.navigate('ftp', {trigger: true});
                 } else {

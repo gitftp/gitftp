@@ -5,6 +5,9 @@
 .red {
   color: #ef3d3d;
 }
+.red-bg {
+  background: #ef3d3d;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

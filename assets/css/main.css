@@ -70,7 +70,8 @@ a:hover {
   text-decoration: none;
 }
 input {
-  border-size: 2px !important;
+  border: solid 2px #eee !important;
+  box-shadow: none !important;
 }
 input:focus,
 input:active {

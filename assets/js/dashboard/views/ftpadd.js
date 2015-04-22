@@ -82,7 +82,7 @@ define([
                 if (username) {
                     str += username;
                     if (pass) {
-                        str += ':' + pass;
+                        str += ':' + '*';
                     }
                     str += '@';
                 }

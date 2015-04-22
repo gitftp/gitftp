@@ -10,7 +10,7 @@ class utils {
         if(empty($op))
             return false;
         
-        foreach ($op as $key => $value) {
+        foreach ($op as $k => $v) {
             
         }
         return $op;

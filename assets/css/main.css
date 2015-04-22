@@ -72,7 +72,6 @@ a:hover {
 input {
   border: solid 2px #eee;
 }
-input:hover,
 input:focus {
   border: solid 2px #666;
 }

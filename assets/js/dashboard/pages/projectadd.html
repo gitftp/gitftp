@@ -37,7 +37,7 @@
                     <p class="help-block"><i class="fa fa-lock"></i> Secured.</p>
                 </div>
             </div>
-          
+
 
             <div class="form-group">
                 <label>ACCESS KEY</label>
@@ -46,6 +46,18 @@
             </div>
 
             <button type="submit" class="btn btn-default"><i class="fa fa-save fa-fw"></i> Save deployment configuration</button>
+        </div>
+        <div class="col-md-8">
+            <div class="form-group">
+                <label>FTP SERVER TO DEPLOY</label>
+                <select class="form-control" name="ftp-production" required>
+                    <option value=""> - Select a FTP server - </option>
+                    <% $.each(ftplist, function(i, a){ %>
+                    <option value="<%= a.id %>"><%= a.host %><%= a.path %> - <%= a.username %></option>
+                    <% }) %>
+                </select>
+                <p class="help-block">We'll deploy to this server.</p>
+            </div>
         </div>
     </div>
 </form>

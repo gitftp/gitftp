@@ -26,6 +26,9 @@
 .green-bg {
   background: #66bd61;
 }
+.orange {
+  color: #f7941d;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

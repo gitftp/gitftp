@@ -2,6 +2,9 @@
     www.GITFTP.com
     Git deploy automation software
    ========================================================================== */
+.red {
+  color: #ef3d3d;
+}
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   background-color: #fff;

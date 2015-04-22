@@ -69,12 +69,15 @@ body {
 a:hover {
   text-decoration: none;
 }
-input {
+input,
+select {
   border: solid 2px #eee !important;
   box-shadow: none !important;
 }
 input:focus,
-input:active {
+select:focus,
+input:active,
+select:active {
   border-color: #62c7f2 !important;
   box-shadow: none !important;
 }

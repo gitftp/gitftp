@@ -18,6 +18,7 @@ class Controller_Test extends Controller {
         echo Auth::check();
     }
     public function action_ab(){
+        echo '<pre>';
         $a = utils::gitGetBranches('https://github.com/craftpip/jquery-confirm');
         print_r($a);
     }

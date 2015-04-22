@@ -19,7 +19,7 @@ class Controller_Test extends Controller {
     }
     public function action_ab(){
         echo '<pre>';
-        $a = utils::gitGetBranches('https://github.com/crafasdtpip/jquery-confirm');
+        $a = utils::gitGetBranches('https://github.com/craftpip/jquery-confirm');
         print_r($a);
     }
     public function action_testo() {

@@ -16,15 +16,6 @@ class utils {
     }
 
     public static function test_ftp($a = array()) {
-//        Array
-//(
-//    [host] => 
-//    [username] => 
-//    [pass] => 
-//    [scheme] => 
-//    [path] => 
-//    [port] => 
-//)
         
         $b = array(
             'hostname' => $a['host'],

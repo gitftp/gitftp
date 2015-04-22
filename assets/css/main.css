@@ -57,7 +57,8 @@ h6 {
   color: #62c7f2;
 }
 .btn.btn-default:hover,
-.btn.btn-default:focus {
+.btn.btn-default:focus,
+.btn.btn-default:active {
   background-image: none;
   background-color: #eee;
   border-color: #ddd;

@@ -56,7 +56,8 @@ h6 {
 .btn.btn-default.btn-gitftp {
   color: #62c7f2;
 }
-.btn.btn-default:hover {
+.btn.btn-default:hover,
+.btn.btn-default:focus {
   background-image: none;
   background-color: #eee;
   border-color: #ddd;

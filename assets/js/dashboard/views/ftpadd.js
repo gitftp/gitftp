@@ -58,7 +58,7 @@ define([
             }).done(function (d) {
                 $.alert({
                     title: (d.status) ? '<i class="fa fa-check green"></i> Successful' : '<i class="fa fa-times red"></i> Falied',
-                    content: (d.status) ? 'Connection established successfully<br>' : d.reason
+                    content: (d.status) ? 'Connection established successfully' : d.reason
                 });
                 $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner').removeAttr('disabled');
             });

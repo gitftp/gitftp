@@ -25,6 +25,7 @@ class Controller_User extends Controller {
 
         if (Auth::validate_user($a['email'], $a['password'])) {
             Auth::login($a['email'], $a['password']);
+            Auth::remember_me();
             echo json_encode(array(
                 'status' => true,
                 'redirect' => dash_url,

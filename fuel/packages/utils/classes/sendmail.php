@@ -35,7 +35,7 @@ class Sendmail {
         print_r($result);
     }
 
-    public static function send() {
+    public static function sendFinally() {
         //        $email = Email::forge();
 //        $email->from('my@email.me', 'My Name');
 //        $email->to('receiver@elsewhere.co.uk', 'Johny Squid');

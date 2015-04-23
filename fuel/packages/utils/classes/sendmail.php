@@ -9,7 +9,7 @@ class Sendmail {
         4 => 'resetpassword',
     );
     
-//        $url = 'http://www.gitftp.com/api/mail';
+        public $url = 'http://www.gitftp.com/api/mail';
     public $url = home_url . 'api/mail';
     
     /**

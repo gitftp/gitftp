@@ -10,7 +10,7 @@ class Sendmail {
     );
     
 //    public $url = 'http://www.gitftp.com/api/mail';
-    public $url = home_url . 'api/mail';
+    public $url = 'http://stg.gitftp.com/api/mail';
     
     /**
      * $data = array(

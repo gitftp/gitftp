@@ -1,9 +1,7 @@
 <?php
 
 class Sendmail {
-
-    public static function gitGetBranches($repo) {
+    public static function send($repo) {
         
     }
-
 }

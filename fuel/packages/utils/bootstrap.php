@@ -2,7 +2,7 @@
 
 Autoloader::add_classes(array(
 	'utils'           => __DIR__.'/classes/utils.php',
-	'sendMail'           => __DIR__.'/classes/sendmail.php',
+	'Sendmail'           => __DIR__.'/classes/sendmail.php',
 ));
 
 

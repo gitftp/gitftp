@@ -5,7 +5,7 @@ class Sendmail {
     public static function send() {
         echo 'asd';
 
-        $url = 'http://';
+        $url = 'http://www.gitftp.com/';
         $data = array('key1' => 'value1', 'key2' => 'value2');
 
         // use ksey 'http' even if you send the request to https://...

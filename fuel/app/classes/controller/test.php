@@ -1,7 +1,9 @@
 <?php
 
 class Controller_Test extends Controller {
-
+    public function action_mail(){
+        
+    }
     public function action_g() {
         $email = "hey@craftpip.com";
         $g = utils::get_gravatar($email);

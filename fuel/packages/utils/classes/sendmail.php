@@ -5,7 +5,7 @@ class Sendmail {
         1 => 'signup',
         2 => 'firstdeploy',
         3 => 'deploy',
-        4 => 'resetpasswod',
+        4 => 'resetpassword',
     );
     /**
      * $data = array(

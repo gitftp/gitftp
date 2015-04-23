@@ -12,7 +12,7 @@ class Sendmail {
     /**
      * $data = array(
      *      'to' => $user_id,
-     *      'format' => ,
+     *      'format' => 1,
      * )
      * @param array $data
      */

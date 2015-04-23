@@ -18,6 +18,8 @@ class Sendmail {
         ));
         $email->body('This is my message');
         
+        
+        echo http_build_query($email);
         $options = array(
             'http' => array(
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n",

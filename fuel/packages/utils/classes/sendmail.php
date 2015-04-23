@@ -8,6 +8,7 @@ class Sendmail {
         3 => 'deploy',
         4 => 'resetpassword',
     );
+    
 //        $url = 'http://www.gitftp.com/api/mail';
     protected $url = home_url . 'api/mail';
     

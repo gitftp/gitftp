@@ -7,16 +7,16 @@ class Sendmail {
         $url = home_url.'api/mail';
         $data = array('key1' => 'value1', 'key2' => 'value2');
 
-        
-        $email = Email::forge();
-        $email->from('my@email.me', 'My Name');
-        $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
-        $email->subject('This is the subject');
-        $email->to(array(
-            'example@mail.com',
-            'another@mail.com' => 'With a Name',
-        ));
-        $email->body('This is my message');
+//        
+//        $email = Email::forge();
+//        $email->from('my@email.me', 'My Name');
+//        $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
+//        $email->subject('This is the subject');
+//        $email->to(array(
+//            'example@mail.com',
+//            'another@mail.com' => 'With a Name',
+//        ));
+//        $email->body('This is my message');
         
         
         echo http_build_query($email);

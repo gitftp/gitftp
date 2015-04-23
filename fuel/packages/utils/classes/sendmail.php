@@ -18,8 +18,9 @@ class Sendmail {
      */
     public static function send($data) {
 //        $url = 'http://www.gitftp.com/api/mail';
-        $url = ;
-        $data = array('key1' => 'value1', 'key2' => 'value2');
+        
+        $url = $this->url;
+//        $data = array('key1' => 'value1', 'key2' => 'value2');
 
         $options = array(
             'http' => array(

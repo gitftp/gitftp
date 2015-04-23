@@ -2,7 +2,10 @@
 
 class Sendmail {
     public $format = array(
-        1 => 'login'
+        1 => 'signup',
+        2 => 'firstdeploy',
+        3 => 'deploy',
+        4 => 'resetpasswod',
     );
     /**
      * $data = array(

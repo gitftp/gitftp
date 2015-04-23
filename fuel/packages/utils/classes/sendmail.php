@@ -5,6 +5,7 @@ class Sendmail {
     public static function send() {
         echo 'asd';
 
+//        $url = 'http://www.gitftp.com/api/mail';
         $url = 'http://www.gitftp.com/api/mail';
         $data = array('key1' => 'value1', 'key2' => 'value2');
 

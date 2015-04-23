@@ -3,7 +3,9 @@
 class Controller_Test extends Controller {
     
     public function action_mail(){
-        Sendmail::send();
+        Sendmail::send(array(
+            ''
+        ));
     }
     public function action_g() {
         $email = "hey@craftpip.com";

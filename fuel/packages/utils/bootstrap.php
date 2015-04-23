@@ -2,7 +2,7 @@
 
 Autoloader::add_classes(array(
 	'utils'           => __DIR__.'/classes/utils.php',
-	'utils'           => __DIR__.'/classes/mail.php',
+	'mails'           => __DIR__.'/classes/mails.php',
 ));
 
 

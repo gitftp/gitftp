@@ -7,10 +7,8 @@ class Sendmail {
         $url = home_url.'api/mail';
         $data = array('key1' => 'value1', 'key2' => 'value2');
 
-       // Create an instance
+        
         $email = Email::forge();
-
-        // Set the from address
         $email->from('my@email.me', 'My Name');
         $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
         $email->subject('This is the subject');

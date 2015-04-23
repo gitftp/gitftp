@@ -2,7 +2,7 @@
 
 class Sendmail {
     public $format = array(
-        1 => ''
+        1 => 'login'
     );
     /**
      * $data = array(

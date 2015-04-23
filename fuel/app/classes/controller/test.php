@@ -5,7 +5,7 @@ class Controller_Test extends Controller {
     public function action_mail(){
         
         $sendmail = new Sendmail();
-        Sendmail::send(array(
+        $sendmail->send(array(
             'to' => 2,
             'format' => 3
         ));

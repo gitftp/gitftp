@@ -9,6 +9,7 @@ class Controller_Test extends Controller {
             'to' => 2,
             'format' => 3
         ));
+        
     }
     public function action_g() {
         $email = "hey@craftpip.com";

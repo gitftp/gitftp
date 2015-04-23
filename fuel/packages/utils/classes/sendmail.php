@@ -30,5 +30,8 @@ class Sendmail {
 
         var_dump($result);
     }
-
+    
+    public static function init(){
+        
+    }
 }

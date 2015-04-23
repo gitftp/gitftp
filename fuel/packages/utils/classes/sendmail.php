@@ -1,7 +1,6 @@
 <?php
 
 class Sendmail {
-
     
     /**
      * $data = array(

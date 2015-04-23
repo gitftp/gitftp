@@ -6,9 +6,6 @@ class Sendmail {
 //        $url = 'http://www.gitftp.com/api/mail';
         $url = home_url.'api/mail';
         $data = array('key1' => 'value1', 'key2' => 'value2');
-
-
-        
         $options = array(
             'http' => array(
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n",

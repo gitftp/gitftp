@@ -8,7 +8,7 @@ class Sendmail {
         3 => 'deploy',
         4 => 'resetpassword',
     );
-
+    protected $url = home_url . 'api/mail';
     /**
      * $data = array(
      *      'to' => $user_id,
@@ -18,7 +18,7 @@ class Sendmail {
      */
     public static function send($data) {
 //        $url = 'http://www.gitftp.com/api/mail';
-        $url = home_url . 'api/mail';
+        $url = ;
         $data = array('key1' => 'value1', 'key2' => 'value2');
 
         $options = array(

@@ -12,15 +12,11 @@ class Sendmail {
 
         // Set the from address
         $email->from('my@email.me', 'My Name');
-
         // Set the to address
         $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
-
         // Set a subject
         $email->subject('This is the subject');
-
         // Set multiple to addresses
-
         $email->to(array(
             'example@mail.com',
             'another@mail.com' => 'With a Name',

@@ -1,12 +1,14 @@
 <?php
 
 class Sendmail {
+
     public $format = array(
         1 => 'signup',
         2 => 'firstdeploy',
         3 => 'deploy',
         4 => 'resetpassword',
     );
+
     /**
      * $data = array(
      *      'to' => $user_id,
@@ -16,9 +18,9 @@ class Sendmail {
      */
     public static function send($data) {
 //        $url = 'http://www.gitftp.com/api/mail';
-        $url = home_url.'api/mail';
+        $url = home_url . 'api/mail';
         $data = array('key1' => 'value1', 'key2' => 'value2');
-        
+
         $options = array(
             'http' => array(
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n",
@@ -30,8 +32,8 @@ class Sendmail {
         $result = file_get_contents($url, false, $context);
         print_r($result);
     }
-    
-    public static function sendMail(){
+
+    public static function sendMail() {
         //        $email = Email::forge();
 //        $email->from('my@email.me', 'My Name');
 //        $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
@@ -43,4 +45,5 @@ class Sendmail {
 //        $email->body('This is my message');
 //        echo http_build_query($email);
     }
+
 }

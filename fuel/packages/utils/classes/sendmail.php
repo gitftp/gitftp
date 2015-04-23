@@ -2,6 +2,12 @@
 
 class Sendmail {
 
+    
+    /**
+     * $data = array(
+     * )
+     * @param array $data
+     */
     public static function send($data) {
 //        $url = 'http://www.gitftp.com/api/mail';
         $url = home_url.'api/mail';

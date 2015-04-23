@@ -31,7 +31,7 @@ class Sendmail {
         var_dump($result);
     }
     
-    public static function init(){
+    public static function sendMail(){
         
     }
 }

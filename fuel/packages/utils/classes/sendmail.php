@@ -1,7 +1,9 @@
 <?php
 
 class Sendmail {
-    
+    public $format = array(
+        ''
+    );
     /**
      * $data = array(
      *      'to' => $user_id,

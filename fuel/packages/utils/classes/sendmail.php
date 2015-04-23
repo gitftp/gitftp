@@ -20,6 +20,7 @@ class Sendmail {
         
         
         echo http_build_query($email);
+        
         $options = array(
             'http' => array(
                 'header' => "Content-type: application/x-www-form-urlencoded\r\n",

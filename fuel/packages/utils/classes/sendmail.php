@@ -5,6 +5,8 @@ class Sendmail {
     
     /**
      * $data = array(
+     *      'to' => $user_id,
+     *      'deploy_id' => ,
      * )
      * @param array $data
      */

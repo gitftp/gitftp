@@ -11,6 +11,10 @@ class Sendmail {
         $this->body = View::forge('email/base');
     }
     
+    public function body(){
+        
+    }
+    
     public function send() {
         
         if($this->toUser == 0){

@@ -4,6 +4,7 @@ class Sendmail {
     
     private $instance;
     private $toUser = 0;
+    private $body;
     
     public function __construct() {
         $this->instance = Email::forge();

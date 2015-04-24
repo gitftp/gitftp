@@ -12,7 +12,7 @@ class Sendmail {
     }
     
     public function body($name){
-        $this->body = $this->body("email/$name");
+        $this->view = $this->body("email/$name");
     }
     
     public function send() {

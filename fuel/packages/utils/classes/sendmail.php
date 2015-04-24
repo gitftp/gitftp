@@ -1,7 +1,7 @@
 <?php
 
 class Sendmail {
-
+    
     public function send() {
         
         $email = Email::forge();

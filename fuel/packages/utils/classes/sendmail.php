@@ -15,6 +15,8 @@ class Sendmail {
             $this->toUser = Auth::get_user_id()[1];
         }
         
+        
+        
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');
         $email->subject('This is the subject');
         $email->html_body(View::forge('email/signup'));

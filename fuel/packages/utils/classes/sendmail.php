@@ -27,10 +27,9 @@ class Sendmail {
         }else{
             $a = DB::select('username', 'email')->from('users')->where('id', $id)->execute()->as_array();
             if(count($a) == 1){
-                
+                $email = $a[0]['email'];
+                $name = $a[0]['username'];
             }
-            $email = $a[0]['email'];
-            $name = $a[0]['username'];
         }
         
         

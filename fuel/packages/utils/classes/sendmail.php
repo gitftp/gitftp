@@ -7,7 +7,6 @@ class Sendmail {
     
     public function __construct() {
         $this->instance = Email::forge();
-        return $this;
     }
     
     public function send() {

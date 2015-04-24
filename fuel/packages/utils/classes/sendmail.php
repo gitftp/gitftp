@@ -2,6 +2,10 @@
 
 class Sendmail {
     
+    public function __construct() {
+        
+    }
+    
     public function send() {
         
         $email = Email::forge();

@@ -29,7 +29,9 @@
                                             <tr>
                                                 <td width="36"></td>
                                                 
-                                                <td align="left" valign="top" width="454" style="font-size:14px;color:#444444;font-family:'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';border-collapse:collapse">
+                                                <td align="left" valign="top" width="454" style=
+                                                    "font-size:14px;color:#444444;font-family:'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';border-collapse:collapse"
+                                                    >
                                                     <div>
                                                     Hi Boniface,<br>
                                                     <br>

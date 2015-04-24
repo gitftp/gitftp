@@ -2,8 +2,10 @@
 
 class Sendmail {
     
+    private $instance;
+    
     public function __construct() {
-        $this->connection = Email::forge();
+        $this->instance = Email::forge();
     }
     
     public function send() {

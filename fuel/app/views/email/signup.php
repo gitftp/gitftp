@@ -1,10 +1,3 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title></title>
-</head>
-
-<body>
     <div style="width:100%!important;margin:0;padding:0">
         <table border="0" cellpadding="8" cellspacing="0" style=
         "background-color:#ffffff;background:#ffffff;width:100%!important;margin:0;padding:0">

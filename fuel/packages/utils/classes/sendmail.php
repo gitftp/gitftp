@@ -24,9 +24,9 @@ class Sendmail {
         try {
             $email->send();
         } catch (\EmailValidationFailedException $e) {
-            
+            print_r($e);
         } catch (\EmailSendingFailedException $e) {
-            // The driver could not send the email
+            print_r($e);
         }
     }
 

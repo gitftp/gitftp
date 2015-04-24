@@ -89,7 +89,7 @@ return array(
 		 * SMTP settings
 		 */
 		'smtp'	=> array(
-			'host'		=> 'craftpip.com',
+			'host'		=> 'md-in-4.webhostbox.net',
 			'port'		=> 25,
 			'username'	=> 'no-reply@gitftp.com',
 			'password'	=> 'thisisnoreply',

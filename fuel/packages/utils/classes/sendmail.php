@@ -12,7 +12,7 @@ class Sendmail {
     public function send() {
         
         if($this->toUser == 0){
-            
+            $this->toUser = Auth::get_user_id()[1];
         }
         
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');

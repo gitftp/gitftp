@@ -4,8 +4,11 @@ class Controller_Dashboard extends Controller {
     
     public function action_index() {
             
-        if(!Auth::check() or !is_dash){
+        if(!is_dash){
             Response::redirect(home_url);
+        }
+        if(!Auth::check()){
+            
         }
         
         $view = View::forge('layout/base_layout.mustache');

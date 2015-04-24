@@ -46,7 +46,7 @@ return array(
 		 * Default sender details
 		 */
 		'from'		=> array(
-			'email'		=> false,
+			'email'		=> 'deploy@gitftp.com',
 			'name'		=> false,
 		),
 

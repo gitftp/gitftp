@@ -10,16 +10,10 @@ class Sendmail {
      * @param array $data
      */
     public function send() {
+        
         $email = Email::forge();
-
-// Set the from address
-// Set the to address
         $email->to('bonifacepereira@gmail.com', 'Johny Squid');
-
-// Set a subject
         $email->subject('This is the subject');
-
-// And set the body.
         $email->body('This is my message');
         try {
             $email->send();
@@ -28,6 +22,7 @@ class Sendmail {
         } catch (\EmailSendingFailedException $e) {
             print_r($e);
         }
+        
     }
 
 }

@@ -3,12 +3,12 @@
 class Sendmail {
     
     public function __construct() {
+        $email = Email::forge();
         
     }
     
     public function send() {
         
-        $email = Email::forge();
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');
         $email->subject('This is the subject');
         $email->html_body(View::forge('email/signup'));

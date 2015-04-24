@@ -92,7 +92,7 @@ return array(
 			'host'		=> 'md-in-4.webhostbox.net',
 			'port'		=> 465,
 			'username'	=> 'no-reply@gitftp.com',
-			'password'	=> 'thisisnoreply',
+			'password'	=> '-SVr*KLhT$b&',
 			'timeout'	=> 5,
 		),
 

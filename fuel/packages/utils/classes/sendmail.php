@@ -3,8 +3,7 @@
 class Sendmail {
     
     public function __construct() {
-        $email = Email::forge();
-        
+        $this->connection = Email::forge();
     }
     
     public function send() {

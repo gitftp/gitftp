@@ -3,13 +3,15 @@
 class Sendmail {
     
     private $instance;
-    private $toUser;
+    private $toUser = 0;
     
     public function __construct() {
         $this->instance = Email::forge();
     }
     
     public function send() {
+        
+        if(isset())
         
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');
         $email->subject('This is the subject');

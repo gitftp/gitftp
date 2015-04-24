@@ -3,6 +3,7 @@
 class Sendmail {
     
     public function send() {
+        
         $email = Email::forge();
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');
         $email->subject('This is the subject');

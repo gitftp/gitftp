@@ -13,7 +13,7 @@ class Sendmail {
         
         if($this->toUser == 0){
             if(!Auth::check()){
-                
+                return false;
             }
             $this->toUser = Auth::get_user_id()[1];
             $email = Auth::get_email();

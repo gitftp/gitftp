@@ -14,7 +14,7 @@ return array(
 		/**
 		 * Mail driver (mail, smtp, sendmail, noop)
 		 */
-		'driver'		=> 'mail',
+		'driver'		=> 'smtp',
 
 		/**
 		 * Whether to send as html, set to null for autodetection.

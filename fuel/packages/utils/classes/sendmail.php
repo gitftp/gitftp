@@ -12,6 +12,8 @@ class Sendmail {
     public function send() {
         
         if($this->toUser == 0){
+            
+        }
         
         $email->to('bonifacepereira@outlook.com', 'Boniface Pereira');
         $email->subject('This is the subject');

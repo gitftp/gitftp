@@ -11,7 +11,7 @@ class Sendmail {
         $this->body = View::forge('email/base');
     }
     
-    public function body(){
+    public function body($name){
         
     }
     

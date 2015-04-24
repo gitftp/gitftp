@@ -47,7 +47,7 @@ return array(
 		 */
 		'from'		=> array(
 			'email'		=> 'no-reply@gitftp.com',
-			'name'		=> '',
+			'name'		=> 'gitftp.com',
 		),
 
 		/**

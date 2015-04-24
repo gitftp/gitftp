@@ -18,7 +18,7 @@
                                     <td align="center" height="1" style=
                                     "background-color: #B9E1FB; font-size: 0px">
                                     <img alt="" class="CToWUd" src=
-                                    "https://ci5.googleusercontent.com/proxy/82DUSJEt4EjFhkvDgB3x1LUMouBOAU3HpY83G6pp5x4mCfCB3xErE--3eHk9Qhc9f1-uOtYbTAQEATtFz7LnLEeCsbRKk_NXWDv4AxDiD4G46nk=s0-d-e1-ft#https://www.dropbox.com/static/images/emails/email_header.jpg"
+                                    "https://ci5.googleusercontent.com/proxy/82DUSJEt4EjFhkvDgB3x1LUMouBOAU3HpY83G6pp5x4mCfCB3xErE--3eHk9Qhc9f1-uOtYbTAQEATtFz7LnLEeCsbRKk_NXWDv4AxDiD4G46nk=s0-d-e1-ft#http://stg.gitftp.com/assets/email/email_header.jpg"
                                     style="width:100%;max-height:129px"></td>
                                 </tr>
 

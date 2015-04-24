@@ -12,7 +12,7 @@ class Sendmail {
     }
     
     public function body($name){
-        $this->view = $this->body("email/$name");
+        $this->view->content = View::forge("email/$name");
     }
     
     public function send() {

@@ -9,7 +9,7 @@ class Sendmail {
      * )
      * @param array $data
      */
-    public function send($data) {
+    public function send() {
         
         
     }

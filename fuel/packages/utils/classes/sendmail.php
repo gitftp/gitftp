@@ -15,7 +15,7 @@ class Sendmail {
         $email = Email::forge();
         $email->to('bonifacepereira@gmail.com', 'Johny Squid');
         $email->subject('This is the subject');
-        $email->body('This is my message');
+        $email->html_body();
         
         try {
             $email->send();

@@ -20,9 +20,9 @@ class Sendmail {
         try {
             $email->send();
         } catch (\EmailValidationFailedException $e) {
-            print_r($e);
+            return false;
         } catch (\EmailSendingFailedException $e) {
-            print_r($e);
+            return false;
         }
         
     }

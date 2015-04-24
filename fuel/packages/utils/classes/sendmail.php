@@ -35,7 +35,7 @@ class Sendmail {
         }
         
         
-        $this->instance->to('bonifacepereira@outlook.com', 'Boniface Pereira');
+        $this->instance->to($email, $name);
         $email->subject('This is the subject');
         $email->html_body(View::forge('email/signup'));
         

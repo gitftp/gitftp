@@ -31,6 +31,7 @@
                                                 
                                                 <td align="left" valign="top" width="454">
                                                     <div style="font-size:14px;color:#444444;font-family:'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';border-collapse:collapse">
+                                                        
                                                     Hi Boniface,<br>
                                                     <br>
                                                     <a href=
@@ -63,6 +64,7 @@
                                                        target="_blank">upgrade
                                                         your <span class=
                                                                    "il">Dropbox</span></a>!
+                                                    </div>
                                                 </td>
 
                                                 <td width="36"></td>

@@ -9,6 +9,7 @@ class Sendmail {
      * )
      * @param array $data
      */
+    
     public function send() {
         
         $email = Email::forge();

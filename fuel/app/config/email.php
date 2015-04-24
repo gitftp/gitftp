@@ -90,7 +90,7 @@ return array(
 		 */
 		'smtp'	=> array(
 			'host'		=> 'md-in-4.webhostbox.net',
-			'port'		=> 587,
+			'port'		=> 465,
 			'username'	=> 'no-reply@gitftp.com',
 			'password'	=> 'thisisnoreply',
 			'timeout'	=> 5,

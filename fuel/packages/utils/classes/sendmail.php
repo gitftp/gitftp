@@ -17,7 +17,7 @@ class Sendmail {
             }
             $this->toUser = Auth::get_user_id()[1];
             $email = Auth::get_email();
-             
+            $name = Auth::get_screen_name();;
         }else{
             
         }

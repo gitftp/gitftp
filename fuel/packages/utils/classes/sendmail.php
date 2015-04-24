@@ -12,6 +12,7 @@ class Sendmail {
     public function send() {
         
         if($this->toUser == 0){
+            
             $this->toUser = Auth::get_user_id()[1];
             $email = Auth::get_email();
              = Auth::get_email();

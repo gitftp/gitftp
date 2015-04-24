@@ -2,10 +2,10 @@
 
 class Sendmail {
     
-    private $instance;
-    private $toUser = 0;
-    private $body;
-    private $subject;
+    protected $instance;
+    protected $toUser = 0;
+    protected $body;
+    protected $subject;
     
     public function __construct() {
         $this->instance = Email::forge();

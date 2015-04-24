@@ -16,6 +16,7 @@ class Sendmail {
         $email->to('bonifacepereira@gmail.com', 'Johny Squid');
         $email->subject('This is the subject');
         $email->body('This is my message');
+        
         try {
             $email->send();
         } catch (\EmailValidationFailedException $e) {

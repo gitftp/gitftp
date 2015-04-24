@@ -6,8 +6,7 @@ class Controller_Test extends Controller {
         
         $sendmail = new Sendmail();
         $sendmail->send(array(
-            'to' => 2,
-            'format' => 3
+            
         ));
         
     }

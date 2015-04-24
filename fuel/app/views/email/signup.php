@@ -30,7 +30,7 @@
                                                 <td width="36"></td>
                                                 
                                                 <td align="left" valign="top" width="454">
-                                                    <div class="style="font-size:14px;color:#444444;font-family:'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';border-collapse:collapse"">
+                                                    <div style="font-size:14px;color:#444444;font-family:'Open Sans','Lucida Grande','Segoe UI',Arial,Verdana,'Lucida Sans Unicode',Tahoma,'Sans Serif';border-collapse:collapse">
                                                     Hi Boniface,<br>
                                                     <br>
                                                     <a href=

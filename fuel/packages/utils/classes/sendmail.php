@@ -13,7 +13,6 @@ class Sendmail {
         $email = Email::forge();
 
 // Set the from address
-
 // Set the to address
         $email->to('bonifacepereira@gmail.com', 'Johny Squid');
 
@@ -22,19 +21,13 @@ class Sendmail {
 
 // And set the body.
         $email->body('This is my message');
-        try
-{
-    $email->send();
-}
-catch(\EmailValidationFailedException $e)
-{
-    // The validation failed
-}
-catch(\EmailSendingFailedException $e)
-{
-    // The driver could not send the email
-}
-        
+        try {
+            $email->send();
+        } catch (\EmailValidationFailedException $e) {
+            
+        } catch (\EmailSendingFailedException $e) {
+            // The driver could not send the email
+        }
     }
 
 }

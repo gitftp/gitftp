@@ -20,13 +20,6 @@ class Sendmail {
 // Set a subject
         $email->subject('This is the subject');
 
-// Set multiple to addresses
-
-        $email->to(array(
-            'example@mail.com',
-            'another@mail.com' => 'With a Name',
-        ));
-
 // And set the body.
         $email->body('This is my message');
     }

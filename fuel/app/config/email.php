@@ -91,8 +91,8 @@ return array(
 		'smtp'	=> array(
 			'host'		=> '',
 			'port'		=> 25,
-			'username'	=> '',
-			'password'	=> '',
+			'username'	=> 'no-reply@gitftp.com',
+			'password'	=> 'thisisnoreply',
 			'timeout'	=> 5,
 		),
 

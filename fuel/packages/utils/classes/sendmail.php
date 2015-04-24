@@ -25,7 +25,7 @@ class Sendmail {
             $email = Auth::get_email();
             $name = Auth::get_screen_name();
         }else{
-            DB::select('username', 'email')->from('users')->where('id', $id)->execute()->as_array();
+            $a = DB::select('username', 'email')->from('users')->where('id', $id)->execute()->as_array();
             $email = 
         }
         

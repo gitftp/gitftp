@@ -8,7 +8,7 @@ class Controller_Dashboard extends Controller {
             Response::redirect(home_url);
         }
         if(!Auth::check()){
-            
+            Response::redirect(home_url);
         }
         
         $view = View::forge('layout/base_layout.mustache');

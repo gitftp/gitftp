@@ -22,6 +22,19 @@ class Sendmail {
 
 // And set the body.
         $email->body('This is my message');
+        try
+{
+    $email->send();
+}
+catch(\EmailValidationFailedException $e)
+{
+    // The validation failed
+}
+catch(\EmailSendingFailedException $e)
+{
+    // The driver could not send the email
+}
+        
     }
 
 }

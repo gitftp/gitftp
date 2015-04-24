@@ -29,6 +29,8 @@ class Sendmail {
             if(count($a) == 1){
                 $email = $a[0]['email'];
                 $name = $a[0]['username'];
+            }else{
+                return false;
             }
         }
         

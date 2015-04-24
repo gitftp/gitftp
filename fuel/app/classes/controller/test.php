@@ -3,7 +3,6 @@
 class Controller_Test extends Controller {
     
     public function action_mail(){
-        
         $sendmail = new Sendmail();
         $sendmail->send();
     }

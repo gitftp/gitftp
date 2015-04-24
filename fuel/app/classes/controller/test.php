@@ -5,10 +5,7 @@ class Controller_Test extends Controller {
     public function action_mail(){
         
         $sendmail = new Sendmail();
-        $sendmail->send(array(
-            
-        ));
-        
+        $sendmail->send();
     }
     public function action_g() {
         $email = "hey@craftpip.com";

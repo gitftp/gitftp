@@ -8,7 +8,7 @@ class Sendmail {
     
     public function __construct() {
         $this->instance = Email::forge();
-        $this->body = View::forge('email/base');
+            $this->view = View::forge('email/base');
     }
     
     public function body($name){

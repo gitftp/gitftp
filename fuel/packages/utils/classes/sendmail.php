@@ -13,10 +13,9 @@ class Sendmail {
         $email = Email::forge();
 
 // Set the from address
-        $email->from('my@email.me', 'My Name');
 
 // Set the to address
-        $email->to('receiver@elsewhere.co.uk', 'Johny Squid');
+        $email->to('bonifacepereira@gmail.com', 'Johny Squid');
 
 // Set a subject
         $email->subject('This is the subject');

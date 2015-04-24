@@ -3,9 +3,11 @@
 class Sendmail {
     
     private $instance;
+    private $toUser;
     
     public function __construct() {
         $this->instance = Email::forge();
+        
     }
     
     public function send() {

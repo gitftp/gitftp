@@ -19,12 +19,12 @@ class Sendmail {
         
         try {
             $email->send();
-            return true;
         } catch (\EmailValidationFailedException $e) {
             return false;
         } catch (\EmailSendingFailedException $e) {
             return false;
         }
+        return true;
         
     }
 

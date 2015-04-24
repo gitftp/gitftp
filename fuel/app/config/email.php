@@ -89,7 +89,7 @@ return array(
 		 * SMTP settings
 		 */
 		'smtp'	=> array(
-			'host'		=> 'mail.gitftp.com',
+			'host'		=> 'md-in-4.webhostbox.net',
 			'port'		=> 587,
 			'username'	=> 'no-reply@gitftp.com',
 			'password'	=> 'thisisnoreply',

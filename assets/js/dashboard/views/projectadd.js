@@ -23,7 +23,9 @@ define([
                     repo: $('input[name="repo"]').val(),
                     username: $('input[name="username"]').val(),
                     password: $('input[name="password"]').val(),
-                }
+                },
+                method: 'post',
+                dataType: 'json'
             })
             
             

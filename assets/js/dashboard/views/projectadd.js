@@ -27,9 +27,9 @@ define([
                 method: 'post',
                 dataType: 'json'
             }).done(function (data) {
-
+                
             }).error(function () {
-
+                
             });
 
         },

@@ -26,6 +26,8 @@ define([
                 dataType: 'json'
             }).done(function(data){
                 
+            }).error(function(){
+                
             });
             
         },

@@ -112,6 +112,7 @@ define([
                 }
                 var page = that.template({'ftplist': data.data});
                 that.el.html(page);
+                $('.selectpicker').selectpicker();
             });
         }
     });

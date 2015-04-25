@@ -16,7 +16,9 @@ define([
             }
             
             
-            
+            _ajax({
+                url: base+ ''
+            })
             
             
         },

@@ -20,7 +20,9 @@ define([
             _ajax({
                 url: base+ 'api/deploy/getbranches',
                 data: {
-                    repo: 
+                    repo: $('input[name="rpeo"]').val(),
+                    username: ,
+                    password: ,
                 }
             })
             

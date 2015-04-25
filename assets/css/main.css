@@ -106,7 +106,7 @@ h6 {
 }
 .btn {
   background-image: none;
-  border: none !important;
+  border: solid 2px #ddd !important;
 }
 .btn.btn-default {
   background-image: -webkit-linear-gradient(top, #f8f8f8 0%, #eeeeee 100%);

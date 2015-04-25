@@ -16,6 +16,7 @@ define([
             }
             var $this = $(e.currentTarget);
             var that = this;
+            
             _ajax({
                 url: base + 'api/deploy/getbranches',
                 data: {

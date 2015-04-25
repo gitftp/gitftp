@@ -21,8 +21,8 @@ define([
                 url: base+ 'api/deploy/getbranches',
                 data: {
                     repo: $('input[name="rpeo"]').val(),
-                    username: ,
-                    password: ,
+                    username: $('input[name="username"]').val(),
+                    password: $('input[name="password"]').val(),
                 }
             })
             

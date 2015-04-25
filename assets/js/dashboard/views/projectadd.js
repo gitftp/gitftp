@@ -15,8 +15,6 @@ define([
                 return false;
             }
             
-            
-            
             _ajax({
                 url: base+ 'api/deploy/getbranches',
                 data: {
@@ -29,7 +27,6 @@ define([
             }).done(function(data){
                 
             });
-            
             
         },
         priCheck: function (e) {

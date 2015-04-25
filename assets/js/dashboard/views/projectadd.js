@@ -19,7 +19,9 @@ define([
             
             _ajax({
                 url: base+ 'api/deploy/getbranches',
-                data: 
+                data: {
+                    repo: 
+                }
             })
             
             

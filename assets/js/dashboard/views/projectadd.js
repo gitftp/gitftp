@@ -10,13 +10,14 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'getBranches',
         },
-        getBranches: function(){
-            if(this.branches){
+        getBranches: function (e) {
+            if (this.branches) {
                 return false;
             }
-            
+            var $this = $(e.currentTarget);
+            var that = this;
             _ajax({
-                url: base+ 'api/deploy/getbranches',
+                url: base + 'api/deploy/getbranches',
                 data: {
                     repo: $('input[name="repo"]').val(),
                     username: $('input[name="username"]').val(),
@@ -24,12 +25,12 @@ define([
                 },
                 method: 'post',
                 dataType: 'json'
-            }).done(function(data){
-                
-            }).error(function(){
-                
+            }).done(function (data) {
+
+            }).error(function () {
+
             });
-            
+
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);
@@ -91,17 +92,17 @@ define([
             this.$el.html(this.el = $('<div class="projectadd-wrapper bb-loading">'));
             this.page = page;
             this.template = _.template(this.page);
-            
+
             _ajax({
                 url: base + 'api/ftp/getall',
                 dataType: 'json',
-            }).done(function(data){
-                if(data.data.length == 0){
+            }).done(function (data) {
+                if (data.data.length == 0) {
                     $.confirm({
                         title: 'No FTP servers found.',
                         content: 'To setup a deploy, you first need to add a FTP server configuration.',
                         confirmButton: 'Add ftp',
-                        confirm: function(){
+                        confirm: function () {
                             Router.navigate('#ftp/add', {
                                 trigger: true
                             });

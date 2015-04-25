@@ -11,6 +11,13 @@ define([
             'click .testconnectiontorepo': 'getBranches',
         },
         getBranches: function(){
+            if(this.branches){
+                return false;
+            }
+            
+            
+            
+            
             
         },
         priCheck: function (e) {

@@ -3210,8 +3210,8 @@ tbody.collapse.in {
   border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, .15);
   border-radius: 4px;
-  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-          box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
+  -webkit-box-shadow: 0 3px 3px rgba(0, 0, 0, .05);
+  box-shadow: 0 3px 3px rgba(0, 0, 0, .05);
 }
 .dropdown-menu.pull-right {
   right: 0;

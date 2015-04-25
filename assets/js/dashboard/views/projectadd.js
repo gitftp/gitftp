@@ -58,7 +58,6 @@ define([
             } else {
                 tar.val('');
             }
-
         },
         savenew: function (e) {
             e.preventDefault();

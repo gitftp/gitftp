@@ -30,6 +30,8 @@ define([
                 if(data.status){
                     that._branches = data.data;
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
+                    
+                    
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

@@ -5,27 +5,27 @@ class Controller_Api_Deploy extends Controller {
     public function action_index() {
         
     }
-    
-    public function action_getbranches(){
-        $post = Input::post();
-        
-        if (!empty($repo['username']) && !empty($repo['password'])) {
 
+    public function action_getbranches() {
+        $post = Input::post();
+
+        if (!empty($repo['username']) && !empty($repo['password'])) {
             $repo_url = parse_url($repo['repository']);
             $repo_url['user'] = $repo['username'];
             $repo_url['pass'] = $repo['password'];
             $repo['repository'] = http_build_url($repo_url);
-        }else{
+        } else {
             $repo = $post['repo'];
         }
-        
+
         $a = utils::gitGetBranches($repo);
         echo json_encode($a);
     }
-    public function action_dashdata(){
+
+    public function action_dashdata() {
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];
-        $dir = DOCROOT.'fuel/repository/'.$user_id;
+        $dir = DOCROOT . 'fuel/repository/' . $user_id;
         $a = shell_exec("du -hs $dir");
         $a = explode('	', $a);
         $disk_usage_human = $a[0];
@@ -36,17 +36,17 @@ class Controller_Api_Deploy extends Controller {
             'lastdeploy',
             'name',
         ));
-        
+
         foreach ($deploy_list as $k => $v) {
-        $id = $v['id'];
-        $a = shell_exec("du -hs $dir/$id");
-        $a = explode('	', $a);
-        $deploy_list[$k]['size'] = $a[0];
+            $id = $v['id'];
+            $a = shell_exec("du -hs $dir/$id");
+            $a = explode('	', $a);
+            $deploy_list[$k]['size'] = $a[0];
         }
-        
+
         echo json_encode(array(
-            'status'=> true,
-            'user'=> array(
+            'status' => true,
+            'user' => array(
                 'diskused' => $disk_usage_human,
                 'id' => Auth::get_user_id()[1],
                 'name' => Auth::get_screen_name(),
@@ -56,11 +56,12 @@ class Controller_Api_Deploy extends Controller {
             'deploy' => $deploy_list,
         ));
     }
+
     public function action_getonly($id = null) {
         $a = $_POST;
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
-        
+
         $b = $deploy->get(null, $a);
         echo json_encode(array(
             'status' => true,
@@ -319,7 +320,7 @@ class Controller_Api_Deploy extends Controller {
         try {
             $a = File::read_dir($repodir);
         } catch (Exception $ex) {
-            $log['dir read failure'] = 'Could not connect to the repository provided: <br>URL: <code>'.$repo['repository'].'</code>';
+            $log['dir read failure'] = 'Could not connect to the repository provided: <br>URL: <code>' . $repo['repository'] . '</code>';
             echo json_encode(array('status' => false, 'reason' => 'Doh, There was a problem in connecting to your repository.<br>Please verify the Repository URL. <code>' . $repo['repository'] . '</code>'));
             $record->set($record_id, array(
                 'status' => 0,
@@ -342,7 +343,7 @@ class Controller_Api_Deploy extends Controller {
 
             echo json_encode(array(
                 'status' => false,
-                'reason' => 'Doh, there was an error while processing the repository. <br>URL: <code>'.$repo['repository'].'</code>',
+                'reason' => 'Doh, there was an error while processing the repository. <br>URL: <code>' . $repo['repository'] . '</code>',
             ));
 
             $deploy->set($id, array(

@@ -21,6 +21,8 @@ class Controller_Api_Deploy extends Controller {
         $a = utils::gitGetBranches($repo);
         if($a){
             
+        }else{
+            
         }
         echo json_encode($a);
     }

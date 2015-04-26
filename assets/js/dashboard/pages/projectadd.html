@@ -78,7 +78,7 @@
                             </select>
                         </td>
                         <td width="30%">
-                            <select class="form-control selectpicker" name="ftp-production" required>
+                            <select class="form-control selectpicker" data-header="Select a server." name="ftp-production" required>
                                 <option value=""> - Select a FTP server - </option>
                                 <% $.each(ftplist, function(i, a){ %>
                                 <option value="<%= a.id %>"><%= (a.name) ? a.name : a.host %> <%= a.path %> - <%= a.username %></option>

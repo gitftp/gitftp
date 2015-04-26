@@ -96,9 +96,7 @@ define([
                     'env_ftp' : b.find('input[name="env_ftp"]').val(),
                     'env_deploy' : b.find('input[name="env_deploy"]').val(),
                 };
-                
                 envs.push(envprop);
-                
             });
 
             var data = {
@@ -106,16 +104,7 @@ define([
                 name: $('input[name="name"]').val(),
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
-                sad: [
-                    {
-                        asdsada: 'asdadas',
-                        sadsaasd: 'sadas'
-                    },
-                    {
-                        asdsada: 'asdadas',
-                        sadsaasd: 'sadas'
-                    }
-                ]
+                sad: 
             }
 
             _ajax({

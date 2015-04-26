@@ -32,7 +32,7 @@ define([
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
                     var b = '';
                     $.each(data.data, function(i, a){
-                       b+=a; 
+                       b+= '<option value="'+a+'">'+a+'</option>'; 
                     });
                     $('.repo-branches').html(b).selectpicker('update');
                 }else{

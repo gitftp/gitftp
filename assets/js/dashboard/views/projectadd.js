@@ -88,7 +88,7 @@ define([
             
             var data = {
                 repo: $('input[name="repo"]').val(),
-                name: $('#name').val(),
+                name: $('input[name="name"]').val(),
                 name: $('#name').val(),
             }
             

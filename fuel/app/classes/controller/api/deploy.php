@@ -23,9 +23,12 @@ class Controller_Api_Deploy extends Controller {
             echo json_encode(array(
                 'status'=> true,
                 'data'=> $a,
-            ))
+            ));
         }else{
-            
+            echo json_encode(array(
+                'status'=> false,
+                'reason' => 'Could not connect'
+            ))
         }
         echo json_encode($a);
     }

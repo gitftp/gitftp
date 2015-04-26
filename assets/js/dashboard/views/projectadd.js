@@ -86,7 +86,10 @@ define([
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
 
+//            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
+//            });
             _ajax({
+                url: base+ 'api/deploy/new',
                 
             }).done(function(data){
                 $this.find('select, input').removeAttr('readonly');
@@ -110,8 +113,6 @@ define([
                 }
             });
 
-            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
-            });
         },
         render: function (id) {
             var that = this;

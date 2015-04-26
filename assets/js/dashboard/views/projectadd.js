@@ -29,13 +29,13 @@ define([
                 dataType: 'json'
             }).done(function (data) {
                 console.log(data);
-            }).error(function () {
                 jconfirm({
                     title: 'Could not connect',
                     icon: 'fa fa-times red',
                     content: 'Could not fetch branches on the repository, <br>',
                     cancelButton: false
                 });
+            }).error(function () {
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);
             });

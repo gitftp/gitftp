@@ -83,10 +83,9 @@ define([
         },
         savenew: function (e) {
             var $this = $(e.currentTarget);
-            $this.find('select, input').attr('readonly', true);
+            $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
             
-
             _ajax({
                 url: base+ 'api/deploy/new',
                 data: {

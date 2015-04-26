@@ -39,7 +39,7 @@ define([
                     $.alert({
                         title: 'Something went wrong.',
                         icon: 'fa fa-times red',
-                        content: 'We have trouble connecting to your repository,<br> Url: <code>' + data.request.repo + '</code>',
+                        content: 'We have trouble connecting to your repository,<br> Url: <code>' + escapeTag(data.request.repo) + '</code>',
                     });
                     $this.html($this.attr('data-html')).prop('disabled', false);
                 }

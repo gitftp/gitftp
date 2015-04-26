@@ -13,7 +13,7 @@ class Controller_Api_Deploy extends Controller {
             $repo_url = parse_url($repo['repository']);
             $repo_url['user'] = $post['username'];
             $repo_url['pass'] = $post['password'];
-            $$repo = http_build_url($repo_url);
+            $repo = http_build_url($repo_url);
         } else {
             $repo = $post['repo'];
         }

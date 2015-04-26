@@ -1,6 +1,6 @@
 $(function () {
     window.escapeTag = function(arg){
-        
+        var a = arg.replace()
     }
 //    ajaxHelper
     window._ajax = function (arg) {

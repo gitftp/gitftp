@@ -7,6 +7,9 @@ class Controller_Api_Deploy extends Controller {
     }
     
     public function action_getbranches(){
+        $post = Input::post();
+        
+        
         
     }
     public function action_dashdata(){

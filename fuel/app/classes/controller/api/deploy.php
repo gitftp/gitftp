@@ -9,8 +9,8 @@ class Controller_Api_Deploy extends Controller {
     public function action_getbranches() {
         $post = Input::post();
 
-        if (!empty($repo['username']) && !empty($repo['password'])) {
-            $repo_url = parse_url($post['repository']);
+        if (!empty($post['username']) && !empty($post['password'])) {
+            $repo_url = parse_url($post['repo']);
             $repo_url['user'] = $post['username'];
             $repo_url['pass'] = $post['password'];
             $repo = http_build_url($repo_url);

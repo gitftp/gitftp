@@ -1,5 +1,5 @@
 $(function () {
-    window.escapeTag(arg){
+    window.escapeTag = function(arg){
         
     }
 //    ajaxHelper

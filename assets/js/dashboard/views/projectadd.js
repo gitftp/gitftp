@@ -33,7 +33,7 @@ define([
                     
                 }else{
                     $.alert({
-                        title: 'Could not connect',
+                        title: 'Something went wrong.',
                         icon: 'fa fa-times red',
                         content: 'Could not fetch branches on the repository, <br>',
                     });

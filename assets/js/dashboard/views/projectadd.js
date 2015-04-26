@@ -18,6 +18,7 @@ define([
             var $this = $(e.currentTarget);
             var that = this;
             $this.attr('data-html',$this.html()).html('<i class="fa fa-spin fa-spinner"></i>').prop('disabled', true);
+            
             _ajax({
                 url: base + 'api/deploy/getbranches',
                 data: {

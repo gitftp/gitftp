@@ -95,7 +95,7 @@ define([
                     'env_branch' : b.find('input[name="env_branch"]').val(),
                     'env_ftp' : b.find('input[name="env_ftp"]').val(),
                     'env_deploy' : b.find('input[name="env_deploy"]').val(),
-                }
+                };
                 
             });
 

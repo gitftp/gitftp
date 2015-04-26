@@ -31,6 +31,8 @@ define([
                 $this.html('Test connection').prop('disabled', false);
                 console.log(data);
             }).error(function () {
+                
+            }).always(function(){
                 $this.html('Test connection').prop('disabled', false);
             });
             

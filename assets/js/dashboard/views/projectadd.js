@@ -97,6 +97,8 @@ define([
                     'env_deploy' : b.find('input[name="env_deploy"]').val(),
                 };
                 
+                envs.push(envprop);
+                
             });
 
             var data = {

@@ -6,6 +6,7 @@ class utils {
      * @param type $arg
      */
     public static function gitGetBranches($repo){
+        
         exec("git ls-remote --heads $repo", $op);
         if(empty($op))
             return false;

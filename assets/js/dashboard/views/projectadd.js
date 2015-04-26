@@ -31,7 +31,7 @@ define([
             }).done(function (data) {
                 console.log(data);
                 if(data.status){
-                    
+                    that._branches = 
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

@@ -89,7 +89,8 @@ define([
             var data = {
                 repo: $('input[name="repo"]').val(),
                 name: $('input[name="name"]').val(),
-                name: $('input[name="username"]').val(),
+                username: $('input[name="username"]').val(),
+                password: $('input[name="password"]').val(),
             }
             
             _ajax({

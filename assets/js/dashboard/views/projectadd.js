@@ -33,7 +33,8 @@ define([
                 jconfirm({
                     title: 'Could not connect',
                     icon: 'fa fa-times red',
-                    content: 'Could not fetch branches on the repository, <br>'
+                    content: 'Could not fetch branches on the repository, <br>',
+                    cancelButton: false
                 });
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);

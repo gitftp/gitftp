@@ -92,6 +92,7 @@ define([
                 
                 envprop = {
                     'env_name' : b.find('input[name="env_name"]').val(),
+                    'env_name' : b.find('input[name="env_branch"]').val(),
                 }
                 
             });

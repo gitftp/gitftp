@@ -88,7 +88,7 @@ define([
             
             var data = {
                 repo: $('#add-repo').val(),
-                name: $('#name').val()
+                name: $('#name').val(),
             }
             
             _ajax({

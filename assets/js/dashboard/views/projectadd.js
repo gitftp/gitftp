@@ -89,7 +89,6 @@ define([
 
             $.each($('.env-rows'), function (i, a) {
                 var env = {};
-                
             });
 
             var data = {

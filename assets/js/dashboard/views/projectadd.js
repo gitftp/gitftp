@@ -91,7 +91,7 @@ define([
                 var b = $(a);
                 
                 envprop = {
-                    
+                    'env_name' : b.find('input[name=""]')
                 }
                 
             });

@@ -42,6 +42,7 @@ require([
             }
             
         }
+        $('.selectpicker').selectpicker();
 //        subview
     });
     process.init();

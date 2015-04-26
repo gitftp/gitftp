@@ -9,7 +9,7 @@ class Controller_Api_Deploy extends Controller {
     public function action_getbranches(){
         $post = Input::post();
         
-        
+        $repo = $post['repo'];
         
         $a = utils::gitGetBranches($repo);
         print_r($a);

@@ -86,6 +86,8 @@ define([
             $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
             
+            $.each()
+            
             var data = {
                 repo: $('input[name="repo"]').val(),
                 name: $('input[name="name"]').val(),

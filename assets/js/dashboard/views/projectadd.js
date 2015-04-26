@@ -31,7 +31,7 @@ define([
                 console.log(data);
             }).error(function () {
                 $.alert({
-                    title: 'Successful',
+                    title: 'Could not connect',
                     content: 'Found '
                 })
             }).always(function(){

@@ -5,7 +5,7 @@ define([
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'submit #deploy-save-new': 'savenew',
+            'click #deploy-save-new': 'savenew',
             'keyup input#add-repo': 'calcname',
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'testConnectionToRepo',

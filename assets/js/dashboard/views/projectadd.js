@@ -31,7 +31,9 @@ define([
                     that._branches = data.data;
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
                     var b = '';
-                    
+                    $.each(data.data, function(i, a){
+                        
+                    });
                     $('.repo-branches').html('asd').selectpicker('update');
                 }else{
                     $.alert({

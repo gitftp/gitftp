@@ -97,7 +97,10 @@ define([
                 name: $('input[name="name"]').val(),
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
-                
+                sad : {
+                    asdsada : 'asdadas',
+                    sadsaasd : 'sadas'
+                }
             }
             
             _ajax({

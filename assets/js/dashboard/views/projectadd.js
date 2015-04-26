@@ -52,8 +52,8 @@ define([
             }
         },
         calcname: function (e) {
-            
-            .removeClass('btn-success').html().prop('disabled', false);
+            $btn = 
+            $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
             
             var $this = $(e.currentTarget);
             var str = $this.val();

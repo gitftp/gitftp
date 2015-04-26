@@ -95,9 +95,7 @@ define([
             
             _ajax({
                 url: base+ 'api/deploy/new',
-                data: {
-                    
-                },
+                data: data
                 dataType: 'json',
                 method: 'post'
             }).done(function(data){

@@ -10,7 +10,6 @@ class Controller_Api_Deploy extends Controller {
         $post = Input::post();
         
         
-        
     }
     public function action_dashdata(){
         $deploy = new Model_Deploy();

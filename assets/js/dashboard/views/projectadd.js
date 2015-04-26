@@ -52,7 +52,7 @@ define([
             }
         },
         calcname: function (e) {
-            $btn = 
+            $btn = $('.testconnectiontorepo');
             $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
             
             var $this = $(e.currentTarget);

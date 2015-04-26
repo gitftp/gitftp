@@ -86,7 +86,9 @@ define([
             $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
             
-            
+            var data = {
+                
+            }
             
             _ajax({
                 url: base+ 'api/deploy/new',

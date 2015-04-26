@@ -32,7 +32,7 @@ define([
             }).error(function () {
                 
             });
-
+            
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);

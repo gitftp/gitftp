@@ -193,10 +193,10 @@ class Controller_Api_Deploy extends Controller {
 //                ))->execute();
 //
 //        if ($a[1] !== 0) {
-//            echo json_encode(array(
-//                'status' => true,
+            echo json_encode(array(
+                'status' => true,
 //                'request' => $i
-//            ));
+            ));
 //        }
     }
 

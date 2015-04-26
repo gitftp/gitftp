@@ -1,6 +1,7 @@
 $(function () {
     window.escapeTag = function(arg){
-        var a = arg.replace()
+        var a = arg.replace(/</, '&lt');
+        var a = arg.replace(/>/, '&gt');
     }
 //    ajaxHelper
     window._ajax = function (arg) {

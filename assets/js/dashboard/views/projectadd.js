@@ -91,11 +91,12 @@ define([
                 name: $('input[name="name"]').val(),
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
+                
             }
             
             _ajax({
                 url: base+ 'api/deploy/new',
-                data: data
+                data: data,
                 dataType: 'json',
                 method: 'post'
             }).done(function(data){

@@ -31,7 +31,7 @@ define([
                     that._branches = data.data;
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
                     
-                    
+                    $('.repo-branches').html('asd');
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

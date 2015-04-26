@@ -10,10 +10,11 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'getBranches',
         },
-        getBranches: function (e) {
+        testConnectionToRepo: function (e) {
             if (this.branches) {
                 return false;
             }
+            
             var $this = $(e.currentTarget);
             var that = this;
             

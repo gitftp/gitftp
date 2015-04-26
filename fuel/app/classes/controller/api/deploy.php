@@ -5,6 +5,10 @@ class Controller_Api_Deploy extends Controller {
     public function action_index() {
         
     }
+    
+    public function action_getbranches(){
+        
+    }
     public function action_dashdata(){
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];

@@ -19,6 +19,7 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $a = utils::gitGetBranches($repo);
+        
         if($a){
             echo json_encode(array(
                 'status'=> true,
@@ -28,9 +29,8 @@ class Controller_Api_Deploy extends Controller {
             echo json_encode(array(
                 'status'=> false,
                 'reason' => 'Could not connect'
-            ))
+            ));
         }
-        echo json_encode($a);
     }
 
     public function action_dashdata() {

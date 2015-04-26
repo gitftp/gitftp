@@ -15,6 +15,8 @@ class Controller_Api_Deploy extends Controller {
             $repo_url['user'] = $repo['username'];
             $repo_url['pass'] = $repo['password'];
             $repo['repository'] = http_build_url($repo_url);
+        }else{
+            
         }
         
         $a = utils::gitGetBranches($repo);

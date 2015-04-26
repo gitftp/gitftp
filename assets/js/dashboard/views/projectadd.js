@@ -86,7 +86,7 @@ define([
             $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
 
-
+            var envs = {}.
             $.each($('.env-rows'), function (i, a) {
                 var env = {};
             });

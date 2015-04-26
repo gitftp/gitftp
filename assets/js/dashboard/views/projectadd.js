@@ -29,7 +29,7 @@ define([
                 console.log(data);
                 if(data.status){
                     that._branches = data.data;
-                    $this.addClass('btn-success').html('connected');
+                    $this.addClass('btn-success').html('connected').prop('disabled', true);
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

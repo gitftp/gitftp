@@ -32,8 +32,8 @@ define([
             }).error(function () {
                 $.alert({
                     title: 'Could not connect',
-                    content: 'Found '
-                })
+                    content: ''
+                });
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);
             });

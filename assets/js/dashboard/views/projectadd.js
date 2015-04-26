@@ -30,7 +30,10 @@ define([
             }).done(function (data) {
                 console.log(data);
             }).error(function () {
-                
+                $.alert({
+                    title: 'Successful',
+                    content: 'Found '
+                })
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);
             });

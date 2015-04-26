@@ -11,9 +11,6 @@ define([
             'click .testconnectiontorepo': 'testConnectionToRepo',
         },
         testConnectionToRepo: function (e) {
-            if (this.branches) {
-                return false;
-            }
             
             var $this = $(e.currentTarget);
             var that = this;

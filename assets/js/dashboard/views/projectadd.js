@@ -11,11 +11,11 @@ define([
             'click .testconnectiontorepo': 'testConnectionToRepo',
         },
         testConnectionToRepo: function (e) {
-            
+
             var $this = $(e.currentTarget);
             var that = this;
-            $this.attr('data-html',$this.html()).html('<i class="fa fa-spin fa-spinner"></i>').prop('disabled', true);
-            
+            $this.attr('data-html', $this.html()).html('<i class="fa fa-spin fa-spinner"></i>').prop('disabled', true);
+
             _ajax({
                 url: base + 'api/deploy/getbranches',
                 data: {
@@ -27,26 +27,26 @@ define([
                 dataType: 'json'
             }).done(function (data) {
                 console.log(data);
-                if(data.status){
+                if (data.status) {
                     that._branches = data.data;
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
                     var b = '';
-                    $.each(data.data, function(i, a){
-                       b+= '<option value="'+a+'">'+a+'</option>'; 
+                    $.each(data.data, function (i, a) {
+                        b += '<option value="' + a + '">' + a + '</option>';
                     });
                     $('.repo-branches').html(b).selectpicker('update');
-                }else{
+                } else {
                     $.alert({
                         title: 'Something went wrong.',
                         icon: 'fa fa-times red',
-                        content: 'We have trouble connecting to your repository,<br> Url: <code>'+data.request.repo+'</code>',
+                        content: 'We have trouble connecting to your repository,<br> Url: <code>' + data.request.repo + '</code>',
                     });
                     $this.html($this.attr('data-html')).prop('disabled', false);
                 }
             }).error(function () {
                 $this.html($this.attr('data-html')).prop('disabled', false);
             });
-            
+
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);
@@ -59,7 +59,7 @@ define([
         calcname: function (e) {
             $btn = $('.testconnectiontorepo');
             $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
-            
+
             var $this = $(e.currentTarget);
             var str = $this.val();
             var tar = $('#deploy-save-new input[name="name"]');

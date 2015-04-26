@@ -40,7 +40,7 @@ define([
                 }
             }).error(function () {
             }).always(function(){
-                $this.html('Test connection').prop('disabled', false);
+                $this.html($this.attr('data-html')).prop('disabled', false);
             });
             
         },

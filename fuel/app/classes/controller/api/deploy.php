@@ -11,7 +11,8 @@ class Controller_Api_Deploy extends Controller {
         
         
         
-        utils::gitGetBranches($repo);
+        $a = utils::gitGetBranches($repo);
+        print_r($a);
     }
     public function action_dashdata(){
         $deploy = new Model_Deploy();

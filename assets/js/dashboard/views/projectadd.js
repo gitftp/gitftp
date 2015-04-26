@@ -35,7 +35,7 @@ define([
                     $.alert({
                         title: 'Something went wrong.',
                         icon: 'fa fa-times red',
-                        content: 'Could not fetch branches on the repository, <br>',
+                        content: 'We have trouble connecting to your repository,<br>',
                     });
                 }
             }).error(function () {

@@ -52,6 +52,10 @@ define([
             }
         },
         calcname: function (e) {
+            
+            
+                    $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
+            
             var $this = $(e.currentTarget);
             var str = $this.val();
             var tar = $('#deploy-save-new input[name="name"]');

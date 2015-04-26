@@ -69,7 +69,6 @@ define([
             var tar = $('#deploy-save-new input[name="name"]');
             var i = str.indexOf('.git');
             if (i !== -1) {
-//                console.log(i, str.length);
                 if (i == str.length - 4) {
                     var s = str.lastIndexOf('/');
                     var o = str.substring(s + 1, str.length - 4);

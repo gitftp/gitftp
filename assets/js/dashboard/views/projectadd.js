@@ -90,6 +90,9 @@ define([
 //            });
             _ajax({
                 url: base+ 'api/deploy/new',
+                data: {
+                    
+                },
                 
             }).done(function(data){
                 $this.find('select, input').removeAttr('readonly');

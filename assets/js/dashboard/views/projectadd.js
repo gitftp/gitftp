@@ -89,6 +89,7 @@ define([
             var envs = [];
             $.each($('.env-rows'), function (i, a) {
                 var envprop = {};
+                var b = $(a);
                 
                 
                 

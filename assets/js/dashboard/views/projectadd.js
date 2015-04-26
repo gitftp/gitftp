@@ -34,7 +34,7 @@ define([
                     $.each(data.data, function (i, a) {
                         b += '<option value="' + a + '">' + a + '</option>';
                     });
-                    $('select.repo-branches').html(b).selectpicker('refresh');
+                    $('select.repo-branches').attr('data-header', 'Got '+data.data.length +' branches').html(b).selectpicker('refresh');
                 } else {
                     $.alert({
                         title: 'Something went wrong.',

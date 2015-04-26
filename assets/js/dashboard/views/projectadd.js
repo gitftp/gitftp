@@ -87,7 +87,7 @@ define([
             $('#add-deploy-form').find('select,input').attr('readonly', true);
             
             var data = {
-                repo: ''
+                repo: $('#add-repo').val(),
                 name: $('#name').val()
             }
             

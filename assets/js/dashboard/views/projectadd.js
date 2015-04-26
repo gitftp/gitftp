@@ -82,12 +82,10 @@ define([
             }
         },
         savenew: function (e) {
-            e.preventDefault();
-            var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
+            
+            
 
-//            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
-//            });
             _ajax({
                 url: base+ 'api/deploy/new',
                 data: {

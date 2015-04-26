@@ -32,6 +32,7 @@ define([
             }).error(function () {
                 $.alert({
                     title: 'Could not connect',
+                    icon: 'fa fa-times red'
                     content: 'Could not fetch branches on the repository, <br>'
                 });
             }).always(function(){

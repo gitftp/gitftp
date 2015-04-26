@@ -35,7 +35,7 @@ define([
                     $.alert({
                         title: 'Something went wrong.',
                         icon: 'fa fa-times red',
-                        content: 'We have trouble connecting to your repository,<br>',
+                        content: 'We have trouble connecting to your repository,<br> Url: <code>'+data.request.repo+'</code>',
                     });
                 }
             }).error(function () {

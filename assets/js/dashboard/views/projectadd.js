@@ -11,7 +11,7 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'testConnectionToRepo',
         },
-        preventform: function(e){
+        preventform: function (e) {
             e.preventDefault();
         },
         testConnectionToRepo: function (e) {
@@ -38,7 +38,7 @@ define([
                     $.each(data.data, function (i, a) {
                         b += '<option value="' + a + '">' + a + '</option>';
                     });
-                    $('select.repo-branches').attr('data-header', 'Got '+data.data.length +' branches').html(b).selectpicker('refresh');
+                    $('select.repo-branches').attr('data-header', 'Got ' + data.data.length + ' branches').html(b).selectpicker('refresh');
                 } else {
                     $.alert({
                         title: 'Something went wrong.',
@@ -85,30 +85,36 @@ define([
             var $this = $(e.currentTarget);
             $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
-            
-            
-            $.each($('.env-rows'), function(i, a){
+
+
+            $.each($('.env-rows'), function (i, a) {
                 var env = {};
-                
+
             });
-            
+
             var data = {
                 repo: $('input[name="repo"]').val(),
                 name: $('input[name="name"]').val(),
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
-                sad : {
-                    asdsada : 'asdadas',
-                    sadsaasd : 'sadas'
-                }
+                sad: [
+                    {
+                        asdsada: 'asdadas',
+                        sadsaasd: 'sadas'
+                    },
+                    {
+                        asdsada: 'asdadas',
+                        sadsaasd: 'sadas'
+                    }
+                ]
             }
-            
+
             _ajax({
-                url: base+ 'api/deploy/new',
+                url: base + 'api/deploy/new',
                 data: data,
                 dataType: 'json',
                 method: 'post'
-            }).done(function(data){
+            }).done(function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);
 

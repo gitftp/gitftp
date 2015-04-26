@@ -29,7 +29,7 @@ define([
                 console.log(data);
                 if(data.status){
                     that._branches = data.data;
-                    
+                    $this.addClass('btn-success').
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

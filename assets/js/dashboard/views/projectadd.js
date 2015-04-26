@@ -32,9 +32,9 @@ define([
                     $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
                     var b = '';
                     $.each(data.data, function(i, a){
-                        
+                       b+=a; 
                     });
-                    $('.repo-branches').html('asd').selectpicker('update');
+                    $('.repo-branches').html(b).selectpicker('update');
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

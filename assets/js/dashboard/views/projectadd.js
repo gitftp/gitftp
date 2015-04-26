@@ -11,6 +11,9 @@ define([
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'testConnectionToRepo',
         },
+        preventform: function(e){
+            
+        },
         testConnectionToRepo: function (e) {
 
             var $this = $(e.currentTarget);

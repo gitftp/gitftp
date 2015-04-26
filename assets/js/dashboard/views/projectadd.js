@@ -6,6 +6,7 @@ define([
         el: app.el,
         events: {
             'click #deploy-save-new': 'savenew',
+            'submit #add-deploy-form': 'preventform',
             'keyup input#add-repo': 'calcname',
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'testConnectionToRepo',

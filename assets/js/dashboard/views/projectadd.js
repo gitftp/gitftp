@@ -83,7 +83,7 @@ define([
         },
         savenew: function (e) {
             var $this = $(e.currentTarget);
-            $this.attr('readonly', true);
+            $this.find('select, input').attr('readonly', true);
             
 
             _ajax({

@@ -10,7 +10,7 @@ class Controller_Api_Deploy extends Controller {
         $post = Input::post();
         
         $repo = $post['repo'];
-        
+        echo $repo;
         $a = utils::gitGetBranches($repo);
         print_r($a);
     }

@@ -32,7 +32,7 @@ define([
             }).error(function () {
                 $.alert({
                     title: 'Could not connect',
-                    content: 'Could not fetch branches on the repository, '
+                    content: 'Could not fetch branches on the repository, <br>'
                 });
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);

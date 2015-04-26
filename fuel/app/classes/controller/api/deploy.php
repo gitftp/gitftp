@@ -10,6 +10,9 @@ class Controller_Api_Deploy extends Controller {
         $post = Input::post();
         
         
+        
+        utils::gitGetBranches($repo);
+        
     }
     public function action_dashdata(){
         $deploy = new Model_Deploy();

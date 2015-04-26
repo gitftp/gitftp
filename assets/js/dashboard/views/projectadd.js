@@ -29,12 +29,16 @@ define([
                 dataType: 'json'
             }).done(function (data) {
                 console.log(data);
-                jconfirm({
-                    title: 'Could not connect',
-                    icon: 'fa fa-times red',
-                    content: 'Could not fetch branches on the repository, <br>',
-                    cancelButton: false
-                });
+                if(data.status){
+                    
+                }else{
+                    jconfirm({
+                        title: 'Could not connect',
+                        icon: 'fa fa-times red',
+                        content: 'Could not fetch branches on the repository, <br>',
+                        cancelButton: false
+                    });
+                }
             }).error(function () {
             }).always(function(){
                 $this.html('Test connection').prop('disabled', false);

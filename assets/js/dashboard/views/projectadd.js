@@ -53,7 +53,7 @@ define([
         },
         calcname: function (e) {
             
-            $this.addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', true);
+            .addClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', false);
             
             var $this = $(e.currentTarget);
             var str = $this.val();

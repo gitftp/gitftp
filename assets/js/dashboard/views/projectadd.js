@@ -40,7 +40,6 @@ define([
                 }
             }).error(function () {
                 $this.html($this.attr('data-html')).prop('disabled', false);
-            }).always(function(){
             });
             
         },

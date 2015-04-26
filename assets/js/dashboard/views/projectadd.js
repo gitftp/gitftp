@@ -88,11 +88,7 @@ define([
 
             _ajax({
                 
-            }).done(function(){
-                
-            });
-
-            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
+            }).done(function(data){
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);
 
@@ -112,6 +108,9 @@ define([
                         type: 'error'
                     });
                 }
+            });
+
+            $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
             });
         },
         render: function (id) {

@@ -30,7 +30,7 @@ define([
             }).done(function (data) {
                 console.log(data);
             }).error(function () {
-                $.alert({
+                jconfirm({
                     title: 'Could not connect',
                     icon: 'fa fa-times red',
                     content: 'Could not fetch branches on the repository, <br>'

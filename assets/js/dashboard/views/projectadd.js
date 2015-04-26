@@ -93,6 +93,7 @@ define([
                 data: {
                     
                 },
+                dataType: 'json',
                 
             }).done(function(data){
                 $this.find('select, input').removeAttr('readonly');

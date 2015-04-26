@@ -12,7 +12,7 @@ define([
             'click .testconnectiontorepo': 'testConnectionToRepo',
         },
         preventform: function(e){
-            
+            e.preventDefault();
         },
         testConnectionToRepo: function (e) {
 

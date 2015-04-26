@@ -9,7 +9,7 @@ define([
             'keyup input#add-repo': 'calcname',
             'change #deploy-add-privaterepo': 'priCheck',
             'click .testconnectiontorepo': 'testConnectionToRepo',
-            'click .add-repo-addmoreenv': ''
+            'click .add-repo-addmoreenv': 'addMoreRow',
         },
         testConnectionToRepo: function (e) {
 

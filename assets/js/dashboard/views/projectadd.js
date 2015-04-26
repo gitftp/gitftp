@@ -28,7 +28,6 @@ define([
                 method: 'post',
                 dataType: 'json'
             }).done(function (data) {
-                $this.html('Test connection').prop('disabled', false);
                 console.log(data);
             }).error(function () {
                 

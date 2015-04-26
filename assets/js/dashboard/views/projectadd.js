@@ -28,7 +28,8 @@ define([
             }).done(function (data) {
                 console.log(data);
                 if(data.status){
-                    that._branches = 
+                    that._branches = data.data;
+                    
                 }else{
                     $.alert({
                         title: 'Something went wrong.',

@@ -86,6 +86,12 @@ define([
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
 
+            _ajax({
+                
+            }).done(function(){
+                
+            });
+
             $.post(base + 'api/deploy/new', $this.serializeArray(), function (data) {
                 $this.find('select, input').removeAttr('readonly');
                 data = JSON.parse(data);

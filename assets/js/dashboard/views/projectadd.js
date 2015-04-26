@@ -32,11 +32,10 @@ define([
                 if(data.status){
                     
                 }else{
-                    jconfirm({
+                    $.alert({
                         title: 'Could not connect',
                         icon: 'fa fa-times red',
                         content: 'Could not fetch branches on the repository, <br>',
-                        cancelButton: false
                     });
                 }
             }).error(function () {

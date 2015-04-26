@@ -11,6 +11,9 @@ define([
             'click .testconnectiontorepo': 'testConnectionToRepo',
             'click .add-repo-addmoreenv': 'addMoreRow',
         },
+        addMoreRow: function(){
+            
+        }
         testConnectionToRepo: function (e) {
 
             var $this = $(e.currentTarget);

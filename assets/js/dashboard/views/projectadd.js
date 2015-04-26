@@ -53,7 +53,7 @@ define([
         },
         calcname: function (e) {
             
-            .removeClass('btn-success').html('<i class="fa fa-check"></i> connected').prop('disabled', false);
+            .removeClass('btn-success').html().prop('disabled', false);
             
             var $this = $(e.currentTarget);
             var str = $this.val();

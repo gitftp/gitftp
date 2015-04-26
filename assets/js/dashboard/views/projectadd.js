@@ -8,7 +8,7 @@ define([
             'submit #deploy-save-new': 'savenew',
             'keyup input#add-repo': 'calcname',
             'change #deploy-add-privaterepo': 'priCheck',
-            'click .testconnectiontorepo': 'getBranches',
+            'click .testconnectiontorepo': 'testConnectionToRepo',
         },
         testConnectionToRepo: function (e) {
             if (this.branches) {

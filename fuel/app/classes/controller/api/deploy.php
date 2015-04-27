@@ -171,10 +171,7 @@ class Controller_Api_Deploy extends Controller {
          * FTP setup,
          * initial revision to empty.
          */
-        $ftp = array(
-            'production' => $i['ftp-production'],
-            'revision' => ''
-        );
+        $ftp = serialize($i['env']);
 
         $a = DB::insert('deploy')->set(array(
                     'repository' => $i['repo'],

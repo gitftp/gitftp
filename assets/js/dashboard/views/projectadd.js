@@ -82,6 +82,8 @@ define([
         },
         savenew: function (e) {
             var $this = $(e.currentTarget);
+            e.preventDefault();
+            
             $this.attr('readonly', true);
             $('#add-deploy-form').find('select,input').attr('readonly', true);
 

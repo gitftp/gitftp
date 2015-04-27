@@ -19,16 +19,16 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $a = utils::gitGetBranches($repo);
-        
-        if($a){
+
+        if ($a) {
             echo json_encode(array(
-                'status'=> true,
-                'data'=> $a,
+                'status' => true,
+                'data' => $a,
                 'request' => $post
             ));
-        }else{
+        } else {
             echo json_encode(array(
-                'status'=> false,
+                'status' => false,
                 'reason' => 'Could not connect',
                 'request' => $post
             ));
@@ -193,10 +193,10 @@ class Controller_Api_Deploy extends Controller {
 //                ))->execute();
 //
 //        if ($a[1] !== 0) {
-            echo json_encode(array(
-                'status' => true,
+        echo json_encode(array(
+            'status' => true,
 //                'request' => $i
-            ));
+        ));
 //        }
     }
 

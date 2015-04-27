@@ -197,7 +197,8 @@ class Controller_Api_Deploy extends Controller {
         }else{
             echo json_encode(array(
                 'status' => false,
-                'request' => $i
+                'request' => $i,
+                
             ));
             
         }

@@ -93,8 +93,8 @@ define([
 
                 envprop = {
                     'env_name': b.find('input[name="env_name"]').val(),
-                    'env_branch': b.find('input[name="env_branch"]').val(),
-                    'env_ftp': b.find('input[name="env_ftp"]').val(),
+                    'env_branch': b.find('select[name="env_branch"]').val(),
+                    'env_ftp': b.find('select[name="env_ftp"]').val(),
                     'env_deploy': b.find('input[name="env_deploy"]').prop('checked')
                 };
                 envs.push(envprop);

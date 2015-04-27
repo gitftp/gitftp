@@ -123,9 +123,9 @@ define([
                         title: 'Added',
                         content: 'The configuration is added, please proceed for first deployment.'
                     });
-//                    Router.navigate('deploy', {
-//                        trigger: true
-//                    });
+                    Router.navigate('deploy', {
+                        trigger: true
+                    });
 
                 } else {
                     noty({

@@ -90,7 +90,6 @@ define([
             var envs = [];
             $.each($('.env-rows'), function (i, a) {
                 var b = $(a);
-
                 envprop = {
                     'env_name': b.find('input[name="env_name"]').val(),
                     'env_branch': b.find('select[name="env_branch"]').val(),

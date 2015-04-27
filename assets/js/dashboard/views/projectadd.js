@@ -95,7 +95,7 @@ define([
                     'env_name': b.find('input[name="env_name"]').val(),
                     'env_branch': b.find('input[name="env_branch"]').val(),
                     'env_ftp': b.find('input[name="env_ftp"]').val(),
-                    'env_deploy': b.find('input[name="env_deploy"]').prop('checked'),
+                    'env_deploy': b.find('input[name="env_deploy"]').prop('checked')
                 };
                 envs.push(envprop);
             });
@@ -107,7 +107,7 @@ define([
                 password: $('input[name="password"]').val(),
                 env: envs,
                 key: $('input[name="key"]').val()
-            }
+            };
 
             _ajax({
                 url: base + 'api/deploy/new',

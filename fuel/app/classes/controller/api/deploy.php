@@ -200,7 +200,6 @@ class Controller_Api_Deploy extends Controller {
                 'request' => $i,
                 'reason' => 'Failed to write to database.'
             ));
-            
         }
     }
 

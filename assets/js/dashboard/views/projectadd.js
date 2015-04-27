@@ -106,6 +106,7 @@ define([
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
                 env: envs,
+                key: $('input[name="key"]').val()
             }
 
             _ajax({

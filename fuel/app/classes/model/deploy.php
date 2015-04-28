@@ -73,7 +73,7 @@ class Model_Deploy extends Model {
                 echo shell_exec('chmod 777 -R');
                 File::delete_dir($repo_dir, true, true);
             } catch (Exception $ex) {
-                
+                return false;
             }
 
             if (count($b) != 0) {

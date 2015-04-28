@@ -88,9 +88,9 @@ class Model_Deploy extends Model {
     }
 
     public function create($data) {
-
-
-
+        
+        
+        
         /*
          * FTP setup,
          * initial revision to empty.

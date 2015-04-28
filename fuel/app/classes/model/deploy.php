@@ -87,7 +87,7 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function create($data) {
+    public function create($repo_url, ) {
         
         
         

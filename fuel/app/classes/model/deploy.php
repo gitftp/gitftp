@@ -32,11 +32,11 @@ class Model_Deploy extends Model {
 
         foreach ($a as $k => $v) {
 
-            if (isset($v['ftp'])) {
-                $ub = unserialize($v['ftp']);
+//            if (isset($v['ftp'])) {
+//                $ub = unserialize($v['ftp']);
 //                $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
 //                $a[$k]['ftp'] = $c;
-            }
+//            }
 //            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
 

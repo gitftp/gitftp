@@ -130,7 +130,8 @@ class Controller_Api_Deploy extends Controller {
         }
 
         $i = Input::post();
-        $user_id = Auth::get_user_id()[1];
+        
+        
 
         /*
          * FTP setup,

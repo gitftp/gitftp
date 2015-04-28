@@ -98,7 +98,7 @@ class Model_Deploy extends Model {
          * initial revision to empty.
          */
         foreach ($ftp as $k => $v) {
-            
+            $ftp[$k][$v] 
         }
         
         $ftp = serialize($i['env']);

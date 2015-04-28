@@ -97,7 +97,9 @@ class Model_Deploy extends Model {
          * FTP setup,
          * initial revision to empty.
          */
-        foreach
+        foreach ($ftp as $key => $value) {
+            
+        }
         
         $ftp = serialize($i['env']);
         $a = DB::insert($this->table)->set(array(

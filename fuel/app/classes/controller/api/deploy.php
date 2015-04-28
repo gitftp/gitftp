@@ -8,9 +8,7 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_getbranches() {
         $post = Input::post();
-
         $a = utils::gitGetBranches($repo, $post['username'], $post['password']);
-
         if ($a) {
             echo json_encode(array(
                 'status' => true,

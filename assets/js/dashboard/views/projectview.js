@@ -67,20 +67,19 @@ define([
                     data = JSON.parse(data);
                 } catch (e) {
                     noty({
-                        text: 'something bad happened'
+                        text: 'something bad happened',
                     });
                 }
-
                 if (data.status) {
                     $.alert({
                         title: 'Updated! ' + data.request.name,
-                        content: 'The configuration was updated.'
+                        content: 'The configuration was updated.',
                     });
                     Backbone.history.loadUrl();
                 } else {
                     noty({
                         text: data.reason,
-                        type: 'error'
+                        type: 'error',
                     });
                 }
             });

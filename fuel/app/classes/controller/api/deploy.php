@@ -3,7 +3,7 @@
 class Controller_Api_Deploy extends Controller {
 
     public function action_index() {
-        
+        echo 'what ?'
     }
 
     public function action_getbranches() {

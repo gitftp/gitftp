@@ -77,9 +77,7 @@ class Model_Deploy extends Model {
             }
 
             if (count($b) != 0) {
-                
                 return true;
-                
             } else {
                 
                 return 'No access';

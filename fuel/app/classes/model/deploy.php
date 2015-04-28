@@ -79,7 +79,6 @@ class Model_Deploy extends Model {
             if (count($deployrow) != 0) {
                 
                 DB::delete($his->table)->where('id', $id)->execute();
-                
                 return true;
                 
             } else {

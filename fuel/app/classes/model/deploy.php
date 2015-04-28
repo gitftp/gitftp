@@ -81,13 +81,7 @@ class Model_Deploy extends Model {
                 DB::delete($this->table)->where('id', $id)->execute();
                 return true;
             } else {
-
                 return 'No access';
-                echo json_encode(array(
-                    'status' => false,
-                    'request' => $id,
-                    'reason' => 'No access'
-                ));
             }
         } else {
             return 'deploy busy';

@@ -87,7 +87,7 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function create($repo_url, $username = null, $password = null, $ftp, ) {
+    public function create($repo_url, $username = null, $password = null, $env, ) {
         
         
         

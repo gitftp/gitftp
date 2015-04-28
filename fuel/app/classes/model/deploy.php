@@ -62,8 +62,7 @@ class Model_Deploy extends Model {
         $status = strtolower($deployrow[0]['status']);
 
         if ($status == 'idle' || $status == 'to be initialized') {
-
-//            $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
+            
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
 
             try {

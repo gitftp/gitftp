@@ -9,16 +9,7 @@ class Controller_Api_Deploy extends Controller {
     public function action_getbranches() {
         $post = Input::post();
 
-        if (!empty($post['username']) && !empty($post['password'])) {
-            $repo_url = parse_url($post['repo']);
-            $repo_url['user'] = $post['username'];
-            $repo_url['pass'] = $post['password'];
-            $repo = http_build_url($repo_url);
-        } else {
-            $repo = $post['repo'];
-        }
-
-        $a = utils::gitGetBranches($repo);
+        $a = utils::gitGetBranches($repo, $post['username'], $post['password']);
 
         if ($a) {
             echo json_encode(array(

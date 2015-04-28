@@ -97,6 +97,8 @@ class Model_Deploy extends Model {
          * FTP setup,
          * initial revision to empty.
          */
+        
+        
         $ftp = serialize($i['env']);
         $a = DB::insert($this->table)->set(array(
                     'repository' => $i['repo'],

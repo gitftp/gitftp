@@ -33,7 +33,6 @@ class Model_Deploy extends Model {
         foreach ($a as $k => $v) {
 
             if (isset($v['ftp'])) {
-               
                 $a[$k]['ftp'] = unserialize($v['ftp']);
 //                $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
 //                $a[$k]['ftp'] = $c;

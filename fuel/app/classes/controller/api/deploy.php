@@ -103,7 +103,6 @@ class Controller_Api_Deploy extends Controller {
         }
         
         $deploy = new Model_Deploy();
-        
         $answer = $deploy->delete($id);
         
         if($answer){

@@ -35,7 +35,7 @@ class Model_Deploy extends Model {
             if (isset($v['ftp'])) {
                
                 $ub = unserialize($v['ftp']);
-                
+                $a[$k]['ftp'] = 
 //                $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
 //                $a[$k]['ftp'] = $c;
 //            }

@@ -107,13 +107,15 @@ class Controller_Api_Deploy extends Controller {
         $answer = $deploy->delete($id);
         
         if($answer){
-            
+            echo json_encode(array(
+                'status' => true,
+                'request' => $id,
+            ));
         }else{
-            
-                echo json_encode(array(
-                    'status' => true,
-                    'request' => $id,
-                ));
+            echo json_encode(array(
+                'status' => true,
+                'request' => $id,
+            ));
         }
         
     }

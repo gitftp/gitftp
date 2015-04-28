@@ -62,7 +62,7 @@ class Model_Deploy extends Model {
         $status = strtolower($deployrow[0]['status']);
 
         if ($status == 'idle' || $status == 'to be initialized') {
-            
+
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
 
             try {
@@ -88,11 +88,30 @@ class Model_Deploy extends Model {
     }
 
     public function create($data) {
-        
-        
-        
-        
-        
+
+
+
+        /*
+         * FTP setup,
+         * initial revision to empty.
+         */
+        $ftp = serialize($i['env']);
+
+        $a = DB::insert('deploy')->set(array(
+                    'repository' => $i['repo'],
+                    'username' => ($i['username']) ? $i['username'] : '',
+                    'name' => $i['name'],
+                    'password' => ($i['password']) ? $i['password'] : '',
+                    'user_id' => $user_id,
+                    'ftp' => serialize($ftp),
+                    'key' => $i['key'],
+                    'cloned' => false,
+                    'deployed' => false,
+                    'lastdeploy' => false,
+                    'status' => 'to be initialized',
+                    'ready' => false,
+                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
+                ))->execute();
     }
 
 }

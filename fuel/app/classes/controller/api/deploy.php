@@ -60,6 +60,7 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_getonly($id = null) {
+        
         $a = $_POST;
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
@@ -69,6 +70,7 @@ class Controller_Api_Deploy extends Controller {
             'status' => true,
             'data' => $b
         ));
+        
     }
 
     public function action_getall($id = null) {

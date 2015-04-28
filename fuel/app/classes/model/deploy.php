@@ -54,6 +54,8 @@ class Model_Deploy extends Model {
     }
 
     public function delete($id) {
+        
+        
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {

@@ -80,6 +80,8 @@ class Model_Deploy extends Model {
                 
                 DB::delete($his->table)->where('id', $id)->execute();
                 
+                return true;
+                
             } else {
                 
                 return 'No access';

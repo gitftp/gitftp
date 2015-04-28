@@ -99,7 +99,7 @@ class Model_Deploy extends Model {
          */
         $ftp = serialize($i['env']);
         
-        $a = DB::insert('deploy')->set(array(
+        $a = DB::insert($this->table)->set(array(
                     'repository' => $i['repo'],
                     'username' => ($i['username']) ? $i['username'] : '',
                     'name' => $i['name'],

@@ -55,7 +55,7 @@ class Model_Deploy extends Model {
 
     public function delete($id) {
 
-        $user_id = Auth::get_user_id()[1];
+        $user_id = $this->user_id;
         $b = DB::select()->from('deploy')->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
 

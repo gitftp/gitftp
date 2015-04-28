@@ -89,6 +89,10 @@ class Model_Deploy extends Model {
 
     public function create($data) {
         
+        
+        
+        
+        
     }
 
 }

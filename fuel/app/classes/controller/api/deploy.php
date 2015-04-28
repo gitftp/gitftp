@@ -61,7 +61,7 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_getonly($id = null) {
         
-        $a = $_POST;
+        $a = Input::post();
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
 

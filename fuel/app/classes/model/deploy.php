@@ -54,18 +54,59 @@ class Model_Deploy extends Model {
     }
 
     public function delete($id) {
-        
-        
-        
+
+        $user_id = Auth::get_user_id()[1];
+        $b = DB::select()->from('deploy')->where('id', $id)->and_where('user_id', $user_id)
+                        ->execute()->as_array();
+
+        $status = strtolower($b[0]['status']);
+
+        if ($status == 'idle' || $status == 'to be initialized') {
+
+            $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
+            $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['id'];
+
+            try {
+                chdir($repo_dir);
+                echo shell_exec('chown www-data * -R');
+                echo shell_exec('chgrp www-data * -R');
+                echo shell_exec('chmod 777 -R');
+                File::delete_dir($repo_dir, true, true);
+            } catch (Exception $ex) {
+                
+            }
+
+            if (count($b) != 0) {
+                DB::delete('deploy')->where('id', $id)->execute();
+                echo json_encode(array(
+                    'status' => true,
+                    'request' => $id,
+                ));
+            } else {
+                echo json_encode(array(
+                    'status' => false,
+                    'request' => $id,
+                    'reason' => 'No access'
+                ));
+            }
+        } else {
+            return json_encode(array(
+                'status' => false,
+                'reason' => 'deploy busy, unable to delete in between of work',
+                'request' => $id
+            ));
+        }
+
+
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {
             return false;
         }
         return DB::delete($his->table)->where('id', $id)->execute();
     }
-    
-    public function create($data){
+
+    public function create($data) {
         
     }
-    
+
 }

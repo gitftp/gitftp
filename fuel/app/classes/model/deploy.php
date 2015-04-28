@@ -87,7 +87,7 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function create($repo_url, $username = null, $password = null, $env) {
+    public function create($repo_url, $name, $username = null, $password = null, $env) {
         
         if(!$this->user_id){
             return false;

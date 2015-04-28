@@ -114,7 +114,7 @@ class Model_Deploy extends Model {
                     'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
                 ))->execute();
         
-        if($a[1]){
+        if($a[1] !== 0 ){
             
         }
         

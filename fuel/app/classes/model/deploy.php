@@ -84,12 +84,12 @@ class Model_Deploy extends Model {
             } else {
                 
                 return 'No access';
-                
                 echo json_encode(array(
                     'status' => false,
                     'request' => $id,
                     'reason' => 'No access'
                 ));
+                
             }
         } else {
             return json_encode(array(

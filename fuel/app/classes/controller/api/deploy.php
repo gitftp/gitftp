@@ -142,7 +142,7 @@ class Controller_Api_Deploy extends Controller {
             echo json_encode(array(
                 'status' => false,
                 'request' => $i,
-                'reason' => 'Failed to write to database.'
+                'reason' => $answer,
             ));
         }
     }

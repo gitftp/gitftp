@@ -98,6 +98,7 @@ define([
                 }
             });
             console.log(raw);
+            
             window.$a = $.alert({
                 title: 'Raw Output',
                 content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',

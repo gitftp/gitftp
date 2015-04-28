@@ -63,6 +63,8 @@ class Model_Deploy extends Model {
         return DB::delete($his->table)->where('id', $id)->execute();
     }
     
-    
+    public function new(){
+        
+    }
     
 }

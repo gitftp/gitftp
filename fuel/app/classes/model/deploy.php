@@ -92,7 +92,7 @@ class Model_Deploy extends Model {
                 
             }
         } else {
-            
+            return 'deploy busy';
             return json_encode(array(
                 'status' => false,
                 'reason' => 'deploy busy, unable to delete in between of work',

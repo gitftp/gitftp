@@ -37,7 +37,6 @@ class Model_Deploy extends Model {
             }
 //            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
-
         return $a;
     }
 

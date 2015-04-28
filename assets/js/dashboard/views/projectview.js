@@ -35,7 +35,7 @@ define([
                         confirmButtonClass: 'btn-danger',
                         autoClose: 'cancel|10000',
                         animation: 'zoom',
-                        confirm: function(){
+                        confirm: function () {
                             $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
                                 $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
                                 $this.find('i').removeClass('fa-trash-o').addClass('fa-ban').unwrap();
@@ -128,7 +128,7 @@ define([
                 activity: activityView,
                 settings: settingsView,
             };
-            
+
             var is_loaded = ($('.project-v-status').length) ? true : false;
 
             this.template = {
@@ -150,7 +150,7 @@ define([
                     });
                     return false;
                 }
-                if(!is_loaded){
+                if (!is_loaded) {
                     var template = that.template.main({'s': data.data[0], 'v': that.which});
                     that.data = data;
                     that.el.html(template);
@@ -219,7 +219,7 @@ define([
                     'activity': data,
                     'more': 'true',
                     'count': data.count,
-                    'renderedCount': count+10
+                    'renderedCount': count + 10
                 });
                 $this.parents('tr').remove();
                 $('.deploy-sub-page table tbody').append(subPage);

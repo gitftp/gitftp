@@ -76,7 +76,7 @@ class Model_Deploy extends Model {
                 return false;
             }
 
-            if (count($b) != 0) {
+            if (count($deployrow) != 0) {
                 
                 $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
                 if (empty($a) or $a[0]['user_id'] != $this->user_id) {

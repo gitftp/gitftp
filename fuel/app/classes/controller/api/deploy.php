@@ -60,7 +60,7 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_getonly($id = null) {
-        
+
         $a = Input::post();
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
@@ -70,7 +70,6 @@ class Controller_Api_Deploy extends Controller {
             'status' => true,
             'data' => $b
         ));
-        
     }
 
     public function action_getall($id = null) {
@@ -185,7 +184,7 @@ class Controller_Api_Deploy extends Controller {
                 'status' => true,
                 'request' => $i
             ));
-        }else{
+        } else {
             echo json_encode(array(
                 'status' => false,
                 'request' => $i,

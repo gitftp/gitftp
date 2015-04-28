@@ -102,7 +102,7 @@ class Controller_Api_Deploy extends Controller {
             return;
         }
         
-        
+        $deploy = new Model_Deploy();
         
     }
 

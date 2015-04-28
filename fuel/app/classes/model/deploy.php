@@ -59,7 +59,7 @@ class Model_Deploy extends Model {
         $deployrow = DB::select()->from($this->table)->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
 
-        $status = strtolower($b[0]['status']);
+        $status = strtolower($deployrow[0]['status']);
 
         if ($status == 'idle' || $status == 'to be initialized') {
 
@@ -77,24 +77,21 @@ class Model_Deploy extends Model {
             }
 
             if (count($deployrow) != 0) {
-                
+
                 DB::delete($his->table)->where('id', $id)->execute();
                 return true;
-                
             } else {
-                
+
                 return 'No access';
                 echo json_encode(array(
                     'status' => false,
                     'request' => $id,
                     'reason' => 'No access'
                 ));
-                
             }
         } else {
             return 'deploy busy';
         }
-        
     }
 
     public function create($data) {

@@ -77,7 +77,16 @@ class Model_Deploy extends Model {
             }
 
             if (count($b) != 0) {
-                return true;
+                
+                $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
+                if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+                    return false;
+                }
+                
+                return DB::delete($his->table)->where('id', $id)->execute();
+                
+                
+                
             } else {
                 
                 return 'No access';
@@ -92,11 +101,6 @@ class Model_Deploy extends Model {
             return 'deploy busy';
         }
         
-        $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return false;
-        }
-        return DB::delete($his->table)->where('id', $id)->execute();
     }
 
     public function create($data) {

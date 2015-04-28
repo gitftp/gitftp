@@ -79,12 +79,8 @@ class Model_Deploy extends Model {
             if (count($b) != 0) {
                 
                 return true;
-                
                 DB::delete('deploy')->where('id', $id)->execute();
-                echo json_encode(array(
-                    'status' => true,
-                    'request' => $id,
-                ));
+                
             } else {
                 
                 return 'No access';

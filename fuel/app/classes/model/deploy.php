@@ -56,7 +56,7 @@ class Model_Deploy extends Model {
     public function delete($id) {
 
         $user_id = $this->user_id;
-        $b = DB::select()->from($this->table)->where('id', $id)->and_where('user_id', $user_id)
+        $deployrow = DB::select()->from($this->table)->where('id', $id)->and_where('user_id', $user_id)
                         ->execute()->as_array();
 
         $status = strtolower($b[0]['status']);
@@ -64,7 +64,7 @@ class Model_Deploy extends Model {
         if ($status == 'idle' || $status == 'to be initialized') {
 
             $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
-            $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $b[0]['id'];
+            $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
 
             try {
                 chdir($repo_dir);

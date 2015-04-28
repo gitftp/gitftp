@@ -4,6 +4,10 @@ class utils {
 
     /**
      * Executes an Git command and returns the results.
+     * $repo,
+     * $username,
+     * $password,
+     * 
      * @param type $arg
      */
     public static function gitGetBranches($repo, $username = null, $password = null) {

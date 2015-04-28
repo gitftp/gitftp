@@ -8,6 +8,7 @@ class utils {
     public static function gitGetBranches($repo, $username = null, $password = null){
         
         
+        
         if(trim($repo) == ''){
             return false;
         }

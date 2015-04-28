@@ -115,7 +115,9 @@ class Model_Deploy extends Model {
                 ))->execute();
         
         if($a[1] !== 0 ){
-            
+            return true;
+        }else{
+            return false;
         }
         
     }

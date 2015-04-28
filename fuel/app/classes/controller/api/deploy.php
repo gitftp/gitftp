@@ -106,7 +106,11 @@ class Controller_Api_Deploy extends Controller {
         
         $answer = $deploy->delete($id);
         
-        
+        if($answer){
+            
+        }else{
+            
+        }
         
     }
 

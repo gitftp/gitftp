@@ -132,8 +132,9 @@ class Controller_Api_Deploy extends Controller {
         $i = Input::post();
         
         
+        
 
-        if ($a[1] !== 0) {
+        if ($answer) {
             echo json_encode(array(
                 'status' => true,
                 'request' => $i

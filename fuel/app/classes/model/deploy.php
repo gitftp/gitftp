@@ -34,9 +34,7 @@ class Model_Deploy extends Model {
 
             if (isset($v['ftp'])) {
                 $a[$k]['ftp'] = unserialize($v['ftp']);
-//                $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
-//                $a[$k]['ftp'] = $c;
-//            }
+            }
 //            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
 

@@ -87,14 +87,13 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function create($repo_url, $username = null, $password = null, $env, ) {
-        
-        
+    public function create($repo_url, $username = null, $password = null, $env) {
         
         /*
          * FTP setup,
          * initial revision to empty.
          */
+        
         $ftp = serialize($i['env']);
 
         $a = DB::insert('deploy')->set(array(

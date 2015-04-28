@@ -131,6 +131,7 @@ class Controller_Api_Deploy extends Controller {
 
         $i = Input::post();
         
+        $deploy = new Model_Deploy();
         
         
 

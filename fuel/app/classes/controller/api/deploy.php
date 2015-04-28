@@ -104,6 +104,8 @@ class Controller_Api_Deploy extends Controller {
         
         $deploy = new Model_Deploy();
         
+        $deploy->delete($id);
+        
     }
 
     public function action_new() {

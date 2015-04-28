@@ -113,6 +113,9 @@ class Model_Deploy extends Model {
                     'ready' => false,
                     'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
                 ))->execute();
+        
+        
+        
     }
 
 }

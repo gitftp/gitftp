@@ -63,7 +63,7 @@ class Model_Deploy extends Model {
 
         if ($status == 'idle' || $status == 'to be initialized') {
 
-            $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
+//            $user_dir = DOCROOT . 'fuel/repository/' . $user_id;
             $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
 
             try {

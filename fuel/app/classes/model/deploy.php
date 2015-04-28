@@ -94,8 +94,7 @@ class Model_Deploy extends Model {
         } else {
             return 'deploy busy';
         }
-
-
+        
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {
             return false;

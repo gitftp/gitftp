@@ -12,7 +12,9 @@ class utils {
         if(!is_null($username)){
             $repo_url['user'] = $post['username'];
         }
-        $repo_url['pass'] = $post['password'];
+        if(!is_null($password)){
+            $repo_url['pass'] = $post['password'];
+        }
         $repo = http_build_url($repo_url);
 
         if (trim($repo) == '') {

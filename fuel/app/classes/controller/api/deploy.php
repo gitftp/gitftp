@@ -132,7 +132,7 @@ class Controller_Api_Deploy extends Controller {
         $i = Input::post();
         
         $deploy = new Model_Deploy();
-        $deploy->create();
+        $deploy->create($i['repo'], $i['name'], $i['username']);
 
         if ($answer) {
             echo json_encode(array(

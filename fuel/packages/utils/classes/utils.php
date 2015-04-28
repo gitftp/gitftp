@@ -5,7 +5,9 @@ class utils {
      * Executes an Git command and returns the results.
      * @param type $arg
      */
-    public static function gitGetBranches($repo, $username, $password){
+    public static function gitGetBranches($repo, $username = null, $password = null){
+        
+        
         if(trim($repo) == ''){
             return false;
         }

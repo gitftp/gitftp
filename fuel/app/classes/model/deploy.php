@@ -82,7 +82,6 @@ class Model_Deploy extends Model {
                 if (empty($a) or $a[0]['user_id'] != $this->user_id) {
                     return false;
                 }
-                
                 return DB::delete($his->table)->where('id', $id)->execute();
                 
                 

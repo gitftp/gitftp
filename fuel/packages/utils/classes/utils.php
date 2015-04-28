@@ -1,21 +1,25 @@
 <?php
 
 class utils {
+
     /**
      * Executes an Git command and returns the results.
      * @param type $arg
      */
-    public static function gitGetBranches($repo, $username = null, $password = null){
-        
-        
-        
-        if(trim($repo) == ''){
+    public static function gitGetBranches($repo, $username = null, $password = null) {
+
+        $repo_url = parse_url($repo);
+        $repo_url['user'] = $post['username'];
+        $repo_url['pass'] = $post['password'];
+        $repo = http_build_url($repo_url);
+
+        if (trim($repo) == '') {
             return false;
         }
         exec("git ls-remote --heads $repo", $op);
-        if(empty($op))
+        if (empty($op))
             return false;
-        
+
         foreach ($op as $k => $v) {
             $b = preg_split('/\s+/', $v);
             $b = explode('/', $b[1]);
@@ -23,7 +27,7 @@ class utils {
         }
         return $op;
     }
-    
+
     /**
      * Get avatar of an email address.
      * 
@@ -35,19 +39,19 @@ class utils {
      * @param type $atts
      * @return string
      */
-    public static function get_gravatar( $email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+    public static function get_gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array()) {
         $url = 'http://www.gravatar.com/avatar/';
-        $url .= md5( strtolower( trim( $email ) ) );
+        $url .= md5(strtolower(trim($email)));
         $url .= "?s=$s&d=$d&r=$r";
-        if ( $img ) {
+        if ($img) {
             $url = '<img src="' . $url . '"';
-            foreach ( $atts as $key => $val )
+            foreach ($atts as $key => $val)
                 $url .= ' ' . $key . '="' . $val . '"';
             $url .= ' />';
         }
         return $url;
     }
-    
+
     /**
      * Test a ftp server, and if the path exists.
      * 
@@ -94,30 +98,30 @@ class utils {
     public static function parsePayload($input, $deploy_id = null) {
 
         $i = json_decode($input['payload']);
-        
+
         $service = 'none';
-        
-        
-        if(isset($i->canon_url)){
-            if(preg_match('/bitbucket/i', $i->canon_url)){
+
+
+        if (isset($i->canon_url)) {
+            if (preg_match('/bitbucket/i', $i->canon_url)) {
                 $service = 'bitbucket';
             }
         }
-        
-        if(isset($i->repository)){
-            if(isset($i->repository->url)){
-                if(preg_match('/github/i', $i->repository->url)){
+
+        if (isset($i->repository)) {
+            if (isset($i->repository->url)) {
+                if (preg_match('/github/i', $i->repository->url)) {
                     $service = 'github';
                 }
             }
         }
-                
+
         DB::insert('test')->set(array(
-            'test'=> $service
+            'test' => $service
         ))->execute();
-        
-        if($service == 'github'){
-            $lc = count($i->commits)-1;
+
+        if ($service == 'github') {
+            $lc = count($i->commits) - 1;
             return array(
                 'pushby' => $i->pusher->name,
                 'avatar_url' => $i->sender->avatar_url,
@@ -127,9 +131,9 @@ class utils {
                 'commit_message' => $i->commits[$lc]->message
             );
         }
-        
-        if($service == 'bitbucket'){
-            $lc = count($i->commits)-1;
+
+        if ($service == 'bitbucket') {
+            $lc = count($i->commits) - 1;
             return array(
                 'pushby' => $i->commits[$lc]->author,
                 'avatar_url' => '',
@@ -140,12 +144,12 @@ class utils {
             );
         }
     }
-    
-    public static function humanize_data($bytes){
+
+    public static function humanize_data($bytes) {
         $decimals = 2;
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];        
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
 }

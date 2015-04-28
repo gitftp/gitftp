@@ -97,7 +97,7 @@ class Model_Deploy extends Model {
          * FTP setup,
          * initial revision to empty.
          */
-        foreach ($ftp as $key => $value) {
+        foreach ($ftp as $k => $v) {
             
         }
         

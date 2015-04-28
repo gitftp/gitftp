@@ -34,7 +34,6 @@ class Model_Deploy extends Model {
 
             if (isset($v['ftp'])) {
                 $ub = unserialize($v['ftp']);
-                $c = DB::select()->from('ftpdata')->where('id', $ub['production'])->execute()->as_array();
                 $a[$k]['ftpdata'] = unserialize($a[$k]['ftp']);
                 $a[$k]['ftp'] = $c;
             }

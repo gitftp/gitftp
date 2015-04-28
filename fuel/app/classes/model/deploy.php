@@ -98,7 +98,7 @@ class Model_Deploy extends Model {
          * initial revision to empty.
          */
         foreach ($ftp as $k => $v) {
-            $ftp[$k]['env_id'] = rand(10000000000, 9999999999)
+            $ftp[$k]['env_id'] = rand(100000, 999999)
         }
         
         $ftp = serialize($i['env']);

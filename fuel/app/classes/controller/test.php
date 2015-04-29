@@ -16,6 +16,7 @@ class Controller_Test extends Controller {
     public function action_deploy(){
         $deploy = new Model_Deploy();
         $a = $deploy->get();
+        print_r($a);
     }
     
     public function action_testw() {

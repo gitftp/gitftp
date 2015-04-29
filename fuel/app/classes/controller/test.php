@@ -13,6 +13,10 @@ class Controller_Test extends Controller {
         echo "<img src='$g' />";
     }
 
+    public function action_deploy(){
+        
+    }
+    
     public function action_testw() {
         echo is_dash;
         echo '<br>';

@@ -6,7 +6,7 @@ class Controller_Test extends Controller {
 //        $sendmail = new Sendmail();
 //        $sendmail->send();
         
-        
+        $a = new Model_Deploy();
     }
     
     public function action_g() {

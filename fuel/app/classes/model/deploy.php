@@ -32,6 +32,7 @@ class Model_Deploy extends Model {
             }
         }
         return $a;
+        
     }
 
     public function set($id, $set = array(), $direct = false) {

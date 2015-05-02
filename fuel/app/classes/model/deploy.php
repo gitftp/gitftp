@@ -13,13 +13,9 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, $select = array()) {
-
-        if (count($select) == 0) {
-            $q = DB::select();
-        } else {
-            $q = DB::select_array($select);
-        }
+    public function get($id = null, $select = NULL) {
+        
+        $q = DB::select_array($select);
 
         $q = $q->from($this->table)
                 ->where('user_id', $this->user_id);
@@ -31,11 +27,9 @@ class Model_Deploy extends Model {
         $a = $q->execute()->as_array();
 
         foreach ($a as $k => $v) {
-
             if (isset($v['ftp'])) {
                 $a[$k]['ftp'] = unserialize($v['ftp']);
             }
-//            $a[$k]['lastdeploy'] = Date::forge($a[$k]['lastdeploy'])->format("%m/%d/%Y %H:%M");
         }
         return $a;
     }

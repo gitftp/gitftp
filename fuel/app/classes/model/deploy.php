@@ -14,7 +14,7 @@ class Model_Deploy extends Model {
     }
 
     public function get($id = null, $select = NULL) {
-        
+
         $q = DB::select_array($select);
 
         $q = $q->from($this->table)
@@ -26,13 +26,7 @@ class Model_Deploy extends Model {
 
         $a = $q->execute()->as_array();
 
-        foreach ($a as $k => $v) {
-            if (isset($v['ftp'])) {
-                $a[$k]['ftp'] = unserialize($v['ftp']);
-            }
-        }
         return $a;
-        
     }
 
     public function set($id, $set = array(), $direct = false) {
@@ -82,43 +76,51 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function create($repo_url, $name, $username = null, $password = null, $env) {
-        
-        if(!$this->user_id){
+    public function create($repo_url, $name, $username = null, $password = null, $key, $env) {
+
+        if (!$this->user_id) {
             return false;
         }
-        
-        /*
-         * FTP setup,
-         * initial revision to empty.
-         */
-        foreach ($ftp as $k => $v) {
-            $ftp[$k]['env_id'] = rand(100000, 999999).rand(100000, 999999);
+        if (!count($env)) {
+            return 'Atleast one env required.';
         }
-        
-        $ftp = serialize($i['env']);
-        $a = DB::insert($this->table)->set(array(
-                    'repository' => $i['repo'],
-                    'username' => ($i['username']) ? $i['username'] : '',
-                    'name' => $i['name'],
-                    'password' => ($i['password']) ? $i['password'] : '',
-                    'user_id' => $user_id,
-                    'ftp' => serialize($ftp),
-                    'key' => $i['key'],
-                    'cloned' => false,
-                    'deployed' => false,
-                    'lastdeploy' => false,
+
+        $deploy_id = DB::insert($this->table)->set(array(
+                    'repository' => $repo_url,
+                    'active' => 0,
+                    'name' => $name,
+                    'user_id' => $this->user_id,
+                    'username' => ($username) ? $username : '',
+                    'password' => ($password) ? $password : '',
+                    'key' => $key,
+                    'cloned' => 0,
+                    'deployed' => 0,
+                    'lastdeploy' => 0,
                     'status' => 'to be initialized',
-                    'ready' => false,
-                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp())
+                    'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
+                    'ready' => 0,
                 ))->execute();
-        
-        if($a[1] !== 0 ){
-            return true;
-        }else{
+
+        foreach ($env as $k => $v) {
+            $env = DB::insert('branches')->set(array(
+                        'repo_id' => $deploy_id[0],
+                        'user_id' => $this->user_id,
+                        'name' => $v['env_name'],
+                        'branch_name' => $v['env_branch'],
+                        'auto' => ($v['env_deploy'] == 'true') ? 1 : 0,
+                        'ftp_id' => $v['env_ftp'],
+                        'ready' => 0,
+                        'skip_path' => false,
+                        'purge_path' => false,
+                        'revision' => '',
+                    ))->execute();
+        }
+
+        if ($deploy_id[1] !== 0) {
+            return $deploy_id[0];
+        } else {
             return false;
         }
-        
     }
 
 }

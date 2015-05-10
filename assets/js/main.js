@@ -4,6 +4,11 @@ $(function () {
         a = a.replace(/>/ig, '&gt;');
         return a;
     }
+
+    window.log = function(arg){
+        console.log(arg);
+    }
+
 //    ajaxHelper
     window._ajax = function (arg) {
         return $.ajax(arg)

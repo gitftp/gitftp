@@ -52,8 +52,8 @@
 }
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-  background-color: #fff;
-  /*background-color: #FCFCFC;*/
+  /*background-color: #fff;*/
+  background-color: #FCFCFC;
   color: #555;
   overflow-y: scroll;
   box-shadow: inset 0px 2px #62c7f2;
@@ -84,17 +84,28 @@ select:active {
 .jconfirm.git .jconfirm-bg {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
+.jconfirm.git .jconfirm-box {
+  border-radius: 0px !important;
+}
 .jconfirm.git .jconfirm-box div.title {
   font-weight: normal;
   font-size: 22px;
+  font-weight: bold;
+  text-transform: uppercase;
 }
 .navbar-nav li.active a {
   background-image: none !important;
   background-color: #f8f8f8 !important;
+  box-shadow: inset 0 2px #66bd61;
+}
+.navbar-nav li a {
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 14px;
 }
 .navbar-default {
-  background: -webkit-linear-gradient(top, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
-  background: linear-gradient(to bottom, #ffffff 0%, rgba(248, 248, 248, 0.9) 100%);
+  /*background: linear-gradient(to bottom, #fff 0%, rgba(248,248,248,.9) 100%)*/
+  background: #fff;
 }
 h1,
 h2,
@@ -145,7 +156,7 @@ h6 {
 .viewdeploy .project-list-block,
 .ftp-servers-list .project-list-block {
   background-color: #fff;
-  border: solid 1px #ddd;
+  border: solid 2px #ddd;
   padding: 5px 15px 10px;
   border-radius: 4px;
   -webkit-transition: border .2s;

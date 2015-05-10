@@ -8,7 +8,7 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_getbranches() {
         $post = Input::post();
-        $a = utils::gitGetBranches($repo, $post['username'], $post['password']);
+        $a = utils::gitGetBranches($post['repo'], $post['username'], $post['password']);
         if ($a) {
             echo json_encode(array(
                 'status' => true,
@@ -121,6 +121,7 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_new() {
+        
         if (!Auth::check()) {
             echo json_encode(array(
                 'status' => false,
@@ -132,9 +133,9 @@ class Controller_Api_Deploy extends Controller {
         $i = Input::post();
         
         $deploy = new Model_Deploy();
-        $answer = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['ftp']);
-
-        if ($answer) {
+        $deploy_id = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['key'], $i['env']);
+        
+        if ($deploy_id) {
             echo json_encode(array(
                 'status' => true,
                 'request' => $i
@@ -143,7 +144,7 @@ class Controller_Api_Deploy extends Controller {
             echo json_encode(array(
                 'status' => false,
                 'request' => $i,
-                'reason' => $answer,
+                'reason' => $deploy_id,
             ));
         }
     }

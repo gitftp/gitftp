@@ -58,7 +58,7 @@
                 Environments makes it easy to Deploy your code into multiple servers, and maintain your workflow. <br>
                 You can have Development Env, Testing Env, Production Env, Etc. <br>
             </p>
-            <table class="table table-condensed">
+            <table class="table table-condensed env-table">
                 <thead>
                     <tr>
                         <th>NAME</th>
@@ -68,7 +68,6 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <% var rows = 0; while(rows<3){ %>
                     <tr class="env-rows">
                         <td width="30%">
                             <input type="text" class="form-control" placeholder="Dev/Test/Prod" name="env_name">
@@ -94,9 +93,9 @@
                             </div>
                         </td>
                     </tr>
-                    <% rows+=1; } %>
                 </tbody>
             </table>
+            <button class="btn btn-default" type="button" id="project-add-add-env"> <i class="fa fa-plus fa-fw"></i> Add environment</button>
         </div>
     </div>
 </form>

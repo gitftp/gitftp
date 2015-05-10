@@ -37,12 +37,11 @@
                         <%= a.name %>
                     </span> 
                     <span class="status">(<%= a.status %>)</span>
-                    
                 </p>
                 <div class="clearfix"></div>
             </div>
             <span style="color: #aaa">(<%= a.repository %>)</span><br>
-            <span>deploy to <%= a.ftp[0].host %><%= a.ftp[0].path %> <span class="pull-right"><%= (a.lastdeploy == '0') ? 'Not deployed' : moment(a.lastdeploy).format('D/MMMM/YYYY hh:mm a') %></span></span>
+            <span><span class=""><%= (a.lastdeploy == '0') ? 'Not deployed' : moment(a.lastdeploy).format('D/MMMM/YYYY hh:mm a') %></span></span>
         </div>
     </div>
     <% }) %>

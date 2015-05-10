@@ -1,5 +1,5 @@
 <div style="height: 20px;"></div>
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
             <nav class="navbar navbar-default navbar-fixed-top dash-nav">
@@ -35,8 +35,8 @@
                                                 </ul>-->
 
                         <ul class="nav navbar-nav navbar-left drop">
-                            <li class="home"><a href="<?php echo Uri::base(false); ?>#home">Dashboard</a></li>
-                            <li class="deploy"><a href="<?php echo Uri::base(false); ?>#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Deploy</a></li>
+                            <li class="home"><a href="<?php echo Uri::base(false); ?>#home"> <i class="fa fa-home fa-fw"></i> Summary </a></li>
+                            <li class="deploy"><a href="<?php echo Uri::base(false); ?>#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Project</a></li>
                             <li class="ftp"><a href="<?php echo Uri::base(false); ?>#ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
                         </ul>
 

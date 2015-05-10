@@ -2,24 +2,48 @@ define([
     'text!pages/projectadd.html'
 ], function (page) {
 
-    d = Backbone.View.extend({
+    return Backbone.View.extend({
         el: app.el,
         events: {
             'click #deploy-save-new': 'savenew',
+            // form save
             'submit #add-deploy-form': 'preventform',
-            'keyup input#add-repo': 'calcname',
+            // form prevent
+            'input input#add-repo': 'calcname',
+            // calculate repo name from url
             'change #deploy-add-privaterepo': 'priCheck',
+            // checkbox for private repo
             'click .testconnectiontorepo': 'testConnectionToRepo',
+            // test connection to repo and get its branches
+            'click #project-add-add-env': 'addenvrow',
+            // add a new env row.
+            'input input#name' : 'repoCustomName'
+        },
+        repoCustomName: function(e){
+            this.customName = true;
+        },
+        addenvrow: function (e) {
+            var $row = $('.env-rows').eq(0).clone();
+
+            if ($('.env-rows').length == 3) {
+                $.alert({
+                    title: "Cannot add more env",
+                    content: 'Its only limited to 3 env',
+                });
+                return;
+            }
+
+            $('.env-table').find('tbody').append($row);
         },
         preventform: function (e) {
             e.preventDefault();
         },
         testConnectionToRepo: function (e) {
-
             var $this = $(e.currentTarget);
             var that = this;
             $this.attr('data-html', $this.html()).html('<i class="fa fa-spin fa-spinner"></i>').prop('disabled', true);
-
+            $input = $this.parents('.input-group').find('input[name="repo"]');
+            $input.prop('readonly', true);
             _ajax({
                 url: base + 'api/deploy/getbranches',
                 data: {
@@ -38,19 +62,21 @@ define([
                     $.each(data.data, function (i, a) {
                         b += '<option value="' + a + '">' + a + '</option>';
                     });
-                    $('select.repo-branches').attr('data-header', 'Got ' + data.data.length + ' branches').html(b).selectpicker('refresh');
+//                    $('select.repo-branches').attr('data-header', 'Got ' + data.data.length + ' branches').html(b).selectpicker('refresh');
+                    $('select.repo-branches').attr('data-header', 'Got ' + data.data.length + ' branches').html(b);
+                    $input.prop('readonly', false);
                 } else {
                     $.alert({
                         title: 'Something went wrong.',
                         icon: 'fa fa-times red',
                         content: 'We have trouble connecting to your repository,<br> Url: <code>' + escapeTag(data.request.repo) + '</code>',
                     });
+                    $input.prop('readonly', false);
                     $this.html($this.attr('data-html')).prop('disabled', false);
                 }
             }).error(function () {
                 $this.html($this.attr('data-html')).prop('disabled', false);
             });
-
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);
@@ -63,10 +89,15 @@ define([
         calcname: function (e) {
             $btn = $('.testconnectiontorepo');
             $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
-
+            if(this.customName){
+                /*
+                 * if the user has added a custom name.
+                 */
+                return false;
+            }
             var $this = $(e.currentTarget);
             var str = $this.val();
-            var tar = $('#deploy-save-new input[name="name"]');
+            var tar = $('input[name="name"]#name');
             var i = str.indexOf('.git');
             if (i !== -1) {
                 if (i == str.length - 4) {
@@ -84,9 +115,10 @@ define([
             var $this = $(e.currentTarget);
             e.preventDefault();
 
-//            $this.attr('readonly', true);
-//            $('#add-deploy-form').find('select,input').attr('readonly', true);
+            $this.attr('readonly', true);
+            $('#add-deploy-form').find('select,input').attr('readonly', true);
 
+            // gathering env data.
             var envs = [];
             $.each($('.env-rows'), function (i, a) {
                 var b = $(a);
@@ -99,6 +131,7 @@ define([
                 envs.push(envprop);
             });
 
+            // preparing post object
             var data = {
                 repo: $('input[name="repo"]').val(),
                 name: $('input[name="name"]').val(),
@@ -114,8 +147,6 @@ define([
                 dataType: 'json',
                 method: 'post'
             }).done(function (data) {
-                $this.find('select, input').removeAttr('readonly');
-                data = JSON.parse(data);
 
                 if (data.status) {
 
@@ -123,6 +154,7 @@ define([
                         title: 'Added',
                         content: 'The configuration is added, please proceed for first deployment.'
                     });
+                    
                     Router.navigate('deploy', {
                         trigger: true
                     });
@@ -133,6 +165,11 @@ define([
                         type: 'error'
                     });
                 }
+
+            }).always(function () {
+
+                $this.find('select, input').removeAttr('readonly');
+
             });
 
         },
@@ -162,10 +199,8 @@ define([
                 }
                 var page = that.template({'ftplist': data.data});
                 that.el.html(page);
-                $('.selectpicker').selectpicker();
+//                $('.selectpicker').selectpicker();
             });
         }
     });
-
-    return d;
 });

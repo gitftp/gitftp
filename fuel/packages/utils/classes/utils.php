@@ -13,11 +13,12 @@ class utils {
     public static function gitGetBranches($repo, $username = null, $password = null) {
 
         $repo_url = parse_url($repo);
+        
         if(!is_null($username)){
-            $repo_url['user'] = $post['username'];
+            $repo_url['user'] = $username;
         }
         if(!is_null($password)){
-            $repo_url['pass'] = $post['password'];
+            $repo_url['pass'] = $password;
         }
         $repo = http_build_url($repo_url);
 

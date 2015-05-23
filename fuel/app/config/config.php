@@ -281,11 +281,11 @@ return array(
         'packages' => array(
             'gitcore',
             'bridge',
-//            'custom',
             'utils',
             'auth',
             'email',
             'parser',
+            'gfcore',
         ),
     ),
         /**

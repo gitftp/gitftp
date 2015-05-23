@@ -185,8 +185,8 @@ define([
                 dataType: 'json',
             }).done(function (data) {
                 if (data.data.length == 0) {
-                    $.confirm({
-                        title: 'No FTP servers found.',
+                    $.alert({
+                        title: 'No FTP servers added.',
                         content: 'To setup a deploy, you first need to add a FTP server configuration.',
                         confirmButton: 'Add ftp',
                         confirm: function () {
@@ -194,7 +194,8 @@ define([
                                 trigger: true
                             });
                         },
-                        confirmButtonClass: 'btn-success'
+                        confirmButtonClass: 'btn-success',
+                        backgroundDismiss: false,
                     })
                 }
                 var page = that.template({'ftplist': data.data});

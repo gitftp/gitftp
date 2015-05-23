@@ -1,6 +1,6 @@
 <h3>
     FTP servers
-    <a href="#ftp/add" class="btn btn-default pull-right"><i class="fa fa-plus fa-fw"></i> Add Server</a>
+    <a href="#ftp/add" class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i> Add Server</a>
 </h3>
 <p>
     Wherein the files are deployed.
@@ -19,7 +19,7 @@
                     <span class="head">
                         <i class="fa fa-server fa-fw"></i>
                         <%= (a.name) ? a.name : '(unnamed)' %>
-                    </span> 
+                    </span>
                     <span class="">(<%= a.host %> - <%= a.username %>)</span>
                 </p>
                 <div class="clearfix"></div>
@@ -43,19 +43,17 @@
 <div class="space10"></div>
 <div class="space10"></div>
 <p class="text-center" style="color: #aaa;">
+    <i class="fa fa-file-o fa-3x"></i> <br>
     <span style="font-size: 20px;">Its empty here</span>
     <br>
-    <span>
-        Add a FTP server to link with your deployments
-    </span>
+    <span>Add a FTP server to link with your deployments</span>
     <br>
     <br>
-
-    <a href="#ftp/add" class="btn btn-default btn-lg">
-        <i class="fa fa-server fa-2x" style="color: #ef3d37"></i> <br>
-        Add your FTP server!
+    <a href="#ftp/add" class="btn btn-success btn-lg">
+        Add new
     </a>
 </p>
+
 <% } %>
 
 

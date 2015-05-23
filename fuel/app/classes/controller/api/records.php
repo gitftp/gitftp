@@ -6,32 +6,36 @@ class Controller_Api_Records extends Controller {
         
     }
 
-    public function action_getall($id = null) {
+    public static function _init() {
         if (!Auth::check()) {
             echo json_encode(array(
-                'status' => false,
+                'status' => FALSE,
                 'reason' => 'GT-405'
             ));
-            return;
+            die();
         }
+    }
+    public function action_getall($id = null) {
         $get = Input::get();
-        
         $limit = isset($get['limit']) ? $get['limit'] : false;
         $offset = isset($get['offset']) ? $get['offset'] : false;
-        
         $record = new Model_Record();
         $data = $record->get($id, $limit, $offset);
-
-        foreach ($data as $k => $v) {
-            $data[$k]['file_add'] = $data[$k]['file_add'];
-            $data[$k]['file_remove'] = $data[$k]['file_remove'];
-            $data[$k]['file_skip'] = $data[$k]['file_skip'];
-        }
 
         echo json_encode(array(
             'status' => true,
             'data' => $data,
             'count' => $record->get_count($id)
         ));
+    }
+
+    public function action_getraw($id) {
+
+        $record = new Model_Record();
+        $record = $record->get_raw_by_record($id);
+        echo '<pre>';
+        print_r(unserialize($record[0]['raw']));
+        echo '</pre>';
+
     }
 }

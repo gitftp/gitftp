@@ -23,16 +23,17 @@ class Model_Ftp extends Model {
         }
 
         $a = $q->execute()->as_array();
-
         return $a;
     }
 
-    public function set($id, $set = array()) {
+    public function set($id, $set = array(), $direct = FALSE) {
 
-        $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
+        if (!$direct) {
+            $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return 'id pass dont match';
+            if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+                return FALSE;
+            }
         }
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();

@@ -1,6 +1,6 @@
 <h3>
     Deployment
-    <a href="#deploy/new" class="btn btn-default pull-right"><i class="fa fa-plus fa-fw"></i> Create new</a>
+    <a href="#deploy/new" class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i> Create new</a>
 </h3>
 <p>
     Get started with deployment in minutes.
@@ -12,16 +12,17 @@
 <div class="space10"></div>
 <div class="space10"></div>
 <p class="text-center" style="color: #aaa;">
+
+    <i class="fa fa-file-o fa-3x"></i> <br>
     <span style="font-size: 20px;">Its empty here</span>
     <br>
     <span>Make sure you have a ftp server added and working to get started.</span>
     <br>
     <br>
-
-    <a href="#deploy/new" class="btn btn-default btn-lg">
-        <i class="fa fa-cloud-upload fa-2x" style="color: #ef3d37"></i> <br>
-        Add your first deploy!
+    <a href="#deploy/new" class="btn btn-success btn-lg">
+        Create new
     </a>
+
 </p>
 
 <% }else{ %>
@@ -35,7 +36,7 @@
                     <span class="head">
                         <i class="fa fa-cloud-upload fa-fw"></i>
                         <%= a.name %>
-                    </span> 
+                    </span>
                     <span class="status">(<%= a.status %>)</span>
                 </p>
                 <div class="clearfix"></div>

@@ -42,13 +42,13 @@ define([
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                 }
             });
-
         },
         testFtp: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
-            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner').prop('disabled', true);
+            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner');
+            $this.prop('disabled', true);
             
             _ajax({
                 url: base + 'api/ftp/testftp',
@@ -57,10 +57,11 @@ define([
                 data: form
             }).done(function (d) {
                 $.alert({
-                    title: (d.status) ? '<i class="fa fa-check green"></i> Successful' : '<i class="fa fa-times red"></i> Falied',
-                    content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: '+d.reason
+                    title: (d.status) ? '<i class="fa fa-check green"></i> Connected' : 'Problem found',
+                    content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: <code>' + d.reason + '</code>'
                 });
-                $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner').removeAttr('disabled');
+                $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
+                $this.prop('disabled', false);
             });
         },
         oneline: function () {

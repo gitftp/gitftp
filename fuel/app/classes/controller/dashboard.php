@@ -1,16 +1,16 @@
 <?php
 
 class Controller_Dashboard extends Controller {
-    
+
     public function action_index() {
-            
-        if(!is_dash){
+
+        if (!is_dash) {
             Response::redirect(home_url);
         }
-        if(!Auth::check()){
-            Response::redirect(home_url.'/login');
+        if (!Auth::check()) {
+            Response::redirect(home_url . 'login');
         }
-        
+
         $view = View::forge('layout/base_layout.mustache');
         $view->css = View::forge('layout/css');
         $view->js = View::forge('layout/js');

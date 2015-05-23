@@ -1,9 +1,28 @@
+@import url(http://fonts.googleapis.com/css?family=Lato);
 /* ==========================================================================
-    www.GITFTP.com
+    www.gitftp.com
     Git deploy automation software
    ========================================================================== */
+body {
+    font-family: 'Lato', sans-serif;
+    /*background-color: #fff;*/
+    background-color: #FCFCFC;
+    color: #555;
+    overflow-y: scroll;
+    box-shadow: inset 0px 2px #62c7f2;
+}
+
+::-moz-selection {
+    background: #aaa;
+    color: white;
+}
+
+::selection {
+    background: #aaa;
+    color: white;
+}
 .red {
-  color: #ef3d3d;
+    color: #ff5a5a;
 }
 .white-c {
   color: white !important;
@@ -12,7 +31,7 @@
   color: white !important;
 }
 .red-bg {
-  background: #ef3d3d;
+    background: #ff5a5a;
 }
 .blue {
   color: #62c7f2;
@@ -50,22 +69,6 @@
 .redalt-bg {
   background: #ef4036;
 }
-body {
-  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-  /*background-color: #fff;*/
-  background-color: #FCFCFC;
-  color: #555;
-  overflow-y: scroll;
-  box-shadow: inset 0px 2px #62c7f2;
-}
-::-moz-selection {
-  background: #aaa;
-  color: white;
-}
-::selection {
-  background: #aaa;
-  color: white;
-}
 a:hover {
   text-decoration: none;
 }
@@ -85,7 +88,7 @@ select:active {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
 .jconfirm.git .jconfirm-box {
-  border-radius: 0px !important;
+    /*border-radius: 0px !important;*/
 }
 .jconfirm.git .jconfirm-box div.title {
   font-weight: normal;
@@ -118,11 +121,22 @@ h6 {
 .btn {
   background-image: none;
   border: solid 1px transparent !important;
+    border-radius: 4px;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+    border: none;
+}
+
+.btn:hover {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    box-shadow: none;
 }
 .btn.btn-default {
-  background-image: -webkit-linear-gradient(top, #f8f8f8 0%, #eeeeee 100%);
-  background-image: linear-gradient(to bottom, #f8f8f8 0%, #eeeeee 100%);
-  border-color: #E8E8E8;
+    background-color: #eee;
+    color: #555;
 }
 .btn.btn-default.btn-gitftp {
   color: #62c7f2;
@@ -131,8 +145,7 @@ h6 {
 .btn.btn-default:focus,
 .btn.btn-default:active {
   background-image: none;
-  background-color: #eee;
-  border-color: #ddd;
+    background-color: #e6e6e6;
 }
 .btn.btn-success {
   background: #66bd61;
@@ -144,6 +157,10 @@ h6 {
 }
 .btn.btn-link:hover {
   text-decoration: none;
+}
+
+.btn.btn-danger {
+    background-color: #ff5a5a;
 }
 .viewdeploy,
 .ftp-servers-list {
@@ -185,8 +202,8 @@ h6 {
 .bb-loading:empty {
   height: 300px
   /*    background-image: url('../img/blank.gif');
-        background-position: center;
-        background-repeat: no-repeat;*/
+      background-position: center;
+      background-repeat: no-repeat;*/
 }
 .bb-loading {
   position: relative;
@@ -358,4 +375,48 @@ h6 {
   padding: 5px;
   background: white;
   border-radius: 4px;
+}
+
+.jconfirm.supervan .jconfirm-bg {
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+.jconfirm.supervan .jconfirm-box {
+    background-color: transparent;
+}
+
+.jconfirm.supervan .jconfirm-box div.title {
+    text-align: center;
+    font-size: 28px;
+    font-weight: normal;
+}
+
+.jconfirm.supervan .jconfirm-box div.content {
+    text-align: center;
+}
+
+.jconfirm.supervan .jconfirm-box .buttons {
+    text-align: center;
+}
+
+.jconfirm.supervan .jconfirm-box .buttons button {
+    font-size: 16px;
+    border-radius: 2px;
+    background: #54c2f1;
+    text-shadow: none;
+    border: none;
+    color: white;
+    width: 25%;
+    padding: 10px;
+}
+
+.jconfirm.supervan .jconfirm-box .buttons button:hover {
+    background: #46bdf0;
+}
+
+.jconfirm.supervan .jconfirm-box.hilight {
+    box-shadow: none;
+    -webkit-transform: scale(0.9);
+    -ms-transform: scale(0.9);
+    transform: scale(0.9);
 }

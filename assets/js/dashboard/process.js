@@ -14,7 +14,7 @@ define([
                     $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
                         data = data.data[0];
                         var el = $('.project-v-status');
-                        if (data.status == 'Idle' || data.status == 'to be initialized') {
+                        if (data.status == 'Idle' || data.status == 'To be initialized') {
                             el.removeClass("project-co-loading");
                             el.html(data.status);
                         } else {

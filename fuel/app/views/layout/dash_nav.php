@@ -15,7 +15,6 @@
                         <a class="navbar-brand" href="<?php echo home_url; ?>"> <?php echo Asset::img('logo-sm.png', array('style'=>'height: 40px; margin-top: -9px;')); ?> </a>
                         <!--<a class="navbar-brand" href="<?php //echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
                     </div>
-
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <!--                        <ul class="nav navbar-nav">
                                                     <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
@@ -35,7 +34,8 @@
                                                 </ul>-->
 
                         <ul class="nav navbar-nav navbar-left drop">
-                            <li class="home"><a href="<?php echo Uri::base(false); ?>#home"> <i class="fa fa-home fa-fw"></i> Summary </a></li>
+                            <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#home"> <i
+                                        class="fa fa-home fa-fw"></i> Summary</a></li>
                             <li class="deploy"><a href="<?php echo Uri::base(false); ?>#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Project</a></li>
                             <li class="ftp"><a href="<?php echo Uri::base(false); ?>#ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
                         </ul>

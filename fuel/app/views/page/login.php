@@ -17,8 +17,9 @@
                 <div class="space20"></div>
                 <form id="home-login-module" action="<?php echo Uri::base(false) ?>user/login" method="POST">
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" name="email" placeholder="Your email" class="form-control input-lg">
+                        <label for="text">Username/Email</label>
+                        <input type="text" id="email" name="email" placeholder="Your email"
+                               class="form-control input-lg">
                     </div>
                     <div class="form-group">
                         <label for="email">Password</label>

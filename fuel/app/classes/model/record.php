@@ -13,10 +13,37 @@ class Model_Record extends Model {
         }
     }
 
-    public function get($id = null, $limit = false, $offset = false) {
+    /**
+     *
+     * @param type $id -> deploy id
+     * @param type $limit -> data limit
+     * @param type $offset -> data offset
+     * @return type
+     */
+    public function get($id = null, $limit = FALSE, $offset = FALSE, $status = FALSE) {
 
-        $q = DB::select()->from($this->table)
-                ->where('user_id', $this->user_id);
+        $q = DB::select_array(array(
+            'id',
+            'deploy_id',
+            'user_id',
+            'status',
+            'branch_id',
+            'amount_deployed_raw',
+            'amount_deployed',
+            // 'raw',
+            'date',
+            'triggerby',
+            // 'post_data',
+            'avatar_url',
+            'hash',
+            'commit_count',
+            'commit_message',
+            'file_add',
+            'file_remove',
+            'file_skip',
+            'total_files',
+            'processed_files',
+        ))->from($this->table)->where('user_id', $this->user_id);
 
         if ($id != null) {
             $q = $q->and_where('deploy_id', $id);
@@ -28,14 +55,52 @@ class Model_Record extends Model {
             }
         }
 
-        $r = $q->order_by('id', 'DESC')->execute()->as_array();
-        
-        foreach ($r as $key => $value) {
-            $r[$key]['raw'] = unserialize($r[$key]['raw']);
+        if ($status) {
+            $q = $q->and_where('status', $status);
         }
-        
+
+        $r = $q->order_by('id', 'DESC')->execute()->as_array();
+
+        foreach ($r as $key => $value) {
+            if (isset($r[$key]['raw'])) {
+                $r[$key]['raw'] = unserialize($r[$key]['raw']);
+            }
+        }
+
         return $r;
     }
+
+
+    public function get_raw_by_record($record_id) {
+        $q = DB::select('raw')->from($this->table)->where('id', $record_id)->execute()->as_array();
+
+        return $q;
+    }
+
+    public function get_raw_by_deploy($deploy_id) {
+        $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
+
+        return $q;
+    }
+
+
+    public function get_post_data_by_record($record_id) {
+        $q = DB::select('post_data')->from($this->table)->where('id', $record_id)->execute()->as_array();
+
+        return $q;
+    }
+
+    public function get_post_data_by_deploy($deploy_id) {
+        $q = DB::select('post_data')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
+
+        return $q;
+    }
+
+    /**
+     * return number of records.
+     * @param type $id
+     * @return type
+     */
     public function get_count($id = null){
         $q = DB::select('id')->from($this->table)
                 ->where('user_id', $this->user_id)
@@ -44,19 +109,28 @@ class Model_Record extends Model {
                 ->as_array();
         return count($q);
     }
-    
+
     /**
      * COLUMNS:
      * id,
      * deploy_id,
      * user_id,
      * status,
+     * branch_id,
+     * amount_deployed_raw,
      * amount_deployed,
      * raw,
      * date,
      * triggerby,
      * post_data
-     * 
+     * avatar_url
+     * hash
+     * commit_count
+     * commit_message
+     * file_add
+     * file_remove
+     * file_skip
+     *
      * @param type $ar
      */
     public function set($id, $set = array(), $direct = false) {
@@ -78,11 +152,20 @@ class Model_Record extends Model {
      * deploy_id,
      * user_id,
      * status,
+     * branch_id,
+     * amount_deployed_raw,
      * amount_deployed,
      * raw,
      * date,
      * triggerby,
      * post_data
+     * avatar_url
+     * hash
+     * commit_count
+     * commit_message
+     * file_add
+     * file_remove
+     * file_skip
      * 
      * @param type $ar
      */

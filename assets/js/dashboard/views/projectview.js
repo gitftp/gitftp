@@ -89,21 +89,14 @@ define([
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
             var that = this;
-            console.log(that.activityData.data);
-            var raw = that.activityData.data;
-            
-            $.each(that.activityData.data, function (i, a) {
-                if (a.id == id) {
-                    raw = a.raw;
-                }
-            });
-            console.log(raw);
-            
+
             window.$a = $.alert({
                 title: 'Raw Output',
-                content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
+                //content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
+                content: 'url:' + base + 'api/records/getraw/' + id,
                 animation: 'scale',
-                confirmButton: 'Amazing!'
+                confirmButton: 'Amazing!',
+                theme: 'white'
             });
         },
         priCheck: function (e) {
@@ -234,7 +227,9 @@ define([
             var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
 
             $this.html(p);
-            $this.attr('disabled', true);
+            //$this.attr('disabled', true);
+            // uncomment this.
+
             $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
                 if (data.status) {
                     $.alert({

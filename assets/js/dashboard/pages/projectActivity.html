@@ -4,8 +4,8 @@
     <br>
     <br>
     <p class="text-center">
-        Deploy for the first time, this will take time depending on the Size of your Repository. <br>
-        Grab a coffee and relax.
+        It looks like this project has not been deployed yet. <br/>
+        The deploy time will depend on the size of your repository. In the meantime, coffee!
         <br>
         <br>
         <% if(/cloning|uploading/.test(s.status.toLowerCase())){ %>
@@ -21,16 +21,8 @@
 
     <% if(activity.data.length != 0 ){ %>
     <p style="font-size: 20px;">Recent deploy list</p>
-    <table class="table table-condensed">
-        <tr>
-            <th>
-            </th>
-            <th>
-                Details
-            </th>
-            <th colspan="3">
-            </th>
-        </tr>
+    <table class="table">
+
     <% } %>
 <% } %>
 
@@ -56,8 +48,9 @@
         }
         %>
 
-        <td>
+        <td align="left" style="vertical-align: middle">
             <i class="fa fa-<%= ic %> fa-fw" data-toggle="tooltip" data-placement="right" title="<%= ct %>" style="color: #<%= co %> "></i>
+            -> <%= '<code>'+a.branch[0]['name']+'</code>' %>
         </td>
         <td>
             <!--<img src="'+base+'assets/img/user.png"/>-->
@@ -80,23 +73,26 @@
             %>
             <strong><%= a.triggerby %></strong><%= commit_message %>
         </td>
-        <td>
-            <strong><%= a.amount_deployed %></strong> of Payload
+        <td style="vertical-align: middle">
+            <strong><%= a.amount_deployed %></strong> of Files
             <%= (a.commit_count) ? '<br> '+a.commit_count+' commit(s) pushed' : '' %>
         </td>
-        <td>
+        <td style="vertical-align: middle">
             Files diff: <br>
             <span style="color: #4CD964" data-toggle="tooltip" data-placement="left" title="Added/Modified"><i class="fa fa-plus fa-fw" ></i> <%= a.file_add %></span> &nbsp;
             <span style="color: #8E8E93" data-toggle="tooltip" data-placement="left" title="Removed"><i class="fa fa-minus fa-fw"></i> <%= a.file_remove %></span>
         </td>
-        <td class="text-right">
+        <td class="text-right" style="vertical-align: middle">
             <a href="#" class="watchRawData" data-id="<%= a.id %>" title="View raw console data" data-toggle="tooltip" data-placement="bottom">
-                <i class="fa fa-gears fa-fw"></i> LOG
+                <i class="fa fa-eye fa-fw"></i> LOG
+            </a> <br/>
+            <a href="#" class="watchPayload" data-id="<%= a.id %>" ttile="View Payload" data-toggle="tooltip" data-placement="left">
+                <i class="fa fa-gear fa-fw"></i> Payload
             </a>
         </td>
     </tr>
     <% }); %>
-    
+
     <% if(count > renderedCount){ %>
     <tr>
         <td colspan="5" style="text-align:center">

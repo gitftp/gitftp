@@ -10,9 +10,25 @@ define([
             'click .startdeploy': 'startDeploy',
             'change #deploy-add-privaterepo': 'priCheck',
             'click .watchRawData': 'getRawData',
+            'click .watchPayload': 'getPayload',
             'submit #deploy-view-form-edit': 'editConfiguration',
             'click .activity-data-records-view-more': 'renderMoreActivity',
             'click .deploy-delete-deploy': 'delete'
+        },
+        getPayload: function (e) {
+            var that = this;
+            e.preventDefault();
+            var $this = $(e.currentTarget);
+            var id = $this.attr('data-id');
+
+            window.$a = $.alert({
+                title: 'Provided Payload.',
+                content: 'url:' + base + 'api/records/getpayload/' + id,
+                animation: 'scale',
+                confirmButton: 'Good',
+                theme: 'white'
+            })
+
         },
         delete: function (e) {
             e.stopPropagation();
@@ -95,7 +111,7 @@ define([
                 //content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 content: 'url:' + base + 'api/records/getraw/' + id,
                 animation: 'scale',
-                confirmButton: 'Amazing!',
+                confirmButton: 'Okay',
                 theme: 'white'
             });
         },
@@ -109,7 +125,6 @@ define([
         },
         render: function (id, which) {
             var that = this;
-            this.$el.html(this.el = $('<div class="projectview-wrapper bb-loading">'));
 
             if (which == null) {
                 this.which = 'activity';
@@ -117,45 +132,49 @@ define([
                 this.which = which;
             }
 
-            this.page = {
-                main: main,
-                activity: activityView,
-                settings: settingsView,
-            };
-
             var is_loaded = ($('.project-v-status').length) ? true : false;
 
-            this.template = {
-                main: _.template(this.page.main),
-                activity: _.template(this.page.activity),
-                settings: _.template(this.page.settings)
-            };
-            this.id = id;
+            if (is_loaded) {
+                that.renderChild();
+            } else {
+                // set a unique div.
+                this.$el.html(this.el = $('<div class="projectview-wrapper bb-loading">'));
+                // save the pages.
+                this.page = {
+                    main: main,
+                    activity: activityView,
+                    settings: settingsView,
+                };
+                // save the compiled templates
+                this.template = {
+                    main: _.template(this.page.main),
+                    activity: _.template(this.page.activity),
+                    settings: _.template(this.page.settings)
+                };
+                this.id = id;
 
-            _ajax({
-                url: base + 'api/deploy/getall/' + id,
-                method: 'get',
-                dataType: 'json'
-            }).done(function (data) {
-
-                if (data.data.length == 0) {
-                    Router.navigate('#deploy', {
-                        trigger: true
-                    });
-                    return false;
-                }
-                if (!is_loaded) {
+                _ajax({
+                    url: base + 'api/deploy/getall/' + id,
+                    method: 'get',
+                    dataType: 'json'
+                }).done(function (data) {
+                    if (data.data.length == 0) {
+                        Router.navigate('#deploy', {
+                            trigger: true
+                        });
+                        return false;
+                    }
                     var template = that.template.main({'s': data.data[0], 'v': that.which});
                     that.data = data;
                     that.el.html(template);
-                }
-                that.renderChild();
-            });
+                    that.renderChild();
+                });
+            }
+
         },
         renderChild: function () {
             var that = this;
             if (this.which == 'activity') {
-
                 _ajax({
                     url: base + 'api/records/getall/' + this.id,
                     method: 'get',
@@ -173,20 +192,23 @@ define([
                         'count': data.count,
                         'renderedCount': 10
                     });
+                    $('.deploy-sub-page').html('');
                     $('.deploy-sub-page').html(subPage);
                 });
-
             }
             if (this.which == 'settings') {
-                $.getJSON(base + 'api/ftp/getall', function (data) {
+
+                _ajax({
+                    url: base + 'api/ftp/getall',
+                    method: 'get',
+                    dataType: 'json',
+                }).done(function (data) {
                     var subPage = that.template[that.which]({
                         's': that.data.data[0],
                         'ftplist': data.data
                     });
+                    $('.deploy-sub-page').html('');
                     $('.deploy-sub-page').html(subPage);
-                    setTimeout(function () {
-                        $('[data-toggle="tooltip"]').tooltip();
-                    }, 500);
                 });
             }
         },

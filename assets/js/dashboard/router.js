@@ -22,6 +22,11 @@ var r = Backbone.Router.extend({
         },
         projectview: function (id, which) {
             app.obj.projectview = app.obj.projectview || new projectviewView();
+
+            if(typeof which !== 'string'){
+                which = 'activity';
+            }
+
             app.obj.projectview.render(id, which);
         },
         projectadd: function () {

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PublishConfigData" autoUpload="Always" serverName="vb" deleteMissingItems="true" createEmptyFolders="true" uploadOnCheckin="00f7dc1c-e446-4a4d-afb4-82431ae8e654" autoUploadExternalChanges="true">
+    <serverData>
+      <paths name="vb">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/" local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+    </serverData>
+    <option name="myUploadOnCheckinName" value="vb" />
+    <option name="myAutoUpload" value="ALWAYS" />
+  </component>
+</project>
+

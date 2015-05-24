@@ -738,7 +738,10 @@ class gitcore {
             }
             $this->output('comparing fies with ' . $revision);
             $files = $this->compare($revision);
-            $this->output($files);
+
+            if($this->debug){
+                $this->output($files);
+            }
 
             if ($this->listFiles === TRUE) {
                 $this->listFiles($files[$this->currentlyDeploying]);

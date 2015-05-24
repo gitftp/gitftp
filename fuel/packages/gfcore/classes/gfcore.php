@@ -20,14 +20,23 @@ class Gfcore {
 
     public $debug = FALSE;
 
+    public $do_clone;
+
     /**
      * @param $id -> deploy id
      * @param $branch -> branch id
      */
-    public function __construct($id, $branch_id = null) {
+    public function __construct($id, $branch_id = null, $clone = true){
         // collect id.
         $this->deploy_id = $id;
         $this->user_id = Auth::get_user_id()[1];
+
+        // clone or pull ?
+        if($clone){
+            $this->do_clone = TRUE;
+        }else{
+            $this->do_clone = FALSE;
+        }
 
         // Assign paths
         $this->repo_home = DOCROOT . 'fuel/repository';
@@ -146,8 +155,8 @@ class Gfcore {
                 continue; // continue to next branch.
             }
 
-            $deploy_log['revision_on_server_after'] = $deploy_log['deploy_log']['gitftpop']['revision'];
             $deploy_log['deploy_log'] = $gitcore->log;
+            $deploy_log['revision_on_server_after'] = $deploy_log['deploy_log']['gitftpop']['revision'];
 
             if (isset($deploy_log['deploy_log']['gitftpop']['revision'])) {
                 $current_revision = $deploy_log['deploy_log']['gitftpop']['revision'];

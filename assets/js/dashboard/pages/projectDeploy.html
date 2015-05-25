@@ -1,0 +1,27 @@
+<%= JSON.stringify(data.data[0]['branches']) %>
+
+<% var branches = data.data[0]['branches'] %>
+<div class="panel panel-default">
+    <table class="table">
+        <% $.each(branches, function(i, a){ %>
+        <tr>
+            <td class="vertical-align: middle; text-align:right">
+                <%= a.name %>
+            </td>
+            <td class="vertical-align: middle; text-align:left">
+               <i class="fa fa-code-fork fa-fw"></i> <%= a.branch_name %>
+            </td>
+            <td class="vertical-align: middle">
+                <%= (a.ready == '1') ? 'Ready' : 'Not ready' %>
+            </td>
+            <td class="vertical-align: middle">
+                <%= (a.revision != '') ? a.revision : 'Nothing here' %>
+            </td>
+            <td align="right">
+                <button class="btn btn-success"><i class="fa fa-arrow-circle-up fa-fw"></i> Deploy now</button>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+</div>
+

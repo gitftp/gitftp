@@ -2,7 +2,8 @@ define([
     'text!pages/projectview.html',
     'text!pages/projectActivity.html',
     'text!pages/projectSettings.html',
-], function (main, activityView, settingsView) {
+    'text!pages/projectDeploy.html',
+], function (main, activityView, settingsView, deployView) {
 
     d = Backbone.View.extend({
         el: app.el,
@@ -27,8 +28,7 @@ define([
                 animation: 'scale',
                 confirmButton: 'Good',
                 theme: 'white'
-            })
-
+            });
         },
         delete: function (e) {
             e.stopPropagation();
@@ -144,12 +144,14 @@ define([
                     main: main,
                     activity: activityView,
                     settings: settingsView,
+                    deploy: deployView,
                 };
                 // save the compiled templates
                 this.template = {
                     main: _.template(this.page.main),
                     activity: _.template(this.page.activity),
-                    settings: _.template(this.page.settings)
+                    settings: _.template(this.page.settings),
+                    deploy: _.template(this.page.deploy),
                 };
                 this.id = id;
 
@@ -210,6 +212,21 @@ define([
                     $('.deploy-sub-page').html('');
                     $('.deploy-sub-page').html(subPage);
                 });
+            }
+            if (this.which == 'deploy') {
+
+                //_ajax({
+                //    url: base + 'api/ftp/getall',
+                //    method: 'get',
+                //    dataType: 'json',
+                //}).done(function (data) {
+                var subPage = that.template[that.which]({
+                    data: that.data
+                });
+                $('.deploy-sub-page').html('');
+                $('.deploy-sub-page').html(subPage);
+                //});
+
             }
         },
         renderMoreActivity: function (e) {

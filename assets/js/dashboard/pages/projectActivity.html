@@ -21,6 +21,7 @@
 
     <% if(activity.data.length != 0 ){ %>
     <p style="font-size: 20px;">Recent deploy list</p>
+    <div class="panel panel-default">
     <table class="table">
 
     <% } %>
@@ -106,6 +107,7 @@
 <% if(more == 'false'){ %>
     <% if(activity.data.length != 0 ){ %>
 </table>
+</div>
     <% } %>
 <% } %>
 <br>

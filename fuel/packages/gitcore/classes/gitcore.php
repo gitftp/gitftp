@@ -14,7 +14,6 @@ class gitcore {
      */
     public $localRevision;
 
-
     /**
      * Keep track of which server we are currently deploying to
      *

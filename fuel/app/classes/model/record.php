@@ -5,11 +5,41 @@ class Model_Record extends Model {
     private $table = 'records';
     private $user_id;
 
+    // status states
+    public $in_queue = '3';
+    public $in_progress = '2';
+    public $success = '1';
+    public $failed = '0';
+
     public function __construct() {
         if (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
-            return false;
+            return FALSE;
+        }
+    }
+
+    /**
+     * Get queue list by deploy.
+     * @param $deploy_id
+     */
+    public function get_next_from_queue($deploy_id) {
+        $result = DB::select()->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->order_by('id', 'asc')
+            ->limit(1)
+            ->execute()->as_array();
+        return $result;
+    }
+
+    /**
+     * Is deploy running
+     */
+    public function is_queue_active($deploy_id) {
+        $result = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_progress)->execute()->as_array();
+
+        if (count($result) > 0) {
+            return TRUE;
+        } else {
+            return FALSE;
         }
     }
 
@@ -48,9 +78,9 @@ class Model_Record extends Model {
         if ($id != null) {
             $q = $q->and_where('deploy_id', $id);
         }
-        if($limit){
+        if ($limit) {
             $q = $q->limit($limit);
-            if($offset){
+            if ($offset) {
                 $q = $q->offset($offset);
             }
         }
@@ -101,12 +131,9 @@ class Model_Record extends Model {
      * @param type $id
      * @return type
      */
-    public function get_count($id = null){
-        $q = DB::select('id')->from($this->table)
-                ->where('user_id', $this->user_id)
-                ->and_where('deploy_id', $id)
-                ->execute()
-                ->as_array();
+    public function get_count($id = null) {
+        $q = DB::select('id')->from($this->table)->where('user_id', $this->user_id)->and_where('deploy_id', $id)->execute()->as_array();
+
         return count($q);
     }
 
@@ -133,13 +160,13 @@ class Model_Record extends Model {
      *
      * @param type $ar
      */
-    public function set($id, $set = array(), $direct = false) {
-        
-        if(!$direct){
+    public function set($id, $set = array(), $direct = FALSE) {
+
+        if (!$direct) {
             $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
             if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-                return false;
+                return FALSE;
             }
         }
 
@@ -166,16 +193,14 @@ class Model_Record extends Model {
      * file_add
      * file_remove
      * file_skip
-     * 
+     *
      * @param type $ar
      */
     public function insert($ar) {
-        
+
         $ar['user_id'] = $this->user_id;
-        $r = DB::insert($this->table)
-                ->set($ar)
-                ->execute();
-        
+        $r = DB::insert($this->table)->set($ar)->execute();
+
         return $r[0];
     }
 
@@ -183,7 +208,7 @@ class Model_Record extends Model {
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return false;
+            return FALSE;
         }
 
         return DB::delete($his->table)->where('id', $id)->execute();

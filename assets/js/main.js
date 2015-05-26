@@ -61,12 +61,13 @@ $(function () {
             }).always(function (data) {
                 if (!data.status) {
 
-                    if (data.reason == 'GT-405') {
+                    if (data.reason == '10001') {
                         _problem({
                             title: 'Logged out',
-                            content: 'You\'re not logged in, please login to proceed.',
+                            content: 'You\'ve been logged out, please login to proceed.',
                             confirm: function () {
-                                window.location.reload();
+                                var currentLocation = window.location.href;
+                                window.location.href = home_url + 'login?b=' + currentLocation;
                             },
                             confirmButton: 'Login',
                         });
@@ -79,7 +80,7 @@ $(function () {
         var b = {};
         $.extend(b, a, {
             title: a.title || 'Problem',
-            content: a.text,
+            content: a.text || 'Please try again later.',
             icon: 'fa fa-warning',
             confirmButtonClass: 'btn-warning'
         });

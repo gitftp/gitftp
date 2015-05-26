@@ -20,32 +20,31 @@ class Gfcore {
 
     public $debug = FALSE;
 
-    public $do_clone;
-
+    /*
+     * record to process.
+     */
+    public $record;
     /**
      * @param $id -> deploy id
      * @param $branch -> branch id
      */
-    public function __construct($id, $branch_id = null, $clone = true){
+    public function __construct($id){
         // collect id.
         $this->deploy_id = $id;
-        $this->user_id = Auth::get_user_id()[1];
-
-        // clone or pull ?
-        if($clone){
-            $this->do_clone = TRUE;
-        }else{
-            $this->do_clone = FALSE;
-        }
 
         // Assign paths
         $this->repo_home = DOCROOT . 'fuel/repository';
         $this->createFolders();
 
         // collect models.
+        $this->m_record = new Model_Record();
+//        $records = $this->m_record->get($this->deploy_id, false, false, '3');
+        $records = $this->m_record->get_next_from_queue($this->deploy_id);
+        print_r($records);
+        die();
+
         $this->m_deploy = new Model_Deploy();
         $this->m_deploy->id = $this->deploy_id;
-        $this->m_record = new Model_Record();
         $this->m_branches = new Model_Branch();
 
         // collect data.
@@ -277,111 +276,6 @@ class Gfcore {
                 'deployed' => FALSE
             ));
         }
-    }
-
-    // this is junk, just for reference purpose.
-    public function action_deploy($id = null) {
-
-        $ftp = $repo['ftp'][0];
-        // ftp upload here.
-
-        $gitcore = new gitcore();
-        /*
-         * check if ftp server is proper.
-         */
-        $ftp_test_data = utils::test_ftp($ftp);
-
-        if ($ftp_test_data != 'Ftp server is ready to rock.') {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => $ftp_test_data
-            ));
-            $log['ftpconnectstatus'] = $ftp_test_data;
-            array_push($log, $gitcore->log);
-            $record->set($record_id, array(
-                'raw'    => serialize($log),
-                'status' => 0,
-            ));
-            $deploy->set($id, array(
-                'cloned'   => 0,
-                'deployed' => 0,
-                'status'   => 'to be initialized',
-                'ready'    => 0
-            ));
-            die();
-        }
-
-        $gitcore->options = array(
-            'repo'      => $repodir,
-            'debug'     => FALSE,
-            'deploy_id' => $id,
-            'server'    => 'default',
-            'ftp'       => array(
-                'default' => array(
-                    'scheme'  => $ftp['scheme'],
-                    'host'    => $ftp['host'],
-                    'user'    => $ftp['username'],
-                    'pass'    => $ftp['pass'],
-                    'port'    => $ftp['port'],
-                    'path'    => $ftp['path'],
-                    'passive' => TRUE,
-                    'skip'    => array(),
-                    'purge'   => array()
-                )
-            ),
-            'revision'  => '',
-        );
-
-        try {
-            $gitcore->startDeploy();
-        } catch (Exception $ex) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'Failed to connect to ftp server, or the destination directory not found, or no permissions granted.<br><code>ERROR: ' . $ex->getMessage() . '</code>'
-            ));
-            array_push($log, $gitcore->log);
-            $record->set($record_id, array(
-                'raw'    => serialize($log),
-                'status' => 0,
-            ));
-            $deploy->set($id, array(
-                'cloned'   => 0,
-                'deployed' => 0,
-                'status'   => 'to be initialized',
-                'ready'    => 0
-            ));
-
-            return;
-        }
-
-        $log['gitftpop'] = $gitcore->log;
-
-        $record->set($record_id, array(
-            'raw'                 => serialize($log),
-            'status'              => 1,
-            'amount_deployed'     => $log['gitftpop']['gitftpop']['deployed']['human'],
-            'amount_deployed_raw' => $log['gitftpop']['gitftpop']['deployed']['data'],
-            'file_add'            => $log['gitftpop']['gitftpop']['files']['upload'],
-            'file_remove'         => $log['gitftpop']['gitftpop']['files']['delete'],
-            'file_skip'           => $log['gitftpop']['gitftpop']['files']['skip'],
-        ));
-
-        $ftp_data = $repo['ftpdata'];
-        $ftp_data['revision'] = $log['gitftpop']['gitftpop']['revision'];
-
-        //        $deploy->set($id, array(
-        //            'deployed'   => TRUE,
-        //            'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
-        //            'ftp'        => serialize($ftp_data),
-        //            'status'     => 'Idle',
-        //            'ready'      => 0
-        //        ));
-
-        return json_encode(array(
-            'status' => TRUE
-        ));
-
-        // lets start
     }
 
 }

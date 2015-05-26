@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Api_Ftp extends Controller {
+class Controller_Api_Ftp extends Controller_Apilogincheck {
 
     public function action_index() {
         

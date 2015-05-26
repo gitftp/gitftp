@@ -1,20 +1,11 @@
 <?php
 
-class Controller_Api_Records extends Controller {
+class Controller_Api_Records extends Controller_Apilogincheck {
 
     public function action_index() {
         
     }
 
-    public static function _init() {
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-            die();
-        }
-    }
     public function action_getall($id = null) {
         $get = Input::get();
         $limit = isset($get['limit']) ? $get['limit'] : false;

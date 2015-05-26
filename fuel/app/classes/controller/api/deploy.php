@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Api_Deploy extends Controller {
+class Controller_Api_Deploy extends Controller_Apilogincheck {
 
     public function action_index() {
         echo 'what ?';
@@ -76,15 +76,6 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_getall($id = null) {
 
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-
-            return;
-        }
-
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
         $a = $deploy->get($id);
@@ -100,14 +91,6 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_delete($id = null) {
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-
-            return;
-        }
 
         $deploy = new Model_Deploy();
         $answer = $deploy->delete($id);
@@ -129,15 +112,6 @@ class Controller_Api_Deploy extends Controller {
 
     public function action_new() {
 
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-
-            return;
-        }
-
         $i = Input::post();
 
         $deploy = new Model_Deploy();
@@ -158,14 +132,6 @@ class Controller_Api_Deploy extends Controller {
     }
 
     public function action_edit($id) {
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-
-            return;
-        }
 
         $i = Input::post();
         $user_id = Auth::get_user_id()[1];
@@ -207,34 +173,32 @@ class Controller_Api_Deploy extends Controller {
         }
     }
 
-    public function action_start($id = null) {
-        // let the stars glow.
+    public function action_start($deploy_id = null) {
 
-        $gfcore = new gfcore($id);
-        try {
-            $gfcore->deploy();
-        } catch (Exception $e) {
-            return json_encode(array(
-                'status' => FALSE,
-                'reason' => $e->getMessage(),
-                'line'   => $e->getline(),
-                'log'    => $gfcore->log,
+        $user_id = Auth::get_user_id()[1];
+        $record = new Model_Record();
+        $branch = new Model_Branch();
+        $branches = $branch->get($deploy_id, array('id', 'auto')); // get only id.
+
+        foreach($branches as $k => $v){
+            if($v)
+            $record_id = $record->insert(array(
+                'deploy_id' => $deploy_id,
+                'user_id' => $user_id,
+                'branch_id' => $v['id'], // deploy all branches
+                'date' => time(), // start time
+                'triggerby' => 'Manually (first deploy)', // first deploy
+                'status' => 3, // in queue
             ));
         }
 
-        return json_encode(array(
-            'status' => TRUE,
-        ));
+        $gfcore = new gfcore($deploy_id);
+        $gfcore->deploy();
 
     }
 
-    public static function _init() {
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'GT-405'
-            ));
-            die();
-        }
+    public function action_test(){
+
     }
+
 }

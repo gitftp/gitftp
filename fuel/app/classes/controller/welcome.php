@@ -13,6 +13,10 @@ class Controller_Welcome extends Controller {
     }
     
     public function action_test(){
-        Debug::constants();
+        $a = new Model_Record();
+        $a->insert(array(
+            'status' => 1,
+            'triggerby' => 'fucked'
+        ));
     }
 }

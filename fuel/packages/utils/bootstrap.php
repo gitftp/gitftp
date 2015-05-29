@@ -1,8 +1,8 @@
 <?php
 
 Autoloader::add_classes(array(
-	'utils'           => __DIR__.'/classes/utils.php',
-	'Sendmail'           => __DIR__.'/classes/sendmail.php',
+    'utils'     => __DIR__ . '/classes/utils.php',
+    //	'sendmail'           => __DIR__.'/classes/sendmail.php',
 ));
 
 

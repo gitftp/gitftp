@@ -15,7 +15,13 @@
  * If you want to override the default configuration, add the keys you
  * want to change here, and assign new values to them.
  */
-$host = $_SERVER['HTTP_HOST'];
+
+if(isset($_SERVER['HTTP_HOST'])){
+    $host = $_SERVER['HTTP_HOST'];
+}else{
+    $host = '';
+}
+
 
 if($host == 'gitftp.com'){
     header('Location: http://www.gitftp.com/');

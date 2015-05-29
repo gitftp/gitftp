@@ -9,7 +9,7 @@ class Model_Ftp extends Model {
         if (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
-            return false;
+            $this->user_id = '*';
         }
     }
 

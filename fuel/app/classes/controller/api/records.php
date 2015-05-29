@@ -30,14 +30,16 @@ class Controller_Api_Records extends Controller_Apilogincheck {
 
         $record = new Model_Record();
         $record = $record->get_raw_by_record($record_id);
-        $record = $record[0]['raw'];
+        $record = unserialize($record[0]['raw'])[];
+        $string = '';
+
+        print_r($record);
+        die();
 
         if(empty($record)){
             echo 'Sorry, no logs yet.';
         }else{
-            echo '<pre>';
-            print_r(unserialize($record));
-            echo '</pre>';
+            echo "<code>$string</code>";
         }
 
     }

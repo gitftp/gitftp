@@ -11,12 +11,5 @@ class Controller_Welcome extends Controller {
         $view->body = View::forge('page/home');
         return $view;
     }
-    
-    public function action_test(){
-        $a = new Model_Record();
-        $a->insert(array(
-            'status' => 1,
-            'triggerby' => 'fucked'
-        ));
-    }
+
 }

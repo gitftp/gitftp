@@ -314,9 +314,9 @@ class gitcore {
             // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
             $this->output('Current revision on gitftp: ' . $this->localRevision);
-
             $this->deploy($this->revision);
         } else {
+            $this->output('Repository was not found, Error 404. Please contact support.');
             throw new \Exception("'{$this->repo}' is not Git repository.");
         }
     }
@@ -328,7 +328,6 @@ class gitcore {
      */
     private function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
-
         return $currentRevision[0];
     }
 
@@ -338,7 +337,6 @@ class gitcore {
      * @return null
      */
     public function displayHelp() {
-        // $this->output();
         $readMe = __DIR__ . '/readme.md';
         if (file_exists($readMe))
             $this->output(file_get_contents($readMe));
@@ -937,17 +935,19 @@ class gitcore {
                         try {
                             $origin = $this->connection->pwd();
                         } catch (Exception $ex) {
+                            $this->output('Failed: No such file or directory.');
                             throw new \Exception("No such file or directory.");
                         }
 
                         if (!$this->connection->exists($path)) {
                             $this->connection->mkdir($path);
-                            //                            $this->output("Created directory '$path'.");
+                            $this->output("Created directory $path");
                             $pathsThatExist[$path] = TRUE;
                         } else {
                             try {
                                 $this->connection->cd($path);
                             } catch (Exception $ex) {
+                                $this->output("Failed: to create directory $path");
                                 throw new \Exception("No such file or directory.");
                             }
                             $pathsThatExist[$path] = TRUE;
@@ -957,6 +957,7 @@ class gitcore {
                         try {
                             $this->connection->cd($origin);
                         } catch (Exception $ex) {
+                            $this->output("Failed: to change directory $origin");
                             throw new \Exception("No such file or directory.");
                         }
                     }
@@ -969,6 +970,7 @@ class gitcore {
             $attempts = 1;
             while (!$uploaded) {
                 if ($attempts == 10) {
+                    $this->output("Tried to upload $file 10 times and failed, Please check file permissions on your server.");
                     throw new \Exception("Tried to upload $file 10 times and failed. Something is wrong...");
                 }
 
@@ -987,14 +989,15 @@ class gitcore {
             $numberOfFilesToUpdate = count($filesToUpload);
 
             $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
-            $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
+
+            if($this->debug){
+                $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
+            }
 
             $curr += 1;
-            //            if($curr%5 == 0){
             $record->set($record_id, array(
                 'processed_files' => $curr
             ), TRUE);
-            //            }
         }
 
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {

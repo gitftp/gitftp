@@ -48,7 +48,6 @@ class Sendmail {
             return false;
         }
         return true;
-        
     }
 
 }

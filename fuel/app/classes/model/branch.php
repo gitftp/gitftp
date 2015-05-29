@@ -9,7 +9,7 @@ class Model_Branch extends Model {
         if (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
-            return FALSE;
+            $this->user_id = '*';
         }
     }
 

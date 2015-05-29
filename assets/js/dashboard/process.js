@@ -72,7 +72,7 @@ define([
             this.timeUpdate();
         },
         init: function () {
-            this.runProcess();
+            //this.runProcess();
         }
     };
 

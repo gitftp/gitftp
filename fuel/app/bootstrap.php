@@ -24,11 +24,18 @@ Autoloader::register();
  * Fuel::STAGE
  * Fuel::PRODUCTION
  */
-if ($_SERVER['HTTP_HOST'] == 'localhost') {
-    Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
-} else if ($_SERVER['HTTP_HOST'] == 'console.gitftp.com' || $_SERVER['HTTP_HOST'] == 'www.gitftp.com' || $_SERVER['HTTP_HOST'] == 'gitftp.com' || $_SERVER['HTTP_HOST'] == '54.149.18.148') {
-    Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
-} else {
+
+
+if(isset($_SERVER['HTTP_HOST'])){
+    if ($_SERVER['HTTP_HOST'] == 'localhost') {
+        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
+    } else if ($_SERVER['HTTP_HOST'] == 'console.gitftp.com' || $_SERVER['HTTP_HOST'] == 'www.gitftp.com' || $_SERVER['HTTP_HOST'] == 'gitftp.com' || $_SERVER['HTTP_HOST'] == '54.149.18.148') {
+        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
+    } else {
+        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::TEST);
+    }
+}else{
+    // cli
     Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::TEST);
 }
 

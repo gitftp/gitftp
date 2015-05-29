@@ -15,7 +15,7 @@ class Model_Record extends Model {
         if (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
-            return FALSE;
+            $this->user_id = '*';
         }
     }
 
@@ -24,19 +24,26 @@ class Model_Record extends Model {
      * @param $deploy_id
      */
     public function get_next_from_queue($deploy_id) {
-        $result = DB::select()->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->order_by('id', 'asc')
-            ->limit(1)
-            ->execute()->as_array();
-        return $result;
+        $result = DB::select()->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->order_by('id', 'asc')->limit(1)->execute()->as_array();
+
+        if (count($result)) {
+            return $result[0];
+        } else {
+            return FALSE;
+        }
     }
 
     /**
      * Is deploy running
      */
     public function is_queue_active($deploy_id) {
-        $result = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_progress)->execute()->as_array();
+        $progress = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_progress)->execute()->as_array();
+        $queue = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->execute()->as_array();
 
-        if (count($result) > 0) {
+        if (count($progress) == 0 && count($queue) == 0) {
+            return TRUE;
+        }
+        if (count($progress) > 0) {
             return TRUE;
         } else {
             return FALSE;

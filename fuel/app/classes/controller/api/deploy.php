@@ -11,14 +11,14 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         $a = utils::gitGetBranches($post['repo'], $post['username'], $post['password']);
         if ($a) {
             echo json_encode(array(
-                'status' => TRUE,
-                'data'   => $a,
+                'status'  => TRUE,
+                'data'    => $a,
                 'request' => $post
             ));
         } else {
             echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'Could not connect',
+                'status'  => FALSE,
+                'reason'  => 'Could not connect',
                 'request' => $post
             ));
         }
@@ -50,10 +50,10 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
             'status' => TRUE,
             'user'   => array(
                 'diskused' => $disk_usage_human,
-                'id'     => Auth::get_user_id()[1],
-                'name'   => Auth::get_screen_name(),
-                'email'  => Auth::get_email(),
-                'avatar' => utils::get_gravatar(Auth::get_email(), 40)
+                'id'       => Auth::get_user_id()[1],
+                'name'     => Auth::get_screen_name(),
+                'email'    => Auth::get_email(),
+                'avatar'   => utils::get_gravatar(Auth::get_email(), 40)
             ),
             'deploy' => $deploy_list,
         ));
@@ -97,14 +97,14 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
         if ($answer) {
             echo json_encode(array(
-                'status' => TRUE,
+                'status'  => TRUE,
                 'request' => $id,
             ));
         } else {
             echo json_encode(array(
-                'status' => FALSE,
+                'status'  => FALSE,
                 'request' => $id,
-                'reason' => $answer,
+                'reason'  => $answer,
             ));
         }
 
@@ -119,14 +119,14 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
         if ($deploy_id) {
             echo json_encode(array(
-                'status' => TRUE,
+                'status'  => TRUE,
                 'request' => $i
             ));
         } else {
             echo json_encode(array(
-                'status' => FALSE,
+                'status'  => FALSE,
                 'request' => $i,
-                'reason' => $deploy_id,
+                'reason'  => $deploy_id,
             ));
         }
     }
@@ -157,15 +157,15 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
             if ($b[1] !== 0) {
                 echo json_encode(array(
-                    'status' => TRUE,
+                    'status'  => TRUE,
                     'request' => $i
                 ));
             } else {
 
                 echo json_encode(array(
-                    'status' => FALSE,
+                    'status'  => FALSE,
                     'request' => $i,
-                    'reason' => 'Failed to update deploy configuration, please try again.'
+                    'reason'  => 'Failed to update deploy configuration, please try again.'
                 ));
             }
         } else {
@@ -174,31 +174,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
     }
 
     public function action_start($deploy_id = null) {
-
-        $user_id = Auth::get_user_id()[1];
-        $record = new Model_Record();
-        $branch = new Model_Branch();
-        $branches = $branch->get($deploy_id, array('id', 'auto')); // get only id.
-
-        foreach($branches as $k => $v){
-            if($v)
-            $record_id = $record->insert(array(
-                'deploy_id' => $deploy_id,
-                'user_id' => $user_id,
-                'branch_id' => $v['id'], // deploy all branches
-                'date' => time(), // start time
-                'triggerby' => 'Manually (first deploy)', // first deploy
-                'status' => 3, // in queue
-            ));
-        }
-
-        $gfcore = new gfcore($deploy_id);
-        $gfcore->deploy();
-
-    }
-
-    public function action_test(){
-
+        Bootstrapper::first_run($deploy_id);
     }
 
 }

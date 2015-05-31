@@ -11,8 +11,7 @@
                     <!--<span class="branch-name"></span> &nbsp;-->
                     <code><i class="fa fa-code-fork"></i> <%= a.branch_name %></code>
                     <span class="pull-right">
-                        <%= (a.ready == 1) ? '<i class="fa fa-check green" title="Deployed"></i> OK' : '<i
-                            class="fa fa-pause"></i>' %>
+                        <%= (a.ready == 1) ? '<i class="fa fa-check green" title="Deployed"></i> OK' : '<i class="fa fa-pause"></i>' %>
                     </span>
                     <br/>
                     <span class="onrevision">On revision: </span><span
@@ -22,8 +21,7 @@
                             data-timestamp="<%= a.date %>"></span></span>
                     <br/>
                     <!--<span class="autodeploy"><%= (a.ready == 1) ? '<i class="fa fa-check"></i> Ready' : 'Not deployed yet.' %></span>-->
-                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i
-                            class="fa fa-pause fa-fw"></i> No.' %></span>
+                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i class="fa fa-pause fa-fw"></i> No.' %></span>
                 </div>
             </div>
         </div>

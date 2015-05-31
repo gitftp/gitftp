@@ -4,25 +4,22 @@
     Git deploy automation software
    ========================================================================== */
 body {
-    font-family: 'Lato', sans-serif;
-    /*background-color: #fff;*/
-    background-color: #FCFCFC;
-    color: #555;
-    overflow-y: scroll;
-    box-shadow: inset 0px 2px #62c7f2;
+  font-family: 'Lato', sans-serif;
+  background-color: #fff;
+  color: #555;
+  overflow-y: scroll;
+  box-shadow: inset 0px 2px #62c7f2;
 }
-
 ::-moz-selection {
-    background: #aaa;
-    color: white;
+  background: #aaa;
+  color: white;
 }
-
 ::selection {
-    background: #aaa;
-    color: white;
+  background: #aaa;
+  color: white;
 }
 .red {
-    color: #ff5a5a;
+  color: #ff5a5a;
 }
 .white-c {
   color: white !important;
@@ -31,7 +28,7 @@ body {
   color: white !important;
 }
 .red-bg {
-    background: #ff5a5a;
+  background: #ff5a5a;
 }
 .blue {
   color: #62c7f2;
@@ -88,7 +85,7 @@ select:active {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
 .jconfirm.git .jconfirm-box {
-    /*border-radius: 0px !important;*/
+  /*border-radius: 0px !important;*/
 }
 .jconfirm.git .jconfirm-box div.title {
   font-weight: normal;
@@ -121,22 +118,20 @@ h6 {
 .btn {
   background-image: none;
   border: solid 1px transparent !important;
-    border-radius: 4px;
-    -webkit-transition: all .4s;
-    transition: all .4s;
-    border: none;
+  border-radius: 4px;
+  -webkit-transition: all .4s;
+          transition: all .4s;
+  border: none;
 }
-
 .btn:hover {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 }
-
 .btn:active {
-    box-shadow: none;
+  box-shadow: none;
 }
 .btn.btn-default {
-    background-color: #eee;
-    color: #555;
+  background-color: #eee;
+  color: #555;
 }
 .btn.btn-default.btn-gitftp {
   color: #62c7f2;
@@ -145,7 +140,7 @@ h6 {
 .btn.btn-default:focus,
 .btn.btn-default:active {
   background-image: none;
-    background-color: #e6e6e6;
+  background-color: #e6e6e6;
 }
 .btn.btn-success {
   background: #66bd61;
@@ -158,9 +153,8 @@ h6 {
 .btn.btn-link:hover {
   text-decoration: none;
 }
-
 .btn.btn-danger {
-    background-color: #ff5a5a;
+  background-color: #ff5a5a;
 }
 .viewdeploy,
 .ftp-servers-list {
@@ -311,6 +305,16 @@ h6 {
   border-color: #ddd;
   box-shadow: none;
 }
+.well-statusbar {
+  background: #fff;
+  border-color: #ddd;
+  box-shadow: none;
+  border: none;
+  border-radius: 0px;
+  border-bottom: solid 1px #ddd;
+  padding-left: 0;
+  padding-right: 0;
+}
 .active-cs {
   background: #f8f8f8;
   color: #62c7f2 !important;
@@ -376,47 +380,78 @@ h6 {
   background: white;
   border-radius: 4px;
 }
-
 .jconfirm.supervan .jconfirm-bg {
-    background-color: rgba(255, 255, 255, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
 }
-
 .jconfirm.supervan .jconfirm-box {
-    background-color: transparent;
+  background-color: transparent;
 }
-
 .jconfirm.supervan .jconfirm-box div.title {
-    text-align: center;
-    font-size: 28px;
-    font-weight: normal;
+  text-align: center;
+  font-size: 28px;
+  font-weight: normal;
 }
-
 .jconfirm.supervan .jconfirm-box div.content {
-    text-align: center;
+  text-align: center;
 }
-
 .jconfirm.supervan .jconfirm-box .buttons {
-    text-align: center;
+  text-align: center;
 }
-
 .jconfirm.supervan .jconfirm-box .buttons button {
-    font-size: 16px;
-    border-radius: 2px;
-    background: #54c2f1;
-    text-shadow: none;
-    border: none;
-    color: white;
-    width: 25%;
-    padding: 10px;
+  font-size: 16px;
+  border-radius: 2px;
+  background: #54c2f1;
+  text-shadow: none;
+  border: none;
+  color: white;
+  width: 25%;
+  padding: 10px;
 }
-
 .jconfirm.supervan .jconfirm-box .buttons button:hover {
-    background: #46bdf0;
+  background: #46bdf0;
 }
-
 .jconfirm.supervan .jconfirm-box.hilight {
-    box-shadow: none;
-    -webkit-transform: scale(0.9);
-    -ms-transform: scale(0.9);
-    transform: scale(0.9);
+  box-shadow: none;
+  -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+          transform: scale(0.9);
+}
+.project-branches-env .project-branch {
+  margin-bottom: 15px;
+  border: solid 1px #eee;
+  border-radius: 4px;
+}
+.project-branches-env .project-branch button.deploy {
+  width: 100%;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 20px;
+  text-align: center;
+  display: block;
+  border-bottom: solid 1px #eee;
+  font-size: 18px;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+}
+.project-branches-env .project-branch button.deploy:hover {
+  background: #eee;
+}
+.project-branches-env .project-branch .branch-name {
+  font-weight: bold;
+}
+.project-branches-env .project-branch .block {
+  padding: 10px;
+  display: block;
+}
+.project-branches-env .project-branch .onrevision {
+  color: #999;
+}
+.project-branches-env .project-branch .revision {
+  font-size: 12px;
+  font-family: consolas;
+}
+.project-branches-env .project-branch .date {
+  color: #7f7f7f;
+  font-size: 12px;
 }

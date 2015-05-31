@@ -1,9 +1,9 @@
 <div style="height: 20px;"></div>
-<div class="container-fluid">
+<div class="container">
     <div class="row">
         <div class="col-md-12">
             <nav class="navbar navbar-default navbar-fixed-top dash-nav">
-                <div class="container-fluid">
+                <div class="container">
                     <!-- Brand and toggle get grouped for better mobile display -->
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -32,7 +32,6 @@
                                                         </ul>
                                                     </li>
                                                 </ul>-->
-
                         <ul class="nav navbar-nav navbar-left drop">
                             <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#home"> <i
                                         class="fa fa-home fa-fw"></i> Summary</a></li>

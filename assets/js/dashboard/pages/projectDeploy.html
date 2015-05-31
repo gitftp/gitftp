@@ -1,27 +1,33 @@
-<%= JSON.stringify(data.data[0]['branches']) %>
-
 <% var branches = data.data[0]['branches'] %>
-<div class="panel panel-default">
-    <table class="table">
+<div class="project-branches-env">
+    <div class="row">
         <% $.each(branches, function(i, a){ %>
-        <tr>
-            <td class="vertical-align: middle; text-align:right">
-                <%= a.name %>
-            </td>
-            <td class="vertical-align: middle; text-align:left">
-               <i class="fa fa-code-fork fa-fw"></i> <%= a.branch_name %>
-            </td>
-            <td class="vertical-align: middle">
-                <%= (a.ready == '1') ? 'Ready' : 'Not ready' %>
-            </td>
-            <td class="vertical-align: middle">
-                <%= (a.revision != '') ? a.revision : 'Nothing here' %>
-            </td>
-            <td align="right">
-                <button class="btn btn-success"><i class="fa fa-arrow-circle-up fa-fw"></i> Deploy now</button>
-            </td>
-        </tr>
+        <div class="col-md-6">
+            <div class="project-branch">
+                <button type="button" class="deploy" data-id="<%= a.id %>">
+                    <i class="fa fa-cloud-upload center fa-fw"></i> <span class="branch-name"><%= a.name %></span>
+                </button>
+                <div class="block">
+                    <!--<span class="branch-name"></span> &nbsp;-->
+                    <code><i class="fa fa-code-fork"></i> <%= a.branch_name %></code>
+                    <span class="pull-right">
+                        <%= (a.ready == 1) ? '<i class="fa fa-check green" title="Deployed"></i> OK' : '<i
+                            class="fa fa-pause"></i>' %>
+                    </span>
+                    <br/>
+                    <span class="onrevision">On revision: </span><span
+                        class="revision"><%= a.revision.substr(0, 6) %></span>
+                    <span class="pull-right date"><span
+                            class="dynamicTime"
+                            data-timestamp="<%= a.date %>"></span></span>
+                    <br/>
+                    <!--<span class="autodeploy"><%= (a.ready == 1) ? '<i class="fa fa-check"></i> Ready' : 'Not deployed yet.' %></span>-->
+                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i
+                            class="fa fa-pause fa-fw"></i> No.' %></span>
+                </div>
+            </div>
+        </div>
         <% }); %>
-    </table>
+    </div>
 </div>
-
+<button type="button" class="btn btn-default"><i class="fa fa-plus-circle"></i> Add more environments</button>

@@ -78,9 +78,18 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
+        $record = new Model_Record();
         $a = $deploy->get($id);
         foreach ($a as $k => $v) {
             $b = $branches->get($id);
+            foreach ($b as $k2 => $v2) {
+                $r = $record->get_latest_revision_by_branch_id($b[$k2]['id']);
+                if (count($r)) {
+                    $b[$k2]['revision'] = $r[0]['hash'];
+                    $b[$k2]['date'] = $r[0]['date'];
+                    $b[$k2]['date'] = $r[0]['date'];
+                }
+            }
             $a[$k]['branches'] = $b;
         }
         echo json_encode(array(

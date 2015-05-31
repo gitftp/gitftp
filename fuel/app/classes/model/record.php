@@ -19,6 +19,12 @@ class Model_Record extends Model {
         }
     }
 
+    public function get_latest_revision_by_branch_id($branch_id) {
+        $result = DB::select('id', 'hash', 'date')->from($this->table)->where('branch_id', $branch_id)->and_where('status', $this->success)->limit(1)->order_by('id', 'DESC');
+
+        return $result->execute()->as_array();
+    }
+
     /**
      * Get queue list by deploy.
      * @param $deploy_id

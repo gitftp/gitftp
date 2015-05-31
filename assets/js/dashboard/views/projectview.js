@@ -134,11 +134,16 @@ define([
 
             var is_loaded = ($('.project-v-status').length) ? true : false;
 
-            if (is_loaded) {
-                that.renderChild();
-            } else {
+            //if (is_loaded) {
+            //    that.renderChild();
+            //} else {
+
                 // set a unique div.
+            if (is_loaded) {
+
+            } else {
                 this.$el.html(this.el = $('<div class="projectview-wrapper bb-loading">'));
+            }
                 // save the pages.
                 this.page = {
                     main: main,
@@ -171,7 +176,7 @@ define([
                     that.el.html(template);
                     that.renderChild();
                 });
-            }
+            //}
 
         },
         renderChild: function () {

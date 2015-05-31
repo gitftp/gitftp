@@ -68,11 +68,11 @@ define([
 
         },
         runProcess: function () {
-            this.deployView();
+            //this.deployView();
             this.timeUpdate();
         },
         init: function () {
-            //this.runProcess();
+            this.runProcess();
         }
     };
 

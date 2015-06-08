@@ -7,27 +7,21 @@ define([
     'views/projectview',
 ], function (dashboard, ftpView, ftpAdd, projectView, projectaddView, projectviewView) {
 
-var r = Backbone.Router.extend({
+    var r = Backbone.Router.extend({
         routes: {
-            '': 'fourofour',
+            '': 'dashboard',
             'home': 'dashboard',
             'ftp': 'ftpView',
             'ftp/add': 'ftpAdd',
             'ftp/edit/:id': 'ftpAdd',
-            'deploy': 'project',
-            'deploy/new': 'projectadd',
-            'deploy/v/:id': 'projectview',
-            'deploy/v/:id/:which': 'projectview',
+            'project': 'project',
+            'project/new': 'projectadd',
+            'project/*path': 'projectview',
             ':any': 'fourofour'
         },
-        projectview: function (id, which) {
+        projectview: function (str) {
             app.obj.projectview = app.obj.projectview || new projectviewView();
-
-            if(typeof which !== 'string'){
-                which = 'activity';
-            }
-
-            app.obj.projectview.render(id, which);
+            app.obj.projectview.render(str);
         },
         projectadd: function () {
             app.obj.projectadd = app.obj.projectadd || new projectaddView();
@@ -49,9 +43,10 @@ var r = Backbone.Router.extend({
             app.obj.ftpAdd = app.obj.ftpAdd || new ftpAdd();
             app.obj.ftpAdd.render(id);
         },
-        fourofour: function(){
-            Router.navigate('home', {trigger: true});
+        fourofour: function () {
+            Router.navigate('#/home', {trigger: true, replace: true});
         }
+
     });
 
     return {

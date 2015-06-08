@@ -99,10 +99,30 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
     }
 
-    public function action_delete($id = null) {
+    public function action_delete($id = null) { // deploy id.
+        $record = new Model_Record();
+        $is_active = $record->is_queue_active($id);
 
+        if ($is_active) {
+            echo json_encode(array(
+                'status' => FALSE,
+                'reason' => 'Deployment is in progress, please try again later.'
+            ));
+
+            return FALSE;
+        }
         $deploy = new Model_Deploy();
-        $answer = $deploy->delete($id);
+
+        try {
+            $answer = $deploy->delete($id);
+        } catch (Exception $e) {
+            echo json_encode(array(
+                'status' => FALSE,
+                'reason' => $e->getMessage().''.$e->getLine()
+            ));
+
+            return FALSE;
+        }
 
         if ($answer) {
             echo json_encode(array(
@@ -140,45 +160,52 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         }
     }
 
-    public function action_edit($id) {
+    public function post_edit($id) {
 
         $i = Input::post();
         $user_id = Auth::get_user_id()[1];
+        $deploy = new Model_Deploy();
 
-        /*
-         * FTP setup,
-         * initial revision to empty.
-         */
-        $a = DB::select()->from('deploy')->where('id', $id)->execute()->as_array();
-        if ($a[0]['user_id'] == $user_id) {
+        $deploy_row = $deploy->get($id)[0];
+        if ((string)$deploy_row['user_id'] !== (string)$user_id) {
+            echo json_encode(array(
+                'status' => FALSE,
+                'reason' => 'Cannot update project, please contact support.'
+            ));
 
-            $ftp = unserialize($a[0]['ftp']);
-            $ftp['production'] = $i['ftp-production'];
+            return FALSE;
+        }
 
-            $b = DB::update('deploy')->set(array(
-                'repository' => $i['repo'],
-                'name'       => $i['name'],
-                'username'   => (empty($i['username'])) ? '' : $i['username'],
-                'password'   => (empty($i['password'])) ? '' : $i['password'],
-                'key'        => $i['key'],
-                'ftp'        => serialize($ftp)
-            ))->where('id', $id)->execute();
+        $data = array(
+            'name' => $i['name'],
+            'key'  => $i['key'],
+        );
 
-            if ($b[1] !== 0) {
-                echo json_encode(array(
-                    'status'  => TRUE,
-                    'request' => $i
-                ));
-            } else {
 
-                echo json_encode(array(
-                    'status'  => FALSE,
-                    'request' => $i,
-                    'reason'  => 'Failed to update deploy configuration, please try again.'
-                ));
-            }
+        if (empty($i['username'])) {
+            $data['username'] = '';
+            $data['password'] = '';
         } else {
-            return 'you are not permitted to do that';
+            $updateData['username'] = $i['username'];
+
+            if (!empty($i['password'])) {
+                $data['password'] = $i['password'];
+            }
+        }
+
+        $result = $deploy->set($id, $data);
+
+        if ($result[1] !== 0) {
+            echo json_encode(array(
+                'status'  => TRUE,
+                'request' => $i
+            ));
+        } else {
+            echo json_encode(array(
+                'status'  => FALSE,
+                'request' => $i,
+                'reason'  => 'Failed to update deploy configuration, please try again.'
+            ));
         }
     }
 
@@ -186,4 +213,17 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         Bootstrapper::first_run($deploy_id);
     }
 
+    public function action_deploybranch($branch_id = null) {
+        try {
+            Bootstrapper::deploy_branch($branch_id);
+            echo json_encode(array(
+                'status' => TRUE,
+            ));
+        } catch (Exception $e) {
+            echo json_encode(array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            ));
+        }
+    }
 }

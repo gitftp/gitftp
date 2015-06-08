@@ -32,8 +32,8 @@ class Model_Branch extends Model {
         return $a;
     }
 
-    public function get_by_branch_id($branch_id) {
-        $q = DB::select()->from($this->table)->where('user_id', $this->user_id)->and_where('id', $branch_id)->execute()->as_array();
+    public function get_by_branch_id($branch_id, $select = NULL) {
+        $q = DB::select_array($select)->from($this->table)->where('user_id', $this->user_id)->and_where('id', $branch_id)->execute()->as_array();
 
         return $q;
     }
@@ -41,7 +41,7 @@ class Model_Branch extends Model {
     public function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {
-            $a = DB::select()->from($this->table)->where('deploy_id', $id)->execute()->as_array();
+            $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
             if (empty($a) or $a[0]['user_id'] != $this->user_id) {
                 return FALSE;

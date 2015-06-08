@@ -1,64 +1,121 @@
-<p style="font-size: 20px;">Configure deploy</p>
-<div class="well well-sm well-cs">
-    <i class="fa fa-warning"></i> Incorrect configuration might hang things out.
-</div>
-<form action="" id="deploy-view-form-edit">
-<div class="form-group">
-    <label for="add-repo">GIT REPOSITORY</label>
-    <input type="text" name="repo" id="add-repo" <%= (s.ready == 0) ?  '' : 'readonly="readonly"' %> placeholder="link to repo .git" class="form-control" value="<%= s.repository %>" required>
-    <p class="help-block">
-        <%= (s.ready == 0) ? ' <i class="fa fa-info fa-fw"></i> You cannot alter the Repo URL after you deploy.' : 'Repository is deployed and URL cannot be altered.' %>
-    </p>
-</div>
-<div class="form-group">
-    <label for="name">DEPLOY NAME</label>
-    <input type="text" name="name" id="name" placeholder="Name your deploy" class="form-control" required value="<%= s.name %>">
-</div>
-<div class="checkbox">
-    <label>
-        <input type="checkbox" id="deploy-add-privaterepo" <%= (s.username == '') ? '' : 'checked' %> > This is a private Repository.
-    </label>
-</div>
-<div id="deploy-add-privaterepo-div" style="background-color: #f8f8f8;padding: 10px; border-radius: 4px; margin-bottom: 10px; <%= (s.username == '') ? 'display:none;' : '' %>">
-    <p class="help-block">SSH keys not supported for the moment.</p>
-    <div class="form-group">
-        <label for="username">username</label>
-        <input type="text" name="username" id="username" placeholder="Git host username" class="form-control" value="<%= s.username %>">
-    </div>
-    <div class="form-group">
-        <label for="repo">password</label>
-        <input type="text" name="password" placeholder="Git host password" class="form-control" value="<%= s.password %>">
-    </div>
-</div>
-<p class="text-left"><strong>SELECT FTP SERVER FOR DEPLOYMENT</strong></p>
-<div class="form-group">
-    <div class="row">
-        <div class="col-sm-6 col-md-6 col-xs-6">
-            <label>PRODUCTION</label>
-            <select class="form-control" name="ftp-production" required>
-                <option value="<%= s.ftp[0].id %>"> <%= s.ftp[0].host %><%= s.ftp[0].path %> - <%= s.ftp[0].username %> (in use)</option>
-                <option value=""> ------ </option>
-                <% $.each(ftplist, function(i, a){ %>
-                <option value="<%= a.id %>"><%= a.host %><%= a.path %> - <%= a.username %></option>
-                <% }) %>
-            </select>
-        </div>
-        <div class="col-sm-6 col-md-6 col-xs-6">
-            <label>EDIT CURRENT FTP</label>
-            <a href="#ftp/edit/<%= s.ftp[0].id %>" class="btn btn-default btn-block"><i class="fa fa-pencil fa-fw"></i> <%= s.ftp[0].host %><%= s.ftp[0].path %> - <%= s.ftp[0].username %> (in use)</a>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <p>
+            <i class="fa fa-wrench fa-fw"></i> <strong>PROJECT SETTINGS</strong>
+        </p>
+
+        <div style="height: 20px;"></div>
+        <div class="row">
+            <form action="" id="deploy-view-form-edit" class="form-horizontal">
+                <div class="col-md-7">
+                    <div class="form-group form-">
+                        <label class="col-sm-3 control-label" for="">Name</label>
+
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   name="name"
+                                   placeholder="Enter your repository name."
+                                   value="<%= data.name %>"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">Repository</label>
+
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                <%= data.repository %>
+                            </p>
+
+                            <div class="checkbox gf-checkbox">
+                                <input type="checkbox"
+                                       id="doesreponeedlogin" <%= (data.username !== '') ? 'checked':'' %> />
+                                <label for="doesreponeedlogin">
+                                    This is a private repo.
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="privaterepo-toggle" style="<%= (data.username == '') ? 'display:none' : '' %>">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="">Username</label>
+
+                            <div class="col-sm-9">
+                                <input type="text"
+                                       name="username"
+                                       placeholder="Your username"
+                                       value="<%= data.username %>"
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="">Password</label>
+
+                            <div class="col-sm-9">
+                                <input type="password"
+                                       name="password"
+                                       placeholder="Enter a password to change"
+                                       value=""
+                                       class="form-control"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label" for="">Secret Key</label>
+
+                        <div class="col-sm-9">
+                            <input type="text"
+                                   name="key"
+                                   placeholder="Post secret key."
+                                   value="<%= data.key %>"
+                                   class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5">
+                    <div class="project-settings-info">
+                        <p>
+                            <i class="fa fa-heart-o"></i> Project Status.
+                        </p>
+
+                        <p>
+                            <strong>Active</strong>: <%= (data.active) ? '<i class="fa fa-check green"></i> is active.' : '<i class="fa fa-times redalt"></i>' %>
+                        </p>
+
+                        <p>
+                            <strong>Ready</strong>: <%= (data.ready) ? '<i class="fa fa-check green"></i> is ready for Auto-deploy.' : '<i class="fa fa-times redalt"></i>' %>
+                        </p>
+
+                        <p>
+                            <strong>Branches</strong>: <%= data.branches.length %> branch(es) set. <a class="gray" href="#deploy/v/<%= data.id %>/deploy">edit</a>
+                        </p>
+
+                        <p>
+                            <strong>Created</strong>: <%= data.created_at %>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="height: 10xp;"></div>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-pencil"></i> &nbsp;Update
+                    </button>
+
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-link deleteproject" data-id="<%= data.id %>">
+                            <i class="fa fa-trash"></i> &nbsp;Delete this Project.
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
-<div class="form-group">
-    <label>ACCESS KEY</label>
-    <input class="form-control" name="key" placeholder="Something random" required value="<%= s.key %>">
-</div>
+<pre>
+    <%= JSON.stringify(data) %>
+</pre>
 
-<button type="submit" class="btn btn-success"><i class="fa fa-pencil fa-fw"></i> Save deployment configuration</button>
-<button type="button" class="btn btn-danger deploy-delete-deploy" data-id="<%= s.id %>"><i class="fa fa-trash-o fa-fw"></i> Remove deploy</button>
-</form>
-<br>
-<br>
 <br>
 <br>

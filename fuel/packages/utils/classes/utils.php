@@ -125,9 +125,7 @@ class utils {
             }
         }
 
-        DB::insert('test')->set(array(
-            'test' => $service
-        ))->execute();
+        utils::log($service);
 
         if ($service == 'github') {
             $lc = count($i->commits) - 1;
@@ -161,6 +159,23 @@ class utils {
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
+    public static function strip_passwords($data){
+        foreach($data as $k => $v){
+            if(isset($data[$k]['pass'])){
+                unset($data[$k]['pass']);
+            }
+            if(isset($data[$k]['password'])){
+                unset($data[$k]['password']);
+            }
+        }
+        return $data;
+    }
+
+    public static function log($string){
+        DB::insert('log')->set(array(
+            'a' => $string,
+        ))->execute();
+    }
 }
 
 /* end of file auth.php */

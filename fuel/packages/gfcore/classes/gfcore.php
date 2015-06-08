@@ -44,11 +44,17 @@ class Gfcore {
         $this->m_branches = new Model_Branch();
 
         // collect data.
-        $this->user_id = $this->deploy_data['user_id'];
         $this->get_deploy_data();
+        $this->user_id = $this->deploy_data['user_id'];
         $this->createFolders();
+
+        utils::log('userid: '.$this->user_id);
+        utils::log('deploy id: '.$this->deploy_id);
+        utils::log($this->repo_home);
+        utils::log(getcwd());
     }
-    public function get_deploy_data(){
+
+    public function get_deploy_data() {
         $this->deploy_data = $this->m_deploy->get()[0];
         $this->deploy_data['repository'] = $this->parseUsernamePassword($this->deploy_data['repository'], $this->deploy_data['username'], $this->deploy_data['password']);
     }
@@ -80,16 +86,22 @@ class Gfcore {
             $this->cloneRepo();
         }
 
-        try{
+        try {
             $this->upload();
             $this->m_record->set($this->record_id, array(
                 'status' => $this->m_record->success
-            ));
+            ), TRUE);
+            $this->m_branches->set($this->record['branch_id'], array(
+                'ready' => 1
+            ), TRUE);
             $this->deploy();
-        }catch(Exception $e){
+        } catch (Exception $e) {
             $this->m_record->set($this->record_id, array(
-               'status' => $this->m_record->failed
-            ));
+                'status' => $this->m_record->failed
+            ), TRUE);
+            echo $e->getMessage();
+            echo $e->getLine();
+            echo $e->getFile();
             $this->deploy();
         }
 
@@ -162,13 +174,22 @@ class Gfcore {
         }
 
         $this->log['deploy_log'] = $gitcore->log;
-        $this->log['revision_on_server_after'] = $this->log['deploy_log']['gitftpop']['revision'];
 
-        if (isset($this->log['deploy_log']['gitftpop']['revision'])) {
-            $current_revision = $this->log['deploy_log']['gitftpop']['revision'];
-        } else {
-            $current_revision = '';
-        }
+        //        if (empty($branch['revision'])) {
+        //            if (isset($this->log['deploy_log']['gitftpop']['revision'])) {
+        //                $current_revision = $this->log['deploy_log']['gitftpop']['revision'];
+        //            } else {
+        //                $current_revision = '';
+        //            }
+        //        } else {
+        //            if (!isset($this->log['deploy_log']['gitftpop']['revision'])) {
+        //                $current_revision = $branch['revision'];
+        //            }
+        //        }
+
+        $before_revision = $this->log['deploy_log']['gitftpop']['revision_before'];
+        $current_revision = $this->log['deploy_log']['gitftpop']['revision'];
+        $this->log['revision_on_server_after'] = $current_revision;
 
         $this->m_record->set($this->record_id, array(
             'raw'                 => serialize($this->log),
@@ -178,6 +199,7 @@ class Gfcore {
             'file_remove'         => $this->log['deploy_log']['gitftpop']['files']['delete'],
             'file_skip'           => $this->log['deploy_log']['gitftpop']['files']['skip'],
             'hash'                => $current_revision,
+            'hash_before'         => $before_revision,
         ));
 
         $this->m_branches->set($branch['id'], array(
@@ -203,18 +225,24 @@ class Gfcore {
      * @throws InvalidPathException
      */
     public function createFolders() {
+
+        // user folder.
         try {
             File::read_dir($this->repo_home . '/' . $this->user_id);
         } catch (Exception $e) {
             File::create_dir($this->repo_home, $this->user_id, 0755);
         }
         $this->user_dir = $this->repo_home . '/' . $this->user_id;
+
+        // repo folder.
         try {
             File::read_dir($this->user_dir . '/' . $this->deploy_id);
         } catch (Exception $ex) {
             File::create_dir($this->user_dir, $this->deploy_id, 0755);
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;
+
+        chdir($this->repo_dir);
     }
 
     /**

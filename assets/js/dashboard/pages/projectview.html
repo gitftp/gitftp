@@ -16,11 +16,11 @@
 <div class="row">
     <div class="col-md-3">
         <div class="list-group">
-            <a href="#deploy/v/<%= s.id %>" class="list-group-item page-subview subview-activity <%= (v == 'activity') ? 'active-cs' : '' %>"><i class="fa fa-line-chart fa-fw"></i> Activity</a>
-            <a href="#deploy/v/<%= s.id %>/deploy"
-               class="list-group-item page-subview subview-deploy <%= (v == 'deploy') ? 'active-cs' : '' %>"><i
-                    class="fa fa-cloud-upload fa-fw"></i> Environments</a>
-            <a href="#deploy/v/<%= s.id %>/settings" class="list-group-item page-subview subview-settings <%= (v == 'settings') ? 'active-cs' : '' %>"><i class="fa fa-cog fa-fw"></i> Configure</a>
+            <a href="#/project/<%= s.id %>" class="list-group-item page-subview subview-activity <%= (v == 'activity') ? 'active-cs' : '' %>"><i class="fa fa-list-ul fa-fw"></i> Activity</a>
+            <a href="#/project/<%= s.id %>/environments"
+               class="list-group-item page-subview subview-deploy <%= (/environments|manage|add/.test(v)) ? 'active-cs' : '' %>"><i
+                    class="fa fa-leaf fa-fw"></i> Environments</a>
+            <a href="#/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings <%= (v == 'settings') ? 'active-cs' : '' %>"><i class="fa fa-wrench fa-fw"></i> Settings</a>
         </div>
         <div style="height: 10px;"></div>
         
@@ -28,8 +28,7 @@
             <label>
                 POST hook url:
             </label>
-            <input class="form-control" style="font-family: consolas"
-                   value="<%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %>">
+            <textarea class="form-control" style="font-family: consolas"><%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %></textarea>
         </div>
         <div style="height: 20px;"></div>
     </div>

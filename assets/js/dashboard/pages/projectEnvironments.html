@@ -4,10 +4,8 @@
         <% $.each(branches, function(i, a){ %>
         <div class="col-md-6">
             <div class="project-branch">
-                <button type="button" class="deploy" data-id="<%= a.id %>">
-                    <i class="fa fa-cloud-upload center fa-fw"></i> <span class="branch-name"><%= a.name %></span>
-                </button>
                 <div class="block">
+                    <p class="branch-name-container"><i class="fa fa-leaf fa-fw green"></i> <span class="branch-name"><%= a.name %></span></p>
                     <!--<span class="branch-name"></span> &nbsp;-->
                     <code><i class="fa fa-code-fork"></i> <%= a.branch_name %></code>
                     <span class="pull-right">
@@ -16,16 +14,23 @@
                     <br/>
                     <span class="onrevision">On revision: </span><span
                         class="revision"><%= a.revision.substr(0, 6) %></span>
-                    <span class="pull-right date"><span
-                            class="dynamicTime"
-                            data-timestamp="<%= a.date %>"></span></span>
+                    <span class="pull-right date">
+                        <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
+                    </span>
                     <br/>
                     <!--<span class="autodeploy"><%= (a.ready == 1) ? '<i class="fa fa-check"></i> Ready' : 'Not deployed yet.' %></span>-->
-                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i class="fa fa-pause fa-fw"></i> No.' %></span>
+                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i class="fa fa-pause fa-fw"></i> Not active.' %></span>
+                    <span class="pull-right date">
+                        <a href="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">View</a>
+                    </span>
                 </div>
+
+                <button type="button" class="deploy" data-id="<%= a.id %>">
+                    <i class="fa fa-cloud-upload center fa-fw"></i> deploy now
+                </button>
             </div>
         </div>
         <% }); %>
     </div>
 </div>
-<button type="button" class="btn btn-default"><i class="fa fa-plus-circle"></i> Add more environments</button>
+<a href="#/project/<%= data.data[0].id %>/environments/add" class="btn btn-default"><i class="fa fa-plus-circle"></i> Add environments</a>

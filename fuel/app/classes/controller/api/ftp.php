@@ -3,7 +3,7 @@
 class Controller_Api_Ftp extends Controller_Apilogincheck {
 
     public function action_index() {
-        
+
     }
 
     /**
@@ -12,37 +12,29 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
      * @return type
      */
     public function action_getall($id = null) {
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status' => false,
-                'reason' => 'GT-405',
-                'request' => Input::post()
-            ));
-            return;
-        }
 
         $ftp = new Model_Ftp();
         $data = $ftp->get($id);
-        
+
+        $data = utils::strip_passwords($data);
+
         echo json_encode(array(
-            'status' => true,
-            'data' => $data
+            'status' => TRUE,
+            'data'   => $data
         ));
     }
 
-    public function action_testftp() {
-        if (Input::method() == 'POST') {
-            $a = utils::test_ftp(Input::post());
-            if ($a == 'Ftp server is ready to rock.') {
-                echo json_encode(array(
-                    'status' => true
-                ));
-            } else {
-                echo json_encode(array(
-                    'status' => false,
-                    'reason' => $a
-                ));
-            }
+    public function post_testftp() {
+        $a = utils::test_ftp(Input::post());
+        if ($a == 'Ftp server is ready to rock.') {
+            echo json_encode(array(
+                'status' => TRUE
+            ));
+        } else {
+            echo json_encode(array(
+                'status' => FALSE,
+                'reason' => $a
+            ));
         }
     }
 
@@ -51,39 +43,25 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
      * @return boolean
      */
     public function action_addftp() {
-        if (!Auth::check()) {
-
-            echo json_encode(array(
-                'status' => false,
-                'reason' => 'GT-405',
-                'request' => Input::post()
-            ));
-            return;
-        }
 
         $ftp = new Model_Ftp();
         $data = Input::post();
         $user_id = Auth::get_user_id()[1];
 
-        $existing = DB::select()->from('ftpdata')
-                        ->where('host', $data['host'])
-                        ->and_where('username', $data['username'])
-                        ->and_where('user_id', $user_id)
-                        ->and_where('path', $data['path'])
-                        ->execute()->as_array();
+        $existing = DB::select()->from('ftpdata')->where('host', $data['host'])->and_where('username', $data['username'])->and_where('user_id', $user_id)->and_where('path', $data['path'])->execute()->as_array();
 
         if (count($existing) > 0) {
             echo json_encode(array(
-                'status' => false,
+                'status'  => FALSE,
                 'request' => Input::post(),
-                'reason' => 'A FTP account with the same host and username already exist.'
+                'reason'  => 'A FTP account with the same host and username already exist.'
             ));
         } else {
 
             $a = $ftp->insert($data);
             if ($a) {
                 echo json_encode(array(
-                    'status' => true,
+                    'status'  => TRUE,
                     'request' => Input::post()
                 ));
             }
@@ -97,10 +75,11 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
     public function action_editftp($id) {
         if (!Auth::check()) {
             echo json_encode(array(
-                'status' => false,
-                'reason' => 'GT-405',
+                'status'  => FALSE,
+                'reason'  => 'GT-405',
                 'request' => Input::post()
             ));
+
             return;
         }
 
@@ -108,31 +87,31 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
         $data = Input::post();
         $user_id = Auth::get_user_id()[1];
 
-//        $existing = DB::select()->from('ftpdata')
-//                        ->where('host', $data['host'])
-//                        ->and_where('username', $data['username'])
-//                        ->and_where('user_id', $user_id)
-//                        ->and_where('path', $data['path'])
-//                        ->execute()->as_array();
+        //        $existing = DB::select()->from('ftpdata')
+        //                        ->where('host', $data['host'])
+        //                        ->and_where('username', $data['username'])
+        //                        ->and_where('user_id', $user_id)
+        //                        ->and_where('path', $data['path'])
+        //                        ->execute()->as_array();
 
-        if (false) {
+        if (FALSE) {
             echo json_encode(array(
-                'status' => false,
+                'status'  => FALSE,
                 'request' => Input::post(),
-                'reason' => 'A FTP account with the same host and username already exist OR you didnt change anything ?.'
+                'reason'  => 'A FTP account with the same host and username already exist OR you didnt change anything ?.'
             ));
         } else {
             $a = $ftp->set($id, $data);
-            
-            if ($a || true) {
+
+            if ($a || TRUE) {
                 echo json_encode(array(
-                    'status' => true,
+                    'status'  => TRUE,
                     'request' => Input::post()
                 ));
-            }else{
+            } else {
                 echo json_encode(array(
-                    'status' => false,
-                    'reason' => 'Cannot update with the same values.',
+                    'status'  => FALSE,
+                    'reason'  => 'Cannot update with the same values.',
                     'request' => $id
                 ));
             }
@@ -148,23 +127,21 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
 
         if (!Auth::check()) {
             echo json_encode(array(
-                'status' => false,
-                'reason' => 'GT-405',
+                'status'  => FALSE,
+                'reason'  => 'GT-405',
                 'request' => Input::post()
             ));
+
             return;
         }
 
-        $row = DB::select()->from('ftpdata')
-                        ->where('id', $id)
-                        ->and_where('user_id', Auth::get_user_id()[1])
-                        ->execute()->as_array();
+        $row = DB::select()->from('ftpdata')->where('id', $id)->and_where('user_id', Auth::get_user_id()[1])->execute()->as_array();
 
         if (count($row) == 0) {
             echo json_encode(array(
-                'status' => false,
+                'status'  => FALSE,
                 'request' => Input::post(),
-                'reason' => 'You are not authorized to delete.'
+                'reason'  => 'You are not authorized to delete.'
             ));
         } else {
 
@@ -172,14 +149,14 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
 
             if ($result) {
                 echo json_encode(array(
-                    'status' => true,
+                    'status'  => TRUE,
                     'request' => Input::post()
                 ));
             } else {
                 echo json_encode(array(
-                    'status' => false,
+                    'status'  => FALSE,
                     'request' => Input::post(),
-                    'reason' => 'Cound not insert the value'
+                    'reason'  => 'Cound not insert the value'
                 ));
             }
         }

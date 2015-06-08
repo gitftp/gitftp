@@ -4,115 +4,131 @@
     <br>
     <br>
     <p class="text-center">
-        It looks like this project has not been deployed yet. <br/>
-        The deploy time will depend on the size of your repository. In the meantime, coffee!
+        <span>Deploy</span> <br/> None of the environments are deployed, Do you want to deploy all the branches at onces?
         <br>
+        Deploy time will depend on amount of files and number of branches to be deployed.
         <br>
-        <% if(/cloning|uploading/.test(s.status.toLowerCase())){ %>
-        <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
+        <% if(s.cloned == 2){ %>
+            <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
         <% }else{ %>
-        <button type="button" class="btn btn-default btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start Deploy</button>
+            <button type="button" class="btn btn-success btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Deploy all Environments.</button>
         <% } %>
     </p>
     <br>
     <br>
     <br>
     <% } %>
+<% } %>
 
-    <% if(activity.data.length != 0 ){ %>
-    <p style="font-size: 20px;">Recent deploy list</p>
-    <div class="panel panel-default">
-    <table class="table">
-
-    <% } %>
+<% if(activity.data.length && more == 'false'){ %>
+    <div class="row project-record-list-wrapper">
 <% } %>
 
     <% $.each(activity.data, function(i, a){ %>
-    <tr class="activity-data-records">
-        <%
-            switch(a.status){
-        case '0':
-            var ic = 'times';
-            var co = 'ff3b30';
-            var ct = 'DEPLOY FAILED';
-            break;
-            case '1':
-            var ic = 'check';
-            var co = '4cd964';
-            var ct = 'DEPLOY SUCCESSFUL';
-            break;
-            case '2':
-            var ic = 'spin fa-spinner';
-            var co = 'FF9500';
-            var ct = 'RUNNING DEPLOY';
-            break;
-            case '3':
-            var ic = 'pause';
-            var co = 'aaa';
-            var ct = 'In Queue';
-        }
-        %>
+        <div class="col-md-12">
+            <div class="project-record-list">
 
-        <td align="left" style="vertical-align: middle">
-            <i class="fa fa-<%= ic %> fa-fw" data-toggle="tooltip" data-placement="right" title="<%= ct %>" style="color: #<%= co %> "></i>
-            -> <%= '<code>'+a.branch[0]['name']+'</code>' %>
-        </td>
-        <td>
-            <!--<img src="'+base+'assets/img/user.png"/>-->
-            <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
-            <%= (a.hash) ? ' <code>'+a.hash.substr(0, 6)+'</code>' : '' %>
-            <br>
-            <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '<i class="fa fa-user fa-fw"></i>' %>
             <%
-            if(a.commit_message){
-                if(a.commit_message.length > 36){
-                    var commit_message = a.commit_message.substr(0, 36)+'...';
-                    var commit_message = ' deployed <strong data-toggle="tooltip" data-placement="top" title="'+a.commit_message+'">'+commit_message+'</strong>';
-                }else{
-                    var commit_message = a.commit_message;
-                    var commit_message = ' deployed <strong>'+commit_message+'</strong>';
+                switch(a.status){
+                case '0':
+                var ic = 'ban';
+                var co = 'aaa';
+                var ct = 'Failed';
+                break;
+                case '1':
+                var ic = 'check';
+                var co = '4cd964';
+                var ct = 'Successful';
+                break;
+                case '2':
+                var ic = 'spin fa-spinner';
+                var co = 'FF9500';
+                var ct = 'In progress';
+                break;
+                case '3':
+                var ic = 'pause';
+                var co = 'aaa';
+                var ct = 'In Queue';
                 }
-            }else{
-                var commit_message = '';
-            }
+
+                if(a.commit_message){
+                    if(a.commit_message.length > 36){
+                        var commit_message = a.commit_message.substr(0, 36)+'...';
+                        var commit_message = '<span data-toggle="tooltip" data-placement="top" title="'+a.commit_message+'">'+commit_message+'</span>';
+                    }else{
+                        var commit_message = '<span>'+a.commit_message+'</span>';
+                    }
+                }else{
+                    var commit_message = '';
+                }
+
+                switch(a.record_type){
+                case '0': // manually.
+                var icon = 'cloud';
+                break;
+                case '1': // from service.
+                var icon = '';
+                break;
+                case '2': // first time.
+                var icon = 'code-fork';
+                }
             %>
-            <strong><%= a.triggerby %></strong><%= commit_message %>
-        </td>
-        <td style="vertical-align: middle">
-            <strong><%= a.amount_deployed %></strong> of Files
-            <%= (a.commit_count) ? '<br> '+a.commit_count+' commit(s) pushed' : '' %>
-        </td>
-        <td style="vertical-align: middle">
-            Files diff: <br>
-            <span style="color: #4CD964" data-toggle="tooltip" data-placement="left" title="Added/Modified"><i class="fa fa-plus fa-fw" ></i> <%= a.file_add %></span> &nbsp;
-            <span style="color: #8E8E93" data-toggle="tooltip" data-placement="left" title="Removed"><i class="fa fa-minus fa-fw"></i> <%= a.file_remove %></span>
-        </td>
-        <td class="text-right" style="vertical-align: middle">
-            <a href="#" class="watchRawData" data-id="<%= a.id %>" title="View raw console data" data-toggle="tooltip" data-placement="bottom">
-                <i class="fa fa-eye fa-fw"></i> LOG
-            </a> <br/>
-            <a href="#" class="watchPayload" data-id="<%= a.id %>" ttile="View Payload" data-toggle="tooltip" data-placement="left">
-                <i class="fa fa-gear fa-fw"></i> Payload
-            </a>
-        </td>
-    </tr>
+
+                    <i class="deploystate-icon fa fa-<%= icon %> fa-fw pull-left"></i>
+                    <span class="status status-<%= a.status %>"><%= ct %> | <span class="dynamicTime" data-toggle="tooltip" data-placement="top" title="<%= moment(timestamp(a.date)).format('DD/MM/YYYY hh:mm:ss a') %>" data-timestamp="<%= a.date %>"></span></span>
+                    <div class="pull-right link-data">
+                        <a href="#" class="watchRawData" data-id="<%= a.id %>" title="View raw console data" data-toggle="tooltip" data-placement="bottom">
+                            <i class="fa fa-terminal fa-fw"></i> Log
+                        </a>
+                        <a href="#" class="watchPayload" data-id="<%= a.id %>" title="View Payload" data-toggle="tooltip" data-placement="top">
+                            <i class="fa fa-gear fa-fw"></i> Payload
+                        </a>
+                    </div>
+                <br/>
+                    <i class="fa fa-<%= ic %>" data-toggle="tooltip" data-placement="right" title="<%= ct %>" style="color: #<%= co %> "></i>&nbsp;&nbsp; <i class="fa fa-leaf green"></i> <span class="blue"><%= a.branch[0]['name'] %></span> <small><%= (a.record_type == 2) ? ' (First deploy)' : '' %></small>
+                    <% if(a.hash_before == null && a.hash == null){ %>
+
+                    <% }else if(a.hash_before == a.hash){ %>
+                        &nbsp;&nbsp;<code>No files changed</code>
+                    <% }else{ %>
+                        &nbsp;&nbsp;<code><%= (a.hash_before) ? a.hash_before.substr(0, 6) : '' %><%= (a.hash_before) ? '->' : '' %><%= (a.hash) ? a.hash.substr(0, 6) : '' %></code>
+                    <% } %>
+                    <strong class="pull-right">deployed <%= a.amount_deployed %></strong>
+                <br/>
+                    <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
+                    <% if(a.record_type == 1){ %>
+                        <strong><%= a.triggerby %> </strong>
+                    <% }else{ %>
+                        <strong>Triggered manually by: You </strong>
+                    <% } %>
+                    <%= (a.commit_count) ? 'pushed '+a.commit_count+' commit(s) ' : '' %>
+                    <div class="pull-right">
+                        <span class="green" data-toggle="tooltip" data-placement="left" title="Added/Modified"><i class="fa fa-plus-circle" ></i> <%= a.file_add %></span> &nbsp;
+                        <span class="gray" data-toggle="tooltip" data-placement="left" title="Removed"><i class="fa fa-minus-circle"></i> <%= a.file_remove %></span>
+                    </div>
+                <br/>
+                    <%= commit_message %>
+                    <% (a.hash) ? ' <code>'+a.hash.substr(0, 6)+'</code>' : '' %>
+                <br>
+
+
+            </div>
+        </div>
+
     <% }); %>
 
     <% if(count > renderedCount){ %>
-    <tr>
-        <td colspan="5" style="text-align:center">
-            <button type="button" class="btn btn-default btn-block activity-data-records-view-more">View more</button>
-        </td>
-    </tr>
+        <button type="button" class="btn btn-default btn-block activity-data-records-view-more">View more</button>
     <% } %>
+
     <script>
         $('[data-toggle="tooltip"]').tooltip();
     </script>
+
 <% if(more == 'false'){ %>
-    <% if(activity.data.length != 0 ){ %>
-</table>
-</div>
+    <% if(activity.data.length){ %>
+    </div>
     <% } %>
+    <br>
+    <br>
 <% } %>
-<br>
-<br>

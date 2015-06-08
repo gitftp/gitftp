@@ -314,7 +314,12 @@ class gitcore {
             // you make commit during deployment, the rev will be right.
             $this->localRevision = $this->currentRevision();
             $this->output('Current revision on gitftp: ' . $this->localRevision);
+
+            $this->log['gitftpop']['revision'] = $this->localRevision;
+            $this->log['gitftpop']['revision_before'] = $this->options['revision'];
+
             $this->deploy($this->revision);
+
         } else {
             $this->output('Repository was not found, Error 404. Please contact support.');
             throw new \Exception("'{$this->repo}' is not Git repository.");
@@ -1045,7 +1050,6 @@ class gitcore {
             $localRevision = $this->sync;
         }
         $consoleMessage = "Updating remote revision file to " . $localRevision;
-        $this->log['gitftpop']['revision'] = $localRevision;
 
         if ($this->sync) {
             $this->output("SYNC: $consoleMessage");

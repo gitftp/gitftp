@@ -11,6 +11,11 @@ class Model_Record extends Model {
     public $success = '1';
     public $failed = '0';
 
+    public $type_firstdeploy = '2';
+    public $type_manual = '0';
+    public $type_service = '1'; // auto deployed
+
+
     public function __construct() {
         if (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
@@ -47,7 +52,7 @@ class Model_Record extends Model {
         $queue = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->execute()->as_array();
 
         if (count($progress) == 0 && count($queue) == 0) {
-            return TRUE;
+            return FALSE;
         }
         if (count($progress) > 0) {
             return TRUE;
@@ -73,11 +78,13 @@ class Model_Record extends Model {
             'branch_id',
             'amount_deployed_raw',
             'amount_deployed',
+            'record_type',
             // 'raw',
             'date',
             'triggerby',
             // 'post_data',
             'avatar_url',
+            'hash_before',
             'hash',
             'commit_count',
             'commit_message',
@@ -113,26 +120,46 @@ class Model_Record extends Model {
         return $r;
     }
 
-
+    /**
+     *
+     * Get raw deploy output by record id
+     * @param $record_id
+     * @return mixed
+     */
     public function get_raw_by_record($record_id) {
         $q = DB::select('raw')->from($this->table)->where('id', $record_id)->execute()->as_array();
 
         return $q;
     }
 
+    /**
+     * Get list of raw deploy output by deploy id.
+     * @param $deploy_id
+     * @return mixed
+     */
     public function get_raw_by_deploy($deploy_id) {
         $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
 
         return $q;
     }
 
-
+    /**
+     * get post data by record id.
+     * @param $record_id
+     * @return mixed
+     */
     public function get_post_data_by_record($record_id) {
         $q = DB::select('post_data')->from($this->table)->where('id', $record_id)->execute()->as_array();
 
         return $q;
     }
 
+
+    /**
+     * get list of post data by deploy id.
+     * @param $deploy_id
+     * @return mixed
+     */
     public function get_post_data_by_deploy($deploy_id) {
         $q = DB::select('post_data')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
 
@@ -191,7 +218,10 @@ class Model_Record extends Model {
      * id,
      * deploy_id,
      * user_id,
+     * record_type,
      * status,
+     * hash_before
+     * record_type
      * branch_id,
      * amount_deployed_raw,
      * amount_deployed,
@@ -209,9 +239,13 @@ class Model_Record extends Model {
      *
      * @param type $ar
      */
-    public function insert($ar) {
+    public function insert($ar, $user = FALSE) {
+        if (!$user) {
+            $ar['user_id'] = $this->user_id;
+        } else {
+            $ar['user_id'] = $user;
+        }
 
-        $ar['user_id'] = $this->user_id;
         $r = DB::insert($this->table)->set($ar)->execute();
 
         return $r[0];

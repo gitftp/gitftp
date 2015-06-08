@@ -4,8 +4,8 @@
     Git deploy automation software
    ========================================================================== */
 body {
-  font-family: 'Lato', sans-serif;
-  background-color: #fff;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  background-color: #FCFCFC;
   color: #555;
   overflow-y: scroll;
   box-shadow: inset 0px 2px #62c7f2;
@@ -93,18 +93,24 @@ select:active {
   font-weight: bold;
   text-transform: uppercase;
 }
-.navbar-nav li.active a {
+.navbar-default .navbar-nav > li > a {
+  -webkit-transition: all .4s;
+          transition: all .4s;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.navbar-default .navbar-nav li.active a {
   background-image: none !important;
   background-color: #f8f8f8 !important;
   box-shadow: inset 0 2px #66bd61;
 }
-.navbar-nav li a {
-  text-transform: uppercase;
-  font-weight: bold;
-  font-size: 14px;
+.navbar-default .navbar-nav .dropdown-menu {
+  border-color: #e7e7e7;
+}
+.navbar-default .navbar-nav .dropdown.open > a {
+  background-color: #F8F8F8 !important;
 }
 .navbar-default {
-  /*background: linear-gradient(to bottom, #fff 0%, rgba(248,248,248,.9) 100%)*/
   background: #fff;
 }
 h1,
@@ -182,6 +188,11 @@ h6 {
 .ftp-servers-list .project-list-block .header span.head {
   font-size: 24px;
   padding-top: 0px;
+  max-width: 85%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: inline-block;
+  white-space: nowrap;
 }
 .viewdeploy .project-list-block:hover,
 .ftp-servers-list .project-list-block:hover {
@@ -306,7 +317,7 @@ h6 {
   box-shadow: none;
 }
 .well-statusbar {
-  background: #fff;
+  background: transparent;
   border-color: #ddd;
   box-shadow: none;
   border: none;
@@ -318,6 +329,7 @@ h6 {
 .active-cs {
   background: #f8f8f8;
   color: #62c7f2 !important;
+  box-shadow: inset 2px 0px #62c7f2;
 }
 .fa-spin {
   -webkit-animation-duration: .5s !important;
@@ -325,7 +337,6 @@ h6 {
 }
 .dash-nav {
   /*top: 2px;*/
-  overflow: hidden;
 }
 .dash-nav .drop {
   -webkit-animation: drop 0.7s ease-in;
@@ -418,27 +429,31 @@ h6 {
 }
 .project-branches-env .project-branch {
   margin-bottom: 15px;
-  border: solid 1px #eee;
+  border: solid 1px #ddd;
   border-radius: 4px;
+  background: white;
 }
 .project-branches-env .project-branch button.deploy {
   width: 100%;
   background: none;
   border: none;
   box-shadow: none;
-  padding: 20px;
+  padding: 10px 20px;
   text-align: center;
   display: block;
-  border-bottom: solid 1px #eee;
-  font-size: 18px;
+  border-top: solid 1px #ddd;
+  font-size: 16px;
   -webkit-transition: all .2s;
           transition: all .2s;
 }
 .project-branches-env .project-branch button.deploy:hover {
   background: #eee;
 }
+.project-branches-env .project-branch .branch-name-container {
+  font-size: 18px;
+}
 .project-branches-env .project-branch .branch-name {
-  font-weight: bold;
+  font-weight: normal;
 }
 .project-branches-env .project-branch .block {
   padding: 10px;
@@ -454,4 +469,81 @@ h6 {
 .project-branches-env .project-branch .date {
   color: #7f7f7f;
   font-size: 12px;
+}
+.project-record-list {
+  margin-bottom: 15px;
+  border-bottom: solid 1px #eee;
+}
+.project-record-list .status {
+  font-size: 14px;
+  color: #aaa;
+}
+.project-record-list .status.status-1 {
+  color: #66bd61;
+}
+.project-record-list .status.status-0 {
+  color: #ef4036;
+}
+.project-record-list .status.status-2 {
+  color: #f7941d;
+}
+.project-record-list .status.status-3 {
+  color: #aaa;
+}
+.project-record-list .deploystate-icon {
+  font-size: 2em;
+  margin-top: 7px;
+}
+.checkbox.gf-checkbox input {
+  display: none;
+}
+.checkbox.gf-checkbox label {
+  background: url('../img/checkboxBtn.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  padding-left: 25px;
+  background-position: 0px 0px;
+}
+.checkbox.gf-checkbox input:checked + label {
+  background-position: 0px -20px;
+}
+.project-settings-info table {
+  width: 100%;
+}
+.project-settings-info table tr {
+  font-weight: bold;
+}
+.project-settings-info table tr td:first-child {
+  text-align: right;
+  width: 20% !important;
+}
+.branch-single-view .branch-name {
+  font-size: 18px;
+}
+.branch-single-view table {
+  width: 100%;
+}
+.branch-single-view table tr td:first-child {
+  width: 30%;
+  font-weight: bold;
+}
+.branch-single-view .form-group {
+  margin-bottom: 5px;
+}
+.branch-single-view .form-group .control-label {
+  text-align: left;
+}
+.branch-single-view .edit-ftp {
+  opacity: 0;
+  -webkit-transition: all .1s;
+          transition: all .1s;
+  -webkit-transform: translate(0px, 10px);
+      -ms-transform: translate(0px, 10px);
+          transform: translate(0px, 10px);
+}
+.branch-single-view:hover .edit-ftp {
+  opacity: 1;
+  -webkit-transform: translate(0px, 0px);
+      -ms-transform: translate(0px, 0px);
+          transform: translate(0px, 0px);
 }

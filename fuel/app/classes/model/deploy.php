@@ -4,7 +4,7 @@ class Model_Deploy extends Model {
 
     private $table = 'deploy';
     private $user_id;
-    public $id = null;
+    public $id = null; // deploy id.
 
     public function __construct() {
         if (Auth::check()) {
@@ -90,30 +90,32 @@ class Model_Deploy extends Model {
         $user_id = $this->user_id;
         $deployrow = DB::select()->from($this->table)->where('id', $id)->and_where('user_id', $user_id)->execute()->as_array();
 
-        if (count($deployrow) == 1) {
-
-            $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
-
-            try {
-                chdir($repo_dir);
-                echo shell_exec('chown www-data * -R');
-                echo shell_exec('chgrp www-data * -R');
-                echo shell_exec('chmod 777 -R');
-                File::delete_dir($repo_dir, TRUE, TRUE);
-            } catch (Exception $ex) {
-                return FALSE;
-            }
-
-            if (count($deployrow) != 0) {
-                DB::delete($this->table)->where('id', $id)->execute();
-
-                return TRUE;
-            } else {
-                return 'No access';
-            }
-        } else {
-            return 'deploy busy';
+        if (count($deployrow) != 1) {
+            throw new Exception('Project not found.');
         }
+
+        $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deployrow[0]['id'];
+        try {
+            chdir($repo_dir);
+            echo shell_exec('chown www-data * -R');
+            echo shell_exec('chgrp www-data * -R');
+            echo shell_exec('chmod 777 -R *');
+
+            try{
+                File::read_dir($repo_dir);
+                try{
+                    File::delete_dir($repo_dir, TRUE, TRUE);
+                }catch(Exception $e){
+                    throw new Exception('Could not delete project. Please contact support.');
+                }
+            }catch(Exception $e){
+                // folder could not be read (is not present), CONTINUE.
+            }
+        } catch (Exception $ex) {
+            // folder doesnt exist.!!
+        }
+
+        return DB::delete($this->table)->where('id', $id)->execute();
     }
 
     public function create($repo_url, $name, $username = null, $password = null, $key, $env) {

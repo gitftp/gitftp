@@ -20,9 +20,9 @@ require([
     Backbone.history.on('all', function () {
         var h = location.hash;
         var l = h.substr(1);
-        var j = l.split('/')[0];
+        var j = l.split('/')[0] || l.split('/')[1];
         var k = h.split('/');
-        
+
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
         
@@ -42,7 +42,6 @@ require([
             }
             
         }
-//        subview
     });
     process.init();
     Backbone.history.start();

@@ -16,32 +16,31 @@
                         <!--<a class="navbar-brand" href="<?php //echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <!--                        <ul class="nav navbar-nav">
-                                                    <li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>
-                                                    <li><a href="#">Link</a></li>
-                                                    <li class="dropdown">
-                                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                                        <ul class="dropdown-menu" role="menu">
-                                                            <li><a href="#">Action</a></li>
-                                                            <li><a href="#">Another action</a></li>
-                                                            <li><a href="#">Something else here</a></li>
-                                                            <li class="divider"></li>
-                                                            <li><a href="#">Separated link</a></li>
-                                                            <li class="divider"></li>
-                                                            <li><a href="#">One more separated link</a></li>
-                                                        </ul>
-                                                    </li>
-                                                </ul>-->
                         <ul class="nav navbar-nav navbar-left drop">
-                            <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#home"> <i
+                            <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#/home"> <i
                                         class="fa fa-home fa-fw"></i> Summary</a></li>
-                            <li class="deploy"><a href="<?php echo Uri::base(false); ?>#deploy"><i class="fa fa-cloud-upload fa-fw"></i> Project</a></li>
-                            <li class="ftp"><a href="<?php echo Uri::base(false); ?>#ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
+                            <li class="project"><a href="<?php echo Uri::base(false); ?>#/project"><i class="fa fa-cloud-upload fa-fw"></i> Project</a></li>
+                            <li class="ftp"><a href="<?php echo Uri::base(false); ?>#/ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
+                        </ul>
+
+
+                        <ul class="nav navbar-nav navbar-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Account</a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href="#">Action</a></li>
+                                    <li><a href="#">Another action</a></li>
+                                    <li><a href="#">Something else here</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="#"><i class="fa fa-wrench fa-fw"></i> Settings</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+                                </ul>
+                            </li>
                         </ul>
 
                         <ul class="nav navbar-nav navbar-right">
                             <li><a href="#" onclick="Backbone.history.loadUrl(); return false;"  data-toggle="tooltip" data-placement="left" title="Reload"><i class="fa fa-refresh fa-fw"></i></a></li>
-                            <li><a href="<?php echo Uri::base(false); ?>user/logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
                         </ul>
 
                     </div><!-- /.navbar-collapse -->

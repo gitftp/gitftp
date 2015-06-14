@@ -12,10 +12,10 @@
  */
 
 Autoloader::add_classes(array(
-    'bridge' => __DIR__ . '/classes/backend/curl.php',
-    'bridge' => __DIR__ . '/classes/backend/ftp.php',
-    'bridge' => __DIR__ . '/classes/backend/ssh2.php',
-    'bridge' => __DIR__ . '/classes/backend.php',
+//    'bridge' => __DIR__ . '/classes/backend/curl.php',
+//    'bridge' => __DIR__ . '/classes/backend/ftp.php',
+//    'bridge' => __DIR__ . '/classes/backend/ssh2.php',
+//    'bridge' => __DIR__ . '/classes/backend.php',
     'bridge' => __DIR__ . '/classes/bridge.php',
 ));
 

@@ -10,13 +10,38 @@ define([
         el: app.el,
         events: {
             'change #doesreponeedlogin': 'inputCheckboxToggle',
-            'click .startdeploy': 'startDeploy',
+            'click .startdeploy': 'deployProject',
             'click .watchRawData': 'getRawData',
             'click .watchPayload': 'getPayload',
             'click .activity-data-records-view-more': 'renderMoreActivity',
             'click .deleteproject': 'deleteProject',
-            'click .project-branch button.deploy': 'envTriggerDeploy',
+            'click .project-branch button.deploy': 'deployBranch',
             'submit #deploy-view-form-edit': 'updateSettings',
+            'submit .project-branch-env-save-form': 'saveBranchForm',
+        },
+        saveBranchForm: function (e) {
+            var $this = $(e.currentTarget);
+            e.preventDefault();
+            var form = $this.serializeArray();
+
+            _ajax({
+                url: base + 'api/branch/updatebranch',
+                data: form,
+                method: 'post',
+                dataType: 'json'
+            }).done(function (data) {
+                if (data.status) {
+                    app_reload();
+                    $.alert({
+                        title: 'Updated',
+                        content: 'Settings have been updated.<>' + data.message,
+                    });
+                } else {
+                    noty({
+                        text: data.reason
+                    });
+                }
+            });
         },
         inputCheckboxToggle: function (e) {
             var $this = $(e.currentTarget);
@@ -27,7 +52,7 @@ define([
                 $p.hide().find('input').attr('disabled', true).removeAttr('required');
             }
         },
-        startDeploy: function (e) {
+        deployProject: function (e) {
             var $this = $(e.currentTarget);
             var that = this;
 
@@ -35,25 +60,18 @@ define([
             var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
 
             $this.html(p);
-            //$this.attr('disabled', true);
-            // uncomment this.
-
-            $.getJSON(base + 'api/deploy/start/' + this.id, function (data) {
-                if (data.status) {
-                    $.alert({
-                        title: 'Deploy complete!',
-                        content: 'Your repository files are successfully deployed.<br>Don\'t forget to add the <b>POST hook</b> to your git host provider.'
-                    });
-                    Backbone.history.loadUrl();
-                } else {
-                    $.alert({
-                        title: 'Problem',
-                        content: data.reason
-                    });
-                    $this.html(f);
-                    $this.removeAttr('disabled');
-                }
+            $this.attr('disabled', true);
+            _ajax({
+                url: dash_url + 'api/deploy/run/',
+                data: {
+                    'deploy_id': this.id,
+                },
+                method: 'post',
+                dataType: 'html',
+            }).done(function (data) {
+                console.log(data);
             });
+            window.ajax = ajax;
         },
         getRawData: function (e) {
             e.preventDefault();
@@ -168,17 +186,22 @@ define([
                 }
             });
         },
-        envTriggerDeploy: function (e) {
+        deployBranch: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
             _ajax({
-                url: dash_url + 'api/deploy/deploybranch/' + id,
-                method: 'get',
-                dataType: 'json',
+                url: dash_url + 'api/deploy/run/',
+                data: {
+                    'branch_id': id,
+                    'deploy_id': this.id
+                },
+                method: 'post',
+                dataType: 'html',
             }).done(function (data) {
-                console.log(data);
+                console.log(data)
             });
+
         },
         updateSettings: function (e) {
             var that = this;
@@ -198,7 +221,7 @@ define([
                         title: 'Updated ' + data.request.name,
                         content: 'Respository is updated!',
                     });
-                    Backbone.history.loadUrl();
+                    app_reload();
                 } else {
                     $.alert({
                         title: 'Something went wrong.',
@@ -268,7 +291,16 @@ define([
                     'v': that.which
                 });
                 that.data = data;
-                that.el.html(template);
+
+                if(is_loaded){
+                    that.el.html(template);
+                }else{
+                    var $el2 = $('<div class="projectview-anim">');
+                    that.el.html($el2);
+                    that.el = $el2;
+                    $el2.html(template);
+                }
+
                 that.renderChild();
             });
 
@@ -357,6 +389,7 @@ define([
                     ftp: ftpdata.data[0],
                     ftplist: ftplist,
                 });
+                $('.deploy-sub-page').html('');
                 $('.deploy-sub-page').html(subPage);
             })
 

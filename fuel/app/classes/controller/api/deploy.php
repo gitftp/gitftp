@@ -24,6 +24,9 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         }
     }
 
+    /**
+     * A LOT HAS LEFT HERE.
+     */
     public function action_dashdata() {
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];
@@ -31,7 +34,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         $a = shell_exec("du -hs $dir");
         $a = explode('	', $a);
         $disk_usage_human = $a[0];
-        $deploy_list = $deploy->get(null, array(
+        $deploy_list = $deploy->get(NULL, array(
             'repository',
             'id',
             'status',
@@ -59,14 +62,14 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         ));
     }
 
-    public function action_getonly($id = null) {
+    public function action_getonly($id = NULL) {
 
         $a = Input::post();
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
         array_push($a, 'cloned');
 
-        $b = $deploy->get(null, $a);
+        $b = $deploy->get(NULL, $a);
         echo json_encode(array(
             'status' => TRUE,
             'data'   => $b
@@ -74,7 +77,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
     }
 
-    public function action_getall($id = null) {
+    public function action_getall($id = NULL) {
 
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
@@ -92,14 +95,15 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
             }
             $a[$k]['branches'] = $b;
         }
+
         echo json_encode(array(
             'status' => TRUE,
-            'data'   => $a
+            'data'   => utils::strip_passwords($a)
         ));
 
     }
 
-    public function action_delete($id = null) { // deploy id.
+    public function action_delete($id = NULL) { // deploy id.
         $record = new Model_Record();
         $is_active = $record->is_queue_active($id);
 
@@ -118,7 +122,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         } catch (Exception $e) {
             echo json_encode(array(
                 'status' => FALSE,
-                'reason' => $e->getMessage().''.$e->getLine()
+                'reason' => $e->getMessage() . '' . $e->getLine()
             ));
 
             return FALSE;
@@ -165,65 +169,125 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         $i = Input::post();
         $user_id = Auth::get_user_id()[1];
         $deploy = new Model_Deploy();
-
         $deploy_row = $deploy->get($id)[0];
-        if ((string)$deploy_row['user_id'] !== (string)$user_id) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'Cannot update project, please contact support.'
-            ));
 
-            return FALSE;
-        }
-
-        $data = array(
-            'name' => $i['name'],
-            'key'  => $i['key'],
-        );
-
-
-        if (empty($i['username'])) {
-            $data['username'] = '';
-            $data['password'] = '';
-        } else {
-            $updateData['username'] = $i['username'];
-
-            if (!empty($i['password'])) {
-                $data['password'] = $i['password'];
+        try {
+            if ((string)$deploy_row['user_id'] !== (string)$user_id) {
+                throw new Exception('404. Project not found.');
             }
-        }
+            $data = array(
+                'name' => $i['name'],
+                'key'  => $i['key'],
+            );
 
-        $result = $deploy->set($id, $data);
+            if (empty($i['username'])) {
+                $data['username'] = '';
+                $data['password'] = '';
+            } else {
+                $data['username'] = $i['username'];
 
-        if ($result[1] !== 0) {
-            echo json_encode(array(
-                'status'  => TRUE,
-                'request' => $i
-            ));
-        } else {
-            echo json_encode(array(
+                if (!empty($i['password'])) {
+                    $data['password'] = $i['password'];
+                }
+            }
+
+            $result = $deploy->set($id, $data);
+
+            if ($result[1] !== 0) {
+
+                // changing clone url in git.
+                $deploy_row2 = $deploy->get($id)[0];
+                $repo_url = $deploy_row2['repository'];
+                $repo_url = parse_url($repo_url);
+                if (!empty($deploy_row2['username'])) {
+                    $repo_url['user'] = $deploy_row2['username'];
+                    if (!empty($deploy_row2['password'])) {
+                        $repo_url['pass'] = $deploy_row2['password'];
+                    }
+                }
+
+                $newCloneUrl = http_build_url($repo_url);
+                $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_row2['id'];
+
+                try {
+                    chdir($repo_dir);
+                    shell_exec('git remote set-url origin ' . $newCloneUrl);
+                } catch (Exception $e) {
+                    // if the folder doesnt exist, do nothing.
+                }
+
+                $response = json_encode(array(
+                    'status'  => TRUE,
+                    'request' => $i
+                ));
+            } else {
+                throw new Exception('Failed to update deploy configuration, please try again.');
+            }
+
+        } catch (Exception $e) {
+            $response = json_encode(array(
                 'status'  => FALSE,
                 'request' => $i,
-                'reason'  => 'Failed to update deploy configuration, please try again.'
+                'reason'  => $e->getMessage()
             ));
         }
+
+        return $response;
     }
 
-    public function action_start($deploy_id = null) {
-        Bootstrapper::first_run($deploy_id);
-    }
+    /*
+     * Run the deploy for a given branch.
+     */
+    public function post_run() {
+        $i = Input::post();
 
-    public function action_deploybranch($branch_id = null) {
         try {
-            Bootstrapper::deploy_branch($branch_id);
+            if (!isset($i['deploy_id']))
+                throw new Exception('Missing parameter.');
+
+            $record = new Model_Record();
+            $branch = new Model_Branch();
+            $deploy = new Model_Deploy();
+            $deploy_id = $i['deploy_id'];
+
+            if (isset($i['branch_id'])) {
+                $branches = $branch->get_by_branch_id($i['branch_id'], array(
+                    'id',
+                    'auto',
+                    'deploy_id'
+                ));
+            } else {
+                $branches = $branch->get($deploy_id, array(
+                    'id',
+                    'auto',
+                    'deploy_id'
+                ));
+            }
+
+            if (count($branches) > 0) {
+                foreach ($branches as $singlebranch) {
+                    $record_id = $record->insert(array(
+                        'deploy_id'   => $deploy_id,
+                        'record_type' => $record->type_manual,
+                        'branch_id'   => $singlebranch['id'],
+                        'date'        => time(),
+                        'triggerby'   => '',
+                        'status'      => $record->in_queue,
+                    ));
+                }
+            }
+
+            Gfcore::deploy_in_bg($deploy_id);
             echo json_encode(array(
                 'status' => TRUE,
             ));
+
         } catch (Exception $e) {
             echo json_encode(array(
                 'status' => FALSE,
-                'reason' => $e->getMessage()
+                'reason' => $e->getMessage() . $e->getLine() . $e->getFile()
             ));
         }
+
     }
 }

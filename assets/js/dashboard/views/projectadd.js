@@ -17,9 +17,9 @@ define([
             // test connection to repo and get its branches
             'click #project-add-add-env': 'addenvrow',
             // add a new env row.
-            'input input#name' : 'repoCustomName'
+            'input input#name': 'repoCustomName'
         },
-        repoCustomName: function(e){
+        repoCustomName: function (e) {
             this.customName = true;
         },
         addenvrow: function (e) {
@@ -89,7 +89,7 @@ define([
         calcname: function (e) {
             $btn = $('.testconnectiontorepo');
             $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
-            if(this.customName){
+            if (this.customName) {
                 /*
                  * if the user has added a custom name.
                  */
@@ -154,8 +154,8 @@ define([
                         title: 'Added',
                         content: 'The configuration is added, please proceed for first deployment.'
                     });
-                    
-                    Router.navigate('deploy', {
+
+                    Router.navigate('#/project', {
                         trigger: true
                     });
 

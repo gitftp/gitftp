@@ -2,8 +2,11 @@
 
 class Model_Record extends Model {
 
+    // table name
     private $table = 'records';
-    private $user_id;
+
+    // user_id for filtering data for current logged in user.
+    public $user_id;
 
     // status states
     public $in_queue = '3';
@@ -11,10 +14,17 @@ class Model_Record extends Model {
     public $success = '1';
     public $failed = '0';
 
-    public $type_firstdeploy = '2';
-    public $type_manual = '0';
-    public $type_service = '1'; // auto deployed
+    // deployed for the first time.
+    public $type_firstdeploy = '2'; // not used any more.
 
+    // deployed by the user.
+    public $type_manual = '0';
+
+    // deployed by a online service, push hook.
+    public $type_service = '1';
+
+    // Wheather if to check for user related content.
+    public $direct = FALSE;
 
     public function __construct() {
         if (Auth::check()) {
@@ -24,15 +34,26 @@ class Model_Record extends Model {
         }
     }
 
+
+    /**
+     * Returns latest id, hash, date record by branch_id.
+     *
+     * @param $branch_id
+     * @return mixed
+     */
     public function get_latest_revision_by_branch_id($branch_id) {
         $result = DB::select('id', 'hash', 'date')->from($this->table)->where('branch_id', $branch_id)->and_where('status', $this->success)->limit(1)->order_by('id', 'DESC');
 
         return $result->execute()->as_array();
     }
 
+
     /**
-     * Get queue list by deploy.
+     * Get only last row from queue.
+     * if nothing in queue return false.
+     *
      * @param $deploy_id
+     * @return bool
      */
     public function get_next_from_queue($deploy_id) {
         $result = DB::select()->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->order_by('id', 'asc')->limit(1)->execute()->as_array();
@@ -45,11 +66,17 @@ class Model_Record extends Model {
     }
 
     /**
-     * Is deploy running
+     * Determine whether the queue is currently under process.
+     * Queue via deploy_id.
+     *
+     * @param $deploy_id
+     * @return bool
      */
     public function is_queue_active($deploy_id) {
-        $progress = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_progress)->execute()->as_array();
-        $queue = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)->and_where('status', $this->in_queue)->execute()->as_array();
+        $progress = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)
+            ->and_where('status', $this->in_progress)->execute()->as_array();
+        $queue = DB::select('id')->from($this->table)->where('deploy_id', $deploy_id)
+            ->and_where('status', $this->in_queue)->execute()->as_array();
 
         if (count($progress) == 0 && count($queue) == 0) {
             return FALSE;
@@ -62,13 +89,21 @@ class Model_Record extends Model {
     }
 
     /**
+     * Get records by deploy_id
+     * filter by
+     *      limit
+     *      offset
+     *      status
      *
-     * @param type $id -> deploy id
-     * @param type $limit -> data limit
-     * @param type $offset -> data offset
-     * @return type
+     * @param null $id -> deploy_id
+     * @param bool $limit
+     * @param bool $offset
+     * @param bool $status
+     * @return mixed
+     *
+     * returns everything except raw and post_data.
      */
-    public function get($id = null, $limit = FALSE, $offset = FALSE, $status = FALSE) {
+    public function get($id = NULL, $limit = FALSE, $offset = FALSE, $status = FALSE) {
 
         $q = DB::select_array(array(
             'id',
@@ -93,11 +128,17 @@ class Model_Record extends Model {
             'file_skip',
             'total_files',
             'processed_files',
-        ))->from($this->table)->where('user_id', $this->user_id);
+        ))->from($this->table);
 
-        if ($id != null) {
+        // if direct is set, doesnt check for user_id.
+        if (!$this->direct) {
+            $q = $q->where('user_id', $this->user_id);
+        }
+
+        if ($id != NULL) {
             $q = $q->and_where('deploy_id', $id);
         }
+
         if ($limit) {
             $q = $q->limit($limit);
             if ($offset) {
@@ -171,7 +212,7 @@ class Model_Record extends Model {
      * @param type $id
      * @return type
      */
-    public function get_count($id = null) {
+    public function get_count($id = NULL) {
         $q = DB::select('id')->from($this->table)->where('user_id', $this->user_id)->and_where('deploy_id', $id)->execute()->as_array();
 
         return count($q);

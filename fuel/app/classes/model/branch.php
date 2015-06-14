@@ -1,9 +1,11 @@
 <?php
 
 class Model_Branch extends Model {
-
+    // table for branch
     private $table = 'branches';
-    private $user_id;
+
+    // user_id to filter data.
+    public $user_id;
 
     public function __construct() {
         if (Auth::check()) {
@@ -19,11 +21,11 @@ class Model_Branch extends Model {
      * @param type $select
      * @return type
      */
-    public function get($id = null, $select = NULL) { // by deploy id
+    public function get($id = NULL, $select = NULL) { // by deploy id
         $q = DB::select_array($select);
         $q = $q->from($this->table)->where('user_id', $this->user_id);
 
-        if ($id != null) {
+        if ($id != NULL) {
             $q = $q->and_where('deploy_id', $id);
         }
 

@@ -25,6 +25,7 @@ class gitcore {
      *
      * @var array $filesToIgnore
      */
+
     public $filesToIgnore = array();
 
     /**
@@ -219,16 +220,16 @@ class gitcore {
     public $log = array();
 
     public $options = array(
-        'debug'    => 'false',
+        'debug'     => 'false',
         //        'version' => 'true',
         //        'list' => 'true',
         'deploy_id' => 'deploy_id',
-        'server'   => 'default',
+        'server'    => 'default',
         //        'others' => 'true,',
         //        'sync' => 'all',
         //        'rollback' => 'hash',
-        'repo'     => 'path/to/repo',
-        'ftp'      => array(
+        'repo'      => 'path/to/repo',
+        'ftp'       => array(
             'default' => array(
                 'scheme'  => 'ftps',
                 'host'    => 'craftpip.com',
@@ -241,7 +242,7 @@ class gitcore {
                 'purge'   => array(),
             )
         ),
-        'revision' => '',
+        'revision'  => '',
     );
 
     /**
@@ -333,6 +334,7 @@ class gitcore {
      */
     private function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
+
         return $currentRevision[0];
     }
 
@@ -368,7 +370,7 @@ class gitcore {
                     'path'     => $repo . '/' . $line[1]
                 );
                 $this->filesToIgnore[] = $line[1];
-                $this->output(sprintf('   Found submodule %s. %s', $line[1], $this->scanSubSubmodules ? PHP_EOL . '      Scanning for sub-submodules...' : null));
+                $this->output(sprintf('   Found submodule %s. %s', $line[1], $this->scanSubSubmodules ? PHP_EOL . '      Scanning for sub-submodules...' : NULL));
                 // The call to checkSubSubmodules also calls a git foreach
                 // So perhaps it should be *outside* the loop here?
                 if ($this->scanSubSubmodules)
@@ -401,8 +403,8 @@ class gitcore {
 
                 $this->submodules[] = array(
                     'revision' => $line[0],
-                    'name' => $name . '/' . $line[1],
-                    'path' => $repo . '/' . $name . '/' . $line[1]
+                    'name'     => $name . '/' . $line[1],
+                    'path'     => $repo . '/' . $name . '/' . $line[1]
                 );
                 $this->filesToIgnore[] = $line[1];
                 $this->output(sprintf('Found sub-submodule %s.', "$name/$line[1]"));
@@ -559,7 +561,7 @@ class gitcore {
      * @param string $repoPath Defaults to $this->repo
      * @return array Lines of the output
      */
-    public function gitCommand($command, $repoPath = null) {
+    public function gitCommand($command, $repoPath = NULL) {
         if (!$repoPath) {
             $repoPath = $this->repo;
         }
@@ -582,7 +584,7 @@ class gitcore {
      * @throws Exception if unknown git diff status
      */
     public function compare($localRevision) {
-        $remoteRevision = null;
+        $remoteRevision = NULL;
         $tmpFile = tmpfile();
         $filesToUpload = array();
         $filesToDelete = array();
@@ -668,7 +670,7 @@ class gitcore {
             $this->currentlyDeploying => array(
                 'delete' => $filesToDelete,
                 'upload' => $filesToUpload,
-                'skip' => $filesToSkip,
+                'skip'   => $filesToSkip,
             )
         );
     }
@@ -695,7 +697,7 @@ class gitcore {
         $files = array_values($files);
 
         return array(
-            'files' => $files,
+            'files'       => $files,
             'filesToSkip' => $filesToSkip
         );
     }
@@ -741,7 +743,7 @@ class gitcore {
             $this->output('comparing fies with ' . $revision);
             $files = $this->compare($revision);
 
-            if($this->debug){
+            if ($this->debug) {
                 $this->output($files);
             }
 
@@ -995,7 +997,7 @@ class gitcore {
 
             $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToUpdate), ' ', STR_PAD_LEFT);
 
-            if($this->debug){
+            if ($this->debug) {
                 $this->output("uploaded $fileNo of $numberOfFilesToUpdate {$file}");
             }
 

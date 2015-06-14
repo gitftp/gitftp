@@ -5,14 +5,10 @@
    ========================================================================== */
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-  background-color: #FCFCFC;
+  background-color: #eeeeee;
   color: #555;
   overflow-y: scroll;
   box-shadow: inset 0px 2px #62c7f2;
-}
-::-moz-selection {
-  background: #aaa;
-  color: white;
 }
 ::selection {
   background: #aaa;
@@ -69,6 +65,18 @@ body {
 a:hover {
   text-decoration: none;
 }
+.space5 {
+  height: 5px;
+}
+.space10 {
+  height: 10px;
+}
+.space15 {
+  height: 15px;
+}
+.space20 {
+  height: 20px;
+}
 input,
 select {
   border: solid 2px #eee !important;
@@ -93,15 +101,18 @@ select:active {
   font-weight: bold;
   text-transform: uppercase;
 }
+.navbar-default {
+  border-color: #eeeeee !important;
+  background: #fff;
+}
 .navbar-default .navbar-nav > li > a {
-  -webkit-transition: all .4s;
-          transition: all .4s;
+  transition: all .4s;
   font-size: 14px;
   text-transform: uppercase;
 }
 .navbar-default .navbar-nav li.active a {
   background-image: none !important;
-  background-color: #f8f8f8 !important;
+  background-color: #eeeeee !important;
   box-shadow: inset 0 2px #66bd61;
 }
 .navbar-default .navbar-nav .dropdown-menu {
@@ -109,9 +120,6 @@ select:active {
 }
 .navbar-default .navbar-nav .dropdown.open > a {
   background-color: #F8F8F8 !important;
-}
-.navbar-default {
-  background: #fff;
 }
 h1,
 h2,
@@ -121,13 +129,14 @@ h5,
 h6 {
   font-weight: normal;
 }
+.head-body-divider {
+  height: 10px;
+}
 .btn {
   background-image: none;
-  border: solid 1px transparent !important;
+  border: solid 1px !important;
   border-radius: 4px;
-  -webkit-transition: all .4s;
-          transition: all .4s;
-  border: none;
+  transition: all .4s;
 }
 .btn:hover {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -136,8 +145,9 @@ h6 {
   box-shadow: none;
 }
 .btn.btn-default {
-  background-color: #eee;
+  background-color: white;
   color: #555;
+  border-color: #ddd !important;
 }
 .btn.btn-default.btn-gitftp {
   color: #62c7f2;
@@ -146,10 +156,11 @@ h6 {
 .btn.btn-default:focus,
 .btn.btn-default:active {
   background-image: none;
-  background-color: #e6e6e6;
+  background-color: #f6f6f6;
 }
 .btn.btn-success {
   background: #66bd61;
+  border-color: transparent !important;
 }
 .btn.btn-success:hover,
 .btn.btn-success:focus,
@@ -161,6 +172,13 @@ h6 {
 }
 .btn.btn-danger {
   background-color: #ff5a5a;
+  border-color: transparent !important;
+}
+.btn.btn-warning {
+  border-color: transparent !important;
+}
+.btn.btn-info {
+  border-color: transparent !important;
 }
 .viewdeploy,
 .ftp-servers-list {
@@ -176,8 +194,7 @@ h6 {
   border: solid 2px #ddd;
   padding: 5px 15px 10px;
   border-radius: 4px;
-  -webkit-transition: border .2s;
-          transition: border .2s;
+  transition: border .2s;
 }
 .viewdeploy .project-list-block .header > span,
 .ftp-servers-list .project-list-block .header > span {
@@ -200,12 +217,10 @@ h6 {
 }
 .viewdeploy .project-list-block:active,
 .ftp-servers-list .project-list-block:active {
-  -webkit-transform: scale(0.98);
-      -ms-transform: scale(0.98);
-          transform: scale(0.98);
+  transform: scale(0.98);
 }
 .bb-loading:empty {
-  height: 300px
+  height: 300px;
   /*    background-image: url('../img/blank.gif');
       background-position: center;
       background-repeat: no-repeat;*/
@@ -225,36 +240,19 @@ h6 {
   border-radius: 50%;
   border: solid #aaa;
   border-width: 3px 0px 0px 0px;
-  -webkit-animation: spin .5s infinite linear;
-          animation: spin .5s infinite linear;
+  animation: spin .5s infinite linear;
   border: solid 2px rgba(0, 0, 0, 0);
   border-top-color: #01b5e9;
   border-bottom-color: #4cd964;
 }
-@-webkit-keyframes spin {
-  from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-    border-top-color: #01b5e9;
-    border-bottom-color: #4cd964;
-  }
-  to {
-    -webkit-transform: rotate(359deg);
-            transform: rotate(359deg);
-    border-top-color: #4cd964;
-    border-bottom-color: #01b5e9;
-  }
-}
 @keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
     border-top-color: #01b5e9;
     border-bottom-color: #4cd964;
   }
   to {
-    -webkit-transform: rotate(359deg);
-            transform: rotate(359deg);
+    transform: rotate(359deg);
     border-top-color: #4cd964;
     border-bottom-color: #01b5e9;
   }
@@ -264,7 +262,6 @@ h6 {
   border-radius: 4px;
   margin-top: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-image: -webkit-linear-gradient(top, #ffffff 0%, #f8f8f8 100%);
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   font-weight: normal;
   text-transform: uppercase;
@@ -272,8 +269,7 @@ h6 {
   color: #444;
   border: solid 1px #FAFAFA;
   font-weight: 800;
-  -webkit-transition: all 1s;
-          transition: all 1s;
+  transition: all 1s;
   width: 200px;
   text-align: center;
 }
@@ -281,24 +277,11 @@ h6 {
   background-color: white;
   border-color: #4cd964;
   /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
-  background-image: -webkit-linear-gradient(top, #5ac8fa 0%, #4cd964 100%);
   background-image: linear-gradient(to bottom, #5ac8fa 0%, #4cd964 100%);
   color: white;
   /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
   background-size: 400% 400%;
-  -webkit-animation: statusprocessing 1s infinite ease;
-          animation: statusprocessing 1s infinite ease;
-}
-@-webkit-keyframes statusprocessing {
-  0% {
-    background-position: 50% 0%;
-  }
-  50% {
-    background-position: 50% 100%;
-  }
-  100% {
-    background-position: 50% 0%;
-  }
+  animation: statusprocessing 1s infinite ease;
 }
 @keyframes statusprocessing {
   0% {
@@ -332,50 +315,38 @@ h6 {
   box-shadow: inset 2px 0px #62c7f2;
 }
 .fa-spin {
-  -webkit-animation-duration: .5s !important;
-          animation-duration: .5s !important;
+  animation-duration: .5s !important;
 }
 .dash-nav {
   /*top: 2px;*/
 }
 .dash-nav .drop {
-  -webkit-animation: drop 0.7s ease-in;
-          animation: drop 0.7s ease-in;
+  animation: drop 0.7s ease-in;
 }
 .bb-wrapper > div > * {
-  -webkit-animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
-          animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+  animation: pagedrop 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
 }
-@-webkit-keyframes pagedrop {
-  from {
-    opacity: 0;
-    -webkit-transform: translate(0, -10px);
-            transform: translate(0, -10px);
-  }
-  to {
-    opacity: 1;
-    -webkit-transform: translate(0, 0);
-            transform: translate(0, 0);
-  }
+.project-activity-anim > * {
+  animation: pageleft 0.4s cubic-bezier(0.43, 0.96, 0.53, 0.98);
 }
 @keyframes pagedrop {
   from {
     opacity: 0;
-    -webkit-transform: translate(0, -10px);
-            transform: translate(0, -10px);
+    transform: translate(0px, -10px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translate(0, 0);
-            transform: translate(0, 0);
+    transform: translate(0, 0);
   }
 }
-@-webkit-keyframes drop {
+@keyframes pageleft {
   from {
     opacity: 0;
+    transform: translate(-10px, 0px);
   }
   to {
     opacity: 1;
+    transform: translate(0, 0);
   }
 }
 @keyframes drop {
@@ -423,9 +394,7 @@ h6 {
 }
 .jconfirm.supervan .jconfirm-box.hilight {
   box-shadow: none;
-  -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-          transform: scale(0.9);
+  transform: scale(0.9);
 }
 .project-branches-env .project-branch {
   margin-bottom: 15px;
@@ -433,20 +402,32 @@ h6 {
   border-radius: 4px;
   background: white;
 }
-.project-branches-env .project-branch button.deploy {
+.project-branches-env .project-branch .buttons {
   width: 100%;
   background: none;
-  border: none;
-  box-shadow: none;
-  padding: 10px 20px;
-  text-align: center;
-  display: block;
+  display: table;
   border-top: solid 1px #ddd;
-  font-size: 16px;
-  -webkit-transition: all .2s;
-          transition: all .2s;
 }
-.project-branches-env .project-branch button.deploy:hover {
+.project-branches-env .project-branch .buttons a {
+  width: 60%;
+  border-right: solid 1px #ddd;
+}
+.project-branches-env .project-branch .buttons button.deploy {
+  width: 100%;
+  border: none;
+}
+.project-branches-env .project-branch .buttons button.deploy,
+.project-branches-env .project-branch .buttons a {
+  box-shadow: none;
+  text-align: center;
+  transition: all .2s;
+  font-size: 16px;
+  padding: 10px 20px;
+  display: table-cell;
+  background: none;
+}
+.project-branches-env .project-branch .buttons button.deploy:hover,
+.project-branches-env .project-branch .buttons a:hover {
   background: #eee;
 }
 .project-branches-env .project-branch .branch-name-container {
@@ -471,8 +452,12 @@ h6 {
   font-size: 12px;
 }
 .project-record-list {
-  margin-bottom: 15px;
-  border-bottom: solid 1px #eee;
+  background: white;
+  padding: 10px;
+  border: solid 1px #ddd !important;
+  border-radius: 4px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 .project-record-list .status {
   font-size: 14px;
@@ -535,15 +520,16 @@ h6 {
 }
 .branch-single-view .edit-ftp {
   opacity: 0;
-  -webkit-transition: all .1s;
-          transition: all .1s;
-  -webkit-transform: translate(0px, 10px);
-      -ms-transform: translate(0px, 10px);
-          transform: translate(0px, 10px);
+  transition: all .1s;
+  transform: translate(0px, 10px);
 }
 .branch-single-view:hover .edit-ftp {
   opacity: 1;
-  -webkit-transform: translate(0px, 0px);
-      -ms-transform: translate(0px, 0px);
-          transform: translate(0px, 0px);
+  transform: translate(0px, 0px);
+}
+.list-group-item:first-child {
+  border-top-left-radius: 0px;
+}
+.list-group-item:last-child {
+  border-bottom-left-radius: 0px;
 }

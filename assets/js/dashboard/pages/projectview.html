@@ -1,7 +1,7 @@
 <% JSON.stringify(s) %>
 <div class="is-deploy-view-id" data-id="<%= s.id %>"></div>
 <h3 class="pull-left" style="">
-    <%= s.name %>
+    <i class="fa fa-cloud"></i>&nbsp;&nbsp;<%= s.name %>
 </h3>
 <div class="pull-right">
     <div class="project-v-status project-co-<%= s.status %>" style="">
@@ -12,25 +12,28 @@
 <p style="color: #aaa">
     <%= s.repository %>
 </p>
-<div style="height: 10px;"></div>
+<div class="head-body-divider"></div>
 <div class="row">
     <div class="col-md-3">
-        <div class="list-group">
-            <a href="#/project/<%= s.id %>" class="list-group-item page-subview subview-activity <%= (v == 'activity') ? 'active-cs' : '' %>"><i class="fa fa-list-ul fa-fw"></i> Activity</a>
-            <a href="#/project/<%= s.id %>/environments"
-               class="list-group-item page-subview subview-deploy <%= (/environments|manage|add/.test(v)) ? 'active-cs' : '' %>"><i
-                    class="fa fa-leaf fa-fw"></i> Environments</a>
-            <a href="#/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings <%= (v == 'settings') ? 'active-cs' : '' %>"><i class="fa fa-wrench fa-fw"></i> Settings</a>
+        <div class="makerelative">
+            <div class="sidebar-container">
+                <div class="projectview-sidebar-top"></div>
+                <div class="list-group projectview-siderbar">
+                    <a href="#/project/<%= s.id %>" class="list-group-item page-subview subview-activity <%= (v == 'activity') ? 'active-cs' : '' %>"><i class="fa fa-list-ul fa-fw"></i> Activity</a>
+                    <a href="#/project/<%= s.id %>/environments"
+                       class="list-group-item page-subview subview-deploy <%= (/environments|manage|add/.test(v)) ? 'active-cs' : '' %>"><i
+                            class="fa fa-leaf fa-fw"></i> Environments</a>
+                    <a href="#/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings <%= (v == 'settings') ? 'active-cs' : '' %>"><i class="fa fa-wrench fa-fw"></i> Settings</a>
+                </div>
+                <div style="height: 10px;"></div>
+                <div style="color: #aaa">
+                    <label>
+                        POST hook url:
+                    </label>
+                    <textarea class="form-control" style="font-family: consolas"><%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %></textarea>
+                </div>
+            </div>
         </div>
-        <div style="height: 10px;"></div>
-        
-        <div style="color: #aaa">
-            <label>
-                POST hook url:
-            </label>
-            <textarea class="form-control" style="font-family: consolas"><%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %></textarea>
-        </div>
-        <div style="height: 20px;"></div>
     </div>
     <div class="col-md-9">
 
@@ -46,11 +49,11 @@
 
             <div class="pull-right">
                 <% if(s.cloned == 0){ %>
-                <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Processed</strong> | 
+                <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Processed</strong> |
                 <% } %>
                 <strong><i class="fa fa-<%= (s.deployed == 0) ?  'times' : 'check' %>"></i> Deployed</strong>
             </div>
         </div>
-        <div class="deploy-sub-page bb-loading"></div>
+        <div class="deploy-sub-page bb-loading project-activity-anim"></div>
     </div>
 </div>

@@ -17,9 +17,8 @@
                     </div>
                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                         <ul class="nav navbar-nav navbar-left drop">
-                            <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#/home"> <i
-                                        class="fa fa-home fa-fw"></i> Summary</a></li>
-                            <li class="project"><a href="<?php echo Uri::base(false); ?>#/project"><i class="fa fa-cloud-upload fa-fw"></i> Project</a></li>
+                            <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#/home"> <i class="fa fa-home fa-fw"></i> Summary</a></li>
+                            <li class="project"><a href="<?php echo Uri::base(false); ?>#/project"><i class="fa fa-cloud fa-fw"></i> Project</a></li>
                             <li class="ftp"><a href="<?php echo Uri::base(false); ?>#/ftp"><i class="fa fa-server fa-fw"></i> FTP servers</a></li>
                         </ul>
 

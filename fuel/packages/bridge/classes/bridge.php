@@ -2,7 +2,7 @@
 
 /**
  * Establish a connection to a server using different PHP backends
- * 
+ *
  * @author Tuomas Angervuori <tuomas.angervuori@gmail.com>
  * @author Baki Goxhaj <banago@gmail.com>
  * @link http://wplancer.com
@@ -18,7 +18,7 @@ class Bridge {
 
     protected $backend;
 
-    public function __construct($url, array $options = null) {
+    public function __construct($url, array $options = NULL) {
 
         $urlParts = parse_url($url);
 
@@ -35,12 +35,10 @@ class Bridge {
             } else {
                 throw new \Exception("ssh2 PECL extension is not installed. Please install it to use ssh.");
             }
-        }
-        //Secondary option, try to use ftp functions as backend
+        } //Secondary option, try to use ftp functions as backend
         else if (in_array($scheme, FTP_bridge::getAvailableProtocols())) {
             $this->backend = new FTP_bridge($url, $options);
-        }
-        //Third option, use curl functions as backend
+        } //Third option, use curl functions as backend
         else if (in_array($scheme, Curl::getAvailableProtocols())) {
             $this->backend = new Curl($url, $options);
         } else {
@@ -60,18 +58,19 @@ class Bridge {
      */
     public function pwd() {
         $a = $this->backend->pwd();
+
         return $a;
     }
 
     /**
-     * Download a file 
+     * Download a file
      */
     public function get($remoteFile) {
         return $this->backend->get($remoteFile);
     }
 
     /**
-     * Upload a file 
+     * Upload a file
      */
     public function put($data, $remoteFile) {
         return $this->backend->put($data, $remoteFile);
@@ -125,6 +124,7 @@ class Bridge {
     public static function getAvailableProtocols() {
         $protocols = array_merge(Ssh2::getAvailableProtocols(), Ftp::getAvailableProtocols(), Curl::getAvailableProtocols());
         $protocols = array_unique($protocols);
+
         return $protocols;
     }
 

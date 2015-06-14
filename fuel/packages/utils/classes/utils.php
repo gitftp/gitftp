@@ -4,20 +4,21 @@ class utils {
 
     /**
      * Executes an Git command and returns the results.
+     * if there is no output returns false.
      * $repo,
      * $username,
      * $password,
-     * 
+     *
      * @param type $arg
      */
     public static function gitGetBranches($repo, $username = null, $password = null) {
 
         $repo_url = parse_url($repo);
-        
-        if(!is_null($username)){
+
+        if (!is_null($username)) {
             $repo_url['user'] = $username;
         }
-        if(!is_null($password)){
+        if (!is_null($password)) {
             $repo_url['pass'] = $password;
         }
         $repo = http_build_url($repo_url);
@@ -26,8 +27,7 @@ class utils {
             return false;
         }
         exec("git ls-remote --heads $repo", $op);
-        if (empty($op))
-            return false;
+        if (empty($op)) return false;
 
         foreach ($op as $k => $v) {
             $b = preg_split('/\s+/', $v);
@@ -39,7 +39,7 @@ class utils {
 
     /**
      * Get avatar of an email address.
-     * 
+     *
      * @param type $email
      * @param type $s
      * @param type $d
@@ -54,8 +54,7 @@ class utils {
         $url .= "?s=$s&d=$d&r=$r";
         if ($img) {
             $url = '<img src="' . $url . '"';
-            foreach ($atts as $key => $val)
-                $url .= ' ' . $key . '="' . $val . '"';
+            foreach ($atts as $key => $val) $url .= ' ' . $key . '="' . $val . '"';
             $url .= ' />';
         }
         return $url;
@@ -63,21 +62,12 @@ class utils {
 
     /**
      * Test a ftp server, and if the path exists.
-     * 
+     *
      * @param type $a
      * @return string
      */
     public static function test_ftp($a = array()) {
-        $b = array(
-            'hostname' => $a['host'],
-            'username' => $a['username'],
-            'password' => $a['pass'],
-            'timeout' => 30,
-            'port' => $a['port'],
-            'passive' => true,
-            'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false,
-            'debug' => true
-        );
+        $b = array('hostname' => $a['host'], 'username' => $a['username'], 'password' => $a['pass'], 'timeout' => 30, 'port' => $a['port'], 'passive' => true, 'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false, 'debug' => true);
         try {
             $c = \Fuel\Core\Ftp::forge($b);
         } catch (Exception $ex) {
@@ -100,7 +90,7 @@ class utils {
      * post_data
      * commit_count
      * commit_message
-     * 
+     *
      * @param type $input -> payload.
      * @param type $deploy_id -> deploy to id optional
      */
@@ -129,26 +119,12 @@ class utils {
 
         if ($service == 'github') {
             $lc = count($i->commits) - 1;
-            return array(
-                'pushby' => $i->pusher->name,
-                'avatar_url' => $i->sender->avatar_url,
-                'hash' => $i->after,
-                'post_data' => serialize($i),
-                'commit_count' => count($i->commits),
-                'commit_message' => $i->commits[$lc]->message
-            );
+            return array('pushby' => $i->pusher->name, 'avatar_url' => $i->sender->avatar_url, 'hash' => $i->after, 'post_data' => serialize($i), 'commit_count' => count($i->commits), 'commit_message' => $i->commits[$lc]->message);
         }
 
         if ($service == 'bitbucket') {
             $lc = count($i->commits) - 1;
-            return array(
-                'pushby' => $i->commits[$lc]->author,
-                'avatar_url' => '',
-                'hash' => $i->commits[$lc]->raw_node,
-                'post_data' => serialize($i),
-                'commit_count' => count($i->commits),
-                'commit_message' => $i->commits[$lc]->message
-            );
+            return array('pushby' => $i->commits[$lc]->author, 'avatar_url' => '', 'hash' => $i->commits[$lc]->raw_node, 'post_data' => serialize($i), 'commit_count' => count($i->commits), 'commit_message' => $i->commits[$lc]->message);
         }
     }
 
@@ -159,22 +135,30 @@ class utils {
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
-    public static function strip_passwords($data){
-        foreach($data as $k => $v){
-            if(isset($data[$k]['pass'])){
+    public static function strip_passwords($data) {
+        foreach ($data as $k => $v) {
+            if (isset($data[$k]['pass'])) {
+                if (!empty($data[$k]['pass'])) {
+                    $data[$k]['pset'] = true;
+                } else {
+                    $data[$k]['pset'] = false;
+                }
                 unset($data[$k]['pass']);
             }
-            if(isset($data[$k]['password'])){
+            if (isset($data[$k]['password'])) {
+                if (!empty($data[$k]['password'])) {
+                    $data[$k]['passwordset'] = true;
+                } else {
+                    $data[$k]['passwordset'] = false;
+                }
                 unset($data[$k]['password']);
             }
         }
         return $data;
     }
 
-    public static function log($string){
-        DB::insert('log')->set(array(
-            'a' => $string,
-        ))->execute();
+    public static function log($string) {
+        DB::insert('log')->set(array('a' => $string,))->execute();
     }
 }
 

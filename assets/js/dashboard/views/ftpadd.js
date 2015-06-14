@@ -3,12 +3,12 @@ define([
 ], function (ftpadd) {
 
     d = Backbone.View.extend({
-        el: app.el,
-        events: {
-            'submit #addftp-form': 'addftp',
-            'keyup #addftp-form input': 'oneline',
+        el       : app.el,
+        events   : {
+            'submit #addftp-form'      : 'addftp',
+            'keyup #addftp-form input' : 'oneline',
             'click .ftp-connectionTest': 'testFtp',
-            'click .ftp-server-delete': 'deleteftp',
+            'click .ftp-server-delete' : 'deleteftp',
         },
         deleteftp: function (e) {
             e.preventDefault();
@@ -17,7 +17,7 @@ define([
             var that = this;
             $this.find('i').removeClass('fa-trash').addClass('fa-spin fa-spinner').attr('disabled', true);
             $.confirm({
-                title: 'Are you sure?',
+                title  : 'Are you sure?',
                 content: 'Are you sure to remove the FTP server.<br><i class="fa fa-info"></i> files in the server will remain intact.',
                 confirm: function () {
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
@@ -32,39 +32,39 @@ define([
                             });
                         } else {
                             $.alert({
-                                'title': 'Something bad happened',
+                                'title'  : 'Something bad happened',
                                 'content': data.reason
                             });
                         }
                     });
                 },
-                cancel: function(){
+                cancel : function () {
                     $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                 }
             });
         },
-        testFtp: function (e) {
+        testFtp  : function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
             $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner');
             $this.prop('disabled', true);
-            
+
             _ajax({
-                url: base + 'api/ftp/testftp',
+                url     : base + 'api/ftp/testftp',
                 dataType: 'json',
-                method: 'post',
-                data: form
+                method  : 'post',
+                data    : form
             }).done(function (d) {
                 $.alert({
-                    title: (d.status) ? '<i class="fa fa-check green"></i> Connected' : 'Problem found',
+                    title  : (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
                     content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: <code>' + d.reason + '</code>'
                 });
                 $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
                 $this.prop('disabled', false);
             });
         },
-        oneline: function () {
+        oneline  : function () {
             var $target = $('.ftp-oneline');
             var str = '';
             var host = $('input[name="host"]').val();
@@ -108,16 +108,16 @@ define([
 
             $target.html(str);
         },
-        render: function (id) {
+        render   : function (id) {
             var that = this;
 
             this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
             if (id) {
 
                 _ajax({
-                    url: base + 'api/ftp/getall/' + id,
+                    url     : base + 'api/ftp/getall/' + id,
                     dataType: 'json',
-                    method: 'get',
+                    method  : 'get',
                 }).done(function (data) {
                     var template = _.template(ftpadd);
                     template = template({
@@ -138,7 +138,7 @@ define([
                 that.id = false;
             }
         },
-        addftp: function (e) {
+        addftp   : function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
@@ -151,9 +151,9 @@ define([
             }
 
             _ajax({
-                url: base + 'api/ftp/' + to,
-                data: $this.serializeArray(),
-                method: 'post',
+                url     : base + 'api/ftp/' + to,
+                data    : $this.serializeArray(),
+                method  : 'post',
                 dataType: 'json'
             }).done(function (data) {
 
@@ -165,7 +165,7 @@ define([
                     Router.navigate('ftp', {trigger: true});
                 } else {
                     $.alert({
-                        title: 'Something bad happened',
+                        title  : 'Something bad happened',
                         content: data.reason
                     });
                 }

@@ -1,31 +1,30 @@
 <% if(more == 'false'){ %>
     <% if(s.ready == 0){ %>
-    <br>
-    <br>
-    <br>
-    <p class="text-center">
-        <span>Deploy</span> <br/> None of the environments are deployed, Do you want to deploy all the branches at onces?
-        <br>
-        Deploy time will depend on amount of files and number of branches to be deployed.
-        <br>
-        <% if(s.cloned == 2){ %>
-            <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
-        <% }else{ %>
-            <button type="button" class="btn btn-success btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Deploy all Environments.</button>
-        <% } %>
-    </p>
-    <br>
-    <br>
-    <br>
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <p class="text-center"><span style="font-size: 1.6em;">Not yet deployed</span>
+
+                    <div class="space10"></div>
+                    <i class="fa fa-info"></i> Deploy time will depend on amount of files and number of branches to be deployed.
+                    <div class="space10"></div>
+                    <% if(s.cloned == 2){ %>
+                    <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
+                    <% }else{ %>
+                    <button type="button" class="btn btn-success btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start deploy.</button>
+                    <% } %>
+                </p>
+                
+            </div>
+        </div>
+        <div class="space15"></div>
     <% } %>
 <% } %>
 
 <% if(activity.data.length && more == 'false'){ %>
-    <div class="row project-record-list-wrapper">
+    <div class="project-record-list-wrapper">
 <% } %>
 
     <% $.each(activity.data, function(i, a){ %>
-        <div class="col-md-12">
             <div class="project-record-list">
 
             <%
@@ -109,11 +108,7 @@
                 <br/>
                     <%= commit_message %>
                     <% (a.hash) ? ' <code>'+a.hash.substr(0, 6)+'</code>' : '' %>
-                <br>
-
-
             </div>
-        </div>
 
     <% }); %>
 

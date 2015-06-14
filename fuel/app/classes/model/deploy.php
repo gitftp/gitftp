@@ -3,7 +3,7 @@
 class Model_Deploy extends Model {
 
     private $table = 'deploy';
-    private $user_id;
+    public $user_id;
     public $id = null; // deploy id.
 
     public function __construct() {
@@ -14,13 +14,16 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, $select = NULL) {
+    public function get($id = null, $select = NULL, $direct = false) {
         if (is_null($id) && !is_null($this->id)) {
             $id = $this->id;
         }
 
-        $q = DB::select_array($select);
-        $q = $q->from($this->table)->where('user_id', $this->user_id);
+        $q = DB::select_array($select)->from($this->table);
+
+        if(!$direct){
+            $q = $q->where('user_id', $this->user_id);
+        }
 
         if ($id != null) {
             $q = $q->and_where('id', $id);
@@ -64,6 +67,7 @@ class Model_Deploy extends Model {
 
         return $a;
     }
+
 
     public function set($id = null, $set = array(), $direct = FALSE) {
         if (is_null($id) && !is_null($this->id)) {

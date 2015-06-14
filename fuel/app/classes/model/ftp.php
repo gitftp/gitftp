@@ -3,7 +3,7 @@
 class Model_Ftp extends Model {
 
     private $table = 'ftpdata';
-    private $user_id;
+    public $user_id;
 
     public function __construct() {
         if (Auth::check()) {
@@ -13,16 +13,17 @@ class Model_Ftp extends Model {
         }
     }
 
-    public function get($id = null) {
+    public function get($id = NULL) {
 
         $q = DB::select()->from($this->table)
-                ->where('user_id', $this->user_id);
+            ->where('user_id', $this->user_id);
 
-        if ($id != null) {
+        if ($id != NULL) {
             $q = $q->and_where('id', $id);
         }
 
         $a = $q->execute()->as_array();
+
         return $a;
     }
 
@@ -43,7 +44,7 @@ class Model_Ftp extends Model {
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
         if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return false;
+            return FALSE;
         }
 
         return DB::delete($his->table)->where('id', $id)->execute();
@@ -53,8 +54,8 @@ class Model_Ftp extends Model {
 
         $ar['user_id'] = $this->user_id;
         $r = DB::insert($this->table)
-                ->set($ar)
-                ->execute();
+            ->set($ar)
+            ->execute();
 
         return $r[0];
     }

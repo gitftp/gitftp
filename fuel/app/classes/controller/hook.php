@@ -6,14 +6,14 @@ class Controller_Hook extends Controller {
         echo '';
     }
 
-    public function action_i($user_id = null, $deploy_id = null, $key = null) {
+    public function action_i($user_id = NULL, $deploy_id = NULL, $key = NULL) {
 
-        if ($user_id == null || $deploy_id == null || $key == null || Input::method() != 'POST') {
+        if ($user_id == NULL || $deploy_id == NULL || $key == NULL || Input::method() != 'POST') {
             die('Something is missing');
         }
 
         $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
-                        ->execute()->as_array();
+            ->execute()->as_array();
 
 
         if (count($repo) == 0) {
@@ -39,22 +39,22 @@ class Controller_Hook extends Controller {
         $deploy = new Model_Deploy();
 
         list($record_id, $asd) = DB::insert('records')->set(array(
-                    'deploy_id' => (int) $deploy_id,
-                    'user_id' => (int) $user_id,
-                    'status' => 2,
-                    'date' => time(),
-                    'raw' => serialize($log),
-                    'triggerby' => $payload['pushby'],
-                    'avatar_url' => $payload['avatar_url'],
-                    'hash' => $payload['hash'],
-                    'post_data' => $payload['post_data'],
-                    'commit_count' => $payload['commit_count'],
-                    'commit_message' => $payload['commit_message']
-                ))->execute();
+            'deploy_id'      => (int)$deploy_id,
+            'user_id'        => (int)$user_id,
+            'status'         => 2,
+            'date'           => time(),
+            'raw'            => serialize($log),
+            'triggerby'      => $payload['pushby'],
+            'avatar_url'     => $payload['avatar_url'],
+            'hash'           => $payload['hash'],
+            'post_data'      => $payload['post_data'],
+            'commit_count'   => $payload['commit_count'],
+            'commit_message' => $payload['commit_message']
+        ))->execute();
 
         $deploy->set($deploy_id, array(
             'status' => 'processing'
-                ), true);
+        ), TRUE);
 
         $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
         $log['dir'] = $repo_dir;
@@ -80,20 +80,20 @@ class Controller_Hook extends Controller {
         if ($ftp_test_data != 'Ftp server is ready to rock.') {
 
             echo json_encode(array(
-                'status' => false,
+                'status' => FALSE,
                 'reason' => $ftp_test_data
             ));
             $log['ftpconnectstatus'] = $ftp_test_data;
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
-                'raw' => serialize($log),
+                'raw'    => serialize($log),
                 'status' => 0,
             ));
             $deploy->set($id, array(
-                'cloned' => 0,
+                'cloned'   => 0,
                 'deployed' => 0,
-                'status' => 'to be initialized',
-                'ready' => 0
+                'status'   => 'to be initialized',
+                'ready'    => 0
             ));
             die();
         }
@@ -101,28 +101,28 @@ class Controller_Hook extends Controller {
 
         $deploy->set($deploy_id, array(
             'status' => 'deploying'
-                ), true);
+        ), TRUE);
 
         $gitcore = new gitcore();
         $gitcore->options = array(
-            'repo' => $repo_dir,
+            'repo'      => $repo_dir,
             'deploy_id' => $deploy_id,
-            'debug' => false,
-            'server' => 'default',
-            'ftp' => array(
+            'debug'     => FALSE,
+            'server'    => 'default',
+            'ftp'       => array(
                 'default' => array(
-                    'scheme' => $ftpdata['scheme'],
-                    'host' => $ftpdata['host'],
-                    'user' => $ftpdata['username'],
-                    'pass' => $ftpdata['pass'],
-                    'port' => $ftpdata['port'],
-                    'path' => $ftpdata['path'],
-                    'passive' => true,
-                    'skip' => array(),
-                    'purge' => array()
+                    'scheme'  => $ftpdata['scheme'],
+                    'host'    => $ftpdata['host'],
+                    'user'    => $ftpdata['username'],
+                    'pass'    => $ftpdata['pass'],
+                    'port'    => $ftpdata['port'],
+                    'path'    => $ftpdata['path'],
+                    'passive' => TRUE,
+                    'skip'    => array(),
+                    'purge'   => array()
                 )
             ),
-            'revision' => $ftp['revision'],
+            'revision'  => $ftp['revision'],
         );
 
         try {
@@ -131,15 +131,15 @@ class Controller_Hook extends Controller {
 
             array_push($log, $gitcore->log);
             $record->set($record_id, array(
-                'raw' => serialize($log),
+                'raw'    => serialize($log),
                 'status' => 0,
-                    ), true);
+            ), TRUE);
 
             print_r($log);
 
             $deploy->set($deploy_id, array(
                 'status' => 'Idle'
-                    ), true);
+            ), TRUE);
 
             return;
         }
@@ -148,14 +148,14 @@ class Controller_Hook extends Controller {
         print_r($log);
 
         $record->set($record_id, array(
-            'raw' => serialize($log),
-            'status' => 1,
-            'amount_deployed' => $log['gitftpop']['gitftpop']['deployed']['human'],
+            'raw'                 => serialize($log),
+            'status'              => 1,
+            'amount_deployed'     => $log['gitftpop']['gitftpop']['deployed']['human'],
             'amount_deployed_raw' => $log['gitftpop']['gitftpop']['deployed']['data'],
-            'file_add' => $log['gitftpop']['gitftpop']['files']['upload'],
-            'file_remove' => $log['gitftpop']['gitftpop']['files']['delete'],
-            'file_skip' => $log['gitftpop']['gitftpop']['files']['skip'],
-                ), true);
+            'file_add'            => $log['gitftpop']['gitftpop']['files']['upload'],
+            'file_remove'         => $log['gitftpop']['gitftpop']['files']['delete'],
+            'file_skip'           => $log['gitftpop']['gitftpop']['files']['skip'],
+        ), TRUE);
 
         $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
         echo '------------';
@@ -163,12 +163,12 @@ class Controller_Hook extends Controller {
         echo '------------';
 
         $deploy->set($deploy_id, array(
-            'deployed' => true,
+            'deployed'   => TRUE,
             'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
-            'ftp' => serialize($ftp),
-            'status' => 'Idle',
-            'ready' => 1
-                ), true);
+            'ftp'        => serialize($ftp),
+            'status'     => 'Idle',
+            'ready'      => 1
+        ), TRUE);
     }
 
     public function action_get() {
@@ -195,5 +195,6 @@ class Controller_Hook extends Controller {
         }
         echo $service;
     }
+
 
 }

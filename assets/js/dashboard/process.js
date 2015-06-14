@@ -1,5 +1,4 @@
-define([
-], function () {
+define([], function () {
 
     var process = {
         process_id: 0,
@@ -23,25 +22,26 @@ define([
                         }
                     });
                 }
-                if($('.is-deploy-list').length){
-                    
+                if ($('.is-deploy-list').length) {
+
                     _ajax({
-                        url : base + 'api/deploy/getonly/',
+                        url: base + 'api/deploy/getonly/',
                         data: {
                             select: 'id,status'
                         },
                         method: 'post',
                         dataType: 'json'
-                    }).done(function(data){
-                        $.each(data.data, function(i, a){
-                            $target = $('.is-deploy-list[data-id="'+a.id+'"]');
-                            $target.find('.status').html('('+a.status+')');
+                    }).done(function (data) {
+                        $.each(data.data, function (i, a) {
+                            $target = $('.is-deploy-list[data-id="' + a.id + '"]');
+                            $target.find('.status').html('(' + a.status + ')');
                         });
                     });
                 }
                 that.deployView();
-            }, 2500);
+            }, this.deployViewInterval);
         },
+        deployViewInterval: 2500,
         timeUpdateInterval: 1,
         timeUpdate: function () {
             /*
@@ -67,9 +67,20 @@ define([
             }, this.timeUpdateInterval);
 
         },
+        stickyProjectSidebar: function () {
+            $(window).scroll(function () {
+                console.log('scroll');
+                if ($('.projectview-siderbar').length) {
+                    $('.projectview-siderbar').css({
+                        'margin-top': $(window).scrollTop()
+                    });
+                }
+            });
+        },
         runProcess: function () {
             this.deployView();
             this.timeUpdate();
+            //this.stickyProjectSidebar();
         },
         init: function () {
             this.runProcess();

@@ -14,12 +14,15 @@
 @darkblue: #4173B9;
 @redalt: #EF4036;
 @gray: #aaaaaa;
+//@bg: #ecf0f1;
+@bg: #eee;
 
 body {
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   //  font-family: 'Lato', sans-serif;
   //  background-color: #fff;
-  background-color: #FCFCFC;
+  //  background-color: #FCFCFC;
+  background-color: @bg;
   color: #555;
   overflow-y: scroll;
   box-shadow: inset 0px 2px @base;
@@ -99,6 +102,22 @@ a {
   }
 }
 
+.space5 {
+  height: 5px;
+}
+
+.space10 {
+  height: 10px;
+}
+
+.space15 {
+  height: 15px;
+}
+
+.space20 {
+  height: 20px;
+}
+
 input, select {
   border: solid 2px #eee !important;
   box-shadow: none !important;
@@ -129,12 +148,9 @@ input, select {
 
       }
       .buttons {
-
         button {
-
         }
         button.btn-default {
-
           &:hover {
 
           }
@@ -146,63 +162,73 @@ input, select {
   }
 }
 
-.navbar-default .navbar-nav {
-  > li > a {
-    transition: all .4s;
-//    letter-spacing: 1px;
-    font-size: 14px;
-    text-transform: uppercase;
-  }
-  li.active a {
-    background-image: none !important;
-    background-color: #f8f8f8 !important;
-    box-shadow: inset 0 2px @green;
-  }
-  .dropdown-menu {
-    border-color: #e7e7e7;
-  }
-  .dropdown.open > a {
-    background-color: #F8F8F8 !important;
-  }
-}
-
 .navbar-default {
-  //  background: linear-gradient(to bottom, #fff 0%, rgba(248, 248, 248, .9) 100%);
+
+  border-color: @bg !important;
   background: #fff;
+
+  .navbar-nav {
+
+    > li > a {
+      transition: all .4s;
+      //    letter-spacing: 1px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    li.active a {
+      background-image: none !important;
+      background-color: @bg !important;
+      box-shadow: inset 0 2px @green;
+    }
+    .dropdown-menu {
+      border-color: #e7e7e7;
+    }
+    .dropdown.open > a {
+      background-color: #F8F8F8 !important;
+    }
+  }
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+.head-body-divider {
+  .space10;
+}
+
 .btn {
   background-image: none;
-  border: solid 1px transparent !important;
+  border: solid 1px !important;
   border-radius: 4px;
   transition: all .4s;
-  border: none;
 
   &:hover {
     box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
   }
+
   &:active {
     box-shadow: none;
   }
 
   &.btn-default {
-    background-color: #eee;
+    background-color: white;
     color: #555;
+    border-color: #ddd !important;
 
     &.btn-gitftp {
       color: @base;
     }
+
     &:hover, &:focus, &:active {
       background-image: none;
-      background-color: darken(#eee, 3%);
+      background-color: lighten(#eee, 3%);
     }
   }
   &.btn-success {
     background: @green;
+    border-color: transparent !important;
+
     &:hover, &:focus, &:active {
       background: darken(@green, 5%);
     }
@@ -214,6 +240,13 @@ h1, h2, h3, h4, h5, h6 {
   }
   &.btn-danger {
     background-color: @red;
+    border-color: transparent !important;
+  }
+  &.btn-warning {
+    border-color: transparent !important;
+  }
+  &.btn-info {
+    border-color: transparent !important;
   }
 }
 
@@ -270,6 +303,7 @@ h1, h2, h3, h4, h5, h6 {
 
 @loading: #01b5e9;
 @loadingg: #4cd964;
+
 .bb-loading:empty:before {
   height: 60px;
   width: 60px;
@@ -382,10 +416,25 @@ h1, h2, h3, h4, h5, h6 {
   animation: pagedrop .2s cubic-bezier(.43, .96, .53, .98);
 }
 
+.project-activity-anim > * {
+  animation: pageleft .4s cubic-bezier(.43, .96, .53, .98);
+}
+
 @keyframes pagedrop {
   from {
     opacity: 0;
-    transform: translate(0, -10px);
+    transform: translate(0px, -10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+@keyframes pageleft {
+  from {
+    opacity: 0;
+    transform: translate(-10px, 0px);
   }
   to {
     opacity: 1;
@@ -474,23 +523,36 @@ h1, h2, h3, h4, h5, h6 {
     border: solid 1px #ddd;
     border-radius: 4px;
     background: white;
-
-    button.deploy {
+    .buttons {
       width: 100%;
       background: none;
-      border: none;
-      box-shadow: none;
-      padding: 10px 20px;
-      text-align: center;
-      display: block;
+      display: table;
       border-top: solid 1px #ddd;
-      font-size: 16px;
-      transition: all .2s;
 
-      &:hover {
-        background: #eee;
+      a {
+        width: 60%;
+        border-right: solid 1px #ddd;
       }
+      button.deploy {
+        width: 100%;
+        border: none;
+      }
+      button.deploy, a {
+        box-shadow: none;
+        text-align: center;
+        transition: all .2s;
+        font-size: 16px;
+        padding: 10px 20px;
+        display: table-cell;
+        background: none;
+
+        &:hover {
+          background: #eee;
+        }
+      }
+
     }
+
     .branch-name-container {
       font-size: 18px;
     }
@@ -516,8 +578,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-record-list {
-  margin-bottom: 15px;
-  border-bottom: solid 1px #eee;
+  background: white;
+  padding: 10px;
+  border: solid 1px #ddd !important;
+  border-radius: 4px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+
+  &:hover {
+  }
+
   //  .link-data{
   //    opacity: 0;
   //    transition: all .1s;
@@ -613,4 +683,12 @@ h1, h2, h3, h4, h5, h6 {
       transform: translate(0px, 0px);
     }
   }
+}
+
+.list-group-item:first-child {
+  border-top-left-radius: 0px;
+}
+
+.list-group-item:last-child {
+  border-bottom-left-radius: 0px;
 }

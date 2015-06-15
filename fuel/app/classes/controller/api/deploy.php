@@ -8,20 +8,41 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
     public function action_getbranches() {
         $post = Input::post();
-        $a = utils::gitGetBranches($post['repo'], $post['username'], $post['password']);
-        if ($a) {
-            echo json_encode(array(
-                'status'  => TRUE,
-                'data'    => $a,
-                'request' => $post
-            ));
-        } else {
+        try {
+            if (isset($post['deploy_id'])) {
+                $deploy = new Model_Deploy();
+                $data = $deploy->get($post['deploy_id']);
+
+                if (count($data) !== 1)
+                    throw new Exception('The project does not exist.');
+
+                $repo = $data[0]['repository'];
+                $username = $data[0]['username'];
+                $password = $data[0]['password'];
+            } else {
+                $repo = $post['repo'];
+                $username = $post['username'];
+                $password = $post['password'];
+            }
+
+            $a = utils::gitGetBranches($repo, $username, $password);
+            if ($a) {
+                echo json_encode(array(
+                    'status'  => TRUE,
+                    'data'    => $a,
+                    'request' => $post
+                ));
+            } else {
+                throw new Exception('Failed connecting to GIT server.');
+            }
+        } catch (Exception $e) {
             echo json_encode(array(
                 'status'  => FALSE,
-                'reason'  => 'Could not connect',
+                'reason'  => $e->getMessage(),
                 'request' => $post
             ));
         }
+
     }
 
     /**

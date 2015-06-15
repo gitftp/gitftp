@@ -4,7 +4,8 @@ define([
     'text!pages/projectSettings.html',
     'text!pages/projectEnvironments.html',
     'text!pages/projectEnvironments-manage.html',
-], function (main, activityView, settingsView, environmentsView, manageenvironmentsView) {
+    'text!pages/projectEnvironments-add.html',
+], function (main, activityView, settingsView, environmentsView, manageenvironmentsView, addenvironmentsView) {
 
     d = Backbone.View.extend({
         el: app.el,
@@ -264,6 +265,7 @@ define([
                 settings: settingsView,
                 environments: environmentsView,
                 manage: manageenvironmentsView,
+                add: addenvironmentsView,
             };
             // save the compiled templates
             this.template = {
@@ -272,6 +274,7 @@ define([
                 settings: _.template(this.page.settings),
                 environments: _.template(this.page.environments),
                 manage: _.template(this.page.manage),
+                add: _.template(this.page.add),
             };
 
             _ajax({
@@ -304,6 +307,28 @@ define([
                 that.renderChild();
             });
 
+        },
+        _add: function(){
+            var that = this;
+            var deploy = that.data.data[0];
+
+            var subPage = that.template[that.which]({
+                data: that.data,
+            });
+
+            $('.deploy-sub-page').html('');
+            $('.deploy-sub-page').html(subPage);
+
+            _ajax({
+                url: dash_url+ 'api/deploy/getbranches',
+                data: {
+                    'deploy_id': deploy.id
+                },
+                method: 'post',
+                dataType: 'json'
+            }).done(function(branches){
+
+            });
         },
         _activity: function () {
             var that = this;

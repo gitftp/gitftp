@@ -166,6 +166,7 @@ input, select {
 
   border-color: @bg !important;
   background: #fff;
+  box-shadow: 0 5px 21px 10px #eeeeee;
 
   .navbar-nav {
 
@@ -349,7 +350,7 @@ h1, h2, h3, h4, h5, h6 {
   border: solid 1px #FAFAFA;
   font-weight: 800;
   transition: all 1s;
-  width: 200px;
+  min-width: 100px;
   text-align: center;
 }
 
@@ -418,6 +419,19 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-activity-anim > * {
   animation: pageleft .4s cubic-bezier(.43, .96, .53, .98);
+}
+
+.fadeIn > * {
+  animation: fadeIn .2s cubic-bezier(.43, .96, .53, .98);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes pagedrop {
@@ -577,44 +591,61 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.project-record-list {
-  background: white;
-  padding: 10px;
-  border: solid 1px #ddd !important;
-  border-radius: 4px;
-  margin-top: 5px;
-  margin-bottom: 5px;
+.project-record-list-wrapper {
 
-  &:hover {
-  }
+  .project-record-list {
+    background: white;
+    padding: 10px;
+    border: solid 1px #ddd !important;
+    border-radius: 4px;
+    margin-top: 5px;
+    margin-bottom: 5px;
 
-  //  .link-data{
-  //    opacity: 0;
-  //    transition: all .1s;
-  //  }
-  //  &:hover .link-data{
-  //    opacity: 1;
-  //  }
-  .status {
-    font-size: 14px;
-    color: #aaa;
+    &:hover {
+    }
 
-    &.status-1 {
-      color: @green;
-    }
-    &.status-0 {
-      color: @redalt;
-    }
-    &.status-2 {
-      color: @orange;
-    }
-    &.status-3 {
+    //  .link-data{
+    //    opacity: 0;
+    //    transition: all .1s;
+    //  }
+    //  &:hover .link-data{
+    //    opacity: 1;
+    //  }
+    .status {
+      font-size: 14px;
       color: #aaa;
+
+      &.status-1 {
+        color: @green;
+      }
+      &.status-0 {
+        color: @redalt;
+      }
+      &.status-2 {
+        color: @orange;
+      }
+      &.status-3 {
+        color: #aaa;
+      }
+    }
+    .deploystate-icon {
+      font-size: 2em;
+      margin-top: 7px;
     }
   }
-  .deploystate-icon {
-    font-size: 2em;
-    margin-top: 7px;
+
+  .activity-data-records-view-more {
+    background: transparent;
+    border: none !important;
+    box-shadow: none !important;
+    font-weight: bold;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    &:hover, &:focus{
+      box-shadow: none !important;
+      outline: none;
+    }
   }
 }
 

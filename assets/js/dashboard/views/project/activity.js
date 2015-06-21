@@ -24,7 +24,7 @@ define([
             _ajax({
                 url: dash_url + 'api/deploy/run/',
                 data: {
-                    'deploy_id': this.id,
+                    'deploy_id': that.parent.id,
                 },
                 method: 'post',
                 dataType: 'html',
@@ -42,7 +42,7 @@ define([
                 title: 'Provided Payload.',
                 content: 'url:' + base + 'api/records/getpayload/' + id,
                 animation: 'scale',
-                confirmButton: 'Good',
+                confirmButton: 'Dismiss',
                 theme: 'white'
             });
         },
@@ -57,7 +57,7 @@ define([
                 //content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 content: 'url:' + base + 'api/records/getraw/' + id,
                 animation: 'scale',
-                confirmButton: 'Okay',
+                confirmButton: 'Dismiss',
                 theme: 'white'
             });
         },
@@ -69,7 +69,7 @@ define([
             var count = $('.project-record-list').length;
             var that = this;
             _ajax({
-                url: base + 'api/records/getall/' + this.id,
+                url: base + 'api/records/getall/' + that.parent.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
@@ -79,7 +79,7 @@ define([
             }).done(function (records) {
                 that.activityData = records;
                 var subPage = that.template({
-                    's': that.data.data[0],
+                    's': that.parent.data.data[0],
                     'activity': records,
                     'more': 'true',
                     'count': records.count,
@@ -89,11 +89,14 @@ define([
                 that.$el.find('.project-record-list-wrapper').append(subPage);
             });
         },
-        render: function () {
+        render: function (parent) {
+            this.parent = parent;
             var that = this;
+            $(that.parent.subPage).html('');
+            console.log(this.parent);
 
             _ajax({
-                url: base + 'api/records/getall/' + this.id,
+                url: base + 'api/records/getall/' + that.parent.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
@@ -103,14 +106,13 @@ define([
                 that.activityData = records;
                 that.template = _.template(projectActivityHtml);
                 var subPage = that.template({
-                    's': that.data.data[0],
+                    's': that.parent.data.data[0],
                     'activity': records,
                     'more': 'false',
                     'count': records.count,
                     'renderedCount': 10
                 });
-                that.$el.html('');
-                that.$el.html(subPage);
+                $(that.parent.subPage).html(subPage);
             });
         }
     });

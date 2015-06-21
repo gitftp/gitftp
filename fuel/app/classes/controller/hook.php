@@ -7,168 +7,71 @@ class Controller_Hook extends Controller {
     }
 
     public function action_i($user_id = NULL, $deploy_id = NULL, $key = NULL) {
+        if (Input::method() != 'POST')
+            die('Invalid method. This api only supports POST requests');
 
-        if ($user_id == NULL || $deploy_id == NULL || $key == NULL || Input::method() != 'POST') {
-            die('Something is missing');
-        }
+        if ($user_id == NULL)
+            die('User id is missing, please refer to documentation.');
 
-        $repo = DB::select()->from('deploy')->where('id', $deploy_id)->and_where('user_id', $user_id)
-            ->execute()->as_array();
+        if ($deploy_id == NULL)
+            die('Project ID is missing, please refer to documentation.');
 
+        if ($key == NULL)
+            die('Project hook key missing, please refer to documentation.');
+
+        $deploy = new Model_Deploy();
+        $deploy->user_id = $user_id;
+        $repo = $deploy->get($deploy_id, NULL);
 
         if (count($repo) == 0) {
-            die('No such user or deploy found.');
+            die('The project was not found, please refer to documentation.');
         } else {
             if ($key != $repo[0]['key']) {
-                die('The key provided doesnt match');
+                die('The project and key do not match, please refer to documentation.');
             }
             if ($repo[0]['ready'] == 0) {
-                die('The deploy is not initialized yet.');
+                die('The project is not yet been initialized.');
             }
             if ($repo[0]['active'] == 0) {
-                die('Auto deploy of this project is disabled');
+                die('Sorry, cannot deploy this project for the moment, please contact support.');
             }
         }
 
+        utils::log($_POST['payload']);
+        utils::log(serialize($repo));
+
         $repo = $repo[0];
+        $parsedPayload = utils::parsePayload($_REQUEST, $deploy_id);
 
-        $payload = utils::parsePayload($_REQUEST, $deploy_id);
-
-        $log = array();
+        utils::log(serialize($parsedPayload));
         $record = new Model_Record();
-        $deploy = new Model_Deploy();
+        $record->user_id = $user_id;
+        $branch = new Model_Branch();
+        $branch->user_id = $user_id;
 
-        list($record_id, $asd) = DB::insert('records')->set(array(
-            'deploy_id'      => (int)$deploy_id,
-            'user_id'        => (int)$user_id,
-            'status'         => 2,
-            'date'           => time(),
-            'raw'            => serialize($log),
-            'triggerby'      => $payload['pushby'],
-            'avatar_url'     => $payload['avatar_url'],
-            'hash'           => $payload['hash'],
-            'post_data'      => $payload['post_data'],
-            'commit_count'   => $payload['commit_count'],
-            'commit_message' => $payload['commit_message']
-        ))->execute();
+        // getting environments to deploy.
+        $branches = $branch->get_by_branch_name($parsedPayload['branch']);
 
-        $deploy->set($deploy_id, array(
-            'status' => 'processing'
-        ), TRUE);
+        foreach ($branches as $branchSingle) {
+            if ($branchSingle['auto'] == 0 || $branchSingle['ready'] == 0)
+                continue;
 
-        $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
-        $log['dir'] = $repo_dir;
-        chdir($repo_dir);
-        $log['hook'] = 'POST hook received, starting with deploy';
-
-        $cmdpull = shell_exec('git pull --rebase');
-        $log['pull'] = $cmdpull;
-        $cmdfetch = shell_exec('git fetch --all');
-        $log['fetch'] = $cmdfetch;
-        $cmdreset = shell_exec('git reset --hard origin/master');
-        $log['reset'] = $cmdreset;
-
-        $ftp = unserialize($repo['ftp']);
-        $ftpdata = DB::select()->from('ftpdata')->where('id', $ftp['production'])->execute()->as_array();
-        $ftpdata = $ftpdata[0];
-
-
-        /*
-         * check if ftp server is proper.
-         */
-        $ftp_test_data = utils::test_ftp($ftpdata);
-        if ($ftp_test_data != 'Ftp server is ready to rock.') {
-
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => $ftp_test_data
+            $record->insert(array(
+                'deploy_id'      => $branchSingle['deploy_id'],
+                'record_type'    => $record->type_service,
+                'branch_id'      => $branchSingle['id'],
+                'date'           => time(),
+                'status'         => $record->in_queue,
+                'triggerby'      => $parsedPayload['user'],
+                'post_data'      => $parsedPayload['post_data'],
+                'avatar_url'     => $parsedPayload['avatar_url'],
+                'hash'           => $parsedPayload['hash'],
+                'commit_count'   => $parsedPayload['commit_count'],
+                'commit_message' => $parsedPayload['commit_message']
             ));
-            $log['ftpconnectstatus'] = $ftp_test_data;
-            array_push($log, $gitcore->log);
-            $record->set($record_id, array(
-                'raw'    => serialize($log),
-                'status' => 0,
-            ));
-            $deploy->set($id, array(
-                'cloned'   => 0,
-                'deployed' => 0,
-                'status'   => 'to be initialized',
-                'ready'    => 0
-            ));
-            die();
         }
 
-
-        $deploy->set($deploy_id, array(
-            'status' => 'deploying'
-        ), TRUE);
-
-        $gitcore = new gitcore();
-        $gitcore->options = array(
-            'repo'      => $repo_dir,
-            'deploy_id' => $deploy_id,
-            'debug'     => FALSE,
-            'server'    => 'default',
-            'ftp'       => array(
-                'default' => array(
-                    'scheme'  => $ftpdata['scheme'],
-                    'host'    => $ftpdata['host'],
-                    'user'    => $ftpdata['username'],
-                    'pass'    => $ftpdata['pass'],
-                    'port'    => $ftpdata['port'],
-                    'path'    => $ftpdata['path'],
-                    'passive' => TRUE,
-                    'skip'    => array(),
-                    'purge'   => array()
-                )
-            ),
-            'revision'  => $ftp['revision'],
-        );
-
-        try {
-            $gitcore->startDeploy();
-        } catch (Exception $ex) {
-
-            array_push($log, $gitcore->log);
-            $record->set($record_id, array(
-                'raw'    => serialize($log),
-                'status' => 0,
-            ), TRUE);
-
-            print_r($log);
-
-            $deploy->set($deploy_id, array(
-                'status' => 'Idle'
-            ), TRUE);
-
-            return;
-        }
-
-        $log['gitftpop'] = $gitcore->log;
-        print_r($log);
-
-        $record->set($record_id, array(
-            'raw'                 => serialize($log),
-            'status'              => 1,
-            'amount_deployed'     => $log['gitftpop']['gitftpop']['deployed']['human'],
-            'amount_deployed_raw' => $log['gitftpop']['gitftpop']['deployed']['data'],
-            'file_add'            => $log['gitftpop']['gitftpop']['files']['upload'],
-            'file_remove'         => $log['gitftpop']['gitftpop']['files']['delete'],
-            'file_skip'           => $log['gitftpop']['gitftpop']['files']['skip'],
-        ), TRUE);
-
-        $ftp['revision'] = $log['gitftpop']['gitftpop']['revision'];
-        echo '------------';
-        print_r($ftp);
-        echo '------------';
-
-        $deploy->set($deploy_id, array(
-            'deployed'   => TRUE,
-            'lastdeploy' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
-            'ftp'        => serialize($ftp),
-            'status'     => 'Idle',
-            'ready'      => 1
-        ), TRUE);
+        Gfcore::deploy_in_bg($deploy_id);
     }
 
     public function action_get() {

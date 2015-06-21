@@ -5,11 +5,49 @@ class Controller_Test extends Controller {
     public function action_mail(){
 //        $sendmail = new Sendmail();
 //        $sendmail->send();
-        
         $a = new Model_Deploy();
         print_r($a->get());
     }
-    
+
+    public function action_ac(){
+        $a = 'refs/heads/something';
+        $a = explode('/', $a);
+        print_r($a[count($a)-1]);
+    }
+    public function get_ab(){
+        echo 'asd';
+
+        $record = new Model_Record();
+        $record->insert(array(
+            'deploy_id'      => '30',
+            'record_type'    => $record->type_service,
+            'branch_id'      => '57',
+            'date'           => time(),
+            'status'         => $record->in_queue,
+            'triggerby'      => 'Boniface',
+            'hash'           => 'cc65d139c1381ef718a60c91efae6525bc98b111',
+        ));
+    }
+    public function action_s(){
+        Gfcore::deploy_in_bg('30');
+    }
+    public function action_log(){
+        $a = DB::select()->from('log')->execute()->as_array();
+        echo '<pre>';
+        foreach($a as $k => $v){
+            try{
+                $a[$k] = unserialize($v['a']);
+            }catch(Exception $e){
+                try{
+                    $a[$k] = json_decode($v['a']);
+                }catch(Exception $e){
+                    $a[$k] = $v['a'];
+                }
+            }
+        }
+        print_r(array_reverse($a));
+        echo '</pre>';
+    }
     public function action_g() {
         $email = "hey@craftpip.com";
         $g = utils::get_gravatar($email);

@@ -41,7 +41,7 @@ define([], function () {
                 that.deployView();
             }, this.deployViewInterval);
         },
-        deployViewInterval: 2500,
+        deployViewInterval: 5000,
         timeUpdateInterval: 1,
         timeUpdate: function () {
             /*

@@ -26,6 +26,8 @@ define([
                 var page = this.urlp[2];
             }
 
+            this.subPage = '.deploy-sub-page';
+
             // save 'which' page.
             this.which = page;
             console.log('page is ', page);
@@ -57,23 +59,46 @@ define([
                     return false;
                 }
                 var template = that.template.main({
-                    's': data.data[0],
-                    'v': that.which
+                    's': data.data[0]
                 });
                 that.data = data;
 
-                if (is_loaded) {
-                    that.el.html(template);
-                } else {
-                    var $el2 = $('<div class="projectview-anim">');
-                    that.el.html($el2);
-                    that.el = $el2;
-                    $el2.html(template);
-                }
+                //if (is_loaded) {
+                //    that.el.html(template);
+                //} else {
+                //    var $el2 = $('<div class="projectview-anim">');
+                //    that.el.html($el2);
+                //    that.el = $el2;
+                //    $el2.html(template);
+                //}
 
+                if (is_loaded) {
+                    //that.el.html(template);
+                } else {
+                    that.el.html(template);
+                }
+                that.makeMenuSelection();
                 that.renderChild();
             });
+        },
+        makeMenuSelection: function(){
+            console.log(this.which);
+            var $menuItems = $('.projectview-siderbar');
+            $menuItems.find('a.list-group-item').removeClass('active-cs');
 
+            switch(this.which){
+                case 'activity':
+                    $menuItems.find('.subview-activity').addClass('active-cs');
+                    break;
+                case 'add':
+                case 'manage':
+                case 'environments':
+                    $menuItems.find('.subview-environments').addClass('active-cs');
+                    break;
+                case 'settings':
+                    $menuItems.find('.subview-settings').addClass('active-cs');
+                    break;
+            }
         },
         renderChild: function () {
             var that = this;
@@ -84,48 +109,24 @@ define([
             }
         },
         _add: function () {
-
-            this.add_environments = new addenvironmentsView({
-                el: '.deploy-sub-page',
-                id: this.id
-            });
-            this.add_environments.data = this.data;
-            this.add_environments.render();
-
+            this.add_environments = this.add_environments || new addenvironmentsView();
+            this.add_environments.render(this);
         },
         _activity: function () {
-            this.activity = new activityView({
-                el: '.deploy-sub-page',
-                id: this.id
-            });
-            this.activity.data = this.data;
-            this.activity.render();
+            this.activity = this.activity || new activityView();
+            this.activity.render(this);
         },
         _settings: function () {
-            this.settings = new settingsView({
-                el: '.deploy-sub-page',
-                id: this.id
-            });
-            this.settings.data = this.data;
-            this.settings.render();
+            this.settings = this.settings || new settingsView();
+            this.settings.render(this);
         },
         _environments: function () {
-            this.environments = new environmentsView({
-                el: '.deploy-sub-page',
-                id: this.id
-            });
-            this.environments.data = this.data;
-            this.environments.render();
+            this.environments = this.environments || new environmentsView();
+            this.environments.render(this);
         },
         _manage: function () {
-            this.manage_environments = new manageenvironmentsView({
-                el: '.deploy-sub-page',
-                id: this.id
-            });
-            this.manage_environments.data = this.data;
-            this.manage_environments.urlp = this.urlp;
-            this.manage_environments.render();
-
+            this.manage_environments = this.manage_environments || new manageenvironmentsView();
+            this.manage_environments.render(this);
         },
     })
     ;

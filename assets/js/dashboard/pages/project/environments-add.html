@@ -1,11 +1,80 @@
 <div class="panel panel-default branch-single-view">
     <div class="panel-body">
         <p class="branch-name">
-            <i class="fa fa-leaf fa-fw green"></i> asdsadsa
+            <i class="fa fa-plus-circle fa-fw green"></i> Setup a new environment
         </p>
 
         <div style="height: 7px;"></div>
         <div class="row">
+            <div class="col-md-6">
+
+                <form action="" class="form-horizontal project-branch-new-env-save-form">
+
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            Name:
+                        </label>
+
+                        <div class="col-sm-10">
+                            <input type="text" value="" class="form-control" name="name" placeholder="Prod, Test, Dev, etc."/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            Branch:
+                        </label>
+
+                        <div class="col-sm-10">
+                            <div class="input-group">
+                                <select class="form-control" name="branch_name" id="branches-list">
+
+                                </select>
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default load-branches" type="button"><i class=" fa fa-refresh fa-fw"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            Auto:
+                        </label>
+
+                        <div class="col-sm-10">
+                            <div class="checkbox gf-checkbox">
+                                <input type="checkbox" id="autodeploycheckbox" name="auto"/>
+                                <label for="autodeploycheckbox">Auto deploy</label>
+                            </div>
+                            <p class="help-block">Deploy changes when pushed to <i class="fa fa-code-fork"></i></p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-2 control-label">
+                            FTP:
+                        </label>
+
+                        <div class="col-sm-10">
+                            <select name="ftp_id" class="form-control" id="ftp-list">
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <div class="checkbox gf-checkbox">
+                                <input type="checkbox" id="deploynow"/>
+                                <label for="deploynow">Deploy now</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="height: 10px;"></div>
+                    <button type="submit" class="btn btn-success">Add new</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="ftp-details fadeIn"></div>
+            </div>
         </div>
     </div>
 </div>
+<pre><%= JSON.stringify(data.branches) %></pre>

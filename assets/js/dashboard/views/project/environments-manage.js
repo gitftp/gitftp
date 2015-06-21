@@ -33,20 +33,22 @@ define([
                 }
             });
         },
-        render: function () {
+        render: function (parent) {
             var that = this;
+            this.parent = parent;
+            $(that.parent.subPage).html('');
 
-            if (this.urlp[3]) {
-                var branch_id = this.urlp[3];
+            if (that.parent.urlp[3]) {
+                var branch_id = that.parent.urlp[3];
             } else {
-                var back_url = this.urlp.slice(0, 2);
+                var back_url = that.parent.urlp.slice(0, 2);
                 back_url = back_url.join('/');
                 Router.navigate('#/project/' + back_url, {
                     trigger: true
                 });
             }
 
-            var branch = $.grep(this.data.data[0].branches, function (a, i) {
+            var branch = $.grep(that.parent.data.data[0].branches, function (a, i) {
                 return a.id == branch_id;
             });
             var ftp_id = branch[0]['ftp_id'];
@@ -71,13 +73,13 @@ define([
 
                 that.template = _.template(envHtml);
                 var subPage = that.template({
-                    data: that.data.data[0],
+                    data: that.parent.data.data[0],
                     branch: branch[0],
                     ftp: ftpdata.data[0],
                     ftplist: ftplist,
                 });
 
-                that.$el.html(subPage);
+                $(that.parent.subPage).html(subPage);
             });
 
         }

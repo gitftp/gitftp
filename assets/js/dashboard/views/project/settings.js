@@ -84,7 +84,7 @@ define([
             $this.find('select, input, button').attr('readonly', true);
 
             _ajax({
-                url: base + 'api/deploy/edit/' + that.id,
+                url: base + 'api/deploy/edit/' + that.parent.id,
                 data: $this.serializeArray(),
                 method: 'post',
                 dataType: 'json',
@@ -105,13 +105,15 @@ define([
                 $this.find('select, input, button').removeAttr('readonly');
             });
         },
-        render: function () {
+        render: function (parent) {
+            this.parent = parent;
             var that = this;
+            $(this.parent.subPage).html('');
             that.template = _.template(settingsHtml);
             var subPage = that.template({
-                data: that.data.data[0],
+                data: that.parent.data.data[0],
             });
-            this.$el.html(subPage);
+            $(this.parent.subPage).html(subPage);
         }
     });
 

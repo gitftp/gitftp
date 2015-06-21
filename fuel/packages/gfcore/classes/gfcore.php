@@ -139,7 +139,7 @@ class Gfcore {
         // individual logs for each records.
         $this->log = array();
 
-        // updating new data. (to get if to clone or pull)
+        // updating new data. (to know if to clone or pull)
         $this->get_deploy_data();
 
         // Getting the first record to process, if false is returned (The queue is over)
@@ -184,7 +184,10 @@ class Gfcore {
             if ($this->deploy_data['cloned']) {
                 if ($this->debug)
                     $this->log['action'] = 'pull';
-                $this->pullRepo();
+
+                $branch_id = $this->record['branch_id'];
+                $branch = $this->m_branches->get_by_branch_id($branch_id)[0];
+                $this->pullRepo($branch['branch_name']);
             } else {
                 if ($this->debug)
                     $this->log['action'] = 'clone';
@@ -213,7 +216,7 @@ class Gfcore {
                 'raw'    => serialize($this->log)
             ), TRUE);
             // deploy failed because of something, logs are stored in raw.
-
+            utils::log(serialize($e));
             // Lets iterate.
             $this->deploy();
         }
@@ -251,7 +254,7 @@ class Gfcore {
                 'status' => $this->m_record->failed,
                 'raw'    => serialize($this->log)
             ));
-            throw new Exception('Something went wrong, and taken care of');
+            throw new Exception($ftp_test);
         }
 
         // branch name
@@ -288,7 +291,8 @@ class Gfcore {
                     'purge'   => array()
                 )
             ),
-            'revision'  => $branch['revision']
+            'revision'  => $branch['revision'],
+            'rollback' => (empty($this->record['hash'])) ? false : $this->record['hash'],
         );
 
         try {
@@ -302,7 +306,8 @@ class Gfcore {
                 'status' => $this->m_record->failed,
                 'raw'    => serialize($this->log),
             ));
-            throw new Exception('Something went wrong while deployment. taken care of.');
+
+            throw new Exception($e);
 
         }
 
@@ -497,22 +502,35 @@ class Gfcore {
     /**
      * Pull the repo when its already cloned.
      */
-    public function pullRepo() {
+    public function pullRepo($branchName = 'master') {
         // Change to repo dir,
         chdir($this->repo_dir);
 
         if ($this->debug)
             $this->log['pull_working'] = 'Pulling repo';
 
+        // checkout to the branch which we have to pull.
+        try {
+            exec('git checkout ' . $branchName, $op);
+            utils::log(serialize($op));
+        } catch (Exception $e) {
+            throw new Exception($e);
+        }
+
         // pull repo rebase
-        exec('git pull --rebase', $pullop);
+        exec('git pull --all', $pullop);
         // fetch all
         exec('git fetch --all', $pullop);
         // reset all local files and make exact copy of remote
-        exec('git reset --hard origin/master', $pullop);
+        exec('git reset --hard origin/' . $branchName, $pullop);
+
+        utils::log(serialize($pullop));
 
         if ($this->debug)
             $this->log['pull_op'] = $pullop;
+
+        // checkout to master again.
+        exec('git checkout master');
 
     }
 
@@ -524,6 +542,7 @@ class Gfcore {
      */
     public static function deploy_in_bg($deploy_id) {
         shell_exec('php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+
         return TRUE;
     }
 }

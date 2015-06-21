@@ -104,6 +104,7 @@ select:active {
 .navbar-default {
   border-color: #eeeeee !important;
   background: #fff;
+  box-shadow: 0 5px 21px 10px #eeeeee;
 }
 .navbar-default .navbar-nav > li > a {
   transition: all .4s;
@@ -270,7 +271,7 @@ h6 {
   border: solid 1px #FAFAFA;
   font-weight: 800;
   transition: all 1s;
-  width: 200px;
+  min-width: 100px;
   text-align: center;
 }
 .project-co-loading {
@@ -328,6 +329,17 @@ h6 {
 }
 .project-activity-anim > * {
   animation: pageleft 0.4s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+}
+.fadeIn > * {
+  animation: fadeIn 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes pagedrop {
   from {
@@ -451,7 +463,7 @@ h6 {
   color: #7f7f7f;
   font-size: 12px;
 }
-.project-record-list {
+.project-record-list-wrapper .project-record-list {
   background: white;
   padding: 10px;
   border: solid 1px #ddd !important;
@@ -459,25 +471,38 @@ h6 {
   margin-top: 5px;
   margin-bottom: 5px;
 }
-.project-record-list .status {
+.project-record-list-wrapper .project-record-list .status {
   font-size: 14px;
   color: #aaa;
 }
-.project-record-list .status.status-1 {
+.project-record-list-wrapper .project-record-list .status.status-1 {
   color: #66bd61;
 }
-.project-record-list .status.status-0 {
+.project-record-list-wrapper .project-record-list .status.status-0 {
   color: #ef4036;
 }
-.project-record-list .status.status-2 {
+.project-record-list-wrapper .project-record-list .status.status-2 {
   color: #f7941d;
 }
-.project-record-list .status.status-3 {
+.project-record-list-wrapper .project-record-list .status.status-3 {
   color: #aaa;
 }
-.project-record-list .deploystate-icon {
+.project-record-list-wrapper .project-record-list .deploystate-icon {
   font-size: 2em;
   margin-top: 7px;
+}
+.project-record-list-wrapper .activity-data-records-view-more {
+  background: transparent;
+  border: none !important;
+  box-shadow: none !important;
+  font-weight: bold;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.project-record-list-wrapper .activity-data-records-view-more:hover,
+.project-record-list-wrapper .activity-data-records-view-more:focus {
+  box-shadow: none !important;
+  outline: none;
 }
 .checkbox.gf-checkbox input {
   display: none;

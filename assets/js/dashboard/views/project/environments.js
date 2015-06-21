@@ -17,7 +17,7 @@ define([
                 url: dash_url + 'api/deploy/run/',
                 data: {
                     'branch_id': id,
-                    'deploy_id': this.id
+                    'deploy_id': this.parent.id
                 },
                 method: 'post',
                 dataType: 'html',
@@ -25,14 +25,15 @@ define([
                 console.log(data)
             });
         },
-        render: function () {
+        render: function (parent) {
             var that = this;
+            this.parent = parent;
+            $(this.parent.subPage).html('');
             that.template = _.template(envHtml);
             var subPage = that.template({
-                data: that.data,
+                data: that.parent.data
             });
-
-            $('.deploy-sub-page').html(subPage);
+            $(this.parent.subPage).html(subPage);
         }
     });
 

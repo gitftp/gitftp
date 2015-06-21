@@ -11,7 +11,7 @@ class utils {
      *
      * @param type $arg
      */
-    public static function gitGetBranches($repo, $username = null, $password = null) {
+    public static function gitGetBranches($repo, $username = NULL, $password = NULL) {
 
         $repo_url = parse_url($repo);
 
@@ -24,16 +24,17 @@ class utils {
         $repo = http_build_url($repo_url);
 
         if (trim($repo) == '') {
-            return false;
+            return FALSE;
         }
         exec("git ls-remote --heads $repo", $op);
-        if (empty($op)) return false;
+        if (empty($op)) return FALSE;
 
         foreach ($op as $k => $v) {
             $b = preg_split('/\s+/', $v);
             $b = explode('/', $b[1]);
             $op[$k] = $b[2];
         }
+
         return $op;
     }
 
@@ -48,7 +49,7 @@ class utils {
      * @param type $atts
      * @return string
      */
-    public static function get_gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array()) {
+    public static function get_gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = FALSE, $atts = array()) {
         $url = 'http://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
         $url .= "?s=$s&d=$d&r=$r";
@@ -57,6 +58,7 @@ class utils {
             foreach ($atts as $key => $val) $url .= ' ' . $key . '="' . $val . '"';
             $url .= ' />';
         }
+
         return $url;
     }
 
@@ -67,7 +69,7 @@ class utils {
      * @return string
      */
     public static function test_ftp($a = array()) {
-        $b = array('hostname' => $a['host'], 'username' => $a['username'], 'password' => $a['pass'], 'timeout' => 30, 'port' => $a['port'], 'passive' => true, 'ssl_mode' => ($a['scheme'] == 'ftps') ? true : false, 'debug' => true);
+        $b = array('hostname' => $a['host'], 'username' => $a['username'], 'password' => $a['pass'], 'timeout' => 30, 'port' => $a['port'], 'passive' => TRUE, 'ssl_mode' => ($a['scheme'] == 'ftps') ? TRUE : FALSE, 'debug' => TRUE);
         try {
             $c = \Fuel\Core\Ftp::forge($b);
         } catch (Exception $ex) {
@@ -78,6 +80,7 @@ class utils {
         } catch (Exception $ex) {
             return 'The directory ' . $a['path'] . ' does not exist in the FTP server.';
         }
+
         return 'Ftp server is ready to rock.';
         $c->close();
     }
@@ -94,13 +97,10 @@ class utils {
      * @param type $input -> payload.
      * @param type $deploy_id -> deploy to id optional
      */
-    public static function parsePayload($input, $deploy_id = null) {
+    public static function parsePayload($input, $deploy_id = NULL) {
 
         $i = json_decode($input['payload']);
-
         $service = 'none';
-
-
         if (isset($i->canon_url)) {
             if (preg_match('/bitbucket/i', $i->canon_url)) {
                 $service = 'bitbucket';
@@ -115,16 +115,36 @@ class utils {
             }
         }
 
-        utils::log($service);
+        utils::log('service: ' . $service);
 
         if ($service == 'github') {
             $lc = count($i->commits) - 1;
-            return array('pushby' => $i->pusher->name, 'avatar_url' => $i->sender->avatar_url, 'hash' => $i->after, 'post_data' => serialize($i), 'commit_count' => count($i->commits), 'commit_message' => $i->commits[$lc]->message);
+            $branch = $i->ref;
+            $branch = explode('/', $branch);
+            $branch = $branch[count($branch) - 1];
+
+            return array(
+                'user'         => $i->pusher->name,
+                'avatar_url'     => $i->sender->avatar_url,
+                'hash'           => $i->after,
+                'post_data'      => serialize($i),
+                'commit_count'   => count($i->commits),
+                'commit_message' => $i->commits[$lc]->message,
+                'branch'         => $branch
+            );
         }
 
         if ($service == 'bitbucket') {
             $lc = count($i->commits) - 1;
-            return array('pushby' => $i->commits[$lc]->author, 'avatar_url' => '', 'hash' => $i->commits[$lc]->raw_node, 'post_data' => serialize($i), 'commit_count' => count($i->commits), 'commit_message' => $i->commits[$lc]->message);
+
+            return array(
+                'user'         => $i->commits[$lc]->author,
+                'avatar_url'     => '',
+                'hash'           => $i->commits[$lc]->raw_node,
+                'post_data'      => serialize($i),
+                'commit_count'   => count($i->commits),
+                'commit_message' => $i->commits[$lc]->message
+            );
         }
     }
 
@@ -132,6 +152,7 @@ class utils {
         $decimals = 2;
         $sz = 'BKMGTP';
         $factor = floor((strlen($bytes) - 1) / 3);
+
         return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
@@ -139,21 +160,22 @@ class utils {
         foreach ($data as $k => $v) {
             if (isset($data[$k]['pass'])) {
                 if (!empty($data[$k]['pass'])) {
-                    $data[$k]['pset'] = true;
+                    $data[$k]['pset'] = TRUE;
                 } else {
-                    $data[$k]['pset'] = false;
+                    $data[$k]['pset'] = FALSE;
                 }
                 unset($data[$k]['pass']);
             }
             if (isset($data[$k]['password'])) {
                 if (!empty($data[$k]['password'])) {
-                    $data[$k]['passwordset'] = true;
+                    $data[$k]['passwordset'] = TRUE;
                 } else {
-                    $data[$k]['passwordset'] = false;
+                    $data[$k]['passwordset'] = FALSE;
                 }
                 unset($data[$k]['password']);
             }
         }
+
         return $data;
     }
 

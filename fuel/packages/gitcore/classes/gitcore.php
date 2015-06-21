@@ -20,12 +20,12 @@ class gitcore {
      * @var string $currentlyDeploying
      */
     public $currentlyDeploying = '';
+
     /**
      * A list of files that should NOT be uploaded to the remote server
      *
      * @var array $filesToIgnore
      */
-
     public $filesToIgnore = array();
 
     /**
@@ -43,7 +43,7 @@ class gitcore {
      *
      * @var bool $scanSubmodules
      */
-    public $scanSubmodules = FALSE;
+    public $scanSubmodules = false;
 
     /**
      * If you need support for sub-submodules, ensure this is set to TRUE
@@ -51,7 +51,7 @@ class gitcore {
      *
      * @var bool $scanSubSubmodules
      */
-    public $scanSubSubmodules = TRUE;
+    public $scanSubSubmodules = true;
 
     /**
      * @var array $servers
@@ -62,6 +62,7 @@ class gitcore {
      * @var array $submodules
      */
     public $submodules = array();
+
 
     /**
      * @var array $purgeDirs
@@ -80,7 +81,7 @@ class gitcore {
      *
      * @var string $deplyIniFilename
      */
-    public $deployIniFilename = 'deploy.ini';
+    public $iniFilename = 'deploy.ini';
 
     /**
      * List of available "short" command line options, prefixed by a single hyphen
@@ -90,7 +91,7 @@ class gitcore {
      *
      * @var string $shortops
      */
-    public $shortopts = 'los:';
+    protected $shortopts = 'los:';
 
     /**
      * List of available "long" command line options, prefixed by double-hyphen
@@ -113,45 +114,32 @@ class gitcore {
      *
      * @var array $longopts
      */
-    public $longopts = array(
-        'no-colors',
-        'help',
-        'list',
-        'rollback::',
-        'server:',
-        'sync::',
-        'submodules',
-        'skip-subsubmodules',
-        'others',
-        'debug',
-        'version',
-        'all'
-    );
+    protected $longopts  = array('no-colors', 'help', 'list', 'rollback::', 'server:', 'sync::', 'submodules', 'skip-subsubmodules', 'others', 'debug', 'version', 'all');
 
     /**
      * @var bool|resource $connection
      */
-    public $connection = FALSE;
+    protected $connection = false;
 
     /**
      * @var string $server
      */
-    public $server = '';
+    protected $server = '';
 
     /**
      * @var string $repo
      */
-    public $repo;
+    protected $repo;
 
     /**
      * @var string $mainRepo
      */
-    public $mainRepo;
+    protected $mainRepo;
 
     /**
      * @var bool|string $currentSubmoduleName
      */
-    public $currentSubmoduleName = FALSE;
+    protected $currentSubmoduleName = false;
 
     /**
      * Holds the path to the .revision file
@@ -160,62 +148,67 @@ class gitcore {
      *
      * @var string $dotRevision
      */
-    public $dotRevision;
+    protected $dotRevision;
+
+    /**
+     * Path to the directory on the server side where to store main $dotRevision file.
+     */
+    protected $dotRevisionDir = '';
 
     /**
      * Whether phploy is running in list mode (--list or -l commands)
      * @var bool $listFiles
      */
-    public $listFiles = FALSE;
+    protected $listFiles = false;
 
     /**
      * Whether the --help command line option was given
      * @var bool $displayHelp
      */
-    public $displayHelp = FALSE;
+    protected $displayHelp = false;
 
     /**
      * Whether the --version command line option was given
      * @var bool $displayHelp
      */
-    public $displayVersion = FALSE;
+    protected $displayVersion = false;
 
     /**
      * Whether the --sync command line option was given
      * @var bool $sync
      */
-    public $sync = FALSE;
+    protected $sync = false;
 
     /**
      * Whether phploy should ignore .gitignore (--others or -o commands)
      * @var bool $others
      */
-    public $others = FALSE;
+    protected $others = false;
 
     /**
      * Whether to print extra debugging info to the console, especially for git & FTP commands
      * Activated using --debug command line option
      * @var bool $debug
      */
-    public $debug = FALSE;
+    protected $debug = false;
 
     /**
      * Keep track of current deployment size
      * @var int $deploymentSize
      */
-    public $deploymentSize = 0;
+    protected $deploymentSize = 0;
 
     /**
      * Keep track of if a default server has been configured
      * @var bool $defaultServer
      */
-    public $defaultServer = FALSE;
+    protected $defaultServer = false;
 
     /**
      * Weather the --all command line option was given
      * @var bool deployAll
      */
-    public $deployAll = FALSE;
+    protected $deployAll = false;
 
     public $log = array();
 
@@ -227,7 +220,7 @@ class gitcore {
         'server'    => 'default',
         //        'others' => 'true,',
         //        'sync' => 'all',
-        //        'rollback' => 'hash',
+        'rollback' => false,
         'repo'      => 'path/to/repo',
         'ftp'       => array(
             'default' => array(
@@ -274,7 +267,7 @@ class gitcore {
             $this->sync = empty($options['sync']) ? 'sync' : $options['sync'];
         }
 
-        if (isset($options['rollback'])) {
+        if ($options['rollback']) {
             $this->revision = ($options['rollback'] == '') ? 'HEAD^' : $options['rollback'];
         } else {
             $this->revision = 'HEAD';
@@ -297,8 +290,7 @@ class gitcore {
 
         chdir($this->repo);
 
-        // log
-        $this->output('Starting deploy');
+        $this->output('Initializing deploy...');
 
         if (file_exists("$this->repo/.git")) {
 

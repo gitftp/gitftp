@@ -2,10 +2,10 @@
     <% if(s.ready == 0){ %>
         <div class="panel panel-default">
             <div class="panel-body">
-                <p class="text-center"><span style="font-size: 1.6em;">Not yet deployed</span>
-
+                <p class="text-center"><span style="font-size: 1.6em;">First deploy.</span>
                     <div class="space10"></div>
-                    <i class="fa fa-info"></i> Deploy time will depend on amount of files and number of branches to be deployed.
+                    <i class="fa fa-info"></i> ALl your files will be uploaded on the selected FTP servers.
+                    <br/> Deploy time will depend on the size and number of files.
                     <div class="space10"></div>
                     <% if(s.cloned == 2){ %>
                     <button type="button" class="btn btn-default btn-lg startdeploy" disabled="disabled"><i class="fa fa-spin fa-spinner fa-fw"></i> Deploy in progress</button>
@@ -13,7 +13,7 @@
                     <button type="button" class="btn btn-success btn-lg startdeploy"><i class="fa fa-coffee fa-fw"></i> Start deploy.</button>
                     <% } %>
                 </p>
-                
+
             </div>
         </div>
         <div class="space15"></div>
@@ -66,7 +66,7 @@
                 var icon = 'cloud';
                 break;
                 case '1': // from service.
-                var icon = '';
+                var icon = 'bitbucket';
                 break;
                 case '2': // first time.
                 var icon = 'code-fork';
@@ -113,7 +113,7 @@
     <% }); %>
 
     <% if(count > renderedCount){ %>
-        <button type="button" class="btn btn-default btn-block activity-data-records-view-more">View more</button>
+        <button type="button" class="btn btn-block activity-data-records-view-more"><i class="fa fa-arrow-down"></i> View more</button>
     <% } %>
 
     <script>
@@ -124,6 +124,7 @@
     <% if(activity.data.length){ %>
     </div>
     <% } %>
-    <br>
-    <br>
+<br>
+<br>
+<br>
 <% } %>

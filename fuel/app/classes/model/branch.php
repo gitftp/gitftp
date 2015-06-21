@@ -16,6 +16,24 @@ class Model_Branch extends Model {
     }
 
     /**
+     * Get env by ftp id.
+     *
+     * @param $ftp_id
+     * @param bool $direct
+     * @return $this
+     */
+    public function get_by_ftp_id($ftp_id, $direct = FALSE) {
+        $q = DB::select()->from($this->table)
+            ->where('ftp_id', $ftp_id);
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+        $q = $q->execute()->as_array();
+
+        return $q;
+    }
+
+    /**
      * get branches of project/deploy.
      * @param type $id ->
      * @param type $select
@@ -40,6 +58,15 @@ class Model_Branch extends Model {
         return $q;
     }
 
+    public function get_by_branch_name($branch_name, $select = NULL) {
+        $q = DB::select_array($select)->from($this->table)
+            ->where('user_id', $this->user_id)
+            ->and_where('branch_name', $branch_name)
+            ->execute()->as_array();
+
+        return $q;
+    }
+
     public function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {
@@ -53,11 +80,43 @@ class Model_Branch extends Model {
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
 
-    public function delete($id, $direct = FALSE) {
+    public function delete($branch_id, $direct = FALSE) {
+        $q = DB::select()
+            ->from($this->table)
+            ->where('id', $branch_id);
+
         if (!$direct) {
-            $user_id = $this->user_id;
-            $deployrow = DB::select()->from($this->table)->where('deploy_id', $id)->and_where('user_id', $user_id)->execute()->as_array();
+            $q = $q->and_where('user_id', $this->user_id);
         }
+
+        $q = $q->execute()->as_array();
+
+        if (count($q) !== 1) {
+            return FALSE;
+        }
+
+        $a = DB::delete($this->table)->where('id', $branch_id)->execute();
     }
 
+    /**
+     * Create a branch,
+     *
+     * @param $data -> set of data to create.
+     * @param null $user_id -> assign to user.
+     * @return object
+     */
+    public function create($data, $user_id = NULL) {
+        if (is_null($user_id)) {
+            $data['user_id'] = $this->user_id;
+        } else {
+            $data['user_id'] = $user_id;
+        }
+        $data['name'] = (!empty($data['name'])) ? $data['name'] : '(unnamed)';
+        $data['skip_path'] = (isset($data['skip_path'])) ? $data['skip_path'] : FALSE;
+        $data['purge_path'] = (isset($data['purge_path'])) ? $data['purge_path'] : FALSE;
+
+        $a = DB::insert($this->table)->set($data)->execute();
+
+        return $a;
+    }
 }

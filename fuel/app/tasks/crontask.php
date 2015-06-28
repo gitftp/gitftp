@@ -27,7 +27,7 @@ class Crontask {
             if ($is_active) {
                 continue;
             } else {
-                Gfcore::deploy_in_bg($deploy_id);
+                \Gfcore::deploy_in_bg($deploy_id);
             }
         }
     }
@@ -41,7 +41,6 @@ class Crontask {
     public function deploy($deploy_id) {
         $gfcore = new \Gfcore($deploy_id);
         $gfcore->deploy();
-
         return 'Done';
     }
 

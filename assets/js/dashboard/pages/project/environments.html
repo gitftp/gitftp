@@ -13,7 +13,7 @@
                     </span>
                     <br/>
                     <span class="onrevision">On revision: </span><span
-                        class="revision"><%= a.revision.substr(0, 6) %></span>
+                        class="revision"><%= (a.revision) ? a.revision.substr(0, 6) : '' %></span>
                     <span class="pull-right date">
                         last deploy <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
                     </span>

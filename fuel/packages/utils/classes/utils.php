@@ -65,24 +65,23 @@ class utils {
     /**
      * Test a ftp server, and if the path exists.
      *
-     * @param type $a
+     * @param $http_url
+     * @throws Exception
+     * @internal param type $a
      * @return string
      */
-    public static function test_ftp($a = array()) {
-        $b = array('hostname' => $a['host'], 'username' => $a['username'], 'password' => $a['pass'], 'timeout' => 30, 'port' => $a['port'], 'passive' => TRUE, 'ssl_mode' => ($a['scheme'] == 'ftps') ? TRUE : FALSE, 'debug' => TRUE);
+    public static function test_ftp($http_url) {
         try {
-            $c = \Fuel\Core\Ftp::forge($b);
-        } catch (Exception $ex) {
-            return $ex->getMessage();
-        }
-        try {
-            $c->change_dir($a['path']);
-        } catch (Exception $ex) {
-            return 'The directory ' . $a['path'] . ' does not exist in the FTP server.';
+            $conn = new bridge($http_url);
+
+            return TRUE;
+        } catch (Exception $e) {
+            $m = $e->getMessage();
+            $m = explode(': ', $m);
+            throw new Exception($m[count($m)-1]);
         }
 
-        return 'Ftp server is ready to rock.';
-        $c->close();
+        return FALSE;
     }
 
     /**
@@ -96,6 +95,7 @@ class utils {
      *
      * @param type $input -> payload.
      * @param type $deploy_id -> deploy to id optional
+     * @return array
      */
     public static function parsePayload($input, $deploy_id = NULL) {
 
@@ -124,7 +124,7 @@ class utils {
             $branch = $branch[count($branch) - 1];
 
             return array(
-                'user'         => $i->pusher->name,
+                'user'           => $i->pusher->name,
                 'avatar_url'     => $i->sender->avatar_url,
                 'hash'           => $i->after,
                 'post_data'      => serialize($i),
@@ -138,7 +138,7 @@ class utils {
             $lc = count($i->commits) - 1;
 
             return array(
-                'user'         => $i->commits[$lc]->author,
+                'user'           => $i->commits[$lc]->author,
                 'avatar_url'     => '',
                 'hash'           => $i->commits[$lc]->raw_node,
                 'post_data'      => serialize($i),

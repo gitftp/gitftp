@@ -14,14 +14,14 @@ class Model_Record extends Model {
     public $success = '1';
     public $failed = '0';
 
-    // deployed for the first time.
-    public $type_firstdeploy = '2'; // not used any more.
-
-    // deployed by the user.
+    // record type is standard, deployed by user for latest changes.
     public $type_manual = '0';
 
     // deployed by a online service, push hook.
     public $type_service = '1';
+
+    // deployed to a specific commit.
+    public $type_rollback = '2';
 
     // Wheather if to check for user related content.
     public $direct = FALSE;

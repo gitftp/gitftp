@@ -34,10 +34,6 @@ class Controller_Api_Records extends Controller_Apilogincheck {
         if (empty($record)) {
             echo '<p class="text-center" style="color: #aaa;font-size: 20px;">Sorry, no logs yet.</p>';
         } else {
-            echo '<pre>';
-            print_r($record);
-            echo '</pre>';
-            return ;
             $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding errors in deployments, If you aren\'t sure why your deploy failed, please contact us.<br><code> --- <br>';
             $record_n = new RecursiveIteratorIterator(new RecursiveArrayIterator($record));
             foreach ($record_n as $k => $v) {
@@ -58,7 +54,7 @@ class Controller_Api_Records extends Controller_Apilogincheck {
             echo '<p class="text-center" style="color: #aaa;font-size: 20px;">No payload found for given deploy.</p>';
         } else {
             echo '<pre>';
-            print_r(unserialize($record));
+            echo json_encode(unserialize($record), JSON_PRETTY_PRINT);
             echo '</pre>';
         }
 

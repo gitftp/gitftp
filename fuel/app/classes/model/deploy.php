@@ -35,24 +35,24 @@ class Model_Deploy extends Model {
 
             $record = new Model_Record();
             $branch = new Model_Branch();
-            $active_records = $record->get($v['id'], FALSE, FALSE, 2);
+            $active_records = $record->get($v['id'], FALSE, FALSE, $record->in_progress);
+            $queued_records = $record->get($v['id'], FALSE, FALSE, $record->in_queue);
             $active_count = count($active_records);
+            $queue_count = count($queued_records);
 
             if ($active_count != 0) {
-
                 $total_files = 0;
                 $processed_files = 0;
 
                 foreach ($active_records as $ar) {
                     $total_files += $ar['total_files'];
                     $processed_files += $ar['processed_files'];
-
                 }
 
                 $env = $branch->get_by_branch_id($active_records[0]['branch_id']);
                 $env = $env[0]['name'];
 
-                $a[$k]['status'] = "deploying to $env. $processed_files/$total_files";
+                $a[$k]['status'] = "1/$queue_count deploying to $env. $processed_files/$total_files";
 
             } else if ($v['cloned'] == 0) {
                 $a[$k]['status'] = 'To be initialized';
@@ -140,10 +140,8 @@ class Model_Deploy extends Model {
             'password'   => ($password) ? $password : '',
             'key'        => $key,
             'cloned'     => 0,
-            'deployed'   => 0,
             'status'     => '',
             'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
-            'ready'      => 0,
         ))->execute();
 
         foreach ($env as $k => $v) {

@@ -27,9 +27,15 @@ define([
                     'deploy_id': that.parent.id,
                 },
                 method: 'post',
-                dataType: 'html',
+                dataType: 'json',
             }).done(function (data) {
                 console.log(data);
+                if(data.status){
+                    noty({
+                        text: 'Deploy added to Queued. Will be deployed shortly.'
+                    });
+                    app_reload();
+                }
             });
         },
         getPayload: function (e) {

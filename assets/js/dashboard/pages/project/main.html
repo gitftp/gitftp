@@ -47,9 +47,8 @@
 
             <div class="pull-right">
                 <% if(s.cloned == 0){ %>
-                <strong><i class="fa fa-<%= (s.cloned == 0) ?  'times' : 'check' %>"></i> Processed</strong> |
+                <strong><i class="fa fa-<%= (s.cloned == 0) ?  'ban' : 'check' %>"></i> Processed</strong>
                 <% } %>
-                <strong><i class="fa fa-<%= (s.deployed == 0) ?  'times' : 'check' %>"></i> Deployed</strong>
             </div>
         </div>
         <div class="deploy-sub-page bb-loading project-activity-anim"></div>

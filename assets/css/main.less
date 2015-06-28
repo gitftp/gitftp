@@ -162,6 +162,10 @@ input, select {
   }
 }
 
+.shadow{
+  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+}
+
 .navbar-default {
 
   border-color: @bg !important;
@@ -337,18 +341,19 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-v-status {
-  padding: 5px 10px;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  padding: 6px 10px;
   border-radius: 4px;
-  margin-top: 20px;
-
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-image: linear-gradient(to bottom, #fff 0%, #f8f8f8 100%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   font-weight: normal;
   text-transform: uppercase;
   font-size: 12px;
   color: #444;
-  border: solid 1px #FAFAFA;
-  font-weight: 800;
+  /* border: solid 1px #FAFAFA; */
+  font-weight: bold;
   transition: all 1s;
   min-width: 100px;
   text-align: center;
@@ -356,13 +361,13 @@ h1, h2, h3, h4, h5, h6 {
 
 .project-co-loading {
   background-color: white;
-  border-color: #4cd964;
+  /*   border-color: #4cd964; */
   /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
-  background-image: linear-gradient(to bottom, #5ac8fa 0%, #4cd964 100%);
+  background-image: linear-gradient(to right, #5ac8fa 0%, #4cd964 100%);
   color: white;
   /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
   background-size: 400% 400%;
-  animation: statusprocessing 1s infinite ease;
+  background-position: 30% 0%;
 }
 
 @keyframes statusprocessing {
@@ -392,12 +397,6 @@ h1, h2, h3, h4, h5, h6 {
   border-bottom: solid 1px #ddd;
   padding-left: 0;
   padding-right: 0;
-}
-
-.active-cs {
-  background: #f8f8f8;
-  color: @base !important;
-  box-shadow: inset 2px 0px @base;
 }
 
 .fa-spin {
@@ -534,9 +533,11 @@ h1, h2, h3, h4, h5, h6 {
 .project-branches-env {
   .project-branch {
     margin-bottom: 15px;
-    border: solid 1px #ddd;
+//    border: solid 1px #ddd;
     border-radius: 4px;
     background: white;
+    .shadow;
+
     .buttons {
       width: 100%;
       background: none;
@@ -596,10 +597,11 @@ h1, h2, h3, h4, h5, h6 {
   .project-record-list {
     background: white;
     padding: 10px;
-    border: solid 1px #ddd !important;
+    /* border: solid 1px #ddd !important; */
     border-radius: 4px;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 5px;
+    .shadow;
 
     &:hover {
     }
@@ -642,7 +644,7 @@ h1, h2, h3, h4, h5, h6 {
     padding-top: 20px;
     padding-bottom: 20px;
 
-    &:hover, &:focus{
+    &:hover, &:focus {
       box-shadow: none !important;
       outline: none;
     }
@@ -703,11 +705,13 @@ h1, h2, h3, h4, h5, h6 {
       text-align: left;
     }
   }
+
   .edit-ftp {
     opacity: 0;
     transition: all .1s;
     transform: translate(0px, 10px);
   }
+
   &:hover {
     .edit-ftp {
       opacity: 1;
@@ -716,10 +720,34 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.list-group-item:first-child {
-  border-top-left-radius: 0px;
+.freshdeploy {
+  padding: 0 20px 10px;
+
+  .title {
+    font-size: 1.6em;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
 }
 
-.list-group-item:last-child {
-  border-bottom-left-radius: 0px;
+.projectview-siderbar{
+  .shadow;
+  a{
+    border: none;
+  }
+  a + a{
+    border-top: solid 1px #eee;
+  }
+  .active-cs {
+    background: #f8f8f8;
+    color: @base !important;
+    box-shadow: inset 2px 0px @base;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
+}
+
+.panel{
+  border: none;
+  .shadow;
 }

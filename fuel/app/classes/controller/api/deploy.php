@@ -99,7 +99,6 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
     }
 
     public function action_getall($id = NULL) {
-
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
         $record = new Model_Record();
@@ -298,7 +297,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
                 }
             }
 
-            Gfcore::deploy_in_bg($deploy_id);
+//            Gfcore::deploy_in_bg($deploy_id);
             echo json_encode(array(
                 'status' => TRUE,
             ));

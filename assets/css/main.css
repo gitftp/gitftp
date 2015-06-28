@@ -101,6 +101,9 @@ select:active {
   font-weight: bold;
   text-transform: uppercase;
 }
+.shadow {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+}
 .navbar-default {
   border-color: #eeeeee !important;
   background: #fff;
@@ -259,30 +262,32 @@ h6 {
   }
 }
 .project-v-status {
-  padding: 5px 10px;
+  position: absolute;
+  right: 0;
+  top: 25px;
+  padding: 6px 10px;
   border-radius: 4px;
-  margin-top: 20px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
   font-weight: normal;
   text-transform: uppercase;
   font-size: 12px;
   color: #444;
-  border: solid 1px #FAFAFA;
-  font-weight: 800;
+  /* border: solid 1px #FAFAFA; */
+  font-weight: bold;
   transition: all 1s;
   min-width: 100px;
   text-align: center;
 }
 .project-co-loading {
   background-color: white;
-  border-color: #4cd964;
+  /*   border-color: #4cd964; */
   /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
-  background-image: linear-gradient(to bottom, #5ac8fa 0%, #4cd964 100%);
+  background-image: linear-gradient(to right, #5ac8fa 0%, #4cd964 100%);
   color: white;
   /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
   background-size: 400% 400%;
-  animation: statusprocessing 1s infinite ease;
+  background-position: 30% 0%;
 }
 @keyframes statusprocessing {
   0% {
@@ -309,11 +314,6 @@ h6 {
   border-bottom: solid 1px #ddd;
   padding-left: 0;
   padding-right: 0;
-}
-.active-cs {
-  background: #f8f8f8;
-  color: #62c7f2 !important;
-  box-shadow: inset 2px 0px #62c7f2;
 }
 .fa-spin {
   animation-duration: .5s !important;
@@ -410,9 +410,9 @@ h6 {
 }
 .project-branches-env .project-branch {
   margin-bottom: 15px;
-  border: solid 1px #ddd;
   border-radius: 4px;
   background: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
 }
 .project-branches-env .project-branch .buttons {
   width: 100%;
@@ -466,10 +466,11 @@ h6 {
 .project-record-list-wrapper .project-record-list {
   background: white;
   padding: 10px;
-  border: solid 1px #ddd !important;
+  /* border: solid 1px #ddd !important; */
   border-radius: 4px;
-  margin-top: 5px;
+  margin-top: 10px;
   margin-bottom: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
 }
 .project-record-list-wrapper .project-record-list .status {
   font-size: 14px;
@@ -552,9 +553,31 @@ h6 {
   opacity: 1;
   transform: translate(0px, 0px);
 }
-.list-group-item:first-child {
-  border-top-left-radius: 0px;
+.freshdeploy {
+  padding: 0 20px 10px;
 }
-.list-group-item:last-child {
+.freshdeploy .title {
+  font-size: 1.6em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.projectview-siderbar {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+.projectview-siderbar a {
+  border: none;
+}
+.projectview-siderbar a + a {
+  border-top: solid 1px #eee;
+}
+.projectview-siderbar .active-cs {
+  background: #f8f8f8;
+  color: #62c7f2 !important;
+  box-shadow: inset 2px 0px #62c7f2;
+  border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+.panel {
+  border: none;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
 }

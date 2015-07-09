@@ -29,8 +29,8 @@ $(function () {
                 switch (data.status) {
                     case 0:
                         _problem({
-                            content      : 'This is temporary!, <br>Seems like your internet isn\'t working at the moment.',
-                            confirm      : function () {
+                            content: 'This is temporary!, <br>Seems like your internet isn\'t working at the moment.',
+                            confirm: function () {
                                 location.reload();
                                 return false;
                             },
@@ -39,8 +39,8 @@ $(function () {
                         break;
                     case 404:
                         _problem({
-                            content      : 'Page not found, <br><code>Error code: 404</code>',
-                            confirm      : function () {
+                            content: 'Page not found, <br><code>Error code: 404</code>',
+                            confirm: function () {
                                 history.back();
                             },
                             confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back'
@@ -48,8 +48,8 @@ $(function () {
                         break;
                     case 500:
                         _problem({
-                            content      : 'The code has gone crazy, <br><code>Error code: 500</code>',
-                            confirm      : function () {
+                            content: 'The code has gone crazy, <br><code>Error code: 500</code>',
+                            confirm: function () {
                                 history.back();
                             },
                             confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back'
@@ -57,8 +57,8 @@ $(function () {
                         break;
                     case 200:
                         _problem({
-                            content      : 'Something unexpected happened, <br><code>Error code: 200</code>',
-                            confirm      : function () {
+                            content: 'Something unexpected happened, <br><code>Error code: 200</code>',
+                            confirm: function () {
                                 history.back();
                             },
                             confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back'
@@ -69,28 +69,27 @@ $(function () {
                 }
             }).always(function (data) {
                 if (!data.status) {
-
                     if (data.reason == '10001') {
                         _problem({
-                            title        : 'Logged out',
-                            content      : 'You\'ve been logged out, please login to proceed.',
-                            confirm      : function () {
+                            title: 'Logged out',
+                            content: 'You\'ve been logged out, please login to proceed.',
+                            confirm: function () {
                                 var currentLocation = window.location.href;
-                                window.location.href = home_url + 'login?b=' + currentLocation;
+                                window.location.href = home_url + 'login?ref=' + currentLocation;
                             },
                             confirmButton: 'Login',
+                            cancelButton: false
                         });
                     }
-
                 }
             });
     }
     window._problem = function (a) {
         var b = {};
         $.extend(b, a, {
-            title             : a.title || 'Problem',
-            content           : a.text || 'Please try again later.',
-            icon              : 'fa fa-warning',
+            title: a.title || 'Problem',
+            content: a.content || 'Please try again later.',
+            icon: 'fa fa-warning',
             confirmButtonClass: 'btn-warning'
         });
         $.confirm(b);

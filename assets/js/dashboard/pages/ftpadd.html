@@ -1,31 +1,34 @@
 <%
-if (ftp.length != 0){
-var f = ftp[0];
-var e = true;
-}else{
-var e = false;
-}
+    if (ftp.length != 0){
+    var f = ftp[0];
+    var e = true;
+    }else{
+    var e = false;
+    }
 %>
-
-<h3>
-    <%= (e) ? 'Edit' : 'Add' %> FTP Server
-    <div class="pull-right">
-        <% if(e){ %>
-        <button style="button" data-id="<%= f['id'] %>" class="btn ftp-server-delete btn-danger">
-            <i class="fa fa-trash"></i>&nbsp; Remove
-        </button>
-        <% } %>
-        <a href="#ftp" class="btn btn-default"><i class="fa fa-arrow-left"></i>&nbsp; List Servers</a>
+<div class="page-head">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="head"><%= (e) ? 'Edit' : 'Add' %> FTP Server</div>
+            <div class="subhead"></div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                <% if(e){ %>
+                <button style="button" data-id="<%= f['id'] %>" class="btn ftp-server-delete btn-danger">
+                    <i class="fa fa-trash"></i>&nbsp; Remove
+                </button>
+                <% } %>
+                <a href="#ftp" class="btn btn-default btn-clean"><i class="fa fa-arrow-left"></i>&nbsp; List Servers</a>
+            </div>
+        </div>
     </div>
-</h3>
+</div>
 <div class="head-body-divider"></div>
-<p>
-    Add a FTP server's configuration, later you can assign it for deployment.
-</p>
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-6 ">
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body panel-body-material">
                 <div class="addftp-div">
                     <form action="" class="" id="addftp-form">
 
@@ -39,6 +42,11 @@ var e = false;
                                    value="<%= (e) ? f['name'] : '' %>">
                         </div>
                         <div class="form-group">
+                            <label>Schema</label>
+                            <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"
+                                   value="<%= (e) ? f['scheme'] : '' %>">
+                        </div>
+                        <div class="form-group">
                             <label>Host name</label>
                             <input type="text" name="host" class="form-control" placeholder="example.com / IP address"
                                    value="<%= (e) ? f['host'] : '' %>">
@@ -50,46 +58,57 @@ var e = false;
                         </div>
                         <div class="form-group">
                             <label>FTP password</label>
-                            <input type="password" name="pass" class="form-control" placeholder="Password"
-                                   value="<%= (e) ? f['pass'] : '' %>">
-                        </div>
-                        <div class="form-group">
-                            <label>Schema</label>
-                            <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"
-                                   value="<%= (e) ? f['scheme'] : '' %>">
+                            <% if(e && f['pset'] === true){ %>
+                                <div class="ftp-form-password-set">
+                                    <p class="form-control-static"><span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a class="ftp-form-password-set-change"> <i class="fa fa-pencil"></i> edit</a></p>
+                                </div>
+                                <div class="ftp-form-password-field" style="display: none">
+                                    <div class="input-group">
+                                        <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-block btn-clean ftp-form-password-set-cancel"><i class="fa fa-times"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            <% }else{ %>
+                                <input type="password" name="pass" class="form-control" placeholder="Password" value="">
+                            <% } %>
                         </div>
                         <div class="form-group">
                             <label>Path to deploy</label>
                             <input type="text" name="path" class="form-control"
                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
-
                             <p class="help-block">Path must contain a leading slash</p>
                         </div>
                         <div class="form-group">
                             <label>FTP port</label>
-                            <input type="text" name="port" class="form-control" placeholder="Port of FTP"
+                            <input type="text" name="port" class="form-control" placeholder="Port of FTP. EG: 21"
                                    value="<%= (e) ? f['port'] : '' %>">
                         </div>
+                        <div class="space10"></div>
                         <button type="submit" class="btn btn-success"><%= (e) ? 'Update' : 'Save' %></button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-6">
         <div class="panel panel-default">
-            <div class="panel-body">
+            <div class="panel-body panel-body-material">
                 <p class="text-center"><strong>One line config:</strong>
                     <br>
                     <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
                     <br>
                     <br>
-                    <button type="button" class="btn btn-default btn-lg ftp-connectionTest"><i
+                    <button type="button" class="btn btn-default btn-clean ftp-connectionTest"><i
                             class="fa fa-exchange fa-fw"></i> Test connection
                     </button>
                 </p>
             </div>
         </div>
+        <pre>
+            <%= JSON.stringify(f, true) %>
+        </pre>
     </div>
 </div>
 

@@ -1,10 +1,18 @@
-<h3>
-    FTP servers
-    <a href="#ftp/add" class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i> Add Server</a>
-</h3>
-<p>
-    Wherein the files are deployed.
-</p>
+<div class="page-head">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="head">FTP servers</div>
+            <div class="subhead">Wherein the files are deployed.</div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                <!--<a href="#ftp/add" class="btn btn-success">Add Server</a>-->
+                <a href="#ftp/add" data-toggle="tooltip" data-placement="left" title="Add Server" class="btn btn-success btn-circle btn-circle-lg"><i class="fa fa-plus"></i></a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="head-body-divider"></div>
     
 <% if(list.length > 0){ %>
@@ -12,7 +20,7 @@
 
     <% $.each(list, function(i, a){ %>
 
-    <div class="ftp-servers-list col-md-6" style="cursor:pointer" data-id="<%= a.id %>">
+    <div class="ftp-servers-list col-md-6 col-sm-6" style="cursor:pointer" data-id="<%= a.id %>">
         <div class="project-list-block">
             <div class="header">
                 <p>
@@ -56,6 +64,9 @@
 
 <% } %>
 
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>
 
 <br>
 <br>

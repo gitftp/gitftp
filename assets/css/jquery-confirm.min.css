@@ -1,10 +1,10 @@
 /*!
- * jquery-confirm v1.5.3 (http://craftpip.github.io/jquery-confirm/)
+ * jquery-confirm v1.7.0 (http://craftpip.github.io/jquery-confirm/)
  * Author: boniface pereira
  * Website: www.craftpip.com
  * Contact: hey@craftpip.com
  *
- * Copyright 2013-2014 jquery-confirm
+ * Copyright 2013-2015 jquery-confirm
  * Licensed under MIT (https://github.com/craftpip/jquery-confirm/blob/master/LICENSE)
  */
 body.jconfirm-noscroll {
@@ -38,10 +38,10 @@ body.jconfirm-noscroll {
     bottom: 0;
     z-index: 99999999;
     font-family: inherit;
-    overflow-y: auto;
+    overflow: hidden;
 }
 .jconfirm .jconfirm-bg {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -52,6 +52,14 @@ body.jconfirm-noscroll {
 }
 .jconfirm .jconfirm-bg.seen {
     opacity: 1;
+}
+.jconfirm .jconfirm-scrollpane {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
 }
 .jconfirm .jconfirm-box {
     background: white;
@@ -80,10 +88,10 @@ body.jconfirm-noscroll {
 }
 .jconfirm .jconfirm-box div.content {
     padding-top: 10px;
-    padding: 10px 15px 10px;
-    max-height: 350px;
-    overflow: hidden;
-    overflow-y: auto;
+    padding: 10px 15px 10px
+    /*max-height: 350px;*/
+    /*overflow: scroll;*/
+    /*overflow-y: auto;*/
 }
 .jconfirm .jconfirm-box div.content:empty {
     height: 40px;
@@ -125,7 +133,6 @@ body.jconfirm-noscroll {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
 }
-
 .jconfirm.white .jconfirm-box .buttons {
     float: right;
 }
@@ -156,7 +163,6 @@ body.jconfirm-noscroll {
     border-radius: 5px;
     color: white;
 }
-
 .jconfirm.black .jconfirm-box .buttons {
     float: right;
 }
@@ -350,4 +356,33 @@ body.jconfirm-noscroll {
 }
 .jconfirm .jconfirm-box.anim-none {
     display: none;
+}
+.jconfirm.supervan .jconfirm-bg {
+    background-color: rgba(54, 70, 93, 0.95);
+}
+.jconfirm.supervan .jconfirm-box {
+    background-color: transparent;
+}
+.jconfirm.supervan .jconfirm-box div.title {
+    text-align: center;
+    color: white;
+    font-size: 28px;
+    font-weight: normal;
+}
+.jconfirm.supervan .jconfirm-box div.content {
+    text-align: center;
+    color: white;
+}
+.jconfirm.supervan .jconfirm-box .buttons {
+    text-align: center;
+}
+.jconfirm.supervan .jconfirm-box .buttons button {
+    font-size: 16px;
+    border-radius: 2px;
+    background: #303f53;
+    text-shadow: none;
+    border: none;
+    color: white;
+    width: 25%;
+    padding: 10px;
 }

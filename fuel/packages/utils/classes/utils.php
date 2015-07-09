@@ -2,6 +2,25 @@
 
 class utils {
 
+
+    public static function gitCommand($command, $repoPath = NULL) {
+        if (!$repoPath) {
+            $repoPath = getcwd();
+        }
+
+        $command = 'git --git-dir="' . $repoPath . '/.git" --work-tree="' . $repoPath . '" ' . $command;
+
+        return utils::runCommand($command);
+    }
+
+    public static function runCommand($command) {
+        // Escape special chars in string with a backslash
+        $command = escapeshellcmd($command);
+        exec($command, $output);
+
+        return $output;
+    }
+
     /**
      * Executes an Git command and returns the results.
      * if there is no output returns false.
@@ -70,6 +89,7 @@ class utils {
      * @internal param type $a
      * @return string
      */
+
     public static function test_ftp($http_url) {
         try {
             $conn = new bridge($http_url);
@@ -78,10 +98,8 @@ class utils {
         } catch (Exception $e) {
             $m = $e->getMessage();
             $m = explode(': ', $m);
-            throw new Exception($m[count($m)-1]);
+            throw new Exception($m[count($m) - 1]);
         }
-
-        return FALSE;
     }
 
     /**
@@ -182,6 +200,22 @@ class utils {
     public static function log($string) {
         DB::insert('log')->set(array('a' => $string,))->execute();
     }
+
+    public static function escapeHtmlChars($string){
+
+        if(is_array($string)){
+            foreach($string as $k => $v){
+                if(!is_array($v) && $k !== 'password' && $k !== 'pass'){
+                    $string[$k] = trim(htmlspecialchars($v, ENT_QUOTES));
+                }
+            }
+        }else{
+            $string = htmlspecialchars($string, ENT_QUOTES);
+        }
+
+        return $string;
+    }
+
 }
 
 /* end of file auth.php */

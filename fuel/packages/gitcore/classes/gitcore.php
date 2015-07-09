@@ -222,6 +222,9 @@ class gitcore {
          * Options is passed from the constructor instead from commandline.
          */
         $this->parseOptions($options);
+
+        // Chdir is once done in gfcore.
+        // Here once again.
         chdir($this->repo);
     }
 
@@ -230,16 +233,21 @@ class gitcore {
 
         if (file_exists("$this->repo/.git")) {
 
-            // TODO: list files action.
+            // TODO: list files action. LATER.
             if ($this->listFiles) {
-                $this->log("Listing files.");
+                $this->log("Listing files. but why?");
             }
             $this->checkSubmodules($this->repo);
+
+            if($this->revision === 'HEAD'){
+                // Todo: pass hash instead of HEAD.
+                echo 'THIS IS HEADDDD';
+            }
             $this->deploy($this->revision);
 
         } else {
 
-            $this->log('error', 'ERROR 404. Not a git repository');
+            $this->log('error', 'ERROR 404. Not a git repository.');
             throw new \Exception("'{$this->repo}' is not Git repository.");
         }
 
@@ -252,6 +260,7 @@ class gitcore {
      */
     public function currentRevision() {
         $currentRevision = $this->gitCommand('rev-parse HEAD');
+
         return $currentRevision[0];
     }
 
@@ -421,7 +430,7 @@ class gitcore {
 
             $options = array_merge($defaults, $options);
 
-            // Determine if a default server is configured
+            // Determine if a default server is configured : gitftp only uses default.
             if ($name == 'default') {
                 $this->defaultServer = TRUE;
             }
@@ -489,6 +498,7 @@ class gitcore {
         $this->output("CONSOLE: $command");
         exec($command, $output);
         $this->output($output);
+
         return $output;
     }
 
@@ -641,10 +651,11 @@ class gitcore {
 
     /**
      * Deploy (or list) changed files
-     *
      * @param string $revision
      */
     public function deploy($revision = 'HEAD') {
+        $this->output('deploying to ' . $revision);
+
         $this->prepareServers();
 
         // Loop through all the servers in deploy.ini
@@ -1003,7 +1014,12 @@ class gitcore {
     public function purge($purgeDirs) {
         foreach ($purgeDirs as $dir) {
             $origin = $this->connection->pwd();
-            $this->connection->cd($dir);
+            try{
+                $this->connection->cd($dir);
+            }catch(Exception $e){
+                $this->log('Ignoring directory "'.$dir.'", reason: doesn\'t exist.');
+                continue;
+            }
 
             if (!$tmpFiles = $this->connection->ls()) {
                 $this->output("Nothing to purge in {$dir}");

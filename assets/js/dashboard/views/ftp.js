@@ -2,6 +2,14 @@ define([
     'text!pages/ftplist.html'
 ], function (ftplist) {
 
+
+    //var ftpcollection = Backbone.Collection.extend({
+    //    url: base+ 'api/ftp/getall',
+    //    parse: function(response){
+    //        return response.data;
+    //    }
+    //});
+
     d = Backbone.View.extend({
         el: app.el,
         events: {
@@ -19,13 +27,21 @@ define([
             var that = this;
             this.$el.html(this.el = $('<div class="ftplist-wrapper bb-loading">'));
 
-            $.getJSON(base + 'api/ftp/getall', function (data) {
+            _ajax({
+                url: base+ 'api/ftp/getall',
+                method: 'get',
+                dataType: 'json',
+            }).done(function(data){
                 var template = _.template(ftplist);
                 template = template({list: data.data});
                 that.el.html(template);
-                
-                $('[data-toggle="tooltip"]').tooltip();
             });
+
+
+            //test
+            //window.ftps = new ftpcollection();
+            //console.log(ftps);
+
         },
     });
 

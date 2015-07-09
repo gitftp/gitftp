@@ -52,7 +52,7 @@ class Model_Deploy extends Model {
                 $env = $branch->get_by_branch_id($active_records[0]['branch_id']);
                 $env = $env[0]['name'];
 
-                $a[$k]['status'] = "1/$queue_count deploying to $env. $processed_files/$total_files";
+                $a[$k]['status'] = "Deploying to $env | $processed_files of $total_files files";
 
             } else if ($v['cloned'] == 0) {
                 $a[$k]['status'] = 'To be initialized';
@@ -140,7 +140,6 @@ class Model_Deploy extends Model {
             'password'   => ($password) ? $password : '',
             'key'        => $key,
             'cloned'     => 0,
-            'status'     => '',
             'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
         ))->execute();
 

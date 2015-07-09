@@ -59,8 +59,9 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
 
     public function post_updatebranch() {
         try {
-
             $i = Input::post();
+            $i = utils::escapeHtmlChars($i);
+
             $dataToSave = array();
             $branch = new Model_Branch();
             $branch_data = $branch->get_by_branch_id($i['branch_id'], array('ftp_id'));
@@ -78,7 +79,8 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
                 if ($i['ftp_id'] !== $branch_data[0]['ftp_id']) {
                     $dataToSave['ftp_id'] = $i['ftp_id'];
                     $dataToSave['ready'] = FALSE;
-                    $message = '<code>FTP server has been changed, please re-deploy the files to the new server.</code>';
+                    $message = '<i class="fa fa-info fa-fw blue red"></i> You\'ve successfully Re-linked a new FTP server.';
+                    $dataToSave['revision'] = '';
                 }
             }
 

@@ -1,6 +1,7 @@
 define([
     'text!pages/project/environments-manage.html',
-], function (envHtml) {
+    'text!pages/project/environments-manage-showftp.html',
+], function (envHtml, ftpView) {
     /**
      * Project Env.
      */
@@ -8,6 +9,30 @@ define([
         el: app.el,
         events: {
             'submit .project-branch-env-save-form': 'saveBranchForm',
+            'click .showftpdetails': 'showFtpDetails'
+        },
+        showFtpDetails: function(e){
+            e.preventDefault();
+            var ftp = this.ftpdata.data[0];
+            console.log(this.ftpdata.data[0]);
+            var template = _.template(ftpView);
+            template = template({
+                ftp: ftp
+            });
+            var ftp_id = ftp.id;
+            $.confirm({
+                title: ' ',
+                content: template,
+                confirmButton: 'Manage FTP',
+                confirmButtonClass: 'btn-default btn-clean',
+                cancelButtonClass: 'btn-primary',
+                cancelButton: 'Dismiss',
+                confirm: function(){
+                    Router.navigate('#/ftp/edit/'+ ftp_id, {
+                        trigger: true
+                    });
+                }
+            });
         },
         saveBranchForm: function (e) {
             var $this = $(e.currentTarget);
@@ -24,11 +49,11 @@ define([
                     app_reload();
                     $.alert({
                         title: 'Updated',
-                        content: 'Settings have been updated.' + (data.message) ? '<br>' + data.message : ''
+                        content: 'Environment have been updated.' + ((data.message) ? '<br>' + data.message : '')
                     });
                 } else {
                     noty({
-                        text: data.reason
+                        text: '<i class="fa fa-warning fa-fw"></i> '+data.reason
                     });
                 }
             });
@@ -70,6 +95,7 @@ define([
                 ftplist = ftplist[0];
                 console.log(ftpdata);
                 console.log(ftplist);
+                that.ftpdata = ftpdata;
 
                 that.template = _.template(envHtml);
                 var subPage = that.template({

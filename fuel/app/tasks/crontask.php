@@ -9,10 +9,6 @@ namespace Fuel\Tasks;
  */
 class Crontask {
 
-    public function run() {
-
-    }
-
     /**
      * Iterates through all deploy, finding which one is not deployed, and starts its deployment.
      */
@@ -20,7 +16,7 @@ class Crontask {
         $deploy = new \Model_Deploy();
         $record = new \Model_Record();
 
-        $projects = $deploy->get(NULL, array('id', 'cloned', 'status'), TRUE);
+        $projects = $deploy->get(NULL, array('id', 'cloned'), TRUE);
         foreach ($projects as $project) {
             $deploy_id = $project['id'];
             $is_active = $record->is_queue_active($deploy_id);
@@ -50,5 +46,18 @@ class Crontask {
     public function test() {
 //        Bootstrapper::deploy_in_bg($deploy_id);
         echo shell_exec('php /var/www/html/oil refine crontask:deploy 17');
+    }
+
+    /**
+     * Excecution time test
+     */
+    public function time(){
+        echo ini_get('max_execution_time');
+
+        $i = 0;
+        while (true){
+            fwrite(STDOUT, "$i\n");
+            $i +=1;
+        }
     }
 }

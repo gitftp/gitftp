@@ -45,5 +45,6 @@ require([
     });
     process.init();
     Backbone.history.start();
+    $('[data-toggle="tooltip"]').tooltip();
 
 });

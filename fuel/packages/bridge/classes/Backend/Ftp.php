@@ -70,7 +70,7 @@ class FTP_bridge implements Backend {
 		if(!ftp_login($this->conn, $user, $pass)) {
 			throw new \Exception("Could not login to '{$data['host']}' as '$user'");
 		}
-		
+
 		//Use firewall friendly passive mode
 		if(!ftp_pasv($this->conn, true)) {
 			trigger_error("Passive mode failed",\E_USER_WARNING);

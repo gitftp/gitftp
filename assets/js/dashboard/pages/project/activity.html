@@ -69,16 +69,19 @@
                 var icon = 'code-fork';
                 }
             %>
-
                     <i class="deploystate-icon fa fa-<%= icon %> fa-fw pull-left"></i>
                     <span class="status status-<%= a.status %>"><%= ct %> | <span class="dynamicTime" data-toggle="tooltip" data-placement="top" title="<%= moment(timestamp(a.date)).format('DD/MM/YYYY hh:mm:ss a') %>" data-timestamp="<%= a.date %>"></span></span>
                     <div class="pull-right link-data">
+                        <% if(a.raw){ %>
                         <a href="#" class="watchRawData" data-id="<%= a.id %>" title="View raw console data" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-terminal fa-fw"></i> Log
                         </a>
+                        <% } %>
+                        <% if(a.post_data){ %>
                         <a href="#" class="watchPayload" data-id="<%= a.id %>" title="View Payload" data-toggle="tooltip" data-placement="top">
                             <i class="fa fa-gear fa-fw"></i> Payload
                         </a>
+                        <% } %>
                     </div>
                 <br/>
                     <i class="fa fa-<%= ic %>" data-toggle="tooltip" data-placement="right" title="<%= ct %>" style="color: #<%= co %> "></i>&nbsp;&nbsp; <i class="fa fa-leaf green"></i> <span class="blue"><%= a.branch[0]['name'] %></span> <small><%= (a.record_type == 2) ? ' (First deploy)' : '' %></small>
@@ -87,7 +90,7 @@
                     <% }else if(a.hash_before == a.hash){ %>
                         &nbsp;&nbsp;<code>No files changed</code>
                     <% }else{ %>
-                        &nbsp;&nbsp;<code><%= (a.hash_before) ? a.hash_before.substr(0, 6) : '' %><%= (a.hash_before) ? '->' : '' %><%= (a.hash) ? a.hash.substr(0, 6) : '' %></code>
+                        &nbsp;&nbsp;<code><%= (a.hash_before) ? a.hash_before.substr(0, 6) : '' %><%= (a.hash_before) ? ' -> ' : '' %><%= (a.hash) ? a.hash.substr(0, 6) : '' %></code>
                     <% } %>
                     <strong class="pull-right">deployed <%= a.amount_deployed %></strong>
                 <br/>
@@ -113,9 +116,9 @@
         <button type="button" class="btn btn-block activity-data-records-view-more"><i class="fa fa-arrow-down"></i> View more</button>
     <% } %>
 
-    <script>
-        $('[data-toggle="tooltip"]').tooltip();
-    </script>
+        <script>
+            $('[data-toggle="tooltip"]').tooltip();
+        </script>
 
 <% if(more == 'false'){ %>
     <% if(activity.data.length){ %>

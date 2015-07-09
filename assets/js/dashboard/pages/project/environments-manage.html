@@ -1,130 +1,116 @@
 <div class="panel panel-default branch-single-view">
-    <div class="panel-body">
-        <p class="branch-name">
-            <i class="fa fa-leaf fa-fw green"></i> <%= branch.name %>
-        </p>
+    <div class="panel-body panel-body-material">
+        <div class="branch-name">
+            <i class="fa fa-leaf green"></i>&nbsp; <%= branch.name %>
 
-        <div style="height: 7px;"></div>
+            <div class="pull-right">
+                <div class="dropdown">
+                    <button id="branch-settings" class="btn btn-default btn-clean dropdown-toggle" type="button"
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i
+                            class="fa fa-wrench"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-right dropdown-menu-material"
+                        aria-labelledby="branch-settings">
+                        <li><a href="#" class=""> <i class="fa fa-recycle fa-fw"></i>&nbsp; Reset environment</a></li>
+                        <li><a href="#" class="red"> <i class="fa fa-trash-o fa-fw"></i>&nbsp; Remove</a></li>
+                    </ul>
+                </div>
+            </div>
+
+        </div>
+        <div class="space15"></div>
         <div class="row">
-            <div class="col-md-6">
-                <p><span><strong>Enviornment</strong></span></p>
+            <form action="" class="form-horizontal project-branch-env-save-form">
+                <div class="col-md-6">
+                    <input type="hidden" name="branch_id" value="<%= branch.id %>"/>
 
-                <form action="" class="form-horizontal project-branch-env-save-form">
-
-                    <input type="hidden" name="branch_id" value="<%= branch.id %>" />
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="" class="col-sm-3 control-label">
                             Name:
                         </label>
 
-                        <div class="col-sm-10">
-                            <input type="text" value="<%= branch.name %>" class="form-control" name="name" />
+                        <div class="col-sm-9">
+                            <input type="text" value="<%= branch.name %>" class="form-control" name="name"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="" class="col-sm-3 control-label">
                             Branch:
                         </label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <p class="form-control-static">
                                 <i class="fa fa-code-fork"></i> <%= branch.branch_name %>
                             </p>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
-                            Auto:
+                        <label for="" class="col-sm-3 control-label">
+                            Revision:
                         </label>
 
-                        <div class="col-sm-10">
-                            <div class="checkbox gf-checkbox">
-                                <input <%= (branch.auto == 1) ? 'checked' : '' %> type="checkbox" id="autodeploycheckbox" name="auto"/>
-                                <label for="autodeploycheckbox">Auto deploy</label>
-                            </div>
-                            <p class="help-block">Deploy changes when pushed to <i class="fa fa-code-fork"></i> '<%= branch.branch_name %>'.</p>
+                        <div class="col-sm-9">
+                            <% if(branch.revision){ %>
+                            <!--<p class="form-control-static">-->
+                                <!--<code><%= branch.revision %></code>-->
+                            <!--</p>-->
+                            <input type="text" readonly value="<%= branch.revision %>" class="form-control mono"/>
+                            <% }else{ %>
+                            <p class="form-control-static">
+                                Not deployed on Remote yet.
+                            </p>
+                            <% } %>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="" class="col-sm-3 control-label">
+                            Auto:
+                        </label>
+
+                        <div class="col-sm-9">
+                            <div class="checkbox gf-checkbox">
+                                <input <%= (branch.auto == 1) ? 'checked' : '' %> type="checkbox"
+                                id="autodeploycheckbox" name="auto"/>
+                                <label for="autodeploycheckbox">Auto deploy</label>
+                            </div>
+                            <p class="help-block">Deploy changes when pushed to <i class="fa fa-code-fork"></i> '<%=
+                                branch.branch_name %>'.</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="col-sm-3 control-label">
                             FTP:
                         </label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <select name="ftp_id" id="" class="form-control">
                                 <option selected value="<%= ftp.id %>"><%= ftp.name %> (selected)</option>
                                 <% $.each(ftplist.data, function(i, f){ %>
                                 <% JSON.stringify(f) %>
-                                    <option value="<%= f.id %>"><%= f.name %></option>
+                                <option value="<%= f.id %>"><%= f.name %></option>
                                 <% }) %>
                             </select>
+
+                            <p class="help-block">
+                                <em>Current: <%= ftp.name %></em> — <a href="#" class="showftpdetails">Show details</a>
+                            </p>
                         </div>
                     </div>
                     <div style="height: 10px;"></div>
                     <button type="submit" class="btn btn-success">Update</button>
-                </form>
-            </div>
-            <div class="col-md-6">
-                <p><span><strong>FTP details</strong></span> <a href="#/ftp/edit/<%= ftp.id %>" class="edit-ftp pull-right"><i class="fa fa-cog"></i> manage ftp</a> </p>
-                <table class="table table-condensed">
-                    <tr>
-                        <td>
-                            Name:
-                        </td>
-                        <td>
-                            <%= ftp.name %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Host:
-                        </td>
-                        <td>
-                            <%= ftp.host %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Username:
-                        </td>
-                        <td>
-                            <%= ftp.username %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Path to deploy:
-                        </td>
-                        <td>
-                            <%= ftp.path %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Port:
-                        </td>
-                        <td>
-                            <%= ftp.port %>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            Scheme:
-                        </td>
-                        <td>
-                            <%= ftp.scheme %>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="space5"></div>
+                    <div class="well">
+                        <div class="form-group">
+                            <label for="">Skip below files.</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
-    <div class="panel-footer">
-        <%= (branch.date) ? '<span class="pull-right">Last deploy on: '+moment(timestamp(branch.date)).format('D/MMMM/YYYY')+'</span>' : '' %>
-        <div class="clearfix"></div>
-    </div>
 </div>
-
 
 <pre>
 <%= JSON.stringify(branch) %>
@@ -135,3 +121,8 @@
 <pre>
 <%= JSON.stringify(ftp) %>
 </pre>
+
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>

@@ -1,14 +1,33 @@
 define([
     'text!pages/ftpadd.html'
 ], function (ftpadd) {
-
     d = Backbone.View.extend({
-        el       : app.el,
-        events   : {
-            'submit #addftp-form'      : 'addftp',
-            'keyup #addftp-form input' : 'oneline',
+        el: app.el,
+        events: {
+            'submit #addftp-form': 'addftp',
+            'keyup #addftp-form input': 'oneline',
             'click .ftp-connectionTest': 'testFtp',
-            'click .ftp-server-delete' : 'deleteftp',
+            'click .ftp-server-delete': 'deleteftp',
+            'click .ftp-form-password-set-change': 'passwordFieldToggle',
+            'click .ftp-form-password-set-cancel': 'passwordFieldToggle',
+        },
+        passwordFieldToggle: function (e) {
+            e.preventDefault();
+            var $this = $(e.currentTarget);
+
+            var $set = $('.ftp-form-password-set'),
+                $field = $('.ftp-form-password-field');
+
+            if ($field.is(':visible')) {
+                $field.find('input').prop('disabled', true);
+                $field.hide();
+                $set.show();
+            } else {
+                $field.show();
+                $set.hide();
+                $field.find('input').prop('disabled', false);
+            }
+            this.oneline();
         },
         deleteftp: function (e) {
             e.preventDefault();
@@ -16,34 +35,70 @@ define([
             var id = $this.attr('data-id');
             var that = this;
             $this.find('i').removeClass('fa-trash').addClass('fa-spin fa-spinner').attr('disabled', true);
-            $.confirm({
-                title  : 'Are you sure?',
-                content: 'Are you sure to remove the FTP server.<br><i class="fa fa-info"></i> files in the server will remain intact.',
-                confirm: function () {
-                    $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
-                    $.getJSON(base + 'api/ftp/delftp/' + id, function (data) {
-                        if (data.status) {
-                            console.log(data);
-                            noty({
-                                text: 'Deleted FTP server.',
+
+            _ajax({
+                url: base + 'api/ftp/isftpinuse',
+                data: {
+                    id: id,
+                },
+                method: 'get',
+                dataType: 'json',
+            }).done(function (data) {
+                if (!data.status) {
+                    $.confirm({
+                        title: 'Are you sure?',
+                        content: 'Are you sure to remove the FTP server.<br><i class="fa fa-info"></i> Files on this server will not be deleted.',
+                        confirm: function () {
+                            $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
+
+                            _ajax({
+                                url: base + 'api/ftp/delftp/' + id,
+                                method: 'get',
+                                dataType: 'json',
+                            }).done(function (data) {
+                                if (data.status) {
+                                    console.log(data);
+                                    noty({
+                                        text: 'Deleted FTP server.',
+                                    });
+                                    Router.navigate('ftp', {
+                                        trigger: true
+                                    });
+                                } else {
+                                    $.alert({
+                                        'title': 'Something bad happened',
+                                        'content': data.reason
+                                    });
+                                }
                             });
-                            Router.navigate('ftp', {
-                                trigger: true
+                        },
+                        cancel: function () {
+                            $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
+                        },
+                        confirmButton: 'Remove',
+                    });
+                } else {
+                    console.log(data.used_in);
+                    branch = data.used_in[0];
+                    $.confirm({
+                        title: 'Linked with — <i class="fa fa-cloud"></i> '+branch['project_name'],
+                        content: 'In order to remove this ftp, please unlink it from the existing enviornment. ' +
+                        '<br> <a target="_blank" href="#/project/'+branch['deploy_id']+'/environments/manage/'+branch['id']+'">'+branch['project_name']+' - <i class="fa fa-leaf green"></i> '+branch['branch_name']+'</a>',
+                        confirmButton: 'Unlink',
+                        cancelButton: 'Dismiss',
+                        confirm: function(){
+                            Router.navigate('#/project/'+branch['deploy_id']+'/environments/manage/'+branch['id'], {
+                                trigger: true,
                             });
-                        } else {
-                            $.alert({
-                                'title'  : 'Something bad happened',
-                                'content': data.reason
-                            });
+                        },
+                        cancel: function () {
+                            $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                         }
                     });
-                },
-                cancel : function () {
-                    $this.find('i').addClass('fa-trash').removeClass('fa-spin fa-spinner').removeAttr('disabled');
                 }
             });
         },
-        testFtp  : function (e) {
+        testFtp: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             var form = $('#addftp-form').serializeArray();
@@ -51,25 +106,25 @@ define([
             $this.prop('disabled', true);
 
             _ajax({
-                url     : base + 'api/ftp/testftp',
+                url: base + 'api/ftp/testftp',
                 dataType: 'json',
-                method  : 'post',
-                data    : form
+                method: 'post',
+                data: form
             }).done(function (d) {
                 $.alert({
-                    title  : (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
-                    content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: <code>' + d.reason + '</code>'
+                    title: (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
+                    content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: <code>' + d.reason + '</code>',
                 });
                 $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
                 $this.prop('disabled', false);
             });
         },
-        oneline  : function () {
+        oneline: function () {
             var $target = $('.ftp-oneline');
             var str = '';
             var host = $('input[name="host"]').val();
             var username = $('input[name="username"]').val();
-            var pass = $('input[name="pass"]').val();
+            var pass = $('input[name="pass"]:not(:disabled)').val();
             var scheme = $('input[name="scheme"]').val();
             var path = $('input[name="path"]').val();
             var port = $('input[name="port"]').val();
@@ -83,7 +138,11 @@ define([
                 if (username) {
                     str += username;
                     if (pass) {
-                        str += ':' + pass;
+                        pass = pass.split('');
+                        pass = $.map(pass, function () {
+                            return '*';
+                        });
+                        str += ':' + pass.join('');
                     }
                     str += '@';
                 }
@@ -108,16 +167,16 @@ define([
 
             $target.html(str);
         },
-        render   : function (id) {
+        render: function (id) {
             var that = this;
 
             this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
             if (id) {
 
                 _ajax({
-                    url     : base + 'api/ftp/getall/' + id,
+                    url: base + 'api/ftp/getall/' + id,
                     dataType: 'json',
-                    method  : 'get',
+                    method: 'get',
                 }).done(function (data) {
                     var template = _.template(ftpadd);
                     template = template({
@@ -138,7 +197,7 @@ define([
                 that.id = false;
             }
         },
-        addftp   : function (e) {
+        addftp: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
             $this.find('select, input').attr('readonly', true);
@@ -151,9 +210,9 @@ define([
             }
 
             _ajax({
-                url     : base + 'api/ftp/' + to,
-                data    : $this.serializeArray(),
-                method  : 'post',
+                url: base + 'api/ftp/' + to,
+                data: $this.serializeArray(),
+                method: 'post',
                 dataType: 'json'
             }).done(function (data) {
 
@@ -165,7 +224,7 @@ define([
                     Router.navigate('ftp', {trigger: true});
                 } else {
                     $.alert({
-                        title  : 'Something bad happened',
+                        title: 'Something bad happened',
                         content: data.reason
                     });
                 }

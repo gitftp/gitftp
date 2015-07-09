@@ -108,8 +108,6 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
             foreach ($b as $k2 => $v2) {
                 $r = $record->get_latest_revision_by_branch_id($b[$k2]['id']);
                 if (count($r)) {
-                    $b[$k2]['revision'] = $r[0]['hash'];
-                    $b[$k2]['date'] = $r[0]['date'];
                     $b[$k2]['date'] = $r[0]['date'];
                 }
             }
@@ -187,6 +185,8 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
     public function post_edit($id) {
 
         $i = Input::post();
+        $i = utils::escapeHtmlChars($i);
+
         $user_id = Auth::get_user_id()[1];
         $deploy = new Model_Deploy();
         $deploy_row = $deploy->get($id)[0];
@@ -195,20 +195,27 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
             if ((string)$deploy_row['user_id'] !== (string)$user_id) {
                 throw new Exception('404. Project not found.');
             }
+
             $data = array(
                 'name' => $i['name'],
                 'key'  => $i['key'],
             );
 
-            if (empty($i['username'])) {
+            if (isset($i['isprivate'])) {
+                /*
+                 * if private feed username and password
+                 */
+                if (isset($i['username']))
+                    $data['username'] = $i['username'];
+                if (isset($i['password']))
+                    $data['password'] = $i['password'];
+
+            } else {
+                /*
+                 * if not private remove username and password.
+                 */
                 $data['username'] = '';
                 $data['password'] = '';
-            } else {
-                $data['username'] = $i['username'];
-
-                if (!empty($i['password'])) {
-                    $data['password'] = $i['password'];
-                }
             }
 
             $result = $deploy->set($id, $data);
@@ -219,6 +226,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
                 $deploy_row2 = $deploy->get($id)[0];
                 $repo_url = $deploy_row2['repository'];
                 $repo_url = parse_url($repo_url);
+
                 if (!empty($deploy_row2['username'])) {
                     $repo_url['user'] = $deploy_row2['username'];
                     if (!empty($deploy_row2['password'])) {
@@ -231,7 +239,11 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
                 try {
                     chdir($repo_dir);
-                    shell_exec('git remote set-url origin ' . $newCloneUrl);
+//                    echo $newCloneUrl;
+                    // TODO: this is not working !
+                    $op = utils::gitCommand('remote set-url origin '.$newCloneUrl);
+//                    exec('git remote set-url origin ' . $newCloneUrl, $op);
+//                    print_r($op);
                 } catch (Exception $e) {
                     // if the folder doesnt exist, do nothing.
                 }

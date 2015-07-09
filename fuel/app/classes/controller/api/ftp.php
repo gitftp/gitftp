@@ -24,22 +24,22 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
         ));
     }
 
-    public function post_testftp($a = null) {
+    public function post_testftp($a = NULL, $return = FALSE) {
         $i = Input::post();
         try {
 
             $options = array(
                 'user'   => $i['username'],
                 'host'   => $i['host'],
-                'pass'   => $i['pass'],
+                'pass'   => (isset($i['pass'])) ? $i['pass'] : '',
                 'scheme' => $i['scheme'],
                 'port'   => $i['port'],
                 'path'   => $i['path'],
             );
 
-            if (empty($i['pass']) && isset($i['id'])) {
+            if (!isset($i['pass']) && isset($i['id'])) {
                 /*
-                 * password is not set, lets check if its there with us.
+                 * Tkae the password that is stored with us.
                  */
                 $ftp_id = $i['id'];
                 $ftp_model = new Model_Ftp();
@@ -54,22 +54,28 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
             }
 
             $ftp_url = http_build_url($options);
-            if(utils::test_ftp($ftp_url)){
-                echo json_encode(array(
-                    'status' => TRUE
-                ));
-            }else{
+            if (utils::test_ftp($ftp_url)) {
+                if (!$return) {
+                    echo json_encode(array(
+                        'status' => TRUE
+                    ));
+                }
+            } else {
                 throw new Exception('Could not connect');
             }
 
         } catch (Exception $e) {
-            echo json_encode([
-                'status' => FALSE,
-                'reason' => $e->getMessage()
-            ]);
-            return false;
+            if (!$return) {
+                echo json_encode([
+                    'status' => FALSE,
+                    'reason' => $e->getMessage()
+                ]);
+            }
+
+            if ($return) return $e->getMessage();
         }
-        return true;
+
+        if ($return) return TRUE;
     }
 
     /**
@@ -77,70 +83,108 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
      * @return boolean
      */
     public function post_addftp() {
-        $this->post_testftp();
-        $ftp = new Model_Ftp();
-        $data = Input::post();
-        $user_id = Auth::get_user_id()[1];
+        /**
+         * test ftp before adding,
+         */
+//
+//        $result = $this->post_testftp(NULL, TRUE);
+//        if ($result !== TRUE) {
+//            echo json_encode([
+//                'status' => FALSE,
+//                'reason' => $result
+//            ]);
+//        }
 
-        $existing = DB::select()->from('ftpdata')->where('host', $data['host'])->and_where('username', $data['username'])->and_where('user_id', $user_id)->and_where('path', $data['path'])->execute()->as_array();
+        try {
 
-        if (count($existing) > 0) {
-            echo json_encode(array(
-                'status'  => FALSE,
-                'request' => Input::post(),
-                'reason'  => 'A FTP account with the same host and username already exist.'
-            ));
-        } else {
+            $ftp = new Model_Ftp();
+            $data = Input::post();
+            $user_id = Auth::get_user_id()[1];
+            $existing = DB::select()->from('ftpdata')->where('host', $data['host'])->and_where('username', $data['username'])->and_where('user_id', $user_id)->and_where('path', $data['path'])->execute()->as_array();
 
-            $a = $ftp->insert($data);
-            if ($a) {
-                echo json_encode(array(
-                    'status'  => TRUE,
-                    'request' => Input::post()
+            if (count($existing) > 0) {
+                $response = json_encode(array(
+                    'status'  => FALSE,
+                    'request' => Input::post(),
+                    'reason'  => 'A FTP account with the same host and username already exist.'
                 ));
+            } else {
+                $a = $ftp->insert($data);
+                if ($a) {
+                    $response = json_encode(array(
+                        'status'  => TRUE,
+                        'request' => Input::post()
+                    ));
+                }
             }
+
+        } catch (Exception $e) {
+            $response = json_encode([
+                'status'  => FALSE,
+                'reason'  => $e->getMessage(),
+                'request' => (Input::method() == 'POST') ? Input::post() : ''
+            ]);
         }
+
+        echo $response;
+
     }
-    // todo: no output for testftp conditional.
+
     /**
      * editing a FTP server.
      * @return boolean
      */
     public function post_editftp($id) {
-        if(!$this->post_testftp()){
-            return false;
-        }
 
-        try{
-
+        try {
             $ftp = new Model_Ftp();
             $data = Input::post();
-            $user_id = Auth::get_user_id()[1];
-
             $a = $ftp->set($id, $data);
 
-            if ($a || false) {
-                echo json_encode(array(
+            if ($a || FALSE) {
+                $response = json_encode(array(
                     'status'  => TRUE,
                     'request' => Input::post(),
                 ));
             } else {
-                echo json_encode(array(
-                    'status'  => FALSE,
-                    'reason'  => 'Cannot update with the same values.',
-                    'asd' => $a
+                $response = json_encode(array(
+                    'status' => FALSE,
+                    'reason' => 'Cannot update with the same values.',
+                    'asd'    => $a
                 ));
             }
 
-        }catch(Exception $e){
+        } catch (Exception $e) {
 
-            echo json_encode(array(
+            $response = json_encode(array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
                 'request' => $id
             ));
         }
+        echo $response;
+    }
 
+    /**
+     * as the name explains,
+     * returns YES or no,
+     * if the FTP is used in any of the projects.
+     */
+    public function get_isftpinuse() {
+        $id = Input::get('id');
+        $branch = new Model_Branch();
+        $deploy = new Model_Deploy();
+        $branches = $branch->get_by_ftp_id($id);
+        if (count($branches) !== 0) {
+            $deploy_data = $deploy->get($branches[0]['deploy_id']);
+            $deploy_name = $deploy_data[0]['name'];
+            $branches[0]['project_name'] = $deploy_name;
+        }
+        echo json_encode([
+            'status'  => (count($branches) == 0) ? FALSE : TRUE,
+            'used_in' => (count($branches) == 0) ? FALSE : $branches,
+
+        ]);
     }
 
     /**

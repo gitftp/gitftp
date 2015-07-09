@@ -6,7 +6,7 @@ class Controller_Api_Records extends Controller_Apilogincheck {
 
     }
 
-    public function action_getall($id = null) {
+    public function action_getall($id = NULL) {
         $get = Input::get();
         $limit = isset($get['limit']) ? $get['limit'] : FALSE;
         $offset = isset($get['offset']) ? $get['offset'] : FALSE;
@@ -14,9 +14,10 @@ class Controller_Api_Records extends Controller_Apilogincheck {
         $data = $record->get($id, $limit, $offset);
 
         $branch = new Model_Branch();
-
         foreach ($data as $k => $v) {
             $data[$k]['branch'] = $branch->get_by_branch_id($v['branch_id']);
+            $data[$k]['raw'] = (!empty($data[$k]['raw'])) ? TRUE : FALSE;
+            $data[$k]['post_data'] = (!empty($data[$k]['post_data'])) ? TRUE : FALSE;
         }
 
         echo json_encode(array(
@@ -37,7 +38,8 @@ class Controller_Api_Records extends Controller_Apilogincheck {
             $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding errors in deployments, If you aren\'t sure why your deploy failed, please contact us.<br><code> --- <br>';
             $record_n = new RecursiveIteratorIterator(new RecursiveArrayIterator($record));
             foreach ($record_n as $k => $v) {
-                $string .= "[$k] - $v<br>";
+                $k = (is_numeric($k)) ? '' : $k.'-';
+                $string .= "$ $k$v<br>";
             }
             echo "$string</code>";
         }

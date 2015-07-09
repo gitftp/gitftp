@@ -10,6 +10,25 @@ define([
             'click .deleteproject': 'deleteProject',
             'change #doesreponeedlogin': 'inputCheckboxToggle',
             'submit #deploy-view-form-edit': 'updateSettings',
+            'click .project-form-password-set-change': 'togglePasswordChange',
+            'click .project-form-password-set-cancel': 'togglePasswordChange'
+        },
+        togglePasswordChange: function(e){
+            e.preventDefault();
+            var $this = $(e.currentTarget);
+
+            var $set = $('.project-form-password-set'),
+                $field = $('.project-form-password-field');
+
+            if ($field.is(':visible')) {
+                $field.find('input').prop('disabled', true);
+                $field.hide();
+                $set.show();
+            } else {
+                $field.show();
+                $set.hide();
+                $field.find('input').prop('disabled', false);
+            }
         },
         deleteProject: function (e) {
             e.preventDefault();

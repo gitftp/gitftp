@@ -1,17 +1,29 @@
 <% JSON.stringify(s) %>
 <div class="is-deploy-view-id" data-id="<%= s.id %>"></div>
-<h3 class="pull-left" style="">
-    <i class="fa fa-cloud"></i>&nbsp;&nbsp;<%= s.name %>
-</h3>
-<div class="pull-right">
-    <div class="project-v-status project-co-<%= s.status %>" style="">
-        Idle
+
+<div class="page-head">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="head"><i class="fa fa-cloud"></i>&nbsp;&nbsp;<%= s.name %></div>
+            <div class="subhead" style="color: #aaa"><%= s.repository %></div>
+        </div>
+        <div class="col-md-4">
+            <div class="pull-right">
+                <!--<a href="#/project/new" class="btn btn-success pull-right">create new</a>-->
+                <% if(s.status.toLowerCase() == 'idle' || s.status.toLowerCase() == 'to be initialized' ){ %>
+                <div class="project-v-status" style="">
+                    Idle
+                </div>
+                <% }else{ %>
+                <div class="project-v-status project-co-loading" style="">
+                    <i class="fa fa-spin fa-refresh fa-fw"></i> <%= s.status %>
+                </div>
+                <% } %>
+            </div>
+        </div>
     </div>
 </div>
-<div class="clearfix"></div>
-<p style="color: #aaa">
-    <%= s.repository %>
-</p>
+
 <div class="head-body-divider"></div>
 <div class="row">
     <div class="col-md-3">
@@ -23,18 +35,18 @@
                     <a href="#/project/<%= s.id %>/environments" class="list-group-item page-subview subview-environments"><i class="fa fa-leaf fa-fw"></i> Environments</a>
                     <a href="#/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings"><i class="fa fa-wrench fa-fw"></i> Settings</a>
                 </div>
-                <div style="height: 10px;"></div>
+                <div class="space10"></div>
                 <div style="color: #aaa">
                     <label>
                         POST hook url:
                     </label>
-                    <textarea class="form-control" style="font-family: consolas"><%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %></textarea>
+                    <input class="form-control" readonly style="font-family: consolas; font-size: 12px; background: transparent; cursor: default;" value="<%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %>">
                 </div>
             </div>
         </div>
     </div>
     <div class="col-md-9">
-
+        <% if(false){ %>
         <div class="well well-sm well-statusbar">
             <%
             if(s.lastdeploy == 0){
@@ -51,6 +63,7 @@
                 <% } %>
             </div>
         </div>
+        <% } %>
         <div class="deploy-sub-page bb-loading project-activity-anim"></div>
     </div>
 </div>

@@ -1,27 +1,34 @@
-@import url(http://fonts.googleapis.com/css?family=Lato);
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
 
+//@import url(http://fonts.googleapis.com/css?family=Lato);
 /* ==========================================================================
     www.gitftp.com
     Git deploy automation software
    ========================================================================== */
-
 @red: #EF3D3D;
 @red: #FF5A5A;
-@blue: #62C7F2;
+//@blue: #62C7F2;
+@blue: #0091EA;
+@blue_light: #00B0FF;
+@blue_dark: #0277BD;
 @base: @blue;
-@green: #66BD61;
+//@green: #66BD61;
+@green: #00C853;
 @orange: #F7941D;
 @darkblue: #4173B9;
 @redalt: #EF4036;
 @gray: #aaaaaa;
 //@bg: #ecf0f1;
-@bg: #eee;
+//@bg: #f9f9f9;
+@bg: #F5F5F5;
+@border_color: #CFD8DC;
 
 body {
-  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  //  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   //  font-family: 'Lato', sans-serif;
   //  background-color: #fff;
   //  background-color: #FCFCFC;
+  font-family: 'Roboto', sans-serif;
   background-color: @bg;
   color: #555;
   overflow-y: scroll;
@@ -98,7 +105,8 @@ body {
 
 a {
   &:hover {
-    text-decoration: none;
+    text-decoration: none !important;
+    cursor: pointer;
   }
 }
 
@@ -119,12 +127,19 @@ a {
 }
 
 input, select {
-  border: solid 2px #eee !important;
+  //  border: solid 2px #eee !important;
+  border: none !important;
+  border-bottom: solid 2px @border_color !important;
   box-shadow: none !important;
+  border-radius: 0px !important;
+  padding-left: 0px !important;
 
   &:focus, &:active {
     border-color: @blue !important;
     box-shadow: none !important;
+  }
+  &[disabled], &[readonly] {
+    border-bottom: dotted 2px @border_color !important;
   }
 }
 
@@ -162,34 +177,77 @@ input, select {
   }
 }
 
-.shadow{
-  box-shadow: 0 1px 3px rgba(0,0,0,.07);
+.shadow {
+  //    box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
+  //    box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .14), 0 2px 2px 0 rgba(0, 0, 0, .098), 0 1px 5px 0 rgba(0, 0, 0, .084);
+  //  border: solid 2px @border_color;
 }
 
 .navbar-default {
-
-  border-color: @bg !important;
-  background: #fff;
-  box-shadow: 0 5px 21px 10px #eeeeee;
+  border-bottom: solid 2px @bg !important;
+  background: @base;
+  .shadow;
 
   .navbar-nav {
-
+    a {
+      font-weight: 500;
+    }
     > li > a {
       transition: all .4s;
+      color: white !important;
       //    letter-spacing: 1px;
       font-size: 14px;
       text-transform: uppercase;
     }
     li.active a {
       background-image: none !important;
-      background-color: @bg !important;
-      box-shadow: inset 0 2px @green;
+      background-color: @base !important;
+      //      box-shadow: inset 0px -4px 0 #0277bd;
+      box-shadow: 0 2px @blue_dark;
     }
     .dropdown-menu {
-      border-color: #e7e7e7;
+      //      border-color: #e7e7e7;
+      border: none;
+      background: white;
+      .shadow;
     }
     .dropdown.open > a {
-      background-color: #F8F8F8 !important;
+      background-color: white !important;
+      color: @base !important;
+    }
+    .dropdown.open a:hover {
+    }
+    .dropdown.open .divider {
+      background-color: @bg;
+    }
+  }
+}
+
+.dropdown {
+  .open {
+    > a {
+      background-color: white !important;
+      color: @base !important;
+    }
+    a:hover {
+    }
+    .divider {
+      background-color: @bg;
+    }
+
+  }
+  .dropdown-menu {
+    border: none;
+    background: white;
+    .shadow;
+
+    &.dropdown-menu-material {
+      top: 0px;
+      a {
+        font-weight: 500;
+        padding: 4px 25px 4px 20px;
+      }
     }
   }
 }
@@ -198,28 +256,66 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 }
 
+.mono {
+  font-family: consolas;
+}
+
+.page-head {
+  //  background: rgb(202, 202, 202);
+  padding: 20px 0 12px;
+  .head {
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .subhead {
+    font-size: 14px;
+    margin-top: 5px;
+  }
+  .subhead:empty {
+    display: none;
+  }
+}
+
 .head-body-divider {
   .space10;
 }
 
+.fa {
+  line-height: inherit;
+}
+
+a.btn {
+  padding: 9px 10px 7px;
+  line-height: 12px;
+}
+
 .btn {
   background-image: none;
-  border: solid 1px !important;
+  border: solid 1px;
   border-radius: 4px;
   transition: all .4s;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-color: transparent;
 
-  &:hover {
-    box-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+  &:focus {
+    outline: none !important;
   }
-
+  &:hover {
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
+    border-color: transparent;
+  }
   &:active {
     box-shadow: none;
+  }
+  &:disabled {
+    border-color: transparent;
   }
 
   &.btn-default {
     background-color: white;
     color: #555;
-    border-color: #ddd !important;
+    .shadow;
 
     &.btn-gitftp {
       color: @base;
@@ -230,29 +326,62 @@ h1, h2, h3, h4, h5, h6 {
       background-color: lighten(#eee, 3%);
     }
   }
+
+  // success
   &.btn-success {
     background: @green;
-    border-color: transparent !important;
+    .shadow;
 
     &:hover, &:focus, &:active {
       background: darken(@green, 5%);
     }
   }
+
+  // link
   &.btn-link {
+
     &:hover {
       text-decoration: none;
     }
   }
+
+  // danger
   &.btn-danger {
     background-color: @red;
-    border-color: transparent !important;
+    .shadow;
   }
+
+  // warning
   &.btn-warning {
-    border-color: transparent !important;
+    .shadow;
   }
+
+  // info
   &.btn-info {
-    border-color: transparent !important;
+    .shadow;
   }
+
+  // clean
+  &.btn-clean {
+    background: none;
+    box-shadow: none;
+
+    &:hover, &:focus, &:active {
+      background: none;
+      box-shadow: none;
+    }
+
+  }
+
+  &.btn-circle {
+    border-radius: 100%;
+    padding: 9px 11px 7px 10px;
+    &.btn-circle-lg {
+      padding: 15px 17px 13px 16px;
+      font-size: 16px;
+    }
+  }
+
 }
 
 .viewdeploy, .ftp-servers-list {
@@ -263,10 +392,11 @@ h1, h2, h3, h4, h5, h6 {
   }
   .project-list-block {
     background-color: #fff;
-    border: solid 2px #ddd;
-    padding: 5px 15px 10px;
+    //    border: solid 2px @border_color;
+    padding: 10px 15px 10px;
     border-radius: 4px;
     transition: border .2s;
+    .shadow;
 
     .header {
 
@@ -341,33 +471,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .project-v-status {
-  position: absolute;
-  right: 0;
-  top: 25px;
-  padding: 6px 10px;
+  padding: 8px 9px 7px;
   border-radius: 4px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  background-image: linear-gradient(to bottom, #ffffff 0%, #f8f8f8 100%);
-  font-weight: normal;
-  text-transform: uppercase;
-  font-size: 12px;
+  text-transform: lowercase;
+  font-size: 13px;
   color: #444;
-  /* border: solid 1px #FAFAFA; */
   font-weight: bold;
   transition: all 1s;
   min-width: 100px;
   text-align: center;
+  background-color: @bg;
+  .shadow;
 }
 
 .project-co-loading {
-  background-color: white;
-  /*   border-color: #4cd964; */
-  /*background-image: linear-gradient(to bottom, #fff 0%, #4cd964 100%);*/
-  background-image: linear-gradient(to right, #5ac8fa 0%, #4cd964 100%);
+  background-color: @base;
   color: white;
-  /*background: linear-gradient(to bottom, rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);*/
-  background-size: 400% 400%;
-  background-position: 30% 0%;
+  text-align: right;
 }
 
 @keyframes statusprocessing {
@@ -533,7 +653,7 @@ h1, h2, h3, h4, h5, h6 {
 .project-branches-env {
   .project-branch {
     margin-bottom: 15px;
-//    border: solid 1px #ddd;
+    //    border: solid 1px #ddd;
     border-radius: 4px;
     background: white;
     .shadow;
@@ -596,11 +716,10 @@ h1, h2, h3, h4, h5, h6 {
 
   .project-record-list {
     background: white;
-    padding: 10px;
+    padding: 10px 15px;
     /* border: solid 1px #ddd !important; */
     border-radius: 4px;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
     .shadow;
 
     &:hover {
@@ -632,7 +751,7 @@ h1, h2, h3, h4, h5, h6 {
     }
     .deploystate-icon {
       font-size: 2em;
-      margin-top: 7px;
+      margin-top: 16px;
     }
   }
 
@@ -659,8 +778,9 @@ h1, h2, h3, h4, h5, h6 {
     background: url('../img/checkboxBtn.png');
     background-size: 20px;
     background-repeat: no-repeat;
-    padding-left: 25px;
+    padding-left: 30px;
     background-position: 0px 0px;
+    line-height: 21px;
   }
   input:checked + label {
     background-position: 0px -20px;
@@ -730,24 +850,57 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.projectview-siderbar{
+.projectview-siderbar {
   .shadow;
-  a{
+  border-radius: 4px;
+
+  a {
     border: none;
+    padding: 10px 20px;
   }
-  a + a{
+  a + a {
     border-top: solid 1px #eee;
   }
+  a:hover {
+    background: white;
+  }
   .active-cs {
-    background: #f8f8f8;
+    //    background: #ECEFF1;
     color: @base !important;
-    box-shadow: inset 2px 0px @base;
-    border-top-left-radius: 0px;
-    border-bottom-left-radius: 0px;
+    //    box-shadow: inset 2px 0px @base;
+    //    border-top-left-radius: 0px;
+    //    border-bottom-left-radius: 0px;
+  }
+  a:focus {
+    background: white;
   }
 }
 
-.panel{
+.panel {
   border: none;
   .shadow;
+  .panel-body {
+    &.panel-body-material {
+      padding: 20px 25px;
+    }
+  }
+}
+
+.ast {
+  font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
+}
+
+// noty
+#noty_bottomRight_layout_container {
+  .shadow;
+
+  li {
+    background: white;
+    & + li {
+      border-top: solid 1px @bg;
+    }
+    .noty_message {
+      padding: 13px 10px;
+    }
+  }
 }

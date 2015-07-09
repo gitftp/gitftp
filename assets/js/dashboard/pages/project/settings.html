@@ -1,5 +1,5 @@
 <div class="panel panel-default">
-    <div class="panel-body">
+    <div class="panel-body panel-body-material">
         <p>
             <i class="fa fa-wrench fa-fw"></i> <strong>PROJECT SETTINGS</strong>
         </p>
@@ -28,7 +28,7 @@
                             </p>
 
                             <div class="checkbox gf-checkbox">
-                                <input type="checkbox"
+                                <input name="isprivate" type="checkbox"
                                        id="doesreponeedlogin" <%= (data.username !== '') ? 'checked':'' %> />
                                 <label for="doesreponeedlogin">
                                     This is a private repo.
@@ -50,13 +50,22 @@
                         </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="">Password</label>
-
                             <div class="col-sm-9">
-                                <input type="password"
-                                       name="password"
-                                       placeholder="Enter a password to change"
-                                       value=""
-                                       class="form-control"/>
+                                <% if(data.passwordset){ %>
+                                    <div class="project-form-password-set">
+                                        <p class="form-control-static"><span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a href="#" class="project-form-password-set-change btn-link"> <i class="fa fa-pencil"></i> edit</a></p>
+                                    </div>
+                                    <div class="project-form-password-field" style="display: none">
+                                        <div class="input-group">
+                                            <input disabled type="password" name="password" class="form-control" placeholder="Password" value="">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-link btn-clean btn-block project-form-password-set-cancel" type="button"><i class="fa fa-times"></i></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                <% }else{ %>
+                                    <input type="password" name="password" placeholder="Password" value="" class="form-control"/>
+                                <% } %>
                             </div>
                         </div>
                     </div>
@@ -103,7 +112,7 @@
                     </button>
 
                     <div class="pull-right">
-                        <button type="button" class="btn btn-link deleteproject" data-id="<%= data.id %>">
+                        <button type="button" class="btn btn-default btn-clean deleteproject" data-id="<%= data.id %>">
                             <i class="fa fa-trash"></i> &nbsp;Delete this Project.
                         </button>
                     </div>

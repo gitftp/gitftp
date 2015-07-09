@@ -1,10 +1,19 @@
-<h3>
-    Projects
-    <a href="#/project/new" class="btn btn-success pull-right"><i class="fa fa-plus fa-fw"></i> Create new</a>
-</h3>
-<p>
-    Get started with deployment in minutes.
-</p>
+<div class="page-head">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="head">Projects</div>
+            <div class="subhead">Get started with deployment in minutes.</div>
+        </div>
+        <div class="col-md-4">
+            <% if(list.length != 0){ %>
+            <div class="pull-right">
+                <a href="#/project/new" data-toggle="tooltip" data-placement="left" title="Create new" class="btn btn-success btn-circle btn-circle-lg pull-right"><i class="fa fa-plus"></i></a>
+            </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
 <div class="head-body-divider"></div>
 
 <% if(list.length == 0){ %>
@@ -13,13 +22,16 @@
 <div class="space10"></div>
 <p class="text-center" style="color: #aaa;">
 
-    <i class="fa fa-file-o fa-3x"></i> <br>
-    <span style="font-size: 20px;">Its empty here</span>
+    <span style="font-size: 24px;">You've no projects setup</span>
     <br>
-    <span>Make sure you have a ftp server added and working to get started.</span>
+    <span>Click on "create new" to get started.</span>
     <br>
     <br>
-    <a href="#/project/new" class="btn btn-success btn-lg">
+    <a href="#/project/new" class="btn btn-success">
+
+        <i class="fa fa-file-o fa-3x"></i>
+        <br/>
+        <br/>
         Create new
     </a>
 
@@ -48,7 +60,12 @@
     <% }) %>
 </div>
 
+
 <br>
 <br>
 <br>
 <% } %>
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>

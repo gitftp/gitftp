@@ -101,12 +101,12 @@ class Gfcore {
 
         // collect data.
         $this->createFolders();
-        chdir($this->repo_dir);
+        chdir($this->repo_dir); // change to repo dir !!!. we are on repo dir forever.
         $this->output('Changed directory to ' . getcwd());
     }
 
     /**
-     * Iterating function.
+     * Iterating function. (INIT FUNCTION)
      *
      * @throws Exception
      */
@@ -117,7 +117,7 @@ class Gfcore {
          */
         $is_active = $this->m_record->is_queue_active($this->deploy_id);
         if ($is_active) {
-            die("The queue is already running.\n");
+            die("The queue is already running.\n"); // not to move forward.
         }
 
         /*
@@ -125,14 +125,22 @@ class Gfcore {
          */
         $this->record = $this->m_record->get_next_from_queue($this->deploy_id);
         if ($this->record == FALSE) {
-            die("The queue is over.\n");
+            die("The queue is over.\n"); // not to move forward.
         }
 
-        $this->output('-----------------------------------');
-        $this->output('-----------------------------------');
-        $this->output('|            deploying            |');
-        $this->output('-----------------------------------');
-        $this->output('-----------------------------------');
+        /*
+         * Do not stop at errors. Instead throw exceptions.
+         */
+        $old_error_handler = set_error_handler(array(
+            $this,
+            'error_handler'
+        ));
+
+        $this->output('---------------------------------------------');
+        $this->output('---------------------------------------------');
+        $this->output('|            Magic code Starting            |');
+        $this->output('---------------------------------------------');
+        $this->output('---------------------------------------------');
 
         $this->log = array();
         $this->get_deploy_data();
@@ -145,16 +153,15 @@ class Gfcore {
             'status' => $this->m_record->in_progress
         ));
 
+        // WE ARE IN CHARGE OF THIS RECORDS SAFETY!
         $this->output('starting with record id: ' . $this->record_id);
 
-        // Chilling don't know why.
+        // CHILLING OUT FOR 1 SECOND.
         sleep(1);
 
         try {
 
-            /*
-             * Test connection.
-             */
+            // Testing connection for safety.
             $branches = utils::gitGetBranches($this->deploy_data['repository'], $this->deploy_data['username'], $this->deploy_data['password']);
             if ($branches == FALSE) {
                 $this->log('Could not connect to ' . $this->deploy_data['repository']);
@@ -164,26 +171,28 @@ class Gfcore {
                 $this->log('Connection to ' . $this->deploy_data['repository'] . ' successful.');
             }
 
+            // Getting branch data of the respective RECORD.
             $branch_id = $this->record['branch_id'];
             $branch = $this->m_branches->get_by_branch_id($branch_id);
             if (count($branch) !== 1) {
-                throw new Exception('Branch doesnt not exist.');
+                throw new Exception('Branch does not exist.');
             } else {
                 $this->branch = $branch[0];
             }
 
             if ($this->deploy_data['cloned']) {
                 $this->output('Pulling repo');
-                $this->pullRepo($this->branch['branch_name']); // pull the given branch.
+                // pull only the given branch.
+                $this->pullRepo($this->branch['branch_name']);
             } else {
                 $this->output('Cloning repo');
                 $this->cloneRepo();
             }
 
-            // OK, start uploading the changed files.
+            // Okay, Start uploading the changed files.
             $this->upload();
-            // OK, set to success and move on.
 
+            // Okay, set to success and move on.
             $this->output('Success with record id: ' . $this->record_id);
 
             $this->m_branches->set($this->record['branch_id'], array(
@@ -197,7 +206,7 @@ class Gfcore {
         } catch (Exception $e) {
 
             /*
-             * IF ANYTHING GOES WRONG. set record as failed.
+             * IF SHIT GOES TO HELL. set record as failed.
              * And store logs.
              */
             $this->m_record->set($this->record_id, array(
@@ -209,7 +218,8 @@ class Gfcore {
              * pull and clone done,
              * checkout to branch now.
              */
-            exec("git checkout master");
+
+            utils::gitCommand('checkout master'); // failed? reset to master
 
             $this->output('DAMMIT. ' . $e->getMessage());
             // Lets iterate.
@@ -219,6 +229,38 @@ class Gfcore {
         $this->deploy();
     }
 
+    public function error_handler($errno, $errstr, $errfile, $errline) {
+//        if (!(error_reporting() & $errno)) {
+//            // This error code is not included in error_reporting
+//            return;
+//        }
+//
+//        switch ($errno) {
+//            case E_USER_ERROR:
+//                echo "<b>My ERROR</b> [$errno] $errstr<br />\n";
+//                echo "  Fatal error on line $errline in file $errfile";
+//                echo ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />\n";
+//                echo "Aborting...<br />\n";
+//                exit(1);
+//                break;
+//
+//            case E_USER_WARNING:
+//                echo "<b>My WARNING</b> [$errno] $errstr<br />\n";
+//                break;
+//
+//            case E_USER_NOTICE:
+//                echo "<b>My NOTICE</b> [$errno] $errstr<br />\n";
+//                break;
+//
+//            default:
+//                echo "Unknown error type: [$errno] $errstr<br />\n";
+//                break;
+//        }
+
+        /* Don't execute PHP internal error handler */
+        return TRUE;
+    }
+
     /**
      * Upload module.
      * Compares files, and uploads them to the FTP server.
@@ -226,44 +268,41 @@ class Gfcore {
      * @throws Exception
      */
     public function upload() {
-
-        // we on master now.
+        // FYI. We are on master now.
 
         $m_ftp = new Model_Ftp();
         $m_ftp->user_id = $this->user_id;
 
         $branch = $this->branch;
 
-        // Get Ftp data from Branch
+        // Get ftp data for the respective branch
         $ftp_data = $m_ftp->get($branch['ftp_id']);
 
-        if(count($ftp_data) !== 1){
-            $this->log('Failed: FTP record doesnt exist, FTP may have been deleted?');
-            throw new Exception("Ftp doesnt exist");
-        }else{
+        if (count($ftp_data) !== 1) {
+            $this->log('Failed: Enviornment does not have a Linked FTP account.');
+            throw new Exception("No Linked FTP for enviornment.");
+        } else {
             $ftp_data = $ftp_data[0];
         }
 
-        // todo : im here. going to test bridge ftp.
-
         // Testing if the FTP server works.
-        $ftp_test = utils::test_ftp($ftp_data);
-
-        if ($ftp_test == 'Ftp server is ready to rock.') {
-            $this->log['ftp_connect'] = 'Connected';
-        } else {
-            $this->log['ftp_connect'] = 'Connection failed: ' . $ftp_test; // failed with reason.
-            $this->m_record->set($this->record_id, array(
-                'status' => $this->m_record->failed,
-                'raw'    => serialize($this->log)
-            ));
-            throw new Exception($ftp_test);
+        try {
+            $ftp_data['user'] = $ftp_data['username'];
+            $ftp_url = http_build_url($ftp_data);
+//            $ftp_test = utils::test_ftp($ftp_url);
+            $ftp_test = new \bridge($ftp_url);
+            if ($ftp_test) {
+                $this->log('ftp_connect', 'connected');
+            }
+        } catch (Exception $e) {
+            $this->log('ftp_connect', 'connection failed: ' . $e->getMessage());
+            throw new Exception('We are sending msg here.' . $e->getMessage());
         }
 
         // LOG --------------------------------
-        $this->log['deploy_branch'] = $branch['branch_name'];
+        $this->log('deploy_branch', $branch['branch_name']);
+        $this->log('deploy_branch_env', $branch['name']);
         $this->output('Deploy to branch name: ' . $branch['branch_name']);
-        $this->log['deploy_branch_env'] = $branch['name'];
         // LOG END ----------------------------
 
         /*
@@ -276,16 +315,13 @@ class Gfcore {
          * pull and clone done,
          * checkout to branch now.
          */
-        exec("git checkout $this->branch['branch_name']", $gitOutput);
-        $this->output("Checkout to $this->branch['branch_name']");
-
 
         $this->output('Checkout to ' . $branch['branch_name']);
-        if ($this->debug)
-            $this->log['switching_to_branch_op'] = $checkCheckoutOp;
-        $this->log['revision_on_server_before'] = $branch['revision'];
+        utils::gitCommand("checkout " . $this->branch['branch_name']);
+        $this->log('revision_on_server_before', $branch['revision']);
         $this->output('Revision on FTP: ' . $branch['revision']);
 
+        // TODO: WE ARE HERE.
 
         // Setting options for gitcore
         $options = array(
@@ -303,39 +339,46 @@ class Gfcore {
                     'port'    => $ftp_data['port'],
                     'path'    => $ftp_data['path'],
                     'passive' => TRUE,
-                    'skip'    => array(),
-                    'purge'   => array()
+                    'skip'    => array('*.php'),
+                    'purge'   => array('images/something', 'images/something2'),
                 )
             ),
             'remoteRevision' => $branch['revision'],
-            'localRevision'  =>
         );
 
         // if record type is rollback, checkout to the rollback commit.
         if ($this->record['record_type'] == $this->m_record->type_rollback && !empty($this->record['hash'])) {
             // checkout the the specific hash.
-            exec('git checkout ' . $this->record['hash'], $checkCheckoutOp);
-            $options['rollback'] = $this->record['hash'];
+            utils::gitCommand('checkout ' . $this->record['hash']);
+
+            /*
+             * Setting rollback is not necessary, because GITcore goes to HEAD.
+             */
+//            $options['rollback'] = $this->record['hash'];
         }
+
+        $localRevision = utils::gitCommand('rev-parse HEAD');
+        if (isset($localRevision[0])) {
+            $localRevision = trim($localRevision[0]);
+            $options['localRevision'] = $localRevision;
+        }
+
+        if ($localRevision == $branch['revision']) {
+            $this->output('Nothing has changed, the local and remote hash are the same !');
+        }
+
+        $this->output($localRevision);
 
         $gitcore = new gitcore($options);
-
         try {
-
             $gitcore->startDeploy();
-
         } catch (Exception $e) {
             // Store logs from GITCORE.
-            $this->log['deploy_log'] = $gitcore->log;
-
-            $this->m_record->set($this->record_id, array(
-                'raw'    => serialize($this->log),
-                'status' => $this->m_record->failed
-            ));
-
+            $this->log('deploy_log', $gitcore->log);
             $this->output($this->log);
-            throw new Exception($e);
+            throw new Exception($e->getMessage());
         }
+
         // Store Logs from GITCORE.
         $this->log['deploy_log'] = $gitcore->log;
         $this->output($this->log);
@@ -364,7 +407,9 @@ class Gfcore {
         ));
 
         // OK, checkout to master.
-        exec('git checkout master');
+        utils::gitCommand('checkout master');
+
+        // relax
         sleep(1);
     }
 
@@ -376,12 +421,14 @@ class Gfcore {
      * @throws InvalidPathException
      */
     public function createFolders() {
+        $this->output('Current directory: ' . getcwd());
 
         // user folder.
         try {
             File::read_dir($this->repo_home . '/' . $this->user_id);
         } catch (Exception $e) {
             File::create_dir($this->repo_home, $this->user_id, 0755);
+
         }
         $this->user_dir = $this->repo_home . '/' . $this->user_id;
 
@@ -390,11 +437,13 @@ class Gfcore {
             File::read_dir($this->user_dir . '/' . $this->deploy_id);
         } catch (Exception $ex) {
             File::create_dir($this->user_dir, $this->deploy_id, 0755);
+
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;
 
-        $this->output('Created folders: ' . $this->repo_dir);
-        $this->output('Current directory: ' . getcwd());
+
+        $this->output('Created user folder: ' . $this->user_dir);
+        $this->output('Created repo folders: ' . $this->repo_dir);
     }
 
     /**
@@ -434,14 +483,12 @@ class Gfcore {
         ));
 
         // Clone the repository depth 1.
-        exec('git clone --depth 1 ' . $this->deploy_data['repository'] . ' --progress 2>&1', $gitOutput);
+        exec('git clone --depth 1 ' . $this->deploy_data['repository'] . ' . --progress 2>&1', $gitOutput);
         // Set branches to *
         exec("git remote set-branches origin '*'", $gitOutput);
         // Fetch all branches from remote
         exec('git fetch -vvv --progress 2>&1', $gitOutput);
         $this->output($gitOutput);
-
-
 
         /*
          * Try reading the Repo directory.
@@ -496,11 +543,13 @@ class Gfcore {
     public function pullRepo($branchName) {
         // checkout to the branch which we have to pull.
         exec('git checkout ' . $branchName, $op);
+
         $this->output('Checkout to ' . $branchName);
 
-        // pull repo rebase
+        // pull all branches
+
         exec('git pull --all', $pullop);
-        // fetch all
+        // fetch all brnaches
         exec('git fetch --all', $pullop);
         // reset all local files and make exact copy of remote
         exec('git reset --hard origin/' . $branchName, $pullop);
@@ -508,7 +557,7 @@ class Gfcore {
         /*
          * Go back to master.
          */
-        if($branchName !== 'master'){
+        if ($branchName !== 'master') {
             exec('git checkout master');
         }
 

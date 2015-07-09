@@ -12,8 +12,7 @@
                         <%= (a.ready == 1) ? '<i class="fa fa-check green" title="Deployed"></i> Deployed' : '<i class="fa fa-pause"></i> Not deployed' %>
                     </span>
                     <br/>
-                    <span class="onrevision">On revision: </span><span
-                        class="revision"><%= (a.revision) ? a.revision.substr(0, 6) : '' %></span>
+                    <span class="onrevision">Revision: </span><span class="revision"><%= (a.revision) ? a.revision.substr(0, 6) : 'None' %></span>
                     <span class="pull-right date">
                         last deploy <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
                     </span>
@@ -37,6 +36,11 @@
         <% }); %>
     </div>
 </div>
-<a href="#/project/<%= data.data[0].id %>/environments/add" class="btn btn-default"><i class="fa fa-plus-circle"></i> Add environments</a>
+
+<a href="#/project/<%= data.data[0].id %>/environments/add" data-toggle="tooltip" data-placement="right" title="Create new" class="btn btn-success btn-circle btn-circle-lg "><i class="fa fa-plus"></i></a>
 
 <div class="space20"></div>
+
+<script>
+    $('[data-toggle="tooltip"]').tooltip();
+</script>

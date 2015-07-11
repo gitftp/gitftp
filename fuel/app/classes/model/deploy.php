@@ -4,7 +4,7 @@ class Model_Deploy extends Model {
 
     private $table = 'deploy';
     public $user_id;
-    public $id = null; // deploy id.
+    public $id = NULL; // deploy id.
 
     public function __construct() {
         if (Auth::check()) {
@@ -14,62 +14,83 @@ class Model_Deploy extends Model {
         }
     }
 
-    public function get($id = null, $select = NULL, $direct = false) {
+    public function get($id = NULL, $select = NULL, $direct = FALSE) {
         if (is_null($id) && !is_null($this->id)) {
             $id = $this->id;
         }
 
         $q = DB::select_array($select)->from($this->table);
 
-        if(!$direct){
+        if (!$direct) {
             $q = $q->where('user_id', $this->user_id);
         }
 
-        if ($id != null) {
+        if ($id != NULL) {
             $q = $q->and_where('id', $id);
         }
 
         $a = $q->execute()->as_array();
 
         foreach ($a as $k => $v) {
-
-            $record = new Model_Record();
-            $branch = new Model_Branch();
-            $active_records = $record->get($v['id'], FALSE, FALSE, $record->in_progress);
-            $queued_records = $record->get($v['id'], FALSE, FALSE, $record->in_queue);
-            $active_count = count($active_records);
-            $queue_count = count($queued_records);
-
-            if ($active_count != 0) {
-                $total_files = 0;
-                $processed_files = 0;
-
-                foreach ($active_records as $ar) {
-                    $total_files += $ar['total_files'];
-                    $processed_files += $ar['processed_files'];
-                }
-
-                $env = $branch->get_by_branch_id($active_records[0]['branch_id']);
-                $env = $env[0]['name'];
-
-                $a[$k]['status'] = "Deploying to $env | $processed_files of $total_files files";
-
-            } else if ($v['cloned'] == 0) {
-                $a[$k]['status'] = 'To be initialized';
-            } else if ($v['cloned'] == 2) {
-                $a[$k]['status'] = 'Processing';
-            } else {
-                $a[$k]['status'] = 'Idle';
-                $a[$k]['status'] = 'Idle';
-            }
-
+            $id = $v['id'];
+            $a[$k]['status'] = $this->getStatus($id, $v);
         }
 
         return $a;
     }
 
+    /**
+     * Get status of deploy by ID.
+     * (optional) $data can be passed to filter the data from.
+     *
+     * @param $id
+     * @param null $data
+     * @return string
+     */
+    public function getStatus($id, $data = NULL) {
+        $status = '';
 
-    public function set($id = null, $set = array(), $direct = FALSE) {
+        if (is_null($data)) {
+            $data = $this->get($id);
+            $data = $data[0];
+        }
+
+        $record = new Model_Record();
+        $branch = new Model_Branch();
+        $active_records = $record->get($id, FALSE, FALSE, $record->in_progress);
+        $queued_records = $record->get($id, FALSE, FALSE, $record->in_queue);
+        $active_count = count($active_records);
+        $queue_count = count($queued_records);
+
+        if ($active_count != 0) {
+            $total_files = 0;
+            $processed_files = 0;
+
+            foreach ($active_records as $ar) {
+                $total_files += $ar['total_files'];
+                $processed_files += $ar['processed_files'];
+            }
+
+            $env = $branch->get_by_branch_id($active_records[0]['branch_id']);
+            $env = $env[0]['name'];
+
+            $processed_files = ($processed_files !== 0) ? $processed_files : '&hellip;';
+            $total_files = ($total_files !== 0) ? $total_files : '&hellip;';
+
+            $status = "Deploying to $env | $processed_files of $total_files files";
+
+        } else if ($data['cloned'] == 0) {
+            $status = 'To be initialized';
+        } else if ($data['cloned'] == 2) {
+            $status = 'Processing';
+        } else {
+            $status = 'Idle';
+        }
+
+        return $status;
+    }
+
+    public function set($id = NULL, $set = array(), $direct = FALSE) {
         if (is_null($id) && !is_null($this->id)) {
             $id = $this->id;
         }
@@ -105,14 +126,14 @@ class Model_Deploy extends Model {
             echo shell_exec('chgrp www-data * -R');
             echo shell_exec('chmod 777 -R *');
 
-            try{
+            try {
                 File::read_dir($repo_dir);
-                try{
+                try {
                     File::delete_dir($repo_dir, TRUE, TRUE);
-                }catch(Exception $e){
+                } catch (Exception $e) {
                     throw new Exception('Could not delete project. Please contact support.');
                 }
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 // folder could not be read (is not present), CONTINUE.
             }
         } catch (Exception $ex) {
@@ -122,7 +143,7 @@ class Model_Deploy extends Model {
         return DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public function create($repo_url, $name, $username = null, $password = null, $key, $env) {
+    public function create($repo_url, $name, $username = NULL, $password = NULL, $key, $env) {
 
         if (!$this->user_id) {
             return FALSE;

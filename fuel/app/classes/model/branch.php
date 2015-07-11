@@ -49,6 +49,11 @@ class Model_Branch extends Model {
 
         $a = $q->execute()->as_array();
 
+        foreach($a as $k => $v){
+            $a[$k]['skip_path'] = ($a[$k]['skip_path'] !== '0') ? unserialize($a[$k]['skip_path']) : array();
+            $a[$k]['purge_path'] = ($a[$k]['purge_path'] !== '0') ? unserialize($a[$k]['purge_path']) : array();
+        }
+
         return $a;
     }
 
@@ -76,6 +81,13 @@ class Model_Branch extends Model {
                 return FALSE;
             }
         }
+
+        if (isset($set['skip_path']))
+            $set['skip_path'] = serialize($set['skip_path']);
+
+        if (isset($set['purge_path']))
+            $set['purge_path'] = serialize($set['purge_path']);
+
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }

@@ -239,9 +239,9 @@ class gitcore {
             }
             $this->checkSubmodules($this->repo);
 
-            if($this->revision === 'HEAD'){
+            if ($this->revision === 'HEAD') {
                 // Todo: pass hash instead of HEAD.
-                echo 'THIS IS HEADDDD';
+
             }
             $this->deploy($this->revision);
 
@@ -702,6 +702,8 @@ class gitcore {
                 $this->push($files[$this->currentlyDeploying]);
                 // Purge
                 if (isset($this->purgeDirs[$name]) && count($this->purgeDirs[$name]) > 0) {
+                    $this->output("Purging ...");
+                    $this->log("Purging ...");
                     $this->purge($this->purgeDirs[$name]);
                 }
             }
@@ -853,12 +855,23 @@ class gitcore {
         foreach ($filesToDelete as $fileNo => $file) {
 
             $numberOfFilesToDelete = count($filesToDelete);
-            if ($this->connection->exists($file)) {
+//            if ($this->connection->exists($file)) {
+//                $this->connection->rm($file);
+//                $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+//                $this->log("x removed $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->output("x removed $fileNo of $numberOfFilesToDelete {$file}");
+//            } else {
+//                $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
+//                $this->log("not found $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
+//            }
+//            if ($this->connection->exists($file)) {
+            try {
                 $this->connection->rm($file);
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->log("x removed $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("x removed $fileNo of $numberOfFilesToDelete {$file}");
-            } else {
+            } catch (Exception $e) {
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->log("not found $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
@@ -1013,24 +1026,44 @@ class gitcore {
      */
     public function purge($purgeDirs) {
         foreach ($purgeDirs as $dir) {
+            $this->output('------ ' . $dir);
             $origin = $this->connection->pwd();
-            try{
+            if(substr($dir, 0, 1) == '/'){
+                $this->log("Warning: Leading slash may delete all files in root directory: $dir.");
+                $dir = substr($dir, 1, strlen($dir));
+                $this->log("Using $dir instead");
+            }
+
+            try {
                 $this->connection->cd($dir);
-            }catch(Exception $e){
-                $this->log('Ignoring directory "'.$dir.'", reason: doesn\'t exist.');
+            } catch (Exception $e) {
+                $this->log('Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
                 continue;
             }
 
             if (!$tmpFiles = $this->connection->ls()) {
                 $this->output("Nothing to purge in {$dir}");
+                $this->log("Nothing to purge in {$dir}");
                 continue;
             }
 
-            $this->output("Purging ...");
-
             foreach ($tmpFiles as $file) {
-                $this->connection->rm($file);
-                $this->output("Purged file $file");
+                try {
+                    // Okay folder found.
+                    $this->connection->cd($file);
+                    $this->connection->cd('../');
+                    $this->output($file . ' is a folder.');
+                    $this->purge(array($file));
+                    $this->connection->rmdir($file);
+                } catch (Exception $e) {
+                    // Its a file. remove it !
+                    try {
+                        $this->connection->rm($file);
+                        $this->output("Purged file $file");
+                    } catch (Exception $e) {
+                        $this->log('could not purge file: ' . $file);
+                    }
+                }
             }
 
             $this->output("Purged {$dir}");

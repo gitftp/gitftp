@@ -1,8 +1,8 @@
 <div class="panel panel-default">
     <div class="panel-body panel-body-material">
-        <p>
-            <i class="fa fa-wrench fa-fw"></i> <strong>PROJECT SETTINGS</strong>
-        </p>
+        <div class="panel-title">
+            <i class="fa fa-wrench"></i>&nbsp; Project settings
+        </div>
 
         <div style="height: 20px;"></div>
         <div class="row">
@@ -43,7 +43,7 @@
                             <div class="col-sm-9">
                                 <input type="text"
                                        name="username"
-                                       placeholder="Your username"
+                                       placeholder="Username"
                                        value="<%= data.username %>"
                                        class="form-control"/>
                             </div>
@@ -84,7 +84,7 @@
                 <div class="col-md-5">
                     <div class="project-settings-info">
                         <p>
-                            <i class="fa fa-heart-o"></i> Project Status.
+                            <i class="fa fa-heartbeat"></i> &nbsp;Project Status.
                         </p>
 
                         <p>
@@ -92,11 +92,11 @@
                         </p>
 
                         <p>
-                            <strong>Ready</strong>: <%= (data.ready) ? '<i class="fa fa-check green"></i> is ready for Auto-deploy.' : '<i class="fa fa-times redalt"></i>' %>
+                            <strong>Processed</strong>: <%= (data.cloned) ? '<i class="fa fa-check green"></i> is ready.' : '<i class="fa fa-times redalt"></i>' %>
                         </p>
 
                         <p>
-                            <strong>Branches</strong>: <%= data.branches.length %> branch(es) set. <a class="gray" href="#deploy/v/<%= data.id %>/deploy">edit</a>
+                            <strong>Env</strong>: <%= data.branches.length %> <i class="fa fa-leaf"></i> environment<%= (data.branches.length == 1) ? '' : 's' %> set. <a class="gray" href="#/project/<%= data.id %>/environments">edit</a>
                         </p>
 
                         <p>
@@ -105,8 +105,8 @@
                     </div>
                 </div>
 
-                <div style="height: 10xp;"></div>
                 <div class="col-md-12">
+                    <div class="space10"></div>
                     <button type="submit" class="btn btn-success">
                         <i class="fa fa-pencil"></i> &nbsp;Update
                     </button>

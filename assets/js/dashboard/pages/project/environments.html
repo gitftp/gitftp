@@ -3,32 +3,37 @@
     <div class="row">
         <% $.each(branches, function(i, a){ %>
         <div class="col-md-6">
-            <div class="project-branch">
+            <div class="project-branch" data-uri="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">
                 <div class="block">
-                    <p class="branch-name-container"><i class="fa fa-leaf fa-fw green"></i> <span class="branch-name"><%= a.name %></span></p>
-                    <!--<span class="branch-name"></span> &nbsp;-->
+                    <div class="deploy-button start-deploy" data-id="<%= a.id %>">
+                        <i class="fa fa-arrow-up"></i>
+                    </div>
+                    <p class="branch-name-container">
+                        <i class="fa fa-leaf fa-fw green"></i> <span class="branch-name"><%= a.name %></span>
+                    </p>
                     <code><i class="fa fa-code-fork"></i> <%= a.branch_name %></code>
-                    <span class="pull-right">
-                        <%= (a.ready == 1) ? '<i class="fa fa-check green" title="Deployed"></i> Deployed' : '<i class="fa fa-pause"></i> Not deployed' %>
-                    </span>
                     <br/>
                     <span class="onrevision">Revision: </span><span class="revision"><%= (a.revision) ? a.revision.substr(0, 6) : 'None' %></span>
-                    <span class="pull-right date">
-                        last deploy <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
-                    </span>
+
                     <br/>
                     <!--<span class="autodeploy"><%= (a.ready == 1) ? '<i class="fa fa-check"></i> Ready' : 'Not deployed yet.' %></span>-->
-                    <span class="autodeploy">Auto deploy: <%= (a.auto == 1) ? ' <i class="fa fa-check green fa-fw"></i> Active.' : ' <i class="fa fa-pause fa-fw"></i> Not active.' %></span>
-                    <!--<span class="pull-right date">-->
-                        <!--<a href="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">View</a>-->
-                    <!--</span>-->
+                    <span class="autodeploy"><%= (a.auto == 1) ? ' <i class="fa fa-check green"></i>&nbsp; Auto-deploy enabled' : 'Auto-deploy disabled.' %></span>
+                    <% if(a.revision != '' || a.ready != 0){ %>
+                        <span class="pull-right date">
+                        last deploy <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
+                        </span>
+                    <% }else{ %>
+                        <span class="pull-right">
+                        Not deployed &nbsp; <span data-toggle="tooltip" data-placement="left" title="Not deployed yet."><i class="fa fa-pause"></i></span>
+                        </span>
+                    <% } %>
                 </div>
                 <div class="buttons">
                     <a href="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">
-                        View
+                        View or configure
                     </a>
-                    <button type="button" class="deploy" data-id="<%= a.id %>">
-                        <i class="fa fa-cloud-upload center fa-fw"></i> deploy now
+                    <button type="button" class="deploy start-deploy" data-id="<%= a.id %>">
+                        <i class="fa fa-arrow-up fa-fw"></i> deploy now
                     </button>
                 </div>
             </div>

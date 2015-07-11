@@ -323,6 +323,8 @@ class Gfcore {
 
         // TODO: WE ARE HERE.
 
+        print_r($this->branch);
+
         // Setting options for gitcore
         $options = array(
             'record_id'      => $this->record_id,
@@ -339,8 +341,8 @@ class Gfcore {
                     'port'    => $ftp_data['port'],
                     'path'    => $ftp_data['path'],
                     'passive' => TRUE,
-                    'skip'    => array('*.php'),
-                    'purge'   => array('images/something', 'images/something2'),
+                    'skip'    => unserialize($this->branch['skip_path']),
+                    'purge'   => unserialize($this->branch['purge_path']),
                 )
             ),
             'remoteRevision' => $branch['revision'],

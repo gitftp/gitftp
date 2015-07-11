@@ -32,7 +32,7 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
 
             foreach ($branch_data as $b) {
                 if ($b['branch_name'] == $i['branch_name'] && $b['deploy_id'] == $i['deploy_id'])
-                    throw new Exception('An Environment named "'.$b['name'].'" already has the same Branch and FTP configured.');
+                    throw new Exception('An Environment named "' . $b['name'] . '" already has the same Branch and FTP configured.');
             }
 
             $createData = array();
@@ -57,6 +57,59 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
         echo $response;
     }
 
+    public function post_updaterevision() {
+        try {
+            $hash = Input::post('hash');
+            $id = Input::post('id');
+            $branch = new Model_Branch();
+            $branch_data = $branch->get_by_branch_id($id);
+            if (count($branch_data) !== 1) {
+                throw new Exception('Branch not found.');
+            }
+            $branch_data = $branch_data[0];
+            $branch_name = $branch_data['branch_name'];
+            $repo_dir = DOCROOT . 'fuel/repository/' . $branch_data['user_id'] . '/' . $branch_data['deploy_id'];
+
+            chdir($repo_dir);
+
+//            -------------------------------
+//            $results = utils::gitCommand('branch -r --contains '.$hash);
+//
+//            foreach($results as $result){
+//
+//                if(strpos($branch_name, $result) !== false){
+//                    echo 'matches';
+//                }else{
+//                    echo 'No !';
+//                }
+//            }
+//                ----------------------------
+
+            $results = utils::gitCommand('rev-parse --verify ' . $hash);
+            if (count($results)) {
+                $hash = $results[0];
+
+                $branch->set($id, array(
+                    'revision' => $hash,
+                ));
+
+                $response = array(
+                    'status' => TRUE,
+                    'hash'   => $hash
+                );
+            } else {
+                throw new Exception('The hash provided is not valid or does not exist in the repository.');
+            }
+
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        echo json_encode($response);
+    }
+
     public function post_updatebranch() {
         try {
             $i = Input::post();
@@ -69,6 +122,14 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
 
             if (count($branch_data) !== 1) {
                 throw new Exception('The branch does not exist.');
+            }
+
+            if (isset($i['skip_path'])) {
+                $dataToSave['skip_path'] = ($i['skip_path'] !== '') ? explode(',', $i['skip_path']) : array();
+            }
+
+            if (isset($i['purge_path'])) {
+                $dataToSave['purge_path'] = ($i['purge_path'] !== '') ? explode(',', $i['purge_path']) : array();
             }
 
             if (isset($i['name']) && !empty($i['name'])) {

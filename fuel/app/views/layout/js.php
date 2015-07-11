@@ -4,9 +4,10 @@ echo Asset::js(array(
     'vendor/underscore.js',
     'vendor/modernizr-2.8.3-respond-1.4.2.min.js',
     'vendor/bootstrap.min.js',
-    'vendor/backbone.js',
     'vendor/jquery-confirm.min.js',
     'vendor/jquery.noty.packaged.min.js',
+    'vendor/selectivity-full.js',
+    'vendor/backbone.js',
     'main.js',
     ));
 ?>

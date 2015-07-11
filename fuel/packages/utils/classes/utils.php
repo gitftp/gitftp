@@ -201,11 +201,11 @@ class utils {
         DB::insert('log')->set(array('a' => $string,))->execute();
     }
 
-    public static function escapeHtmlChars($string){
+    public static function escapeHtmlChars($string, $except = array()){
 
         if(is_array($string)){
             foreach($string as $k => $v){
-                if(!is_array($v) && $k !== 'password' && $k !== 'pass'){
+                if(!is_array($v) && $k !== 'password' && $k !== 'pass' && $k !== 'skip_path'){
                     $string[$k] = trim(htmlspecialchars($v, ENT_QUOTES));
                 }
             }

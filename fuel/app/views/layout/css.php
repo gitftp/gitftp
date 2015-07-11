@@ -6,4 +6,5 @@ echo Asset::css(array(
     'main.css',
     'jquery-confirm.min.css',
     'font-awesome.min.css',
+    'selectivity-full.css',
 ));

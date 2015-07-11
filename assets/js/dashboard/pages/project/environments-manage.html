@@ -1,8 +1,7 @@
 <div class="panel panel-default branch-single-view">
     <div class="panel-body panel-body-material">
-        <div class="branch-name">
+        <div class="panel-title">
             <i class="fa fa-leaf green"></i>&nbsp; <%= branch.name %>
-
             <div class="pull-right">
                 <div class="dropdown">
                     <button id="branch-settings" class="btn btn-default btn-clean dropdown-toggle" type="button"
@@ -15,7 +14,6 @@
                     </ul>
                 </div>
             </div>
-
         </div>
         <div class="space15"></div>
         <div class="row">
@@ -53,7 +51,12 @@
                             <!--<p class="form-control-static">-->
                                 <!--<code><%= branch.revision %></code>-->
                             <!--</p>-->
-                            <input type="text" readonly value="<%= branch.revision %>" class="form-control mono"/>
+                            <div class="input-group">
+                                <input type="text" disabled value="<%= branch.revision %>" class="form-control mono"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-block btn-clean project-env-edit-revision"><i class="fa fa-pencil"></i></button>
+                                </span>
+                            </div>
                             <% }else{ %>
                             <p class="form-control-static">
                                 Not deployed on Remote yet.
@@ -82,7 +85,7 @@
                         </label>
 
                         <div class="col-sm-9">
-                            <select name="ftp_id" id="" class="form-control">
+                            <select name="ftp_id" id="env_ftp_select" class="form-control">
                                 <option selected value="<%= ftp.id %>"><%= ftp.name %> (selected)</option>
                                 <% $.each(ftplist.data, function(i, f){ %>
                                 <% JSON.stringify(f) %>
@@ -95,19 +98,28 @@
                             </p>
                         </div>
                     </div>
-                    <div style="height: 10px;"></div>
-                    <button type="submit" class="btn btn-success">Update</button>
-
                 </div>
+            </form>
+            <form action="" class="project-branch-env-save-form-2">
                 <div class="col-md-6">
-                    <div class="space5"></div>
-                    <div class="well">
-                        <div class="form-group">
-                            <label for="">Skip below files.</label>
-                        </div>
+                    <div class="space10"></div>
+                    <div class="form-group">
+                        <label for="selective-skip" class="control-label">Skip files that match:</label>
+                        <div class="selective-skip" id="selective-skip"></div>
+                        <p class="help-block text-right">
+                            * wildcard allowed.
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="selective-purge" class="control-label">Purge directories on upload: <span data-toggle="tooltip" data-placement="top" title="Directory will be emptied recursively."><i class="fa fa-info blue fa-fw"></i></span></label>
+                        <div class="selective-purge" id="selective-purge"></div>
                     </div>
                 </div>
             </form>
+            <div class="col-md-12">
+                <div class="space10"></div>
+                <button type="text" class="btn btn-success project-branch-env-save-form-submit">Update</button>
+            </div>
         </div>
     </div>
 </div>

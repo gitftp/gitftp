@@ -55,6 +55,10 @@ body {
   background: @red;
 }
 
+.gray{
+  color: @gray;
+}
+
 .blue {
   color: @blue;
 }
@@ -178,10 +182,23 @@ input, select {
 }
 
 .shadow {
-  //    box-shadow: 0 2px 3px rgba(0, 0, 0, .1);
-  //    box-shadow: 0 2px 2px 0px rgba(0, 0, 0, 0.1);
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .14), 0 2px 2px 0 rgba(0, 0, 0, .098), 0 1px 5px 0 rgba(0, 0, 0, .084);
-  //  border: solid 2px @border_color;
+}
+
+.shadow-x2 {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .14), 0 4px 5px 0 rgba(0, 0, 0, .098), 0 1px 10px 0 rgba(0, 0, 0, .084);
+}
+
+.shadow-x3 {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .14), 0 6px 10px 0 rgba(0, 0, 0, .098), 0 1px 18px 0 rgba(0, 0, 0, .084);
+}
+
+.shadow-x4 {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .14), 0 6px 10px 0 rgba(0, 0, 0, .098), 0 1px 18px 0 rgba(0, 0, 0, .084);
+}
+
+.shadow-x5 {
+  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, .14), 0 16px 24px 2px rgba(0, 0, 0, .098), 0 6px 30px 5px rgba(0, 0, 0, .084);
 }
 
 .navbar-default {
@@ -207,10 +224,8 @@ input, select {
       box-shadow: 0 2px @blue_dark;
     }
     .dropdown-menu {
-      //      border-color: #e7e7e7;
       border: none;
       background: white;
-      .shadow;
     }
     .dropdown.open > a {
       background-color: white !important;
@@ -240,7 +255,7 @@ input, select {
   .dropdown-menu {
     border: none;
     background: white;
-    .shadow;
+    .shadow-x2;
 
     &.dropdown-menu-material {
       top: 0px;
@@ -652,21 +667,38 @@ a.btn {
 
 .project-branches-env {
   .project-branch {
+    cursor: pointer;
     margin-bottom: 15px;
-    //    border: solid 1px #ddd;
     border-radius: 4px;
     background: white;
     .shadow;
+    position: relative;
+
+    .deploy-button{
+      position: absolute;
+      right: 15px;
+      top: 15px;
+      font-size: 32px;
+      background-color: @bg;
+      height: 60px;
+      width: 60px;
+      text-align: center;
+      line-height: 60px;
+      border-radius: 50px;
+      &:hover{
+        background-color: #e0e0e0;
+      }
+    }
 
     .buttons {
       width: 100%;
       background: none;
       display: table;
-      border-top: solid 1px #ddd;
+      border-top: solid 1px @bg;
 
       a {
         width: 60%;
-        border-right: solid 1px #ddd;
+        border-right: solid 1px @bg;
       }
       button.deploy {
         width: 100%;
@@ -682,7 +714,7 @@ a.btn {
         background: none;
 
         &:hover {
-          background: #eee;
+          background: darken(@bg, 1%);
         }
       }
 
@@ -695,7 +727,7 @@ a.btn {
       font-weight: normal;
     }
     .block {
-      padding: 10px;
+      padding: 15px;
       display: block;
     }
     .onrevision {
@@ -803,9 +835,6 @@ a.btn {
 }
 
 .branch-single-view {
-  .branch-name {
-    font-size: 18px;
-  }
   table {
     width: 100%;
     tr {
@@ -840,9 +869,9 @@ a.btn {
   }
 }
 
+// freshdeploy block;
 .freshdeploy {
   padding: 0 20px 10px;
-
   .title {
     font-size: 1.6em;
     font-weight: bold;
@@ -850,6 +879,7 @@ a.btn {
   }
 }
 
+// siderbar
 .projectview-siderbar {
   .shadow;
   border-radius: 4px;
@@ -865,17 +895,14 @@ a.btn {
     background: white;
   }
   .active-cs {
-    //    background: #ECEFF1;
     color: @base !important;
-    //    box-shadow: inset 2px 0px @base;
-    //    border-top-left-radius: 0px;
-    //    border-bottom-left-radius: 0px;
   }
   a:focus {
     background: white;
   }
 }
 
+// panel
 .panel {
   border: none;
   .shadow;
@@ -883,16 +910,23 @@ a.btn {
     &.panel-body-material {
       padding: 20px 25px;
     }
+    .panel-title {
+      font-size: 18px;
+      text-transform: capitalize;
+    }
   }
 }
 
+// astricks
 .ast {
   font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 // noty
-#noty_bottomRight_layout_container {
-  .shadow;
+#noty_bottomRight_layout_container, #noty_bottomLeft_layout_container, #noty_topRight_layout_container {
+  .shadow-x3;
+  border-radius: 4px;
+  overflow: hidden;
 
   li {
     background: white;
@@ -901,6 +935,12 @@ a.btn {
     }
     .noty_message {
       padding: 13px 10px;
+    }
+  }
+  .noty_text{
+    i.fa{
+      vertical-align: middle;
+      margin-right: 5px;
     }
   }
 }

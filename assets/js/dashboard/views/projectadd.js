@@ -181,7 +181,7 @@ define([
             this.template = _.template(this.page);
 
             _ajax({
-                url: base + 'api/ftp/getall',
+                url: base + 'api/ftp/get',
                 dataType: 'json',
             }).done(function (data) {
                 if (data.data.length == 0) {

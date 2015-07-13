@@ -321,9 +321,6 @@ class Gfcore {
         $this->log('revision_on_server_before', $branch['revision']);
         $this->output('Revision on FTP: ' . $branch['revision']);
 
-        // TODO: WE ARE HERE.
-
-        print_r($this->branch);
 
         // Setting options for gitcore
         $options = array(
@@ -348,15 +345,17 @@ class Gfcore {
             'remoteRevision' => $branch['revision'],
         );
 
+        // TODO: WE ARE HERE.
+
         // if record type is rollback, checkout to the rollback commit.
         if ($this->record['record_type'] == $this->m_record->type_rollback && !empty($this->record['hash'])) {
             // checkout the the specific hash.
             utils::gitCommand('checkout ' . $this->record['hash']);
+        }
 
-            /*
-             * Setting rollback is not necessary, because GITcore goes to HEAD.
-             */
-//            $options['rollback'] = $this->record['hash'];
+        if($this->record['record_type'] == $this->m_record->type_sync){
+            // upload all files please.
+            $options['remoteRevision'] = '';
         }
 
         $localRevision = utils::gitCommand('rev-parse HEAD');
@@ -365,8 +364,9 @@ class Gfcore {
             $options['localRevision'] = $localRevision;
         }
 
-        if ($localRevision == $branch['revision']) {
-            $this->output('Nothing has changed, the local and remote hash are the same !');
+        if ($options['localRevision'] == $options['remoteRevision']) {
+            $this->output('FTP server has the latest changes!');
+            $this->log('FTP server has the latest changes!');
         }
 
         $this->output($localRevision);

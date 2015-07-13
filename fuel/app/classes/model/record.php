@@ -14,13 +14,13 @@ class Model_Record extends Model {
     public $success = '1';
     public $failed = '0';
 
-    // record type is standard, deployed by user for latest changes.
-    public $type_manual = '0';
+    // update files to the latest.
+    public $type_update = '0';
 
-    // deployed by a online service, push hook.
-    public $type_service = '1';
+    // update all files, to the latest.
+    public $type_sync = '1';
 
-    // deployed to a specific commit.
+    // rollback or front to a particular hash.
     public $type_rollback = '2';
 
     // Wheather if to check for user related content.

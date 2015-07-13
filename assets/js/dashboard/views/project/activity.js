@@ -75,7 +75,7 @@ define([
             var count = $('.project-record-list').length;
             var that = this;
             _ajax({
-                url: base + 'api/records/getall/' + that.parent.id,
+                url: base + 'api/records/get/' + that.parent.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
@@ -102,7 +102,7 @@ define([
             console.log(this.parent);
 
             _ajax({
-                url: base + 'api/records/getall/' + that.parent.id,
+                url: base + 'api/records/get/' + that.parent.id,
                 method: 'get',
                 dataType: 'json',
                 data: {

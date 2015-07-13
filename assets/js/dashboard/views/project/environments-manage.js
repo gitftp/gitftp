@@ -144,13 +144,13 @@ define([
             var ftp_id = this.branch['ftp_id'];
 
             var ftp = _ajax({
-                url: base + 'api/ftp/getall/' + ftp_id,
+                url: base + 'api/ftp/get/' + ftp_id,
                 method: 'get',
                 dataType: 'json',
             });
 
             var ftp_notUsed = _ajax({
-                url: base + 'api/ftp/getall/',
+                url: base + 'api/ftp/get/',
                 method: 'get',
                 dataType: 'json',
             });

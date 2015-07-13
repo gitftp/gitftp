@@ -10,7 +10,6 @@ define([
         events: {
             'click .viewdeploy': 'goto',
             'click .deletedeploy': 'delete',
-            
         },
         delete: function (e) {
             e.stopPropagation();
@@ -22,7 +21,7 @@ define([
                 title: 'Sure?',
                 content: 'Are you sure to delete this deploy',
                 confirm: function () {
-                    
+
                     $.getJSON(base + 'api/deploy/delete/' + id, function (data) {
 
                         $this.parents('tr').removeClass('viewdeploy').fadeTo(400, .3);
@@ -53,10 +52,10 @@ define([
             this.page = page;
             this.template = _.template(this.page);
             _ajax({
-                url: base+ 'api/deploy/getall',
+                url: base + 'api/deploy/get',
                 dataType: 'json',
                 method: 'get',
-            }).done(function(data){
+            }).done(function (data) {
                 var template = that.template({'list': data.data});
                 that.el.html(template);
             });

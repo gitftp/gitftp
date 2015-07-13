@@ -1,6 +1,7 @@
 define([
     'text!pages/project/environments.html',
-], function (envHtml) {
+    'utils/deployHelper',
+], function (envHtml, deployHelper) {
     /**
      * Project Env.
      */
@@ -8,12 +9,17 @@ define([
         el: app.el,
         events: {
             'click .project-branch .start-deploy': 'deployBranch',
-            'click .project-branch': 'gotoManage'
+            'click .project-branch': 'gotoManage',
+            'click .env-start-deploy': 'deploybranchOptions',
+        },
+        deploybranchOptions: function(e){
+            e.preventDefault();
+            e.stopPropagation();
+            deployHelper.showOptions(this.parent.id, $(e.currentTarget).attr('data-branch'));
         },
         gotoManage: function(e){
             e.preventDefault();
             e.stopPropagation();
-
             var url = $(e.currentTarget).attr('data-uri');
 
             Router.navigate(url, {

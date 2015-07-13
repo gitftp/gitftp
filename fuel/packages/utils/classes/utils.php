@@ -201,21 +201,36 @@ class utils {
         DB::insert('log')->set(array('a' => $string,))->execute();
     }
 
-    public static function escapeHtmlChars($string, $except = array()){
+    public static function escapeHtmlChars($string, $except = array()) {
 
-        if(is_array($string)){
-            foreach($string as $k => $v){
-                if(!is_array($v) && $k !== 'password' && $k !== 'pass' && $k !== 'skip_path'){
+        if (is_array($string)) {
+            foreach ($string as $k => $v) {
+                if (!is_array($v) && $k !== 'password' && $k !== 'pass' && $k !== 'skip_path') {
                     $string[$k] = trim(htmlspecialchars($v, ENT_QUOTES));
                 }
             }
-        }else{
+        } else {
             $string = htmlspecialchars($string, ENT_QUOTES);
         }
 
         return $string;
     }
 
+    public static function get_repo_dir($deploy_id, $user_id = NULL) {
+        if (is_null($user_id)) {
+            $user_id = Auth::get_user_id()[1];
+        }
+        return DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
+    }
+
+    public static function git_verify_hash($deploy_id, $hash) {
+        $path = self::get_repo_dir($deploy_id);
+        $origin = getcwd();
+        chdir($path);
+        $results = self::gitCommand('rev-parse --verify ' . $hash);
+        chdir($origin);
+        return (count($results)) ? $results[0] : FALSE;
+    }
 }
 
 /* end of file auth.php */

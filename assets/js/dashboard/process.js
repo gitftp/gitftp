@@ -10,7 +10,7 @@ define([], function () {
             setTimeout(function () {
                 if ($('.is-deploy-view-id').length) {
                     var id = $('.is-deploy-view-id').attr('data-id');
-                    $.getJSON(base + 'api/deploy/getall/' + id, function (data) {
+                    $.getJSON(base + 'api/deploy/get/' + id, function (data) {
                         data = data.data[0];
                         var el = $('.project-v-status');
                         if (data.status == 'Idle' || data.status == 'To be initialized') {

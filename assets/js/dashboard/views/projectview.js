@@ -47,7 +47,7 @@ define([
             };
 
             _ajax({
-                url: base + 'api/deploy/getall/' + this.id,
+                url: base + 'api/deploy/get/' + this.id,
                 method: 'get',
                 dataType: 'json'
             }).done(function (data) {
@@ -81,12 +81,12 @@ define([
                 that.renderChild();
             });
         },
-        makeMenuSelection: function(){
+        makeMenuSelection: function () {
             console.log(this.which);
             var $menuItems = $('.projectview-siderbar');
             $menuItems.find('a.list-group-item').removeClass('active-cs');
 
-            switch(this.which){
+            switch (this.which) {
                 case 'activity':
                     $menuItems.find('.subview-activity').addClass('active-cs');
                     break;

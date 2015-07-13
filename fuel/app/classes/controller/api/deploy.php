@@ -98,7 +98,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
 
     }
 
-    public function action_getall($id = NULL) {
+    public function action_get($id = NULL) {
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
         $record = new Model_Record();
@@ -241,7 +241,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
                     chdir($repo_dir);
 //                    echo $newCloneUrl;
                     // TODO: this is not working !
-                    $op = utils::gitCommand('remote set-url origin '.$newCloneUrl);
+                    $op = utils::gitCommand('remote set-url origin ' . $newCloneUrl);
 //                    exec('git remote set-url origin ' . $newCloneUrl, $op);
 //                    print_r($op);
                 } catch (Exception $e) {
@@ -274,8 +274,9 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         $i = Input::post();
 
         try {
-            if (!isset($i['deploy_id']))
+            if (!isset($i['deploy_id']) || !isset($i['type']))
                 throw new Exception('Missing parameter.');
+
 
             $record = new Model_Record();
             $branch = new Model_Branch();
@@ -296,16 +297,48 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
                 ));
             }
 
+            // type can be
+            // sync, update, revert.
             if (count($branches) > 0) {
                 foreach ($branches as $singlebranch) {
-                    $record_id = $record->insert(array(
-                        'deploy_id'   => $deploy_id,
-                        'record_type' => $record->type_manual,
-                        'branch_id'   => $singlebranch['id'],
-                        'date'        => time(),
-                        'triggerby'   => '',
-                        'status'      => $record->in_queue,
-                    ));
+
+                    $set = array(
+                        'deploy_id' => $deploy_id,
+                        'branch_id' => $singlebranch['id'],
+                        'date'      => time(),
+                        'triggerby' => '',
+                        'status'    => $record->in_queue,
+                    );
+
+                    switch ($i['type']) {
+                        case 'update':
+                            $set['record_type'] = $record->type_update;
+                            break;
+
+                        case 'sync':
+                            $set['record_type'] = $record->type_sync;
+                            break;
+
+                        case 'revert':
+                            $set['record_type'] = $record->type_rollback;
+                            if (!isset($i['hash']))
+                                throw new Exception('Missing parameter hash.');
+
+                            $hash = utils::git_verify_hash($i['deploy_id'], $i['hash']);
+                            if ($hash)
+                                $set['hash'] = $hash;
+                            else
+                                throw new Exception('The hash provided is not valid or does not exist in the repository.');
+
+                            break;
+
+                        default:
+                            throw new Exception('Invalid value Type passed.');
+                            break;
+                    }
+
+
+                    $record_id = $record->insert($set);
                 }
             }
 
@@ -317,9 +350,13 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         } catch (Exception $e) {
             echo json_encode(array(
                 'status' => FALSE,
-                'reason' => $e->getMessage() . $e->getLine() . $e->getFile()
+                'reason' => $e->getMessage()
             ));
         }
+
+    }
+
+    public function run_update() {
 
     }
 }

@@ -6,7 +6,7 @@ class Controller_Api_Records extends Controller_Apilogincheck {
 
     }
 
-    public function action_getall($id = NULL) {
+    public function action_get($id = NULL) {
         $get = Input::get();
         $limit = isset($get['limit']) ? $get['limit'] : FALSE;
         $offset = isset($get['offset']) ? $get['offset'] : FALSE;

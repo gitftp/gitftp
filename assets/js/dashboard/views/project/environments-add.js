@@ -17,7 +17,7 @@ define([
             var $ftpcontainer = $('.ftp-details');
 
             _ajax({
-                url: dash_url + 'api/ftp/getall/' + $this.val(),
+                url: dash_url + 'api/ftp/get/' + $this.val(),
                 method: 'get',
                 dataType: 'json'
             }).done(function (response) {
@@ -110,7 +110,7 @@ define([
         },
         getFtp: function () {
             return _ajax({
-                url: dash_url + 'api/ftp/getall',
+                url: dash_url + 'api/ftp/get',
                 method: 'get',
                 dataType: 'json'
             });

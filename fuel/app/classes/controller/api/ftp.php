@@ -11,7 +11,7 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
      * @param type $id
      * @return type
      */
-    public function action_getall($id = NULL) {
+    public function action_get($id = NULL) {
 
         $ftp = new Model_Ftp();
         $data = $ftp->get($id);
@@ -22,6 +22,7 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
             'status' => TRUE,
             'data'   => $data
         ));
+
     }
 
     public function post_testftp($a = NULL, $return = FALSE) {

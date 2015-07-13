@@ -150,18 +150,17 @@ input, select {
 .jconfirm {
 
   &.git {
-
     .jconfirm-bg {
       background-color: rgba(0, 0, 0, .1) !important;
     }
     .jconfirm-box {
-      /*border-radius: 0px !important;*/
+      .shadow-x4;
 
       div.title {
         font-weight: normal;
         font-size: 22px;
-        font-weight: bold;
-        text-transform: uppercase;
+        font-weight: 500;
+//        text-transform: uppercase;
       }
       div.content {
 
@@ -667,12 +666,12 @@ a.btn {
 
 .project-branches-env {
   .project-branch {
-    cursor: pointer;
     margin-bottom: 15px;
     border-radius: 4px;
     background: white;
     .shadow;
     position: relative;
+    cursor: pointer;
 
     .deploy-button{
       position: absolute;
@@ -685,6 +684,7 @@ a.btn {
       text-align: center;
       line-height: 60px;
       border-radius: 50px;
+
       &:hover{
         background-color: #e0e0e0;
       }
@@ -941,6 +941,33 @@ a.btn {
     i.fa{
       vertical-align: middle;
       margin-right: 5px;
+    }
+  }
+}
+
+.jconfirm-deploy-options{
+  div.deploytitle{
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+  .row{
+    div{
+      a{
+        background-color: @bg;
+        display: block;
+        border-radius: 4px;
+        text-align: center;
+        padding: 15px;
+        text-transform: uppercase;
+        line-height: 15px;
+        font-weight: 500;
+
+        i{
+          font-size: 40px;
+          margin-bottom: 10px;
+        }
+      }
     }
   }
 }

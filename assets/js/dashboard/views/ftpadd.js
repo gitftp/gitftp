@@ -174,7 +174,7 @@ define([
             if (id) {
 
                 _ajax({
-                    url: base + 'api/ftp/getall/' + id,
+                    url: base + 'api/ftp/get/' + id,
                     dataType: 'json',
                     method: 'get',
                 }).done(function (data) {

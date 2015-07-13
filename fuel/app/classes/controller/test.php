@@ -20,6 +20,8 @@ class Controller_Test extends Controller {
         Gfcore::deploy_in_bg('30');
     }
     public function get_test(){
+        echo utils::get_repo_dir(12);
+        die();
         $a = '/asdsadsa/asd';
 //
 //        if(substr($a, 0, 1) == '/'){

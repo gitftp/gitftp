@@ -2,7 +2,7 @@
 
 class Model_Ftp extends Model {
 
-    private $table = 'ftpdata';
+    private $table = 'ftp';
     public $user_id;
 
     public function __construct() {

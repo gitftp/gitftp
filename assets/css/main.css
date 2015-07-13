@@ -110,13 +110,12 @@ select[readonly] {
   background-color: rgba(0, 0, 0, 0.1) !important;
 }
 .jconfirm.git .jconfirm-box {
-  /*border-radius: 0px !important;*/
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
 }
 .jconfirm.git .jconfirm-box div.title {
   font-weight: normal;
   font-size: 22px;
-  font-weight: bold;
-  text-transform: uppercase;
+  font-weight: 500;
 }
 .shadow {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
@@ -593,12 +592,12 @@ a.btn {
           transform: scale(0.9);
 }
 .project-branches-env .project-branch {
-  cursor: pointer;
   margin-bottom: 15px;
   border-radius: 4px;
   background: white;
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
   position: relative;
+  cursor: pointer;
 }
 .project-branches-env .project-branch .deploy-button {
   position: absolute;
@@ -826,4 +825,23 @@ a.btn {
 #noty_topRight_layout_container .noty_text i.fa {
   vertical-align: middle;
   margin-right: 5px;
+}
+.jconfirm-deploy-options div.deploytitle {
+  font-weight: 500;
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.jconfirm-deploy-options .row div a {
+  background-color: #f5f5f5;
+  display: block;
+  border-radius: 4px;
+  text-align: center;
+  padding: 15px;
+  text-transform: uppercase;
+  line-height: 15px;
+  font-weight: 500;
+}
+.jconfirm-deploy-options .row div a i {
+  font-size: 40px;
+  margin-bottom: 10px;
 }

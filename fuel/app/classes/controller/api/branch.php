@@ -66,29 +66,12 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
             if (count($branch_data) !== 1) {
                 throw new Exception('Branch not found.');
             }
+
             $branch_data = $branch_data[0];
-            $branch_name = $branch_data['branch_name'];
-            $repo_dir = DOCROOT . 'fuel/repository/' . $branch_data['user_id'] . '/' . $branch_data['deploy_id'];
 
-            chdir($repo_dir);
+            $hash = utils::git_verify_hash($branch_data['deploy_id'], $hash);
 
-//            -------------------------------
-//            $results = utils::gitCommand('branch -r --contains '.$hash);
-//
-//            foreach($results as $result){
-//
-//                if(strpos($branch_name, $result) !== false){
-//                    echo 'matches';
-//                }else{
-//                    echo 'No !';
-//                }
-//            }
-//                ----------------------------
-
-            $results = utils::gitCommand('rev-parse --verify ' . $hash);
-            if (count($results)) {
-                $hash = $results[0];
-
+            if ($hash) {
                 $branch->set($id, array(
                     'revision' => $hash,
                 ));

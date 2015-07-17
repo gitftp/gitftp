@@ -41,8 +41,8 @@ define([], function () {
                 that.deployView();
             }, this.deployViewInterval);
         },
-        deployViewInterval: 5000,
-        timeUpdateInterval: 1,
+        deployViewInterval: 1000,
+        timeUpdateInterval: 500,
         timeUpdate: function () {
             /*
              * Time update . class name: .dynamicTime

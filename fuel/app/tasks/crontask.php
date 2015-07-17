@@ -37,27 +37,16 @@ class Crontask {
     public function deploy($deploy_id) {
         $gfcore = new \Gfcore($deploy_id);
         $gfcore->deploy();
-        return 'Done';
-    }
 
-    /**
-     * For testing
-     */
-    public function test() {
-//        Bootstrapper::deploy_in_bg($deploy_id);
-        echo shell_exec('php /var/www/html/oil refine crontask:deploy 17');
+
+        \Cli::beep();
     }
 
     /**
      * Excecution time test
      */
     public function time(){
-        echo ini_get('max_execution_time');
-
-        $i = 0;
-        while (true){
-            fwrite(STDOUT, "$i\n");
-            $i +=1;
-        }
+        echo \Cli::color('Error: The universe is broken.', 'red');
+        \Cli::beep();
     }
 }

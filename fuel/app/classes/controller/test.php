@@ -20,9 +20,23 @@ class Controller_Test extends Controller {
         Gfcore::deploy_in_bg('30');
     }
     public function get_test(){
-        echo utils::get_repo_dir(12);
-        die();
-        $a = '/asdsadsa/asd';
+        $files = array(
+            'folder/folder2/',
+            'folder/folder2/',
+            'asda/asdsada/',
+            'asda/',
+        );
+
+        $merged = array();
+        foreach($files as $v){
+            foreach($merged as $m){
+
+            }
+        }
+        print_r($files);
+//        echo utils::get_repo_dir(12);
+//        die();
+//        $a = '/asdsadsa/asd';
 //
 //        if(substr($a, 0, 1) == '/'){
 //            echo substr($a, 1, strlen($a));
@@ -30,10 +44,10 @@ class Controller_Test extends Controller {
 
 //        -------------------
 
-        chdir('/var/www/html/fuel/repository/228/39');
-        exec('git branch -r --contains 3071977f63c9aa67e28c98cd95b0dae7b1d1ade0',$a);
+//        chdir('/var/www/html/fuel/repository/228/39');
+//        exec('git branch -r --contains 3071977f63c9aa67e28c98cd95b0dae7b1d1ade0',$a);
 //        exec('git branch', $a);
-        print_r($a);
+//        print_r($a);
     }
     public function get_a() {
         $a = 'ftp_chdir(): CWD failed. "/asdsad": directory not found';
@@ -63,5 +77,14 @@ class Controller_Test extends Controller {
         }
     }
 
+    public function get_c(){
+        echo Fuel::$env;
+        echo Crypt::encode('asda', 'randomcode');
 
+    }
+
+    public function get_d(){
+        $deploy_id
+        utils::gitGetBranches_local($branch_data['deploy_id'], $hash)
+    }
 }

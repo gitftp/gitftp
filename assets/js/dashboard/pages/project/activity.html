@@ -66,6 +66,12 @@
                     break;
                     case '2':
                     var icon = 'reply';
+                    break;
+                    case '3':
+                    var icon = 'git';
+                    break;
+                    default:
+                    var icon = 'question';
                 }
             %>
 
@@ -79,7 +85,7 @@
                         </a>
                         <% } %>
                         <% if(a.post_data){ %>
-                        <a href="#" class="watchPayload" data-id="<%= a.id %>" title="View Payload" data-toggle="tooltip" data-placement="top">
+                        <a href="#" class="watchPayload" data-id="<%= a.id %>" title="View Payload" data-toggle="tooltip" data-placement="bottom">
                             <i class="fa fa-gear fa-fw"></i> Payload
                         </a>
                         <% } %>

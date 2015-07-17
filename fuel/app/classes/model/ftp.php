@@ -27,6 +27,17 @@ class Model_Ftp extends Model {
         return $a;
     }
 
+    public function match($set){
+        $a = DB::select()->from($this->table)->where('user_id', $this->user_id);
+
+        foreach($set as $k => $v){
+            $a = $a->and_where($k, $v);
+        }
+
+        $a = $a->execute()->as_array();
+        return $a;
+    }
+
     public function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {
@@ -40,14 +51,16 @@ class Model_Ftp extends Model {
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
 
-    public function delete($id) {
+    public function delete($id, $direct = false) {
         $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
 
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
-            return FALSE;
+        if(!$direct){
+            if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+                return FALSE;
+            }
         }
 
-        return DB::delete($his->table)->where('id', $id)->execute();
+        return DB::delete($this->table)->where('id', $id)->execute();
     }
 
     public function insert($ar) {

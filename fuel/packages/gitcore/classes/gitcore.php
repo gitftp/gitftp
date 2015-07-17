@@ -870,10 +870,13 @@ class gitcore {
 //            if ($this->connection->exists($file)) {
             try {
                 $this->connection->rm($file);
+
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->log("x removed $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("x removed $fileNo of $numberOfFilesToDelete {$file}");
+
             } catch (Exception $e) {
+                $this->output($e->getMessage());
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                 $this->log("not found $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
@@ -980,6 +983,19 @@ class gitcore {
             ), TRUE);
         }
 
+        //empty folders
+        $this->output(count($filesToDelete));
+        $foldersToCheck = array();
+        foreach($filesToDelete as $v){
+            $pos = strrpos($v, '/', 1);
+            $parentFolder = substr($v, 0, $pos+1);
+            $foldersToCheck[] = $parentFolder;
+        }
+
+        print_r($foldersToCheck);
+
+        $this->purgeEmptyDirectries($foldersToCheck);
+
         if (count($filesToUpload) > 0 or count($filesToDelete) > 0) {
             // Set revision on server
             $this->setRevision();
@@ -1019,6 +1035,58 @@ class gitcore {
      */
     public function setRevision() {
         $this->log('remoteRevision_after', $this->localRevision);
+    }
+
+    /**
+     * Remove directory if empty with empty directories
+     *
+     * @var string $purgeDirs
+     */
+    public function purgeEmptyDirectries($purgeDirs) {
+
+        foreach ($purgeDirs as $dir) {
+            $origin = $this->connection->pwd();
+            $this->output('Empty dir scan');
+            $this->output('------ ' . $dir);
+
+            if(substr($dir, 0, 1) == '/'){
+                $this->log("Warning: Leading slash may delete all files in root directory: $dir.");
+                $dir = substr($dir, 1, strlen($dir));
+                $this->log("Using $dir instead");
+            }
+
+            try {
+                $this->connection->cd($dir);
+                $tmpFiles = $this->connection->ls();
+                $this->connection->cd('../');
+            } catch (Exception $e) {
+                $this->log('Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
+                continue;
+            }
+
+            foreach ($tmpFiles as $file) {
+                $file = $dir.$file;
+                try {
+                    $this->connection->cd($file);
+                    $this->output($file . ' is a folder.');
+                    $this->purgeEmptyDirectries(array($file));
+                } catch (Exception $e) {
+                    // Its a file. remove it !
+                    $this->output('file found.');
+                    continue;
+                }
+            }
+
+            if (count($tmpFiles) == 0) {
+                $dirwoslash = substr($dir, 0, strlen($dir)-1);
+                $this->output("dir empty, remove this dir $dirwoslash");
+                $this->connection->rmdir($dirwoslash);
+                continue;
+            }
+
+            $this->output("Purged {$dir}");
+            $this->connection->cd($origin);
+        }
     }
 
     /**

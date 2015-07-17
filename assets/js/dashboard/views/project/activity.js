@@ -20,7 +20,7 @@ define([
             var f = '<i class="fa fa-coffee fa-fw"></i> Retry';
 
             $this.html(p);
-            $this.attr('disabled', true);
+            $this.prop('disabled', true);
             _ajax({
                 url: dash_url + 'api/deploy/run/',
                 data: {
@@ -29,12 +29,13 @@ define([
                 method: 'post',
                 dataType: 'json',
             }).done(function (data) {
-                console.log(data);
                 if(data.status){
                     noty({
                         text: 'Deploy added to Queued. Will be deployed shortly.'
                     });
                     app_reload();
+                }else{
+                    $this.html(f).prop('disabled', false);
                 }
             });
         },
@@ -44,11 +45,11 @@ define([
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
 
-            window.$a = $.alert({
+            $.alert({
                 title: 'Provided Payload.',
                 content: 'url:' + base + 'api/records/getpayload/' + id,
-                animation: 'scale',
-                confirmButton: 'Dismiss',
+                animation: 'top',
+                confirmButton: 'close',
                 theme: 'white'
             });
         },
@@ -58,11 +59,10 @@ define([
             var id = $this.attr('data-id');
             var that = this;
 
-            window.$a = $.alert({
+            $.alert({
                 title: 'Raw Output',
-                //content: 'Raw console data is useful while debugging a problem, <br><pre>' + JSON.stringify(raw, null, 2) + '</pre>',
                 content: 'url:' + base + 'api/records/getraw/' + id,
-                animation: 'scale',
+                animation: 'top',
                 confirmButton: 'Dismiss',
                 theme: 'white'
             });
@@ -71,7 +71,7 @@ define([
             e.preventDefault();
             $this = $(e.currentTarget);
             $this.attr('disabled', true);
-            $this.html('<i class="fa fa-spin fa-refresh"></i> Getting data');
+            $this.html('<i class="fa fa-spin fa-refresh"></i> Getting activity');
             var count = $('.project-record-list').length;
             var that = this;
             _ajax({

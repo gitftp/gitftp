@@ -87,24 +87,34 @@ a:hover {
 }
 input,
 select {
-  border: none !important;
-  border-bottom: solid 2px #cfd8dc !important;
-  box-shadow: none !important;
-  border-radius: 0px !important;
-  padding-left: 0px !important;
+  border: none;
+  border-bottom: solid 2px #cfd8dc;
+  box-shadow: none ;
+  border-radius: 0px ;
+  padding-left: 0px ;
 }
 input:focus,
 select:focus,
 input:active,
 select:active {
-  border-color: #0091ea !important;
-  box-shadow: none !important;
+  border-bottom-color: #0091ea;
+  box-shadow: none ;
+  outline: none;
 }
 input[disabled],
 select[disabled],
 input[readonly],
 select[readonly] {
-  border-bottom: dotted 2px #cfd8dc !important;
+  border-bottom: dotted 2px #cfd8dc;
+}
+input.error,
+select.error {
+  border-bottom-color: #ff5a5a;
+}
+label.error {
+  font-weight: 100;
+  font-size: 12px;
+  color: red;
 }
 .jconfirm.git .jconfirm-bg {
   background-color: rgba(0, 0, 0, 0.1) !important;

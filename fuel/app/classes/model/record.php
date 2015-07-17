@@ -23,6 +23,9 @@ class Model_Record extends Model {
     // rollback or front to a particular hash.
     public $type_rollback = '2';
 
+    // push from service. Github or bitbucket.
+    public $type_service_push = '3';
+
     // Wheather if to check for user related content.
     public $direct = FALSE;
 

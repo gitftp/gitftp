@@ -78,7 +78,6 @@
                             <label>Path to deploy</label>
                             <input type="text" name="path" class="form-control"
                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
-                            <p class="help-block">Path must contain a leading slash</p>
                         </div>
                         <div class="form-group">
                             <label>FTP port</label>
@@ -106,9 +105,6 @@
                 </p>
             </div>
         </div>
-        <pre>
-            <%= JSON.stringify(f, true) %>
-        </pre>
     </div>
 </div>
 

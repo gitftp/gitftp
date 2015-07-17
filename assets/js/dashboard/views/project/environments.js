@@ -8,7 +8,7 @@ define([
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'click .project-branch .start-deploy': 'deployBranch',
+            'click .project-branch .start-deploy': 'deploybranchOptions',
             'click .project-branch': 'gotoManage',
             'click .env-start-deploy': 'deploybranchOptions',
         },
@@ -24,33 +24,6 @@ define([
 
             Router.navigate(url, {
                 trigger: true
-            });
-        },
-        deployBranch: function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            var $this = $(e.currentTarget);
-            var id = $this.attr('data-id');
-            _ajax({
-                url: dash_url + 'api/deploy/run/',
-                data: {
-                    'branch_id': id,
-                    'deploy_id': this.parent.id
-                },
-                method: 'post',
-                dataType: 'json',
-            }).done(function (data) {
-                if(data.status){
-                    noty({
-                        text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
-                        type: 'information'
-                    });
-                }else{
-                    noty({
-                        text: data.reason,
-                        type: 'error'
-                    });
-                }
             });
         },
         render: function (parent) {

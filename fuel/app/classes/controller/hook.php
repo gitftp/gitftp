@@ -8,7 +8,7 @@ class Controller_Hook extends Controller {
 
     public function action_i($user_id = NULL, $deploy_id = NULL, $key = NULL) {
         if (Input::method() != 'POST')
-            die('Invalid method. This api only supports POST requests');
+            die('Invalid method. This API only supports POST requests');
 
         if ($user_id == NULL)
             die('User id is missing, please refer to documentation.');
@@ -29,8 +29,8 @@ class Controller_Hook extends Controller {
             if ($key != $repo[0]['key']) {
                 die('The project and key do not match, please refer to documentation.');
             }
-            if ($repo[0]['ready'] == 0) {
-                die('The project is not yet been initialized.');
+            if ($repo[0]['cloned'] == 0) {
+                die('The project is not yet been initialized. please manually deploy first.');
             }
             if ($repo[0]['active'] == 0) {
                 die('Sorry, cannot deploy this project for the moment, please contact support.');
@@ -53,12 +53,18 @@ class Controller_Hook extends Controller {
         $branches = $branch->get_by_branch_name($parsedPayload['branch']);
 
         foreach ($branches as $branchSingle) {
-            if ($branchSingle['auto'] == 0 || $branchSingle['ready'] == 0)
+            if ($branchSingle['auto'] == 0){
+                echo 'Environemnt auto-deploy is disabled.';
                 continue;
+            }
+            if($branchSingle['ready'] == 0){
+                echo 'Environemnt not ready, please deploy first.';
+                continue;
+            }
 
             $record->insert(array(
                 'deploy_id'      => $branchSingle['deploy_id'],
-                'record_type'    => $record->type_service,
+                'record_type'    => $record->type_service_push,
                 'branch_id'      => $branchSingle['id'],
                 'date'           => time(),
                 'status'         => $record->in_queue,
@@ -71,7 +77,7 @@ class Controller_Hook extends Controller {
             ));
         }
 
-        Gfcore::deploy_in_bg($deploy_id);
+//        Gfcore::deploy_in_bg($deploy_id);
     }
 
     public function action_get() {

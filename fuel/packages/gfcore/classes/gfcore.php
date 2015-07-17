@@ -345,18 +345,25 @@ class Gfcore {
             'remoteRevision' => $branch['revision'],
         );
 
-        // TODO: WE ARE HERE.
-
-        // if record type is rollback, checkout to the rollback commit.
+        // if type_rollback.
         if ($this->record['record_type'] == $this->m_record->type_rollback && !empty($this->record['hash'])) {
             // checkout the the specific hash.
             utils::gitCommand('checkout ' . $this->record['hash']);
         }
 
-        if($this->record['record_type'] == $this->m_record->type_sync){
+        // if type_sync
+        if ($this->record['record_type'] == $this->m_record->type_sync) {
             // upload all files please.
             $options['remoteRevision'] = '';
         }
+
+        if ($this->record['record_type'] == $this->m_record->type_service_push) {
+            // push from github/bitbucket.
+            if (!empty($this->record['hash']))
+                utils::gitCommand('checkout ' . $this->record['hash']);
+        }
+
+        // else its update
 
         $localRevision = utils::gitCommand('rev-parse HEAD');
         if (isset($localRevision[0])) {

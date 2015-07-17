@@ -69,6 +69,8 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
 
             $branch_data = $branch_data[0];
 
+//            $hash = utils::gitGetBranches_local($branch_data['deploy_id'], $hash);
+
             $hash = utils::git_verify_hash($branch_data['deploy_id'], $hash);
 
             if ($hash) {

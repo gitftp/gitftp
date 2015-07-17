@@ -27,7 +27,7 @@ define([], function () {
                 title: false,
                 content: '' +
                 '<div class="jconfirm-deploy-options">' +
-                '<div class="deploytitle">deploy type:</div>' +
+                '<div class="deploytitle">Deploy type:</div>' +
                 '<div class="row">' +
                 '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-update"><i class="fa fa-level-up"></i><br>Update latest</a></div>' +
                 '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-sync"><i class="fa fa-refresh"></i><br>Sync all files</a></div>' +

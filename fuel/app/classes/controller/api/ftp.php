@@ -87,27 +87,22 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
         /**
          * test ftp before adding,
          */
-//
-//        $result = $this->post_testftp(NULL, TRUE);
-//        if ($result !== TRUE) {
-//            echo json_encode([
-//                'status' => FALSE,
-//                'reason' => $result
-//            ]);
-//        }
-
+        $data = Input::post();
         try {
 
             $ftp = new Model_Ftp();
-            $data = Input::post();
-            $user_id = Auth::get_user_id()[1];
-            $existing = DB::select()->from('ftpdata')->where('host', $data['host'])->and_where('username', $data['username'])->and_where('user_id', $user_id)->and_where('path', $data['path'])->execute()->as_array();
+
+            $stripformatch = $data;
+            if(isset($data['name']))
+                unset($stripformatch['name']);
+
+            $existing = $ftp->match($stripformatch);
 
             if (count($existing) > 0) {
                 $response = json_encode(array(
                     'status'  => FALSE,
                     'request' => Input::post(),
-                    'reason'  => 'A FTP account with the same host and username already exist.'
+                    'reason'  => 'Sorry, A FTP account "'.$existing[0]['name'].'" with the same configuration already exist in your account.'
                 ));
             } else {
                 $a = $ftp->insert($data);
@@ -156,7 +151,6 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
             }
 
         } catch (Exception $e) {
-
             $response = json_encode(array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
@@ -184,7 +178,6 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
         echo json_encode([
             'status'  => (count($branches) == 0) ? FALSE : TRUE,
             'used_in' => (count($branches) == 0) ? FALSE : $branches,
-
         ]);
     }
 
@@ -195,27 +188,18 @@ class Controller_Api_Ftp extends Controller_Apilogincheck {
      */
     public function action_delftp($id) {
 
-        if (!Auth::check()) {
-            echo json_encode(array(
-                'status'  => FALSE,
-                'reason'  => 'GT-405',
-                'request' => Input::post()
-            ));
-
-            return;
-        }
-
-        $row = DB::select()->from('ftpdata')->where('id', $id)->and_where('user_id', Auth::get_user_id()[1])->execute()->as_array();
+        $ftp = new Model_Ftp();
+        $row = $ftp->get($id);
 
         if (count($row) == 0) {
             echo json_encode(array(
                 'status'  => FALSE,
                 'request' => Input::post(),
-                'reason'  => 'You are not authorized to delete.'
+                'reason'  => 'We got confused, please refresh the page and try again.'
             ));
         } else {
 
-            $result = DB::delete('ftpdata')->where('id', $id)->execute();
+            $result = $ftp->delete($id);
 
             if ($result) {
                 echo json_encode(array(

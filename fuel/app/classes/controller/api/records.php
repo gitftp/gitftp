@@ -35,10 +35,10 @@ class Controller_Api_Records extends Controller_Apilogincheck {
         if (empty($record)) {
             echo '<p class="text-center" style="color: #aaa;font-size: 20px;">Sorry, no logs yet.</p>';
         } else {
-            $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding errors in deployments, If you aren\'t sure why your deploy failed, please contact us.<br><code> --- <br>';
+            $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding deployments.<br><code> --- <br>';
             $record_n = new RecursiveIteratorIterator(new RecursiveArrayIterator($record));
             foreach ($record_n as $k => $v) {
-                $k = (is_numeric($k)) ? '' : $k.'-';
+                $k = (is_numeric($k)) ? '' : $k.'->';
                 $string .= "$ $k$v<br>";
             }
             echo "$string</code>";

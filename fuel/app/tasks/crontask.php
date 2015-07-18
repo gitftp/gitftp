@@ -1,6 +1,6 @@
 <?php
 namespace Fuel\Tasks;
-
+use Fuel\Core\Cli;
 /**
  * Class Crontask
  * @package Fuel\Tasks
@@ -35,18 +35,16 @@ class Crontask {
      * @throws \Exception
      */
     public function deploy($deploy_id) {
+        Cli::write("Starting with $deploy_id");
         $gfcore = new \Gfcore($deploy_id);
         $gfcore->deploy();
-
-
-        \Cli::beep();
+        Cli::beep();
     }
 
     /**
      * Excecution time test
      */
-    public function time(){
-        echo \Cli::color('Error: The universe is broken.', 'red');
-        \Cli::beep();
+    public function test(){
+        Cli::write('hey');
     }
 }

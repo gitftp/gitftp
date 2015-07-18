@@ -10,10 +10,6 @@
  */
 class Gfcore {
     /*
-     * Gfcore collects and stores data about the deploy to process its queue.
-     */
-
-    /*
      * The user_id (users to map git path).
      */
     public $user_id;
@@ -599,7 +595,7 @@ class Gfcore {
             if (is_array($message)) {
                 $message = print_r($message, TRUE);
             }
-        fwrite(STDOUT, "~ $message\n");
+        Cli::write("~ $message");
     }
 
     /**

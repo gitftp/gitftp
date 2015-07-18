@@ -167,9 +167,7 @@ define([
                 }
 
             }).always(function () {
-
                 $this.find('select, input').removeAttr('readonly');
-
             });
 
         },

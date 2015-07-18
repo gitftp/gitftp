@@ -25,19 +25,21 @@ Autoloader::register();
  * Fuel::PRODUCTION
  */
 
+$producion = array(
+    'console.gitftp.com',
+    'www.gitftp.com',
+    'gitftp.com',
+    '54.149.18.148'
+);
+$development = array(
+    'stg.gitftp.com',
+    'stg-home.gitftp.com',
+);
+$staging = array(
 
-if(isset($_SERVER['HTTP_HOST'])){
-    if ($_SERVER['HTTP_HOST'] == 'localhost') {
-        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
-    } else if ($_SERVER['HTTP_HOST'] == 'console.gitftp.com' || $_SERVER['HTTP_HOST'] == 'www.gitftp.com' || $_SERVER['HTTP_HOST'] == 'gitftp.com' || $_SERVER['HTTP_HOST'] == '54.149.18.148') {
-        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
-    } else {
-        Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::TEST);
-    }
-}else{
-    // cli
-    Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::TEST);
-}
+);
+
+Fuel::$env = Fuel::DEVELOPMENT;
 
 //Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
 // Initialize the framework with the config file.

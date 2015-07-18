@@ -31,7 +31,6 @@ class utils {
      * @param type $arg
      */
     public static function gitGetBranches($repo, $username = NULL, $password = NULL) {
-
         $repo_url = parse_url($repo);
 
         if (!is_null($username)) {

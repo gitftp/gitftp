@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -39,7 +41,7 @@ class HasMany extends Relation
 		$this->model_to = get_real_class($this->model_to);
 	}
 
-	public function get(Model $from)
+	public function get(Model $from, array $conditions = array())
 	{
 		$query = call_user_func(array($this->model_to, 'query'));
 		reset($this->key_to);
@@ -54,13 +56,15 @@ class HasMany extends Relation
 			next($this->key_to);
 		}
 
-		foreach (\Arr::get($this->conditions, 'where', array()) as $key => $condition)
+		$conditions = \Arr::merge($this->conditions, $conditions);
+
+		foreach (\Arr::get($conditions, 'where', array()) as $key => $condition)
 		{
 			is_array($condition) or $condition = array($key, '=', $condition);
 			$query->where($condition);
 		}
 
-		foreach (\Arr::get($this->conditions, 'order_by', array()) as $field => $direction)
+		foreach (\Arr::get($conditions, 'order_by', array()) as $field => $direction)
 		{
 			if (is_numeric($field))
 			{
@@ -98,16 +102,19 @@ class HasMany extends Relation
 			$model['join_on'][] = array($alias_from.'.'.$key, '=', $alias_to.'.'.current($this->key_to));
 			next($this->key_to);
 		}
-		foreach (\Arr::get($this->conditions, 'where', array()) as $key => $condition)
+		foreach (array(\Arr::get($this->conditions, 'where', array()), \Arr::get($conditions, 'join_on', array())) as $c)
 		{
-			! is_array($condition) and $condition = array($key, '=', $condition);
-			if ( ! $condition[0] instanceof \Fuel\Core\Database_Expression and strpos($condition[0], '.') === false)
+			foreach ($c as $key => $condition)
 			{
-				$condition[0] = $alias_to.'.'.$condition[0];
-			}
-			is_string($condition[2]) and $condition[2] = \Db::quote($condition[2], $model['connection']);
+				! is_array($condition) and $condition = array($key, '=', $condition);
+				if ( ! $condition[0] instanceof \Fuel\Core\Database_Expression and strpos($condition[0], '.') === false)
+				{
+					$condition[0] = $alias_to.'.'.$condition[0];
+				}
+				is_string($condition[2]) and $condition[2] = \Db::quote($condition[2], $model['connection']);
 
-			$model['join_on'][] = $condition;
+				$model['join_on'][] = $condition;
+			}
 		}
 
 		return array($rel_name => $model);
@@ -242,28 +249,22 @@ class HasMany extends Relation
 		$model_from->_relate($rels);
 		$model_from->freeze();
 
-		foreach ($models_to as $model_to)
-		{
-			if ( ! $model_to->frozen())
-			{
-				foreach ($this->key_to as $fk)
-				{
-					$model_to->{$fk} = null;
-				}
-			}
-		}
-
 		if ( ! empty($models_to))
 		{
 			$cascade = is_null($cascade) ? $this->cascade_delete : (bool) $cascade;
+
 			foreach ($models_to as $m)
 			{
 				if ($cascade)
 				{
 					$m->delete();
 				}
-				else
+				elseif ( ! $m->frozen())
 				{
+					foreach ($this->key_to as $fk)
+					{
+						$m->{$fk} = null;
+					}
 					$m->is_changed() and $m->save();
 				}
 			}

@@ -77,7 +77,7 @@ $routerequest = function($route = null, $e = false)
 	}
 	else
 	{
-		throw $e;
+//		throw $e;
 	}
 
 	return $response;

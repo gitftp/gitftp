@@ -20,6 +20,9 @@ class Controller_Test extends Controller {
         Gfcore::deploy_in_bg('30');
     }
     public function get_test(){
+        
+    }
+    public function get_test2(){
         $files = array(
             'folder/folder2/',
             'folder/folder2/',

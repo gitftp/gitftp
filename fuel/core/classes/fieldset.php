@@ -3,16 +3,14 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
-
-
 
 // ------------------------------------------------------------------------
 
@@ -148,8 +146,15 @@ class Fieldset
 	 * @param  string
 	 * @param  array
 	 */
-	protected function __construct($name, array $config = array())
+	public function __construct($name = '', array $config = array())
 	{
+		// support new Fieldset($config) syntax
+		if (is_array($name))
+		{
+			$config = $name;
+			$name = '';
+		}
+
 		if (isset($config['validation_instance']))
 		{
 			$this->validation($config['validation_instance']);
@@ -377,6 +382,22 @@ class Fieldset
 	}
 
 	/**
+	 * Delete a field instance
+	 *
+	 * @param   string  field name or null to fetch an array of all
+	 * @return  Fieldset  this fieldset, for chaining
+	 */
+	public function delete($name)
+	{
+		if (isset($this->fields[$name]))
+		{
+			unset($this->fields[$name]);
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Get Field instance
 	 *
 	 * @param   string|null           field name or null to fetch an array of all
@@ -388,30 +409,32 @@ class Fieldset
 	{
 		if ($name === null)
 		{
-			if ( ! $flatten)
-			{
-				return $this->fields;
-			}
-
 			$fields = $this->fields;
-			foreach ($this->fieldset_children as $fs_name => $fieldset)
+
+			if ($flatten)
 			{
-				if ($tabular_form or ! $fieldset->get_tabular_form())
+				foreach ($this->fieldset_children as $fs_name => $fieldset)
 				{
-					\Arr::insert_after_key($fields, $fieldset->field(null, true), $fs_name);
+					if ($tabular_form or ! $fieldset->get_tabular_form())
+					{
+						\Arr::insert_after_key($fields, $fieldset->field(null, true), $fs_name);
+					}
+					unset($fields[$fs_name]);
 				}
-				unset($fields[$fs_name]);
 			}
 			return $fields;
 		}
 
 		if ( ! array_key_exists($name, $this->fields))
 		{
-			foreach ($this->fieldset_children as $fieldset)
+			if ($flatten)
 			{
-				if (($field = $fieldset->field($name)) !== false)
+				foreach ($this->fieldset_children as $fieldset)
 				{
-					return $field;
+					if (($field = $fieldset->field($name)) !== false)
+					{
+						return $field;
+					}
 				}
 			}
 			return false;
@@ -517,10 +540,13 @@ class Fieldset
 		{
 			if (is_array($input) or $input instanceof \ArrayAccess)
 			{
-				if (isset($input[$f->basename]))
-				{
-					$f->set_value($input[$f->basename], true);
-				}
+				// convert form field array's to Fuel dotted notation
+				$name = str_replace(array('[', ']'), array('.', ''), $f->name);
+
+				// fetch the value for this field, and set it if found
+				$value = \Arr::get($input, $name, null);
+				$value === null and $value = \Arr::get($input, $f->basename, null);
+				$value !== null and $f->set_value($value, true);
 			}
 			elseif (is_object($input) and property_exists($input, $f->basename))
 			{
@@ -597,7 +623,7 @@ class Fieldset
 				{
 					continue;
 				}
-				$fields_output .= "\t".'<th class="'.$this->tabular_form_relation.'_col_'.$field.'">'.(isset($settings['label'])?\Lang::get($settings['label']):'').'</th>'.PHP_EOL;
+				$fields_output .= "\t".'<th class="'.$this->tabular_form_relation.'_col_'.$field.'">'.(isset($settings['label']) ? \Lang::get($settings['label'], array(), $settings['label']) : '').'</th>'.PHP_EOL;
 			}
 			$fields_output .= "\t".'<th>'.\Config::get('form.tabular_delete_label', 'Delete?').'</th>'.PHP_EOL;
 
@@ -800,7 +826,7 @@ class Fieldset
 		// load the config for embedded forms
 		$this->set_config(array(
 			'form_template' => \Config::get('form.tabular_form_template', "<table>{fields}</table>\n"),
-			'field_template' => \Config::get('form.tabular_field_template', "{field}")
+			'field_template' => \Config::get('form.tabular_field_template', "{field}"),
 		));
 
 		// add the rows to the tabular form fieldset
@@ -813,7 +839,7 @@ class Fieldset
 			$fieldset->add_model($model, $row)->set_fieldset_tag(false);
 			$fieldset->set_config(array(
 				'form_template' => \Config::get('form.tabular_row_template', "<table>{fields}</table>\n"),
-				'field_template' => \Config::get('form.tabular_row_field_template', "{field}")
+				'field_template' => \Config::get('form.tabular_row_field_template', "{field}"),
 			));
 			$fieldset->add($this->tabular_form_relation.'['.$row->{$primary_key}.'][_delete]', '', array('type' => 'checkbox', 'value' => 1));
 		}
@@ -829,7 +855,7 @@ class Fieldset
 			$fieldset->add_model($model)->set_fieldset_tag(false);
 			$fieldset->set_config(array(
 				'form_template' => \Config::get('form.tabular_row_template', "<tr>{fields}</tr>"),
-				'field_template' => \Config::get('form.tabular_row_field_template', "{field}")
+				'field_template' => \Config::get('form.tabular_row_field_template', "{field}"),
 			));
 			$fieldset->add($this->tabular_form_relation.'_new['.$i.'][_delete]', '', array('type' => 'checkbox', 'value' => 0, 'disabled' => 'disabled'));
 

@@ -2,6 +2,15 @@
 
 namespace Fuel\Core;
 
+/**
+ * Request_Curl Class
+ *
+ * Curl driver for Requests
+ *
+ * @package   Fuel\Core
+ *
+ */
+
 class Request_Curl extends \Request_Driver
 {
 	/**
@@ -45,7 +54,7 @@ class Request_Curl extends \Request_Driver
 	protected function connection()
 	{
 		// If no a protocol in URL, assume its a local link
-		! preg_match('!^\w+://! i', $this->resource) and $this->resource = Uri::create($this->resource);
+		! preg_match('!^\w+://! i', $this->resource) and $this->resource = \Uri::create($this->resource);
 
 		return curl_init($this->resource);
 	}
@@ -143,7 +152,7 @@ class Request_Curl extends \Request_Driver
 		// Execute the request & and hide all output
 		$body = curl_exec($connection);
 		$this->response_info = curl_getinfo($connection);
-		$mime = isset($this->headers['Accept']) ? $this->headers['Accept'] : $this->response_info('content_type', 'text/plain');
+		$mime = $this->response_info('content_type', 'text/plain');
 
 		// Was header data requested?
 		$headers = array();
@@ -164,7 +173,7 @@ class Request_Curl extends \Request_Driver
 			}
 		}
 
-		$this->set_response($body, $this->response_info('http_code', 200), $mime, $headers);
+		$this->set_response($body, $this->response_info('http_code', 200), $mime, $headers, isset($this->headers['Accept']) ? $this->headers['Accept'] : null);
 
 		// Request failed
 		if ($body === false)
@@ -217,6 +226,21 @@ class Request_Curl extends \Request_Driver
 	{
 		$this->preserve_resource = $this->resource;
 		$this->resource = \Uri::create($this->resource, array(), $this->params);
+	}
+
+	/**
+	 * HEAD request
+	 *
+	 * @param   array  $params
+	 * @return  void
+	 */
+	protected function method_head()
+	{
+		$this->method_get();
+
+		$this->set_option(CURLOPT_NOBODY, true);
+		$this->set_option(CURLOPT_HEADER, true);
+
 	}
 
 	/**
@@ -318,9 +342,17 @@ class Request_Curl extends \Request_Driver
 					return \Format::forge($input)->to_csv();
 				break;
 
-			// Format as Query String
 			default:
-					return http_build_query($input, null, '&');
+					if (count($input) === 1 and key($input) === 'form-data')
+					{
+						// multipart/form-data
+						return $input['form-data'];
+					}
+					else
+					{
+						//application/x-www-form-urlencoded
+						return http_build_query($input, null, '&');
+					}
 				break;
 		}
 	}

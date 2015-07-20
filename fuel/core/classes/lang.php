@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -37,6 +37,18 @@ class Lang
 	}
 
 	/**
+	 * Returns currently active language.
+	 *
+	 * @return   string    currently active language
+	 */
+	public static function get_lang()
+	{
+		$language = \Config::get('language');
+		empty($language) and $language = static::$fallback[0];
+		return $language;
+	}
+
+	/**
 	 * Loads a language file.
 	 *
 	 * @param    mixed        $file        string file | language array | Lang_Interface instance
@@ -49,7 +61,7 @@ class Lang
 	public static function load($file, $group = null, $language = null, $overwrite = false, $reload = false)
 	{
 		// get the active language and all fallback languages
-		$language or $language = \Config::get('language');
+		$language or $language = static::get_lang();
 		$languages = static::$fallback;
 
 		// make sure we don't have the active language in the fallback array
@@ -64,7 +76,7 @@ class Lang
 		if ( ! $reload and
 		     ! is_array($file) and
 		     ! is_object($file) and
-		    array_key_exists($file, static::$loaded_files))
+		    array_key_exists($language.'/'.$file, static::$loaded_files))
 		{
 			$group === true and $group = $file;
 			if ($group === null or $group === false or ! isset(static::$lines[$language][$group]))
@@ -96,7 +108,7 @@ class Lang
 
 			if (class_exists($class))
 			{
-				static::$loaded_files[$file] = true;
+				static::$loaded_files[$language.'/'.$file] = true;
 				$file = new $class($file, $languages);
 			}
 			else
@@ -118,16 +130,22 @@ class Lang
 			$group = $group === true ? $file->group() : $group;
 		}
 
+		isset(static::$lines[$language]) or static::$lines[$language] = array();
 		if ($group === null)
 		{
-			isset(static::$lines[$language]) or static::$lines[$language] = array();
 			static::$lines[$language] = $overwrite ? array_merge(static::$lines[$language], $lang) : \Arr::merge(static::$lines[$language], $lang);
 		}
 		else
 		{
 			$group = ($group === true) ? $file : $group;
-			isset(static::$lines[$language][$group]) or static::$lines[$language][$group] = array();
-			static::$lines[$language][$group] = $overwrite ? array_merge(static::$lines[$language][$group], $lang) : \Arr::merge(static::$lines[$language][$group], $lang);
+			if ($overwrite)
+			{
+				\Arr::set(static::$lines[$language], $group, array_merge(\Arr::get(static::$lines[$language], $group, array()), $lang));
+			}
+			else
+			{
+				\Arr::set(static::$lines[$language], $group, \Arr::merge(\Arr::get(static::$lines[$language], $group, array()), $lang));
+			}
 		}
 
 		return $lang;
@@ -143,12 +161,7 @@ class Lang
 	 */
 	public static function save($file, $lang, $language = null)
 	{
-		if ($language === null)
-		{
-			$languages = static::$fallback;
-			array_unshift($languages, $language ?: \Config::get('language'));
-			$language = reset($languages);
-		}
+		($language === null) and $language = static::get_lang();
 
 		// prefix the file with the language
 		if ( ! is_null($language))
@@ -197,12 +210,7 @@ class Lang
 	 */
 	public static function get($line, array $params = array(), $default = null, $language = null)
 	{
-		if ($language === null)
-		{
-			$languages = static::$fallback;
-			array_unshift($languages, $language ?: \Config::get('language'));
-			$language = reset($languages);
-		}
+		($language === null) and $language = static::get_lang();
 
 		return isset(static::$lines[$language]) ? \Str::tr(\Fuel::value(\Arr::get(static::$lines[$language], $line, $default)), $params) : $default;
 	}
@@ -220,12 +228,7 @@ class Lang
 	{
 		$group === null or $line = $group.'.'.$line;
 
-		if ($language === null)
-		{
-			$languages = static::$fallback;
-			array_unshift($languages, $language ?: \Config::get('language'));
-			$language = reset($languages);
-		}
+		($language === null) and $language = static::get_lang();
 
 		isset(static::$lines[$language]) or static::$lines[$language] = array();
 
@@ -242,14 +245,9 @@ class Lang
 	 */
 	public static function delete($item, $group = null, $language = null)
 	{
-		$group === null or $line = $group.'.'.$line;
+		$group === null or $item = $group.'.'.$item;
 
-		if ($language === null)
-		{
-			$languages = static::$fallback;
-			array_unshift($languages, $language ?: \Config::get('language'));
-			$language = reset($languages);
-		}
+		($language === null) and $language = static::get_lang();
 
 		return isset(static::$lines[$language]) ? \Arr::delete(static::$lines[$language], $item) : false;
 	}

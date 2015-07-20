@@ -11,11 +11,8 @@
 
 namespace Fuel\Core;
 
-
-
 class Database_MySQL_Connection extends \Database_Connection
 {
-
 	/**
 	 * @var  array  Database in use by each connection
 	 */
@@ -35,11 +32,6 @@ class Database_MySQL_Connection extends \Database_Connection
 	 * @var  string  MySQL uses a backtick for identifiers
 	 */
 	protected $_identifier = '`';
-
-	/**
-	 * @var  bool  Allows transactions
-	 */
-	protected $_in_transaction = false;
 
 	/**
 	 * @var  string  Which kind of DB is used
@@ -71,9 +63,6 @@ class Database_MySQL_Connection extends \Database_Connection
 			'persistent' => false,
 			'compress'	 => true,
 		));
-
-		// Prevent this information from showing up in traces
-		unset($this->_config['connection']['username'], $this->_config['connection']['password']);
 
 		try
 		{
@@ -116,7 +105,7 @@ class Database_MySQL_Connection extends \Database_Connection
 			// No connection exists
 			$this->_connection = null;
 
-			throw new \Database_Exception(mysql_error(), mysql_errno());
+			throw new \Database_Exception(str_replace($password, str_repeat('*', 10), mysql_error()), mysql_errno());
 		}
 
 		// \xFF is a better delimiter, but the PHP driver uses underscore
@@ -148,6 +137,11 @@ class Database_MySQL_Connection extends \Database_Connection
 		static::$_current_databases[$this->_connection_id] = $database;
 	}
 
+	/**
+	 * Disconnect from the database
+	 *
+	 * @throws  \Exception  when the mysql database is not disconnected properly
+	 */
 	public function disconnect()
 	{
 		try
@@ -159,8 +153,11 @@ class Database_MySQL_Connection extends \Database_Connection
 			{
 				if ($status = mysql_close($this->_connection))
 				{
-					// Clear the connection
+					// clear the connection
 					$this->_connection = null;
+
+					// and reset the savepoint depth
+					$this->_transaction_depth = 0;
 				}
 			}
 		}
@@ -212,8 +209,38 @@ class Database_MySQL_Connection extends \Database_Connection
 
 		if ( ! empty($this->_config['profiling']))
 		{
-			// Benchmark this query for the current instance
-			$benchmark = \Profiler::start("Database ({$this->_instance})", $sql);
+			// Get the paths defined in config
+			$paths = \Config::get('profiling_paths');
+
+			// Storage for the trace information
+			$stacktrace = array();
+
+			// Get the execution trace of this query
+			$include = false;
+			foreach (debug_backtrace() as $index => $page)
+			{
+				// Skip first entry and entries without a filename
+				if ($index > 0 and empty($page['file']) === false)
+				{
+					// Checks to see what paths you want backtrace
+					foreach($paths as $index => $path)
+					{
+						if (strpos($page['file'], $path) !== false)
+						{
+							$include = true;
+							break;
+						}
+					}
+
+					// Only log if no paths we defined, or we have a path match
+					if ($include or empty($paths))
+					{
+						$stacktrace[] = array('file' => \Fuel::clean_path($page['file']), 'line' => $page['line']);
+					}
+				}
+			}
+
+			$benchmark = \Profiler::start($this->_instance, $sql, $stacktrace);
 		}
 
 		if ( ! empty($this->_config['connection']['persistent'])
@@ -256,17 +283,18 @@ class Database_MySQL_Connection extends \Database_Connection
 				mysql_affected_rows($this->_connection),
 			);
 		}
-		else
+		elseif ($type === \DB::UPDATE or $type === \DB::DELETE)
 		{
 			// Return the number of rows affected
 			return mysql_affected_rows($this->_connection);
 		}
+
+		return $result;
 	}
 
 	public function datatype($type)
 	{
-		static $types = array
-		(
+		static $types = array(
 			'blob'                      => array('type' => 'string', 'binary' => true, 'character_maximum_length' => '65535'),
 			'bool'                      => array('type' => 'bool'),
 			'bigint unsigned'           => array('type' => 'int', 'min' => '0', 'max' => '18446744073709551615'),
@@ -306,11 +334,19 @@ class Database_MySQL_Connection extends \Database_Connection
 		$type = str_replace(' zerofill', '', $type);
 
 		if (isset($types[$type]))
+		{
 			return $types[$type];
+		}
 
 		return parent::datatype($type);
 	}
 
+	/**
+	 * List tables
+	 *
+	 * @param   string  $like  pattern of table name
+	 * @return  array   array of table name
+	 */
 	public function list_tables($like = null)
 	{
 		if (is_string($like))
@@ -333,6 +369,13 @@ class Database_MySQL_Connection extends \Database_Connection
 		return $tables;
 	}
 
+	/**
+	 * List table columns
+	 *
+	 * @param   string  $table  table name
+	 * @param   string  $like   column name pattern
+	 * @return  array   array of column structure
+	 */
 	public function list_columns($table, $like = null)
 	{
 		// Quote the table name
@@ -417,6 +460,12 @@ class Database_MySQL_Connection extends \Database_Connection
 		return $columns;
 	}
 
+	/**
+	 * Escape query for sql
+	 *
+	 * @param   mixed   $value  value of string castable
+	 * @return  string  escaped sql string
+	 */
 	public function escape($value)
 	{
 		// Make sure the database is connected
@@ -434,36 +483,60 @@ class Database_MySQL_Connection extends \Database_Connection
 	public function error_info()
 	{
 		$errno = mysql_errno($this->_connection);
-		return array($errno, empty($errno)? null : $errno, empty($errno) ? null : mysql_error($this->_connection));
+		return array($errno, empty($errno) ? null : $errno, empty($errno) ? null : mysql_error($this->_connection));
 	}
 
-	public function in_transaction()
+	protected function driver_start_transaction()
 	{
-		return $this->_in_transaction;
-	}
-
-	public function start_transaction()
-	{
-		$this->query(0, 'SET AUTOCOMMIT=0', false);
 		$this->query(0, 'START TRANSACTION', false);
-		$this->_in_transaction = true;
 		return true;
 	}
 
-	public function commit_transaction()
+	protected function driver_commit()
 	{
 		$this->query(0, 'COMMIT', false);
-		$this->query(0, 'SET AUTOCOMMIT=1', false);
-		$this->_in_transaction = false;
 		return true;
 	}
 
-	public function rollback_transaction()
+	protected function driver_rollback()
 	{
 		$this->query(0, 'ROLLBACK', false);
-		$this->query(0, 'SET AUTOCOMMIT=1', false);
-		$this->_in_transaction = false;
 		return true;
 	}
 
+	/**
+	 * Sets savepoint of the transaction
+	 *
+	 * @param string $name name of the savepoint
+	 * @return boolean true  - savepoint was set successfully;
+	 *                 false - failed to set savepoint;
+	 */
+	protected function set_savepoint($name) {
+		$this->query(0, 'SAVEPOINT LEVEL'.$name, false);
+		return true;
+	}
+
+	/**
+	 * Release savepoint of the transaction
+	 *
+	 * @param string $name name of the savepoint
+	 * @return boolean true  - savepoint was set successfully;
+	 *                 false - failed to set savepoint;
+	 */
+	protected function release_savepoint($name) {
+		$this->query(0, 'RELEASE SAVEPOINT LEVEL'.$name, false);
+		return true;
+	}
+
+	/**
+	 * Rollback savepoint of the transaction
+	 *
+	 * @param string $name name of the savepoint
+	 * @return boolean true  - savepoint was set successfully;
+	 *                 false - failed to set savepoint;
+	 */
+	protected function rollback_savepoint($name) {
+		$this->query(0, 'ROLLBACK TO SAVEPOINT LEVEL'.$name, false);
+		return true;
+	}
 }

@@ -3,16 +3,14 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
-
-
 
 // ------------------------------------------------------------------------
 
@@ -127,7 +125,7 @@ class Validation
 	protected $callables = array();
 
 	/**
-	 * @var  bool  $global_input_fallback  wether to fall back to Input::param
+	 * @var  bool  $global_input_fallback  whether to fall back to Input::param
 	 */
 	protected $global_input_fallback = true;
 
@@ -187,15 +185,15 @@ class Validation
 				// deal with rules that have comma's in the rule parameter
 				if (in_array($rule, array('match_pattern')))
 				{
-					call_user_func_array(array($field, 'add_rule'), array_merge(array($rule), array($param[1])));
+					call_fuel_func_array(array($field, 'add_rule'), array_merge(array($rule), array($param[1])));
 				}
 				elseif (in_array($rule, array('valid_string')))
 				{
-					call_user_func_array(array($field, 'add_rule'), array_merge(array($rule), array(explode(',', $param[1]))));
+					call_fuel_func_array(array($field, 'add_rule'), array_merge(array($rule), array(explode(',', $param[1]))));
 				}
 				else
 				{
-					call_user_func_array(array($field, 'add_rule'), array_merge(array($rule), explode(',', $param[1])));
+					call_fuel_func_array(array($field, 'add_rule'), array_merge(array($rule), explode(',', $param[1])));
 				}
 			}
 			else
@@ -354,7 +352,7 @@ class Validation
 			static::set_active_field($field);
 
 			// convert form field array's to Fuel dotted notation
-			$name = str_replace(array('[',']'), array('.', ''), $field->name);
+			$name = str_replace(array('[', ']'), array('.', ''), $field->name);
 
 			$value = $this->input($name);
 			if (($allow_partial === true and $value === null)
@@ -473,9 +471,9 @@ class Validation
 			return;
 		}
 
-		$output = call_user_func_array(reset($rule), array_merge(array($value), $params));
+		$output = call_fuel_func_array(reset($rule), array_merge(array($value), $params));
 
-		if ($output === false && $value !== false)
+		if ($output === false and ($value !== false or key($rule) == 'required'))
 		{
 			throw new \Validation_Error($field, $value, $rule, $params);
 		}
@@ -499,14 +497,31 @@ class Validation
 			return $this->input;
 		}
 
+		// key transformation from form array to dot notation
+		if (strpos($key, '[') !== false)
+		{
+			$key = str_replace(array('[', ']'), array('.', ''), $key);
+		}
+
+		// if we don't have this key
 		if ( ! array_key_exists($key, $this->input))
 		{
-			if (strpos($key,'[') !== false)
+			// it might be in dot-notation
+			if (strpos($key, '.') !== false)
 			{
-				$this->input[$key] =  $this->global_input_fallback ? \Arr::get(\Input::param(), str_replace(array('[', ']'),array('.', ''),$key), $default) : $default;
+				// check the input first
+				if (($result = \Arr::get($this->input, $key, null)) !== null)
+				{
+					$this->input[$key] = $result;
+				}
+				else
+				{
+					$this->input[$key] =  $this->global_input_fallback ? \Arr::get(\Input::param(), $key, $default) : $default;
+				}
 			}
 			else
 			{
+				// do a fallback to global input if needed, or use the provided default
 				$this->input[$key] =  $this->global_input_fallback ? \Input::param($key, $default) : $default;
 			}
 		}
@@ -553,6 +568,30 @@ class Validation
 	}
 
 	/**
+	 * Return error message
+	 *
+	 * Return specific error message or all error messages thrown during validation
+	 *
+	 * @param   string  fieldname
+	 * @param   mixed   value to return when not validated
+	 * @return  string|array  the error message or full array of error messages
+	 */
+	public function error_message($field = null, $default = false)
+	{
+		if ($field === null)
+		{
+			$messages = array();
+			foreach ($this->error() as $field => $e)
+			{
+				$messages[$field] = $e->get_message();
+			}
+			return $messages;
+		}
+
+		return array_key_exists($field, $this->errors) ? $this->errors[$field]->get_message() : $default;
+	}
+
+	/**
 	 * Show errors
 	 *
 	 * Returns all errors in a list or with set markup from $options param
@@ -567,7 +606,7 @@ class Validation
 			'close_list'   => \Config::get('validation.close_list', '</ul>'),
 			'open_error'   => \Config::get('validation.open_error', '<li>'),
 			'close_error'  => \Config::get('validation.close_error', '</li>'),
-			'no_errors'    => \Config::get('validation.no_errors', '')
+			'no_errors'    => \Config::get('validation.no_errors', ''),
 		);
 		$options = array_merge($default, $options);
 
@@ -729,6 +768,25 @@ class Validation
 	}
 
 	/**
+	 * Match against an array of values
+	 *
+	 * @param   string
+	 * @param   array
+	 * @param   bool  whether to do type comparison
+	 * @return  bool
+	 */
+	public function _validation_match_collection($val, $collection = array(), $strict = false)
+	{
+		if ( ! is_array($collection))
+		{
+			$collection = func_get_args();
+			array_shift($collection);
+		}
+
+		return $this->_empty($val) || in_array($val, $collection, $strict);
+	}
+
+	/**
 	 * Minimum string length
 	 *
 	 * @param   string
@@ -737,7 +795,7 @@ class Validation
 	 */
 	public function _validation_min_length($val, $length)
 	{
-		return $this->_empty($val) || (MBSTRING ? mb_strlen($val) : strlen($val)) >= $length;
+		return $this->_empty($val) || \Str::length($val) >= $length;
 	}
 
 	/**
@@ -749,7 +807,7 @@ class Validation
 	 */
 	public function _validation_max_length($val, $length)
 	{
-		return $this->_empty($val) || (MBSTRING ? mb_strlen($val) : strlen($val)) <= $length;
+		return $this->_empty($val) || \Str::length($val) <= $length;
 	}
 
 	/**
@@ -761,7 +819,7 @@ class Validation
 	 */
 	public function _validation_exact_length($val, $length)
 	{
-		return $this->_empty($val) || (MBSTRING ? mb_strlen($val) : strlen($val)) == $length;
+		return $this->_empty($val) || \Str::length($val) == $length;
 	}
 
 	/**
@@ -846,6 +904,10 @@ class Validation
 			{
 				$flags = array('alpha', 'utf8', 'numeric');
 			}
+			elseif ($flags == 'specials')
+			{
+				$flags = array('specials', 'utf8');
+			}
 			elseif ($flags == 'url_safe')
 			{
 				$flags = array('alpha', 'numeric', 'dashes');
@@ -862,9 +924,13 @@ class Validation
 			{
 				$flags = array('singlequotes', 'doublequotes');
 			}
+			elseif ($flags == 'slashes')
+			{
+				$flags = array('forwardslashes', 'backslashes');
+			}
 			elseif ($flags == 'all')
 			{
-				$flags = array('alpha', 'utf8', 'numeric', 'spaces', 'newlines', 'tabs', 'punctuation', 'singlequotes', 'doublequotes', 'dashes');
+				$flags = array('alpha', 'utf8', 'numeric', 'specials', 'spaces', 'newlines', 'tabs', 'punctuation', 'singlequotes', 'doublequotes', 'dashes', 'forwardslashes', 'backslashes', 'brackets', 'braces');
 			}
 			else
 			{
@@ -875,17 +941,22 @@ class Validation
 		$pattern = ! in_array('uppercase', $flags) && in_array('alpha', $flags) ? 'a-z' : '';
 		$pattern .= ! in_array('lowercase', $flags) && in_array('alpha', $flags) ? 'A-Z' : '';
 		$pattern .= in_array('numeric', $flags) ? '0-9' : '';
+		$pattern .= in_array('specials', $flags) ? '[:alpha:]' : '';
 		$pattern .= in_array('spaces', $flags) ? ' ' : '';
-		$pattern .= in_array('newlines', $flags) ? "\n" : '';
+		$pattern .= in_array('newlines', $flags) ? "\r\n" : '';
 		$pattern .= in_array('tabs', $flags) ? "\t" : '';
 		$pattern .= in_array('dots', $flags) && ! in_array('punctuation', $flags) ? '\.' : '';
 		$pattern .= in_array('commas', $flags) && ! in_array('punctuation', $flags) ? ',' : '';
 		$pattern .= in_array('punctuation', $flags) ? "\.,\!\?:;\&" : '';
 		$pattern .= in_array('dashes', $flags) ? '_\-' : '';
+		$pattern .= in_array('forwardslashes', $flags) ? '\/' : '';
+		$pattern .= in_array('backslashes', $flags) ? '\\\\' : '';
 		$pattern .= in_array('singlequotes', $flags) ? "'" : '';
 		$pattern .= in_array('doublequotes', $flags) ? "\"" : '';
+		$pattern .= in_array('brackets', $flags) ? "\(\)" : '';
+		$pattern .= in_array('braces', $flags) ? "\{\}" : '';
 		$pattern = empty($pattern) ? '/^(.*)$/' : ('/^(['.$pattern.'])+$/');
-		$pattern .= in_array('utf8', $flags) ? 'u' : '';
+		$pattern .= in_array('utf8', $flags) || in_array('specials', $flags) ? 'u' : '';
 
 		return preg_match($pattern, $val) > 0;
 	}
@@ -943,5 +1014,47 @@ class Validation
 		}
 
 		return true;
+	}
+
+	/**
+	 * Checks whether string input is valid date format. When a format is passed
+	 * it will make sure the date will be in that specific format if validated
+	 *
+	 * @param   string
+	 * @param   string  The format used at the time of a validation
+	 * @param   bool    Whether validation checks strict
+	 * @return  bool
+	 */
+	public function _validation_valid_date($val, $format = null, $strict = true)
+	{
+		if ($this->_empty($val))
+		{
+			return true;
+		}
+
+		if ($format)
+		{
+			$parsed = date_parse_from_format($format, $val);
+		}
+		else
+		{
+			$parsed = date_parse($val);
+		}
+
+		if (\Arr::get($parsed, 'error_count', 1) + ($strict ? \Arr::get($parsed, 'warning_count', 1) : 0) === 0)
+		{
+			if ($format)
+			{
+				return date($format, mktime($parsed['hour'], $parsed['minute'], $parsed['second'], $parsed['month'], $parsed['day'], $parsed['year']));
+			}
+			else
+			{
+				return true;
+			}
+		}
+		else
+		{
+			return false;
+		}
 	}
 }

@@ -3,20 +3,17 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
 
-
-
 class File_Area
 {
-
 	/**
 	 * @var	string	path to basedir restriction, null for no restriction
 	 */
@@ -141,8 +138,10 @@ class File_Area
 	 */
 	public function get_path($path)
 	{
-
 		$pathinfo = is_dir($path) ? array('dirname' => $path, 'extension' => null, 'basename' => '') : pathinfo($path);
+
+		// make sure we have a dirname to work with
+		isset($pathinfo['dirname']) or $pathinfo['dirname'] = '';
 
 		// do we have a basedir, and is the path already prefixed by the basedir? then just deal with the double dots...
 		if ( ! empty($this->basedir) && substr($pathinfo['dirname'], 0, strlen($this->basedir)) == $this->basedir)
@@ -195,7 +194,7 @@ class File_Area
 			throw new \LogicException('File operation not allowed: cannot create file url whithout a basedir and file outside DOCROOT.');
 		}
 
-		return rtrim($this->url, '/').'/'.ltrim(str_replace(DS, '/', substr($path, strlen($basedir))),'/');
+		return rtrim($this->url, '/').'/'.ltrim(str_replace(DS, '/', substr($path, strlen($basedir))), '/');
 	}
 
 	/* -------------------------------------------------------------------------------------
@@ -273,5 +272,3 @@ class File_Area
 		return \File::get_size($path, $this);
 	}
 }
-
-

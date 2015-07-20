@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -14,10 +14,9 @@ namespace Fuel\Core;
 
 class Image_Imagemagick extends \Image_Driver
 {
-
 	protected $image_temp = null;
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');
-	protected $size_cache = null;
+	protected $sizes_cache = null;
 	protected $im_path = null;
 
 	public function load($filename, $return_data = false, $force_extension = false)
@@ -31,15 +30,15 @@ class Image_Imagemagick extends \Image_Driver
 			{
 				$this->image_temp = $this->config['temp_dir'].substr($this->config['temp_append'].md5(time() * microtime()), 0, 32).'.png';
 			}
-			while (file_exists($this->image_temp));
+			while (is_file($this->image_temp));
 		}
-		elseif (file_exists($this->image_temp))
+		elseif (is_file($this->image_temp))
 		{
 			$this->debug('Removing previous temporary image.');
 			unlink($this->image_temp);
 		}
 		$this->debug('Temp file: '.$this->image_temp);
-		if (!file_exists($this->config['temp_dir']) || !is_dir($this->config['temp_dir']))
+		if ( ! is_dir($this->config['temp_dir']))
 		{
 			throw new \RuntimeException("The temp directory that was given does not exist.");
 		}
@@ -117,6 +116,7 @@ class Image_Imagemagick extends \Image_Driver
 		$x >= 0 and $x = '+'.$x;
 		$y >= 0 and $y = '+'.$y;
 
+		$image = '"'.$this->image_temp.'"';
 		$this->exec(
 			'composite',
 			'-compose atop -geometry '.$x.$y.' '.
@@ -160,12 +160,12 @@ class Image_Imagemagick extends \Image_Driver
 
 		$image = '"'.$this->image_temp.'"';
 		$r = $radius;
-		$command = $image." ( +clone -alpha extract ".
+		$command = $image." \\( +clone -alpha extract ".
 			( ! $tr ? '' : "-draw \"fill black polygon 0,0 0,$r $r,0 fill white circle $r,$r $r,0\" ")."-flip ".
 			( ! $br ? '' : "-draw \"fill black polygon 0,0 0,$r $r,0 fill white circle $r,$r $r,0\" ")."-flop ".
 			( ! $bl ? '' : "-draw \"fill black polygon 0,0 0,$r $r,0 fill white circle $r,$r $r,0\" ")."-flip ".
 			( ! $tl ? '' : "-draw \"fill black polygon 0,0 0,$r $r,0 fill white circle $r,$r $r,0\" ").
-			') -alpha off -compose CopyOpacity -composite '.$image;
+			'\\) -alpha off -compose CopyOpacity -composite '.$image;
 		$this->exec('convert', $command);
 	}
 
@@ -180,7 +180,7 @@ class Image_Imagemagick extends \Image_Driver
 		$is_loaded_file = $filename == null;
 		if ( ! $is_loaded_file or $this->sizes_cache == null or !$usecache)
 		{
-			$reason = ($filename != null ? "filename" : ($this->size_cache == null ? 'cache' : 'option'));
+			$reason = ($filename != null ? "filename" : ($this->sizes_cache == null ? 'cache' : 'option'));
 			$this->debug("Generating size of image... (triggered by $reason)");
 
 			if ($is_loaded_file and ! empty($this->image_temp))
@@ -188,11 +188,11 @@ class Image_Imagemagick extends \Image_Driver
 				$filename = $this->image_temp;
 			}
 
-			$output = $this->exec('identify', '-format "%[fx:w] %[fx:h]" "'.$filename.'"[0]');
+			$output = $this->exec('identify', '-format "%w %h" "'.$filename.'"[0]');
 			list($width, $height) = explode(" ", $output[0]);
 			$return = (object) array(
 				'width' => $width,
-				'height' => $height
+				'height' => $height,
 			);
 
 			if ($is_loaded_file)
@@ -209,7 +209,7 @@ class Image_Imagemagick extends \Image_Driver
 		return $return;
 	}
 
-	public function save($filename, $permissions = null)
+	public function save($filename = null, $permissions = null)
 	{
 		extract(parent::save($filename, $permissions));
 
@@ -305,7 +305,7 @@ class Image_Imagemagick extends \Image_Driver
 	 * @param   boolean  $passthru  Returns the output if false or pass it to browser.
 	 * @return  mixed    Either returns the output or returns nothing.
 	 */
-	private function exec($program, $params, $passthru = false)
+	protected function exec($program, $params, $passthru = false)
 	{
 		//  Determine the path
 		$this->im_path = realpath($this->config['imagemagick_dir'].$program);
@@ -348,10 +348,9 @@ class Image_Imagemagick extends \Image_Driver
 
 	public function __destruct()
 	{
-		if (file_exists($this->image_temp))
+		if (is_file($this->image_temp))
 		{
 			unlink($this->image_temp);
 		}
 	}
 }
-

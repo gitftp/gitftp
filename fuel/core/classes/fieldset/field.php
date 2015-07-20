@@ -3,16 +3,14 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
-
-
 
 /**
  * Fieldset Class
@@ -92,10 +90,16 @@ class Fieldset_Field
 	 * @param  array
 	 * @param  array
 	 * @param  Fieldset
+	 * @throws \RuntimeException
 	 */
 	public function __construct($name, $label = '', array $attributes = array(), array $rules = array(), $fieldset = null)
 	{
 		$this->name = (string) $name;
+
+		if ($this->name === "")
+		{
+			throw new \RuntimeException('Fieldset field name may not be empty.');
+		}
 
 		// determine the field's base name (for fields with array indices)
 		$this->basename = ($pos = strpos($this->name, '[')) ? rtrim(substr(strrchr($this->name, '['), 1), ']') : $this->name;
@@ -128,7 +132,7 @@ class Fieldset_Field
 
 		foreach ($rules as $rule)
 		{
-			call_user_func_array(array($this, 'add_rule'), (array) $rule);
+			call_fuel_func_array(array($this, 'add_rule'), (array) $rule);
 		}
 	}
 
@@ -139,11 +143,20 @@ class Fieldset_Field
 	 */
 	public function set_fieldset(Fieldset $fieldset)
 	{
+		// if we currently have a fieldset
 		if ($this->fieldset)
 		{
-			throw new \RuntimeException('Field already belongs to a fieldset, cannot be reassigned.');
+			// remove the field from the fieldset
+			$this->fieldset->delete($this->name);
+
+			// reset the fieldset
+			$this->fieldset = null;
+
+			// add this field to the new fieldset
+			$fieldset->add($this);
 		}
 
+		// assign the new fieldset
 		$this->fieldset = $fieldset;
 
 		return $this;
@@ -321,10 +334,10 @@ class Fieldset_Field
 	 * @param   mixed   new value or null to unset
 	 * @return  Fieldset_Field  this, to allow chaining
 	 */
-	public function set_attribute($config, $value = null)
+	public function set_attribute($attr, $value = null)
 	{
-		$config = is_array($config) ? $config : array($config => $value);
-		foreach ($config as $key => $value)
+		$attr = is_array($attr) ? $attr : array($attr => $value);
+		foreach ($attr as $key => $value)
 		{
 			if ($value === null)
 			{
@@ -491,8 +504,10 @@ class Fieldset_Field
 		{
 			case 'hidden':
 				$build_field = $form->hidden($this->name, $this->value, $this->attributes);
-				break;
-			case 'radio': case 'checkbox':
+			break;
+
+			case 'radio':
+			case 'checkbox':
 				if ($this->options)
 				{
 					$build_field = array();
@@ -532,28 +547,33 @@ class Fieldset_Field
 						? $form->radio($this->name, $this->value, $this->attributes)
 						: $form->checkbox($this->name, $this->value, $this->attributes);
 				}
-				break;
+			break;
+
 			case 'select':
 				$attributes = $this->attributes;
 				$name = $this->name;
 				unset($attributes['type']);
 				array_key_exists('multiple', $attributes) and $name .= '[]';
 				$build_field = $form->select($name, $this->value, $this->options, $attributes);
-				break;
+			break;
+
 			case 'textarea':
 				$attributes = $this->attributes;
 				unset($attributes['type']);
 				$build_field = $form->textarea($this->name, $this->value, $attributes);
-				break;
+			break;
+
 			case 'button':
 				$build_field = $form->button($this->name, $this->value, $this->attributes);
-				break;
+			break;
+
 			case false:
 				$build_field = '';
-				break;
+			break;
+
 			default:
 				$build_field = $form->input($this->name, $this->value, $this->attributes);
-				break;
+			break;
 		}
 
 		if (empty($build_field) or $this->type == 'hidden')
@@ -569,14 +589,14 @@ class Fieldset_Field
 		$form = $this->fieldset()->form();
 
 		$required_mark = $this->get_attribute('required', null) ? $form->get_config('required_mark', null) : null;
-		$label = $this->label ? $form->label($this->label, null, array('id' => 'label_'.$this->name, 'for' => $this->get_attribute('id', null))) : '';
+		$label = $this->label ? $form->label($this->label, null, array('id' => 'label_'.$this->name, 'for' => $this->get_attribute('id', null), 'class' => $form->get_config('label_class', null))) : '';
 		$error_template = $form->get_config('error_template', '');
 		$error_msg = ($form->get_config('inline_errors') && $this->error()) ? str_replace('{error_msg}', $this->error(), $error_template) : '';
 		$error_class = $this->error() ? $form->get_config('error_class') : '';
 
 		if (is_array($build_field))
 		{
-			$label = $this->label ? $form->label($this->label) : '';
+			$label = $this->label ? str_replace('{label}', $this->label, $form->get_config('group_label', '<span>{label}</span>')) : '';
 			$template = $this->template ?: $form->get_config('multi_field_template', "\t\t<tr>\n\t\t\t<td class=\"{error_class}\">{group_label}{required}</td>\n\t\t\t<td class=\"{error_class}\">{fields}\n\t\t\t\t{field} {label}<br />\n{fields}\t\t\t{error_msg}\n\t\t\t</td>\n\t\t</tr>\n");
 			if ($template && preg_match('#\{fields\}(.*)\{fields\}#Dus', $template, $match) > 0)
 			{

@@ -13,24 +13,28 @@ namespace Fuel\Core;
 
 class Database_Query_Builder_Insert extends \Database_Query_Builder
 {
-
-	// INSERT INTO ...
+	/**
+	 * @var string  $_table  table
+	 */
 	protected $_table;
 
-	// (...)
+	/**
+	 * @var array $_columns  columns
+	 */
 	protected $_columns = array();
 
-	// VALUES (...)
+	/**
+	 * @var array  $_values  values
+	 */
 	protected $_values = array();
 
 	/**
 	 * Set the table and columns for an insert.
 	 *
-	 * @param   mixed  table name or array($table, $alias) or object
-	 * @param   array  column names
-	 * @return  void
+	 * @param   mixed $table   table name or array($table, $alias) or object
+	 * @param   array $columns column names
 	 */
-	public function __construct($table = NULL, array $columns = NULL)
+	public function __construct($table = null, array $columns = null)
 	{
 		if ($table)
 		{
@@ -45,13 +49,13 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 		}
 
 		// Start the query with no SQL
-		return parent::__construct('', \DB::INSERT);
+		parent::__construct('', \DB::INSERT);
 	}
 
 	/**
 	 * Sets the table to insert into.
 	 *
-	 * @param   mixed  table name or array($table, $alias) or object
+	 * @param   mixed $table table name or array($table, $alias) or object
 	 * @return  $this
 	 */
 	public function table($table)
@@ -64,7 +68,7 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 	/**
 	 * Set the columns that will be inserted.
 	 *
-	 * @param   array  column names
+	 * @param   array $columns column names
 	 * @return  $this
 	 */
 	public function columns(array $columns)
@@ -77,9 +81,8 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 	/**
 	 * Adds values. Multiple value sets can be added.
 	 *
-	 * @param   array   values list
-	 * @param   ...
 	 * @return  $this
+	 * @throws \FuelException
 	 */
 	public function values(array $values)
 	{
@@ -91,7 +94,18 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 		// Get all of the passed values
 		$values = func_get_args();
 
-		$this->_values = array_merge($this->_values, $values);
+		// And process them
+		foreach ($values as $value)
+		{
+			if (is_array(reset($value)))
+			{
+				$this->_values = array_merge($this->_values, $value);
+			}
+			else
+			{
+				$this->_values[] = $value;
+			}
+		}
 
 		return $this;
 	}
@@ -99,7 +113,8 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 	/**
 	 * This is a wrapper function for calling columns() and values().
 	 *
-	 * @param	array	column value pairs
+	 * @param array $pairs column value pairs
+	 *
 	 * @return	$this
 	 */
 	public function set(array $pairs)
@@ -113,8 +128,11 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 	/**
 	 * Use a sub-query to for the inserted values.
 	 *
-	 * @param   object  Database_Query of SELECT type
+	 * @param   Database_Query  $query  Database_Query of SELECT type
+	 *
 	 * @return  $this
+	 *
+	 * @throws \FuelException
 	 */
 	public function select(Database_Query $query)
 	{
@@ -131,7 +149,8 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 	/**
 	 * Compile the SQL query and return it.
 	 *
-	 * @param   mixed  Database instance or instance name
+	 * @param   mixed  $db  Database instance or instance name
+	 *
 	 * @return  string
 	 */
 	public function compile($db = null)
@@ -180,16 +199,18 @@ class Database_Query_Builder_Insert extends \Database_Query_Builder
 		return $query;
 	}
 
+	/**
+	 * Reset the query parameters
+	 *
+	 * @return $this
+	 */
 	public function reset()
 	{
-		$this->_table = NULL;
-
+		$this->_table = null;
 		$this->_columns = array();
 		$this->_values  = array();
-
 		$this->_parameters = array();
 
 		return $this;
 	}
-
-} // End Database_Query_Builder_Insert
+}

@@ -3,23 +3,20 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
 
-
 // Exception thrown when the Cache was found but expired (auto deleted)
 class CacheExpiredException extends \CacheNotFoundException {}
 
-
 class Cache
 {
-
 	/**
 	 * Loads any default caching settings when available
 	 */
@@ -137,4 +134,3 @@ class Cache
 		return $cache->delete_all($section);
 	}
 }
-

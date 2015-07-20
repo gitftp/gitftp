@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -22,7 +22,6 @@ namespace Fuel\Core;
  */
 class Form_Instance
 {
-
 	/**
 	 * Valid types for input tags (including HTML5)
 	 */
@@ -31,7 +30,7 @@ class Form_Instance
 		'datetime-local', 'email', 'file', 'hidden', 'image',
 		'month', 'number', 'password', 'radio', 'range',
 		'reset', 'search', 'submit', 'tel', 'text', 'time',
-		'url', 'week'
+		'url', 'week',
 	);
 
 	/**
@@ -106,11 +105,10 @@ class Form_Instance
 		$attributes = ! is_array($attributes) ? array('action' => $attributes) : $attributes;
 
 		// If there is still no action set, Form-post
-		if( ! array_key_exists('action', $attributes) or $attributes['action'] === null)
+		if( ! array_key_exists('action', $attributes) or empty($attributes['action']))
 		{
 			$attributes['action'] = \Uri::main();
 		}
-
 
 		// If not a full URL, create one
 		elseif ( ! strpos($attributes['action'], '://'))
@@ -300,9 +298,12 @@ class Form_Instance
 			if ( ! is_array($checked))
 			{
 				// If it's true, then go for it
-				if (is_bool($checked) and $checked === true)
+				if (is_bool($checked))
 				{
-					$attributes['checked'] = 'checked';
+					if($checked === true)
+					{
+						$attributes['checked'] = 'checked';
+					}
 				}
 
 				// Otherwise, if the string/number/whatever matches then do it
@@ -342,9 +343,12 @@ class Form_Instance
 			if ( ! is_array($checked))
 			{
 				// If it's true, then go for it
-				if (is_bool($checked) and $checked === true)
+				if (is_bool($checked))
 				{
-					$attributes['checked'] = 'checked';
+					if($checked === true)
+					{
+						$attributes['checked'] = 'checked';
+					}
 				}
 
 				// Otherwise, if the string/number/whatever matches then do it
@@ -472,8 +476,7 @@ class Form_Instance
 			$attributes['name'] = (string) $field;
 			$attributes['value'] = (string) $value;
 		}
-
-		$value = empty($attributes['value']) ? '' : $attributes['value'];
+		$value = is_scalar($attributes['value']) ? $attributes['value'] : '';
 		unset($attributes['value']);
 
 		if ($this->get_config('prep_value', true) && empty($attributes['dont_prep']))
@@ -509,16 +512,17 @@ class Form_Instance
 
 			if ( ! isset($attributes['selected']))
 			{
-				$attributes['selected'] = ! isset($attributes['value']) ? null : $attributes['value'];
+				$attributes['selected'] = ! isset($attributes['value']) ? (isset($attributes['default']) ? $attributes['default'] : null) : $attributes['value'];
 			}
 		}
 		else
 		{
 			$attributes['name'] = (string) $field;
-			$attributes['selected'] = $values;
+			$attributes['selected'] = ($values === null or $values === array()) ? (isset($attributes['default']) ? $attributes['default'] : $values) : $values;
 			$attributes['options'] = $options;
 		}
 		unset($attributes['value']);
+		unset($attributes['default']);
 
 		if ( ! isset($attributes['options']) || ! is_array($attributes['options']))
 		{
@@ -547,12 +551,13 @@ class Form_Instance
 				{
 					$optgroup = $listoptions($val, $selected, $level + 1);
 					$optgroup .= str_repeat("\t", $level);
-					$input .= str_repeat("\t", $level).html_tag('optgroup', array('label' => $key , 'style' => 'text-indent: '.(10*($level-1)).'px;'), $optgroup).PHP_EOL;
+					$input .= str_repeat("\t", $level).html_tag('optgroup', array('label' => $key, 'style' => 'text-indent: '.(20+10*($level-1)).'px;'), $optgroup).PHP_EOL;
 				}
 				else
 				{
-					$opt_attr = array('value' => $key, 'style' => 'text-indent: '.(10*($level-1)).'px;');
-					(in_array((string)$key, $selected, true)) && $opt_attr[] = 'selected';
+					$opt_attr = array('value' => $key);
+					$level > 1 and $opt_attr['style'] = 'text-indent: '.(10*($level-1)).'px;';
+					(in_array((string) $key, $selected, true)) && $opt_attr[] = 'selected';
 					$input .= str_repeat("\t", $level);
 					$opt_attr['value'] = ($current_obj->get_config('prep_value', true) && empty($attributes['dont_prep'])) ?
 						$current_obj->prep_value($opt_attr['value']) : $opt_attr['value'];
@@ -575,7 +580,7 @@ class Form_Instance
 		}
 
 		// if it's a multiselect, make sure the name is an array
-		if (isset($attributes['multiple']) and substr($attributes['name'],-2) != '[]')
+		if (isset($attributes['multiple']) and substr($attributes['name'], -2) != '[]')
 		{
 			$attributes['name'] .= '[]';
 		}
@@ -600,9 +605,16 @@ class Form_Instance
 			isset($attributes['id']) and $id = $attributes['id'];
 		}
 
-		if (empty($attributes['for']) and $this->get_config('auto_id', false) == true)
+		if (empty($attributes['for']) and ! empty($id))
 		{
-			$attributes['for'] = $this->get_config('auto_id_prefix', 'form_').$id;
+			if ($this->get_config('auto_id', false) == true)
+			{
+				$attributes['for'] = $this->get_config('auto_id_prefix', 'form_').$id;
+			}
+			else
+			{
+				$attributes['for'] = $id;
+			}
 		}
 
 		unset($attributes['label']);

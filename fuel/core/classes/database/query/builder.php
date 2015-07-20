@@ -13,12 +13,12 @@ namespace Fuel\Core;
 
 abstract class Database_Query_Builder extends \Database_Query
 {
-
 	/**
 	 * Compiles an array of JOIN statements into an SQL partial.
 	 *
-	 * @param   object  Database instance
-	 * @param   array   join statements
+	 * @param   object $db    Database instance
+	 * @param   array  $joins join statements
+	 *
 	 * @return  string
 	 */
 	protected function _compile_join(\Database_Connection$db, array $joins)
@@ -38,8 +38,9 @@ abstract class Database_Query_Builder extends \Database_Query
 	 * Compiles an array of conditions into an SQL partial. Used for WHERE
 	 * and HAVING.
 	 *
-	 * @param   object  Database instance
-	 * @param   array   condition statements
+	 * @param   object $db         Database instance
+	 * @param   array  $conditions condition statements
+	 *
 	 * @return  string
 	 */
 	protected function _compile_conditions(\Database_Connection$db, array $conditions)
@@ -77,57 +78,65 @@ abstract class Database_Query_Builder extends \Database_Query
 					// Split the condition
 					list($column, $op, $value) = $condition;
 
-					if ($value === NULL)
+					// Support DB::expr() as where clause
+					if ($column instanceOf Database_Expression and $op === null and $value === null)
 					{
-						if ($op === '=')
-						{
-							// Convert "val = NULL" to "val IS NULL"
-							$op = 'IS';
-						}
-						elseif ($op === '!=')
-						{
-							// Convert "val != NULL" to "valu IS NOT NULL"
-							$op = 'IS NOT';
-						}
-					}
-
-					// Database operators are always uppercase
-					$op = strtoupper($op);
-
-					if (($op === 'BETWEEN' OR $op === 'NOT BETWEEN') AND is_array($value))
-					{
-						// BETWEEN always has exactly two arguments
-						list($min, $max) = $value;
-
-						if (is_string($min) AND array_key_exists($min, $this->_parameters))
-						{
-							// Set the parameter as the minimum
-							$min = $this->_parameters[$min];
-						}
-
-						if (is_string($max) AND array_key_exists($max, $this->_parameters))
-						{
-							// Set the parameter as the maximum
-							$max = $this->_parameters[$max];
-						}
-
-						// Quote the min and max value
-						$value = $db->quote($min).' AND '.$db->quote($max);
+						$sql .= (string) $column;
 					}
 					else
 					{
-						if (is_string($value) AND array_key_exists($value, $this->_parameters))
+						if ($value === NULL)
 						{
-							// Set the parameter as the value
-							$value = $this->_parameters[$value];
+							if ($op === '=')
+							{
+								// Convert "val = NULL" to "val IS NULL"
+								$op = 'IS';
+							}
+							elseif ($op === '!=')
+							{
+								// Convert "val != NULL" to "valu IS NOT NULL"
+								$op = 'IS NOT';
+							}
 						}
 
-						// Quote the entire value normally
-						$value = $db->quote($value);
-					}
+						// Database operators are always uppercase
+						$op = strtoupper($op);
 
-					// Append the statement to the query
-					$sql .= $db->quote_identifier($column).' '.$op.' '.$value;
+						if (($op === 'BETWEEN' OR $op === 'NOT BETWEEN') AND is_array($value))
+						{
+							// BETWEEN always has exactly two arguments
+							list($min, $max) = $value;
+
+							if (is_string($min) AND array_key_exists($min, $this->_parameters))
+							{
+								// Set the parameter as the minimum
+								$min = $this->_parameters[$min];
+							}
+
+							if (is_string($max) AND array_key_exists($max, $this->_parameters))
+							{
+								// Set the parameter as the maximum
+								$max = $this->_parameters[$max];
+							}
+
+							// Quote the min and max value
+							$value = $db->quote($min).' AND '.$db->quote($max);
+						}
+						else
+						{
+							if (is_string($value) AND array_key_exists($value, $this->_parameters))
+							{
+								// Set the parameter as the value
+								$value = $this->_parameters[$value];
+							}
+
+							// Quote the entire value normally
+							$value = $db->quote($value);
+						}
+
+						// Append the statement to the query
+						$sql .= $db->quote_identifier($column).' '.$op.' '.$value;
+					}
 				}
 
 				$last_condition = $condition;
@@ -140,8 +149,9 @@ abstract class Database_Query_Builder extends \Database_Query
 	/**
 	 * Compiles an array of set values into an SQL partial. Used for UPDATE.
 	 *
-	 * @param   object  Database instance
-	 * @param   array   updated values
+	 * @param   object $db     Database instance
+	 * @param   array  $values updated values
+	 *
 	 * @return  string
 	 */
 	protected function _compile_set(\Database_Connection$db, array $values)
@@ -150,7 +160,7 @@ abstract class Database_Query_Builder extends \Database_Query
 		foreach ($values as $group)
 		{
 			// Split the set
-			list ($column, $value) = $group;
+			list($column, $value) = $group;
 
 			// Quote the column name
 			$column = $db->quote_identifier($column);
@@ -170,21 +180,24 @@ abstract class Database_Query_Builder extends \Database_Query
 	/**
 	 * Compiles an array of ORDER BY statements into an SQL partial.
 	 *
-	 * @param   object  Database instance
-	 * @param   array   sorting columns
+	 * @param   object  $db       Database instance
+	 * @param   array   $columns  sorting columns
+	 *
 	 * @return  string
 	 */
-	protected function _compile_order_by(\Database_Connection$db, array $columns)
+	protected function _compile_order_by(\Database_Connection $db, array $columns)
 	{
 		$sort = array();
+
 		foreach ($columns as $group)
 		{
-			list ($column, $direction) = $group;
+			list($column, $direction) = $group;
 
+			$direction = strtoupper($direction);
 			if ( ! empty($direction))
 			{
 				// Make the direction uppercase
-				$direction = ' '.strtoupper($direction);
+				$direction = ' '.($direction == 'ASC' ? 'ASC' : 'DESC');
 			}
 
 			$sort[] = $db->quote_identifier($column).$direction;
@@ -199,5 +212,4 @@ abstract class Database_Query_Builder extends \Database_Query
 	 * @return  $this
 	 */
 	abstract public function reset();
-
-} // End Database_Query_Builder
+}

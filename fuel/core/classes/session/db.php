@@ -3,22 +3,19 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
 
-
-
 // --------------------------------------------------------------------
 
 class Session_Db extends \Session_Driver
 {
-
 	/*
 	 * @var	session database result object
 	 */
@@ -28,9 +25,9 @@ class Session_Db extends \Session_Driver
 	 * array of driver config defaults
 	 */
 	protected static $_defaults = array(
-		'cookie_name'		=> 'fueldid',				// name of the session cookie for database based sessions
-		'table'				=> 'sessions',				// name of the sessions table
-		'gc_probability'	=> 5						// probability % (between 0 and 100) for garbage collection
+		'cookie_name'    => 'fueldid',				// name of the session cookie for database based sessions
+		'table'          => 'sessions',				// name of the sessions table
+		'gc_probability' => 5,						// probability % (between 0 and 100) for garbage collection
 	);
 
 	// --------------------------------------------------------------------
@@ -54,12 +51,12 @@ class Session_Db extends \Session_Driver
 	public function create($payload = '')
 	{
 		// create a new session
-		$this->keys['session_id']	= $this->_new_session_id();
-		$this->keys['previous_id']	= $this->keys['session_id'];	// prevents errors if previous_id has a unique index
-		$this->keys['ip_hash']		= md5(\Input::ip().\Input::real_ip());
-		$this->keys['user_agent']	= \Input::user_agent();
-		$this->keys['created'] 		= $this->time->get_timestamp();
-		$this->keys['updated'] 		= $this->keys['created'];
+		$this->keys['session_id']  = $this->_new_session_id();
+		$this->keys['previous_id'] = $this->keys['session_id'];	// prevents errors if previous_id has a unique index
+		$this->keys['ip_hash']     = md5(\Input::ip().\Input::real_ip());
+		$this->keys['user_agent']  = \Input::user_agent();
+		$this->keys['created']     = $this->time->get_timestamp();
+		$this->keys['updated']     = $this->keys['created'];
 
 		// add the payload
 		$this->keys['payload'] = $payload;
@@ -111,32 +108,42 @@ class Session_Db extends \Session_Driver
 				else
 				{
 					// cookie present, but session record missing. force creation of a new session
+					logger('DEBUG', 'Error: Session cookie with ID "'.$cookie[0].'" present but corresponding record is missing');
 					return $this->read(true);
 				}
 			}
 
 			if ( ! isset($payload[0]) or ! is_array($payload[0]))
 			{
-				// not a valid cookie payload
+				logger('DEBUG', 'Error: not a valid db session payload!');
 			}
 			elseif ($payload[0]['updated'] + $this->config['expiration_time'] <= $this->time->get_timestamp())
 			{
-				// session has expired
+				logger('DEBUG', 'Error: session id has expired!');
 			}
 			elseif ($this->config['match_ip'] and $payload[0]['ip_hash'] !== md5(\Input::ip().\Input::real_ip()))
 			{
-				// IP address doesn't match
+				logger('DEBUG', 'Error: IP address in the session doesn\'t match this requests source IP!');
 			}
 			elseif ($this->config['match_ua'] and $payload[0]['user_agent'] !== \Input::user_agent())
 			{
-				// user agent doesn't match
+				logger('DEBUG', 'Error: User agent in the session doesn\'t match the browsers user agent string!');
 			}
 			else
 			{
 				// session is valid, retrieve the payload
-				if (isset($payload[0]) and is_array($payload[0])) $this->keys  = $payload[0];
-				if (isset($payload[1]) and is_array($payload[1])) $this->data  = $payload[1];
-				if (isset($payload[2]) and is_array($payload[2])) $this->flash = $payload[2];
+				if (isset($payload[0]) and is_array($payload[0]))
+				{
+					$this->keys  = $payload[0];
+				}
+				if (isset($payload[1]) and is_array($payload[1]))
+				{
+					$this->data  = $payload[1];
+				}
+				if (isset($payload[2]) and is_array($payload[2]))
+				{
+					$this->flash = $payload[2];
+				}
 			}
 		}
 
@@ -161,42 +168,98 @@ class Session_Db extends \Session_Driver
 			// rotate the session id if needed
 			$this->rotate(false);
 
+			// record the last update time of the session
+			$this->keys['updated'] = $this->time->get_timestamp();
+
+			// add a random identifier, we need the payload to be absolutely unique
+			$this->flash[$this->config['flash_id'].'::__session_identifier__'] = array('state' => 'expire', 'value' => sha1(uniqid(rand(), true)));
+
 			// create the session record, and add the session payload
 			$session = $this->keys;
 			$session['payload'] = $this->_serialize(array($this->keys, $this->data, $this->flash));
 
-			// do we need to create a new session?
-			if (is_null($this->record))
+			try
 			{
-				// create the new session record
-				$result = \DB::insert($this->config['table'], array_keys($session))->values($session)->execute($this->config['database']);
-			}
-			else
-			{
-				// update the database
-				$result = \DB::update($this->config['table'])->set($session)->where('session_id', '=', $this->record->get('session_id'))->execute($this->config['database']);
-			}
+				// do we need to create a new session?
+				if (is_null($this->record))
+				{
+					// create the new session record
+					list($notused, $result) = \DB::insert($this->config['table'], array_keys($session))->values($session)->execute($this->config['database']);
+				}
+				else
+				{
+					// update the database
+					$result = \DB::update($this->config['table'])->set($session)->where('session_id', '=', $this->record->get('session_id'))->execute($this->config['database']);
 
-			// update went well?
-			if ($result !== false)
-			{
-				// then update the cookie
-				$this->_set_cookie(array($this->keys['session_id']));
-			}
-			else
-			{
-				logger(\Fuel::L_ERROR, 'Session update failed, session record could not be found. Concurrency issue?');
-			}
+					// if it failed, perhaps we have lost a session id due to rotation?
+					if ($result === 0)
+					{
+						// if so, there must be a session record with our session_id as previous_id
+						$result = \DB::select()->where('previous_id', '=', $this->record->get('session_id'))->from($this->config['table'])->execute($this->config['database']);
+						if ($result->count())
+						{
+							logger(\Fuel::L_WARNING, 'Session update failed, session record recovered using previous id. Lost rotation data?');
 
-			// do some garbage collection
-			if (mt_rand(0,100) < $this->config['gc_probability'])
+							// update the session data
+							$this->keys['session_id'] = $result->get('session_id');
+							$this->keys['previous_id'] = $result->get('previous_id');
+
+							// and recreate the payload
+							$session = $this->keys;
+							$session['payload'] = $this->_serialize(array($this->keys, $this->data, $this->flash));
+
+							// and update the database
+							$result = \DB::update($this->config['table'])->set($session)->where('session_id', '=', $this->keys['session_id'])->execute($this->config['database']);
+						}
+						else
+						{
+							logger(\Fuel::L_ERROR, 'Session update failed, session record could not be recovered using the previous id');
+							$result = false;
+						}
+					}
+				}
+
+				// update went well?
+				if ($result !== 0)
+				{
+					// then update the cookie
+					$this->_set_cookie(array($this->keys['session_id']));
+				}
+
+				// Run garbage collector
+				$this->gc();
+			}
+			catch (Database_Exception $e)
 			{
-				$expired = $this->time->get_timestamp() - $this->config['expiration_time'];
-				$result = \DB::delete($this->config['table'])->where('updated', '<', $expired)->execute($this->config['database']);
+				// strip the actual query from the message
+				$msg = $e->getMessage();
+				$msg = substr($msg, 0, strlen($msg)  - strlen(strrchr($msg, ':')));
+
+				// and rethrow it
+				throw new \Database_Exception($msg);
 			}
 		}
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Garbage Collector
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	public function gc()
+	{
+		if (mt_rand(0, 100) < $this->config['gc_probability'])
+		{
+			$expired = $this->time->get_timestamp() - $this->config['expiration_time'];
+			$result = \DB::delete($this->config['table'])->where('updated', '<', $expired)->execute($this->config['database']);
+		}
+
+		return true;
 	}
 
 	// --------------------------------------------------------------------

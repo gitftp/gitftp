@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -136,6 +136,16 @@ class Form
 	public static function hidden($field, $value = null, array $attributes = array())
 	{
 		return static::$instance->hidden($field, $value, $attributes);
+	}
+	
+	/**
+	 * Create a CSRF hidden field
+	 *
+	 * @return string
+	 */
+	public static function csrf()
+	{
+		return static::hidden(\Config::get('security.csrf_token_key', 'fuel_csrf_token'), \Security::fetch_token());
 	}
 
 	/**

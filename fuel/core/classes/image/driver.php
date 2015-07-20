@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -14,7 +14,6 @@ namespace Fuel\Core;
 
 abstract class Image_Driver
 {
-
 	protected $image_fullpath  = null;
 	protected $image_directory = null;
 	protected $image_filename  = null;
@@ -24,16 +23,25 @@ abstract class Image_Driver
 	protected $queued_actions  = array();
 	protected $accepted_extensions;
 
-	public function __construct($config)
+	/**
+	 * Initialize by loading config
+	 *
+	 * @return void
+	 */
+	public static function _init()
 	{
 		\Config::load('image', true);
+	}
+
+	public function __construct($config)
+	{
 		if (is_array($config))
 		{
-			$this->config = array_merge(\Config::get('image'), $config);
+			$this->config = array_merge(\Config::get('image', array()), $config);
 		}
 		else
 		{
-			$this->config = \Config::get('image');
+			$this->config = \Config::get('image', array());
 		}
 		$this->debug("Image Class was initialized using the " . $this->config['driver'] . " driver.");
 	}
@@ -90,7 +98,7 @@ abstract class Image_Driver
 						$action[$i] = preg_replace('#\$' . $x . '#', $vars[$x], $action[$i]);
 					}
 				}
-				call_user_func_array(array($this, $func), $action);
+				call_fuel_func_array(array($this, $func), $action);
 			}
 			$this->config = $old_config;
 		}
@@ -115,9 +123,9 @@ abstract class Image_Driver
 		$filename = realpath($filename);
 		$return = array(
 			'filename'    => $filename,
-			'return_data' => $return_data
+			'return_data' => $return_data,
 		);
-		if (file_exists($filename))
+		if (is_file($filename))
 		{
 			// Check the extension
 			$ext = $this->check_extension($filename, false, $force_extension);
@@ -127,7 +135,7 @@ abstract class Image_Driver
 					'image_fullpath'  => $filename,
 					'image_directory' => dirname($filename),
 					'image_filename'  => basename($filename),
-					'image_extension' => $ext
+					'image_extension' => $ext,
 				));
 				if ( ! $return_data)
 				{
@@ -194,7 +202,7 @@ abstract class Image_Driver
 			'x1' => $x1,
 			'y1' => $y1,
 			'x2' => $x2,
-			'y2' => $y2
+			'y2' => $y2,
 		);
 	}
 
@@ -212,7 +220,6 @@ abstract class Image_Driver
 		$this->queue('resize', $width, $height, $keepar, $pad);
 		return $this;
 	}
-
 
 	/**
 	 * Creates a vertical / horizontal or both mirror image.
@@ -280,8 +287,8 @@ abstract class Image_Driver
 			// See which is the biggest ratio
 			if (function_exists('bcdiv'))
 			{
-				$width_ratio  = bcdiv((float) $width, $sizes->width, 10);
-				$height_ratio = bcdiv((float) $height, $sizes->height, 10);
+				$width_ratio  = bcdiv($width, $sizes->width, 10);
+				$height_ratio = bcdiv($height, $sizes->height, 10);
 				$compare = bccomp($width_ratio, $height_ratio, 10);
 				if ($compare > -1)
 				{
@@ -328,7 +335,7 @@ abstract class Image_Driver
 			'cwidth'  => $origwidth,
 			'cheight' => $origheight,
 			'x' => $x,
-			'y' => $y
+			'y' => $y,
 		);
 	}
 
@@ -403,7 +410,7 @@ abstract class Image_Driver
 			$degrees = 360 + $degrees;
 		}
 		return array(
-			'degrees' => $degrees
+			'degrees' => $degrees,
 		);
 	}
 
@@ -435,7 +442,7 @@ abstract class Image_Driver
 	{
 		$filename = realpath($filename);
 		$return = false;
-		if (file_exists($filename) and $this->check_extension($filename, false))
+		if (is_file($filename) and $this->check_extension($filename, false))
 		{
 			$x = 0;
 			$y = 0;
@@ -474,7 +481,7 @@ abstract class Image_Driver
 				'filename' => $filename,
 				'x' => $x,
 				'y' => $y,
-				'padding' => $padding
+				'padding' => $padding,
 			);
 		}
 		return $return;
@@ -508,7 +515,7 @@ abstract class Image_Driver
 
 		return array(
 			'size' => $size,
-			'color' => $color
+			'color' => $color,
 		);
 	}
 
@@ -535,7 +542,7 @@ abstract class Image_Driver
 	protected function _mask($maskimage)
 	{
 		return array(
-			'maskimage' => $maskimage
+			'maskimage' => $maskimage,
 		);
 	}
 
@@ -587,7 +594,7 @@ abstract class Image_Driver
 			'tr' => $tr,
 			'bl' => $bl,
 			'br' => $br,
-			'antialias' => $antialias
+			'antialias' => $antialias,
 		);
 	}
 
@@ -614,8 +621,13 @@ abstract class Image_Driver
 	 * @param   string  $permissions  Allows unix style permissions
 	 * @return  array
 	 */
-	public function save($filename, $permissions = null)
+	public function save($filename = null, $permissions = null)
 	{
+		if (empty($filename))
+		{
+			$filename = $this->image_filename;
+		}
+
 		$directory = dirname($filename);
 		if ( ! is_dir($directory))
 		{
@@ -640,7 +652,7 @@ abstract class Image_Driver
 
 		$this->debug("", "Saving image as <code>$filename</code>");
 		return array(
-			'filename' => $filename
+			'filename' => $filename,
 		);
 	}
 
@@ -691,7 +703,7 @@ abstract class Image_Driver
 
 		$this->debug('', "Outputting image as $filetype");
 		return array(
-			'filetype' => $filetype
+			'filetype' => $filetype,
 		);
 	}
 
@@ -721,6 +733,7 @@ abstract class Image_Driver
 			$red = 0;
 			$green = 0;
 			$blue = 0;
+			$alpha = 0;
 		}
 		else
 		{
@@ -731,24 +744,29 @@ abstract class Image_Driver
 			}
 
 			// Break apart the hex
-			if (strlen($hex) == 6)
+			if (strlen($hex) == 6 or strlen($hex) == 8)
 			{
 				$red   = hexdec(substr($hex, 0, 2));
 				$green = hexdec(substr($hex, 2, 2));
 				$blue  = hexdec(substr($hex, 4, 2));
+				$alpha = (strlen($hex) == 8) ? hexdec(substr($hex, 6, 2)) : 255;
 			}
 			else
 			{
 				$red   = hexdec(substr($hex, 0, 1).substr($hex, 0, 1));
 				$green = hexdec(substr($hex, 1, 1).substr($hex, 1, 1));
 				$blue  = hexdec(substr($hex, 2, 1).substr($hex, 2, 1));
+				$alpha = (strlen($hex) > 3) ? hexdec(substr($hex, 3, 1).substr($hex, 3, 1)) : 255;
 			}
 		}
+
+		$alpha = floor($alpha / 2.55);
 
 		return array(
 			'red' => $red,
 			'green' => $green,
 			'blue' => $blue,
+			'alpha' => $alpha,
 		);
 	}
 
@@ -791,6 +809,12 @@ abstract class Image_Driver
 	{
 		// Sanitize double negatives
 		$input = str_replace('--', '', $input);
+
+		// Depending on php configuration, float are sometimes converted to strings
+		// using commas instead of points. This notation can create issues since the
+		// conversion from string to float will return an integer.
+		// For instance: "1.2" / 10 == 0.12 but "1,2" / 10 == 0.1...
+		$input = str_replace(',', '.', $input);
 
 		$orig = $input;
 		$sizes = $this->sizes();
@@ -862,6 +886,16 @@ abstract class Image_Driver
 	}
 
 	/**
+	 * Get the file extension (type) worked out on construct
+	 *
+	 * @return  string  File extension
+	 */
+	public function extension()
+	{
+		return $this->image_extension;
+	}
+
+	/**
 	 * Used for debugging image output.
 	 *
 	 * @param  string  $message
@@ -878,4 +912,3 @@ abstract class Image_Driver
 		}
 	}
 }
-

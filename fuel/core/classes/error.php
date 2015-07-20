@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -19,12 +19,17 @@ class PhpErrorException extends \ErrorException
 {
 	public static $count = 0;
 
-	public function handle()
+	public static $loglevel = \Fuel::L_ERROR;
+
+	/**
+	 * Allow the error handler from recovering from error types defined in the config
+	 */
+	public function recover()
 	{
 		// handle the error based on the config and the environment we're in
-		if (static::$count <= Config::get('errors.throttle', 10))
+		if (static::$count <= \Config::get('errors.throttle', 10))
 		{
-			logger(\Fuel::L_ERROR, $this->code.' - '.$this->message.' in '.$this->file.' on line '.$this->line);
+			logger(static::$loglevel, $this->code.' - '.$this->message.' in '.$this->file.' on line '.$this->line);
 
 			if (\Fuel::$env != \Fuel::PRODUCTION and ($this->code & error_reporting()) == $this->code)
 			{
@@ -47,21 +52,25 @@ class PhpErrorException extends \ErrorException
  */
 class Error
 {
+	public static $loglevel = \Fuel::L_ERROR;
 
 	public static $levels = array(
-		0                  => 'Error',
-		E_ERROR            => 'Error',
-		E_WARNING          => 'Warning',
-		E_PARSE            => 'Parsing Error',
-		E_NOTICE           => 'Notice',
-		E_CORE_ERROR       => 'Core Error',
-		E_CORE_WARNING     => 'Core Warning',
-		E_COMPILE_ERROR    => 'Compile Error',
-		E_COMPILE_WARNING  => 'Compile Warning',
-		E_USER_ERROR       => 'User Error',
-		E_USER_WARNING     => 'User Warning',
-		E_USER_NOTICE      => 'User Notice',
-		E_STRICT           => 'Runtime Notice'
+		0                   => 'Error',
+		E_ERROR             => 'Fatal Error',
+		E_WARNING           => 'Warning',
+		E_PARSE             => 'Parsing Error',
+		E_NOTICE            => 'Notice',
+		E_CORE_ERROR        => 'Core Error',
+		E_CORE_WARNING      => 'Core Warning',
+		E_COMPILE_ERROR     => 'Compile Error',
+		E_COMPILE_WARNING   => 'Compile Warning',
+		E_USER_ERROR        => 'User Error',
+		E_USER_WARNING      => 'User Warning',
+		E_USER_NOTICE       => 'User Notice',
+		E_STRICT            => 'Runtime Notice',
+		E_RECOVERABLE_ERROR => 'Runtime Recoverable error',
+		E_DEPRECATED        => 'Runtime Deprecated code usage',
+		E_USER_DEPRECATED   => 'User Deprecated code usage',
 	);
 
 	public static $fatal_levels = array(E_PARSE, E_ERROR, E_USER_ERROR, E_COMPILE_ERROR);
@@ -81,7 +90,7 @@ class Error
 		if ($last_error AND in_array($last_error['type'], static::$fatal_levels))
 		{
 			$severity = static::$levels[$last_error['type']];
-			logger(\Fuel::L_ERROR, $severity.' - '.$last_error['message'].' in '.$last_error['file'].' on line '.$last_error['line']);
+			logger(static::$loglevel, $severity.' - '.$last_error['message'].' in '.$last_error['file'].' on line '.$last_error['line']);
 
 			$error = new \ErrorException($last_error['message'], $last_error['type'], 0, $last_error['file'], $last_error['line']);
 			if (\Fuel::$env != \Fuel::PRODUCTION)
@@ -111,7 +120,7 @@ class Error
 		}
 
 		$severity = ( ! isset(static::$levels[$e->getCode()])) ? $e->getCode() : static::$levels[$e->getCode()];
-		logger(\Fuel::L_ERROR, $severity.' - '.$e->getMessage().' in '.$e->getFile().' on line '.$e->getLine());
+		logger(static::$loglevel, $severity.' - '.$e->getMessage().' in '.$e->getFile().' on line '.$e->getLine());
 
 		if (\Fuel::$env != \Fuel::PRODUCTION)
 		{
@@ -137,7 +146,7 @@ class Error
 		// don't do anything if error reporting is disabled
 		if (error_reporting() !== 0)
 		{
-			$fatal = (bool)( ! in_array($severity, \Config::get('errors.continue_on', array())));
+			$fatal = (bool) ( ! in_array($severity, \Config::get('errors.continue_on', array())));
 
 			if ($fatal)
 			{
@@ -145,8 +154,9 @@ class Error
 			}
 			else
 			{
+				// non-fatal, recover from the error
 				$e = new \PhpErrorException($message, $severity, 0, $filepath, $line);
-				$e->handle();
+				$e->recover();
 			}
 		}
 
@@ -162,7 +172,7 @@ class Error
 	 */
 	public static function show_php_error(\Exception $e)
 	{
-		$fatal = (bool)( ! in_array($e->getCode(), \Config::get('errors.continue_on', array())));
+		$fatal = (bool) ( ! in_array($e->getCode(), \Config::get('errors.continue_on', array())));
 		$data = static::prepare_exception($e, $fatal);
 
 		if ($fatal)
@@ -182,6 +192,11 @@ class Error
 		if (\Fuel::$is_cli)
 		{
 			\Cli::write(\Cli::color($data['severity'].' - '.$data['message'].' in '.\Fuel::clean_path($data['filepath']).' on line '.$data['error_line'], 'red'));
+			if (\Config::get('cli_backtrace'))
+			{
+				\Cli::write('Stack trace:');
+				\Cli::write(\Debug::backtrace($e->getTrace()));
+			}
 			return;
 		}
 
@@ -298,5 +313,3 @@ class Error
 	}
 
 }
-
-

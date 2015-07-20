@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -14,7 +14,6 @@ namespace Fuel\Core;
 
 class Image_Imagick extends \Image_Driver
 {
-
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');
 	protected $imagick = null;
 
@@ -179,7 +178,7 @@ class Image_Imagick extends \Image_Driver
 		{
 			return (object) array(
 				'width'  => $this->imagick->getImageWidth(),
-				'height' => $this->imagick->getImageHeight()
+				'height' => $this->imagick->getImageHeight(),
 			);
 		}
 
@@ -187,11 +186,11 @@ class Image_Imagick extends \Image_Driver
 		$tmpimage->readImage($filename);
 		return (object) array(
 			'width'  => $tmpimage->getImageWidth(),
-			'height' => $tmpimage->getImageHeight()
+			'height' => $tmpimage->getImageHeight(),
 		);
 	}
 
-	public function save($filename, $permissions = null)
+	public function save($filename = null, $permissions = null)
 	{
 		extract(parent::save($filename, $permissions));
 

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -14,7 +14,6 @@ namespace Fuel\Core;
 
 class Image
 {
-
 	protected static $_instance = null;
 
 	/**
@@ -23,6 +22,16 @@ class Image
 	 * @var  array   Config options to be passed when the instance is created.
 	 */
 	protected static $_config = array();
+
+	/**
+	 * Initialize by loading config
+	 *
+	 * @return void
+	 */
+	public static function _init()
+	{
+		\Config::load('image', true);
+	}
 
 	/**
 	 * Creates a new instance for static use of the class.
@@ -48,7 +57,6 @@ class Image
 	{
 		!is_array($config) and $config = array();
 
-		\Config::load('image', 'image');
 		$config = array_merge(\Config::get('image', array()), $config);
 
 		$protocol = ucfirst( ! empty($config['driver']) ? $config['driver'] : 'gd');
@@ -81,9 +89,13 @@ class Image
 		if (static::$_instance === null)
 		{
 			if ($value !== null)
+			{
 				$index = array($index => $value);
+			}
 			if (is_array($index))
+			{
 				static::$_config = array_merge(static::$_config, $index);
+			}
 			static::instance();
 			return static::instance();
 		} else {
@@ -235,7 +247,7 @@ class Image
 	 * @param   string  $permissions  Allows unix style permissions
 	 * @return  Image_Driver
 	 */
-	public static function save($filename, $permissions = null)
+	public static function save($filename = null, $permissions = null)
 	{
 		return static::instance()->save($filename, $permissions);
 	}

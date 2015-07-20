@@ -6,46 +6,50 @@
  * @category   Query/Result
  * @author     Kohana Team
  * @copyright  (c) 2008-2009 Kohana Team
+ * @copyright  (c) 2010-2015 Fuel Development Team
  * @license    http://kohanaphp.com/license
  */
 
 namespace Fuel\Core;
 
-
-
-abstract class Database_Result implements \Countable, \Iterator, \SeekableIterator, \ArrayAccess {
-
+abstract class Database_Result implements \Countable, \Iterator, \SeekableIterator, \ArrayAccess, \Sanitization
+{
 	/**
-	 * @var  Executed SQL for this result
+	 * @var  string Executed SQL for this result
 	 */
 	protected $_query;
 
 	/**
-	 * @var  resource  Raw result resource
+	 * @var  resource  $_result raw result resource
 	 */
 	protected $_result;
 
 	/**
-	 * @var  int  Total number of rows
+	 * @var  int  $_total_rows total number of rows
 	 */
 	protected $_total_rows  = 0;
 
 	/**
-	 * @var  int  Current row number
+	 * @var  int  $_current_row  current row number
 	 */
 	protected $_current_row = 0;
 
 	/**
-	 * @var  bool  Return rows as an object or associative array
+	 * @var  bool  $_as_object  return rows as an object or associative array
 	 */
 	protected $_as_object;
 
 	/**
+	 * @var  bool  $_sanitization_enabled  If this is a records data will be sanitized on get
+	 */
+	protected $_sanitization_enabled = false;
+
+	/**
 	 * Sets the total number of rows and stores the result locally.
 	 *
-	 * @param   mixed   query result
-	 * @param   string  SQL query
-	 * @return  void
+	 * @param  mixed   $result     query result
+	 * @param  string  $sql        SQL query
+	 * @param  mixed   $as_object  object
 	 */
 	public function __construct($result, $sql, $as_object)
 	{
@@ -183,8 +187,9 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *     // Get the "id" value
 	 *     $id = $result->get('id');
 	 *
-	 * @param   string  column to get
-	 * @param   mixed   default value if the column does not exist
+	 * @param   string $name    column to get
+	 * @param   mixed  $default default value if the column does not exist
+	 *
 	 * @return  mixed
 	 */
 	public function get($name, $default = null)
@@ -195,14 +200,34 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 		{
 			if (isset($row->$name))
 			{
-				return $row->$name;
+				// sanitize the data if needed
+				if ( ! $this->_sanitization_enabled)
+				{
+					$result = $row->$name;
+				}
+				else
+				{
+					$result = \Security::clean($row->$name, null, 'security.output_filter');
+				}
+
+				return $result;
 			}
 		}
 		else
 		{
 			if (isset($row[$name]))
 			{
-				return $row[$name];
+				// sanitize the data if needed
+				if ( ! $this->_sanitization_enabled)
+				{
+					$result = $row[$name];
+				}
+				else
+				{
+					$result = \Security::clean($row[$name], null, 'security.output_filter');
+				}
+
+				return $result;
 			}
 		}
 
@@ -229,7 +254,9 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *         // Row 10 exists
 	 *     }
 	 *
-	 * @return  boolean
+	 * @param integer $offset
+	 *
+	 * @return boolean
 	 */
 	public function offsetExists($offset)
 	{
@@ -241,6 +268,8 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 	 *
 	 *     $row = $result[10];
 	 *
+	 * @param integer $offset
+	 *
 	 * @return  mixed
 	 */
 	public function offsetGet($offset)
@@ -250,16 +279,25 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 			return null;
 		}
 
-		return $this->current();
+		$result = $this->current();
+
+		// sanitize the data if needed
+		if ($this->_sanitization_enabled)
+		{
+			$result = \Security::clean($result, null, 'security.output_filter');
+		}
+
+		return $result;
 	}
 
 	/**
 	 * Implements [ArrayAccess::offsetSet], throws an error.
-	 *
 	 * [!!] You cannot modify a database result.
 	 *
-	 * @return  void
-	 * @throws  Exception
+	 * @param integer $offset
+	 * @param mixed   $value
+	 *
+	 * @throws  \FuelException
 	 */
 	final public function offsetSet($offset, $value)
 	{
@@ -268,11 +306,11 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 
 	/**
 	 * Implements [ArrayAccess::offsetUnset], throws an error.
-	 *
 	 * [!!] You cannot modify a database result.
 	 *
-	 * @return  void
-	 * @throws  Exception
+	 * @param integer $offset
+	 *
+	 * @throws  \FuelException
 	 */
 	final public function offsetUnset($offset)
 	{
@@ -342,4 +380,37 @@ abstract class Database_Result implements \Countable, \Iterator, \SeekableIterat
 		return $this->offsetExists($this->_current_row);
 	}
 
+	/**
+	 * Enable sanitization mode in the object
+	 *
+	 * @return  $this
+	 */
+	public function sanitize()
+	{
+		$this->_sanitization_enabled = true;
+
+		return $this;
+	}
+
+	/**
+	 * Disable sanitization mode in the object
+	 *
+	 * @return  $this
+	 */
+	public function unsanitize()
+	{
+		$this->_sanitization_enabled = false;
+
+		return $this;
+	}
+
+	/**
+	 * Returns the current sanitization state of the object
+	 *
+	 * @return  bool
+	 */
+	public function sanitized()
+	{
+		return $this->_sanitization_enabled;
+	}
 }

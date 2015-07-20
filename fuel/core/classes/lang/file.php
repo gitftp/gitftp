@@ -44,6 +44,7 @@ abstract class Lang_File implements Lang_Interface
 	public function load($overwrite = false)
 	{
 		$paths = $this->find_file();
+
 		$lang = array();
 
 		foreach ($paths as $path)
@@ -128,12 +129,12 @@ abstract class Lang_File implements Lang_Interface
 			$paths = array_merge($paths, \Finder::search('lang'.DS.$lang, $this->file, $this->ext, true));
 		}
 
-		if (count($paths) > 0)
+		if (empty($paths))
 		{
-			return array_reverse($paths);
+			throw new \LangException(sprintf('File "%s" does not exist.', $this->file));
 		}
 
-		throw new \LangException(sprintf('File "%s" does not exist.', $this->file));
+		return array_reverse($paths);
 	}
 
 	/**
@@ -164,7 +165,7 @@ abstract class Lang_File implements Lang_Interface
 					$identifier = substr($identifier, $pos+2);
 
 					// strip the classes directory as we need the module root
-					$path = substr($path,0, -8).'lang'.DS.$identifier;
+					$path = substr($path, 0, -8).'lang'.DS.$identifier;
 				}
 				else
 				{

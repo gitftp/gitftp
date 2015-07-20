@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -27,7 +27,6 @@ namespace Fuel\Core;
  */
 class Request
 {
-
 	/**
 	 * Holds the main request instance
 	 *
@@ -143,12 +142,16 @@ class Request
 	 *
 	 * @return  void
 	 */
-	public static function reset_request()
+	public static function reset_request($full = false)
 	{
 		// Let's make the previous Request active since we are done executing this one.
-		static::$active = static::$active->parent();
-	}
+		static::$active and static::$active = static::$active->parent();
 
+		if ($full)
+		{
+			static::$main = null;
+		}
+	}
 
 	/**
 	 * Holds the response object of the request.
@@ -264,7 +267,7 @@ class Request
 		$this->uri = new \Uri($uri);
 		$this->method = $method ?: \Input::method();
 
-		logger(\Fuel::L_INFO, 'Creating a new Request with URI = "'.$this->uri->get().'"', __METHOD__);
+		logger(\Fuel::L_INFO, 'Creating a new '.(static::$main==null ? 'main' : 'HMVC').' Request with URI = "'.$this->uri->get().'"', __METHOD__);
 
 		// check if a module was requested
 		if (count($this->uri->get_segments()) and $module_path = \Module::exists($this->uri->get_segment(1)))
@@ -333,7 +336,7 @@ class Request
 
 		if (\Fuel::$profiling)
 		{
-			\Profiler::mark(__METHOD__.' Start');
+			\Profiler::mark(__METHOD__.': Start of '.$this->uri->get());
 		}
 
 		logger(\Fuel::L_INFO, 'Called', __METHOD__);
@@ -361,7 +364,7 @@ class Request
 		{
 			if ($this->route->callable !== null)
 			{
-				$response = call_user_func_array($this->route->callable, array($this));
+				$response = call_fuel_func_array($this->route->callable, array($this));
 
 				if ( ! $response instanceof Response)
 				{
@@ -408,7 +411,14 @@ class Request
 
 				if ( ! $class->hasMethod($method))
 				{
-					$method = 'action_'.$this->action;
+					// If they call user, go to $this->post_user();
+					$method = strtolower(\Input::method()) . '_' . $this->action;
+
+					// Fall back to action_ if no HTTP request method based method exists
+					if ( ! $class->hasMethod($method))
+					{
+						$method = 'action_'.$this->action;
+					}
 				}
 
 				if ($class->hasMethod($method))
@@ -416,6 +426,11 @@ class Request
 					$action = $class->getMethod($method);
 
 					if ( ! $action->isPublic())
+					{
+						throw new \HttpNotFoundException();
+					}
+
+					if (count($this->method_params) < $action->getNumberOfRequiredParameters())
 					{
 						throw new \HttpNotFoundException();
 					}
@@ -466,7 +481,7 @@ class Request
 
 		if (\Fuel::$profiling)
 		{
-			\Profiler::mark(__METHOD__.' End');
+			\Profiler::mark(__METHOD__.': End of '.$this->uri->get());
 		}
 
 		static::reset_request();

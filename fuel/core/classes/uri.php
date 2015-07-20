@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -22,7 +22,6 @@ namespace Fuel\Core;
  */
 class Uri
 {
-
 	/**
 	 * Returns the desired segment, or $default if it does not exist.
 	 *
@@ -58,9 +57,11 @@ class Uri
 	/**
 	 * Replace all * wildcards in a URI by the current segment in that location
 	 *
+	 * @param  string  $url     The url containing the wildcards
+	 * @param  bool    $secure  To force a particular HTTP scheme
 	 * @return  string
 	 */
-	public static function segment_replace($url)
+	public static function segment_replace($url, $secure = null)
 	{
 		// get the path from the url
 		$parts = parse_url($url);
@@ -75,7 +76,7 @@ class Uri
 			if (strpos($segment, '*') !== false)
 			{
 				$wildcards++;
-				if (($new = static::segment($index)) === null)
+				if (($new = static::segment($index+1)) === null)
 				{
 					throw new \OutofBoundsException('Segment replace on "'.$url.'" failed. No segment exists for wildcard '.$wildcards.'.');
 				}
@@ -84,9 +85,27 @@ class Uri
 		}
 
 		// re-assemble the path
-		$parts['path'] = implode('/', $segments);
-		$url = implode('/', $parts);
+		$parts['path'] = '/'.implode('/', $segments);
 
+		// do we need to force a scheme?
+		if (is_bool($secure))
+		{
+			$parts['scheme'] = $secure ? 'https' : 'http';
+		}
+
+		// and rebuild the url with the new path
+		if (empty($parts['host']))
+		{
+			// if a relative url was given, fake a host so we can remove it after building
+			$url = substr(http_build_url('http://__removethis__/', $parts), 22);
+		}
+		else
+		{
+			// a hostname was present, just rebuild it
+			$url = http_build_url('', $parts);
+		}
+
+		// return the newly constructed url
 		return $url;
 	}
 
@@ -132,7 +151,7 @@ class Uri
 	public static function create($uri = null, $variables = array(), $get_variables = array(), $secure = null)
 	{
 		$url = '';
-		$uri = $uri ?: static::string();
+		is_null($uri) and $uri = static::string();
 
 		// If the given uri is not a full URL
 		if( ! preg_match("#^(http|https|ftp)://#i", $uri))
@@ -146,10 +165,14 @@ class Uri
 		}
 		$url .= ltrim($uri, '/');
 
-		// Add a url_suffix if defined and the url doesn't already have one
-		if (substr($url, -1) != '/' and (($suffix = strrchr($url, '.')) === false or strlen($suffix) > 5))
+		// stick a url suffix onto it if defined and needed
+		if ($url_suffix = \Config::get('url_suffix', false) and substr($url, -1) != '/')
 		{
-			\Config::get('url_suffix') and $url .= \Config::get('url_suffix');
+			$current_suffix = strrchr($url, '.');
+			if ( ! $current_suffix or strpos($current_suffix, '/') !== false)
+			{
+				$url .= $url_suffix;
+			}
 		}
 
 		if ( ! empty($get_variables))
@@ -216,6 +239,61 @@ class Uri
 		return $url;
 	}
 
+	/**
+	 * Builds a query string by merging all array and string values passed. If
+	 * a string is passed, it will be assumed to be a switch, and converted
+	 * to "string=1".
+	 *
+	 * @param array|string Array or string to merge
+	 * @param array|string ...
+	 *
+	 * @return string
+	 */
+	public static function build_query_string()
+	{
+		$params = array();
+
+		foreach (func_get_args() as $arg)
+		{
+			$arg = is_array($arg) ? $arg : array($arg => '1');
+
+			$params = array_merge($params, $arg);
+		}
+
+		return http_build_query($params);
+	}
+
+	/**
+	 * Updates the query string of the current or passed URL with the data passed
+	 *
+	 * @param  array|string  $vars    Assoc array of GET variables, or a get variable name
+	 * @param  string|mixed  $uri     Optional URI to use if $vars is an array, otherwise the get variable name
+	 * @param  bool          $secure  If false, force http. If true, force https
+	 *
+	 * @return string
+	 */
+	public static function update_query_string($vars = array(), $uri = null, $secure = null)
+	{
+		// unify the input data
+		if ( ! is_array($vars))
+		{
+			$vars = array($vars => $uri);
+			$uri = null;
+		}
+
+		// if we have a custom URI, use that
+		if ($uri === null)
+		{
+			// use the current URI if not is passed
+			$uri = static::current();
+
+			// merge them with the existing query string data
+			$vars = array_merge(\Input::get(), $vars);
+		}
+
+		// return the updated uri
+		return static::create($uri, array(), $vars, $secure);
+	}
 
 	/**
 	 * @var  string  The URI string

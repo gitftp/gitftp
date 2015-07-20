@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -116,7 +116,7 @@ class Config
 			{
 				static::$items[$group] = array();
 			}
-			static::$items[$group] = $overwrite ? array_merge(static::$items[$group],$config) : \Arr::merge(static::$items[$group],$config);
+			static::$items[$group] = $overwrite ? array_merge(static::$items[$group], $config) : \Arr::merge(static::$items[$group], $config);
 			$group .= '.';
 			foreach (static::$itemcache as $key => $value)
 			{
@@ -150,6 +150,7 @@ class Config
 
 		$info = pathinfo($file);
 		$type = 'php';
+
 		if (isset($info['extension']))
 		{
 			$type = $info['extension'];
@@ -159,6 +160,7 @@ class Config
 				$file = substr($file, 0, -(strlen($type) + 1));
 			}
 		}
+
 		$class = '\\Config_'.ucfirst($type);
 
 		if ( ! class_exists($class))
@@ -193,6 +195,11 @@ class Config
 			if ($val === static::$default_check_value)
 			{
 				return $default;
+			}
+
+			if ( ! is_scalar($val))
+			{
+				return $val;
 			}
 
 			static::$itemcache[$item] = $val;

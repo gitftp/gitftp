@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -23,7 +23,6 @@ namespace Fuel\Core;
  */
 abstract class Controller_Template extends \Controller
 {
-
 	/**
 	* @var string page template
 	*/
@@ -51,7 +50,7 @@ abstract class Controller_Template extends \Controller
 	public function after($response)
 	{
 		// If nothing was returned default to the template
-		if (empty($response))
+		if ($response === null)
 		{
 			$response = $this->template;
 		}

@@ -4,7 +4,6 @@ namespace Fuel\Core;
 
 abstract class Controller_Rest extends \Controller
 {
-
 	/**
 	 * @var  null|string  Set this in a controller to use a default format
 	 */
@@ -24,6 +23,11 @@ abstract class Controller_Rest extends \Controller
 	 * @var  integer  status code to return in case the called action doesn't return data
 	 */
 	protected $no_data_status = 204;
+
+	/**
+	 * @var  string  authentication to be used for this controller
+	 */
+	protected $auth = null;
 
 	/**
 	 * @var  string  the detected response format
@@ -78,7 +82,7 @@ abstract class Controller_Rest extends \Controller
 
 		// If the response is a Response object, we will use their
 		// instead of ours.
-		if ( ! $response instanceof Response)
+		if ( ! $response instanceof \Response)
 		{
 			$response = $this->response;
 		}
@@ -95,7 +99,7 @@ abstract class Controller_Rest extends \Controller
 	 * @param  string
 	 * @param  array
 	 */
-	public function router($resource, array $arguments)
+	public function router($resource, $arguments)
 	{
 		\Config::load('rest', true);
 
@@ -106,18 +110,32 @@ abstract class Controller_Rest extends \Controller
 			$this->format = array_key_exists(\Input::extension(), $this->_supported_formats) ? \Input::extension() : $this->_detect_format();
 		}
 
-		//Check method is authorized if required
-		if (\Config::get('rest.auth') == 'basic')
+		// Get the configured auth method if none is defined
+		$this->auth === null and $this->auth = \Config::get('rest.auth');
+
+		//Check method is authorized if required, and if we're authorized
+		if ($this->auth == 'basic')
 		{
 			$valid_login = $this->_prepare_basic_auth();
 		}
-		elseif (\Config::get('rest.auth') == 'digest')
+		elseif ($this->auth == 'digest')
 		{
 			$valid_login = $this->_prepare_digest_auth();
 		}
+		elseif (method_exists($this, $this->auth))
+		{
+			if (($valid_login = $this->{$this->auth}()) instanceOf \Response)
+			{
+				return $valid_login;
+			}
+		}
+		else
+		{
+			$valid_login = false;
+		}
 
 		//If the request passes auth then execute as normal
-		if(\Config::get('rest.auth') == '' or $valid_login)
+		if(empty($this->auth) or $valid_login)
 		{
 			// If they call user, go to $this->post_user();
 			$controller_method = strtolower(\Input::method()) . '_' . $resource;
@@ -131,7 +149,7 @@ abstract class Controller_Rest extends \Controller
 			// If method is not available, set status code to 404
 			if (method_exists($this, $controller_method))
 			{
-				return call_user_func_array(array($this, $controller_method), $arguments);
+				return call_fuel_func_array(array($this, $controller_method), $arguments);
 			}
 			else
 			{
@@ -162,11 +180,11 @@ abstract class Controller_Rest extends \Controller
 			$this->response->set_header('Content-Type', $this->_supported_formats[$this->format]);
 		}
 
-		// no data returned? Set the NO CONTENT status on the response
+		// no data returned?
 		if ((is_array($data) and empty($data)) or ($data == ''))
 		{
-			$this->response->status = $this->no_data_status;
-			return $this->response;
+			// override the http status with the NO CONTENT status
+			$http_status = $this->no_data_status;
 		}
 
 		// make sure we have a valid return status
@@ -189,6 +207,22 @@ abstract class Controller_Rest extends \Controller
 			{
 				// Set the formatted response
 				$this->response->body(\Format::forge($data)->{'to_'.$this->format}());
+			}
+		}
+
+		// Format not supported, but the output is an array or an object that can not be cast to string
+		elseif (is_array($data) or (is_object($data) and ! method_exists($data, '__toString')))
+		{
+			if (\Fuel::$env == \Fuel::PRODUCTION)
+			{
+				// not acceptable in production
+				$http_status = 406;
+				$this->response->body('The requested REST method returned an array or object, which is not compatible with the output format "'.$this->format.'"');
+			}
+			else
+			{
+				// convert it to json so we can at least read it while we're developing
+				$this->response->body('The requested REST method returned an array or object:<br /><br />'.\Format::forge($data)->to_json(null, true));
 			}
 		}
 
@@ -224,8 +258,14 @@ abstract class Controller_Rest extends \Controller
 	 */
 	protected function _detect_format()
 	{
+		// A format has been passed as a named parameter in the route
+		if ($this->param('format') and array_key_exists($this->param('format'), $this->_supported_formats))
+		{
+			return $this->param('format');
+		}
+
 		// A format has been passed as an argument in the URL and it is supported
-		if (\Input::param('format') and $this->_supported_formats[\Input::param('format')])
+		if (\Input::param('format') and array_key_exists(\Input::param('format'), $this->_supported_formats))
 		{
 			return \Input::param('format');
 		}
@@ -394,7 +434,9 @@ abstract class Controller_Rest extends \Controller
 
 	protected function _prepare_digest_auth()
 	{
-		$uniqid = uniqid(""); // Empty argument for backward compatibility
+		// Empty argument for backward compatibility
+		$uniqid = uniqid("");
+
 		// We need to test which server authentication variable to use
 		// because the PHP ISAPI module in IIS acts different from CGI
 		if (\Input::server('PHP_AUTH_DIGEST'))
@@ -410,25 +452,32 @@ abstract class Controller_Rest extends \Controller
 			$digest_string = '';
 		}
 
-		/* The $_SESSION['error_prompted'] variabile is used to ask
-		  the password again if none given or if the user enters
-		  a wrong auth. informations. */
+		// Prompt for authentication if we don't have a digest string
 		if (empty($digest_string))
 		{
 			static::_force_login($uniqid);
 			return false;
 		}
 
-		// We need to retrieve authentication informations from the $auth_data variable
-		preg_match_all('@(username|nonce|uri|nc|cnonce|qop|response)=[\'"]?([^\'",]+)@', $digest_string, $matches);
-		$digest = array_combine($matches[1], $matches[2]);
+		// We need to retrieve authentication informations from the $digest_string variable
+		$digest_params = explode(', ', $digest_string);
+		foreach ($digest_params as $digest_param)
+		{
+			$digest_param = explode('=', $digest_param, 2);
+			if (isset($digest_param[1]))
+			{
+				$digest[$digest_param[0]] = trim($digest_param[1], '"');
+			}
+		}
 
+		// if no username, or an invalid username found, re-authenticate
 		if ( ! array_key_exists('username', $digest) or ! static::_check_login($digest['username']))
 		{
 			static::_force_login($uniqid);
 			return false;
 		}
 
+		// validate the configured login/password
 		$valid_logins = \Config::get('rest.valid_logins');
 		$valid_pass = $valid_logins[$digest['username']];
 
@@ -447,11 +496,14 @@ abstract class Controller_Rest extends \Controller
 
 	protected function _force_login($nonce = '')
 	{
-		if (\Config::get('rest.auth') == 'basic')
+		// Get the configured auth method if none is defined
+		$this->auth === null and $this->auth = \Config::get('rest.auth');
+
+		if ($this->auth == 'basic')
 		{
 			$this->response->set_header('WWW-Authenticate', 'Basic realm="'. \Config::get('rest.realm') . '"');
 		}
-		elseif (\Config::get('rest.auth') == 'digest')
+		elseif ($this->auth == 'digest')
 		{
 			$this->response->set_header('WWW-Authenticate', 'Digest realm="' . \Config::get('rest.realm') . '", qop="auth", nonce="' . $nonce . '", opaque="' . md5(\Config::get('rest.realm')) . '"');
 		}

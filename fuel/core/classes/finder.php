@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -26,6 +26,16 @@ class Finder
 	 */
 	protected static $instance = null;
 
+	public static function _init()
+	{
+		\Config::load('file', true);
+
+		// make sure the configured chmod values are octal
+		$chmod = \Config::get('file.chmod.folders', 0777);
+		is_string($chmod) and \Config::set('file.chmod.folders', octdec($chmod));
+		$chmod = \Config::get('file.chmod.files', 0666);
+		is_string($chmod) and \Config::set('file.chmod.files', octdec($chmod));
+	}
 	/**
 	 * An alias for Finder::instance()->locate();
 	 *
@@ -131,7 +141,7 @@ class Finder
 		{
 			if ($pos === null)
 			{
-				array_push($this->paths, $this->prep_path($path));
+				$this->paths[] = $this->prep_path($path);
 			}
 			elseif ($pos === -1)
 			{
@@ -185,7 +195,7 @@ class Finder
 
 		foreach ($paths as $path)
 		{
-			array_push($this->flash_paths, $this->prep_path($path));
+			$this->flash_paths[] = $this->prep_path($path);
 		}
 
 		return $this;
@@ -267,9 +277,10 @@ class Finder
 		$found = array();
 		foreach ($paths as $path)
 		{
-			if (($f = glob($path.$directory.DS.$filter)) !== false)
+			$files = new \GlobIterator(rtrim($path.$directory, DS).DS.$filter);
+			foreach($files as $file)
 			{
-				$found = array_merge($f, $found);
+				$found[] = $file->getPathname();
 			}
 		}
 
@@ -291,18 +302,36 @@ class Finder
 		$found = $multiple ? array() : false;
 
 		// absolute path requested?
-		if ($file[0] === '/' or (isset($file[1]) and $file[1] === ':'))
+		if ($file[0] === '/' or substr($file, 1, 2) === ':\\')
 		{
+			// if the base file does not exist, stick the extension to the back of it
+			if ( ! is_file($file))
+			{
+				$file .= $ext;
+			}
 			if ( ! is_file($file))
 			{
 				// at this point, found would be either empty array or false
 				return $found;
 			}
-
 			return $multiple ? array($file) : $file;
 		}
 
-		$cache_id = $multiple ? 'M.' : 'S.';
+		// determine the cache prefix
+		if ($multiple)
+		{
+			// make sure cache is not used if the loaded package and module list is changed
+			$cachekey = '';
+			class_exists('Module', false) and $cachekey .= implode('|', \Module::loaded());
+			$cachekey .= '|';
+			class_exists('Package', false) and $cachekey .= implode('|', \Package::loaded());
+			$cache_id = md5($cachekey).'.';
+		}
+		else
+		{
+			$cache_id = 'S.';
+		}
+
 		$paths = array();
 
 		// If a filename contains a :: then it is trying to be found in a namespace.
@@ -326,10 +355,10 @@ class Finder
 			$paths = $this->paths;
 
 			// get extra information of the active request
-			if (class_exists('Request', false) and ($uri = \Uri::string()) !== null)
+			if (class_exists('Request', false) and ($request = \Request::active()))
 			{
-				$cache_id .= $uri;
-				$paths = array_merge(\Request::active()->get_paths(), $paths);
+				$request->module and $cache_id .= $request->module;
+				$paths = array_merge($request->get_paths(), $paths);
 			}
 		}
 
@@ -458,7 +487,14 @@ class Finder
 				if ((time() - filemtime($dir.$file)) < $lifetime)
 				{
 					// Return the cache
-					return unserialize(file_get_contents($dir.$file));
+					try
+					{
+						return unserialize(file_get_contents($dir.$file));
+					}
+					catch (\Exception $e)
+					{
+						// Cache exists but could not be read, ignore it
+					}
 				}
 				else
 				{
@@ -476,16 +512,16 @@ class Finder
 			}
 
 			// Cache not found
-			return NULL;
+			return null;
 		}
 
 		if ( ! is_dir($dir))
 		{
 			// Create the cache directory
-			mkdir($dir, octdec(\Config::get('file.chmod.folders', 0777)), true);
+			mkdir($dir, \Config::get('file.chmod.folders', 0777), true);
 
 			// Set permissions (must be manually set to fix umask issues)
-			chmod($dir, octdec(\Config::get('file.chmod.folders', 0777)));
+			chmod($dir, \Config::get('file.chmod.folders', 0777));
 		}
 
 		// Force the data to be a string
@@ -493,10 +529,26 @@ class Finder
 
 		try
 		{
-			// Write the cache
-			return (bool) file_put_contents($dir.$file, $data, LOCK_EX);
+			// Write the cache, and set permissions
+			if ($result = (bool) file_put_contents($dir.$file, $data, LOCK_EX))
+			{
+				try
+				{
+					chmod($dir.$file, \Config::get('file.chmod.files', 0666));
+				}
+				catch (\PhpErrorException $e)
+				{
+					// if we get something else then a chmod error, bail out
+					if (substr($e->getMessage(), 0, 8) !== 'chmod():')
+					{
+						throw new $e;
+					}
+				}
+			}
+
+			return $result;
 		}
-		catch (Exception $e)
+		catch (\Exception $e)
 		{
 			// Failed to write cache
 			return false;

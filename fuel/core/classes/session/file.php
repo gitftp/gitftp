@@ -3,29 +3,26 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
 
-
-
 // --------------------------------------------------------------------
 
 class Session_File extends \Session_Driver
 {
-
 	/**
 	 * array of driver config defaults
 	 */
 	protected static $_defaults = array(
-		'cookie_name'		=> 'fuelfid',				// name of the session cookie for file based sessions
-		'path'				=>	'/tmp',					// path where the session files should be stored
-		'gc_probability'	=>	5						// probability % (between 0 and 100) for garbage collection
+		'cookie_name'    => 'fuelfid',				// name of the session cookie for file based sessions
+		'path'           =>	'/tmp',					// path where the session files should be stored
+		'gc_probability' =>	5,						// probability % (between 0 and 100) for garbage collection
 	);
 
 	// --------------------------------------------------------------------
@@ -49,12 +46,12 @@ class Session_File extends \Session_Driver
 	public function create()
 	{
 		// create a new session
-		$this->keys['session_id']	= $this->_new_session_id();
-		$this->keys['previous_id']	= $this->keys['session_id'];	// prevents errors if previous_id has a unique index
-		$this->keys['ip_hash']		= md5(\Input::ip().\Input::real_ip());
-		$this->keys['user_agent']	= \Input::user_agent();
-		$this->keys['created'] 		= $this->time->get_timestamp();
-		$this->keys['updated'] 		= $this->keys['created'];
+		$this->keys['session_id']  = $this->_new_session_id();
+		$this->keys['previous_id'] = $this->keys['session_id'];	// prevents errors if previous_id has a unique index
+		$this->keys['ip_hash']     = md5(\Input::ip().\Input::real_ip());
+		$this->keys['user_agent']  = \Input::user_agent();
+		$this->keys['created']     = $this->time->get_timestamp();
+		$this->keys['updated']     = $this->keys['created'];
 
 		return $this;
 	}
@@ -111,26 +108,35 @@ class Session_File extends \Session_Driver
 
 			if ( ! isset($payload[0]) or ! is_array($payload[0]))
 			{
-				// not a valid cookie payload
+				logger('DEBUG', 'Error: not a valid session file payload!');
 			}
 			elseif ($payload[0]['updated'] + $this->config['expiration_time'] <= $this->time->get_timestamp())
 			{
-				// session has expired
+				logger('DEBUG', 'Error: session id has expired!');
 			}
 			elseif ($this->config['match_ip'] and $payload[0]['ip_hash'] !== md5(\Input::ip().\Input::real_ip()))
 			{
-				// IP address doesn't match
+				logger('DEBUG', 'Error: IP address in the session doesn\'t match this requests source IP!');
 			}
 			elseif ($this->config['match_ua'] and $payload[0]['user_agent'] !== \Input::user_agent())
 			{
-				// user agent doesn't match
+				logger('DEBUG', 'Error: User agent in the session doesn\'t match the browsers user agent string!');
 			}
 			else
 			{
 				// session is valid, retrieve the payload
-				if (isset($payload[0]) and is_array($payload[0])) $this->keys  = $payload[0];
-				if (isset($payload[1]) and is_array($payload[1])) $this->data  = $payload[1];
-				if (isset($payload[2]) and is_array($payload[2])) $this->flash = $payload[2];
+				if (isset($payload[0]) and is_array($payload[0]))
+				{
+					$this->keys  = $payload[0];
+				}
+				if (isset($payload[1]) and is_array($payload[1]))
+				{
+					$this->data  = $payload[1];
+				}
+				if (isset($payload[2]) and is_array($payload[2]))
+				{
+					$this->flash = $payload[2];
+				}
 			}
 		}
 
@@ -155,6 +161,9 @@ class Session_File extends \Session_Driver
 			// rotate the session id if needed
 			$this->rotate(false);
 
+			// record the last update time of the session
+			$this->keys['updated'] = $this->time->get_timestamp();
+
 			// session payload
 			$payload = $this->_serialize(array($this->keys, $this->data, $this->flash));
 
@@ -172,25 +181,8 @@ class Session_File extends \Session_Driver
 			// then update the cookie
 			$this->_set_cookie(array($this->keys['session_id']));
 
-			// do some garbage collection
-			if (mt_rand(0,100) < $this->config['gc_probability'])
-			{
-				if ($handle = opendir($this->config['path']))
-				{
-					$expire = $this->time->get_timestamp() - $this->config['expiration_time'];
-
-					while (($file = readdir($handle)) !== false)
-					{
-						if (filetype($this->config['path'] . $file) == 'file' and
-							strpos($file, $this->config['cookie_name'].'_') === 0 and
-							filemtime($this->config['path'] . $file) < $expire)
-						{
-							@unlink($this->config['path'] . $file);
-						}
-					}
-					closedir($handle);
-				}
-			}
+			// Run garbage collector
+			$this->gc();
 		}
 
 		return $this;
@@ -211,7 +203,7 @@ class Session_File extends \Session_Driver
 		{
 			// delete the session file
 			$file = $this->config['path'].$this->config['cookie_name'].'_'.$this->keys['session_id'];
-			if (file_exists($file))
+			if (is_file($file))
 			{
 				unlink($file);
 			}
@@ -220,6 +212,40 @@ class Session_File extends \Session_Driver
 		parent::destroy();
 
 		return $this;
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Garbage Collector
+	 *
+	 * @access	public
+	 * @return	bool
+	 */
+	public function gc()
+	{
+		// do some garbage collection
+		if (mt_rand(0, 100) < $this->config['gc_probability'])
+		{
+			if ($handle = opendir($this->config['path']))
+			{
+				$expire = $this->time->get_timestamp() - $this->config['expiration_time'];
+
+				while (($file = readdir($handle)) !== false)
+				{
+					if (filetype($this->config['path'] . $file) == 'file' and
+						strpos($file, $this->config['cookie_name'].'_') === 0 and
+						filemtime($this->config['path'] . $file) < $expire)
+					{
+						@unlink($this->config['path'] . $file);
+					}
+				}
+
+				closedir($handle);
+			}
+		}
+
+		return true;
 	}
 
 	// --------------------------------------------------------------------
@@ -234,8 +260,8 @@ class Session_File extends \Session_Driver
 	{
 		// create the session file
 		$file = $this->config['path'].$this->config['cookie_name'].'_'.$session_id;
-		$exists = file_exists($file);
-		$handle = fopen($file,'c');
+		$exists = is_file($file);
+		$handle = fopen($file, 'c');
 		if ($handle)
 		{
 			// wait for a lock
@@ -252,6 +278,10 @@ class Session_File extends \Session_Driver
 
 			// close the file
 			fclose($handle);
+		}
+		else
+		{
+			throw new \FuelException('Could not open the session file in "'.$this->config['path']." for write access");
 		}
 
 		return $exists;
@@ -270,16 +300,19 @@ class Session_File extends \Session_Driver
 		$payload = false;
 
 		$file = $this->config['path'].$this->config['cookie_name'].'_'.$session_id;
-		if (file_exists($file))
+		if (is_file($file))
 		{
-			$handle = fopen($file,'r');
+			$handle = fopen($file, 'r');
 			if ($handle)
 			{
 				// wait for a lock
 				while(!flock($handle, LOCK_SH));
 
 				// read the session data
-				$payload = fread($handle, filesize($file));
+				if ($size = filesize($file))
+				{
+					$payload = fread($handle, $size);
+				}
 
 				//release the lock
 				flock($handle, LOCK_UN);
@@ -356,7 +389,4 @@ class Session_File extends \Session_Driver
 		// validate all global settings as well
 		return parent::_validate_config($validated);
 	}
-
 }
-
-

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -49,7 +49,7 @@ class Session
 		'flash_id'                  => 'flash',
 		'flash_auto_expire'         => true,
 		'flash_expire_after_get'    => true,
-		'post_cookie_name'          => ''
+		'post_cookie_name'          => '',
 	);
 
 	// --------------------------------------------------------------------
@@ -64,6 +64,47 @@ class Session
 		if (\Config::get('session.auto_initialize', true))
 		{
 			static::instance();
+		}
+
+		if (\Config::get('session.native_emulation', false))
+		{
+			// emulate native PHP sessions
+			session_set_save_handler(
+				// open
+				function ($savePath, $sessionName) {
+				},
+				// close
+				function () {
+				},
+				// read
+				function ($sessionId) {
+					// copy all existing session vars into the PHP session store
+					$_SESSION = \Session::get();
+					$_SESSION['__org'] = $_SESSION;
+				},
+				// write
+				function ($sessionId, $data) {
+					// get the original data
+					$org = isset($_SESSION['__org']) ? $_SESSION['__org'] : array();
+					unset($_SESSION['__org']);
+
+					// do we need to remove stuff?
+					if ($remove = array_diff_key($org, $_SESSION))
+					{
+						\Session::delete(array_keys($remove));
+					}
+
+					// add or update the remainder
+					empty($_SESSION) or \Session::set($_SESSION);
+				},
+				// destroy
+				function ($sessionId) {
+					\Session::destroy();
+				},
+				// gc
+				function ($lifetime) {
+				}
+			);
 		}
 	}
 
@@ -114,7 +155,7 @@ class Session
 		else
 		{
 			// register a shutdown event to update the session
-			\Event::register('shutdown', array($driver, 'write'));
+			\Event::register('fuel-shutdown', array($driver, 'write'));
 
 			// init the session
 			$driver->init();
@@ -223,7 +264,7 @@ class Session
 	 */
 	public static function key($name = 'session_id')
 	{
-		return static::instance()->key($name);
+		return static::$_instance ? static::instance()->key($name) : null;
 	}
 
 	// --------------------------------------------------------------------
@@ -352,5 +393,3 @@ class Session
 	}
 
 }
-
-

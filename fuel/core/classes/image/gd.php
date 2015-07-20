@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -14,7 +14,6 @@ namespace Fuel\Core;
 
 class Image_Gd extends \Image_Driver
 {
-
 	protected $image_data = null;
 	protected $accepted_extensions = array('png', 'gif', 'jpg', 'jpeg');
 	protected $gdresizefunc = "imagecopyresampled";
@@ -137,7 +136,7 @@ class Image_Gd extends \Image_Driver
 
 	protected function _flip($mode)
 	{
-		$sizes	= (array)$this->sizes();
+		$sizes	= (array) $this->sizes();
 		$source = array_merge($sizes, array('x' => 0, 'y' => 0));
 
 		switch ($mode)
@@ -235,7 +234,7 @@ class Image_Gd extends \Image_Driver
 						'red' => 0,
 						'green' => 0,
 						'blue' => 0,
-						'alpha' => 0
+						'alpha' => 0,
 					);
 				}
 				else
@@ -314,7 +313,7 @@ class Image_Gd extends \Image_Driver
 			$width  = imagesx($this->image_data);
 			$height = imagesy($this->image_data);
 		}
-		else if (is_resource($filename))
+		elseif (is_resource($filename))
 		{
 			$width  = imagesx($filename);
 			$height = imagesy($filename);
@@ -326,7 +325,7 @@ class Image_Gd extends \Image_Driver
 		return (object) array('width' => $width, 'height' => $height);
 	}
 
-	public function save($filename, $permissions = null)
+	public function save($filename = null, $permissions = null)
 	{
 		extract(parent::save($filename, $permissions));
 
@@ -345,7 +344,7 @@ class Image_Gd extends \Image_Driver
 			$vars[] = floor(($this->config['quality'] / 100) * 9);
 		}
 
-		call_user_func_array('image'.$filetype, $vars);
+		call_fuel_func_array('image'.$filetype, $vars);
 		if ($this->config['persistence'] === false)
 		{
 			$this->reload();
@@ -356,7 +355,7 @@ class Image_Gd extends \Image_Driver
 
 	public function output($filetype = null)
 	{
-		$this->gdresizefunc = ($filetype == 'gif') ? 'imagecopyresized': $this->gdresizefunc = 'imagecopyresampled';
+		$this->gdresizefunc = ($filetype == 'gif') ? 'imagecopyresized' : $this->gdresizefunc = 'imagecopyresampled';
 
 		extract(parent::output($filetype));
 
@@ -374,7 +373,7 @@ class Image_Gd extends \Image_Driver
 			$vars[] = floor(($this->config['quality'] / 100) * 9);
 		}
 
-		call_user_func_array('image'.$filetype, $vars);
+		call_fuel_func_array('image'.$filetype, $vars);
 
 		if ($this->config['persistence'] === false)
 		{
@@ -433,10 +432,11 @@ class Image_Gd extends \Image_Driver
 	 * @param  resource  $resource  Optionally add an image to the new transparent image.
 	 * @return resource  Returns the image in resource form.
 	 */
-	private function create_transparent_image($width, $height, $resource = null)
+	protected function create_transparent_image($width, $height, $resource = null)
 	{
 		$image = imagecreatetruecolor($width, $height);
-		$color = $this->create_color($image, null, 0);
+		$bgcolor = $this->config['bgcolor'] == null ? '#000' : $this->config['bgcolor'];
+		$color = $this->create_color($image, $bgcolor, 0);
 		imagesavealpha($image, true);
 		if ($this->image_extension == 'gif' || $this->image_extension == 'png')
 		{
@@ -469,7 +469,7 @@ class Image_Gd extends \Image_Driver
 	 * @param  boolean   $top
 	 * @param  boolean   $left
 	 */
-	private function round_corner(&$image, $radius, $antialias, $top, $left)
+	protected function round_corner(&$image, $radius, $antialias, $top, $left)
 	{
 		$this->debug("Rounding ".($top ? 'top' : 'bottom')." ".($left ? 'left' : 'right')." corner with a radius of ".$radius."px.");
 		$sX = $left ? -$radius : 0;
@@ -538,7 +538,7 @@ class Image_Gd extends \Image_Driver
 	 * @param  integer   $y          The position of the watermark on the Y-axis
 	 * @param  integer   $alpha      The transparency of the watermark, 0 (trans) to 100 (opaque)
 	 */
-	private function image_merge(&$image, $watermark, $x, $y, $alpha)
+	protected function image_merge(&$image, $watermark, $x, $y, $alpha)
 	{
 		$wsizes = $this->sizes($watermark);
 		$tmpimage = $this->create_transparent_image($wsizes->width, $wsizes->height);

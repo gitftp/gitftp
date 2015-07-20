@@ -22,7 +22,7 @@ class AuthException extends \FuelException {}
  * @package     Fuel
  * @subpackage  Auth
  */
-class Auth+
+class Auth
 {
 
 	/**

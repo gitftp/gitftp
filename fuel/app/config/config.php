@@ -10,42 +10,6 @@
  * @link       http://fuelphp.com
  */
 
-/**
- * If you want to override the default configuration, add the keys you
- * want to change here, and assign new values to them.
- */
-
-if(isset($_SERVER['HTTP_HOST'])){
-    $host = $_SERVER['HTTP_HOST'];
-}else{
-    $host = '';
-}
-
-
-if($host == 'gitftp.com'){
-    header('Location: http://www.gitftp.com/');
-}
-
-if(preg_match('/console.gitftp.com|stg.gitftp.com/i', $host)) {
-//    $controller = 'welcome/index'; // change this to dashboard.
-    $controller = 'dashboard/index';
-    $is_dash = true;
-    $dash_url = 'http://'.$host.'/';
-    $home_url = ($host == 'console.gitftp.com') ? 'http://www.gitftp.com/': 'http://stg-home.gitftp.com/';
-    $profiling = ($host == 'console.gitftp.com') ? false : true;
-}else{
-    $controller = 'welcome/index';
-    $is_dash = false;
-    $dash_url = ($host == 'www.gitftp.com') ? 'http://console.gitftp.com/': 'http://stg.gitftp.com/';
-    $home_url = 'http://'.$host.'/';
-    $profiling = ($host == 'www.gitftp.com') ? false : true;
-}
-
-define('dash_url', $dash_url);
-define('home_url', $home_url);
-define('is_dash', $is_dash);
-define('base_controller', $controller);
-
 return array(
 
 	/**

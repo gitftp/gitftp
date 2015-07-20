@@ -1,10 +1,10 @@
 <?php
 // Bootstrap the framework DO NOT edit this
-require COREPATH.'bootstrap.php';
+require COREPATH . 'bootstrap.php';
 
 \Autoloader::add_classes(array(
-	// Add classes you want to override here
-	// Example: 'View' => APPPATH.'classes/view.php',
+    // Add classes you want to override here
+    // Example: 'View' => APPPATH.'classes/view.php',
 ));
 
 // Register the autoloader
@@ -20,21 +20,9 @@ require COREPATH.'bootstrap.php';
  */
 // \Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : \Fuel::DEVELOPMENT);
 
-//$producion = array(
-//    'console.gitftp.com',
-//    'www.gitftp.com',
-//    'gitftp.com',
-//    '54.149.18.148'
-//);
-//$development = array(
-//    'stg.gitftp.com',
-//    'stg-home.gitftp.com',
-//);
-//$staging = array(
-//
-//);
-
 \Fuel::$env = \Fuel::DEVELOPMENT;
+
+\Config::load('mode');
 
 // Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : Fuel::DEVELOPMENT);
 // Initialize the framework with the config file.

@@ -6,6 +6,7 @@
 		<server name="app_path" value="fuel/app"/>
 		<server name="core_path" value="fuel/core"/>
 		<server name="package_path" value="fuel/packages"/>
+		<server name="vendor_path" value="fuel/vendor"/>
 		<server name="FUEL_ENV" value="test"/>
 	</php>
 	<testsuites>
@@ -17,6 +18,9 @@
 		</testsuite>
 		<testsuite name="app">
 			<directory suffix=".php">../app/tests</directory>
+		</testsuite>
+		<testsuite name="modules">
+			<directory suffix=".php">../app/modules/*/tests</directory>
 		</testsuite>
 	</testsuites>
 </phpunit>

@@ -1,0 +1,52 @@
+<div class="env-div" data-id="<%= random %>">
+    <form action="" class="form-horizontal env-form env-form-<%= random %>" autocomplete="off">
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="">Name: </label>
+
+            <div class="col-sm-10">
+                <input type="text" class=" form-control" placeholder="Dev/Test/Prod"
+                       name="env_name" title="Please name your environment.">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">Branch: </label>
+
+            <div class="col-sm-10">
+                <select class="form-control repo-branches" name="env_branch" title="Please select branch">
+                    <option value="">Select a Branch</option>
+                    <% $.each(branches, function(i, a){ %>
+                    <option value="<%= a %>">
+                        <%= a %>
+                    </option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="" class="col-sm-2 control-label">FTP: </label>
+
+            <div class="col-sm-10">
+                <select class="form-control" title="Please select a FTP server"
+                        name="env_ftp">
+                    <option value="">Select a FTP server</option>
+                    <% $.each(ftplist, function(i, a){ %>
+                    <option value="<%= a.id %>"><%= (a.name) ? a.name : a.host %></option>
+                    <% }) %>
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+                <div class="checkbox gf-checkbox">
+                    <input name="env_deploy" type="checkbox" id="deploy-add-privaterepo-<%= random %>"/>
+                    <label for="deploy-add-privaterepo-<%= random %>">
+                        Auto-deploy
+                    </label>
+                </div>
+            </div>
+        </div>
+    </form>
+    <button type="button" class="btn btn-default btn-clean project-add-remove-env" title="Remove Environment"><i class="fa fa-times fa-fw"></i></button>
+</div>

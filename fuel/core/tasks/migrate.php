@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -45,6 +45,11 @@ class Migrate
 	protected static $package_count = 0;
 
 	/**
+	 * @var  bool  flag to indicate a rerun is needed
+	 */
+	protected static $rerun = false;
+
+	/**
 	 * sets the properties by grabbing Cli options
 	 */
 	public function __construct()
@@ -75,11 +80,11 @@ class Migrate
 				foreach (\Config::get('module_paths') as $path)
 				{
 					// get all modules that have files in the migration folder
-					foreach (glob($path . '*/') as $m)
+					foreach(new \GlobIterator(realpath($path).DS.'*') as $m)
 					{
-						if (count(glob($m.\Config::get('migrations.folder').'/*.php')))
+						if (count(new \GlobIterator($m->getPathname().rtrim(DS.\Config::get('migrations.folder'), '\\/').DS.'*.php')))
 						{
-							static::$modules[] = basename($m);
+							static::$modules[] = $m->getBasename();
 						}
 					}
 				}
@@ -98,13 +103,14 @@ class Migrate
 			if ($packages === true)
 			{
 				// get all packages that have files in the migration folder
-				foreach (\Config::get('package_paths', array(PKGPATH)) as $p)
+				foreach (\Config::get('package_paths', array(PKGPATH)) as $path)
 				{
-					foreach (glob($p . '*/') as $pp)
+					// get all modules that have files in the migration folder
+					foreach(new \GlobIterator(realpath($path).DS.'*') as $p)
 					{
-						if (count(glob($pp.\Config::get('migrations.folder').'/*.php')))
+						if (count(new \GlobIterator($p->getPathname().rtrim(DS.\Config::get('migrations.folder'), '\\/').DS.'*.php')))
 						{
-							static::$packages[] = basename($pp);
+							static::$packages[] = $p->getBasename();
 						}
 					}
 				}
@@ -144,23 +150,47 @@ class Migrate
 			return static::help();
 		}
 
-		// run app (default) migrations if default is true
-		if (static::$default)
+		do
 		{
-			static::$name('default', 'app');
-		}
+			// reset the rerun flag
+			static::$rerun = false;
 
-		// run migrations on all specified modules
-		foreach (static::$modules as $module)
-		{
-			static::$name($module, 'module');
-		}
+			// run app (default) migrations if default is true
+			if (static::$default)
+			{
+				static::$name('default', 'app');
+			}
 
-		// run migrations on all specified packages
-		foreach (static::$packages as $package)
-		{
-			static::$name($package, 'package');
+			// run migrations on all specified modules
+			foreach (static::$modules as $module)
+			{
+				// check if the module exists
+				if ( ! \Module::exists($module))
+				{
+					\Cli::write('Requested module "'.$module.'" does not exist!', 'light_red');
+				}
+				else
+				{
+					// run the migration
+					static::$name($module, 'module');
+				}
+			}
+
+			// run migrations on all specified packages
+			foreach (static::$packages as $package)
+			{
+				// check if the module exists
+				if ( ! \Package::exists($package))
+				{
+					\Cli::write('Requested package "'.$package.'" does not exist!', 'light_red');
+				}
+				else
+				{
+					static::$name($package, 'package');
+				}
+			}
 		}
+		while (static::$rerun);
 	}
 
 	/**
@@ -217,7 +247,14 @@ class Migrate
 		}
 		else
 		{
-			if ($version !== '')
+			if ($migrations === false)
+			{
+				\Cli::write('Some migrations for '.$type.':'.$name.' are postponed due to dependencies.', 'cyan');
+
+				// set the rerun flag
+				static::$rerun = true;
+			}
+			elseif ($version !== '')
 			{
 				\Cli::write('No migrations were found for '.$type.':'.$name.'.');
 			}
@@ -347,6 +384,7 @@ Fuel commands:
 
 Fuel options:
     -v, [--version]  # Migrate to a specific version ( only 1 item at a time)
+                     # If no version is given, it lists all installed migrations
     --catchup        # Use if you have out-of-sequence migrations that can be safely run
 
     # The following disable default migrations unless you add --default to the command
@@ -370,6 +408,7 @@ Examples:
     php oil r migrate:up --modules=module1,module2 --packages=package1
     php oil r migrate --modules=module1 -v=3
     php oil r migrate --all
+    php oil r migrate --all -v
 
 HELP;
 

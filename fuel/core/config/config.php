@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -18,7 +18,6 @@
  *
  * This will allow you to upgrade fuel without losing your custom config.
  */
-
 
 return array(
 
@@ -56,6 +55,18 @@ return array(
 	'profiling'  => false,
 
 	/**
+	 * profiling_paths - The paths to show in profiler.
+	 *
+	 * If you do not wish to see path set to 'NULL'
+	 * You can also add other paths that you wish not to see
+	 */
+	'profiling_paths' => array(
+	    'APPPATH' => APPPATH,
+	    'COREPATH' => COREPATH,
+	    'PKGPATH' => PKGPATH,
+	),
+
+	/**
 	 * Default location for the file cache
 	 */
 	'cache_dir'       => APPPATH.'cache/',
@@ -80,6 +91,8 @@ return array(
 		'throttle'     => 10,
 		// Should notices from Error::notice() be shown?
 		'notices'      => true,
+		// Render previous contents or show it as HTML?
+		'render_prior' => false,
 	),
 
 	/**
@@ -106,16 +119,27 @@ return array(
 	/**
 	 * Logging Threshold.  Can be set to any of the following:
 	 *
-	 * Fuel::L_NONE
-	 * Fuel::L_ERROR
-	 * Fuel::L_WARNING
-	 * Fuel::L_DEBUG
-	 * Fuel::L_INFO
-	 * Fuel::L_ALL
+	 * \Fuel::L_NONE
+	 * \Fuel::L_ERROR
+	 * \Fuel::L_WARNING
+	 * \Fuel::L_DEBUG
+	 * \Fuel::L_INFO
+	 * \Fuel::L_ALL
 	 */
-	'log_threshold'    => Fuel::L_WARNING,
+	'log_threshold'    => \Fuel::L_WARNING,
+
+	/**
+	 * Log file and path. If no filename is given, it will be generated.
+	 */
+	'log_file'         => null,
 	'log_path'         => APPPATH.'logs/',
+
 	'log_date_format'  => 'Y-m-d H:i:s',
+
+	/**
+	 * If true, a backtrace is printed when a PHP fatal error is encountered in CLI mode
+	 */
+	'cli_backtrace'    => false,
 
 	/**
 	 * Security settings
@@ -143,7 +167,15 @@ return array(
 		/**
 		 * A salt to make sure the generated security tokens are not predictable
 		 */
-		'token_salt'       => 'put your salt value here to make the token more secure',
+		'token_salt'            => 'put your salt value here to make the token more secure',
+
+		/**
+		 * Allow the Input class to use X headers when present
+		 *
+		 * Examples of these are HTTP_X_FORWARDED_FOR and HTTP_X_FORWARDED_PROTO, which
+		 * can be faked which could have security implications
+		 */
+		'allow_x_headers'       => false,
 
 		/**
 		 * This input filter can be any normal PHP function as well as 'xss_clean'
@@ -181,7 +213,7 @@ return array(
 		'htmlentities_flags' => ENT_QUOTES,
 
 		/**
-		 * Wether to encode HTML entities as well
+		 * Whether to encode HTML entities as well
 		 */
 		'htmlentities_double_encode' => false,
 
@@ -195,6 +227,22 @@ return array(
 		 * throw exceptions unless they are instances of the classes in this array.
 		 */
 		'whitelisted_classes' => array(),
+
+		/**
+		 * Set this to true of your client sends data using the HTTP PUT, DELETE or PATCH methods
+		 * using the www-form-urlencoded content-type, and it's contents is urlencoded locally
+		 * before submitting
+		 */
+		'form-double-urlencoded' => false,
+
+		/**
+		 * clean_paths - paths to clean before outputting FQFN or paths
+		 *
+		 * If you do not wish to see path set to 'NULL'
+		 * You can also add other paths that you wish not to see
+		 */
+		'clean_paths' => array(
+		),
 	),
 
 	/**
@@ -218,7 +266,7 @@ return array(
 	 */
 	'validation' => array(
 		/**
-		 * Wether to fallback to global when a value is not found in the input array.
+		 * Whether to fallback to global when a value is not found in the input array.
 		 */
 		'global_input_fallback' => true,
 	),
@@ -238,9 +286,54 @@ return array(
 		'case_sensitive' => true,
 
 		/**
-		 *  Wether to strip the extension
+		 *  Whether to strip the extension
 		 */
 		'strip_extension' => true,
+	),
+
+	/**
+	 * Response settings
+	 */
+	'response' => array(
+		/**
+		 *  Whether to support URI wildcards when redirecting
+		 */
+		'redirect_with_wildcards' => true,
+	),
+
+	/**
+	 * Config settings
+	 */
+	'config' => array(
+		/*
+		 * Name of the table used by the Config_Db driver
+		 */
+		'table_name' => 'config',
+
+		/*
+		 * Database that holds the config table
+		 */
+		'database' => null,
+
+		/*
+		 * Array of servers and portnumbers that run the memcached service for config data
+		 */
+		'memcached'	=> array(
+			'identifier' => 'config',
+			'servers' => array(
+				array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
+			),
+		),
+	),
+
+	/**
+	 * Lang settings
+	 */
+	'lang' => array(
+		/*
+		 * Name of the table used by the Lang_Db driver
+		 */
+		'table_name' => 'lang',
 	),
 
 	/**
@@ -267,7 +360,6 @@ return array(
 	'package_paths' => array(
 		//PKGPATH
 	),
-
 
 	/**************************************************************************/
 	/* Always Load                                                            */

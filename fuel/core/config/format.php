@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -21,13 +21,29 @@
 
 return array(
 	'csv' => array(
-		'delimiter' => ',',
-		'enclosure' => '"',
-		'newline'   => "\n",
-		'regex_newline'   => '\n',
-		'escape'    => '\\',
+		'import' => array(
+			'delimiter' => ',',
+			'enclosure' => '"',
+			'newline'   => "\n",
+			'escape'    => '\\',
+		),
+		'export' => array(
+			'delimiter' => ',',
+			'enclosure' => '"',
+			'newline'   => "\n",
+			'escape'    => '\\',
+		),
+		'regex_newline'   => "\n",
+		'enclose_numbers' => true,
 	),
 	'xml' => array(
 		'basenode' => 'xml',
+		'use_cdata' => false,
+		'bool_representation' => null,
+	),
+	'json' => array(
+		'encode' => array(
+			'options' => JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP,
+		),
 	),
 );

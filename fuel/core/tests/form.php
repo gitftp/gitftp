@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -175,8 +175,8 @@ class Test_Form extends TestCase
 			)
 		);
 		$expected = '<select name="fieldname" id="form_fieldname">'.PHP_EOL
-					.'	<option value="key_H&amp;M" style="text-indent: 0px;">val_H&amp;M</option>'.PHP_EOL
-					.'	<option value="key_&quot;&quot;" style="text-indent: 0px;">val_&quot;&quot;</option>'.PHP_EOL
+					.'	<option value="key_H&amp;M">val_H&amp;M</option>'.PHP_EOL
+					.'	<option value="key_&quot;&quot;">val_&quot;&quot;</option>'.PHP_EOL
 					.'</select>';
 		$this->assertEquals($expected, $output);
 	}
@@ -212,8 +212,8 @@ class Test_Form extends TestCase
 			)
 		);
 		$expected = '<select name="fieldname" id="form_fieldname">'.PHP_EOL
-					.'	<option value="key_H&amp;M" style="text-indent: 0px;">val_H&amp;M</option>'.PHP_EOL
-					.'	<option value="key_&quot;&#39;&quot;" style="text-indent: 0px;">val_&quot;&#39;&quot;</option>'.PHP_EOL
+					.'	<option value="key_H&amp;M">val_H&amp;M</option>'.PHP_EOL
+					.'	<option value="key_&quot;&#39;&quot;">val_&quot;&#39;&quot;</option>'.PHP_EOL
 					.'</select>';
 		$this->assertEquals($expected, $output);
 	}
@@ -232,5 +232,47 @@ class Test_Form extends TestCase
 		$output = Form::prep_value($utf8_string);
 		$expected = '';
 		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	* Tests Form::label()
+	*
+	* @test
+	*/
+	public function test_label_auto_id_true()
+	{
+		$config = \Config::get('form.auto_id');
+		\Config::set('form.auto_id', true);
+		
+		$form = \Form::forge(__METHOD__);
+		
+		$label = 'label';
+		$id = 'id';
+		$output = $form->label($label, $id);
+		$expected = '<label for="form_id">label</label>';
+		$this->assertEquals($expected, $output);
+		
+		\Config::set('form.auto_id', $config);
+	}
+
+	/**
+	* Tests Form::label()
+	*
+	* @test
+	*/
+	public function test_label_auto_id_false()
+	{
+		$config = \Config::get('form.auto_id');
+		\Config::set('form.auto_id', false);
+		
+		$form = \Form::forge(__METHOD__);
+		
+		$label = 'label';
+		$id = 'id';
+		$output = $form->label($label, $id);
+		$expected = '<label for="id">label</label>';
+		$this->assertEquals($expected, $output);
+		
+		\Config::set('form.auto_id', $config);
 	}
 }

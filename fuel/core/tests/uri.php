@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -20,6 +20,19 @@ namespace Fuel\Core;
  */
 class Test_Uri extends TestCase
 {
+	public function setUp()
+	{
+		$this->old_url_suffix = Config::get('url_suffix');
+		$this->old_index_file = Config::get('index_file');
+		$this->old_base_url = Config::get('base_url');
+	}
+
+	public function tearDown()
+	{
+		Config::set('url_suffix', $this->old_url_suffix);
+		Config::set('index_file', $this->old_index_file);
+		Config::set('base_url', $this->old_base_url);
+	}
 
 	/**
 	 * Tests Uri::create()
@@ -109,6 +122,44 @@ class Test_Uri extends TestCase
 		$this->assertEquals($expected, $output);
 	}
 
+	/**
+	 * Tests Uri::build_query_string()
+	 *
+	 * @test
+	 */
+	public function test_build_query_string()
+	{
+		$output = Uri::build_query_string(array('varA' => 'varA'), 'varB', array('varC' => 'varC'));
+		$expected = "varA=varA&varB=1&varC=varC";
+		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	 * Tests Uri::update_query_string()
+	 *
+	 * @test
+	 */
+	public function test_update_query_string()
+	{
+		Config::set('base_url', 'http://example.com/test');
+		Config::set('index_file', null);
+		Config::set('url_suffix', '');
+		$_GET = array('one' => 1, 'two' => 2);
+
+		$output = Uri::update_query_string(array('three' => 3));
+		$expected = 'http://example.com/test?one=1&two=2&three=3';
+		$this->assertEquals($expected, $output);
+
+		$output = Uri::update_query_string(array('two' => 3));
+		$expected = 'http://example.com/test?one=1&two=3';
+		$this->assertEquals($expected, $output);
+
+		$output = Uri::update_query_string(array('four' => 4), 'http://localhost/controller');
+		$expected = 'http://localhost/controller?four=4';
+		$this->assertEquals($expected, $output);
+
+		$output = Uri::update_query_string('three', 3, true);
+		$expected = 'https://example.com/test?one=1&two=2&three=3';
+		$this->assertEquals($expected, $output);
+	}
 }
-
-

@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -16,7 +16,6 @@ namespace Parser;
 
 class View_Markdown extends \View
 {
-
 	protected static $_parser;
 
 	protected function process_file($file_override = false)
@@ -78,12 +77,9 @@ class View_Markdown extends \View
 		static $parser = null;
 		if (is_null($parser))
 		{
-			$parser_class = \MARKDOWN_PARSER_CLASS;
-			$parser = new $parser_class;
+			$parser = new \Michelf\MarkdownExtra();
 		}
 
 		return $parser;
 	}
 }
-
-// end of file mustache.php

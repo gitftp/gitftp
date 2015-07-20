@@ -19,6 +19,24 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
         try {
             $i = Input::post();
 
+            $i = utils::escapeHtmlChars($i); // wow
+
+            $fields = array(
+                'name'        => $i['name'],
+                'branch_name' => $i['branch_name'],
+                'auto'        => (isset($i['auto'])) ? $i['auto'] : '',
+                'ftp_id'      => $i['ftp_id'],
+                'deploy_id'   => $i['deploy_id'],
+            );
+
+            $v = Validation::forge();
+            $v->add_field('name', '', 'required');
+            $v->add_field('branch_name', '', 'required');
+
+            if (!$v->run($fields)) {
+                throw new Exception('Sorry, we got confused.');
+            }
+
             // check if owner of this deploy.
             $deploy = new Model_Deploy();
             $branch = new Model_Branch();
@@ -40,8 +58,17 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
             $createData['branch_name'] = $i['branch_name'];
             $createData['ftp_id'] = $i['ftp_id'];
             $createData['deploy_id'] = $i['deploy_id'];
+
             if (isset($i['auto'])) {
                 $createData['auto'] = TRUE;
+            }
+
+            if (isset($i['skip_path'])) {
+                $createData['skip_path'] = ($i['skip_path'] !== '') ? explode(',', $i['skip_path']) : array();
+            }
+
+            if (isset($i['purge_path'])) {
+                $createData['purge_path'] = ($i['purge_path'] !== '') ? explode(',', $i['purge_path']) : array();
             }
 
             $a = $branch->create($createData);
@@ -68,8 +95,6 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
             }
 
             $branch_data = $branch_data[0];
-
-//            $hash = utils::gitGetBranches_local($branch_data['deploy_id'], $hash);
 
             $hash = utils::git_verify_hash($branch_data['deploy_id'], $hash);
 
@@ -143,6 +168,44 @@ class Controller_Api_Branch extends Controller_Apilogincheck {
         }
 
         return $response;
+    }
+
+    public function post_delete() {
+        try {
+            $i = Input::post();
+            $deploy = new Model_Deploy();
+            $branch = new Model_Branch();
+            $record = new Model_Record();
+            $branch_data = $branch->get_by_branch_id($i['id']);
+
+            if (count($branch_data) == 0)
+                throw new Exception('Sorry, we got confused.');
+
+            $deploy_id = $branch_data[0]['deploy_id'];
+            $totalbranches = $branch->get_by_deploy_id($deploy_id);
+
+            if(count($totalbranches) == 1){
+                throw new Exception('Sorry, cannot delete environment. <br>Because its the only environment in this project.');
+            }
+
+            $response = $branch->delete($i['id']);
+
+            if ($response) {
+                $record->delete_by_branch_id($i['id']);
+            }
+
+            $response = array(
+                'status'  => TRUE,
+                'message' => '',
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+        }
+
+        return json_encode($response);
     }
 
 }

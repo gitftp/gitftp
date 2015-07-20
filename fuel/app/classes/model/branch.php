@@ -1,10 +1,7 @@
 <?php
 
 class Model_Branch extends Model {
-    // table for branch
     private $table = 'branches';
-
-    // user_id to filter data.
     public $user_id;
 
     public function __construct() {
@@ -15,13 +12,17 @@ class Model_Branch extends Model {
         }
     }
 
-    /**
-     * Get env by ftp id.
-     *
-     * @param $ftp_id
-     * @param bool $direct
-     * @return $this
-     */
+    public function get_by_deploy_id($deploy_id, $direct = FALSE) {
+        $q = DB::select()->from($this->table)
+            ->where('deploy_id', $deploy_id);
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+        $q = $q->execute()->as_array();
+
+        return $q;
+    }
+
     public function get_by_ftp_id($ftp_id, $direct = FALSE) {
         $q = DB::select()->from($this->table)
             ->where('ftp_id', $ftp_id);
@@ -33,12 +34,6 @@ class Model_Branch extends Model {
         return $q;
     }
 
-    /**
-     * get branches of project/deploy.
-     * @param type $id ->
-     * @param type $select
-     * @return type
-     */
     public function get($id = NULL, $select = NULL) { // by deploy id
         $q = DB::select_array($select);
         $q = $q->from($this->table)->where('user_id', $this->user_id);
@@ -49,9 +44,11 @@ class Model_Branch extends Model {
 
         $a = $q->execute()->as_array();
 
-        foreach($a as $k => $v){
-            $a[$k]['skip_path'] = ($a[$k]['skip_path'] !== '0') ? unserialize($a[$k]['skip_path']) : array();
-            $a[$k]['purge_path'] = ($a[$k]['purge_path'] !== '0') ? unserialize($a[$k]['purge_path']) : array();
+        foreach ($a as $k => $v) {
+            if (isset($a[$k]['purge_path']))
+                $a[$k]['purge_path'] = ($a[$k]['purge_path'] !== '0') ? unserialize($a[$k]['purge_path']) : array();
+            if (isset($a[$k]['skip_path']))
+                $a[$k]['skip_path'] = ($a[$k]['skip_path'] !== '0') ? unserialize($a[$k]['skip_path']) : array();
         }
 
         return $a;
@@ -108,27 +105,29 @@ class Model_Branch extends Model {
         }
 
         $a = DB::delete($this->table)->where('id', $branch_id)->execute();
+
+        return $a;
     }
 
-    /**
-     * Create a branch,
-     *
-     * @param $data -> set of data to create.
-     * @param null $user_id -> assign to user.
-     * @return object
-     */
     public function create($data, $user_id = NULL) {
         if (is_null($user_id)) {
             $data['user_id'] = $this->user_id;
         } else {
             $data['user_id'] = $user_id;
         }
+
         $data['name'] = (!empty($data['name'])) ? $data['name'] : '(unnamed)';
-        $data['skip_path'] = (isset($data['skip_path'])) ? $data['skip_path'] : FALSE;
-        $data['purge_path'] = (isset($data['purge_path'])) ? $data['purge_path'] : FALSE;
+
+        if (isset($data['skip_path'])) {
+            $data['skip_path'] = serialize($data['skip_path']);
+        }
+        if (isset($data['purge_path'])) {
+            $data['purge_path'] = serialize($data['purge_path']);
+        }
 
         $a = DB::insert($this->table)->set($data)->execute();
 
         return $a;
     }
 }
+

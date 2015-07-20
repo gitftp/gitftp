@@ -1,7 +1,6 @@
 <?php
 
 class Model_Deploy extends Model {
-
     private $table = 'deploy';
     public $user_id;
     public $id = NULL; // deploy id.
@@ -39,14 +38,6 @@ class Model_Deploy extends Model {
         return $a;
     }
 
-    /**
-     * Get status of deploy by ID.
-     * (optional) $data can be passed to filter the data from.
-     *
-     * @param $id
-     * @param null $data
-     * @return string
-     */
     public function getStatus($id, $data = NULL) {
         $status = '';
 
@@ -78,7 +69,6 @@ class Model_Deploy extends Model {
             $total_files = ($total_files !== 0) ? $total_files : '&hellip;';
 
             $status = "Deploying to $env | $processed_files of $total_files files";
-
         } else if ($data['cloned'] == 0) {
             $status = 'To be initialized';
         } else if ($data['cloned'] == 2) {
@@ -143,14 +133,60 @@ class Model_Deploy extends Model {
         return DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public function create($repo_url, $name, $username = NULL, $password = NULL, $key, $env) {
+    public function create($repo_url, $name, $username = NULL, $password = NULL, $key = NULL, $env) {
 
         if (!$this->user_id) {
             return FALSE;
         }
+
         if (!count($env)) {
-            return 'Atleast one env required.';
+            throw new Exception('Atleast one env required.');
         }
+
+        if (empty($key) || !$key)
+            $key = Str::random('hexdec', 16);
+
+        $branches = utils::gitGetBranches($repo_url, $username, $password);
+
+        if (!$branches) {
+            throw new Exception('Could not connect to repository.');
+        }
+
+        $fields = array(
+            'repo'     => $repo_url,
+            'name'     => $name,
+            'username' => $username,
+            'password' => $password,
+            'key'      => $key,
+            'env'      => $env,
+        );
+
+        $v = Validation::forge();
+        $v->add_field('repo', '', 'required|valid_url');
+        $v->add_field('name', '', 'required');
+        $v->add_field('key', '', 'required');
+        $selectedFtps = [];
+        foreach ($env as $k => $e) {
+            $v->add_field('env[' . $k . '][env_name]', '', 'required');
+            $v->add_field('env[' . $k . '][env_branch]', '', 'required');
+            if (!Arr::in_array_recursive($e['env_branch'], $branches)) {
+                throw new Exception('Sorry, we got confused.');
+            }
+            $selectedFtps[] = $e['env_ftp'];
+            $v->add_field('env[' . $k . '][env_ftp]', '', 'required');
+            $v->add_field('env[' . $k . '][env_deploy]', '', 'required');
+        }
+
+        // todo: validation for ftp already in use.
+
+        if (count($selectedFtps) !== count(array_unique($selectedFtps)))
+            throw new Exception('Sorry, we got confused.');
+
+        if (!$v->run($fields))
+            throw new Exception('Sorry, we got confused.');
+
+        if ($this->user_id == '*')
+            throw new Exception('Sorry, we got confused, please refresh your page and try again.');
 
         $deploy_id = DB::insert($this->table)->set(array(
             'repository' => $repo_url,
@@ -185,5 +221,4 @@ class Model_Deploy extends Model {
             return FALSE;
         }
     }
-
 }

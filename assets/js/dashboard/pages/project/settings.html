@@ -9,14 +9,15 @@
             <form action="" id="deploy-view-form-edit" class="form-horizontal">
                 <div class="col-md-7">
                     <div class="form-group form-">
-                        <label class="col-sm-3 control-label" for="">Name</label>
+                        <label class="col-sm-3 control-label" for="name">Name</label>
 
                         <div class="col-sm-9">
                             <input type="text"
-                                   name="name"
-                                   placeholder="Enter your repository name."
-                                   value="<%= data.name %>"
-                                   class="form-control"/>
+                                    id="name"
+                                    name="name"
+                                    placeholder="Enter your repository name."
+                                    value="<%= data.name %>"
+                                    class="form-control"/>
                         </div>
                     </div>
                     <div class="form-group">
@@ -29,7 +30,7 @@
 
                             <div class="checkbox gf-checkbox">
                                 <input name="isprivate" type="checkbox"
-                                       id="doesreponeedlogin" <%= (data.username !== '') ? 'checked':'' %> />
+                                        id="doesreponeedlogin" <%= (data.username !== '') ? 'checked':'' %> />
                                 <label for="doesreponeedlogin">
                                     This is a private repo.
                                 </label>
@@ -38,46 +39,42 @@
                     </div>
                     <div class="privaterepo-toggle" style="<%= (data.username == '') ? 'display:none' : '' %>">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="">Username</label>
+                            <label class="col-sm-3 control-label" for="username">Username</label>
 
                             <div class="col-sm-9">
-                                <input type="text"
-                                       name="username"
-                                       placeholder="Username"
-                                       value="<%= data.username %>"
-                                       class="form-control"/>
+                                <input type="text" id="username" name="username" placeholder="Username" value="<%= data.username %>" class="form-control"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="">Password</label>
+                            <label class="col-sm-3 control-label" for="password">Password</label>
+
                             <div class="col-sm-9">
                                 <% if(data.passwordset){ %>
-                                    <div class="project-form-password-set">
-                                        <p class="form-control-static"><span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a href="#" class="project-form-password-set-change btn-link"> <i class="fa fa-pencil"></i> edit</a></p>
-                                    </div>
-                                    <div class="project-form-password-field" style="display: none">
-                                        <div class="input-group">
-                                            <input disabled type="password" name="password" class="form-control" placeholder="Password" value="">
+                                <div class="project-form-password-set">
+                                    <p class="form-control-static">
+                                        <span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a href="#" class="project-form-password-set-change btn-link">
+                                        <i class="fa fa-pencil"></i> edit</a></p>
+                                </div>
+                                <div class="project-form-password-field" style="display: none">
+                                    <div class="input-group">
+                                        <input type="password" id="password" name="password" class="form-control" placeholder="Password" value="">
                                             <span class="input-group-btn">
-                                                <button class="btn btn-link btn-clean btn-block project-form-password-set-cancel" type="button"><i class="fa fa-times"></i></button>
+                                                <button class="btn btn-link btn-clean btn-block project-form-password-set-cancel" type="button">
+                                                    <i class="fa fa-times"></i></button>
                                             </span>
-                                        </div>
                                     </div>
+                                </div>
                                 <% }else{ %>
-                                    <input type="password" name="password" placeholder="Password" value="" class="form-control"/>
+                                <input type="password" name="password" placeholder="Password" value="" class="form-control"/>
                                 <% } %>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label" for="">Secret Key</label>
+                        <label class="col-sm-3 control-label" for="">Hook Key</label>
 
                         <div class="col-sm-9">
-                            <input type="text"
-                                   name="key"
-                                   placeholder="Post secret key."
-                                   value="<%= data.key %>"
-                                   class="form-control"/>
+                            <input type="text" name="key" placeholder="Post secret key." value="<%= data.key %>" class="form-control" title="Please enter a random string"/>
                         </div>
                     </div>
                 </div>
@@ -96,7 +93,9 @@
                         </p>
 
                         <p>
-                            <strong>Env</strong>: <%= data.branches.length %> <i class="fa fa-leaf"></i> environment<%= (data.branches.length == 1) ? '' : 's' %> set. <a class="gray" href="#/project/<%= data.id %>/environments">edit</a>
+                            <strong>Env</strong>: <%= data.branches.length %>
+                            <i class="fa fa-leaf"></i> environment<%= (data.branches.length == 1) ? '' : 's' %> set.
+                            <a class="gray" href="#/project/<%= data.id %>/environments">edit</a>
                         </p>
 
                         <p>
@@ -121,10 +120,7 @@
         </div>
     </div>
 </div>
-
-<pre>
-    <%= JSON.stringify(data) %>
-</pre>
-
-<br>
-<br>
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space20"></div>

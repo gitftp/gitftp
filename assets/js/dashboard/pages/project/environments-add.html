@@ -1,47 +1,44 @@
-<div class="panel panel-default branch-single-view">
-    <div class="panel-body">
-        <p class="branch-name">
-            Add a new environment
-        </p>
-
-
-        <div style="height: 7px;"></div>
+<div class="panel panel-default branch-single-view" data-disabled="Loading..">
+    <div class="panel-body panel-body-material">
+        <div class="panel-title">
+            <i class="fa fa-leaf green"></i>&nbsp; Add a new environment
+        </div>
+        <div class="space15"></div>
         <div class="row">
             <div class="col-md-6">
-
                 <form action="" class="form-horizontal project-branch-new-env-save-form">
-
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="name" class="col-sm-3 control-label">
                             Name:
                         </label>
 
-                        <div class="col-sm-10">
-                            <input type="text" value="" class="form-control" name="name" placeholder="Prod, Test, Dev, etc."/>
+                        <div class="col-sm-9">
+                            <input title="Your environment should have a name" type="text" value="" class="form-control" id="name" name="name" placeholder="Prod, Test, Dev, etc."/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="branches-list" class="col-sm-3 control-label">
                             Branch:
                         </label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <div class="input-group">
                                 <select class="form-control" name="branch_name" id="branches-list">
 
                                 </select>
                                 <span class="input-group-btn">
-                                    <button class="btn btn-default btn-clean load-branches" type="button"><i class=" fa fa-refresh fa-fw"></i></button>
+                                    <button class="btn btn-default btn-clean load-branches" type="button">
+                                        <i class=" fa fa-refresh fa-fw"></i></button>
                                 </span>
                             </div>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="autodeploycheckbox" class="col-sm-3 control-label">
                             Auto:
                         </label>
 
-                        <div class="col-sm-10">
+                        <div class="col-sm-9">
                             <div class="checkbox gf-checkbox">
                                 <input type="checkbox" id="autodeploycheckbox" name="auto"/>
                                 <label for="autodeploycheckbox">Auto deploy</label>
@@ -50,32 +47,51 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-2 control-label">
+                        <label for="ftp-list" class="col-sm-3 control-label">
                             FTP:
                         </label>
 
-                        <div class="col-sm-10">
-                            <select name="ftp_id" class="form-control" id="ftp-list">
+                        <div class="col-sm-9">
+                            <select name="ftp_id" class="form-control" id="ftp-list" title="Please select a FTP server.">
 
                             </select>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <div class="col-sm-10 col-sm-offset-2">
-                            <div class="checkbox gf-checkbox">
-                                <input type="checkbox" id="deploynow"/>
-                                <label for="deploynow">Deploy now</label>
-                            </div>
-                        </div>
-                    </div>
-                    <div style="height: 10px;"></div>
-                    <button type="submit" class="btn btn-success">Add new</button>
                 </form>
             </div>
             <div class="col-md-6">
-                <div class="ftp-details fadeIn"></div>
+                <form action="" class="project-branch-new-env-save-form-2">
+                    <div class="space10"></div>
+                    <div class="form-group">
+                        <label for="selective-skip" class="control-label">Skip files that match:</label>
+
+                        <div class="selective-skip" id="selective-skip"></div>
+                        <p class="help-block text-right">
+                            * wildcard allowed.
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="selective-purge" class="control-label">Purge directories on upload: <span
+                                data-toggle="tooltip" data-placement="top"
+                                title="Directory will be emptied recursively."><i
+                                class="fa fa-info blue fa-fw"></i></span></label>
+
+                        <div class="selective-purge" id="selective-purge"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-12">
+                <div class="space20"></div>
+                <div class="space20"></div>
+                <div class="">
+                    <button type="button" class="btn btn-success env-new-form-submit-button">Create</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-<pre><%= JSON.stringify(data.branches) %></pre>
+
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space20"></div>

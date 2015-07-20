@@ -25,13 +25,15 @@ define([
                 url: dash_url + 'api/deploy/run/',
                 data: {
                     'deploy_id': that.parent.id,
+                    'type': 'sync'
                 },
                 method: 'post',
                 dataType: 'json',
             }).done(function (data) {
                 if(data.status){
                     noty({
-                        text: 'Deploy added to Queued. Will be deployed shortly.'
+                        text: 'Deploy added to Queued. Will be deployed shortly.',
+                        type: 'success',
                     });
                     app_reload();
                 }else{
@@ -49,8 +51,9 @@ define([
                 title: 'Provided Payload.',
                 content: 'url:' + base + 'api/records/getpayload/' + id,
                 animation: 'top',
-                confirmButton: 'close',
-                theme: 'white'
+                confirmButton: 'Close',
+                theme: 'white',
+                columnClass: 'col-md-6 col-md-offset-3',
             });
         },
         getRawData: function (e) {
@@ -63,8 +66,9 @@ define([
                 title: 'Raw Output',
                 content: 'url:' + base + 'api/records/getraw/' + id,
                 animation: 'top',
-                confirmButton: 'Dismiss',
-                theme: 'white'
+                confirmButton: 'Close',
+                theme: 'white',
+                columnClass: 'col-md-6 col-md-offset-3',
             });
         },
         renderMoreActivity: function (e) {

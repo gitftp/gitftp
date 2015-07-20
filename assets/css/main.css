@@ -85,32 +85,6 @@ a:hover {
 .space20 {
   height: 20px;
 }
-input,
-select {
-  border: none;
-  border-bottom: solid 2px #cfd8dc;
-  box-shadow: none ;
-  border-radius: 0px ;
-  padding-left: 0px ;
-}
-input:focus,
-select:focus,
-input:active,
-select:active {
-  border-bottom-color: #0091ea;
-  box-shadow: none ;
-  outline: none;
-}
-input[disabled],
-select[disabled],
-input[readonly],
-select[readonly] {
-  border-bottom: dotted 2px #cfd8dc;
-}
-input.error,
-select.error {
-  border-bottom-color: #ff5a5a;
-}
 label.error {
   font-weight: 100;
   font-size: 12px;
@@ -173,22 +147,32 @@ label.error {
 .navbar-default .navbar-nav .dropdown.open .divider {
   background-color: #f5f5f5;
 }
-.dropdown .open > a {
+.dropdown .open > a,
+.dropdown-toggle .open > a,
+.bootstrap-select .open > a {
   background-color: white !important;
   color: #0091ea !important;
 }
-.dropdown .open .divider {
+.dropdown .open .divider,
+.dropdown-toggle .open .divider,
+.bootstrap-select .open .divider {
   background-color: #f5f5f5;
 }
-.dropdown .dropdown-menu {
+.dropdown .dropdown-menu,
+.dropdown-toggle .dropdown-menu,
+.bootstrap-select .dropdown-menu {
   border: none;
   background: white;
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098), 0 1px 10px 0 rgba(0, 0, 0, 0.084);
 }
-.dropdown .dropdown-menu.dropdown-menu-material {
+.dropdown .dropdown-menu.dropdown-menu-material,
+.dropdown-toggle .dropdown-menu.dropdown-menu-material,
+.bootstrap-select .dropdown-menu.dropdown-menu-material {
   top: 0px;
 }
-.dropdown .dropdown-menu.dropdown-menu-material a {
+.dropdown .dropdown-menu.dropdown-menu-material a,
+.dropdown-toggle .dropdown-menu.dropdown-menu-material a,
+.bootstrap-select .dropdown-menu.dropdown-menu-material a {
   font-weight: 500;
   padding: 4px 25px 4px 20px;
 }
@@ -854,4 +838,142 @@ a.btn {
 .jconfirm-deploy-options .row div a i {
   font-size: 40px;
   margin-bottom: 10px;
+}
+.panel {
+  position: relative;
+}
+.panel:before,
+.panel:after {
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.2s ease-in;
+          transition: all 0.2s ease-in;
+}
+.panel:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  background: rgba(255, 255, 255, 0.7);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+}
+.panel:after {
+  content: attr(data-disabled);
+  position: absolute;
+  left: 50%;
+  text-align: center;
+  z-index: 1000;
+  font-weight: 500;
+  font-size: 20px;
+  background-color: white;
+  margin-left: -200px;
+  width: 400px;
+  top: 40%;
+}
+.panel.panel-disabled:before,
+.panel.panel-disabled:after {
+  visibility: visible;
+  opacity: 1;
+}
+.add-deploy-container .step-title {
+  font-weight: 500;
+  margin-top: 0px;
+}
+.add-deploy-container .env-table {
+  width: 100%;
+}
+.add-deploy-container .env-div {
+  border-top: solid 1px #ddd;
+  border-bottom: solid 1px #ddd;
+  background-color: #fafafa;
+  padding: 10px;
+  position: relative;
+}
+.add-deploy-container .env-div + .env-div {
+  border-top: none;
+}
+.add-deploy-container .env-div .form-group {
+  margin-bottom: 5px;
+}
+.add-deploy-container .env-div .project-add-remove-env {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  visibility: hidden;
+  opacity: 0;
+  -webkit-transition: all 0.1s ease-in;
+          transition: all 0.1s ease-in;
+}
+.add-deploy-container .env-div:hover .project-add-remove-env {
+  visibility: visible;
+  opacity: 1;
+}
+input,
+select {
+  border: none;
+  border-bottom: solid 2px #cfd8dc;
+  box-shadow: none;
+  border-radius: 0px;
+  padding-left: 0px;
+  background: transparent;
+}
+input:focus,
+select:focus,
+input:active,
+select:active {
+  border-bottom-color: #0091ea;
+  box-shadow: none;
+  outline: none;
+}
+input[disabled],
+select[disabled],
+input[readonly],
+select[readonly] {
+  border-bottom: dotted 2px #cfd8dc;
+}
+input.error,
+select.error {
+  border-bottom-color: #ff5a5a;
+}
+.bootstrap-select .btn {
+  background: transparent;
+  font-weight: normal;
+  border-radius: 0px;
+  box-shadow: none;
+  border-bottom: solid 2px #cfd8dc;
+  padding-left: 0px;
+  padding-right: 0px;
+  text-transform: none;
+}
+.bootstrap-select .btn:focus,
+.bootstrap-select .btn:hover {
+  background: transparent;
+}
+.bootstrap-select .btn:focus,
+.bootstrap-select .btn:active {
+  border-bottom-color: #0091ea;
+}
+.bootstrap-select .btn[disabled],
+.bootstrap-select .btn[readonly] {
+  border-bottom: dotted 2px #cfd8dc;
+}
+.bootstrap-select .btn.error {
+  border-bottom-color: #ff5a5a;
+}
+.numbers {
+  padding: 10px 20px;
+  background: #f5f5f5;
+}
+.numbers table {
+  width: 100%;
+}
+.numbers table tr td:first-child {
+  font-weight: 500;
+  font-size: 20px;
+  text-align: right;
+  padding-right: 20px;
+  width: 40%;
+  vertical-align: middle;
 }

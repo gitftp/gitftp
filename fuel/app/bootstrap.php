@@ -21,7 +21,7 @@ Autoloader::register();
  *
  * Fuel::DEVELOPMENT
  * Fuel::TEST
- * Fuel::STAGE
+* Fuel::STAGE
  * Fuel::PRODUCTION
  */
 

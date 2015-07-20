@@ -1,76 +1,58 @@
-<h3>
-    Usage Summary
-</h3>
-<p>
-    Have a glance at your repositories and its usage.
-</p>
+<div class="page-head">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="head"><i class="fa fa-home"></i>&nbsp; Usage Summary</div>
+            <div class="subhead">Have a glance at your repositories and activities</div>
+        </div>
+    </div>
+</div>
 <div class="head-body-divider"></div>
-
-<!--<pre>
-    <% JSON.stringify(data) %>
-</pre>-->
-
 <div class="row">
     <div class="col-md-8">
-        <div class="panel panel-default">
-            <!--            <div class="panel-heading">
-                            Deploys
-                        </div>-->
-            <div class="panel-body">
-                You have <%= data.deploy.length %> active delpoy running.
-            </div>
-            <table class="table table-hover">
-                <tr>
-                    <th class="text-right">ID</th>
-                    <th>REPO</th>
-                    <th class="text-center">SIZE (on disk)</th>
-                    <th class="text-center">STATUS</th>
-                </tr>
-                <% $.each(data.deploy, function(i, a){ %>
-                <tr>
-                    <td class="text-right">
-                        <%= a.id %>
-                    </td>
-                    <td>
-                        <h4 class="list-group-item-heading"><%= a.name %> (<%= a.status %>)</h4>
-                        <p class="list-group-item-text"><%= a.repository %></p>
-                    </td>
-                    <td class="text-center">
-                        <%= a.size %>
-                    </td>
-                    <td class="text-center">
-                        <a href="#deploy/v/<%= a.id %>" class="btn btn-link">View <i class="fa fa-arrow-right"></i></a>
-                    </td>
-                </tr>
-                <% }) %>
-            </table>
-        </div>
-        <div class="list-group">
+        <div class="space20"></div>
+        <div class="space20"></div>
+        <div class="space20"></div>
+        <div class="space20"></div>
+        <div style="text-align: center; font-size: 20px;">
+            <i class="fa fa-wrench fa-3x"></i>
+            <div class="space10"></div>
+            <strong>Under work.</strong>
         </div>
     </div>
     <div class="col-md-4">
-        <p>
-            Deploy Active:
-        </p>
-        <div class="progress">
-            <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="<%= data.deploy.length %>" aria-valuemin="0" aria-valuemax="10" style="width: <%= data.deploy.length %>0%;min-width: 50px;">
-                <%= data.deploy.length %> of 10
-            </div>
-        </div>
-        <p>
-            Space used by deploys: <strong><%= data.user.diskused %></strong> <em>(no limit)</em>
-        </p>
-        <div class="progress">
-            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="10" style="width: 100%;">
-            </div>
-        </div>
-
         <div class="panel panel-default">
-            <div class="panel-body">
-                <h3 style="margin-top: 0px;"><img src="<%= data.user.avatar %>" /> <%= data.user.name %></h3>
-                <i class="fa fa-envelope fa-fw"></i> Email: <%= data.user.email %> <br>
-                <i class="fa fa-star fa-fw"></i> User ID: <%= data.user.id %> <br>
+            <div class="panel-body panel-body-material">
+                <h3 style="margin-top: 0px;"><img src="<%= data.user.avatar %>"/> <%= data.user.name %></h3>
+                <i class="fa fa-envelope-o fa-fw"></i> <strong>Email</strong>: <%= data.user.email %> <br>
+                <i class="fa fa-star-o fa-fw"></i> <strong>ID</strong>: <%= data.user.id %> <br>
             </div>
         </div>
+        <!--<div class="panel panel-default">-->
+            <!--<div class="panel-body panel-body-material">-->
+                <!--<div><i class="fa fa-line-chart"></i>&nbsp; <strong>STATISTICS</strong></div>-->
+            <!--</div>-->
+            <!--<div class="numbers">-->
+                <!--<table>-->
+                    <!--<tr>-->
+                        <!--<td><%= data.deploy.length %>/10</td>-->
+                        <!--<td>Projects</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>4</td>-->
+                        <!--<td>Environments</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>2000</td>-->
+                        <!--<td>Deploys</td>-->
+                    <!--</tr>-->
+                    <!--<tr>-->
+                        <!--<td>300 MB</td>-->
+                        <!--<td>Data deployed</td>-->
+                    <!--</tr>-->
+                <!--</table>-->
+            <!--</div>-->
+            <!--<div class="panel-body panel-body-material">-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
 </div>

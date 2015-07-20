@@ -34,11 +34,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                        aria-expanded="false">Account</a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#"><i class="fa fa-fw"></i> Action</a></li>
-                                        <li><a href="#"><i class="fa fa-fw"></i> Another action</a></li>
-                                        <li><a href="#"><i class="fa fa-fw"></i> Something else here</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#"><i class="fa fa-wrench fa-fw"></i> Settings</a></li>
+                                        <li><a href="#/user/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                         <li class="divider"></li>
                                         <li><a href="<?php echo Uri::base(FALSE); ?>user/logout"><i
                                                     class="fa fa-sign-out fa-fw"></i> Logout</a></li>

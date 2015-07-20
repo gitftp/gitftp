@@ -986,9 +986,9 @@ class gitcore {
         //empty folders
         $this->output(count($filesToDelete));
         $foldersToCheck = array();
-        foreach($filesToDelete as $v){
+        foreach ($filesToDelete as $v) {
             $pos = strrpos($v, '/', 1);
-            $parentFolder = substr($v, 0, $pos+1);
+            $parentFolder = substr($v, 0, $pos + 1);
             $foldersToCheck[] = $parentFolder;
         }
 
@@ -1043,13 +1043,13 @@ class gitcore {
      * @var string $purgeDirs
      */
     public function purgeEmptyDirectries($purgeDirs) {
-
+        return FALSE;
         foreach ($purgeDirs as $dir) {
             $origin = $this->connection->pwd();
             $this->output('Empty dir scan');
             $this->output('------ ' . $dir);
 
-            if(substr($dir, 0, 1) == '/'){
+            if (substr($dir, 0, 1) == '/') {
                 $this->log("Warning: Leading slash may delete all files in root directory: $dir.");
                 $dir = substr($dir, 1, strlen($dir));
                 $this->log("Using $dir instead");
@@ -1065,7 +1065,7 @@ class gitcore {
             }
 
             foreach ($tmpFiles as $file) {
-                $file = $dir.$file;
+                $file = $dir . $file;
                 try {
                     $this->connection->cd($file);
                     $this->output($file . ' is a folder.');
@@ -1078,7 +1078,7 @@ class gitcore {
             }
 
             if (count($tmpFiles) == 0) {
-                $dirwoslash = substr($dir, 0, strlen($dir)-1);
+                $dirwoslash = substr($dir, 0, strlen($dir) - 1);
                 $this->output("dir empty, remove this dir $dirwoslash");
                 $this->connection->rmdir($dirwoslash);
                 continue;
@@ -1098,7 +1098,7 @@ class gitcore {
         foreach ($purgeDirs as $dir) {
             $this->output('------ ' . $dir);
             $origin = $this->connection->pwd();
-            if(substr($dir, 0, 1) == '/'){
+            if (substr($dir, 0, 1) == '/') {
                 $this->log("Warning: Leading slash may delete all files in root directory: $dir.");
                 $dir = substr($dir, 1, strlen($dir));
                 $this->log("Using $dir instead");

@@ -41,7 +41,7 @@ define([], function () {
                 that.deployView();
             }, this.deployViewInterval);
         },
-        deployViewInterval: 1000,
+        deployViewInterval: 3000,
         timeUpdateInterval: 500,
         timeUpdate: function () {
             /*
@@ -50,7 +50,6 @@ define([], function () {
             var that = this;
             setTimeout(function () {
                 if ($('.dynamicTime').length) {
-
                     $('.dynamicTime').each(function (i, a) {
                         var $this = $(this);
                         var timestamp = (new Date(parseInt($this.attr('data-timestamp')) * 1000)).getTime();
@@ -58,7 +57,6 @@ define([], function () {
                         var diff = currtime - timestamp;
                         $this.html(moment.duration(diff).humanize() + ' ago');
                     });
-
                 }
                 that.timeUpdate();
                 if (this.timeUpdateInterval == 1) {
@@ -67,23 +65,12 @@ define([], function () {
             }, this.timeUpdateInterval);
 
         },
-        stickyProjectSidebar: function () {
-            $(window).scroll(function () {
-                console.log('scroll');
-                if ($('.projectview-siderbar').length) {
-                    $('.projectview-siderbar').css({
-                        'margin-top': $(window).scrollTop()
-                    });
-                }
-            });
-        },
         runProcess: function () {
             this.deployView();
             this.timeUpdate();
-            //this.stickyProjectSidebar();
         },
         init: function () {
-            this.runProcess();
+            //this.runProcess();
         }
     };
 

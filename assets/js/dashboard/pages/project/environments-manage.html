@@ -5,33 +5,34 @@
             <div class="pull-right">
                 <div class="dropdown">
                     <button id="branch-settings" class="btn btn-default btn-clean dropdown-toggle" type="button"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i
-                            class="fa fa-wrench"></i></button>
+                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-wrench"></i>
+                    </button>
                     <ul class="dropdown-menu dropdown-menu-right dropdown-menu-material"
-                        aria-labelledby="branch-settings">
-                        <li><a href="#" class=""> <i class="fa fa-recycle fa-fw"></i>&nbsp; Reset environment</a></li>
-                        <li><a href="#" class="red"> <i class="fa fa-trash-o fa-fw"></i>&nbsp; Remove</a></li>
+                            aria-labelledby="branch-settings">
+                        <li><a href="#" class="red env-manage-delete" data-id="<%= branch.id %>">
+                            <i class="fa fa-trash-o fa-fw"></i>&nbsp; Remove</a></li>
                     </ul>
                 </div>
             </div>
         </div>
         <div class="space15"></div>
         <div class="row">
-            <form action="" class="form-horizontal project-branch-env-save-form">
-                <div class="col-md-6">
+            <div class="col-md-6">
+                <form action="" class="form-horizontal project-branch-env-save-form">
                     <input type="hidden" name="branch_id" value="<%= branch.id %>"/>
 
                     <div class="form-group">
-                        <label for="" class="col-sm-3 control-label">
+                        <label for="name" class="col-sm-3 control-label">
                             Name:
                         </label>
 
                         <div class="col-sm-9">
-                            <input type="text" value="<%= branch.name %>" class="form-control" name="name"/>
+                            <input title="Environment must have a name." id="name" type="text" value="<%= branch.name %>" class="form-control" name="name"/>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-3 control-label">
+                        <label class="col-sm-3 control-label">
                             Branch:
                         </label>
 
@@ -42,19 +43,17 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-3 control-label">
+                        <label class="col-sm-3 control-label">
                             Revision:
                         </label>
 
                         <div class="col-sm-9">
                             <% if(branch.revision){ %>
-                            <!--<p class="form-control-static">-->
-                                <!--<code><%= branch.revision %></code>-->
-                            <!--</p>-->
                             <div class="input-group">
                                 <input type="text" disabled value="<%= branch.revision %>" class="form-control mono"/>
                                 <span class="input-group-btn">
-                                    <button type="button" class="btn btn-block btn-clean project-env-edit-revision"><i class="fa fa-pencil"></i></button>
+                                    <button type="button" class="btn btn-block btn-clean project-env-edit-revision"><i
+                                            class="fa fa-pencil"></i></button>
                                 </span>
                             </div>
                             <% }else{ %>
@@ -65,14 +64,13 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-3 control-label">
+                        <label for="autodeploycheckbox" class="col-sm-3 control-label">
                             Auto:
                         </label>
 
                         <div class="col-sm-9">
                             <div class="checkbox gf-checkbox">
-                                <input <%= (branch.auto == 1) ? 'checked' : '' %> type="checkbox"
-                                id="autodeploycheckbox" name="auto"/>
+                                <input <%= (branch.auto == 1) ? 'checked' : '' %> type="checkbox" id="autodeploycheckbox" name="auto"/>
                                 <label for="autodeploycheckbox">Auto deploy</label>
                             </div>
                             <p class="help-block">Deploy changes when pushed to <i class="fa fa-code-fork"></i> '<%=
@@ -80,15 +78,14 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="" class="col-sm-3 control-label">
+                        <label for="env_ftp_select" class="col-sm-3 control-label">
                             FTP:
                         </label>
 
                         <div class="col-sm-9">
-                            <select name="ftp_id" id="env_ftp_select" class="form-control">
+                            <select name="ftp_id" id="env_ftp_select" class="form-control" data-before="<%= ftp.id %>">
                                 <option selected value="<%= ftp.id %>"><%= ftp.name %> (selected)</option>
                                 <% $.each(ftplist.data, function(i, f){ %>
-                                <% JSON.stringify(f) %>
                                 <option value="<%= f.id %>"><%= f.name %></option>
                                 <% }) %>
                             </select>
@@ -98,24 +95,30 @@
                             </p>
                         </div>
                     </div>
-                </div>
-            </form>
-            <form action="" class="project-branch-env-save-form-2">
-                <div class="col-md-6">
+                </form>
+            </div>
+
+            <div class="col-md-6">
+                <form action="" class="project-branch-env-save-form-2">
                     <div class="space10"></div>
                     <div class="form-group">
                         <label for="selective-skip" class="control-label">Skip files that match:</label>
+
                         <div class="selective-skip" id="selective-skip"></div>
                         <p class="help-block text-right">
                             * wildcard allowed.
                         </p>
                     </div>
                     <div class="form-group">
-                        <label for="selective-purge" class="control-label">Purge directories on upload: <span data-toggle="tooltip" data-placement="top" title="Directory will be emptied recursively."><i class="fa fa-info blue fa-fw"></i></span></label>
+                        <label for="selective-purge" class="control-label">Purge directories on upload: <span
+                                data-toggle="tooltip" data-placement="top"
+                                title="Directory will be emptied recursively."><i
+                                class="fa fa-info blue fa-fw"></i></span></label>
+
                         <div class="selective-purge" id="selective-purge"></div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
             <div class="col-md-12">
                 <div class="space10"></div>
                 <button type="text" class="btn btn-success project-branch-env-save-form-submit">Update</button>
@@ -123,18 +126,6 @@
         </div>
     </div>
 </div>
-
-<pre>
-<%= JSON.stringify(branch) %>
-</pre>
-<pre>
-<%= JSON.stringify(data) %>
-</pre>
-<pre>
-<%= JSON.stringify(ftp) %>
-</pre>
-
-
 <script>
     $('[data-toggle="tooltip"]').tooltip();
 </script>

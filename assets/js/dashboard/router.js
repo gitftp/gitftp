@@ -5,7 +5,8 @@ define([
     'views/project',
     'views/projectadd',
     'views/projectview',
-], function (dashboard, ftpView, ftpAdd, projectView, projectaddView, projectviewView) {
+    'views/settings/settings',
+], function (dashboard, ftpView, ftpAdd, projectView, projectaddView, projectviewView, settingsView) {
 
     var r = Backbone.Router.extend({
         routes: {
@@ -17,7 +18,8 @@ define([
             'project': 'project',
             'project/new': 'projectadd',
             'project/*path': 'projectview',
-            ':any': 'fourofour'
+            'user/settings': 'settings',
+            ':any': 'fourofour',
         },
         projectview: function (str) {
             app.obj.projectview = app.obj.projectview || new projectviewView();
@@ -42,6 +44,10 @@ define([
         ftpAdd: function (id) {
             app.obj.ftpAdd = app.obj.ftpAdd || new ftpAdd();
             app.obj.ftpAdd.render(id);
+        },
+        settings: function(){
+            app.obj.settings = app.obj.settings || new settingsView();
+            app.obj.settings.render();
         },
         fourofour: function () {
             Router.navigate('#/home', {trigger: true, replace: true});

@@ -9,11 +9,11 @@ define([
         events: {
             'click .deleteproject': 'deleteProject',
             'change #doesreponeedlogin': 'inputCheckboxToggle',
-            'submit #deploy-view-form-edit': 'updateSettings',
+            //'click #deploy-view-form-edit': 'updateSettings',
             'click .project-form-password-set-change': 'togglePasswordChange',
             'click .project-form-password-set-cancel': 'togglePasswordChange'
         },
-        togglePasswordChange: function(e){
+        togglePasswordChange: function (e) {
             e.preventDefault();
             var $this = $(e.currentTarget);
 
@@ -90,18 +90,16 @@ define([
             var $this = $(e.currentTarget);
             var $p = $('.privaterepo-toggle');
             if ($this.prop('checked')) {
-                $p.show().find('input').removeAttr('disabled').attr('required', true);
+                $p.show();
             } else {
-                $p.hide().find('input').attr('disabled', true).removeAttr('required');
+                $p.hide();
             }
         },
-        updateSettings: function (e) {
+        updateSettings: function () {
             var that = this;
-            var $this = $(e.currentTarget);
-            e.preventDefault();
+            var $this = this.$form;
 
             $this.find('select, input, button').attr('readonly', true);
-
             _ajax({
                 url: base + 'api/deploy/edit/' + that.parent.id,
                 data: $this.serializeArray(),
@@ -124,6 +122,43 @@ define([
                 $this.find('select, input, button').removeAttr('readonly');
             });
         },
+        validation: function () {
+            var that = this;
+
+            this.$form.validate({
+                debug: true,
+                submitHandler: function () {
+                    that.updateSettings();
+                    return false;
+                },
+                errorClass: 'error',
+                rules: {
+                    'name': {
+                        required: true,
+                        maxlength: 50,
+                    },
+                    username: {
+                        required: {
+                            depends: function () {
+                                return $('#doesreponeedlogin').is(':checked');
+                            }
+                        },
+                    },
+                    'password': {
+                        required: false,
+                    },
+                    'key': {
+                        required: true,
+                    }
+                },
+                messages: {
+                    name: {
+                        required: 'Please enter a name',
+                        maxlength: 'Name cannot be longer than 50 chars'
+                    }
+                }
+            })
+        },
         render: function (parent) {
             this.parent = parent;
             var that = this;
@@ -133,6 +168,9 @@ define([
                 data: that.parent.data.data[0],
             });
             $(this.parent.subPage).html(subPage);
+
+            this.$form = $('#deploy-view-form-edit');
+            this.validation();
         }
     });
 

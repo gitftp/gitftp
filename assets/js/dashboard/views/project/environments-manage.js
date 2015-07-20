@@ -8,11 +8,69 @@ define([
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'submit .project-branch-env-save-form': 'preventSubmit',
-            'submit .project-branch-env-save-form2': 'preventSubmit',
-            'click .project-branch-env-save-form-submit': 'saveBranchForm',
             'click .showftpdetails': 'showFtpDetails',
             'click .project-env-edit-revision': 'setRevision',
+            'click .env-manage-delete': 'delete',
+            'click .project-branch-env-save-form-submit': 'triggerSubmit'
+        },
+        delete: function (e) {
+            e.preventDefault();
+            var that = this;
+            var $this = $(e.currentTarget);
+            var id = $this.attr('data-id');
+
+            var branches = this.parent.data.data[0].branches;
+
+            if (branches.length == 1) {
+                $.alert({
+                    title: 'Problem',
+                    icon: 'fa fa-warning orange',
+                    columnClass: 'col-md-4 col-md-offset-4',
+                    content: 'Sorry, cannot delete environment, <br>' +
+                    'You only have one environment in this project.',
+                    confirmButton: 'Close'
+                });
+
+                return false;
+            }
+
+            $.confirm({
+                title: 'Delete',
+                content: 'Are you sure to remove this Environment?' +
+                '<br> FTP server will be unlinked.',
+                confirmButton: 'Delete',
+                confirm: function () {
+                    var jc = this;
+                    _ajax({
+                        url: base + 'api/branch/delete',
+                        data: {
+                            'id': id,
+                        },
+                        method: 'post',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        if (data.status) {
+                            noty({
+                                text: 'Successfully deleted environment',
+                                type: 'success'
+                            });
+                            Router.navigate('#/project/' + that.parent.urlp[0] + '/environments', {
+                                trigger: true,
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Problem',
+                                icon: 'fa fa-warning orange',
+                                content: data.reason,
+                                confirmButton: 'Close'
+                            });
+                        }
+
+                        jc.close();
+                    });
+                    return false;
+                },
+            })
         },
         setRevision: function (e) {
             var that = this;
@@ -63,9 +121,6 @@ define([
                 columnClass: 'col-md-4 col-md-offset-4'
             })
         },
-        preventSubmit: function (e) {
-            e.preventDefault();
-        },
         showFtpDetails: function (e) {
             e.preventDefault();
             var ftp = this.ftpdata.data[0];
@@ -86,13 +141,13 @@ define([
                     Router.navigate('#/ftp/edit/' + ftp_id, {
                         trigger: true
                     });
-                }
+                },
+                columnClass: 'col-md-6 col-md-offset-3'
             });
         },
-        saveBranchForm: function (e) {
-            var $this = $(e.currentTarget);
-            e.preventDefault();
-            var form = $('.project-branch-env-save-form').serializeArray();
+        saveBranchForm: function () {
+            var $this = this.$form;
+            var form = $this.serializeArray();
 
             form.push({
                 name: 'skip_path',
@@ -101,31 +156,79 @@ define([
                 name: 'purge_path',
                 value: this.ftp_purge_el.selectivity('value')
             });
-            console.log(form);
 
-            _ajax({
-                url: base + 'api/branch/updatebranch',
-                data: form,
-                method: 'post',
-                dataType: 'json'
-            }).done(function (data) {
-                if (data.status) {
-                    app_reload();
-                    noty({
-                        text: '<i class="fa fa-check fa-2x green fa-fw"></i> Changes were saved. ' + data.message
-                    })
-                } else {
-                    noty({
-                        text: '<i class="fa fa-warning fa-fw"></i> ' + data.reason,
-                    });
+            var ftpselected = $('#env_ftp_select').val();
+            var ftpselectedbefore = $('#env_ftp_select').attr('data-before');
+            if (ftpselected !== ftpselectedbefore) {
+                $.confirm({
+                    title: 'FTP server changed.',
+                    icon: 'fa fa-info orange',
+                    content: 'Are you sure to re-link FTP server? <br>' +
+                    'Environment will be reset.',
+                    confirm: function () {
+                        save();
+                    },
+                    confirmButton: 'Continue'
+                })
+            } else {
+                save();
+            }
+
+            function save() {
+                _ajax({
+                    url: base + 'api/branch/updatebranch',
+                    data: form,
+                    method: 'post',
+                    dataType: 'json'
+                }).done(function (data) {
+                    if (data.status) {
+                        app_reload();
+                        noty({
+                            text: '<i class="fa fa-check fa-fw"></i> Changes were saved. ' + data.message,
+                            type: 'success',
+                        })
+                    } else {
+                        noty({
+                            text: '<i class="fa fa-warning fa-fw"></i> ' + data.reason,
+                            type: 'error',
+                        });
+                    }
+                });
+            }
+        },
+        triggerSubmit: function (e) {
+            e.preventDefault();
+            this.$form.submit();
+        },
+        validation: function () {
+            var that = this;
+
+            that.$form.validate({
+                submitHandler: function (form) {
+                    that.saveBranchForm();
+
+                    return false;
+                },
+                rules: {
+                    'name': {
+                        required: true,
+                        maxlength: 50,
+                    },
+                    'ftp_id': {
+                        required: true,
+                    }
+                },
+                messages: {
+                    name: {
+                        maxlength: 'Name cannot be longer than 50 chars'
+                    }
                 }
-            });
+            })
         },
         render: function (parent) {
             var that = this;
             this.parent = parent;
             $(that.parent.subPage).html('');
-
 
             if (that.parent.urlp[3]) {
                 var branch_id = that.parent.urlp[3];
@@ -184,6 +287,9 @@ define([
                     placeholder: 'folders to purge',
                     value: that.branch.purge_path,
                 });
+
+                that.$form = $('.project-branch-env-save-form');
+                that.validation();
             });
         }
     });

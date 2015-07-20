@@ -33,7 +33,7 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
                     'request' => $post
                 ));
             } else {
-                throw new Exception('Failed connecting to GIT server.');
+                throw new Exception('Could not connect to GIT repository.');
             }
         } catch (Exception $e) {
             echo json_encode(array(
@@ -43,44 +43,6 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
             ));
         }
 
-    }
-
-    /**
-     * A LOT HAS LEFT HERE.
-     */
-    public function action_dashdata() {
-        $deploy = new Model_Deploy();
-        $user_id = Auth::get_user_id()[1];
-        $dir = DOCROOT . 'fuel/repository/' . $user_id;
-        $a = shell_exec("du -hs $dir");
-        $a = explode('	', $a);
-        $disk_usage_human = $a[0];
-        $deploy_list = $deploy->get(NULL, array(
-            'repository',
-            'id',
-            'status',
-            'lastdeploy',
-            'name',
-        ));
-
-        foreach ($deploy_list as $k => $v) {
-            $id = $v['id'];
-            $a = shell_exec("du -hs $dir/$id");
-            $a = explode('	', $a);
-            $deploy_list[$k]['size'] = $a[0];
-        }
-
-        echo json_encode(array(
-            'status' => TRUE,
-            'user'   => array(
-                'diskused' => $disk_usage_human,
-                'id'       => Auth::get_user_id()[1],
-                'name'     => Auth::get_screen_name(),
-                'email'    => Auth::get_email(),
-                'avatar'   => utils::get_gravatar(Auth::get_email(), 40)
-            ),
-            'deploy' => $deploy_list,
-        ));
     }
 
     public function action_getonly($id = NULL) {
@@ -350,13 +312,12 @@ class Controller_Api_Deploy extends Controller_Apilogincheck {
         } catch (Exception $e) {
             echo json_encode(array(
                 'status' => FALSE,
-                'reason' => $e->getMessage()
+                'reason' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
             ));
         }
 
     }
 
-    public function run_update() {
-
-    }
 }

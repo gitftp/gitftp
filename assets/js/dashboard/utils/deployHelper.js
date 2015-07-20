@@ -39,7 +39,8 @@ define([], function () {
                 //columnClass: "col-md-4 col-md-offset-4",
                 onOpen: function () {
                     that.bindEvents();
-                }
+                },
+                columnClass: 'col-md-6 col-md-offset-3',
             });
         },
         deploySync: function(e, a){
@@ -83,8 +84,6 @@ define([], function () {
             });
         },
         deployRevert: function (e, a, hash) {
-            // TODO : not done.
-
             var that = this;
 
             if (!a) {

@@ -11,44 +11,39 @@ class Controller_User extends Controller {
         Response::redirect('/');
     }
 
-    public function action_check_json() {
-        echo json_encode(array(
-            'status' => true,
-            'data' => array(
-                'id' => Auth::get_user_id()[1]
-            ),
-        ));
-    }
-
     public function action_login() {
         $a = Input::post();
 
         if (Auth::validate_user($a['email'], $a['password'])) {
             Auth::login($a['email'], $a['password']);
             echo json_encode(array(
-                'status' => true,
+                'status'   => TRUE,
                 'redirect' => dash_url,
             ));
         } else {
             echo json_encode(array(
-                'status' => false,
-                'redirect' => null,
-                'reason' => 'Your Email and Password do not match, please re-try again.'
+                'status'   => FALSE,
+                'redirect' => NULL,
+                'reason'   => 'Your Email and Password do not match, please re-try again.'
             ));
         }
     }
 
     public function action_register() {
         Auth::create_user(
-                'boniface', 'thisissparta', 'bonifacepereira@gmail.com', 1, array(
-            'fullname' => 'Boniface pereira',
-                )
+            'boniface',
+            'thisissparta',
+            'bonifacepereira@gmail.com',
+            1,
+            array(
+                'fullname' => 'Boniface pereira',
+            )
         );
     }
 
     public function action_signup() {
         if (Input::method() != 'POST') {
-            return false;
+            return FALSE;
         }
 
         $i = Input::post();
@@ -65,36 +60,42 @@ class Controller_User extends Controller {
             // username, password, email, group, extras
             try {
                 $id = Auth::create_user($i['username'], $i['password'], $i['email'], 1, array(
-                            'fullname' => $i['fullname'],
-                            'repo_limit' => 2,
-                            'verified' => 0
+                    'fullname'   => $i['fullname'],
+                    'repo_limit' => 2,
+                    'verified'   => 0
                 ));
             } catch (Exception $exc) {
                 echo json_encode(array(
-                    'status' => false,
+                    'status' => FALSE,
                     'reason' => $exc->getMessage()
                 ));
                 die();
             }
 
-            
+
             echo json_encode(array(
-                'status' => true,
+                'status'   => TRUE,
                 'redirect' => dash_url
             ));
-            
+
         } else {
             echo json_encode(array(
-                'status' => false,
+                'status' => FALSE,
                 'reason' => 'The form seems to have missed something or has invalid data.',
                 'fields' => array(
-                    'username' => $v->error('username') ? $v->error('username')->get_message() : null,
-                    'password' => $v->error('password') ? $v->error('password')->get_message() : null,
-                    'fullname' => $v->error('fullname') ? $v->error('fullname')->get_message() : null,
-                    'email' => $v->error('email') ? $v->error('email')->get_message() : null,
+                    'username' => $v->error('username') ? $v->error('username')->get_message() : NULL,
+                    'password' => $v->error('password') ? $v->error('password')->get_message() : NULL,
+                    'fullname' => $v->error('fullname') ? $v->error('fullname')->get_message() : NULL,
+                    'email'    => $v->error('email') ? $v->error('email')->get_message() : NULL,
                 )
             ));
         }
+    }
+
+    public function action_test() {
+        $user = new Model_User();
+        echo '<pre>';
+        echo $user->getProperty('created_at');
     }
 
 }

@@ -9,7 +9,7 @@ define([
             
             this.template = _.template(page);
             _ajax({
-                url : base+'api/deploy/dashdata',
+                url : base+'api/etc/dashboard',
                 method: 'get',
                 dataType: 'json',
             }).done(function(data){

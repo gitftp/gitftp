@@ -295,14 +295,46 @@ class Model_Record extends Model {
         return $r[0];
     }
 
-    public function delete($id) {
-        $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
+    public function delete($id, $direct = FALSE) {
+        $a = DB::select('id')->from($this->table)->where('id', $id);
+        if (!$direct) {
+            $a = $a->and_where('user_id', $this->user_id);
+        }
+        $a = $a->execute()->as_array();
 
-        if (empty($a) or $a[0]['user_id'] != $this->user_id) {
+        if (empty($a)) {
             return FALSE;
         }
 
-        return DB::delete($his->table)->where('id', $id)->execute();
+        return DB::delete($this->table)->where('id', $id)->execute();
+    }
+
+    public function delete_by_branch_id($id, $direct = FALSE) {
+        $a = DB::select('id')->from($this->table)->where('branch_id', $id);
+        if (!$direct) {
+            $a = $a->and_where('user_id', $this->user_id);
+        }
+        $a = $a->execute()->as_array();
+
+        if (empty($a)) {
+            return FALSE;
+        }
+
+        return DB::delete($this->table)->where('branch_id', $id)->execute();
+    }
+
+    public function delete_by_deploy_id($id, $direct = FALSE) {
+        $a = DB::select('id')->from($this->table)->where('deploy_id', $id);
+        if (!$direct) {
+            $a = $a->and_where('user_id', $this->user_id);
+        }
+        $a = $a->execute()->as_array();
+
+        if (empty($a)) {
+            return FALSE;
+        }
+
+        return DB::delete($this->table)->where('deploy_id', $id)->execute();
     }
 
 }

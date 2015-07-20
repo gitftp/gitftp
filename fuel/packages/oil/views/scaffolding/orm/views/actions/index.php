@@ -1,4 +1,4 @@
-<h2>Listing <?php echo \Str::ucfirst($plural_name); ?></h2>
+<h2>Listing <span class='muted'><?php echo \Str::ucfirst($plural_name); ?></span></h2>
 <br>
 <?php echo "<?php if (\${$plural_name}): ?>"; ?>
 
@@ -8,21 +8,24 @@
 <?php foreach ($fields as $field): ?>
 			<th><?php echo \Inflector::humanize($field['name']); ?></th>
 <?php endforeach; ?>
-			<th></th>
+			<th>&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
-<?php echo '<?php'; ?> foreach ($<?php echo $plural_name; ?> as $<?php echo $singular_name; ?>): <?php echo '?>'; ?>
+<?php echo '<?php'; ?> foreach ($<?php echo $plural_name; ?> as $item): <?php echo '?>'; ?>
 		<tr>
 
 <?php foreach ($fields as $field): ?>
-			<td><?php echo '<?php'; ?> echo $<?php echo $singular_name.'->'.$field['name']; ?>; <?php echo '?>'; ?></td>
+			<td><?php echo '<?php'; ?> echo $item<?php echo '->'.$field['name']; ?>; <?php echo '?>'; ?></td>
 <?php endforeach; ?>
 			<td>
-				<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/view/'.$<?php echo $singular_name; ?>->id, 'View'); <?php echo '?>'; ?> |
-				<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/edit/'.$<?php echo $singular_name; ?>->id, 'Edit'); <?php echo '?>'; ?> |
-				<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/delete/'.$<?php echo $singular_name; ?>->id, 'Delete', array('onclick' => "return confirm('Are you sure?')")); <?php echo '?>'; ?>
-
+				<div class="btn-toolbar">
+					<div class="btn-group">
+						<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/view/'.$item->id, '<i class="icon-eye-open"></i> View', array('class' => 'btn btn-default btn-sm')); <?php echo '?>'; ?>
+						<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/edit/'.$item->id, '<i class="icon-wrench"></i> Edit', array('class' => 'btn btn-default btn-sm')); <?php echo '?>'; ?>
+						<?php echo '<?php'; ?> echo Html::anchor('<?php echo $uri; ?>/delete/'.$item->id, '<i class="icon-trash icon-white"></i> Delete', array('class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')")); <?php echo '?>'; ?>
+					</div>
+				</div>
 
 			</td>
 		</tr>

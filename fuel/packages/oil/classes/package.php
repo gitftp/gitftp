@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -81,7 +83,6 @@ class Package
 		throw new Exception('Could not find package "' . $package . '".');
 	}
 
-
 	public static function uninstall($package)
 	{
 		$package_folder = PKGPATH . $package;
@@ -130,7 +131,6 @@ HELP;
 
 	}
 
-
 	private static function _use_git()
 	{
 		exec('which git', $output);
@@ -157,18 +157,30 @@ HELP;
 		\Cli::write('Downloading package: ' . $zip_url);
 
 		// Make the folder so we can extract the ZIP to it
-		mkdir($tmp_folder = APPPATH . 'tmp/' . $package . '-' . time());
+		mkdir($tmp_folder = APPPATH . 'tmp' . DS . $package . '-' . time());
 
 		$zip_file = $tmp_folder . '.zip';
 		@copy($zip_url, $zip_file);
 
-		if (file_exists($zip_file))
+		if (is_file($zip_file))
 		{
 			$unzip = new \Unzip;
 			$files = $unzip->extract($zip_file, $tmp_folder);
 
 			// Grab the first folder out of it (we dont know what it's called)
-			list($tmp_package_folder) = glob($tmp_folder.'/*', GLOB_ONLYDIR);
+			foreach($pkgfolders = new \GlobIterator($tmp_folder.DS.'*') as $pkgfolder)
+			{
+				if ($pkgfolder->isDir())
+				{
+					$tmp_package_folder = $tmp_folder.DS.$pkgfolder->getFilename();
+					break;
+				}
+			}
+
+			if (empty($tmp_package_folder))
+			{
+				throw new \FuelException('The package zip file doesn\'t contain any install directory.');
+			}
 
 			$package_folder = PKGPATH . $package;
 

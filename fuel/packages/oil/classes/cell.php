@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -42,7 +44,7 @@ class Cell
 		// Check to see if this package is already installed
 		if (is_dir(PKGPATH . $package))
 		{
-			throw new Exception('Package "' . $package . '" is already installed.');
+			throw new \FuelException('Package "' . $package . '" is already installed.');
 			return;
 		}
 
@@ -51,12 +53,12 @@ class Cell
 
 		if ( ! $response)
 		{
-			throw new Exception('No response from the API. Perhaps check your internet connection?');
+			throw new \FuelException('No response from the API. Perhaps check your internet connection?');
 		}
 
 		if (empty($response['cell']))
 		{
-			throw new Exception('Could not find the cell "' . $package . '".');
+			throw new \FuelException('Could not find the cell "' . $package . '".');
 		}
 
 		$cell = $response['cell'];
@@ -85,7 +87,7 @@ class Cell
 
 		if (empty($response['cells']))
 		{
-			throw new Exception('No cells were found with this name.');
+			throw new \FuelException('No cells were found with this name.');
 		}
 
 		foreach ($response['cells'] as $cell)
@@ -101,7 +103,7 @@ class Cell
 
 		if (empty($response['cells']))
 		{
-			throw new Exception('No cells were found with this name.');
+			throw new \FuelException('No cells were found with this name.');
 		}
 
 		foreach ($response['cells'] as $cell)
@@ -110,20 +112,19 @@ class Cell
 		}
 	}
 
-
 	public static function uninstall($package)
 	{
 		// Check to see if this package is already installed
 		if ( ! $package_folder = \Package::exists($package))
 		{
-			throw new Exception('Package "' . $package . '" is not installed.');
+			throw new \FuelException('Package "' . $package . '" is not installed.');
 			return false;
 		}
 
 		// Check to see if this package is already installed
 		if (in_array($package, static::$_protected))
 		{
-			throw new Exception('Package "' . $package . '" cannot be uninstalled.');
+			throw new \FuelException('Package "' . $package . '" cannot be uninstalled.');
 			return false;
 		}
 
@@ -146,12 +147,12 @@ class Cell
 
 		if ( ! $response)
 		{
-			throw new Exception('No response from the API. Perhaps check your internet connection?');
+			throw new \FuelException('No response from the API. Perhaps check your internet connection?');
 		}
 
-		else if (empty($response['cell']))
+		elseif (empty($response['cell']))
 		{
-			throw new Exception('Could not find the cell "' . $cell . '".');
+			throw new \FuelException('Could not find the cell "' . $cell . '".');
 		}
 
 		var_dump($response);
@@ -185,7 +186,6 @@ HELP;
 
 	}
 
-
 	protected static function _use_git()
 	{
 		exec('which git', $output);
@@ -209,8 +209,20 @@ HELP;
 
 	protected static function _download_package_zip($zip_url, $package, $version)
 	{
+		// get the list of configured package paths
+		$paths = \Config::get('package_paths', array(PKGPATH));
+
+		// and make sure we have at least one
+		if (empty($paths))
+		{
+			throw new \FuelException('There are no package paths defined in your configuration file. Don\'t know where to install the package.');
+		}
+
+		// we'll install in the first path defined
+		$package_folder = reset($paths);
+
 		// Make the folder so we can extract the ZIP to it
-		mkdir($tmp_folder = APPPATH . 'tmp/' . $package . '-' . time());
+		mkdir($tmp_folder = APPPATH . 'tmp' . DS . $package . '-' . time());
 
 		$zip_file = $tmp_folder . '.zip';
 		@copy($zip_url, $zip_file);
@@ -219,9 +231,19 @@ HELP;
 		$files = $unzip->extract($zip_file, $tmp_folder);
 
 		// Grab the first folder out of it (we dont know what it's called)
-		list($tmp_package_folder) = glob($tmp_folder.'/*', GLOB_ONLYDIR);
+		foreach($pkgfolders = new \GlobIterator($tmp_folder.DS.'*') as $pkgfolder)
+		{
+			if ($pkgfolder->isDir())
+			{
+				$tmp_package_folder = $tmp_folder.DS.$pkgfolder->getFilename();
+				break;
+			}
+		}
 
-		$package_folder = PKGPATH . $package;
+		if (empty($tmp_package_folder))
+		{
+			throw new \FuelException('The package zip file doesn\'t contain any install directory.');
+		}
 
 		// Move that folder into the packages folder
 		rename($tmp_package_folder, $package_folder);
@@ -239,9 +261,17 @@ HELP;
 
 	public static function _clone_package_repo($repo_url, $package, $version)
 	{
-		// TODO Make this magic
-		// $package_folder = str_replace(realpath(__DIR__.'/').'/', '', PKGPATH.$package);
-		$package_folder = 'fuel/packages/'.$package;
+		// get the list of configured package paths
+		$paths = \Config::get('package_paths', array(PKGPATH));
+
+		// and make sure we have at least one
+		if (empty($paths))
+		{
+			throw new \FuelException('There are no package paths defined in your configuration file. Don\'t know where to install the package.');
+		}
+
+		// we'll install in the first path defined
+		$package_folder = reset($paths);
 
 		// Clone to the package path
 		passthru(static::$_git_binary.' submodule add '.$repo_url.' '.$package_folder);
@@ -250,5 +280,3 @@ HELP;
 		\Cli::write('');
 	}
 }
-
-/* End of file package.php */

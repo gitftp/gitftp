@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -23,7 +25,6 @@ namespace Oil;
  */
 class Generate_Migration_Actions
 {
-
 	/**
 	 * Each migration action should return an array with two items, 0 being the up and 1 the being down.
 	 */
@@ -67,7 +68,7 @@ class Generate_Migration_Actions
 		}
 
 		// ID Field
-		$have_id or $field_str = "\t\t\t'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true),".PHP_EOL . $field_str;
+		$have_id or $field_str = "\t\t\t'id' => array('constraint' => 11, 'type' => 'int', 'auto_increment' => true, 'unsigned' => true),".PHP_EOL . $field_str;
 
 		$up = <<<UP
 		\DBUtil::create_table('{$subjects[1]}', array(
@@ -165,7 +166,7 @@ DOWN;
 
 					case 'enum':
 					case 'set':
-					  $constraint = '"\''.implode('\',\'',$column['options']).'\'"';
+					  $constraint = '"\''.implode('\',\'', $column['options']).'\'"';
 					break;
 				}
 			break;
@@ -231,7 +232,7 @@ UP;
 
 						case 'enum':
 						case 'set':
-							$constraint = '"\''.implode('\',\'',$column['options']).'\'"';
+							$constraint = '"\''.implode('\',\'', $column['options']).'\'"';
 						break;
 					}
 				break;
@@ -245,7 +246,7 @@ UP;
 			{
 			  $primary_keys[] = "'{$column['name']}'";
 			}
-			else if ($column['key'] == 'MUL')
+			elseif ($column['key'] == 'MUL')
 			{
 			  $indexes[] = $column['name'];
 			}

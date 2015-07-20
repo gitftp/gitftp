@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -26,7 +28,14 @@ class Generate_Admin extends Generate_Scaffold
 	public static $controller_prefix = 'Admin_';
 	public static $model_prefix = '';
 
-	public static $controller_parent = 'Controller_Admin';
+	public static $controller_parent = 'Admin';
+
+	public static function _init()
+	{
+		static::$controller_parent = \Config::get('controller_prefix', 'Controller_').static::$controller_parent;
+
+		parent::_init();
+	}
 
 	public static function forge($args, $subfolder)
 	{
@@ -62,7 +71,7 @@ class Generate_Admin extends Generate_Scaffold
 		foreach ($default_files as $file)
 		{
 			// check if there's a template in app, and if so, use that
-			if (file_exists(APPPATH.'views/'.static::$view_subdir.$file['source']))
+			if (is_file(APPPATH.'views/'.static::$view_subdir.$file['source']))
 			{
 				Generate::create(APPPATH.$file['location'], file_get_contents(APPPATH.'views/'.static::$view_subdir.$file['source']), $file['type']);
 			}

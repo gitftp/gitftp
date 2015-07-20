@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -150,7 +152,6 @@ HELP;
 		}
 	}
 
-
 	/**
 	 * Generate model for a database table.
 	 *
@@ -234,7 +235,7 @@ HELP;
 		}
 
 		// construct the arguments list, starting with the table name
-		$arguments = array($table);
+		$arguments = array(\Inflector::singularize($table));
 
 		// set some switches
 		$include_timestamps = false;

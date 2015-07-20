@@ -1,12 +1,14 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -21,7 +23,7 @@ namespace Oil;
  */
 class Refine
 {
-	public static function run($task, $args)
+	public static function run($task, $args = array())
 	{
 		$task = strtolower($task);
 
@@ -47,7 +49,7 @@ class Refine
 			{
 				\Module::load($module);
 				$path = \Module::exists($module);
-				\Finder::instance()->add_path($path);
+				\Finder::instance()->add_path($path, -1);
 			}
 			catch (\FuelException $e)
 			{
@@ -90,15 +92,44 @@ class Refine
 
 		$new_task = new $task;
 
-		// The help option hs been called, so call help instead
-		if (\Cli::option('help') && is_callable(array($new_task, 'help')))
+		// The help option has been called, so call help instead
+		if ((\Cli::option('help') or $method == 'help') and is_callable(array($new_task, 'help')))
 		{
 			$method = 'help';
 		}
-
-		if ($return = call_user_func_array(array($new_task, $method), $args))
+		else
 		{
-			\Cli::write($return);
+			// if the task has an init method, call it now
+			is_callable($task.'::_init') and $task::_init();
+		}
+
+		if (is_callable(array($new_task, $method)))
+		{
+			if ($return = call_fuel_func_array(array($new_task, $method), $args))
+			{
+				\Cli::write($return);
+			}
+		}
+		else
+		{
+			\Cli::write(sprintf('Task "%s" does not have a command called "%s".', $task, $method));
+
+			\Cli::write("\nDid you mean:\n");
+			$reflect = new \ReflectionClass($new_task);
+
+			// Ensure we only pull out the public methods
+			$methods = $reflect->getMethods(\ReflectionMethod::IS_PUBLIC);
+			if (count($methods) > 0)
+			{
+				foreach ($methods as $method)
+				{
+					if (strpos($method->name, '_') !== 0)
+					{
+						\Cli::write(sprintf("php oil [r|refine] %s:%s", $reflect->getShortName(), $method->name));
+
+					}
+				}
+			}
 		}
 	}
 

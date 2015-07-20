@@ -84,7 +84,7 @@ class Controller_Test extends Controller {
     }
 
     public function get_d(){
-        $deploy_id
-        utils::gitGetBranches_local($branch_data['deploy_id'], $hash)
+//        $deploy_id
+//        utils::gitGetBranches_local($branch_data['deploy_id'], $hash)
     }
 }

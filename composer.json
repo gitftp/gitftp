@@ -24,6 +24,7 @@
         "fuel/orm": "dev-1.7/master",
         "fuel/parser": "dev-1.7/master",
         "fuelphp/upload": "2.0.2",
+        "mustache/mustache": "*",
         "monolog/monolog": "1.5.*",
         "michelf/php-markdown": "1.4.0"
     },

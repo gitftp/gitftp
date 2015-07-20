@@ -97,43 +97,6 @@
         ]
     },
     {
-        "name": "fuel/docs",
-        "version": "dev-1.7/master",
-        "version_normalized": "dev-1.7/master",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/docs.git",
-            "reference": "473174da2cf503c60d4a9935b71acfc31f0906d0"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/docs/zipball/473174da2cf503c60d4a9935b71acfc31f0906d0",
-            "reference": "473174da2cf503c60d4a9935b71acfc31f0906d0",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-05-23 17:33:30",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Documenataion",
-        "homepage": "https://github.com/fuel/docs",
-        "support": {
-            "source": "https://github.com/fuel/docs/tree/1.7/master",
-            "issues": "https://github.com/fuel/docs/issues"
-        }
-    },
-    {
         "name": "fuel/core",
         "version": "dev-1.7/master",
         "version_normalized": "dev-1.7/master",
@@ -557,6 +520,91 @@
         "homepage": "http://michelf.ca/projects/php-markdown/",
         "keywords": [
             "markdown"
+        ]
+    },
+    {
+        "name": "fuel/docs",
+        "version": "dev-1.7/master",
+        "version_normalized": "dev-1.7/master",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/docs.git",
+            "reference": "473174da2cf503c60d4a9935b71acfc31f0906d0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/docs/zipball/473174da2cf503c60d4a9935b71acfc31f0906d0",
+            "reference": "473174da2cf503c60d4a9935b71acfc31f0906d0",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2015-05-23 17:33:30",
+        "type": "fuel-package",
+        "installation-source": "source",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Documenataion",
+        "homepage": "https://github.com/fuel/docs",
+        "support": {
+            "source": "https://github.com/fuel/docs/tree/1.7/master",
+            "issues": "https://github.com/fuel/docs/issues"
+        }
+    },
+    {
+        "name": "mustache/mustache",
+        "version": "v2.8.0",
+        "version_normalized": "2.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/64c28cc73e01d5edcef7de8cb2b16782615f648a",
+            "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "fabpot/php-cs-fixer": "~1.6",
+            "phpunit/phpunit": "~3.7|~4.0"
+        },
+        "time": "2015-04-01 06:37:33",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
         ]
     }
 ]

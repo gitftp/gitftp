@@ -1,20 +1,20 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Auth;
 
-
 class AuthException extends \FuelException {}
-
 
 /**
  * Auth
@@ -24,7 +24,6 @@ class AuthException extends \FuelException {}
  */
 class Auth
 {
-
 	/**
 	 * @var  Auth_Login_Driver	default instance
 	 */
@@ -57,9 +56,6 @@ class Auth
 	{
 		\Config::load('auth', true);
 
-		// Whether to allow multiple drivers of any type, defaults to not allowed
-		static::$_verify_multiple = \Config::get('auth.verify_multiple_logins', false);
-
 		foreach((array) \Config::get('auth.driver', array()) as $driver => $config)
 		{
 			$config = is_int($driver)
@@ -67,7 +63,8 @@ class Auth
 				: array_merge($config, array('driver' => $driver));
 			static::forge($config);
 		}
-		// set the first (or only) as the default instance for static usage
+
+		// Set the first (or only) as the default instance for static usage
 		if ( ! empty(static::$_instances))
 		{
 			static::$_instance = reset(static::$_instances);
@@ -114,6 +111,13 @@ class Auth
 		{
 			// store this instance
 			static::$_instances[$id] = $driver;
+		}
+
+		// If we have more then one driver instance, check if we need concurrency
+		if (count(static::$_instances) > 1)
+		{
+			// Whether to allow multiple drivers of any type, defaults to not allowed
+			static::$_verify_multiple = \Config::get('auth.verify_multiple_logins', false);
 		}
 
 		return static::$_instances[$id];
@@ -182,30 +186,41 @@ class Auth
 	public static function check($specific = null)
 	{
 		$drivers = $specific === null ? static::$_instances : (array) $specific;
+		$verified = static::$_verified;
+
+		if ($specific !== null)
+		{
+			$verified = array();
+			foreach ($drivers as $i)
+			{
+				$key = $i->get_id();
+				if (isset(static::$_verified[$key])) $verified[$key] = static::$_verified[$key];
+			}
+		}
 
 		foreach ($drivers as $i)
 		{
-			if ( ! static::$_verify_multiple && ! empty(static::$_verified))
+			if ( ! static::$_verify_multiple && ! empty($verified))
 			{
 				return true;
 			}
 
 			$i = $i instanceof Auth_Login_Driver ? $i : static::instance($i);
-			if ( ! array_key_exists($i->get_id(), static::$_verified))
+			if ( ! array_key_exists($i->get_id(), $verified))
 			{
 				$i->check();
 			}
 
 			if ($specific)
 			{
-				if (array_key_exists($i->get_id(), static::$_verified))
+				if (array_key_exists($i->get_id(), $verified))
 				{
 					return true;
 				}
 			}
 		}
 
-		return $specific === null && ! empty(static::$_verified);
+		return $specific === null && ! empty($verified);
 	}
 
 	/**
@@ -229,6 +244,35 @@ class Auth
 		}
 
 		return static::$_verified[$driver];
+	}
+
+	/**
+	 * Login user
+	 *
+	 * @param   string
+	 * @param   string
+	 * @return  bool
+	 */
+	public static function login($username_or_email = '', $password = '')
+	{
+		$loggedin = false;
+
+		foreach (static::$_instances as $i)
+		{
+			if ($i instanceof Auth_Login_Driver)
+			{
+				if ($i->login($username_or_email, $password))
+				{
+					$loggedin = true;
+					if ( ! static::$_verify_multiple)
+					{
+						break;
+					}
+				}
+			}
+		}
+
+		return $loggedin;
 	}
 
 	/**
@@ -304,7 +348,7 @@ class Auth
 	 */
 	public static function unregister_driver_type($type)
 	{
-		if (in_array('login', 'group', 'acl'))
+		if (in_array($type, array('login', 'group', 'acl')))
 		{
 			\Error::notice('Cannot remove driver type, included drivers login, group and acl cannot be removed.');
 			return false;
@@ -335,7 +379,7 @@ class Auth
 		}
 		if (static::$_verify_multiple !== true and method_exists(static::$_instance, $method))
 		{
-			return call_user_func_array(array(static::$_instance, $method), $args);
+			return call_fuel_func_array(array(static::$_instance, $method), $args);
 		}
 
 		throw new \BadMethodCallException('Invalid method: '.get_called_class().'::'.$method);
@@ -351,7 +395,7 @@ class Auth
 	 */
 	protected static function _driver_instance($type, $instance)
 	{
-		$class = 'Auth_'.ucfirst($type).'_Driver';
+		$class = 'Auth_'.\Str::ucwords($type).'_Driver';
 		return $class::instance($instance);
 	}
 

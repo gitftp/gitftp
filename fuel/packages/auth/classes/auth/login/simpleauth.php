@@ -1,21 +1,18 @@
 <?php
 /**
+ * Fuel
+ *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.5
+ * @version    1.7
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2013 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
 namespace Auth;
-
-
-class SimpleUserUpdateException extends \FuelException {}
-
-class SimpleUserWrongPassword extends \FuelException {}
 
 /**
  * SimpleAuth basic login driver
@@ -23,12 +20,28 @@ class SimpleUserWrongPassword extends \FuelException {}
  * @package     Fuel
  * @subpackage  Auth
  */
-class Auth_Login_SimpleAuth extends \Auth_Login_Driver
+class Auth_Login_Simpleauth extends \Auth_Login_Driver
 {
-
+	/**
+	 * Load the config and setup the remember-me session if needed
+	 */
 	public static function _init()
 	{
-		\Config::load('simpleauth', true, true, true);
+		\Config::load('simpleauth', true);
+
+		// setup the remember-me session object if needed
+		if (\Config::get('simpleauth.remember_me.enabled', false))
+		{
+			static::$remember_me = \Session::forge(array(
+				'driver' => 'cookie',
+				'cookie' => array(
+					'cookie_name' => \Config::get('simpleauth.remember_me.cookie_name', 'rmcookie'),
+				),
+				'encrypt_cookie' => true,
+				'expire_on_close' => false,
+				'expiration_time' => \Config::get('simpleauth.remember_me.expiration', 86400 * 31),
+			));
+		}
 	}
 
 	/**
@@ -44,14 +57,14 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 		'username' => 'guest',
 		'group' => '0',
 		'login_hash' => false,
-		'email' => false
+		'email' => false,
 	);
 
 	/**
 	 * @var  array  SimpleAuth class config
 	 */
 	protected $config = array(
-		'drivers' => array('group' => array('SimpleGroup')),
+		'drivers' => array('group' => array('Simplegroup')),
 		'additional_fields' => array('profile_fields'),
 	);
 
@@ -62,6 +75,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 	 */
 	protected function perform_check()
 	{
+		// fetch the username and login hash from the session
 		$username    = \Session::get('username');
 		$login_hash  = \Session::get('login_hash');
 
@@ -76,11 +90,17 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 					->execute(\Config::get('simpleauth.db_connection'))->current();
 			}
 
-			// return true when login was verified
-			if ($this->user and $this->user['login_hash'] === $login_hash)
+			// return true when login was verified, and either the hash matches or multiple logins are allowed
+			if ($this->user and (\Config::get('simpleauth.multiple_logins', false) or $this->user['login_hash'] === $login_hash))
 			{
 				return true;
 			}
+		}
+
+		// not logged in, do we have remember-me active and a stored user_id?
+		elseif (static::$remember_me and $user_id = static::$remember_me->get('user_id', null))
+		{
+			return $this->force_login($user_id);
 		}
 
 		// no valid login when still here, ensure empty session and optionally set guest_login
@@ -92,7 +112,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 	}
 
 	/**
-	 * Check the user exists before logging in
+	 * Check the user exists
 	 *
 	 * @return  bool
 	 */
@@ -107,7 +127,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 		}
 
 		$password = $this->hash_password($password);
-		$this->user = \DB::select_array(\Config::get('simpleauth.table_columns', array('*')))
+		$user = \DB::select_array(\Config::get('simpleauth.table_columns', array('*')))
 			->where_open()
 			->where('username', '=', $username_or_email)
 			->or_where('email', '=', $username_or_email)
@@ -116,7 +136,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 			->from(\Config::get('simpleauth.table_name'))
 			->execute(\Config::get('simpleauth.db_connection'))->current();
 
-		return $this->user ?: false;
+		return $user ?: false;
 	}
 
 	/**
@@ -176,6 +196,13 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 
 		\Session::set('username', $this->user['username']);
 		\Session::set('login_hash', $this->create_login_hash());
+
+		// and rotate the session id, we've elevated rights
+		\Session::instance()->rotate();
+
+		// register so Auth::logout() can find us
+		Auth::_register_verified($this);
+
 		return true;
 	}
 
@@ -238,7 +265,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 			'profile_fields'  => serialize($profile_fields),
 			'last_login'      => 0,
 			'login_hash'      => '',
-			'created_at'      => \Date::forge()->get_timestamp()
+			'created_at'      => \Date::forge()->get_timestamp(),
 		);
 		$result = \DB::insert(\Config::get('simpleauth.table_name'))
 			->set($user)
@@ -300,6 +327,15 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 			{
 				throw new \SimpleUserUpdateException('Email address is not valid', 7);
 			}
+			$matches = \DB::select()
+				->where('email', '=', $email)
+				->where('id', '!=', $current_values[0]['id'])
+				->from(\Config::get('simpleauth.table_name'))
+				->execute(\Config::get('simpleauth.db_connection'));
+			if (count($matches))
+			{
+				throw new \SimpleUserUpdateException('Email address is already in use', 11);
+			}
 			$update['email'] = $email;
 			unset($values['email']);
 		}
@@ -327,6 +363,8 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 			}
 			$update['profile_fields'] = serialize($profile_fields);
 		}
+
+		$update['updated_at'] = \Date::forge()->get_timestamp();
 
 		$affected_rows = \DB::update(\Config::get('simpleauth.table_name'))
 			->set($update)
@@ -463,7 +501,29 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 			return false;
 		}
 
-		return array(array('SimpleGroup', $this->user['group']));
+		return array(array('Simplegroup', $this->user['group']));
+	}
+
+	/**
+	 * Getter for user data
+	 *
+	 * @param  string  name of the user field to return
+	 * @param  mixed  value to return if the field requested does not exist
+	 *
+	 * @return  mixed
+	 */
+	public function get($field, $default = null)
+	{
+		if (isset($this->user[$field]))
+		{
+			return $this->user[$field];
+		}
+		elseif (isset($this->user['profile_fields']))
+		{
+			return $this->get_profile_fields($field, $default);
+		}
+
+		return $default;
 	}
 
 	/**
@@ -473,12 +533,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 	 */
 	public function get_email()
 	{
-		if (empty($this->user))
-		{
-			return false;
-		}
-
-		return $this->user['email'];
+		return $this->get('email', false);
 	}
 
 	/**
@@ -510,7 +565,7 @@ class Auth_Login_SimpleAuth extends \Auth_Login_Driver
 
 		if (isset($this->user['profile_fields']))
 		{
-			is_array($this->user['profile_fields']) or $this->user['profile_fields'] = @unserialize($this->user['profile_fields']);
+			is_array($this->user['profile_fields']) or $this->user['profile_fields'] = (@unserialize($this->user['profile_fields']) ?: array());
 		}
 		else
 		{

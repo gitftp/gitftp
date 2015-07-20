@@ -1,7 +1,5 @@
 <?php
 /**
- * Fuel
- *
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
@@ -45,17 +43,14 @@ return array(
 	'table_columns' => array('*'),
 
 	/**
+	 * prefix to use for the cache
+	 */
+	'cache_prefix' => 'auth',
+
+	/**
 	 * This will allow you to use the group & acl driver for non-logged in users
 	 */
 	'guest_login' => true,
-
-	/**
-	 * This will allow the same user to be logged in multiple times.
-	 *
-	 * Note that this is less secure, as session hijacking countermeasures have to
-	 * be disabled for this to work!
-	 */
-	'multiple_logins' => false,
 
 	/**
 	 * Remember-me functionality
@@ -78,44 +73,12 @@ return array(
 	),
 
 	/**
-	 * Groups as id => array(name => <string>, roles => <array>)
+	 * This will allow the same user to be logged in multiple times.
+	 *
+	 * Note that this is less secure, as session hijacking countermeasures have to
+	 * be disabled for this to work!
 	 */
-	'groups' => array(
-		/**
-		 * Examples
-		 * ---
-		 *
-		 * -1   => array('name' => 'Banned', 'roles' => array('banned')),
-		 * 0    => array('name' => 'Guests', 'roles' => array()),
-		 * 1    => array('name' => 'Users', 'roles' => array('user')),
-		 * 50   => array('name' => 'Moderators', 'roles' => array('user', 'moderator')),
-		 * 100  => array('name' => 'Administrators', 'roles' => array('user', 'moderator', 'admin')),
-		 */
-	),
-
-	/**
-	 * Roles as name => array(location => rights)
-	 */
-	'roles' => array(
-		/**
-		 * Examples
-		 * ---
-		 *
-		 * Regular example with role "user" given create & read rights on "comments":
-		 *   'user'  => array('comments' => array('create', 'read')),
-		 * And similar additional rights for moderators:
-		 *   'moderator'  => array('comments' => array('update', 'delete')),
-		 *
-		 * Wildcard # role (auto assigned to all groups):
-		 *   '#'  => array('website' => array('read'))
-		 *
-		 * Global disallow by assigning false to a role:
-		 *   'banned' => false,
-		 *
-		 * Global allow by assigning true to a role (use with care!):
-		 *   'super' => true,
-		 */
-	),
+	'multiple_logins' => false,
 
 	/**
 	 * Salt for the login hash

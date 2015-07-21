@@ -94,6 +94,8 @@ return array(
 	 */
 	// 'server_gmt_offset'  => 0,
 	// 'default_timezone'   => null,
+    'server_gmt_offset' => 'UTC+5:30',
+    'default_timezone' => 'Asia/Calcutta',
 
 	/**
 	 * Logging Threshold.  Can be set to any of the following:

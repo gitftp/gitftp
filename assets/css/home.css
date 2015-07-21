@@ -1,0 +1,290 @@
+@import url('home/style.css');
+@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
+::selection {
+  background: #aaa;
+  color: white;
+}
+.red {
+  color: #ff5a5a;
+}
+.white-c {
+  color: white !important;
+}
+.white-c * {
+  color: white !important;
+}
+.red-bg {
+  background: #ff5a5a;
+}
+.gray {
+  color: #aaaaaa;
+}
+.blue {
+  color: #0091ea;
+}
+.blue-bg {
+  background: #0091ea;
+}
+.base {
+  color: #0091ea;
+}
+.base-bg {
+  background: #0091ea;
+}
+.green {
+  color: #00c853;
+}
+.green-bg {
+  background: #00c853;
+}
+.orange {
+  color: #f7941d;
+}
+.orange-bg {
+  background: #f7941d;
+}
+.darkblue {
+  color: #4173b9;
+}
+.darkblue-bg {
+  background: #4173b9;
+}
+.redalt {
+  color: #ef4036;
+}
+.redalt-bg {
+  background: #ef4036;
+}
+.space5 {
+  height: 5px;
+}
+.space10 {
+  height: 10px;
+}
+.space15 {
+  height: 15px;
+}
+.space20 {
+  height: 20px;
+}
+label.error {
+  font-weight: 100;
+  font-size: 12px;
+  color: red;
+}
+.shadow {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.shadow-x2 {
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098), 0 1px 10px 0 rgba(0, 0, 0, 0.084);
+}
+.shadow-x3 {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
+}
+.shadow-x4 {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
+}
+.shadow-x5 {
+  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.14), 0 16px 24px 2px rgba(0, 0, 0, 0.098), 0 6px 30px 5px rgba(0, 0, 0, 0.084);
+}
+.dropdown .open > a,
+.dropdown-toggle .open > a,
+.bootstrap-select .open > a {
+  background-color: white !important;
+  color: #0091ea !important;
+}
+.dropdown .open .divider,
+.dropdown-toggle .open .divider,
+.bootstrap-select .open .divider {
+  background-color: #f5f5f5;
+}
+.dropdown .dropdown-menu,
+.dropdown-toggle .dropdown-menu,
+.bootstrap-select .dropdown-menu {
+  border: none;
+  background: white;
+  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098), 0 1px 10px 0 rgba(0, 0, 0, 0.084);
+}
+.dropdown .dropdown-menu.dropdown-menu-material,
+.dropdown-toggle .dropdown-menu.dropdown-menu-material,
+.bootstrap-select .dropdown-menu.dropdown-menu-material {
+  top: 0px;
+}
+.dropdown .dropdown-menu.dropdown-menu-material a,
+.dropdown-toggle .dropdown-menu.dropdown-menu-material a,
+.bootstrap-select .dropdown-menu.dropdown-menu-material a {
+  font-weight: 500;
+  padding: 4px 25px 4px 20px;
+}
+.mono {
+  font-family: consolas;
+}
+.fa {
+  line-height: inherit;
+}
+a.btn {
+  padding: 9px 10px 7px;
+  line-height: 12px;
+}
+.btn {
+  background-image: none;
+  border: solid 1px;
+  border-radius: 4px;
+  transition: all .4s;
+  text-transform: uppercase;
+  font-weight: bold;
+  border-color: transparent;
+}
+.btn:focus {
+  outline: none !important;
+}
+.btn:hover {
+  box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+  border-color: transparent;
+}
+.btn:active {
+  box-shadow: none;
+}
+.btn:disabled {
+  border-color: transparent;
+}
+.btn.btn-default {
+  background-color: white;
+  color: #555;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.btn.btn-default.btn-gitftp {
+  color: #0091ea;
+}
+.btn.btn-default:hover,
+.btn.btn-default:focus,
+.btn.btn-default:active {
+  background-image: none;
+  background-color: #f6f6f6;
+}
+.btn.btn-success {
+  background: #00c853;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.btn.btn-success:hover,
+.btn.btn-success:focus,
+.btn.btn-success:active {
+  background: #00af48;
+}
+.btn.btn-link:hover {
+  text-decoration: none;
+}
+.btn.btn-danger {
+  background-color: #ff5a5a;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.btn.btn-warning {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.btn.btn-info {
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.btn.btn-clean {
+  background: none;
+  box-shadow: none;
+}
+.btn.btn-clean:hover,
+.btn.btn-clean:focus,
+.btn.btn-clean:active {
+  background: none;
+  box-shadow: none;
+}
+.btn.btn-circle {
+  border-radius: 100%;
+  padding: 9px 11px 7px 10px;
+}
+.btn.btn-circle.btn-circle-lg {
+  padding: 15px 17px 13px 16px;
+  font-size: 16px;
+}
+.jconfirm.supervan .jconfirm-bg {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.jconfirm.supervan .jconfirm-box {
+  background-color: transparent;
+}
+.jconfirm.supervan .jconfirm-box div.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: normal;
+}
+.jconfirm.supervan .jconfirm-box div.content {
+  text-align: center;
+}
+.jconfirm.supervan .jconfirm-box .buttons {
+  text-align: center;
+}
+.jconfirm.supervan .jconfirm-box .buttons button {
+  font-size: 16px;
+  border-radius: 2px;
+  background: #0088db;
+  text-shadow: none;
+  border: none;
+  color: white;
+  width: 25%;
+  padding: 10px;
+}
+.jconfirm.supervan .jconfirm-box .buttons button:hover {
+  background: #007ecb;
+}
+.jconfirm.supervan .jconfirm-box.hilight {
+  box-shadow: none;
+  transform: scale(0.9);
+}
+.checkbox.gf-checkbox input {
+  display: none;
+}
+.checkbox.gf-checkbox label {
+  background: url('../img/checkboxBtn.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  padding-left: 30px;
+  background-position: 0px 0px;
+  line-height: 21px;
+}
+.checkbox.gf-checkbox input:checked + label {
+  background-position: 0px -20px;
+}
+.panel {
+  border: none;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.panel .panel-body.panel-body-material {
+  padding: 20px 25px;
+}
+.panel .panel-body .panel-title {
+  font-size: 18px;
+  text-transform: capitalize;
+}
+input,
+select {
+  border: none;
+  border-bottom: solid 2px #cfd8dc;
+  box-shadow: none;
+  border-radius: 0px;
+  padding-left: 0px;
+  background: transparent;
+}
+input:focus,
+select:focus,
+input:active,
+select:active {
+  border-bottom-color: #0091ea;
+  box-shadow: none;
+  outline: none;
+}
+input[disabled],
+select[disabled],
+input[readonly],
+select[readonly] {
+  border-bottom: dotted 2px #cfd8dc;
+}
+input.error,
+select.error {
+  border-bottom-color: #ff5a5a;
+}

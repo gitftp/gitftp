@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Api_Records extends Controller_Apilogincheck {
+class Controller_Api_Records extends Controller_Api_Apilogincheck {
 
     public function action_index() {
 

@@ -1,15 +1,4 @@
 @import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
-/* ==========================================================================
-    www.gitftp.com
-    Git deploy automation software
-   ========================================================================== */
-body {
-  font-family: 'Roboto', sans-serif;
-  background-color: #f5f5f5;
-  color: #555;
-  overflow-y: scroll;
-  box-shadow: inset 0px 2px #0091ea;
-}
 ::-moz-selection {
   background: #aaa;
   color: white;
@@ -69,10 +58,6 @@ body {
 .redalt-bg {
   background: #ef4036;
 }
-a:hover {
-  text-decoration: none !important;
-  cursor: pointer;
-}
 .space5 {
   height: 5px;
 }
@@ -90,17 +75,6 @@ label.error {
   font-size: 12px;
   color: red;
 }
-.jconfirm.git .jconfirm-bg {
-  background-color: rgba(0, 0, 0, 0.1) !important;
-}
-.jconfirm.git .jconfirm-box {
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
-}
-.jconfirm.git .jconfirm-box div.title {
-  font-weight: normal;
-  font-size: 22px;
-  font-weight: 500;
-}
 .shadow {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
 }
@@ -115,37 +89,6 @@ label.error {
 }
 .shadow-x5 {
   box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.14), 0 16px 24px 2px rgba(0, 0, 0, 0.098), 0 6px 30px 5px rgba(0, 0, 0, 0.084);
-}
-.navbar-default {
-  border-bottom: solid 2px #f5f5f5 !important;
-  background: #0091ea;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
-}
-.navbar-default .navbar-nav a {
-  font-weight: 500;
-}
-.navbar-default .navbar-nav > li > a {
-  -webkit-transition: all .4s;
-          transition: all .4s;
-  color: white !important;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-.navbar-default .navbar-nav li.active a {
-  background-image: none !important;
-  background-color: #0091ea !important;
-  box-shadow: 0 2px #0277bd;
-}
-.navbar-default .navbar-nav .dropdown-menu {
-  border: none;
-  background: white;
-}
-.navbar-default .navbar-nav .dropdown.open > a {
-  background-color: white !important;
-  color: #0091ea !important;
-}
-.navbar-default .navbar-nav .dropdown.open .divider {
-  background-color: #f5f5f5;
 }
 .dropdown .open > a,
 .dropdown-toggle .open > a,
@@ -176,33 +119,8 @@ label.error {
   font-weight: 500;
   padding: 4px 25px 4px 20px;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-weight: normal;
-}
 .mono {
   font-family: consolas;
-}
-.page-head {
-  padding: 20px 0 12px;
-}
-.page-head .head {
-  font-size: 24px;
-  font-weight: bold;
-}
-.page-head .subhead {
-  font-size: 14px;
-  margin-top: 5px;
-}
-.page-head .subhead:empty {
-  display: none;
-}
-.head-body-divider {
-  height: 10px;
 }
 .fa {
   line-height: inherit;
@@ -287,6 +205,176 @@ a.btn {
 .btn.btn-circle.btn-circle-lg {
   padding: 15px 17px 13px 16px;
   font-size: 16px;
+}
+.jconfirm.supervan .jconfirm-bg {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.jconfirm.supervan .jconfirm-box {
+  background-color: transparent;
+}
+.jconfirm.supervan .jconfirm-box div.title {
+  text-align: center;
+  font-size: 28px;
+  font-weight: normal;
+}
+.jconfirm.supervan .jconfirm-box div.content {
+  text-align: center;
+}
+.jconfirm.supervan .jconfirm-box .buttons {
+  text-align: center;
+}
+.jconfirm.supervan .jconfirm-box .buttons button {
+  font-size: 16px;
+  border-radius: 2px;
+  background: #0088db;
+  text-shadow: none;
+  border: none;
+  color: white;
+  width: 25%;
+  padding: 10px;
+}
+.jconfirm.supervan .jconfirm-box .buttons button:hover {
+  background: #007ecb;
+}
+.jconfirm.supervan .jconfirm-box.hilight {
+  box-shadow: none;
+  -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+          transform: scale(0.9);
+}
+.checkbox.gf-checkbox input {
+  display: none;
+}
+.checkbox.gf-checkbox label {
+  background: url('../img/checkboxBtn.png');
+  background-size: 20px;
+  background-repeat: no-repeat;
+  padding-left: 30px;
+  background-position: 0px 0px;
+  line-height: 21px;
+}
+.checkbox.gf-checkbox input:checked + label {
+  background-position: 0px -20px;
+}
+.panel {
+  border: none;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.panel .panel-body.panel-body-material {
+  padding: 20px 25px;
+}
+.panel .panel-body .panel-title {
+  font-size: 18px;
+  text-transform: capitalize;
+}
+input,
+select {
+  border: none;
+  border-bottom: solid 2px #cfd8dc;
+  box-shadow: none;
+  border-radius: 0px;
+  padding-left: 0px;
+  background: transparent;
+}
+input:focus,
+select:focus,
+input:active,
+select:active {
+  border-bottom-color: #0091ea;
+  box-shadow: none;
+  outline: none;
+}
+input[disabled],
+select[disabled],
+input[readonly],
+select[readonly] {
+  border-bottom: dotted 2px #cfd8dc;
+}
+input.error,
+select.error {
+  border-bottom-color: #ff5a5a;
+}
+/* ==========================================================================
+    www.gitftp.com
+    Git deploy automation software
+   ========================================================================== */
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  color: #555;
+  overflow-y: scroll;
+  box-shadow: inset 0px 2px #0091ea;
+}
+a:hover {
+  text-decoration: none !important;
+  cursor: pointer;
+}
+.jconfirm.git .jconfirm-bg {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}
+.jconfirm.git .jconfirm-box {
+  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
+}
+.jconfirm.git .jconfirm-box div.title {
+  font-weight: normal;
+  font-size: 22px;
+  font-weight: 500;
+}
+.navbar-default {
+  border-bottom: solid 2px #f5f5f5 !important;
+  background: #0091ea;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
+}
+.navbar-default .navbar-nav a {
+  font-weight: 500;
+}
+.navbar-default .navbar-nav > li > a {
+  -webkit-transition: all .4s;
+          transition: all .4s;
+  color: white !important;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+.navbar-default .navbar-nav li.active a {
+  background-image: none !important;
+  background-color: #0091ea !important;
+  box-shadow: 0 2px #0277bd;
+}
+.navbar-default .navbar-nav .dropdown-menu {
+  border: none;
+  background: white;
+}
+.navbar-default .navbar-nav .dropdown.open > a {
+  background-color: white !important;
+  color: #0091ea !important;
+}
+.navbar-default .navbar-nav .dropdown.open .divider {
+  background-color: #f5f5f5;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+}
+.page-head {
+  padding: 20px 0 12px;
+}
+.page-head .head {
+  font-size: 24px;
+  font-weight: bold;
+}
+.page-head .subhead {
+  font-size: 14px;
+  margin-top: 5px;
+}
+.page-head .subhead:empty {
+  display: none;
+}
+.head-body-divider {
+  height: 10px;
 }
 .viewdeploy,
 .ftp-servers-list {
@@ -549,42 +637,6 @@ a.btn {
   background: white;
   border-radius: 4px;
 }
-.jconfirm.supervan .jconfirm-bg {
-  background-color: rgba(255, 255, 255, 0.8);
-}
-.jconfirm.supervan .jconfirm-box {
-  background-color: transparent;
-}
-.jconfirm.supervan .jconfirm-box div.title {
-  text-align: center;
-  font-size: 28px;
-  font-weight: normal;
-}
-.jconfirm.supervan .jconfirm-box div.content {
-  text-align: center;
-}
-.jconfirm.supervan .jconfirm-box .buttons {
-  text-align: center;
-}
-.jconfirm.supervan .jconfirm-box .buttons button {
-  font-size: 16px;
-  border-radius: 2px;
-  background: #0088db;
-  text-shadow: none;
-  border: none;
-  color: white;
-  width: 25%;
-  padding: 10px;
-}
-.jconfirm.supervan .jconfirm-box .buttons button:hover {
-  background: #007ecb;
-}
-.jconfirm.supervan .jconfirm-box.hilight {
-  box-shadow: none;
-  -webkit-transform: scale(0.9);
-      -ms-transform: scale(0.9);
-          transform: scale(0.9);
-}
 .project-branches-env .project-branch {
   margin-bottom: 15px;
   border-radius: 4px;
@@ -699,20 +751,6 @@ a.btn {
   box-shadow: none !important;
   outline: none;
 }
-.checkbox.gf-checkbox input {
-  display: none;
-}
-.checkbox.gf-checkbox label {
-  background: url('../img/checkboxBtn.png');
-  background-size: 20px;
-  background-repeat: no-repeat;
-  padding-left: 30px;
-  background-position: 0px 0px;
-  line-height: 21px;
-}
-.checkbox.gf-checkbox input:checked + label {
-  background-position: 0px -20px;
-}
 .project-settings-info table {
   width: 100%;
 }
@@ -777,17 +815,6 @@ a.btn {
 }
 .projectview-siderbar a:focus {
   background: white;
-}
-.panel {
-  border: none;
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);
-}
-.panel .panel-body.panel-body-material {
-  padding: 20px 25px;
-}
-.panel .panel-body .panel-title {
-  font-size: 18px;
-  text-transform: capitalize;
 }
 .ast {
   font-family: Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -909,33 +936,6 @@ a.btn {
 .add-deploy-container .env-div:hover .project-add-remove-env {
   visibility: visible;
   opacity: 1;
-}
-input,
-select {
-  border: none;
-  border-bottom: solid 2px #cfd8dc;
-  box-shadow: none;
-  border-radius: 0px;
-  padding-left: 0px;
-  background: transparent;
-}
-input:focus,
-select:focus,
-input:active,
-select:active {
-  border-bottom-color: #0091ea;
-  box-shadow: none;
-  outline: none;
-}
-input[disabled],
-select[disabled],
-input[readonly],
-select[readonly] {
-  border-bottom: dotted 2px #cfd8dc;
-}
-input.error,
-select.error {
-  border-bottom-color: #ff5a5a;
 }
 .bootstrap-select .btn {
   background: transparent;

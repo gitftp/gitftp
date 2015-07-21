@@ -20,7 +20,8 @@ class Controller_Test extends Controller {
         Gfcore::deploy_in_bg('30');
     }
     public function get_test(){
-        
+        $a = DB::select()->from('deploy')->execute()->as_array();
+        print_r($a);
     }
     public function get_test2(){
         $files = array(

@@ -1,6 +1,7 @@
-<?php echo View::forge('layout/dash_nav'); ?>
-
-<div style="height: 50px;"></div>
+<?php echo View::forge('dash/dash_nav'); ?>
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space10"></div>
 <div class="container">
     <div class="row">
         <div class="col-md-12">

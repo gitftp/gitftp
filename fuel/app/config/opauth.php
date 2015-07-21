@@ -35,7 +35,7 @@ return array(
      * local user account with a random password, if a nickname and an
      * email address is present
      */
-    'auto_registration'       => FALSE,
+    'auto_registration'       => TRUE,
 
     /**
      * default_group

@@ -1,33 +1,11 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
+@import url('common.less');
 
-//@import url(http://fonts.googleapis.com/css?family=Lato);
 /* ==========================================================================
     www.gitftp.com
     Git deploy automation software
    ========================================================================== */
-@red: #EF3D3D;
-@red: #FF5A5A;
-//@blue: #62C7F2;
-@blue: #0091EA;
-@blue_light: #00B0FF;
-@blue_dark: #0277BD;
-@base: @blue;
-//@green: #66BD61;
-@green: #00C853;
-@orange: #F7941D;
-@darkblue: #4173B9;
-@redalt: #EF4036;
-@gray: #aaaaaa;
-//@bg: #ecf0f1;
-//@bg: #f9f9f9;
-@bg: #F5F5F5;
-@border_color: #CFD8DC;
 
 body {
-  //  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
-  //  font-family: 'Lato', sans-serif;
-  //  background-color: #fff;
-  //  background-color: #FCFCFC;
   font-family: 'Roboto', sans-serif;
   background-color: @bg;
   color: #555;
@@ -35,105 +13,11 @@ body {
   box-shadow: inset 0px 2px @base;
 }
 
-::selection {
-  background: #aaa;
-  color: white;
-}
-
-.red {
-  color: @red;
-}
-
-.white-c {
-  color: white !important;
-  * {
-    color: white !important;
-  }
-}
-
-.red-bg {
-  background: @red;
-}
-
-.gray {
-  color: @gray;
-}
-
-.blue {
-  color: @blue;
-}
-
-.blue-bg {
-  background: @blue;
-}
-
-.base {
-  color: @base;
-}
-
-.base-bg {
-  background: @base;
-}
-
-.green {
-  color: @green;
-}
-
-.green-bg {
-  background: @green;
-}
-
-.orange {
-  color: @orange;
-}
-
-.orange-bg {
-  background: @orange;
-}
-
-.darkblue {
-  color: @darkblue;
-}
-
-.darkblue-bg {
-  background: @darkblue;
-}
-
-.redalt {
-  color: @redalt;
-}
-
-.redalt-bg {
-  background: @redalt;
-}
-
 a {
   &:hover {
     text-decoration: none !important;
     cursor: pointer;
   }
-}
-
-.space5 {
-  height: 5px;
-}
-
-.space10 {
-  height: 10px;
-}
-
-.space15 {
-  height: 15px;
-}
-
-.space20 {
-  height: 20px;
-}
-
-label.error {
-  font-weight: 100;
-  font-size: 12px;
-  color: red;
 }
 
 .jconfirm {
@@ -167,26 +51,6 @@ label.error {
     }
 
   }
-}
-
-.shadow {
-  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .14), 0 2px 2px 0 rgba(0, 0, 0, .098), 0 1px 5px 0 rgba(0, 0, 0, .084);
-}
-
-.shadow-x2 {
-  box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .14), 0 4px 5px 0 rgba(0, 0, 0, .098), 0 1px 10px 0 rgba(0, 0, 0, .084);
-}
-
-.shadow-x3 {
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .14), 0 6px 10px 0 rgba(0, 0, 0, .098), 0 1px 18px 0 rgba(0, 0, 0, .084);
-}
-
-.shadow-x4 {
-  box-shadow: 0 3px 5px -1px rgba(0, 0, 0, .14), 0 6px 10px 0 rgba(0, 0, 0, .098), 0 1px 18px 0 rgba(0, 0, 0, .084);
-}
-
-.shadow-x5 {
-  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, .14), 0 16px 24px 2px rgba(0, 0, 0, .098), 0 6px 30px 5px rgba(0, 0, 0, .084);
 }
 
 .navbar-default {
@@ -227,40 +91,9 @@ label.error {
   }
 }
 
-.dropdown, .dropdown-toggle, .bootstrap-select {
-  .open {
-    > a {
-      background-color: white !important;
-      color: @base !important;
-    }
-    a:hover {
-    }
-    .divider {
-      background-color: @bg;
-    }
-
-  }
-  .dropdown-menu {
-    border: none;
-    background: white;
-    .shadow-x2;
-
-    &.dropdown-menu-material {
-      top: 0px;
-      a {
-        font-weight: 500;
-        padding: 4px 25px 4px 20px;
-      }
-    }
-  }
-}
 
 h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
-}
-
-.mono {
-  font-family: consolas;
 }
 
 .page-head {
@@ -281,110 +114,6 @@ h1, h2, h3, h4, h5, h6 {
 
 .head-body-divider {
   .space10;
-}
-
-.fa {
-  line-height: inherit;
-}
-
-a.btn {
-  padding: 9px 10px 7px;
-  line-height: 12px;
-}
-
-.btn {
-  background-image: none;
-  border: solid 1px;
-  border-radius: 4px;
-  transition: all .4s;
-  text-transform: uppercase;
-  font-weight: bold;
-  border-color: transparent;
-
-  &:focus {
-    outline: none !important;
-  }
-  &:hover {
-    box-shadow: 0 2px 2px rgba(0, 0, 0, .2);
-    border-color: transparent;
-  }
-  &:active {
-    box-shadow: none;
-  }
-  &:disabled {
-    border-color: transparent;
-  }
-
-  &.btn-default {
-    background-color: white;
-    color: #555;
-    .shadow;
-
-    &.btn-gitftp {
-      color: @base;
-    }
-
-    &:hover, &:focus, &:active {
-      background-image: none;
-      background-color: lighten(#eee, 3%);
-    }
-  }
-
-  // success
-  &.btn-success {
-    background: @green;
-    .shadow;
-
-    &:hover, &:focus, &:active {
-      background: darken(@green, 5%);
-    }
-  }
-
-  // link
-  &.btn-link {
-
-    &:hover {
-      text-decoration: none;
-    }
-  }
-
-  // danger
-  &.btn-danger {
-    background-color: @red;
-    .shadow;
-  }
-
-  // warning
-  &.btn-warning {
-    .shadow;
-  }
-
-  // info
-  &.btn-info {
-    .shadow;
-  }
-
-  // clean
-  &.btn-clean {
-    background: none;
-    box-shadow: none;
-
-    &:hover, &:focus, &:active {
-      background: none;
-      box-shadow: none;
-    }
-
-  }
-
-  &.btn-circle {
-    border-radius: 100%;
-    padding: 9px 11px 7px 10px;
-    &.btn-circle-lg {
-      padding: 15px 17px 13px 16px;
-      font-size: 16px;
-    }
-  }
-
 }
 
 .viewdeploy, .ftp-servers-list {
@@ -439,8 +168,6 @@ a.btn {
   position: relative;
 }
 
-@loading: #01b5e9;
-@loadingg: #4cd964;
 
 .bb-loading:empty:before {
   height: 60px;
@@ -593,66 +320,6 @@ a.btn {
   border-radius: 4px;
 }
 
-.jconfirm.supervan {
-
-  .jconfirm-bg {
-    //    background-color: rgba(238, 238, 238, 0.80);
-    background-color: rgba(255, 255, 255, 0.80);
-  }
-
-  .jconfirm-box {
-    background-color: transparent;
-
-    div.closeIcon {
-
-    }
-    div.title {
-      text-align: center;
-      //      color: white;
-      font-size: 28px;
-      font-weight: normal;
-    }
-    div.content {
-      text-align: center;
-      //      color: white;
-
-      &:empty {
-        &:before {
-
-        }
-        &:after {
-
-        }
-      }
-    }
-    .buttons {
-      text-align: center;
-
-      button {
-        font-size: 16px;
-        border-radius: 2px;
-        background: darken(@base, 3%);
-        text-shadow: none;
-        border: none;
-        color: white;
-        width: 25%;
-        padding: 10px;
-
-        &:hover {
-          background: darken(@base, 6%);
-        }
-      }
-      button + button {
-
-      }
-    }
-    &.hilight {
-      box-shadow: none;
-      transform: scale(0.9);
-    }
-  }
-}
-
 .project-branches-env {
   .project-branch {
     margin-bottom: 15px;
@@ -791,23 +458,6 @@ a.btn {
   }
 }
 
-.checkbox.gf-checkbox {
-  input {
-    display: none;
-  }
-  label {
-    background: url('../img/checkboxBtn.png');
-    background-size: 20px;
-    background-repeat: no-repeat;
-    padding-left: 30px;
-    background-position: 0px 0px;
-    line-height: 21px;
-  }
-  input:checked + label {
-    background-position: 0px -20px;
-  }
-}
-
 .project-settings-info {
   table {
     width: 100%;
@@ -888,21 +538,6 @@ a.btn {
   }
   a:focus {
     background: white;
-  }
-}
-
-// panel
-.panel {
-  border: none;
-  .shadow;
-  .panel-body {
-    &.panel-body-material {
-      padding: 20px 25px;
-    }
-    .panel-title {
-      font-size: 18px;
-      text-transform: capitalize;
-    }
   }
 }
 
@@ -1038,28 +673,6 @@ a.btn {
         opacity: 1;
       }
     }
-  }
-}
-
-input, select {
-  //  border: solid 2px #eee !important;
-  border: none;
-  border-bottom: solid 2px @border_color;
-  box-shadow: none;
-  border-radius: 0px;
-  padding-left: 0px;
-  background: transparent;
-
-  &:focus, &:active {
-    border-bottom-color: @blue;
-    box-shadow: none;
-    outline: none;
-  }
-  &[disabled], &[readonly] {
-    border-bottom: dotted 2px @border_color;
-  }
-  &.error {
-    border-bottom-color: @red;
   }
 }
 

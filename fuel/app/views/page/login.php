@@ -28,6 +28,8 @@
                     <button type="submit" class="btn btn-primary btn-block btn-lg">
                         <i class="fa fa-lock fa-fw" style=""></i> Login
                     </button>
+
+                    <a href="<?php echo home_url.'api/user/oauth/github'; ?>">github ?</a>
                 </form>
             </div>
         </div>

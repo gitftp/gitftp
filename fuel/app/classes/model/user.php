@@ -1,5 +1,6 @@
 <?php
-
+// not used.
+// todo : delete
 class Model_User extends Model {
     private $table = 'users';
     public $user_id;
@@ -55,6 +56,10 @@ class Model_User extends Model {
 
     public function setProperty() {
         // todo : we are here
+    }
+
+    public function check(){
+        return \Auth::instance()->check();
     }
 }
 

@@ -74,10 +74,23 @@ class Controller_Api_User extends Controller {
 
     public function action_login() {
         try {
-            if (!\Auth::instance()->check()) {
-
+            $i = Input::post();
+            \Auth::instance()->logout();
+            if (\Auth::instance()->check()) {
+                $response = array(
+                    'status'   => TRUE,
+                    'redirect' => dash_url,
+                );
             } else {
-
+                $a = \Auth::instance()->login($i['email'], $i['password']);
+                if ($a) {
+                    $response = array(
+                        'status' => TRUE,
+                        'redirect' => dash_url,
+                    );
+                } else {
+                    throw new Exception('The username & password did not match.');
+                }
             }
         } catch (Exception $e) {
             $response = array(
@@ -88,4 +101,6 @@ class Controller_Api_User extends Controller {
 
         echo json_encode($response);
     }
+
+
 }

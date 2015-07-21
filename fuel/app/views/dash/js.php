@@ -6,9 +6,11 @@ echo Asset::js(array(
     'vendor/bootstrap.min.js',
     'vendor/jquery-confirm.min.js',
     'vendor/jquery.noty.packaged.min.js',
+    'vendor/moment.js',
+    'vendor/jquery.validation.js',
     'vendor/selectivity-full.js',
     'vendor/backbone.js',
     'main.js',
-    ));
+));
 ?>
-<script data-main="<?php echo Uri::base(false); ?>assets/js/dashboard/main" src="<?php echo Uri::base(false); ?>assets/js/vendor/require.js"></script>
+<script data-main="<?php echo Uri::base(FALSE); ?>assets/js/dashboard/main" src="<?php echo Uri::base(FALSE); ?>assets/js/vendor/require.js"></script>

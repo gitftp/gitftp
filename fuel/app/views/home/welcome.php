@@ -10,9 +10,9 @@
                         <i class="fa fa-git-square"></i> AUTO DEPLOYMENT SIMPLIFIED.
                     </p>
 
-<!--                    <div class="space"></div>-->
+                    <!--                    <div class="space"></div>-->
                     <p>
-                        <a class="btn btn-punch btn-info btn-md btn-darker" role="button">Get started for FREE</a>
+                        <a href="<?php echo home_url . 'login'; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Get started for FREE</a>
                     </p>
                 </div>
             </div>

@@ -12,6 +12,7 @@
         sticky_header($(this));
         bs_tooltip($(this));
         isotope_go($(this));
+        app.init();
     });
     jQuery(window).load(function () {
         site_loader($(this));
@@ -241,4 +242,81 @@
             $this.addClass('selected');
         });
     }
+
+    jconfirm.defaults = {
+        container: 'body',
+        theme: 'white git', //supervan
+        animation: 'opacity',
+        columnClass: 'col-md-4 col-md-offset-4',
+        animationSpeed: 200,
+        animationBounce: 1,
+        confirmButtonClass: 'btn-success',
+        cancelButton: 'close',
+        keyboardEnabled: false,
+    }
+
+    var app = {
+        init: function () {
+            this.login();
+        },
+        login: function () {
+            this.$loginform = $('#home-login');
+            this.$loginform.validate({
+                debug: true,
+                submitHandler: function (form) {
+
+                    $.ajax({
+                        url: base + 'api/user/login',
+                        data: $(form).serializeArray(),
+                        method: 'post',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        console.log(data);
+                        if (data.status) {
+                            $.dialog({
+                                title: '',
+                                content: '<span class=""><i class="fa fa-spin fa-spinner"></i>&nbsp; Logged in, Redirecting... </span>',
+                                closeIcon: false
+                            });
+                            window.location = data.redirect;
+                        } else {
+                            $.alert({
+                                title: 'Problem',
+                                content: data.reason,
+                                confirmButton: 'close',
+                                confirmButtonClass: 'btn btn-default'
+                            });
+                        }
+                    });
+                },
+                rules: {
+                    email: {
+                        required: true,
+                    },
+                    password: {
+                        required: true,
+                    }
+                }
+            })
+        }
+    }
+
+
 })(jQuery);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

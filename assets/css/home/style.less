@@ -1,12 +1,12 @@
-@import url(http://fonts.googleapis.com/css?family=Roboto:400,700,500);
 body {
     font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
     -webkit-font-smoothing: antialiased;
-    line-height: 20px;
+//    line-height: 20px;
     color: #222222;
     font-weight: 400;
-    background-color: #F0F0F0;
+//    background-color: #F0F0F0;
+    background-color: @bg;
 }
 
 .small-text {
@@ -54,7 +54,7 @@ body {
 }
 
 a {
-    color: #ff4081;
+    color: #0091EA;
     cursor: pointer;
     text-decoration: none;
     -webkit-transition: all .3s;
@@ -67,7 +67,7 @@ a {
 }
 
 a:hover, a:focus {
-    color: #ff0d5f;
+    /* color: #0091EA; */
     outline: none;
     text-decoration: none;
 }
@@ -741,7 +741,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     height: auto;
     background-image: none;
     border: none;
-    border-bottom: 1px solid rgba(33, 33, 33, 0.1);
+    border-bottom: 2px solid rgba(33, 33, 33, 0.1);
     border-radius: 0;
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
@@ -759,7 +759,7 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
     -ms-transition: all all ease-in-out .3s ease;
     -o-transition: all all ease-in-out .3s ease;
     transition: all all ease-in-out .3s ease;
-    margin-bottom: 20px;
+//    margin-bottom: 20px;
 }
 
 select:hover, select:focus, textarea:hover, textarea:focus, input[type="text"]:hover, input[type="text"]:focus, input[type="password"]:hover, input[type="password"]:focus, input[type="datetime"]:hover, input[type="datetime"]:focus, input[type="datetime-local"]:hover, input[type="datetime-local"]:focus, input[type="date"]:hover, input[type="date"]:focus, input[type="month"]:hover, input[type="month"]:focus, input[type="time"]:hover, input[type="time"]:focus, input[type="week"]:hover, input[type="week"]:focus, input[type="number"]:hover, input[type="number"]:focus, input[type="email"]:hover, input[type="email"]:focus, input[type="url"]:hover, input[type="url"]:focus, input[type="search"]:hover, input[type="search"]:focus, input[type="tel"]:hover, input[type="tel"]:focus, input[type="color"]:hover, input[type="color"]:focus, .form-control:hover, .form-control:focus {
@@ -2095,7 +2095,7 @@ ul.portfolio-list li span:first-child {
     padding-top: 95px;
     padding-bottom: 95px;
     position: relative;
-    background-color: #FFF;
+    background-color: transparent;
     overflow: hidden;
 }
 
@@ -2788,7 +2788,7 @@ ul.portfolio-list li span:first-child {
     max-width: 1920px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #FFF;
+    background-color: transparent;
 }
 
 .container-fluid {
@@ -3114,7 +3114,7 @@ ul.portfolio-list li span:first-child {
 #header .menu ul li a {
     position: relative;
     color: #222222;
-    font-weight: normal;
+    font-weight: 500;
     font-size: 15px;
     top: 0;
     line-height: 67px;
@@ -3125,9 +3125,9 @@ ul.portfolio-list li span:first-child {
 }
 
 #header .menu ul li a:hover, #header .menu ul li a:focus {
-    color: #ff4081;
+    color: #0091EA;
     /* border-top: 2px solid transparent; */
-    border-bottom: 2px solid #ff4081;
+    border-bottom: 2px solid #0091EA;
 }
 
 #header .menu ul li ul.dropdown-menu {

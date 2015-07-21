@@ -1,3 +1,9 @@
+<script>
+    var base = '<?php echo Uri::base(false); ?>';
+    var home_url = '<?php echo home_url; ?>';
+    var dash_url = '<?php echo dash_url; ?>';
+    var is_dash = '<?php echo is_dash; ?>';
+</script>
 <header id="header" class="transparent <?php echo (count(Uri::segments()) == 0) ? 'white' : 'black'; ?>-header header active-section">
     <div class="container">
         <div class="row">

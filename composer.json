@@ -24,9 +24,13 @@
         "fuel/orm": "dev-1.7/master",
         "fuel/parser": "dev-1.7/master",
         "fuelphp/upload": "2.0.2",
+        "opauth/opauth": "0.4.*",
         "mustache/mustache": "*",
         "monolog/monolog": "1.5.*",
-        "michelf/php-markdown": "1.4.0"
+        "michelf/php-markdown": "1.4.0",
+        "opauth/facebook": "dev-master",
+        "opauth/google": "dev-master",
+        "opauth/github": "dev-master"
     },
     "suggest": {
         "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",

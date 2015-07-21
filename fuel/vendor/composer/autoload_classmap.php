@@ -6,4 +6,6 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Opauth' => $vendorDir . '/opauth/opauth/lib/Opauth/Opauth.php',
+    'OpauthStrategy' => $vendorDir . '/opauth/opauth/lib/Opauth/OpauthStrategy.php',
 );

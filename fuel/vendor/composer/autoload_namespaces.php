@@ -11,4 +11,5 @@ return array(
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
+    '' => array($vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/github'),
 );

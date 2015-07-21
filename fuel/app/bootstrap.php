@@ -18,9 +18,7 @@ require COREPATH . 'bootstrap.php';
  * Fuel::STAGING
  * Fuel::PRODUCTION
  */
-// \Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : \Fuel::DEVELOPMENT);
-
-\Fuel::$env = \Fuel::TEST;
+ \Fuel::$env = (isset($_SERVER['FUEL_ENV']) ? $_SERVER['FUEL_ENV'] : \Fuel::DEVELOPMENT);
 
 \Config::load('mode');
 

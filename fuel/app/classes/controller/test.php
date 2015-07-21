@@ -86,7 +86,11 @@ class Controller_Test extends Controller {
         echo Crypt::encode('asda', 'randomcode');
 
     }
-
+    public function get_dbspeed(){
+        $deploy = new Model_Deploy();
+        $a = $deploy->get(47, null, true);
+        print_r($a);
+    }
     public function get_d(){
 //        $deploy_id
 //        utils::gitGetBranches_local($branch_data['deploy_id'], $hash)

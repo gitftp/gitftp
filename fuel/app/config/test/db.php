@@ -8,9 +8,9 @@
 return array(
     'default' => array(
         'connection' => array(
-            'dsn'      => 'mysql:host=localhost;dbname=craftrzt_gitploy',
-            'username' => 'root',
-            'password' => 'toor',
+            'dsn'      => 'mysql:host=54.149.18.148;dbname=gitftp',
+            'username' => 'gitftp',
+            'password' => 'thisissparta',
         ),
     ),
 );

@@ -8,6 +8,10 @@ $env = [
     'development' => array(
         'home' => 'stg-home.gitftp.com',
         'dash' => 'stg.gitftp.com',
+    ),
+    'test' => array(
+        'home' => 'www.gitftp.com',
+        'dash' => 'console.gitftp.com',
     )
 ];
 

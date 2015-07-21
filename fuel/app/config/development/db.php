@@ -6,7 +6,7 @@
 return array(
     'default' => array(
         'connection' => array(
-            'dsn'      => 'mysql:host=localhost;dbname=craftrzt_gitploy',
+            'dsn'      => 'mysql:host=localhost;dbname=craftrzt_gitftp',
             'username' => 'root',
             'password' => '',
         ),

@@ -6,9 +6,9 @@
 return array(
     'default' => array(
         'connection' => array(
-            'dsn'      => 'mysql:host=54.149.18.148;dbname=gitftp',
-            'username' => 'gitftp',
-            'password' => 'thisissparta',
+            'dsn'      => 'mysql:host=54.149.18.148;dbname=craftrzt_gitftp',
+            'username' => 'craftrzt_gitftp',
+            'password' => 's.AmN-V?rXCT',
         ),
     ),
 );

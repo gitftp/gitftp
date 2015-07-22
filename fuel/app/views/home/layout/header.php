@@ -1,5 +1,5 @@
 <script>
-    var base = '<?php echo Uri::base(false); ?>';
+    var base = '<?php echo Uri::base(FALSE); ?>';
     var home_url = '<?php echo home_url; ?>';
     var dash_url = '<?php echo dash_url; ?>';
     var is_dash = '<?php echo is_dash; ?>';
@@ -18,12 +18,23 @@
             <div class="col-md-9 menu-col text-right">
                 <div class="menu">
                     <ul class="list-inline">
-                        <li class="">
-                            <a href="<?php echo home_url.'login'; ?>">LOGIN</a>
-                        </li>
-                        <li class="">
-                            <a href="<?php echo home_url.'signup'; ?>">SIGNUP</a>
-                        </li>
+                        <?php if (\Auth::instance()->check()) { ?>
+                            <li class="">
+                                <a href="<?php echo dash_url; ?>">
+                                    <i class="fa fa-sign-in"></i>&nbsp; <?php echo strtoupper(\Auth::instance()->get('username')); ?>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo home_url . 'user/logout'; ?>"> LOGOUT</a>
+                            </li>
+                        <?php } else { ?>
+                            <li class="">
+                                <a href="<?php echo home_url . 'login'; ?>">LOGIN</a>
+                            </li>
+                            <li class="">
+                                <a href="<?php echo home_url . 'signup'; ?>">SIGNUP</a>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
             </div>

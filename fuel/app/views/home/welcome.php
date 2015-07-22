@@ -17,7 +17,11 @@
 
                     <div class="space"></div>
                     <p>
-                        <a href="<?php echo home_url . 'login'; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Try it for FREE</a>
+                        <?php if(\Auth::instance()->check()){ ?>
+                            <a href="<?php echo dash_url; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Goto Dashboard</a>
+                        <?php }else{ ?>
+                            <a href="<?php echo home_url . 'login'; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Try it for FREE</a>
+                        <?php } ?>
                     </p>
                 </div>
             </div>

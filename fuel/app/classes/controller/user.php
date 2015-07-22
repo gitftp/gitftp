@@ -8,6 +8,10 @@ class Controller_User extends Controller_Homepage {
     }
 
     public function action_login() {
+        if (\Auth::instance()->check()) {
+            Response::redirect(dash_url);
+        }
+
         $view = View::forge('home/base_layout.mustache');
         $view->css = View::forge('home/layout/css');
         $view->js = View::forge('home/layout/js');

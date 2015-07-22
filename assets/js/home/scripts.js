@@ -1,10 +1,10 @@
 (function ($) {
     "use strict";
     $(document).ready(function () {
-        fullscreen_section($(this));
+        //fullscreen_section($(this));
         parallax_image();
-        flex_slider($);
-        fix_height();
+        //flex_slider($);
+        //fix_height();
         progress_bar($(this));
         mobile_nav($(this));
         owl_carousel($(this));
@@ -264,10 +264,13 @@
             this.$loginform.validate({
                 debug: true,
                 submitHandler: function (form) {
+                    var $form = $(form);
+                    var data = $form.serializeArray();
+                    $form.find(':input').attr('disabled', 'disabled');
 
                     $.ajax({
                         url: base + 'api/user/login',
-                        data: $(form).serializeArray(),
+                        data: data,
                         method: 'post',
                         dataType: 'json',
                     }).done(function (data) {
@@ -287,6 +290,8 @@
                                 confirmButtonClass: 'btn btn-default'
                             });
                         }
+                    }).always(function (data) {
+                        $form.find(':input').removeAttr('disabled');
                     });
                 },
                 rules: {
@@ -295,6 +300,14 @@
                     },
                     password: {
                         required: true,
+                    }
+                },
+                messages: {
+                    email: {
+                        required: 'Please enter Username/Email'
+                    },
+                    password: {
+                        required: 'Please enter Password'
                     }
                 }
             })

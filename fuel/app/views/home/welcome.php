@@ -3,16 +3,21 @@
     </div>
     <div class="container middle-content">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-10 col-md-offset-1">
                 <div class="element text-center" style="color: white">
-                    <?php echo Asset::img('logow.png'); ?>
-                    <p class="lighter larger-lead uppercase-text">
-                        <i class="fa fa-git-square"></i> AUTO DEPLOYMENT SIMPLIFIED.
-                    </p>
+                    <?php // echo Asset::img('logow.png'); ?>
+                    <h1 class="lighter larger-lead uppercase-text">
+                        <strong>GIT-ftp deployment made simple.</strong>
+                    </h1>
 
-                    <!--                    <div class="space"></div>-->
+                    <h3 class="uppercase-text letter-spacing">
+                        <strong>Setup branches as
+                            <i class="fa fa-leaf green"></i> Environments & Get them roll.</strong>
+                    </h3>
+
+                    <div class="space"></div>
                     <p>
-                        <a href="<?php echo home_url . 'login'; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Get started for FREE</a>
+                        <a href="<?php echo home_url . 'login'; ?>" class="btn btn-punch btn-info btn-md btn-darker" role="button">Try it for FREE</a>
                     </p>
                 </div>
             </div>
@@ -21,6 +26,80 @@
     <!--    <a href="#about" title="" class="scroll-down"><i class="fa animated infinite bounce ti-arrow-down"></i></a>-->
 </section>
 
+<section class="section active-section small-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center">
+                <h2 class="lighter uppercase-text"><strong>Perfect for your project</strong></h2>
+
+                <p class="lead">You code, we deploy. Simple.</p>
+
+                <div class="space hidden-sm hidden-xs"></div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="fa fa-life-bouy text-primary"></i>
+                    <h4 class="lighter">Time saver</h4>
+
+                    <p class="big-text">Uploading vast number of files over and over again takes time. We tackle it by uploading only changes.</p>
+
+                    <div class="space hidden-sm hidden-xs"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="icon ti-layers-alt text-primary"></i>
+                    <h4 class="lighter">Environments</h4>
+
+                    <p class="big-text">Deploy git branches to multiple servers, create environments for development, production, so on.</p>
+
+                    <div class="space hidden-sm hidden-xs"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="fa fa-rocket text-primary"></i>
+                    <h4 class="lighter">Flexibility</h4>
+
+                    <p class="big-text">
+                        Get control over deployments. Sync, Push, Revert to revisions. directly on the server.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-12"></div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="fa fa-dashboard text-primary"></i>
+                    <h4 class="lighter">Realtime monitoring</h4>
+                    <p class="big-text">
+                        Look what deployments are currently active for respective environments.
+                    </p>
+                    <div class="space hidden-sm hidden-xs"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="fa fa-leaf text-primary"></i>
+                    <h4 class="lighter">Environments</h4>
+
+                    <p class="big-text">Deploy git branches to multiple servers, create environments for development, production, so on.</p>
+
+                    <div class="space hidden-sm hidden-xs"></div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="service-block">
+                    <i class="fa fa-rocket text-primary"></i>
+                    <h4 class="lighter">Flexibility</h4>
+
+                    <p class="big-text">
+                        Get control over deployments. Sync, Push, Revert to revisions. directly on the server.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="section content-col-3 active-section">
     <div class="container">
@@ -67,73 +146,6 @@
     </div>
 </section>
 
-<section class="section active-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <h1 class="lighter">Perfect for your project</h1>
-
-                <p class="lead">You have the design, you have the code </p>
-
-                <div class="space hidden-sm hidden-xs"></div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-time text-primary"></i>
-                    <h4 class="lighter">Save Your Time</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-
-                    <div class="space hidden-sm hidden-xs"></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-mobile text-primary"></i>
-                    <h4 class="lighter">Fully Responsive</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-
-                    <div class="space hidden-sm hidden-xs"></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-layout text-primary"></i>
-                    <h4 class="lighter">Page Builder</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-
-                    <div class="space hidden-sm hidden-xs"></div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-face-smile text-primary"></i>
-                    <h4 class="lighter">Easy to Use</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-notepad text-primary"></i>
-                    <h4 class="lighter">Material Design</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="service-block">
-                    <i class="icon ti-book text-primary"></i>
-                    <h4 class="lighter">Documentation</h4>
-
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor magna aliqua.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <section class="section background-wrapper big-padding with-overlay info-overlay active-section">
     <div class="background-image" style="background: url(demo/hero/big1.jpg) 50% 0%;">
@@ -149,55 +161,6 @@
 
                 <p><a href="#" class="btn btn-punch btn-link btn-white">What We Do</a>
                     <a href="#" class="btn btn-punch btn-link btn-white">Get In Touch</a></p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section id="about" class="section active-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center">
-                <div class="owl-carousel owl-theme owl-responsive-1200 owl-loaded" data-col-lg="1" data-col-md="1" data-col-sm="1">
-
-
-                    <div class="owl-stage-outer">
-                        <div class="owl-stage" style="transform: translate3d(0px, 0px, 0px); transition: 0s; -webkit-transition: 0s; width: 1500px;">
-                            <div class="owl-item active" style="width: 750px; margin-right: 0px;">
-                                <div class="item">
-                                    <i class="icon large ti-user"></i>
-
-                                    <h3 class="lighter">What People Say?</h3>
-                                    <blockquote cite="http://example.com/facts">
-                                        <p>Phasellus luctus commodo ullamcorper a posuere rhoncus commodo elit. Aenean congue, risus utaliquam dapibus. Thanks!</p>
-                                        <footer>John Doe <cite title="Source Title">Boogle Inc.</cite></footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                            <div class="owl-item" style="width: 750px; margin-right: 0px;">
-                                <div class="item">
-                                    <i class="icon large ti-quote-left"></i>
-
-                                    <h3 class="lighter">What People Say?</h3>
-                                    <blockquote cite="http://example.com/facts">
-                                        <p>Phasellus luctus commodo ullamcorper a posuere rhoncus commodo elit. Aenean congue, risus utaliquam dapibus. Thanks!</p>
-                                        <footer>Jane Doe <cite title="Source Title">Poogle Inc.</cite></footer>
-                                    </blockquote>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="owl-controls">
-                        <div class="owl-nav">
-                            <div class="owl-prev" style="">prev</div>
-                            <div class="owl-next" style="">next</div>
-                        </div>
-                        <div class="owl-dots" style="">
-                            <div class="owl-dot active"><span></span></div>
-                            <div class="owl-dot"><span></span></div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

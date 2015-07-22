@@ -277,11 +277,11 @@ blockquote footer {
 }
 
 .text-primary {
-    color: #ff4081 !important;
+    color: @base !important;
 }
 
 .text-primary h1, .text-primary h2, .text-primary h3, .text-primary h4, .text-primary h5, .text-primary h6 {
-    color: #ff4081 !important;
+    color: @base !important;
 }
 
 .text-secondary {
@@ -1067,7 +1067,8 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     margin-right: auto;
 }
 
-.icon + h1, .icon + h2, .icon + h3, .icon + h4, .icon + h5, .icon + h6 {
+.icon + h1, .icon + h2, .icon + h3, .icon + h4, .icon + h5, .icon + h6,
+.fa + h1, .fa + h2, .fa + h3, .fa + h4, .fa + h5, .fa + h6{
     padding-top: 0;
 }
 
@@ -1216,13 +1217,13 @@ input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
     height: 190px;
 }
 
-.service-block .icon {
+.service-block .icon,.service-block .fa {
     font-size: 36px;
     float: left;
 }
 
-.service-block *:not(.icon) {
-    margin-left: 80px;
+.service-block *:not(.icon):not(.fa) {
+    margin-left: 60px;
 }
 
 .service-block h1, .service-block h2, .service-block h3, .service-block h4, .service-block h5, .service-block h6 {

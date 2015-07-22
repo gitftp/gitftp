@@ -17,7 +17,7 @@ define([
         },
         render: function (id) {
             var that = this;
-            this.$el.html(this.el = $('<div class="ftplist-wrapper bb-loading">'));
+            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
 
             _ajax({
                 url: base+ 'api/ftp/get',

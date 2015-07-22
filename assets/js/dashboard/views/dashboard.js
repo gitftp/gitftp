@@ -5,14 +5,14 @@ define([
         el: app.el,
         render: function (id) {
             var that = this;
-            this.$el.html(this.el = $('<div class="dashboard-wrapper bb-loading">'));
-            
+            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+
             this.template = _.template(page);
             _ajax({
-                url : base+'api/etc/dashboard',
+                url: base + 'api/etc/dashboard',
                 method: 'get',
                 dataType: 'json',
-            }).done(function(data){
+            }).done(function (data) {
                 that.el.html(that.template({data: data}));
             });
         },

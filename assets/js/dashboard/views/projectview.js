@@ -34,7 +34,7 @@ define([
 
             var is_loaded = ($('.project-v-status').length) ? true : false;
             if (!is_loaded) {
-                this.$el.html(this.el = $('<div class="projectview-wrapper bb-loading">'));
+                this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
             }
 
             // save templates.

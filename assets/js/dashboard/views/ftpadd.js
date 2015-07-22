@@ -172,7 +172,7 @@ define([
         render: function (id) {
             var that = this;
 
-            this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
+            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
             if (id) {
                 _ajax({
                     url: base + 'api/ftp/get/' + id,

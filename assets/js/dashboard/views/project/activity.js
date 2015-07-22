@@ -105,6 +105,8 @@ define([
             $(that.parent.subPage).html('');
             console.log(this.parent);
 
+            // todo: add changing element html.
+
             _ajax({
                 url: base + 'api/records/get/' + that.parent.id,
                 method: 'get',

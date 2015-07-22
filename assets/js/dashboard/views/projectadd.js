@@ -319,7 +319,7 @@ define([
         render: function (id) {
             var that = this;
 
-            this.$el.html(this.el = $('<div class="projectadd-wrapper bb-loading">'));
+            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
             this.page = page;
             this.template = _.template(this.page);
             this.env_page = env_add;

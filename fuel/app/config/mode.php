@@ -1,19 +1,19 @@
 <?php
 
-$env = [
-    'production'  => array(
+$env = array(
+    'production'  => array( // for production -> uses gitftp.com database.
         'home' => 'www.gitftp.com',
         'dash' => 'console.gitftp.com',
     ),
-    'development' => array(
+    'test'        => array( // for test on production servers. -> uses craftpip.com database.
+        'home' => 'www.gitftp.com',
+        'dash' => 'console.gitftp.com',
+    ),
+    'development' => array( // for development -> uses local database. -> stg.gitftp.com.
         'home' => 'stg-home.gitftp.com',
         'dash' => 'stg.gitftp.com',
     ),
-    'test' => array(
-        'home' => 'www.gitftp.com',
-        'dash' => 'console.gitftp.com',
-    )
-];
+);
 
 $current_env = $env[\Fuel::$env];
 
@@ -44,6 +44,5 @@ define('dash_url', $dash_url);
 define('home_url', $home_url);
 define('is_dash', $is_dash);
 define('base_controller', $controller);
-
 
 return array();

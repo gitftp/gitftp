@@ -94,5 +94,8 @@ $(function () {
         });
         $.confirm(b);
     }
+    window.viewClass = function () {
+        return 'a' + Math.floor(Math.random() * 999999) + '-wrapper';
+    }
     window._debug = true;
 });

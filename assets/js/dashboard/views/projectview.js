@@ -46,11 +46,18 @@ define([
                 main: _.template(this.page.main),
             };
 
+            if(is_loaded){
+                that.makeMenuSelection();
+                that.renderChild();
+            }
+
             _ajax({
                 url: base + 'api/deploy/get/' + this.id,
                 method: 'get',
                 dataType: 'json'
             }).done(function (data) {
+                that.data = data;
+
                 if (data.data.length == 0) {
                     Router.navigate('#/project', {
                         trigger: true,
@@ -58,27 +65,16 @@ define([
                     });
                     return false;
                 }
-                var template = that.template.main({
-                    's': data.data[0]
-                });
-                that.data = data;
-
-                //if (is_loaded) {
-                //    that.el.html(template);
-                //} else {
-                //    var $el2 = $('<div class="projectview-anim">');
-                //    that.el.html($el2);
-                //    that.el = $el2;
-                //    $el2.html(template);
-                //}
-
                 if (is_loaded) {
-                    //that.el.html(template);
+
                 } else {
+                    var template = that.template.main({
+                        's': data.data[0]
+                    });
                     that.el.html(template);
+                    that.makeMenuSelection();
+                    that.renderChild();
                 }
-                that.makeMenuSelection();
-                that.renderChild();
             });
         },
         makeMenuSelection: function () {

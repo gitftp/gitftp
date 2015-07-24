@@ -2,6 +2,49 @@
 
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
+    public function get_feed() {
+        list(, $user_id) = \Auth::instance()->get_user_id();
+
+        $record = new Model_Record();
+        $deploy = new Model_Deploy();
+        $branch = new Model_Branch();
+        $deploy_data = $deploy->get();
+
+        $feed = new \Suin\RSSWriter\Feed();
+        $channel = new \Suin\RSSWriter\Channel();
+        $channel->title("GITFTP: Project deployment feed.")
+            ->description("")
+            ->url(dash_url . '#/project')
+            ->language('en-US')
+            ->appendTo($feed);
+
+
+        foreach ($deploy_data as $v) {
+
+            $record_data = $record->get($v['id'], FALSE, FALSE, $record->success);
+            $branch_data = $branch->get($v['id']);
+            $branch_Formated = array();
+            foreach ($branch_data as $a) {
+                $branch_Formated[$a['id']] = $a;
+            }
+
+            foreach ($record_data as $k => $v2) {
+                $item = new \Suin\RSSWriter\Item();
+                $item
+                    ->title("Deployed " . $v['name'] . ' - ' . $branch_Formated[$v2['branch_id']]['name'] . " +" . $v2['file_add'] . " -" . $v2['file_remove'])
+                    ->description("Successfully deployed " . $v['name'] . ' - ' . $branch_Formated[$v2['branch_id']]['name'] . ". Files changed: +" . $v2['file_add'] . " -" . $v2['file_remove'])
+                    ->url(dash_url . '#/project/' . $v['id'])
+                    ->pubDate($v2['date'])
+                    ->guid($v2['id'])
+                    ->appendTo($channel);
+            }
+
+        }
+
+
+        echo $feed;
+    }
+
     public function post_feedback() {
         $i = Input::post();
 

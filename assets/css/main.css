@@ -950,7 +950,12 @@ h6 {
   padding: 15px;
   text-transform: uppercase;
   line-height: 15px;
+  color: #0091ea;
   font-weight: 500;
+}
+.jconfirm-deploy-options .row div a:hover {
+  background-color: #0091ea;
+  color: white;
 }
 .jconfirm-deploy-options .row div a i {
   font-size: 40px;

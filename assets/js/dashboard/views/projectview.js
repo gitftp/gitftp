@@ -46,16 +46,13 @@ define([
                 main: _.template(this.page.main),
             };
 
-            if(is_loaded){
+            if (is_loaded) {
                 that.makeMenuSelection();
                 that.renderChild();
+                return false;
             }
 
-            _ajax({
-                url: base + 'api/deploy/get/' + this.id,
-                method: 'get',
-                dataType: 'json'
-            }).done(function (data) {
+            this.getData().done(function (data) {
                 that.data = data;
 
                 if (data.data.length == 0) {
@@ -75,6 +72,13 @@ define([
                     that.makeMenuSelection();
                     that.renderChild();
                 }
+            });
+        },
+        getData: function () {
+            return _ajax({
+                url: base + 'api/deploy/get/' + this.id,
+                method: 'get',
+                dataType: 'json'
             });
         },
         makeMenuSelection: function () {

@@ -80,6 +80,15 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
         $this->response($response);
     }
 
+    public function get_get($branch_id = NULL) {
+        $branch = new Model_Branch();
+        $branches = $branch->get_by_branch_id($branch_id);
+        $this->response(array(
+            'status' => TRUE,
+            'data'   => $branches,
+        ));
+    }
+
     public function post_updaterevision() {
         try {
             $hash = Input::post('hash');

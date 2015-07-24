@@ -10,3 +10,4 @@
     var dash_url = '<?php echo dash_url; ?>';
     var is_dash = '<?php echo is_dash; ?>';
 </script>
+<link rel="alternate" type="application/rss+xml" title="GITFTP - deploy activity feed" href="/feed/" />

@@ -57,7 +57,7 @@ class Gfcore {
     /*
      * Verbose output.
      */
-    public $debug = TRUE;
+    public $debug = FALSE;
 
     /*
      * Used to collect logs,

@@ -23,27 +23,36 @@ define([], function () {
             this.deploy_id = deploy_id || undefined;
             this.branch_id = branch_id || undefined;
 
-            this.jconfirm = $.confirm({
-                title: false,
-                content: '' +
+            var content = '' +
                 '<div class="jconfirm-deploy-options">' +
                 '<div class="deploytitle">Deploy type:</div>' +
                 '<div class="row">' +
-                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-update"><i class="fa fa-level-up"></i><br>Update latest</a></div>' +
-                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-sync"><i class="fa fa-refresh"></i><br>Sync all files</a></div>' +
-                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-revert"><i class="fa fa-reply"></i><br>Jump to revision</a></div>' +
+                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-update"><i class="fa fa-level-up"></i><br>Update</a></div>' +
+                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-revert"><i class="fa fa-reply"></i><br>Revision</a></div>' +
+                '<div class="col-md-4 col-sm-4"><a href="#" class="jc-global-sync"><i class="fa fa-refresh"></i><br>Upload all</a></div>' +
                 '</div>' +
-                '</div>',
+                '</div>';
+
+            this.jconfirm = $.confirm({
+                title: false,
+                content: function () {
+                    return _ajax({
+                        url: base + 'api/branch/get/' + that.branch_id,
+                        method: 'get',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        that.branch = data.data[0];
+                        that.jconfirm.contentDiv.html(content);
+                        that.bindEvents();
+                    })
+                },
                 confirmButton: false,
                 cancelButton: false,
                 //columnClass: "col-md-4 col-md-offset-4",
-                onOpen: function () {
-                    that.bindEvents();
-                },
                 columnClass: 'col-md-6 col-md-offset-3',
             });
         },
-        deploySync: function(e, a){
+        deploySync: function (e, a) {
             var that = this;
 
             if (!a) {
@@ -55,33 +64,42 @@ define([], function () {
                 var branch_id = a;
             }
 
-            _ajax({
-                url: dash_url + 'api/deploy/run/',
-                data: {
-                    'branch_id': branch_id,
-                    'deploy_id': deploy_id,
-                    'type': 'sync',
-                },
-                method: 'post',
-                dataType: 'json',
-            }).done(function (data) {
-                if (data.status) {
-                    noty({
-                        text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
-                        type: 'success'
-                    });
-                } else {
-                    noty({
-                        text: data.reason,
-                        type: 'error'
+            $.confirm({
+                title: (this.branch.ready == '1') ? 'Re-upload all files?' : 'Upload all files?',
+                icon: 'fa fa-info blue',
+                content: 'All files from repository will be uploaded. <br>' +
+                'This operation may consume time as it depends on number of Files & Sizes.',
+                confirmButton: 'Deploy',
+                confirm: function () {
+                    _ajax({
+                        url: dash_url + 'api/deploy/run/',
+                        data: {
+                            'branch_id': branch_id,
+                            'deploy_id': deploy_id,
+                            'type': 'sync'
+                        },
+                        method: 'post',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        if (data.status) {
+                            noty({
+                                text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                                type: 'success'
+                            });
+                        } else {
+                            noty({
+                                text: data.reason,
+                                type: 'error'
+                            });
+                        }
+                    }).always(function () {
+                        console.log(that);
+                        if (that.jconfirm) {
+                            that.jconfirm.close();
+                        }
                     });
                 }
-            }).always(function () {
-                console.log(that);
-                if (that.jconfirm) {
-                    that.jconfirm.close();
-                }
-            });
+            })
         },
         deployRevert: function (e, a, hash) {
             var that = this;
@@ -98,9 +116,10 @@ define([], function () {
             $.confirm({
                 title: 'Checkout revision',
                 content: 'Deploy changes of a specific hash on the server.<br>' +
-                '<input class="form-control" placeholder="Revision to deploy"/>',
+                '<input class="form-control" placeholder="Revision to deploy"/>' +
+                '<div class="space5"></div><span class="orange"><strong>NOTE:</strong> You have auto deploy enabled.</span>',
                 confirmButton: 'Deploy',
-                confirm: function(){
+                confirm: function () {
                     var $input = this.$b.find('input');
                     var hash = $input.val();
                     var obj = this;
@@ -114,14 +133,18 @@ define([], function () {
                             'hash': hash
                         },
                         method: 'post',
-                        dataType: 'json',
+                        dataType: 'json'
                     }).done(function (data) {
                         if (data.status) {
                             noty({
                                 text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
-                                type: 'success',
+                                type: 'success'
                             });
                             obj.close();
+                            console.log(that);
+                            if (that.jconfirm) {
+                                that.jconfirm.close();
+                            }
                         } else {
                             noty({
                                 text: data.reason,
@@ -129,10 +152,6 @@ define([], function () {
                             });
                         }
                     }).always(function () {
-                        console.log(that);
-                        if (that.jconfirm) {
-                            that.jconfirm.close();
-                        }
                     });
                     return false;
                 },

@@ -243,6 +243,7 @@ define([
             var branch = $.grep(that.parent.data.data[0].branches, function (a, i) {
                 return a.id == branch_id;
             });
+
             this.branch = branch[0];
             var ftp_id = this.branch['ftp_id'];
 
@@ -258,15 +259,16 @@ define([
                 dataType: 'json',
             });
 
-            $.when(ftp, ftp_notUsed).then(function (ftpdata, ftplist) {
+            $.when(ftp, ftp_notUsed, that.parent.getData()).then(function (ftpdata, ftplist, data) {
                 ftpdata = ftpdata[0];
                 ftplist = ftplist[0];
+                data = data[0];
                 that.ftpdata = ftpdata;
                 that.ftplist = ftplist;
 
                 that.template = _.template(envHtml);
                 var subPage = that.template({
-                    data: that.parent.data.data[0],
+                    data: data[0],
                     branch: that.branch,
                     ftp: ftpdata.data[0],
                     ftplist: ftplist,

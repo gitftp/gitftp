@@ -12,12 +12,12 @@ define([
             'click .project-branch': 'gotoManage',
             'click .env-start-deploy': 'deploybranchOptions',
         },
-        deploybranchOptions: function(e){
+        deploybranchOptions: function (e) {
             e.preventDefault();
             e.stopPropagation();
             deployHelper.showOptions(this.parent.id, $(e.currentTarget).attr('data-branch'));
         },
-        gotoManage: function(e){
+        gotoManage: function (e) {
             e.preventDefault();
             e.stopPropagation();
             var url = $(e.currentTarget).attr('data-uri');
@@ -31,10 +31,12 @@ define([
             this.parent = parent;
             $(this.parent.subPage).html('');
             that.template = _.template(envHtml);
-            var subPage = that.template({
-                data: that.parent.data
-            });
-            $(this.parent.subPage).html(subPage);
+            that.parent.getData().done(function (data) {
+                var subPage = that.template({
+                    data: data
+                });
+                $(that.parent.subPage).html(subPage);
+            })
         }
     });
 

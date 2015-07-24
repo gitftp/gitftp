@@ -4,45 +4,6 @@ use Symfony\Component\Process\Process;
 
 class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
-    public function get_feed($user_id, $deploy_id) {
-        $record = new Model_Record();
-        $deploy = new Model_Deploy();
-        $branch = new Model_Branch();
-        $records = $record->get($deploy_id);
-        $branches = $branch->get($deploy_id);
-        $branchesFormatted = array();
-        foreach($branches as $a ){
-            $branchesFormatted[$a['id']] = $a;
-        }
-        try{
-            list($deploys) = $deploy->get($deploy_id);
-        }catch(Exception $e){
-            die('Sorry, something went terribly wrong.');
-        }
-
-        $feed = new \Suin\RSSWriter\Feed();
-        $channel = new \Suin\RSSWriter\Channel();
-        $channel->title("GITFTP : ".$deploys['name'])
-            ->description($deploys['repository'])
-            ->pubDate(strtotime($deploys['created_at']))
-            ->url(dash_url.'#/project/'.$deploy_id)
-            ->language('en-US')
-            ->appendTo($feed);
-
-        foreach ($records as $k => $v) {
-            $item = new \Suin\RSSWriter\Item();
-            $item
-                ->title("Deployed to ".$branchesFormatted[$v['branch_id']]['name']." +".$v['file_add']." -".$v['file_remove'])
-                ->description("Deployed to ".$branchesFormatted[$v['branch_id']]['name']." +".$v['file_add']." -".$v['file_remove'])
-                ->url(dash_url.'#/project/'.$deploy_id.'/'.$v['id'])
-                ->pubDate($v['date'])
-                ->guid($v['id'])
-                ->appendTo($channel);
-        }
-
-        echo $feed;
-    }
-
     /**
      * Get selected only deploy data.
      *
@@ -231,6 +192,9 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $branch = new Model_Branch();
             $deploy = new Model_Deploy();
             $deploy_id = $i['deploy_id'];
+            $repo_dir = utils::get_repo_dir($deploy_id);
+            $git = new \PHPGit\Git();
+            $git->setRepository($repo_dir);
 
             if (isset($i['branch_id'])) {
                 $branches = $branch->get_by_branch_id($i['branch_id'], array(
@@ -273,7 +237,16 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                             if (!isset($i['hash']))
                                 throw new Exception('Missing parameter hash.');
 
+                            $branches = $git->branch();
+                            if(array_key_exists($i['hash'], $branches))
+                                throw new Exception('The hash provided is a Branch. Please enter a valid hash');
+
+                            $tags = $git->tag();
+                            if(\Arr::in_array_recursive($i['hash'], $tags))
+                                throw new Exception('The hash provided is a Tag. Please enter a valid hash');
+
                             $hash = utils::git_verify_hash($i['deploy_id'], $i['hash']);
+
                             if ($hash)
                                 $set['hash'] = $hash;
                             else

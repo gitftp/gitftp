@@ -49,6 +49,7 @@ define([
 
             $.alert({
                 title: 'Provided Payload.',
+                closeIcon: true,
                 content: function () {
                     var o = this;
                     return _ajax({
@@ -56,12 +57,13 @@ define([
                         method: 'get',
                         dataType: 'json',
                     }).done(function (response) {
-                        o.setContent(response.data);
-                    })
+                        o.contentDiv.html(response.data);
+                    });
                 },
                 confirmButton: 'Close',
                 theme: 'white',
                 columnClass: 'col-md-6 col-md-offset-3',
+                iconClass: true,
             });
         },
         getRawData: function (e) {
@@ -72,6 +74,7 @@ define([
 
             $.alert({
                 title: 'Raw Output',
+                closeIcon: true,
                 content: function () {
                     var o = this;
                     return _ajax({
@@ -79,7 +82,7 @@ define([
                         method: 'get',
                         dataType: 'json',
                     }).done(function (response) {
-                        o.setContent(response.data);
+                        o.contentDiv.html(response.data);
                     })
                 },
                 confirmButton: 'Close',
@@ -122,19 +125,21 @@ define([
             console.log(this.parent);
 
             // todo: add changing element html.
-
-            _ajax({
+            $.when(_ajax({
                 url: base + 'api/records/get/' + that.parent.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
                     limit: '10'
                 }
-            }).done(function (records) {
+            }), that.parent.getData()).then(function (records, data) {
+                records = records[0];
+                data = data[0];
+
                 that.activityData = records;
                 that.template = _.template(projectActivityHtml);
                 var subPage = that.template({
-                    's': that.parent.data.data[0],
+                    's': data.data[0],
                     'activity': records,
                     'more': 'false',
                     'count': records.count,

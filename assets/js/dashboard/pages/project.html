@@ -46,8 +46,7 @@
             <div class="header">
                 <p>
                     <span class="head">
-                        <i class="fa fa-cloud fa-fw"></i>
-                        <%= a.name %>
+                        <i class="fa fa-<%= (a.provider) ? ((a.provider.toLowerCase() == 'github') ? a.provider.toLowerCase()+'-alt' : a.provider.toLowerCase()) : 'cloud' %>"></i>&nbsp; <%= a.name %>
                     </span> <br/>
                     <span class="status">(<%= a.status %>)</span>
                 </p>
@@ -59,8 +58,6 @@
     </div>
     <% }) %>
 </div>
-
-
 <br>
 <br>
 <br>

@@ -9,8 +9,9 @@ window.app = {
 
 require([
     "router",
-    "process"
-], function (router, process) {
+    "process",
+    "views/feedback",
+], function (router, process, feedbackView) {
 
     if (!is_dash) {
         return false;
@@ -25,26 +26,27 @@ require([
 
         $('.navbar-nav li').removeClass('active');
         $('.navbar-nav li.' + j).addClass('active');
-        
-        if(/deploy/ig.test(k[0])){
-            
+
+        if (/deploy/ig.test(k[0])) {
+
             $subpage = $('.page-subview');
-            try{
+            try {
                 var l = k[3];
-            }catch (e){
+            } catch (e) {
                 var l = false;
             }
             $subpage.removeClass('active-cs');
-            if(l){
-                $('.subview-'+l).addClass('active-cs');
-            }else{
+            if (l) {
+                $('.subview-' + l).addClass('active-cs');
+            } else {
                 $('.subview-activity').addClass('active-cs');
             }
-            
+
         }
     });
     process.init();
     Backbone.history.start();
     $('[data-toggle="tooltip"]').tooltip();
-
+    var feedback = new feedbackView();
+    feedback.render();
 });

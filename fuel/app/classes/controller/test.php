@@ -80,11 +80,17 @@ class Controller_Test extends Controller {
             echo $item;
         }
     }
-
+    public function get_e(){
+//        echo strtotime('Tue, 21 Aug 2012 19:50:37 +0900');
+        echo strtotime('2015-07-23 20:46:36');
+    }
     public function get_c(){
-        echo Fuel::$env;
-        echo Crypt::encode('asda', 'randomcode');
-
+//        echo Fuel::$env;
+//        echo Crypt::encode('asda', 'randomcode');
+//        $response = new Response();
+//        $response->set_status(404);
+//        echo $response->send();
+        throw new Exception('No', 503);
     }
     public function get_dbspeed(){
         $deploy = new Model_Deploy();
@@ -92,7 +98,20 @@ class Controller_Test extends Controller {
         print_r($a);
     }
     public function get_d(){
+
+//        $a = '{"actor": {"display_name": "boniface pereira", "username": "craftpip", "links": {"self": {"href": "https://api.bitbucket.org/2.0/users/craftpip"}, "avatar": {"href": "https:/' ;
+//        echo substr($a, 0, 1);
 //        $deploy_id
 //        utils::gitGetBranches_local($branch_data['deploy_id'], $hash)
+
+        $a = DB::select()->from('log')->where('id', $_GET['id'])->execute()->as_array();
+        $a = unserialize($a[0]['a']);
+        print_r($a);
+
+    }
+
+    public function get_logs(){
+        $a = DB::select()->from('log')->order_by('id', 'desc')->execute()->as_array();
+        print_r($a);
     }
 }

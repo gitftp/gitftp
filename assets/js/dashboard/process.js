@@ -10,32 +10,40 @@ define([], function () {
             setTimeout(function () {
                 if ($('.is-deploy-view-id').length) {
                     var id = $('.is-deploy-view-id').attr('data-id');
-                    $.getJSON(base + 'api/deploy/get/' + id, function (data) {
-                        data = data.data[0];
-                        var el = $('.project-v-status');
-                        if (data.status == 'Idle' || data.status == 'To be initialized') {
-                            el.removeClass("project-co-loading");
-                            el.html(data.status);
-                        } else {
-                            el.addClass("project-co-loading");
-                            el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> ' + data.status);
+
+                    _ajax({
+                        url: base + 'api/deploy/get/' + id,
+                        method: 'get',
+                        dataType: 'json',
+                    }).done(function (response) {
+                        if (response.status && response.data.length) {
+                            data = response.data[0];
+                            var el = $('.project-v-status');
+                            if (data.status == 'Idle' || data.status == 'To be initialized') {
+                                el.removeClass("project-co-loading");
+                                el.html(data.status);
+                            } else {
+                                el.addClass("project-co-loading");
+                                el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> ' + data.status);
+                            }
                         }
                     });
                 }
                 if ($('.is-deploy-list').length) {
-
                     _ajax({
-                        url: base + 'api/deploy/getonly/',
+                        url: base + 'api/deploy/only/',
                         data: {
                             select: 'id'
                         },
-                        method: 'post',
+                        method: 'get',
                         dataType: 'json'
-                    }).done(function (data) {
-                        $.each(data.data, function (i, a) {
-                            $target = $('.is-deploy-list[data-id="' + a.id + '"]');
-                            $target.find('.status').html('(' + a.status + ')');
-                        });
+                    }).done(function (response) {
+                        if (response.status && response.data.length) {
+                            $.each(response.data, function (i, a) {
+                                $target = $('.is-deploy-list[data-id="' + a.id + '"]');
+                                $target.find('.status').html('(' + a.status + ')');
+                            });
+                        }
                     });
                 }
                 that.deployView();
@@ -70,7 +78,7 @@ define([], function () {
             this.timeUpdate();
         },
         init: function () {
-            //this.runProcess();
+            this.runProcess();
         }
     };
 

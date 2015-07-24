@@ -65,6 +65,8 @@ class Model_Ftp extends Model {
 
     public function insert($ar) {
 
+
+
         $ar['user_id'] = $this->user_id;
         $r = DB::insert($this->table)
             ->set($ar)

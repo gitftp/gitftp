@@ -5,9 +5,8 @@ class Controller_Dashboard extends Controller {
         if (!is_dash) {
             throw new HttpNotFoundException;
         }
-
         if (!\Auth::instance()->check()) {
-            Response::redirect(home_url . 'login');
+            Response::redirect(home_url . 'login#');
         }
 
         $view = View::forge('dash/base_layout.mustache');

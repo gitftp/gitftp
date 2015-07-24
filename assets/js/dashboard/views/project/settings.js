@@ -54,7 +54,6 @@ define([
                         content: 'You cannot undo this action.',
                         icon: 'fa fa-info red',
                         confirmButton: 'Delete',
-                        animation: 'scale',
                         confirmButtonClass: 'btn-danger',
                         autoClose: 'cancel|10000',
                         theme: 'white',
@@ -63,7 +62,7 @@ define([
                             _ajax({
                                 url: base + 'api/deploy/delete/' + id,
                                 dataType: 'json',
-                                method: 'get',
+                                method: 'delete',
                             }).done(function (data) {
 
                                 if (data.status) {
@@ -101,7 +100,7 @@ define([
 
             $this.find('select, input, button').attr('readonly', true);
             _ajax({
-                url: base + 'api/deploy/edit/' + that.parent.id,
+                url: base + 'api/deploy/update/' + that.parent.id,
                 data: $this.serializeArray(),
                 method: 'post',
                 dataType: 'json',

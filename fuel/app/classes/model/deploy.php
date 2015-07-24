@@ -6,8 +6,8 @@ class Model_Deploy extends Model {
     public $id = NULL; // deploy id.
 
     public function __construct() {
-        if (Auth::check()) {
-            $this->user_id = Auth::get_user_id()[1];
+        if (\Auth::instance()->check()) {
+            list(, $this->user_id) = \Auth::instance()->get_user_id();
         } else {
             $this->user_id = '*';
         }
@@ -33,6 +33,8 @@ class Model_Deploy extends Model {
         foreach ($a as $k => $v) {
             $id = $v['id'];
             $a[$k]['status'] = $this->getStatus($id, $v);
+            if(isset($v['repository']))
+                $a[$k]['provider'] = utils::parseProviderFromRepository($v['repository']);
         }
 
         return $a;
@@ -86,9 +88,7 @@ class Model_Deploy extends Model {
         }
 
         if (!$direct) {
-
             $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
-
             if (empty($a) or $a[0]['user_id'] != $this->user_id) {
                 return FALSE;
             }
@@ -97,7 +97,7 @@ class Model_Deploy extends Model {
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
 
-    public function delete($id, $direct = FALSE) {
+    public function delete($id = NULL, $direct = FALSE) {
         if (is_null($id) && !is_null($this->id)) {
             $id = $this->id;
         }
@@ -133,7 +133,7 @@ class Model_Deploy extends Model {
         return DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public function create($repo_url, $name, $username = NULL, $password = NULL, $key = NULL, $env) {
+    public function create($repo_url, $name, $username = NULL, $password = NULL, $key = NULL, $env, $active = 0) {
 
         if (!$this->user_id) {
             return FALSE;
@@ -190,7 +190,7 @@ class Model_Deploy extends Model {
 
         $deploy_id = DB::insert($this->table)->set(array(
             'repository' => $repo_url,
-            'active'     => 0,
+            'active'     => $active,
             'name'       => $name,
             'user_id'    => $this->user_id,
             'username'   => ($username) ? $username : '',
@@ -218,7 +218,7 @@ class Model_Deploy extends Model {
         if ($deploy_id[1] !== 0) {
             return $deploy_id[0];
         } else {
-            return FALSE;
+            throw new Exception('Sorry, we got confused, please refresh your page and try again.');
         }
     }
 }

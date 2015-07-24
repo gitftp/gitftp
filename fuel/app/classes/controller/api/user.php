@@ -71,7 +71,6 @@ class Controller_Api_User extends Controller {
 
     }
 
-
     public function action_login() {
         try {
             $i = Input::post();
@@ -85,7 +84,7 @@ class Controller_Api_User extends Controller {
                 $a = \Auth::instance()->login($i['email'], $i['password']);
                 if ($a) {
                     $response = array(
-                        'status' => TRUE,
+                        'status'   => TRUE,
                         'redirect' => dash_url,
                     );
                 } else {
@@ -102,5 +101,40 @@ class Controller_Api_User extends Controller {
         echo json_encode($response);
     }
 
+    public function action_register() {
+        // todo: have to make this happen
+    }
 
+    public function post_changepassword() {
+        try {
+            $i = Input::post();
+
+            if (!\Auth::instance()->check()) {
+                throw new Exception('Sorry, we got confused. Please try again later.', 123);
+            }
+
+            if($i['newpassword'] !== $i['newpassword2']){
+                throw new Exception('Sorry, the new passwords do not match.', 123);
+            }
+
+            $a = \Auth::instance()->change_password($i['oldpassword'], $i['newpassword']);
+
+            if(!$a){
+                throw new Exception('Sorry, the old password is incorrect. Please try again.', 123);
+            }
+
+            // todo: count length of password please...
+
+            $response = array(
+                'status' => TRUE,
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+        }
+
+        echo json_encode($response);
+    }
 }

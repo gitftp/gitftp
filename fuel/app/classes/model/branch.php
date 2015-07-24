@@ -69,6 +69,16 @@ class Model_Branch extends Model {
         return $q;
     }
 
+    public function get_by_branch_name_deploy_id($branch_name, $deploy_id, $select = NULL) {
+        $q = DB::select_array($select)->from($this->table)
+            ->where('user_id', $this->user_id)
+            ->and_where('branch_name', $branch_name)
+            ->and_where('deploy_id', $deploy_id)
+            ->execute()->as_array();
+
+        return $q;
+    }
+
     public function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {

@@ -5,16 +5,18 @@
             <div class="subhead">Wherein the files are deployed.</div>
         </div>
         <div class="col-md-4">
+            <% if(list.length != 0){ %>
             <div class="pull-right">
                 <!--<a href="#ftp/add" class="btn btn-success">Add Server</a>-->
                 <a href="#ftp/add" data-toggle="tooltip" data-placement="left" title="Add Server" class="btn btn-success btn-circle btn-circle-lg"><i class="fa fa-plus"></i></a>
             </div>
+            <% } %>
         </div>
     </div>
 </div>
 
 <div class="head-body-divider"></div>
-    
+
 <% if(list.length > 0){ %>
 <div class="row">
 
@@ -30,6 +32,7 @@
                     </span> <br/>
                     <span class="">(<%= a.host %> - <%= a.username %>)</span>
                 </p>
+
                 <div class="clearfix"></div>
             </div>
             <span style="color: #aaa">Scheme: (<%= a.scheme %>) Port: <%= a.port %></span><br>
@@ -47,21 +50,24 @@
     <br>
     <a class="btn btn-default" href="#/ftp/add" style="margin-top: 10px;">+ add now</a>
 </p> -->
-
 <div class="space10"></div>
 <div class="space10"></div>
 <p class="text-center" style="color: #aaa;">
-    <i class="fa fa-file-o fa-3x"></i> <br>
-    <span style="font-size: 20px;">Its empty here</span>
-    <br>
-    <span>Add a FTP server to link with your deployments</span>
-    <br>
-    <br>
-    <a href="#ftp/add" class="btn btn-success btn-lg">
-        Add new
-    </a>
-</p>
 
+    <span style="font-size: 24px;">Its empty here</span>
+    <br>
+    <span>Add a FTP server to link with your deployments.</span>
+    <br>
+    <br>
+    <a href="#/ftp/add" class="btn btn-success">
+
+        <i class="fa fa-file-o fa-3x"></i>
+        <br/>
+        <br/>
+        Create new
+    </a>
+
+</p>
 <% } %>
 
 <script>

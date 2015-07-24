@@ -172,7 +172,7 @@ define([
         render: function (id) {
             var that = this;
 
-            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
             if (id) {
                 _ajax({
                     url: base + 'api/ftp/get/' + id,
@@ -228,7 +228,7 @@ define([
                 return value.substr(0, 1) == '/';
             }, 'Path must contain a leading slash');
             $.validator.addMethod('validateScheme', function (value) {
-                return value == 'ftp' || value == 'ftps';
+                return value == 'ftp' || value == 'ftps' || value == 'sftp';
             }, 'Please enter a valid schema.');
             $.validator.addMethod('validateHost', function (value) {
                 return that.hostValidate.test(value) || that.ipValidate.test(value);

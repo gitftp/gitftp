@@ -2,10 +2,6 @@
 
 class Controller_Api_Branch extends Controller_Api_Apilogincheck {
 
-    public function action_index() {
-        echo '404';
-    }
-
     /**
      * Create single branch for given deploy.
      *
@@ -18,7 +14,6 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
     public function post_create() {
         try {
             $i = Input::post();
-
             $i = utils::escapeHtmlChars($i); // wow
 
             $fields = array(
@@ -34,7 +29,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $v->add_field('branch_name', '', 'required');
 
             if (!$v->run($fields)) {
-                throw new Exception('Sorry, we got confused.');
+                throw new Exception('Sorry, we got confused.', 200);
             }
 
             // check if owner of this deploy.
@@ -43,14 +38,14 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $deploy_data = $deploy->get($i['deploy_id']);
 
             if (count($deploy_data) !== 1) {
-                throw new Exception('Something went wrong.');
+                throw new Exception('Something went wrong.', 200);
             }
 
             $branch_data = $branch->get_by_ftp_id($i['ftp_id']);
 
             foreach ($branch_data as $b) {
                 if ($b['branch_name'] == $i['branch_name'] && $b['deploy_id'] == $i['deploy_id'])
-                    throw new Exception('An Environment named "' . $b['name'] . '" already has the same Branch and FTP configured.');
+                    throw new Exception('An Environment named "' . $b['name'] . '" already has the same Branch and FTP configured.', 200);
             }
 
             $createData = array();
@@ -74,14 +69,15 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $a = $branch->create($createData);
 
             if ($a[1] !== 1) {
-                throw new Exception('We faced some problem while adding the environment. please try again later.');
+                throw new Exception('We faced some problem while adding the environment. please try again later.', 200);
             }
 
-            $response = json_encode(array('status' => TRUE));
+            $response = array('status' => TRUE);
         } catch (Exception $e) {
-            $response = json_encode(array('status' => FALSE, 'reason' => $e->getMessage()));
+            $response = array('status' => FALSE, 'reason' => $e->getMessage());
         }
-        echo $response;
+
+        $this->response($response);
     }
 
     public function post_updaterevision() {
@@ -117,7 +113,8 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                 'reason' => $e->getMessage()
             );
         }
-        echo json_encode($response);
+
+        $this->response($response);
     }
 
     public function post_updatebranch() {
@@ -159,19 +156,20 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
 
             $result = $branch->set($id, $dataToSave);
             if ($result) {
-                $response = json_encode(array('status' => TRUE, 'message' => (isset($message)) ? $message : ''));
+                $response = array('status' => TRUE, 'message' => (isset($message)) ? $message : '');
             } else {
-                $response = json_encode(array('status' => FALSE, 'reason' => 'No changes were made.'));
+                $response = array('status' => FALSE, 'reason' => 'No changes were made.');
             }
         } catch (Exception $e) {
-            $response = json_encode(array('status' => FALSE, 'reason' => $e->getMessage()));
+            $response = array('status' => FALSE, 'reason' => $e->getMessage());
         }
 
-        return $response;
+        $this->response($response);
     }
 
     public function post_delete() {
         try {
+
             $i = Input::post();
             $deploy = new Model_Deploy();
             $branch = new Model_Branch();
@@ -184,7 +182,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $deploy_id = $branch_data[0]['deploy_id'];
             $totalbranches = $branch->get_by_deploy_id($deploy_id);
 
-            if(count($totalbranches) == 1){
+            if (count($totalbranches) == 1) {
                 throw new Exception('Sorry, cannot delete environment. <br>Because its the only environment in this project.');
             }
 
@@ -205,7 +203,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             );
         }
 
-        return json_encode($response);
+        $this->response($response);
     }
 
 }

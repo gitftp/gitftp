@@ -118,6 +118,9 @@ label.error {
 .mono {
   font-family: consolas;
 }
+.fa {
+  line-height: inherit;
+}
 a.btn {
   padding: 9px 10px 7px;
   line-height: 12px;

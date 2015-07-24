@@ -30,7 +30,9 @@
         "michelf/php-markdown": "1.4.0",
         "opauth/facebook": "dev-master",
         "opauth/google": "dev-master",
-        "opauth/github": "dev-master"
+        "opauth/github": "dev-master",
+        "kzykhys/git": "dev-master",
+        "suin/php-rss-writer": ">=1.0"
     },
     "suggest": {
         "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",

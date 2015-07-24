@@ -6,10 +6,11 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
+    'Suin\\RSSWriter' => array($vendorDir . '/suin/php-rss-writer/Source'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
-    '' => array($vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/github'),
+    '' => array($vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/github', $vendorDir . '/kzykhys/git/src'),
 );

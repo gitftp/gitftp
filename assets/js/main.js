@@ -75,7 +75,7 @@ $(function () {
                             content: 'You\'ve been logged out, please login to proceed.',
                             confirm: function () {
                                 var currentLocation = window.location.href;
-                                window.location.href = home_url + 'login?ref=' + currentLocation;
+                                window.location.href = home_url + 'login?ref=' + encodeURIComponent(currentLocation);
                             },
                             confirmButton: 'Login',
                             cancelButton: false
@@ -92,10 +92,28 @@ $(function () {
             icon: 'fa fa-warning',
             confirmButtonClass: 'btn-warning'
         });
-        $.confirm(b);
+
+        if(typeof window._alert == 'undefined'){
+            window._alert = $.confirm(b);
+        }
+
+        if(window._alert.isClosed()){
+            window._alert = $.confirm(b);
+        }
+
     }
     window.viewClass = function () {
         return 'a' + Math.floor(Math.random() * 999999) + '-wrapper';
+    }
+    window.getUrlParameter = function (sParam) {
+        var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
     }
     window._debug = true;
 });

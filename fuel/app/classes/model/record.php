@@ -124,8 +124,7 @@ class Model_Record extends Model {
             'avatar_url',
             'hash_before',
             'hash',
-            'commit_count',
-            'commit_message',
+            'commits',
             'file_add',
             'file_remove',
             'file_skip',
@@ -159,6 +158,13 @@ class Model_Record extends Model {
             if (isset($r[$key]['raw'])) {
                 $r[$key]['raw'] = unserialize($r[$key]['raw']);
             }
+            if (isset($r[$key]['commits'])) {
+                try { // todo: we might not need try catch here in the future.
+                    $r[$key]['commits'] = unserialize($r[$key]['commits']);
+                } catch (Exception $e) {
+
+                }
+            }
         }
 
         return $r;
@@ -170,8 +176,14 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public function get_raw_by_record($record_id) {
-        $q = DB::select('raw')->from($this->table)->where('id', $record_id)->execute()->as_array();
+    public function get_raw_by_record($record_id, $direct = FALSE) {
+        $q = DB::select('raw')->from($this->table)->where('id', $record_id);
+
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+
+        $q = $q->execute()->as_array();
 
         return $q;
     }
@@ -181,8 +193,14 @@ class Model_Record extends Model {
      * @param $deploy_id
      * @return mixed
      */
-    public function get_raw_by_deploy($deploy_id) {
-        $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
+    public function get_raw_by_deploy($deploy_id, $direct = FALSE) {
+        $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id);
+
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+
+        $q = $q->execute()->as_array();
 
         return $q;
     }
@@ -192,8 +210,14 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public function get_post_data_by_record($record_id) {
-        $q = DB::select('post_data')->from($this->table)->where('id', $record_id)->execute()->as_array();
+    public function get_post_data_by_record($record_id, $direct = FALSE) {
+        $q = DB::select('post_data')->from($this->table)->where('id', $record_id);
+
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+
+        $q = $q->execute()->as_array();
 
         return $q;
     }
@@ -215,8 +239,14 @@ class Model_Record extends Model {
      * @param type $id
      * @return type
      */
-    public function get_count($id = NULL) {
-        $q = DB::select('id')->from($this->table)->where('user_id', $this->user_id)->and_where('deploy_id', $id)->execute()->as_array();
+    public function get_count($id = NULL, $direct = FALSE) {
+        $q = DB::select('id')->from($this->table)->where('deploy_id', $id);
+
+        if (!$direct) {
+            $q = $q->and_where('user_id', $this->user_id);
+        }
+
+        $q = $q->execute()->as_array();
 
         return count($q);
     }
@@ -236,8 +266,7 @@ class Model_Record extends Model {
      * post_data
      * avatar_url
      * hash
-     * commit_count
-     * commit_message
+     * commits
      * file_add
      * file_remove
      * file_skip
@@ -275,13 +304,14 @@ class Model_Record extends Model {
      * post_data
      * avatar_url
      * hash
-     * commit_count
-     * commit_message
+     * commits
      * file_add
      * file_remove
      * file_skip
      *
-     * @param type $ar
+     * @param array $ar
+     * @param bool $user
+     * @return mixed
      */
     public function insert($ar, $user = FALSE) {
         if (!$user) {

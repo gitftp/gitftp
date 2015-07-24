@@ -799,5 +799,207 @@
             "auth",
             "github"
         ]
+    },
+    {
+        "name": "symfony/options-resolver",
+        "version": "v2.7.2",
+        "version_normalized": "2.7.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/OptionsResolver.git",
+            "reference": "98c313c831e5d99bb393ba1844df91bab2bb5b8b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/OptionsResolver/zipball/98c313c831e5d99bb393ba1844df91bab2bb5b8b",
+            "reference": "98c313c831e5d99bb393ba1844df91bab2bb5b8b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2015-06-18 19:21:56",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\OptionsResolver\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony OptionsResolver Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "config",
+            "configuration",
+            "options"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v2.7.2",
+        "version_normalized": "2.7.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "48aeb0e48600321c272955132d7606ab0a49adb3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/48aeb0e48600321c272955132d7606ab0a49adb3",
+            "reference": "48aeb0e48600321c272955132d7606ab0a49adb3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2015-07-01 11:25:50",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "kzykhys/git",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/kzykhys/PHPGit.git",
+            "reference": "8b3ee3147d58e0aee62610f0aebcd30eb076ad5d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/kzykhys/PHPGit/zipball/8b3ee3147d58e0aee62610f0aebcd30eb076ad5d",
+            "reference": "8b3ee3147d58e0aee62610f0aebcd30eb076ad5d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2",
+            "symfony/options-resolver": ">=2.3",
+            "symfony/process": ">=2.3"
+        },
+        "require-dev": {
+            "symfony/filesystem": ">=2.3"
+        },
+        "time": "2014-02-27 13:14:59",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kazuyuki Hayashi",
+                "email": "hayashi@valnur.net"
+            }
+        ],
+        "description": "A Git wrapper for PHP5.3+"
+    },
+    {
+        "name": "suin/php-rss-writer",
+        "version": "1.3",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/suin/php-rss-writer.git",
+            "reference": "82812ff988bb470f746d24e153cdc138e8838ff3"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/82812ff988bb470f746d24e153cdc138e8838ff3",
+            "reference": "82812ff988bb470f746d24e153cdc138e8838ff3",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2014-03-12 06:05:28",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Suin\\RSSWriter": "Source"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "suin",
+                "email": "suinyeze@gmail.com",
+                "homepage": "https://www.facebook.com/suinyeze",
+                "role": "Developer, Renaming Specialist"
+            }
+        ],
+        "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
+        "homepage": "https://github.com/suin/php-rss-writer",
+        "keywords": [
+            "feed",
+            "generator",
+            "rss",
+            "writer"
+        ]
     }
 ]

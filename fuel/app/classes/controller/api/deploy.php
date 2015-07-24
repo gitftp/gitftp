@@ -1,70 +1,73 @@
 <?php
 
+use Symfony\Component\Process\Process;
+
 class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
-    public function action_index() {
-        echo 'what ?';
-    }
-
-    public function action_getbranches() {
-        $post = Input::post();
-        try {
-            if (isset($post['deploy_id'])) {
-                $deploy = new Model_Deploy();
-                $data = $deploy->get($post['deploy_id']);
-
-                if (count($data) !== 1)
-                    throw new Exception('The project does not exist.');
-
-                $repo = $data[0]['repository'];
-                $username = $data[0]['username'];
-                $password = $data[0]['password'];
-            } else {
-                $repo = $post['repo'];
-                $username = $post['username'];
-                $password = $post['password'];
-            }
-
-            $a = utils::gitGetBranches($repo, $username, $password);
-            if ($a) {
-                echo json_encode(array(
-                    'status'  => TRUE,
-                    'data'    => $a,
-                    'request' => $post
-                ));
-            } else {
-                throw new Exception('Could not connect to GIT repository.');
-            }
-        } catch (Exception $e) {
-            echo json_encode(array(
-                'status'  => FALSE,
-                'reason'  => $e->getMessage(),
-                'request' => $post
-            ));
+    public function get_feed($user_id, $deploy_id) {
+        $record = new Model_Record();
+        $deploy = new Model_Deploy();
+        $branch = new Model_Branch();
+        $records = $record->get($deploy_id);
+        $branches = $branch->get($deploy_id);
+        $branchesFormatted = array();
+        foreach($branches as $a ){
+            $branchesFormatted[$a['id']] = $a;
+        }
+        try{
+            list($deploys) = $deploy->get($deploy_id);
+        }catch(Exception $e){
+            die('Sorry, something went terribly wrong.');
         }
 
+        $feed = new \Suin\RSSWriter\Feed();
+        $channel = new \Suin\RSSWriter\Channel();
+        $channel->title("GITFTP : ".$deploys['name'])
+            ->description($deploys['repository'])
+            ->pubDate(strtotime($deploys['created_at']))
+            ->url(dash_url.'#/project/'.$deploy_id)
+            ->language('en-US')
+            ->appendTo($feed);
+
+        foreach ($records as $k => $v) {
+            $item = new \Suin\RSSWriter\Item();
+            $item
+                ->title("Deployed to ".$branchesFormatted[$v['branch_id']]['name']." +".$v['file_add']." -".$v['file_remove'])
+                ->description("Deployed to ".$branchesFormatted[$v['branch_id']]['name']." +".$v['file_add']." -".$v['file_remove'])
+                ->url(dash_url.'#/project/'.$deploy_id.'/'.$v['id'])
+                ->pubDate($v['date'])
+                ->guid($v['id'])
+                ->appendTo($channel);
+        }
+
+        echo $feed;
     }
 
-    public function action_getonly($id = NULL) {
-
-        $a = Input::post();
+    /**
+     * Get selected only deploy data.
+     *
+     * @param null $id
+     */
+    public function get_only($id = NULL) {
+        $a = Input::get();
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
-        array_push($a, 'cloned');
-
+        array_push($a, 'cloned'); // neeeded for getting status.
         $b = $deploy->get(NULL, $a);
-        echo json_encode(array(
+        $b = utils::strip_passwords($b);
+        $response = array(
             'status' => TRUE,
             'data'   => $b
-        ));
-
+        );
+        $this->response($response);
     }
 
-    public function action_get($id = NULL) {
+    public function get_get($id = NULL) {
         $deploy = new Model_Deploy();
         $branches = new Model_Branch();
         $record = new Model_Record();
         $a = $deploy->get($id);
+
         foreach ($a as $k => $v) {
             $b = $branches->get($id);
             foreach ($b as $k2 => $v2) {
@@ -76,106 +79,99 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $a[$k]['branches'] = $b;
         }
 
-        echo json_encode(array(
+        $response = array(
             'status' => TRUE,
             'data'   => utils::strip_passwords($a)
-        ));
+        );
 
+        $this->response($response, 200);
     }
 
-    public function action_delete($id = NULL) { // deploy id.
+    public function delete_delete($id = NULL) { // deploy id.
+
         $record = new Model_Record();
         $is_active = $record->is_queue_active($id);
 
-        if ($is_active) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => 'Deployment is in progress, please try again later.'
-            ));
-
-            return FALSE;
-        }
-        $deploy = new Model_Deploy();
-
         try {
+            if ($is_active) {
+                throw new Exception('Deployment is in progress, please try again later.');
+            }
+            $deploy = new Model_Deploy();
             $answer = $deploy->delete($id);
+            if ($answer) {
+                $response = array(
+                    'status'  => TRUE,
+                    'request' => $id,
+                );
+            } else {
+                throw new Exception('We got confused, please try again later.');
+            }
         } catch (Exception $e) {
-            echo json_encode(array(
-                'status' => FALSE,
-                'reason' => $e->getMessage() . '' . $e->getLine()
-            ));
-
-            return FALSE;
-        }
-
-        if ($answer) {
-            echo json_encode(array(
-                'status'  => TRUE,
-                'request' => $id,
-            ));
-        } else {
-            echo json_encode(array(
+            $response = array(
                 'status'  => FALSE,
                 'request' => $id,
-                'reason'  => $answer,
-            ));
+                'reason'  => $e->getMessage(),
+            );
         }
 
+        $this->response($response);
     }
 
-    public function action_new() {
+    public function post_create() {
+        try {
+            $i = Input::post();
 
-        $i = Input::post();
+            // todo: verify all details.
 
-        $deploy = new Model_Deploy();
-        $deploy_id = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['key'], $i['env']);
+            $deploy = new Model_Deploy();
+            $deploy_id = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['key'], $i['env'], 1);
 
-        if ($deploy_id) {
-            echo json_encode(array(
-                'status'  => TRUE,
-                'request' => $i
-            ));
-        } else {
-            echo json_encode(array(
+            if ($deploy_id) {
+                $response = array(
+                    'status'  => TRUE,
+                    'request' => $i
+                );
+            } else {
+                throw new Exception('Sorry, we got confused.');
+            }
+        } catch (Exception $e) {
+            $response = array(
                 'status'  => FALSE,
                 'request' => $i,
-                'reason'  => $deploy_id,
-            ));
+                'reason'  => $e->getMessage(),
+            );
         }
+
+        $this->response($response);
     }
 
-    public function post_edit($id) {
+    public function post_update($id) {
 
         $i = Input::post();
         $i = utils::escapeHtmlChars($i);
 
-        $user_id = Auth::get_user_id()[1];
         $deploy = new Model_Deploy();
-        $deploy_row = $deploy->get($id)[0];
+        $deploy_data = $deploy->get($id);
 
         try {
-            if ((string)$deploy_row['user_id'] !== (string)$user_id) {
-                throw new Exception('404. Project not found.');
+            if (count($deploy_data)) {
+                $deploy_data = $deploy_data[0];
+            } else {
+                throw new Exception('Sorry, we got confused. No project was found.');
             }
 
+            // data to update
             $data = array(
                 'name' => $i['name'],
                 'key'  => $i['key'],
             );
 
             if (isset($i['isprivate'])) {
-                /*
-                 * if private feed username and password
-                 */
                 if (isset($i['username']))
                     $data['username'] = $i['username'];
                 if (isset($i['password']))
                     $data['password'] = $i['password'];
-
             } else {
-                /*
-                 * if not private remove username and password.
-                 */
                 $data['username'] = '';
                 $data['password'] = '';
             }
@@ -185,48 +181,39 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             if ($result[1] !== 0) {
 
                 // changing clone url in git.
-                $deploy_row2 = $deploy->get($id)[0];
-                $repo_url = $deploy_row2['repository'];
-                $repo_url = parse_url($repo_url);
+                list($deploy_data) = $deploy->get($id);
+                $repo_url = parse_url($deploy_data['repository']);
 
-                if (!empty($deploy_row2['username'])) {
-                    $repo_url['user'] = $deploy_row2['username'];
-                    if (!empty($deploy_row2['password'])) {
-                        $repo_url['pass'] = $deploy_row2['password'];
+                if (!empty($deploy_data['username'])) {
+                    $repo_url['user'] = $deploy_data['username'];
+                    if (!empty($deploy_data['password'])) {
+                        $repo_url['pass'] = $deploy_data['password'];
                     }
                 }
 
-                $newCloneUrl = http_build_url($repo_url);
-                $repo_dir = DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_row2['id'];
+                $newRemote = http_build_url($repo_url);
+                $repo_dir = utils::get_repo_dir($deploy_data['id']);
+                $git = new \PHPGit\Git();
+                $git->setRepository($repo_dir);
+                $git->remote->url->set('origin', $newRemote);
 
-                try {
-                    chdir($repo_dir);
-//                    echo $newCloneUrl;
-                    // TODO: this is not working !
-                    $op = utils::gitCommand('remote set-url origin ' . $newCloneUrl);
-//                    exec('git remote set-url origin ' . $newCloneUrl, $op);
-//                    print_r($op);
-                } catch (Exception $e) {
-                    // if the folder doesnt exist, do nothing.
-                }
-
-                $response = json_encode(array(
+                $response = array(
                     'status'  => TRUE,
                     'request' => $i
-                ));
+                );
             } else {
-                throw new Exception('Failed to update deploy configuration, please try again.');
+                throw new Exception('Sorry, something went wrong. Please try again later.');
             }
 
         } catch (Exception $e) {
-            $response = json_encode(array(
+            $response = array(
                 'status'  => FALSE,
                 'request' => $i,
                 'reason'  => $e->getMessage()
-            ));
+            );
         }
 
-        return $response;
+        $this->response($response);
     }
 
     /*
@@ -304,20 +291,19 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 }
             }
 
-//            Gfcore::deploy_in_bg($deploy_id);
-            echo json_encode(array(
+            Gfcore::deploy_in_bg($deploy_id);
+            $response = array(
                 'status' => TRUE,
-            ));
+            );
 
         } catch (Exception $e) {
-            echo json_encode(array(
+            $response = array(
                 'status' => FALSE,
                 'reason' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ));
+            );
         }
 
+        $this->response($response);
     }
 
 }

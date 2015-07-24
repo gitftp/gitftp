@@ -15,7 +15,7 @@
                                 <span class="icon-bar"></span>
                             </button>
                             <a style="background-color: #f9f9f9" class="navbar-brand"
-                               href="<?php echo home_url; ?>"> <?php echo Asset::img('logo-sm.png', array('style' => 'height: 40px; margin-top: -9px;')); ?> </a>
+                               href="<?php echo home_url; ?>"> <?php echo Asset::img('logo-sm-2.png', array('style' => 'height: 34px; margin-top: -6px;')); ?> </a>
                             <!--<a class="navbar-brand" href="<?php //echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

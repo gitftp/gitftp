@@ -30,13 +30,13 @@ define([
                 method: 'post',
                 dataType: 'json',
             }).done(function (data) {
-                if(data.status){
+                if (data.status) {
                     noty({
                         text: 'Deploy added to Queued. Will be deployed shortly.',
                         type: 'success',
                     });
                     app_reload();
-                }else{
+                } else {
                     $this.html(f).prop('disabled', false);
                 }
             });
@@ -49,8 +49,16 @@ define([
 
             $.alert({
                 title: 'Provided Payload.',
-                content: 'url:' + base + 'api/records/getpayload/' + id,
-                animation: 'top',
+                content: function () {
+                    var o = this;
+                    return _ajax({
+                        url: base + 'api/records/payload/' + id,
+                        method: 'get',
+                        dataType: 'json',
+                    }).done(function (response) {
+                        o.setContent(response.data);
+                    })
+                },
                 confirmButton: 'Close',
                 theme: 'white',
                 columnClass: 'col-md-6 col-md-offset-3',
@@ -64,8 +72,16 @@ define([
 
             $.alert({
                 title: 'Raw Output',
-                content: 'url:' + base + 'api/records/getraw/' + id,
-                animation: 'top',
+                content: function () {
+                    var o = this;
+                    return _ajax({
+                        url: base + 'api/records/raw/' + id,
+                        method: 'get',
+                        dataType: 'json',
+                    }).done(function (response) {
+                        o.setContent(response.data);
+                    })
+                },
                 confirmButton: 'Close',
                 theme: 'white',
                 columnClass: 'col-md-6 col-md-offset-3',

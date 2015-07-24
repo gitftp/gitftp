@@ -40,7 +40,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
             if (!isset($i['pass']) && isset($i['id'])) {
                 /*
-                 * Tkae the password that is stored with us.
+                 * Take the password that is stored with us.
                  */
                 $ftp_id = $i['id'];
                 $ftp_model = new Model_Ftp();

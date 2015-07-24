@@ -3870,7 +3870,7 @@ ul.portfolio-list li span:first-child {
 }
 #header.transparent.white-header .menu ul li a:hover,
 #header.transparent.white-header .menu ul li a:focus {
-  border-bottom-color: #ffffff;
+  border-top: none;
 }
 #header.transparent.black-header img.standard-logo.black-logo {
   display: block;
@@ -4070,7 +4070,6 @@ ul.portfolio-list li span:first-child {
 #header .menu ul li a:focus {
   color: #0091EA;
   /* border-top: 2px solid transparent; */
-  border-bottom: 2px solid #0091EA;
 }
 #header .menu ul li ul.dropdown-menu {
   border-radius: 0;
@@ -4729,6 +4728,9 @@ label.error {
 }
 .mono {
   font-family: consolas;
+}
+.fa {
+  line-height: inherit;
 }
 a.btn {
   padding: 9px 10px 7px;

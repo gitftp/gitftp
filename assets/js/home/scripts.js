@@ -281,7 +281,11 @@
                                 content: '<span class=""><i class="fa fa-spin fa-spinner"></i>&nbsp; Logged in, Redirecting... </span>',
                                 closeIcon: false
                             });
-                            window.location = data.redirect;
+                            if(getUrlParameter('ref')){
+                                window.location = decodeURIComponent(getUrlParameter('ref'));
+                            }else{
+                                window.location = data.redirect;
+                            }
                         } else {
                             $.alert({
                                 title: 'Problem',

@@ -2,10 +2,64 @@
 
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
-    public function action_index() {
-        echo 'what ?';
+    public function post_feedback() {
+        $i = Input::post();
+
+        $messages = new Model_Messages();
+        $i = utils::escapeHtmlChars($i);
+
+        $messages->insert(array(
+            'message' => $i['message'],
+            'type'    => 1,
+            'date'    => time()
+        ));
+
+        $this->response(array(
+            'status' => TRUE,
+        ));
     }
 
+    public function post_getRemoteBranches() {
+        $post = Input::post();
+        try {
+            if (isset($post['deploy_id'])) {
+                $deploy = new Model_Deploy();
+                $data = $deploy->get($post['deploy_id']);
+
+                if (count($data) !== 1)
+                    throw new Exception('The project does not exist.');
+
+                $repo = $data[0]['repository'];
+                $username = $data[0]['username'];
+                $password = $data[0]['password'];
+            } else {
+                $repo = $post['repo'];
+                $username = $post['username'];
+                $password = $post['password'];
+            }
+
+            $a = utils::gitGetBranches($repo, $username, $password);
+            if ($a) {
+                $response = array(
+                    'status'  => TRUE,
+                    'data'    => $a,
+                    'request' => $post
+                );
+            } else {
+                throw new Exception('Could not connect to GIT repository.');
+            }
+        } catch (Exception $e) {
+            $response = array(
+                'status'  => FALSE,
+                'reason'  => $e->getMessage(),
+                'request' => $post
+            );
+        }
+
+        $this->response($response);
+    }
+
+    // todo : dashboard.
     public function action_dashboard() {
         $deploy = new Model_Deploy();
         $user_id = Auth::get_user_id()[1];

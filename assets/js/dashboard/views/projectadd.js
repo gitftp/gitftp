@@ -25,7 +25,7 @@ define([
             var that = this;
 
             return _ajax({
-                url: base + 'api/deploy/getbranches',
+                url: base + 'api/etc/getremotebranches',
                 data: {
                     repo: $('input[name="repo"]').val(),
                     username: $('input[name="username"]').val(),
@@ -68,15 +68,16 @@ define([
         save: function (e) {
             var $this = $(e.currentTarget);
             e.preventDefault();
+            var that = this;
 
             var valid = true;
-
-            if (!$('#add-deploy-form-step1').valid()) {
+            var $form = $('#add-deploy-form-step1');
+            if (!$form.valid()) {
                 valid = false;
             }
 
             if (this.envforms.length == 0 && valid) {
-                $('#add-deploy-form-step1').submit();
+                $form.submit();
                 return false;
             }
 
@@ -110,8 +111,12 @@ define([
                 key: $('input[name="key"]').val() || '',
             };
 
+            $this.html('<i class="fa fa-spin fa-spinner"></i> Saving').prop('disalbed', true);
+            this.togglePanel(1, 'disable');
+            this.togglePanel(2, 'disable');
+
             _ajax({
-                url: base + 'api/deploy/new',
+                url: base + 'api/deploy/create',
                 data: data,
                 dataType: 'json',
                 method: 'post',
@@ -119,19 +124,24 @@ define([
                 if (data.status) {
                     $.alert({
                         title: 'Added',
-                        content: 'The configuration is added, please proceed for first deployment.'
+                        icon: 'fa fa-check green',
+                        content: 'Your project has been successfully created.',
+                        confirmButton: 'close',
                     });
                     Router.navigate('#/project', {
                         trigger: true
                     });
                 } else {
-                    noty({
-                        text: data.reason,
-                        type: 'error'
+                    $.alert({
+                        title: 'Problem',
+                        content: data.reason,
+                        icon: 'fa fa-info red',
                     });
                 }
             }).always(function () {
-
+                $this.html('<i class="fa fa-spin fa-spinner"></i> Saving').prop('disalbed', false);
+                this.togglePanel(1, 'enable');
+                this.togglePanel(2, 'enable');
             });
 
         },

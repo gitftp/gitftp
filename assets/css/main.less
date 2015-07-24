@@ -718,37 +718,39 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.panel-user-settings {
-//  .list-group {
-//    margin-bottom: 0px;
-//    .list-group-item {
-//      border-top-right-radius: 0px;
-//      border-bottom-right-radius: 0px;
-//      border: none;
-//      border-right: solid 1px @bg;
-//      border-bottom: solid 1px @bg;
-//
-//    }
-//  }
-//  .panel-body.panel-body-material {
-//    padding-left: 0px;
-//  }
+.bottomBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  .shadow;
+  ul{
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li{
+      display: inline-block;
+      a{
+        display:inline-block;
+        color: #555;
+        padding: 5px 10px;
+        text-transform: uppercase;
+        font-weight: 500;
+        &:hover{
+          background: @bg;
+        }
+      }
+      span{
+        display:inline-block;
+        color: #555;
+        padding: 5px 10px;
+        text-transform: uppercase;
+        font-weight: 500;
+      }
+    }
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

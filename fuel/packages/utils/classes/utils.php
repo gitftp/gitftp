@@ -107,64 +107,94 @@ class utils {
      * avatar_url
      * hash
      * post_data
-     * commit_count
-     * commit_message
+     * commits
      *
      * @param type $input -> payload.
-     * @param type $deploy_id -> deploy to id optional
      * @return array
      */
-    public static function parsePayload($input, $deploy_id = NULL) {
-
-        $i = json_decode($input['payload']);
+    public static function parsePayload($i) {
         $service = 'none';
-        if (isset($i->canon_url)) {
-            if (preg_match('/bitbucket/i', $i->canon_url)) {
+
+        if (isset($i['repository']['links']['self']['href'])) {
+            if (preg_match('/bitbucket/i', $i['repository']['links']['self']['href'])) {
                 $service = 'bitbucket';
+//                utils::log('bitbucket');
             }
         }
 
-        if (isset($i->repository)) {
-            if (isset($i->repository->url)) {
-                if (preg_match('/github/i', $i->repository->url)) {
+        if (isset($i['repository'])) {
+            if (isset($i['repository']['url'])) {
+                if (preg_match('/github/i', $i['repository']['url'])) {
                     $service = 'github';
+//                    utils::log('github');
                 }
             }
         }
 
-        utils::log('service: ' . $service);
-
         if ($service == 'github') {
-            $lc = count($i->commits) - 1;
-            $branch = $i->ref;
+            $branch = $i['ref'];
             $branch = explode('/', $branch);
             $branch = $branch[count($branch) - 1];
 
+            $commits = array();
+
+            foreach ($i['commits'] as $commit) {
+                $commits[] = array(
+                    'hash'      => $commit['id'],
+                    'message'   => $commit['message'],
+                    'timestamp' => $commit['timestamp'],
+                    'url'       => $commit['url'],
+                    'committer' => $commit['committer'],
+                );
+            }
+
             return array(
-                'user'           => $i->pusher->name,
-                'avatar_url'     => $i->sender->avatar_url,
-                'hash'           => $i->after,
-                'post_data'      => serialize($i),
-                'commit_count'   => count($i->commits),
-                'commit_message' => $i->commits[$lc]->message,
-                'branch'         => $branch
+                'user'       => $i['pusher']['name'],
+                'avatar_url' => $i['sender']['avatar_url'],
+                'hash'       => $i['after'],
+                'post_data'  => serialize($i),
+                'commits'    => serialize($commits),
+                'branch'     => $branch
             );
         }
 
+        // have to do same for bitbucket also
         if ($service == 'bitbucket') {
-            $lc = count($i->commits) - 1;
+
+            $commits = array();
+            $lc = count($i['push']['changes']) - 1;
+            foreach ($i['push']['changes'] as $commit) {
+                $commits[] = array(
+                    'hash'      => $commit['new']['target']['hash'],
+                    'message'   => $commit['new']['target']['message'],
+                    'timestamp' => $commit['new']['target']['date'],
+                    'url'       => $commit['links']['html']['href'],
+                    'committer' => $commit['new']['target']['author']['user']['username'],
+                );
+            }
+
+            $branch = $i['push']['changes'][$lc]['new']['name'];
+            $avatar_url = $i['actor']['links']['avatar']['href'];
+            $avatar_url = str_replace('32', '20', $avatar_url);
 
             return array(
-                'user'           => $i->commits[$lc]->author,
-                'avatar_url'     => '',
-                'hash'           => $i->commits[$lc]->raw_node,
-                'post_data'      => serialize($i),
-                'commit_count'   => count($i->commits),
-                'commit_message' => $i->commits[$lc]->message
+                'user'       => $i['actor']['username'],
+                'avatar_url' => $avatar_url,
+                'hash'       => $i['push']['changes'][$lc]['new']['target']['hash'],
+                'post_data'  => serialize($i),
+                'commits'    => serialize($commits),
+                'branch'     => $branch,
             );
         }
     }
-
+    public static function parseProviderFromRepository($url){
+        if(preg_match('/bitbucket/', strtolower($url))){
+            return 'Bitbucket';
+        }
+        if(preg_match('/github/', strtolower($url))){
+            return 'Github';
+        }
+    }
     public static function humanize_data($bytes) {
         $decimals = 2;
         $sz = 'BKMGTP';
@@ -185,9 +215,9 @@ class utils {
             }
             if (isset($data[$k]['password'])) {
                 if (!empty($data[$k]['password'])) {
-                    $data[$k]['passwordset'] = TRUE;
+                    $data[$k]['pset'] = TRUE;
                 } else {
-                    $data[$k]['passwordset'] = FALSE;
+                    $data[$k]['pset'] = FALSE;
                 }
                 unset($data[$k]['password']);
             }
@@ -219,6 +249,7 @@ class utils {
         if (is_null($user_id)) {
             $user_id = Auth::get_user_id()[1];
         }
+
         return DOCROOT . 'fuel/repository/' . $user_id . '/' . $deploy_id;
     }
 
@@ -228,6 +259,7 @@ class utils {
         chdir($path);
         $results = self::gitCommand('rev-parse --verify ' . $hash);
         chdir($origin);
+
         return (count($results)) ? $results[0] : FALSE;
     }
 }

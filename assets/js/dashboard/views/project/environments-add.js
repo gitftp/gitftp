@@ -184,7 +184,7 @@ define([
         },
         getBranches: function () {
             return _ajax({
-                url: dash_url + 'api/deploy/getbranches',
+                url: dash_url + 'api/etc/getremotebranches',
                 data: {
                     'deploy_id': this.parent.id
                 },

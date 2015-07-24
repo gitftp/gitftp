@@ -4,6 +4,7 @@ class Model_Deploy extends Model {
     private $table = 'deploy';
     public $user_id;
     public $id = NULL; // deploy id.
+    private $hash = 'diorjorp435u94uu35u45u';
 
     public function __construct() {
         if (\Auth::instance()->check()) {
@@ -33,8 +34,11 @@ class Model_Deploy extends Model {
         foreach ($a as $k => $v) {
             $id = $v['id'];
             $a[$k]['status'] = $this->getStatus($id, $v);
-            if(isset($v['repository']))
+            if (isset($v['repository']))
                 $a[$k]['provider'] = utils::parseProviderFromRepository($v['repository']);
+
+            if (isset($v['password']))
+                $a[$k]['password'] = \Crypt::instance()->decode($a[$k]['password']);
         }
 
         return $a;
@@ -93,6 +97,10 @@ class Model_Deploy extends Model {
                 return FALSE;
             }
         }
+
+        if (isset($set['password']))
+            $set['password'] = \Crypt::instance()->encode($set['password']);
+
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
@@ -194,7 +202,7 @@ class Model_Deploy extends Model {
             'name'       => $name,
             'user_id'    => $this->user_id,
             'username'   => ($username) ? $username : '',
-            'password'   => ($password) ? $password : '',
+            'password'   => ($password) ? \Crypt::instance()->encode($password) : '',
             'key'        => $key,
             'cloned'     => 0,
             'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),

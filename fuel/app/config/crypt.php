@@ -1,6 +1,6 @@
 <?php
 return array(
-	'crypto_key' => 'LZwGiM0PchBsn9cVmAlwggVk',
-	'crypto_iv' => 'Lhg9GEsBgUSQoj4SGEzHkGCU',
-	'crypto_hmac' => '-Gs-5A5E4bd0AsQvEYkZcPTU',
+	'crypto_key' => 'kd0ir0w9rmi4r9i29ir9iric',
+	'crypto_iv' => '0-cri40r8cn4ur9rp4',
+	'crypto_hmac' => 'ciruwepw3c48ur23urc89r',
 );

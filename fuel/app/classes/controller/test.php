@@ -114,4 +114,11 @@ class Controller_Test extends Controller {
         $a = DB::select()->from('log')->order_by('id', 'desc')->execute()->as_array();
         print_r($a);
     }
+
+    public function get_f(){
+        $p = 'zombieismyname191993bit';
+        echo $nhash = \Crypt::instance()->encode($p);
+        echo '<br>';
+        echo \Crypt::instance()->decode($nhash);
+    }
 }

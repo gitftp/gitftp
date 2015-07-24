@@ -160,8 +160,8 @@ class Gfcore {
             // Testing connection for safety.
             $branches = utils::gitGetBranches($this->deploy_data['repository'], $this->deploy_data['username'], $this->deploy_data['password']);
             if ($branches == FALSE) {
-                $this->log('Could not connect to ' . $this->deploy_data['repository']);
-                throw new Exception('Failed to connect to ' . $this->deploy_data['repository']);
+                $this->log('Could not connect to repository.');
+                throw new Exception('Failed to connect to repository');
             } else {
                 $this->output('Fetched ' . count($branches) . ' branches');
                 $this->log('Connection to ' . $this->deploy_data['repository'] . ' successful.');

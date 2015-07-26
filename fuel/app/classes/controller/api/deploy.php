@@ -14,8 +14,8 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         $deploy = new Model_Deploy();
         $a = explode(',', $a['select']);
         array_push($a, 'cloned'); // neeeded for getting status.
-        $b = $deploy->get(NULL, $a);
-        $b = utils::strip_passwords($b);
+        $b = $deploy->get($id, $a);
+        $b = Utils::strip_passwords($b);
         $response = array(
             'status' => TRUE,
             'data'   => $b
@@ -42,7 +42,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
         $response = array(
             'status' => TRUE,
-            'data'   => utils::strip_passwords($a)
+            'data'   => Utils::strip_passwords($a)
         );
 
         $this->response($response, 200);
@@ -109,7 +109,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
     public function post_update($id) {
 
         $i = Input::post();
-        $i = utils::escapeHtmlChars($i);
+        $i = Utils::escapeHtmlChars($i);
 
         $deploy = new Model_Deploy();
         $deploy_data = $deploy->get($id);
@@ -153,7 +153,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 }
 
                 $newRemote = http_build_url($repo_url);
-                $repo_dir = utils::get_repo_dir($deploy_data['id']);
+                $repo_dir = Utils::get_repo_dir($deploy_data['id']);
                 $git = new \PHPGit\Git();
                 $git->setRepository($repo_dir);
                 $git->remote->url->set('origin', $newRemote);
@@ -192,7 +192,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $branch = new Model_Branch();
             $deploy = new Model_Deploy();
             $deploy_id = $i['deploy_id'];
-            $repo_dir = utils::get_repo_dir($deploy_id);
+            $repo_dir = Utils::get_repo_dir($deploy_id);
             $git = new \PHPGit\Git();
             $git->setRepository($repo_dir);
 
@@ -212,6 +212,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
             // type can be
             // sync, update, revert.
+
             if (count($branches) > 0) {
                 foreach ($branches as $singlebranch) {
 
@@ -238,14 +239,14 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                                 throw new Exception('Missing parameter hash.');
 
                             $branches = $git->branch();
-                            if(array_key_exists($i['hash'], $branches))
+                            if (array_key_exists($i['hash'], $branches))
                                 throw new Exception('The hash provided is a Branch. Please enter a valid hash');
 
                             $tags = $git->tag();
-                            if(\Arr::in_array_recursive($i['hash'], $tags))
+                            if (\Arr::in_array_recursive($i['hash'], $tags))
                                 throw new Exception('The hash provided is a Tag. Please enter a valid hash');
 
-                            $hash = utils::git_verify_hash($i['deploy_id'], $i['hash']);
+                            $hash = Utils::git_verify_hash($i['deploy_id'], $i['hash']);
 
                             if ($hash)
                                 $set['hash'] = $hash;

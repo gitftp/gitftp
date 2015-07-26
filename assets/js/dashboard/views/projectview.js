@@ -7,10 +7,20 @@ define([
     'views/project/environments-add',
 ], function (main, activityView, settingsView, environmentsView, manageenvironmentsView, addenvironmentsView) {
 
-    d = Backbone.View.extend({
+    return Backbone.View.extend({
         el: app.el,
         events: {},
-        page: {},
+        initialize: function () {
+            this.pages = {
+                main: main,
+                activity: activityView,
+                settings: settingsView,
+                environments: environmentsView,
+                manage: manageenvironmentsView,
+                add: addenvironmentsView
+            }
+            this.subPage = '.deploy-sub-page';
+        },
         render: function (url) {
             var that = this;
             this.url = url;
@@ -20,58 +30,48 @@ define([
             // page find.
             if (this.urlp.length == 1) {
                 var page = 'activity';
+                Router.navigate('#/project/' + this.id + '/activity', {
+                    trigger: true,
+                    replace: true
+                });
+                return false;
             } else if (this.urlp.length == 2) {
                 var page = this.urlp[1];
             } else if (this.urlp.length > 2) {
                 var page = this.urlp[2];
             }
 
-            this.subPage = '.deploy-sub-page';
-
             // save 'which' page.
             this.which = page;
-            console.log('page is ', page);
 
             var is_loaded = ($('.project-v-status').length) ? true : false;
             if (!is_loaded) {
                 this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
-            }
-
-            // save templates.
-            this.page = {
-                main: main,
-            };
-            // save the compiled templates
-            this.template = {
-                main: _.template(this.page.main),
-            };
-
-            if (is_loaded) {
+            } else {
                 that.makeMenuSelection();
                 that.renderChild();
                 return false;
             }
 
-            this.getData().done(function (data) {
-                that.data = data;
+            this.getData().done(function (response) {
+                that.data = response;
 
-                if (data.data.length == 0) {
+                if (response.data.length == 0) {
                     Router.navigate('#/project', {
                         trigger: true,
-                        replace: true,
+                        replace: true
                     });
                     return false;
                 }
-                if (is_loaded) {
 
-                } else {
-                    var template = that.template.main({
-                        's': data.data[0]
-                    });
-                    that.el.html(template);
-                    that.makeMenuSelection();
-                    that.renderChild();
-                }
+                // save the compiled templates
+                var template = _.template(that.pages.main);
+                var template = template({
+                    's': response.data[0]
+                });
+                that.el.html(template);
+                that.makeMenuSelection();
+                that.renderChild();
             });
         },
         getData: function () {
@@ -102,34 +102,19 @@ define([
         },
         renderChild: function () {
             var that = this;
-            if (typeof this['_' + this.which] == 'function') {
-                this['_' + this.which]();
-            } else {
-                console.log('404: page not found');
-            }
-        },
-        _add: function () {
-            this.add_environments = this.add_environments || new addenvironmentsView();
-            this.add_environments.render(this);
-        },
-        _activity: function () {
-            this.activity = this.activity || new activityView();
-            this.activity.render(this);
-        },
-        _settings: function () {
-            this.settings = this.settings || new settingsView();
-            this.settings.render(this);
-        },
-        _environments: function () {
-            this.environments = this.environments || new environmentsView();
-            this.environments.render(this);
-        },
-        _manage: function () {
-            this.manage_environments = this.manage_environments || new manageenvironmentsView();
-            this.manage_environments.render(this);
-        },
-    })
-    ;
-    return d;
-})
-;
+
+            if (typeof this.pages[this.which] == 'undefined')
+                console.log('PROJECT VIEW: not known page: ', this.which);
+
+            if (this[this.which])
+                this[this.which].undelegateEvents();
+
+            this[this.which] = new this.pages[this.which]({
+                el: this.subPage
+            });
+            this[this.which].render(this.id, this.urlp);
+
+            console.log('PROJECT VIEW: page', this.which);
+        }
+    });
+});

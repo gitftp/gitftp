@@ -5,7 +5,6 @@ define([
      * PROJECT LISTING.
      */
     d = Backbone.View.extend({
-        el: app.el,
         events: {
             'click .startdeploy': 'firstDeploy',
             'click .watchPayload': 'getPayload',
@@ -24,16 +23,16 @@ define([
             _ajax({
                 url: dash_url + 'api/deploy/run/',
                 data: {
-                    'deploy_id': that.parent.id,
+                    'deploy_id': that.id,
                     'type': 'sync'
                 },
                 method: 'post',
-                dataType: 'json',
+                dataType: 'json'
             }).done(function (data) {
                 if (data.status) {
                     noty({
                         text: 'Deploy added to Queued. Will be deployed shortly.',
-                        type: 'success',
+                        type: 'success'
                     });
                     app_reload();
                 } else {
@@ -55,15 +54,14 @@ define([
                     return _ajax({
                         url: base + 'api/records/payload/' + id,
                         method: 'get',
-                        dataType: 'json',
+                        dataType: 'json'
                     }).done(function (response) {
                         o.contentDiv.html(response.data);
                     });
                 },
                 confirmButton: 'Close',
                 theme: 'white',
-                columnClass: 'col-md-6 col-md-offset-3',
-                iconClass: true,
+                columnClass: 'col-md-6 col-md-offset-3'
             });
         },
         getRawData: function (e) {
@@ -80,72 +78,84 @@ define([
                     return _ajax({
                         url: base + 'api/records/raw/' + id,
                         method: 'get',
-                        dataType: 'json',
+                        dataType: 'json'
                     }).done(function (response) {
                         o.contentDiv.html(response.data);
                     })
                 },
                 confirmButton: 'Close',
                 theme: 'white',
-                columnClass: 'col-md-6 col-md-offset-3',
+                columnClass: 'col-md-6 col-md-offset-3'
             });
         },
         renderMoreActivity: function (e) {
             e.preventDefault();
-            $this = $(e.currentTarget);
+            var that = this;
+            var $this = $(e.currentTarget);
             $this.attr('disabled', true);
             $this.html('<i class="fa fa-spin fa-refresh"></i> Getting activity');
-            var count = $('.project-record-list').length;
-            var that = this;
-            _ajax({
-                url: base + 'api/records/get/' + that.parent.id,
+            var offset = $('.project-record-list').length;
+            this.getRecords(offset).done(function (records) {
+                that.activityData = records;
+                var subPage = that.template({
+                    'data': that.data.data[0],
+                    'activity': records,
+                    'more': 'true',
+                    'count': records.count,
+                    'renderedCount': offset + 10
+                });
+                $this.remove();
+                that.$e.find('.project-record-list-wrapper').append(subPage);
+            });
+        },
+        initialize: function () {
+            this.template = _.template(projectActivityHtml);
+        },
+        getRecords: function (offset) {
+            if (typeof offset == 'undefined')
+                offset = 0;
+
+            return _ajax({
+                url: base + 'api/records/get/' + this.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
                     limit: '10',
-                    offset: count,
+                    offset: offset,
                 }
-            }).done(function (records) {
-                that.activityData = records;
-                var subPage = that.template({
-                    's': that.parent.data.data[0],
-                    'activity': records,
-                    'more': 'true',
-                    'count': records.count,
-                    'renderedCount': count + 10
-                });
-                $this.remove();
-                that.$el.find('.project-record-list-wrapper').append(subPage);
             });
         },
-        render: function (parent) {
-            this.parent = parent;
-            var that = this;
-            $(that.parent.subPage).html('');
-            console.log(this.parent);
-
-            // todo: add changing element html.
-            $.when(_ajax({
-                url: base + 'api/records/get/' + that.parent.id,
+        getData: function () {
+            return _ajax({
+                url: base + 'api/deploy/only/' + this.id,
                 method: 'get',
                 dataType: 'json',
                 data: {
-                    limit: '10'
+                    select: 'id,cloned'
                 }
-            }), that.parent.getData()).then(function (records, data) {
+            });
+        },
+        render: function (id) {
+            this.id = id;
+            var that = this;
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+
+            $.when(this.getRecords(), this.getData()).then(function (records, data) {
                 records = records[0];
                 data = data[0];
-
+                console.log('loading');
                 that.activityData = records;
-                that.template = _.template(projectActivityHtml);
+                that.data = data;
+
                 var subPage = that.template({
-                    's': data.data[0],
+                    'data': data.data[0],
                     'activity': records,
                     'more': 'false',
                     'count': records.count,
                     'renderedCount': 10
                 });
-                $(that.parent.subPage).html(subPage);
+                that.$e.html(subPage);
+                console.log('loaded');
             });
         }
     });

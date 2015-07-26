@@ -19,11 +19,13 @@ class Controller_Test extends Controller {
 
         Gfcore::deploy_in_bg('30');
     }
-    public function get_test(){
+
+    public function get_test() {
         $a = DB::select()->from('deploy')->execute()->as_array();
         print_r($a);
     }
-    public function get_test2(){
+
+    public function get_test2() {
         $files = array(
             'folder/folder2/',
             'folder/folder2/',
@@ -32,8 +34,8 @@ class Controller_Test extends Controller {
         );
 
         $merged = array();
-        foreach($files as $v){
-            foreach($merged as $m){
+        foreach ($files as $v) {
+            foreach ($merged as $m) {
 
             }
         }
@@ -53,6 +55,7 @@ class Controller_Test extends Controller {
 //        exec('git branch', $a);
 //        print_r($a);
     }
+
     public function get_a() {
         $a = 'ftp_chdir(): CWD failed. "/asdsad": directory not found';
         $b = explode(': ', $a);
@@ -80,11 +83,13 @@ class Controller_Test extends Controller {
             echo $item;
         }
     }
-    public function get_e(){
+
+    public function get_e() {
 //        echo strtotime('Tue, 21 Aug 2012 19:50:37 +0900');
         echo strtotime('2015-07-23 20:46:36');
     }
-    public function get_c(){
+
+    public function get_c() {
 //        echo Fuel::$env;
 //        echo Crypt::encode('asda', 'randomcode');
 //        $response = new Response();
@@ -92,12 +97,14 @@ class Controller_Test extends Controller {
 //        echo $response->send();
         throw new Exception('No', 503);
     }
-    public function get_dbspeed(){
+
+    public function get_dbspeed() {
         $deploy = new Model_Deploy();
-        $a = $deploy->get(47, null, true);
+        $a = $deploy->get(47, NULL, TRUE);
         print_r($a);
     }
-    public function get_d(){
+
+    public function get_d() {
 
 //        $a = '{"actor": {"display_name": "boniface pereira", "username": "craftpip", "links": {"self": {"href": "https://api.bitbucket.org/2.0/users/craftpip"}, "avatar": {"href": "https:/' ;
 //        echo substr($a, 0, 1);
@@ -110,15 +117,36 @@ class Controller_Test extends Controller {
 
     }
 
-    public function get_logs(){
+    public function get_logs() {
         $a = DB::select()->from('log')->order_by('id', 'desc')->execute()->as_array();
         print_r($a);
     }
 
-    public function get_f(){
+    public function get_f() {
         $p = 'zombieismyname191993bit';
         echo $nhash = \Crypt::instance()->encode($p);
         echo '<br>';
         echo \Crypt::instance()->decode($nhash);
+    }
+
+    public function get_email() {
+        $email = new Mailwrapper();
+        $email = $email->template_signup();
+        try {
+            $email->send();
+        } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+    public function get_g(){
+//        list($a) = DB::select()->from('users')->where('id', 228)->execute()->as_array();
+//        print_r(unserialize($a['profile_fields']));
+
+        $user = new Userwrapper();
+        echo $user->getProperty('usersadsaname');
+    }
+    public function get_h(){
+        $user = new Userwrapper();
+        echo $user->passwordHash();
     }
 }

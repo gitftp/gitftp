@@ -113,13 +113,13 @@ class Controller_Api_User extends Controller {
                 throw new Exception('Sorry, we got confused. Please try again later.', 123);
             }
 
-            if($i['newpassword'] !== $i['newpassword2']){
+            if ($i['newpassword'] !== $i['newpassword2']) {
                 throw new Exception('Sorry, the new passwords do not match.', 123);
             }
 
             $a = \Auth::instance()->change_password($i['oldpassword'], $i['newpassword']);
 
-            if(!$a){
+            if (!$a) {
                 throw new Exception('Sorry, the old password is incorrect. Please try again.', 123);
             }
 
@@ -135,6 +135,64 @@ class Controller_Api_User extends Controller {
             );
         }
 
+        echo json_encode($response);
+    }
+
+    public function post_forgotpassword() {
+        try {
+            $i = Input::post();
+
+            $user = new Userwrapper();
+            $users = $user->DBgetByUsernameEmail($i['email']);
+            if (!$users) {
+                throw new Exception('Email/Username not registered with us.');
+            }
+
+            $mail = new Mailwrapper($users['id']);
+            $mail->template_forgotpassword();
+            $mail->send();
+
+            $response = array(
+                'status'  => TRUE,
+                'message' => 'asdsa',
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+        }
+
+        echo json_encode($response);
+    }
+
+    public function post_forgotpasswordconfirmed() {
+        try {
+            $i = Input::post();
+
+            $user = new Userwrapper($i['user_id']);
+            $key = $user->getAttr('forgotpassword_key');
+            if ($key != $i['key']) {
+                throw new Exception('Sorry, the token has expired.');
+            }
+
+            if (!(strlen($i['password']) > 5 && strlen($i['password']) < 12))
+                throw new Exception('Sorry, something went wrong.');
+
+            $user->setPassword($i['password']);
+            $user->removeAttr('forgotpassword_key');
+            $user->force_login($user->user_id);
+
+            $response = array(
+                'status'  => TRUE,
+                'message' => 'Password has been changed successfully.',
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+        }
         echo json_encode($response);
     }
 }

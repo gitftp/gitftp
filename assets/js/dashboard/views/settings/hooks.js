@@ -5,9 +5,9 @@ define([
         events: {},
         render: function () {
             var that = this;
-            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
             this.template = _.template(page);
-            that.el.html(that.template());
+            that.$e.html(that.template());
         },
     });
     return d;

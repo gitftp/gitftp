@@ -1,6 +1,6 @@
 <?php
 
-class utils {
+class Utils {
 
 
     public static function gitCommand($command, $repoPath = NULL) {
@@ -10,7 +10,7 @@ class utils {
 
         $command = 'git --git-dir="' . $repoPath . '/.git" --work-tree="' . $repoPath . '" ' . $command;
 
-        return utils::runCommand($command);
+        return Utils::runCommand($command);
     }
 
     public static function runCommand($command) {

@@ -40,11 +40,4 @@ class Crontask {
         $gfcore->deploy();
         Cli::beep();
     }
-
-    /**
-     * Excecution time test
-     */
-    public function test(){
-        Cli::write('hey');
-    }
 }

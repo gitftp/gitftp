@@ -1,9 +1,8 @@
-<% var branches = data.data[0]['branches'] %>
 <div class="project-branches-env">
     <div class="row">
         <% $.each(branches, function(i, a){ %>
         <div class="col-md-6">
-            <div class="project-branch" data-uri="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">
+            <div class="project-branch" data-uri="#/project/<%= deployid %>/environments/manage/<%= a.id %>">
                 <div class="block">
                     <div class="deploy-button env-start-deploy" data-branch="<%= a.id %>">
                         <i class="fa fa-arrow-up"></i>
@@ -29,7 +28,7 @@
                     <% } %>
                 </div>
                 <div class="buttons">
-                    <a href="#/project/<%= data.data[0].id %>/environments/manage/<%= a.id %>">
+                    <a href="#/project/<%= deployid %>/environments/manage/<%= a.id %>">
                         View or configure
                     </a>
                     <button type="button" class="deploy start-deploy" data-branch="<%= a.id %>">
@@ -42,7 +41,7 @@
     </div>
 </div>
 
-<a href="#/project/<%= data.data[0].id %>/environments/add" data-toggle="tooltip" data-placement="right" title="Create new" class="btn btn-success btn-circle btn-circle-lg "><i class="fa fa-plus"></i></a>
+<a href="#/project/<%= deployid %>/environments/add" data-toggle="tooltip" data-placement="right" title="Create new" class="btn btn-success btn-circle btn-circle-lg "><i class="fa fa-plus"></i></a>
 
 <div class="space20"></div>
 

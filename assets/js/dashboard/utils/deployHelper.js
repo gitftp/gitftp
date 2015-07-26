@@ -38,8 +38,11 @@ define([], function () {
                 content: function () {
                     return _ajax({
                         url: base + 'api/branch/get/' + that.branch_id,
+                        data: {
+                            branch_id: that.branch_id
+                        },
                         method: 'get',
-                        dataType: 'json',
+                        dataType: 'json'
                     }).done(function (data) {
                         that.branch = data.data[0];
                         that.jconfirm.contentDiv.html(content);
@@ -68,7 +71,7 @@ define([], function () {
                 title: (this.branch.ready == '1') ? 'Re-upload all files?' : 'Upload all files?',
                 icon: 'fa fa-info blue',
                 content: 'All files from repository will be uploaded. <br>' +
-                'This operation may consume time as it depends on number of Files & Sizes.',
+                'This operation may consume time as it depends on number of files & sizes.',
                 confirmButton: 'Deploy',
                 confirm: function () {
                     _ajax({
@@ -83,7 +86,7 @@ define([], function () {
                     }).done(function (data) {
                         if (data.status) {
                             noty({
-                                text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                                text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
                                 type: 'success'
                             });
                         } else {
@@ -151,11 +154,13 @@ define([], function () {
                                 type: 'error'
                             });
                         }
-                    }).always(function () {
                     });
                     return false;
                 },
                 columnClass: 'col-md-4 col-md-offset-4',
+                onOpen: function () {
+                    this.$b.find('input').focus();
+                }
             });
 
         },

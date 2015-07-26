@@ -14,7 +14,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
     public function post_create() {
         try {
             $i = Input::post();
-            $i = utils::escapeHtmlChars($i); // wow
+            $i = Utils::escapeHtmlChars($i); // wow
 
             $fields = array(
                 'name'        => $i['name'],
@@ -80,14 +80,23 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
         $this->response($response);
     }
 
-    public function get_get($branch_id = NULL) {
+    public function get_get() {
         $branch = new Model_Branch();
-        $branches = $branch->get_by_branch_id($branch_id);
+
+        $i = Input::get();
+
+        if (isset($i['branch_id'])) {
+            $branches = $branch->get_by_branch_id($i['branch_id']);
+        } else if (isset($i['deploy_id'])) {
+            $branches = $branch->get_by_deploy_id($i['deploy_id']);
+        }
+
         $this->response(array(
             'status' => TRUE,
             'data'   => $branches,
         ));
     }
+
 
     public function post_updaterevision() {
         try {
@@ -96,12 +105,25 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $branch = new Model_Branch();
             $branch_data = $branch->get_by_branch_id($id);
             if (count($branch_data) !== 1) {
-                throw new Exception('Branch not found.');
+                throw new Exception('Sorry, we got confused. Please reload your browser and try again.');
             }
 
             $branch_data = $branch_data[0];
+            $deploy_id = $branch_data['deploy_id'];
+            $repo_dir = Utils::get_repo_dir($deploy_id);
+            $git = new \PHPGit\Git();
+            $git->setRepository($repo_dir);
 
-            $hash = utils::git_verify_hash($branch_data['deploy_id'], $hash);
+            $branches = $git->branch();
+            if (array_key_exists($hash, $branches))
+                throw new Exception('The hash provided is a Branch. Please enter a valid hash');
+
+            $tags = $git->tag();
+            if (\Arr::in_array_recursive($hash, $tags))
+                throw new Exception('The hash provided is a Tag. Please enter a valid hash');
+
+
+            $hash = Utils::git_verify_hash($branch_data['deploy_id'], $hash);
 
             if ($hash) {
                 $branch->set($id, array(
@@ -129,7 +151,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
     public function post_updatebranch() {
         try {
             $i = Input::post();
-            $i = utils::escapeHtmlChars($i);
+            $i = Utils::escapeHtmlChars($i);
 
             $dataToSave = array();
             $branch = new Model_Branch();

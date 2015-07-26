@@ -49,7 +49,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $i = Input::post();
 
         $messages = new Model_Messages();
-        $i = utils::escapeHtmlChars($i);
+        $i = Utils::escapeHtmlChars($i);
 
         $messages->insert(array(
             'message' => $i['message'],
@@ -81,7 +81,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 $password = $post['password'];
             }
 
-            $a = utils::gitGetBranches($repo, $username, $password);
+            $a = Utils::gitGetBranches($repo, $username, $password);
             if ($a) {
                 $response = array(
                     'status'  => TRUE,
@@ -132,7 +132,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 'id'       => Auth::get_user_id()[1],
                 'name'     => Auth::get_screen_name(),
                 'email'    => Auth::get_email(),
-                'avatar'   => utils::get_gravatar(Auth::get_email(), 40)
+                'avatar'   => Utils::get_gravatar(Auth::get_email(), 40)
             ),
             'deploy' => $deploy_list,
         ));

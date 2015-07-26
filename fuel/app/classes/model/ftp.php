@@ -4,11 +4,10 @@ class Model_Ftp extends Model {
 
     private $table = 'ftp';
     public $user_id;
-    private $hash = 'fmiorjm8394ru4823ur423894';
 
     public function __construct() {
-        if (Auth::check()) {
-            $this->user_id = Auth::get_user_id()[1];
+        if (\Auth::instance()->check()) {
+            list(, $this->user_id) = \Auth::instance()->get_user_id();
         } else {
             $this->user_id = '*';
         }
@@ -25,15 +24,11 @@ class Model_Ftp extends Model {
 
         $a = $q->execute()->as_array();
 
-        foreach($a as $k => $b){
+        foreach ($a as $k => $b) {
             $a[$k]['pass'] = \Crypt::instance()->decode($a[$k]['pass']);
         }
 
         return $a;
-    }
-
-    public function decypt_password($password) {
-        \Crypt::instance()->decode($password, $this->hash);
     }
 
     public function match($set) {
@@ -57,7 +52,7 @@ class Model_Ftp extends Model {
         if (!count($a))
             return FALSE;
 
-        if(isset($set['pass']))
+        if (isset($set['pass']))
             $set['pass'] = \Crypt::instance()->encode($set['pass']);
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();

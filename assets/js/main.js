@@ -93,11 +93,11 @@ $(function () {
             confirmButtonClass: 'btn-warning'
         });
 
-        if(typeof window._alert == 'undefined'){
+        if (typeof window._alert == 'undefined') {
             window._alert = $.confirm(b);
         }
 
-        if(window._alert.isClosed()){
+        if (window._alert.isClosed()) {
             window._alert = $.confirm(b);
         }
 
@@ -107,6 +107,18 @@ $(function () {
     }
     window.getUrlParameter = function (sParam) {
         var sPageURL = window.location.search.substring(1);
+        var sURLVariables = sPageURL.split('&');
+        for (var i = 0; i < sURLVariables.length; i++) {
+            var sParameterName = sURLVariables[i].split('=');
+            if (sParameterName[0] == sParam) {
+                return sParameterName[1];
+            }
+        }
+    }
+    window.getHashUrlParameter = function (sParam) {
+        var hash = window.location.hash;
+        var sPageURL = hash.substring(hash.indexOf('?') + 1);
+        console.log(sPageURL);
         var sURLVariables = sPageURL.split('&');
         for (var i = 0; i < sURLVariables.length; i++) {
             var sParameterName = sURLVariables[i].split('=');

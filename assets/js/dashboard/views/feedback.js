@@ -65,6 +65,9 @@ define([
                         });
                     }
                     return false;
+                },
+                onOpen: function () {
+                    this.$b.find('textarea').focus();
                 }
             });
         },

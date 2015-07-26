@@ -6,5 +6,6 @@ return array(
 	'hello(/:name)?' => array('welcome/hello', 'name' => 'hello'),
     'login' => 'user/login',
     'signup' => 'user/signup',
+    'forgot-password' => 'user/forgotpassword',
     'feed' => 'api/etc/feed'
 );

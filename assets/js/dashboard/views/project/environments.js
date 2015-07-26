@@ -15,7 +15,7 @@ define([
         deploybranchOptions: function (e) {
             e.preventDefault();
             e.stopPropagation();
-            deployHelper.showOptions(this.parent.id, $(e.currentTarget).attr('data-branch'));
+            deployHelper.showOptions(this.id, $(e.currentTarget).attr('data-branch'));
         },
         gotoManage: function (e) {
             e.preventDefault();
@@ -26,16 +26,27 @@ define([
                 trigger: true
             });
         },
-        render: function (parent) {
+        initialize: function () {
+            this.template = _.template(envHtml);
+        },
+        render: function (id) {
             var that = this;
-            this.parent = parent;
-            $(this.parent.subPage).html('');
-            that.template = _.template(envHtml);
-            that.parent.getData().done(function (data) {
+            this.id = id;
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+
+            _ajax({
+                url: base + 'api/branch/get',
+                data: {
+                    deploy_id: id
+                },
+                method: 'get',
+                dataType: 'json',
+            }).done(function (response) {
                 var subPage = that.template({
-                    data: data
+                    branches: response.data,
+                    deployid: id,
                 });
-                $(that.parent.subPage).html(subPage);
+                that.$e.html(subPage);
             })
         }
     });

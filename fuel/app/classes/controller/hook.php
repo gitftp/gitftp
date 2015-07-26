@@ -49,7 +49,7 @@ class Controller_Hook extends Controller {
                 }
             }
 
-            $parsedPayload = utils::parsePayload($payload);
+            $parsedPayload = Utils::parsePayload($payload);
 
             $record = new Model_Record();
             $record->user_id = $user_id;
@@ -84,9 +84,9 @@ class Controller_Hook extends Controller {
             }
 
             Gfcore::deploy_in_bg($deploy_id);
-            utils::log('succes');
+            Utils::log('succes');
         } catch (Exception $e) {
-            utils::log($e->getMessage());
+            Utils::log($e->getMessage());
         }
 
     }

@@ -20,6 +20,8 @@ class Model_Branch extends Model {
         }
         $q = $q->execute()->as_array();
 
+        $q = $this->unserializeData($q);
+
         return $q;
     }
 
@@ -30,6 +32,8 @@ class Model_Branch extends Model {
             $q = $q->and_where('user_id', $this->user_id);
         }
         $q = $q->execute()->as_array();
+
+        $q = $this->unserializeData($q);
 
         return $q;
     }
@@ -43,7 +47,12 @@ class Model_Branch extends Model {
         }
 
         $a = $q->execute()->as_array();
+        $a = $this->unserializeData($a);
 
+        return $a;
+    }
+
+    private function unserializeData($a) {
         foreach ($a as $k => $v) {
             if (isset($a[$k]['purge_path']))
                 $a[$k]['purge_path'] = ($a[$k]['purge_path'] !== '0') ? unserialize($a[$k]['purge_path']) : array();
@@ -56,6 +65,7 @@ class Model_Branch extends Model {
 
     public function get_by_branch_id($branch_id, $select = NULL) {
         $q = DB::select_array($select)->from($this->table)->where('user_id', $this->user_id)->and_where('id', $branch_id)->execute()->as_array();
+        $q = $this->unserializeData($q);
 
         return $q;
     }
@@ -66,6 +76,8 @@ class Model_Branch extends Model {
             ->and_where('branch_name', $branch_name)
             ->execute()->as_array();
 
+        $q = $this->unserializeData($q);
+
         return $q;
     }
 
@@ -75,6 +87,8 @@ class Model_Branch extends Model {
             ->and_where('branch_name', $branch_name)
             ->and_where('deploy_id', $deploy_id)
             ->execute()->as_array();
+
+        $q = $this->unserializeData($q);
 
         return $q;
     }

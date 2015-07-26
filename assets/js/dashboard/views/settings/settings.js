@@ -20,7 +20,7 @@ define([
             that.pages = {
                 account: accountView,
                 notification: notificationView,
-                service : servicesView,
+                service: servicesView,
                 hook: hooksView,
                 project: projectView,
             };
@@ -35,6 +35,9 @@ define([
             var page = $this.attr('data-page');
 
             try {
+                if (this[page])
+                    this[page].undelegateEvents();
+
                 this[page] = new this.pages[page]({
                     el: that.subPage
                 });

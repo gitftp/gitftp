@@ -158,7 +158,7 @@ class Gfcore {
         try {
 
             // Testing connection for safety.
-            $branches = utils::gitGetBranches($this->deploy_data['repository'], $this->deploy_data['username'], $this->deploy_data['password']);
+            $branches = Utils::gitGetBranches($this->deploy_data['repository'], $this->deploy_data['username'], $this->deploy_data['password']);
             if ($branches == FALSE) {
                 $this->log('Could not connect to repository.');
                 throw new Exception('Failed to connect to repository');
@@ -215,7 +215,7 @@ class Gfcore {
              * checkout to branch now.
              */
 
-            utils::gitCommand('checkout master'); // failed? reset to master
+            Utils::gitCommand('checkout master'); // failed? reset to master
 
             $this->output('DAMMIT. ' . $e->getMessage());
             // Lets iterate.
@@ -313,7 +313,7 @@ class Gfcore {
          */
 
         $this->output('Checkout to ' . $branch['branch_name']);
-        utils::gitCommand("checkout " . $this->branch['branch_name']);
+        Utils::gitCommand("checkout " . $this->branch['branch_name']);
         $this->log('revision_on_server_before', $branch['revision']);
         $this->output('Revision on FTP: ' . $branch['revision']);
 
@@ -344,7 +344,7 @@ class Gfcore {
         // if type_rollback.
         if ($this->record['record_type'] == $this->m_record->type_rollback && !empty($this->record['hash'])) {
             // checkout the the specific hash.
-            utils::gitCommand('checkout ' . $this->record['hash']);
+            Utils::gitCommand('checkout ' . $this->record['hash']);
         }
 
         // if type_sync
@@ -356,12 +356,12 @@ class Gfcore {
         if ($this->record['record_type'] == $this->m_record->type_service_push) {
             // push from github/bitbucket.
             if (!empty($this->record['hash']))
-                utils::gitCommand('checkout ' . $this->record['hash']);
+                Utils::gitCommand('checkout ' . $this->record['hash']);
         }
 
         // else its update
 
-        $localRevision = utils::gitCommand('rev-parse HEAD');
+        $localRevision = Utils::gitCommand('rev-parse HEAD');
         if (isset($localRevision[0])) {
             $localRevision = trim($localRevision[0]);
             $options['localRevision'] = $localRevision;
@@ -412,7 +412,7 @@ class Gfcore {
         ));
 
         // OK, checkout to master.
-        utils::gitCommand('checkout master');
+        Utils::gitCommand('checkout master');
 
         // relax
         sleep(1);
@@ -488,7 +488,8 @@ class Gfcore {
         ));
 
         // Clone the repository depth 1.
-        exec('git clone --depth 1 ' . $this->deploy_data['repository'] . ' . --progress 2>&1', $gitOutput);
+        exec('git clone ' . $this->deploy_data['repository'] . ' . --progress 2>&1', $gitOutput);
+//        exec('git clone --depth 1 ' . $this->deploy_data['repository'] . ' . --progress 2>&1', $gitOutput);
         // Set branches to *
         exec("git remote set-branches origin '*'", $gitOutput);
         // Fetch all branches from remote

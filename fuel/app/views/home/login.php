@@ -8,18 +8,18 @@
                 </div>
                 <div class="space20"></div>
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form action="" id="home-login">
-<!--                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>-->
-<!--                            <div class="btn-group btn-group-justified">-->
-<!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
-<!--                                    <i class="fa fa-github-alt"></i> Github-->
-<!--                                </a>-->
-<!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
-<!--                                    <i class="fa fa-bitbucket"></i> Bitbucket-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <hr/>-->
+                    <form action="" id="home-login">
+                        <div class="panel-body">
+                            <!--                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>-->
+                            <!--                            <div class="btn-group btn-group-justified">-->
+                            <!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
+                            <!--                                    <i class="fa fa-github-alt"></i> Github-->
+                            <!--                                </a>-->
+                            <!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
+                            <!--                                    <i class="fa fa-bitbucket"></i> Bitbucket-->
+                            <!--                                </a>-->
+                            <!--                            </div>-->
+                            <!--                            <hr/>-->
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
                                 <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control">
@@ -28,14 +28,39 @@
                                 <label for="password">Password</label>
                                 <input type="password" id="password" name="password" placeholder="Your Password" class="form-control">
                             </div>
+                            <strong><a class="pull-right" href="<?php echo Uri::create('forgot-password') ?>">Forgot password</a></strong>
+
+                            <div class="clearfix"></div>
+                            <div class="space10"></div>
                             <button type="submit" class="btn btn-info btn-block">
                                 <i class="fa fa-lock fa-fw" style=""></i> Login
                             </button>
                             <!--                            <a href="--><?php //echo home_url . 'api/user/oauth/github'; ?><!--">github ?</a>-->
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<?php if (!is_null($email_verification)) { ?>
+    <script>
+        <?php if($email_verification){ ?>
+        $.alert({
+            title: 'Thank you!',
+            content: 'Your Email has been successfully verified',
+            icon: 'fa fa-check green',
+            confirmButton: 'close',
+            confirmButtonClass: 'btn-info'
+        });
+        <?php }else{ ?>
+        $.alert({
+            title: 'Verification Expired!',
+            content: 'The verification token has expired.',
+            icon: 'fa fa-info gray',
+            confirmButton: 'close',
+            confirmButtonClass: 'btn-default btn-clean'
+        });
+        <?php } ?>
+    </script>
+<?php } ?>

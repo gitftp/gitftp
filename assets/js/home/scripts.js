@@ -258,9 +258,15 @@
     var app = {
         init: function () {
             this.login();
+            this.resetPassword();
+            this.resetPasswordConfirmed();
+            this.footerAlign();
         },
         login: function () {
-            this.$loginform = $('#home-login');
+            this.$loginform = $('#home-login')
+            if (!this.$loginform.length)
+                return false;
+
             this.$loginform.validate({
                 debug: true,
                 submitHandler: function (form) {
@@ -281,9 +287,9 @@
                                 content: '<span class=""><i class="fa fa-spin fa-spinner"></i>&nbsp; Logged in, Redirecting... </span>',
                                 closeIcon: false
                             });
-                            if(getUrlParameter('ref')){
+                            if (getUrlParameter('ref')) {
                                 window.location = decodeURIComponent(getUrlParameter('ref'));
-                            }else{
+                            } else {
                                 window.location = data.redirect;
                             }
                         } else {
@@ -300,10 +306,10 @@
                 },
                 rules: {
                     email: {
-                        required: true,
+                        required: true
                     },
                     password: {
-                        required: true,
+                        required: true
                     }
                 },
                 messages: {
@@ -315,9 +321,144 @@
                     }
                 }
             })
-        }
+        },
+        resetPassword: function () {
+            this.$loginform = $('#home-password-reset')
+            if (!this.$loginform.length)
+                return false;
+
+            this.$loginform.validate({
+                debug: true,
+                submitHandler: function (form) {
+                    var $form = $(form);
+                    var data = $form.serializeArray();
+                    $form.find(':input').attr('disabled', 'disabled');
+                    $form.find('button').html('<i class="fa fa-spin fa-spinner"></i> Submit');
+
+                    $.ajax({
+                        url: base + 'api/user/forgotpassword',
+                        data: data,
+                        method: 'post',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        console.log(data);
+                        if (data.status) {
+                            $.alert({
+                                title: 'Email sent!',
+                                content: 'We have sent you an email with instructions to reset your password.',
+                                closeIcon: false,
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Problem',
+                                content: data.reason,
+                                confirmButton: 'close',
+                                confirmButtonClass: 'btn btn-default'
+                            });
+                        }
+                    }).always(function (data) {
+                        $form.find(':input').removeAttr('disabled');
+                        $form.find('button').html('Submit');
+                    });
+                },
+                rules: {
+                    email: {
+                        required: true
+                    }
+                },
+                messages: {
+                    email: {
+                        required: 'Please enter Username/Email'
+                    }
+                }
+            })
+        },
+        resetPasswordConfirmed: function () {
+            this.$loginform = $('#home-password-reset-confirmed')
+            if (!this.$loginform.length)
+                return false;
+
+            this.$loginform.validate({
+                debug: true,
+                submitHandler: function (form) {
+                    var $form = $(form);
+                    var data = $form.serializeArray();
+                    $form.find(':input').attr('disabled', 'disabled');
+                    $form.find('button').html('<i class="fa fa-spin fa-spinner"></i> change password');
+
+                    $.ajax({
+                        url: base + 'api/user/forgotpasswordconfirmed',
+                        data: data,
+                        method: 'post',
+                        dataType: 'json',
+                    }).done(function (data) {
+                        if (data.status) {
+                            $.confirm({
+                                title: 'Password changed',
+                                content: data.message,
+                                closeIcon: false,
+                                confirmButton: 'Goto Dashboard',
+                                confirm: function () {
+                                    location.href = dash_url;
+                                }
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Problem',
+                                content: data.reason,
+                                confirmButton: 'close',
+                                confirmButtonClass: 'btn btn-default'
+                            });
+                        }
+                    }).always(function (data) {
+                        $form.find(':input').removeAttr('disabled');
+                        $form.find('button').html('change password');
+                    });
+                },
+                rules: {
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 11,
+                    },
+                    password2: {
+                        required: true,
+                        equalTo: '#password',
+                        minlength: 6,
+                        maxlength: 11,
+                    }
+                },
+                messages: {
+                    password: {
+                        required: 'Please enter password'
+                    },
+                    password2: {
+                        required: 'Please re-enter password'
+                    }
+                }
+            })
+
+        },
+        footerAlign: function () {
+            var $footer = $('#footer');
+            var fh = $footer.outerHeight();
+            var bh = $('.footercalc').offset().top;
+            var wh = $(window).height();
+            if (bh < wh) {
+                $footer.css({
+                    'margin-top': wh - bh - fh
+                })
+            } else {
+                $footer.css({
+                    'margin-top': 0
+                })
+            }
+        },
     }
 
+    $(window).resize(function () {
+        app.footerAlign();
+    });
 
 })(jQuery);
 

@@ -9,8 +9,7 @@ define([
         el: app.el,
         events: {
             'click .load-branches': 'renderBranches',
-            'click .env-new-form-submit-button': 'submitForm',
-            'change #ftp-list': 'loadFtpDetails' // todo: not used.
+            'click .env-new-form-submit-button': 'submitForm'
         },
         renderBranches: function (e) {
             var $this = $(e.currentTarget);
@@ -29,25 +28,6 @@ define([
                 $this.parent().prev().prop('disabled', false);
             });
         },
-        loadFtpDetails: function (e) {
-            var $this = $(e.currentTarget);
-            var $ftpcontainer = $('.ftp-details');
-
-            _ajax({
-                url: dash_url + 'api/ftp/get/' + $this.val(),
-                method: 'get',
-                dataType: 'json'
-            }).done(function (response) {
-
-                var template = _.template(ftplistHtml);
-
-                template = template({
-                    ftp: response.data[0]
-                });
-
-                $('.ftp-details').html(template);
-            })
-        },
         submitForm: function (e) {
             e.preventDefault();
             this.$form.submit();
@@ -63,7 +43,7 @@ define([
 
             data.push({
                 name: 'deploy_id',
-                value: this.parent.id
+                value: this.id
             }, {
                 name: 'skip_path',
                 value: this.ftp_skip_el.selectivity('value')
@@ -76,20 +56,20 @@ define([
                 url: dash_url + 'api/branch/create',
                 data: data,
                 method: 'post',
-                dataType: 'json',
+                dataType: 'json'
             }).done(function (response) {
                 if (response.status) {
                     noty({
                         text: 'Successfully created a new Environment.',
-                        type: 'success',
+                        type: 'success'
                     });
-                    Router.navigate('#/project/' + that.parent.urlp[0] + '/environments', {
-                        trigger: true,
+                    Router.navigate('#/project/' + that.id + '/environments', {
+                        trigger: true
                     });
                 } else {
                     $.alert({
                         title: 'Problem',
-                        content: response.reason,
+                        content: response.reason
                     });
                 }
             });
@@ -123,35 +103,30 @@ define([
                 }
             })
         },
-        render: function (parent) {
+        initialize: function () {
+            this.template = _.template(envHtml)
+        },
+        render: function (id) {
             var that = this;
-            this.parent = parent;
-            var deploy = that.parent.data.data[0];
-
-            that.template = _.template(envHtml)
-            var subPage = that.template({
-                data: deploy,
-            });
-
-            $(this.parent.subPage).html('');
-            $(this.parent.subPage).html(subPage);
-
+            this.id = id;
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            var subPage = that.template();
+            this.$e.html(subPage);
             this.$panel = $('.branch-single-view');
             this.$form = $('.project-branch-new-env-save-form');
-
             this.$panel.find(':input').attr('disabled', 'disabled')
-                .end().addClass('panel-disabled');
+                .end().addClass('panel-loading');
 
             that.ftp_skip_el = $('.selective-skip');
             that.ftp_skip_el.selectivity({
                 inputType: 'Email',
-                placeholder: 'Add file patterns to skip',
+                placeholder: 'Add file patterns to skip'
             });
 
             that.ftp_purge_el = $('.selective-purge');
             that.ftp_purge_el.selectivity({
                 inputType: 'Email',
-                placeholder: 'folders to purge',
+                placeholder: 'folders to purge'
             });
 
             this.validation();
@@ -177,7 +152,7 @@ define([
                 $('#ftp-list').html(ftp_list);
 
                 that.$panel.find(':input').removeAttr('disabled')
-                    .end().removeClass('panel-disabled');
+                    .end().removeClass('panel-loading');
 
                 $('input[name="name"]').focus();
             });
@@ -186,7 +161,7 @@ define([
             return _ajax({
                 url: dash_url + 'api/etc/getremotebranches',
                 data: {
-                    'deploy_id': this.parent.id
+                    'deploy_id': this.id
                 },
                 method: 'post',
                 dataType: 'json'

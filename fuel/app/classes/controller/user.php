@@ -7,9 +7,27 @@ class Controller_User extends Controller_Homepage {
         Response::redirect('/');
     }
 
-    public function action_login() {
+    public function action_forgotpassword() {
         if (\Auth::instance()->check()) {
             Response::redirect(dash_url);
+        }
+
+
+        if (Input::get('token')) {
+            $key = Input::get('token');
+            list($user_id, $key) = explode('-', $key);
+            try {
+                $user = new Userwrapper($user_id);
+                $key2 = $user->getAttr('forgotpassword_key');
+
+                if ($key != $key2) {
+                    throw new Exception();
+                }
+
+                $reset = TRUE;
+            } catch (Exception $e) {
+                $reset = FALSE;
+            }
         }
 
         $view = View::forge('home/base_layout.mustache');
@@ -17,7 +35,48 @@ class Controller_User extends Controller_Homepage {
         $view->js = View::forge('home/layout/js');
         $view->header = View::forge('home/layout/header');
         $view->footer = View::forge('home/layout/footer');
-        $view->body = View::forge('home/login');
+        $view->body = View::forge('home/forgotpassword', array(
+            'reset'   => (isset($reset)) ? $reset : FALSE,
+            'user_id' => (isset($user_id)) ? $user_id : FALSE,
+            'key'     => (isset($key2)) ? $key2 : FALSE,
+        ));
+
+        return $view;
+    }
+
+    public function action_login() {
+        if (\Auth::instance()->check()) {
+            Response::redirect(dash_url);
+        }
+
+        if (Input::get('verify')) {
+            $key = Input::get('verify');
+            list($user_id, $key) = explode('-', $key);
+            try {
+                $user = new Userwrapper($user_id);
+                $key2 = $user->getAttr('verify_key');
+
+                if ($key != $key2) {
+                    throw new Exception();
+                }
+
+                $user->removeAttr('verify_key');
+                $user->setAttr('verified', TRUE);
+
+                $verified = TRUE;
+            } catch (Exception $e) {
+                $verified = FALSE;
+            }
+        }
+
+        $view = View::forge('home/base_layout.mustache');
+        $view->css = View::forge('home/layout/css');
+        $view->js = View::forge('home/layout/js');
+        $view->header = View::forge('home/layout/header');
+        $view->footer = View::forge('home/layout/footer');
+        $view->body = View::forge('home/login', array(
+            'email_verification' => (isset($verified)) ? $verified : NULL,
+        ));
 
         return $view;
     }

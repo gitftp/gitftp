@@ -1,4 +1,5 @@
-<section class="small-padding section background-wrapper with-overlay white-overlay active-section">
+<div class="footercalc"></div>
+<section id="footer" class="small-padding section background-wrapper with-overlay white-overlay active-section">
     <div class="background-image parallax-background" data-stellar-background-ratio="1">
     </div>
     <div class="container">
@@ -14,7 +15,7 @@
                 <ul class="list-inline text-right">
                     <li>2015 - <strong>Gitftp</strong>. The deployment software.</li>
                 </ul>
-<!--                <p class="text-right uppercase-text letter-spacing">© 2015 - <strong>Material</strong>. by GeniusPro.</p>-->
+                <!--                <p class="text-right uppercase-text letter-spacing">© 2015 - <strong>Material</strong>. by GeniusPro.</p>-->
             </div>
         </div>
     </div>

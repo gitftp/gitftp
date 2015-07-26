@@ -97,18 +97,19 @@ define([
         updateSettings: function () {
             var that = this;
             var $this = this.$form;
+            var data = $this.serializeArray();
+            $this.find('select, input, button').attr('disabled', true);
 
-            $this.find('select, input, button').attr('readonly', true);
             _ajax({
-                url: base + 'api/deploy/update/' + that.parent.id,
-                data: $this.serializeArray(),
+                url: base + 'api/deploy/update/' + that.id,
+                data: data,
                 method: 'post',
                 dataType: 'json',
             }).done(function (data) {
                 if (data.status) {
-                    $.alert({
-                        title: 'Updated ' + data.request.name,
-                        content: 'Respository is updated!',
+                    noty({
+                        text: 'Updated project: ' + data.request.name,
+                        type: 'success'
                     });
                     app_reload();
                 } else {
@@ -118,7 +119,7 @@ define([
                     });
                 }
             }).always(function () {
-                $this.find('select, input, button').removeAttr('readonly');
+                $this.find('select, input, button').removeAttr('disabled');
             });
         },
         validation: function () {
@@ -134,20 +135,20 @@ define([
                 rules: {
                     'name': {
                         required: true,
-                        maxlength: 50,
+                        maxlength: 50
                     },
                     username: {
                         required: {
                             depends: function () {
                                 return $('#doesreponeedlogin').is(':checked');
                             }
-                        },
+                        }
                     },
                     'password': {
-                        required: false,
+                        required: false
                     },
                     'key': {
-                        required: true,
+                        required: true
                     }
                 },
                 messages: {
@@ -158,18 +159,27 @@ define([
                 }
             })
         },
-        render: function (parent) {
-            this.parent = parent;
+        initialize: function () {
+            this.template = _.template(settingsHtml);
+        },
+        render: function (id) {
             var that = this;
-            $(this.parent.subPage).html('');
-            that.template = _.template(settingsHtml);
-            var subPage = that.template({
-                data: that.parent.data.data[0],
-            });
-            $(this.parent.subPage).html(subPage);
+            this.id = id;
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
 
-            this.$form = $('#deploy-view-form-edit');
-            this.validation();
+            _ajax({
+                url: base + 'api/deploy/get/' + id,
+                method: 'get',
+                dataType: 'json'
+            }).done(function (response) {
+                that.data = response;
+                var subPage = that.template({
+                    data: response.data[0]
+                });
+                that.$e.html(subPage);
+                that.$form = that.$e.find('#deploy-view-form-edit');
+                that.validation();
+            });
         }
     });
 

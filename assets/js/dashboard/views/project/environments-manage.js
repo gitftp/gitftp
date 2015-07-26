@@ -2,6 +2,7 @@ define([
     'text!pages/project/environments-manage.html',
     'text!pages/project/environments-manage-showftp.html',
 ], function (envHtml, ftpView) {
+
     /**
      * Project Env.
      */
@@ -17,22 +18,6 @@ define([
             e.preventDefault();
             var that = this;
             var $this = $(e.currentTarget);
-            var id = $this.attr('data-id');
-
-            var branches = this.parent.data.data[0].branches;
-
-            if (branches.length == 1) {
-                $.alert({
-                    title: 'Problem',
-                    icon: 'fa fa-warning orange',
-                    columnClass: 'col-md-4 col-md-offset-4',
-                    content: 'Sorry, cannot delete environment, <br>' +
-                    'You only have one environment in this project.',
-                    confirmButton: 'Close'
-                });
-
-                return false;
-            }
 
             $.confirm({
                 title: 'Delete',
@@ -44,18 +29,18 @@ define([
                     _ajax({
                         url: base + 'api/branch/delete',
                         data: {
-                            'id': id,
+                            'id': that.branch_id
                         },
                         method: 'post',
-                        dataType: 'json',
+                        dataType: 'json'
                     }).done(function (data) {
                         if (data.status) {
                             noty({
                                 text: 'Successfully deleted environment',
                                 type: 'success'
                             });
-                            Router.navigate('#/project/' + that.parent.urlp[0] + '/environments', {
-                                trigger: true,
+                            Router.navigate('#/project/' + that.id + '/environments', {
+                                trigger: true
                             });
                         } else {
                             $.alert({
@@ -69,13 +54,13 @@ define([
                         jc.close();
                     });
                     return false;
-                },
+                }
             })
         },
         setRevision: function (e) {
             var that = this;
-            console.log(this.branch);
-            var branch_id = this.branch.id;
+            var branch_id = this.branch_id;
+
             $.confirm({
                 title: 'Set remote Revision',
                 content: 'Gitftp tracks the remote server via this hash,<br>' +
@@ -123,8 +108,8 @@ define([
         },
         showFtpDetails: function (e) {
             e.preventDefault();
+
             var ftp = this.ftpdata.data[0];
-            console.log(this.ftpdata.data[0]);
             var template = _.template(ftpView);
             template = template({
                 ftp: ftp
@@ -225,73 +210,72 @@ define([
                 }
             })
         },
-        render: function (parent) {
+        render: function (id, urlp) {
             var that = this;
-            this.parent = parent;
-            $(that.parent.subPage).html('');
-
-            if (that.parent.urlp[3]) {
-                var branch_id = that.parent.urlp[3];
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            this.id = id;
+            if (urlp[3]) {
+                this.branch_id = urlp[3];
             } else {
-                var back_url = that.parent.urlp.slice(0, 2);
-                back_url = back_url.join('/');
-                Router.navigate('#/project/' + back_url, {
-                    trigger: true
-                });
+                window.history.back();
             }
 
-            var branch = $.grep(that.parent.data.data[0].branches, function (a, i) {
-                return a.id == branch_id;
-            });
-
-            this.branch = branch[0];
-            var ftp_id = this.branch['ftp_id'];
-
-            var ftp = _ajax({
-                url: base + 'api/ftp/get/' + ftp_id,
+            _ajax({
+                url: base + 'api/branch/get',
+                data: {
+                    branch_id: this.branch_id
+                },
                 method: 'get',
-                dataType: 'json',
-            });
+                dataType: 'json'
+            }).done(function (data) {
 
-            var ftp_notUsed = _ajax({
-                url: base + 'api/ftp/get/',
-                method: 'get',
-                dataType: 'json',
-            });
-
-            $.when(ftp, ftp_notUsed, that.parent.getData()).then(function (ftpdata, ftplist, data) {
-                ftpdata = ftpdata[0];
-                ftplist = ftplist[0];
-                data = data[0];
-                that.ftpdata = ftpdata;
-                that.ftplist = ftplist;
-
-                that.template = _.template(envHtml);
-                var subPage = that.template({
-                    data: data[0],
-                    branch: that.branch,
-                    ftp: ftpdata.data[0],
-                    ftplist: ftplist,
+                that.branch = data.data[0];
+                var ftp_id = that.branch['ftp_id'];
+                var ftp = _ajax({
+                    url: base + 'api/ftp/get/' + ftp_id,
+                    method: 'get',
+                    dataType: 'json',
                 });
 
-                $(that.parent.subPage).html(subPage);
-
-                that.ftp_skip_el = $('.selective-skip');
-                that.ftp_skip_el.selectivity({
-                    inputType: 'Email',
-                    placeholder: 'Add file patterns to skip',
-                    value: that.branch.skip_path,
+                var ftp_notUsed = _ajax({
+                    url: base + 'api/ftp/get/',
+                    method: 'get',
+                    dataType: 'json',
                 });
 
-                that.ftp_purge_el = $('.selective-purge');
-                that.ftp_purge_el.selectivity({
-                    inputType: 'Email',
-                    placeholder: 'folders to purge',
-                    value: that.branch.purge_path,
-                });
+                $.when(ftp, ftp_notUsed).then(function (ftpdata, ftplist) {
+                    ftpdata = ftpdata[0];
+                    ftplist = ftplist[0];
+                    that.ftpdata = ftpdata;
+                    that.ftplist = ftplist;
 
-                that.$form = $('.project-branch-env-save-form');
-                that.validation();
+                    console.log(that.branch);
+
+                    that.template = _.template(envHtml);
+                    var subPage = that.template({
+                        branch: that.branch,
+                        ftp: ftpdata.data[0],
+                        ftplist: ftplist,
+                    });
+                    that.$e.html(subPage);
+
+                    that.ftp_skip_el = $('.selective-skip');
+                    that.ftp_skip_el.selectivity({
+                        inputType: 'Email',
+                        placeholder: 'Add file patterns to skip',
+                        value: that.branch.skip_path,
+                    });
+
+                    that.ftp_purge_el = $('.selective-purge');
+                    that.ftp_purge_el.selectivity({
+                        inputType: 'Email',
+                        placeholder: 'folders to purge',
+                        value: that.branch.purge_path,
+                    });
+
+                    that.$form = $('.project-branch-env-save-form');
+                    that.validation();
+                });
             });
         }
     });

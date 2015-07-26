@@ -11,8 +11,8 @@
                     <i class="fa fa-info"></i> Gitftp is in beta, and is only available for selected members.
                 </div>
                 <div class="panel panel-default">
-                    <div class="panel-body">
-                        <form action="" id="home-signup">
+                    <form action="" id="home-signup">
+                        <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -39,8 +39,8 @@
                                 <i class="fa fa-lock fa-fw" style=""></i> Signup
                             </button>
                             <!--                            <a href="--><?php //echo home_url . 'api/user/oauth/github'; ?><!--">github ?</a>-->
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

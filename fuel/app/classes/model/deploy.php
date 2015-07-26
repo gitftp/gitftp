@@ -35,7 +35,7 @@ class Model_Deploy extends Model {
             $id = $v['id'];
             $a[$k]['status'] = $this->getStatus($id, $v);
             if (isset($v['repository']))
-                $a[$k]['provider'] = utils::parseProviderFromRepository($v['repository']);
+                $a[$k]['provider'] = Utils::parseProviderFromRepository($v['repository']);
 
             if (isset($v['password']))
                 $a[$k]['password'] = \Crypt::instance()->decode($a[$k]['password']);
@@ -154,7 +154,7 @@ class Model_Deploy extends Model {
         if (empty($key) || !$key)
             $key = Str::random('hexdec', 16);
 
-        $branches = utils::gitGetBranches($repo_url, $username, $password);
+        $branches = Utils::gitGetBranches($repo_url, $username, $password);
 
         if (!$branches) {
             throw new Exception('Could not connect to repository.');

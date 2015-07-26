@@ -16,9 +16,9 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
         $ftp = new Model_Ftp();
         $data = $ftp->get($id);
 
-        $data = utils::strip_passwords($data);
+        $data = Utils::strip_passwords($data);
 
-        echo json_encode(array(
+        $this->response(array(
             'status' => TRUE,
             'data'   => $data
         ));
@@ -55,28 +55,22 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             }
 
             $ftp_url = http_build_url($options);
-            if (utils::test_ftp($ftp_url)) {
-                if (!$return) {
-                    echo json_encode(array(
-                        'status' => TRUE
-                    ));
-                }
+            if (Utils::test_ftp($ftp_url)) {
+                $response = array(
+                    'status' => TRUE
+                );
             } else {
                 throw new Exception('Could not connect');
             }
 
         } catch (Exception $e) {
-            if (!$return) {
-                echo json_encode([
-                    'status' => FALSE,
-                    'reason' => $e->getMessage()
-                ]);
-            }
-
-            if ($return) return $e->getMessage();
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
         }
 
-        if ($return) return TRUE;
+        $this->response($response);
     }
 
     /**
@@ -93,36 +87,32 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             $ftp = new Model_Ftp();
 
             $stripformatch = $data;
-            if(isset($data['name']))
+            if (isset($data['name']))
                 unset($stripformatch['name']);
 
             $existing = $ftp->match($stripformatch);
 
             if (count($existing) > 0) {
-                $response = json_encode(array(
-                    'status'  => FALSE,
-                    'request' => Input::post(),
-                    'reason'  => 'Sorry, A FTP account "'.$existing[0]['name'].'" with the same configuration already exist in your account.'
-                ));
+                throw new Exception('Sorry, A FTP account "' . $existing[0]['name'] . '" with the same configuration already exist in your account.');
             } else {
                 $a = $ftp->insert($data);
                 if ($a) {
-                    $response = json_encode(array(
+                    $response = array(
                         'status'  => TRUE,
                         'request' => Input::post()
-                    ));
+                    );
                 }
             }
 
         } catch (Exception $e) {
-            $response = json_encode([
+            $response = array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
                 'request' => (Input::method() == 'POST') ? Input::post() : ''
-            ]);
+            );
         }
 
-        echo $response;
+        $this->response($response);
 
     }
 
@@ -138,26 +128,22 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             $a = $ftp->set($id, $data);
 
             if ($a || FALSE) {
-                $response = json_encode(array(
+                $response = array(
                     'status'  => TRUE,
                     'request' => Input::post(),
-                ));
+                );
             } else {
-                $response = json_encode(array(
-                    'status' => FALSE,
-                    'reason' => 'Cannot update with the same values.',
-                    'asd'    => $a
-                ));
+                throw new Exception('Cannot update with the same values.');
             }
 
         } catch (Exception $e) {
-            $response = json_encode(array(
+            $response = array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
                 'request' => $id
-            ));
+            );
         }
-        echo $response;
+        $this->response($response);
     }
 
     /**
@@ -170,15 +156,17 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
         $branch = new Model_Branch();
         $deploy = new Model_Deploy();
         $branches = $branch->get_by_ftp_id($id);
+
         if (count($branches) !== 0) {
             $deploy_data = $deploy->get($branches[0]['deploy_id']);
             $deploy_name = $deploy_data[0]['name'];
             $branches[0]['project_name'] = $deploy_name;
         }
-        echo json_encode([
+
+        $this->response(array(
             'status'  => (count($branches) == 0) ? FALSE : TRUE,
             'used_in' => (count($branches) == 0) ? FALSE : $branches,
-        ]);
+        ));
     }
 
     /**
@@ -188,32 +176,28 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      */
     public function action_delftp($id) {
 
-        $ftp = new Model_Ftp();
-        $row = $ftp->get($id);
+        try {
+            $ftp = new Model_Ftp();
+            $row = $ftp->get($id);
 
-        if (count($row) == 0) {
-            echo json_encode(array(
-                'status'  => FALSE,
-                'request' => Input::post(),
-                'reason'  => 'We got confused, please refresh the page and try again.'
-            ));
-        } else {
-
-            $result = $ftp->delete($id);
-
-            if ($result) {
-                echo json_encode(array(
+            if (count($row) == 0) {
+                throw new Exception('We got confused, please refresh the page and try again.');
+            } else {
+                $result = $ftp->delete($id);
+                $response = array(
                     'status'  => TRUE,
                     'request' => Input::post()
-                ));
-            } else {
-                echo json_encode(array(
-                    'status'  => FALSE,
-                    'request' => Input::post(),
-                    'reason'  => 'Cound not insert the value'
-                ));
+                );
             }
+        } catch (Exception $e) {
+            $response = array(
+                'status'  => FALSE,
+                'request' => (Input::method() == 'POST') ? Input::post() : FALSE,
+                'reason'  => 'Cound not insert the value'
+            );
         }
+
+        $this->response($response);
     }
 
 }

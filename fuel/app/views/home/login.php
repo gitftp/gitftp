@@ -10,16 +10,15 @@
                 <div class="panel panel-default">
                     <form action="" id="home-login">
                         <div class="panel-body">
-                            <!--                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>-->
-                            <!--                            <div class="btn-group btn-group-justified">-->
-                            <!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
-                            <!--                                    <i class="fa fa-github-alt"></i> Github-->
-                            <!--                                </a>-->
-                            <!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp ">-->
-                            <!--                                    <i class="fa fa-bitbucket"></i> Bitbucket-->
-                            <!--                                </a>-->
-                            <!--                            </div>-->
-                            <!--                            <hr/>-->
+                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>
+
+                            <div class="btn-group btn-group-justified">
+                                <a href="#" class="btn btn-default btn-clean btn-gitftp" id="login-via-github">
+                                    <i class="fa fa-github-alt"></i> Github
+                                </a>
+                            </div>
+
+                            <hr/>
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
                                 <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control">

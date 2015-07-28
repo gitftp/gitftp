@@ -1,17 +1,23 @@
 {
     "name": "fuel/fuel",
     "type": "project",
-    "description" : "FuelPHP is a simple, flexible, community driven PHP 5.3+ framework, based on the best ideas of other frameworks, with a fresh start!",
-    "keywords": ["application", "website", "development", "framework", "PHP"],
+    "description": "FuelPHP is a simple, flexible, community driven PHP 5.3+ framework, based on the best ideas of other frameworks, with a fresh start!",
+    "keywords": [
+        "application",
+        "website",
+        "development",
+        "framework",
+        "PHP"
+    ],
     "license": "MIT",
     "repositories": [
-        { "type": "vcs", "url": "https://github.com/fuel/docs" },
-        { "type": "vcs", "url": "https://github.com/fuel/core" },
-        { "type": "vcs", "url": "https://github.com/fuel/auth" },
-        { "type": "vcs", "url": "https://github.com/fuel/email" },
-        { "type": "vcs", "url": "https://github.com/fuel/oil" },
-        { "type": "vcs", "url": "https://github.com/fuel/orm" },
-        { "type": "vcs", "url": "https://github.com/fuel/parser" }
+        {"type": "vcs", "url": "https://github.com/fuel/docs"},
+        {"type": "vcs", "url": "https://github.com/fuel/core"},
+        {"type": "vcs", "url": "https://github.com/fuel/auth"},
+        {"type": "vcs", "url": "https://github.com/fuel/email"},
+        {"type": "vcs", "url": "https://github.com/fuel/oil"},
+        {"type": "vcs", "url": "https://github.com/fuel/orm"},
+        {"type": "vcs", "url": "https://github.com/fuel/parser"}
     ],
     "require": {
         "php": ">=5.3.3",
@@ -32,10 +38,12 @@
         "opauth/google": "dev-master",
         "opauth/github": "dev-master",
         "kzykhys/git": "dev-master",
-        "suin/php-rss-writer": ">=1.0"
+        "suin/php-rss-writer": ">=1.0",
+        "knplabs/github-api": "~1.4",
+        "gentle/bitbucket-api": "dev-develop"
     },
     "suggest": {
-        "dwoo/dwoo" : "Allow Dwoo templating with the Parser package",
+        "dwoo/dwoo": "Allow Dwoo templating with the Parser package",
         "mustache/mustache": "Allow Mustache templating with the Parser package",
         "smarty/smarty": "Allow Smarty templating with the Parser package",
         "twig/twig": "Allow Twig templating with the Parser package",

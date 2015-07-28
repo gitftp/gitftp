@@ -130,7 +130,7 @@ class Controller_Test extends Controller {
     }
 
     public function get_email() {
-        $email = new Mailwrapper();
+        $email = new \Craftpip\Mail();
         $email = $email->template_signup();
         try {
             $email->send();
@@ -138,15 +138,43 @@ class Controller_Test extends Controller {
             echo $e->getMessage();
         }
     }
-    public function get_g(){
-//        list($a) = DB::select()->from('users')->where('id', 228)->execute()->as_array();
-//        print_r(unserialize($a['profile_fields']));
 
-        $user = new Userwrapper();
-        echo $user->getProperty('usersadsaname');
+    public function get_g() {
+        $a = new \Craftpip\Gitapi();
     }
-    public function get_h(){
-        $user = new Userwrapper();
-        echo $user->passwordHash();
+
+    public function get_h() {
+
+    }
+
+    public function get_i() {
+
+        $user = new \Craftpip\Auth();
+        $providers = $user->getProviders();
+        $token = $providers[0]['access_token'];
+        $client = new \Github\Client();
+        $client->authenticate($token, '', \Github\Client::AUTH_HTTP_TOKEN);
+//        $repo = $client->api('repo')->create('my-new-repo', 'This is the description of a repo', 'http://my-repo-homepage.org', true);
+
+        $hooks = $client->api('repo')->hooks()->all($user->getAttr('github'), 'testrepo');
+
+        $hooks = $client->api('repo')->hooks()->create($user->getAttr('github'), 'testrepo', array(
+            'name'   => 'web',
+            'config' => array(
+                "url"          => dash_url . 'hook/i/' . $user->user_id . '/60/1180ff37e8eb3bee',
+                "content_type" => "json"
+            ),
+            'events' => array('push'),
+            'active' => 1,
+        ));
+
+        print_r($hooks);
+    }
+
+    public function get_j() {
+        $gitapi = new \Craftpip\GitApi();
+        $a = $gitapi->getAllRepositories();
+
+        print_r($a);
     }
 }

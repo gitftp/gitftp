@@ -11,6 +11,11 @@ return array(
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),
+    'JacobKiers\\OAuth' => array($vendorDir . '/jacobkiers/oauth/src'),
+    'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
+    'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
+    'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
+    'Bitbucket\\' => array($vendorDir . '/gentle/bitbucket-api/lib'),
     '' => array($vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/github', $vendorDir . '/kzykhys/git/src'),
 );

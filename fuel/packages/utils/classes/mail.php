@@ -1,12 +1,13 @@
 <?php
+namespace Craftpip;
 
-class Mailwrapper {
+class Mail {
 
     protected $instance;
 
     public function __construct($user_id = NULL) {
         $this->instance = \Email::forge();
-        $this->user = new Userwrapper($user_id);
+        $this->user = new \Craftpip\Auth($user_id);
     }
 
     public function subject($subject) {
@@ -20,7 +21,6 @@ class Mailwrapper {
 
         return $this;
     }
-
 
     public function to($email, $name) {
         $this->instance->to($email, $name);

@@ -261,6 +261,7 @@
             this.resetPassword();
             this.resetPasswordConfirmed();
             this.footerAlign();
+            this.socialLogins();
         },
         login: function () {
             this.$loginform = $('#home-login')
@@ -437,7 +438,6 @@
                     }
                 }
             })
-
         },
         footerAlign: function () {
             var $footer = $('#footer');
@@ -454,6 +454,12 @@
                 })
             }
         },
+        socialLogins: function () {
+            $('#login-via-github').on('click', function (e) {
+                e.preventDefault();
+                window.location.href = home_url + 'api/user/oauth/github';
+            });
+        }
     }
 
     $(window).resize(function () {

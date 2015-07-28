@@ -1,9 +1,11 @@
 <?php
+namespace Craftpip;
 
-class Userwrapper extends \Auth\Auth_Login_Simpleauth {
+class Auth extends \Auth\Auth_Login_Simpleauth {
 
     public $user_id = 0;
     private $table = 'users';
+    private $providersTable = 'users_providers';
     public $user;
     public $user_attr;
 
@@ -21,7 +23,7 @@ class Userwrapper extends \Auth\Auth_Login_Simpleauth {
     }
 
     private function updateWrapper() {
-        $users = DB::select()->from($this->table)->where('id', $this->user_id)->execute()->as_array();
+        $users = \DB::select()->from($this->table)->where('id', $this->user_id)->execute()->as_array();
         if (count($users)) {
             $this->user = $users[0];
             $this->user_attr = unserialize($this->user['profile_fields']);
@@ -32,7 +34,7 @@ class Userwrapper extends \Auth\Auth_Login_Simpleauth {
     }
 
     public function setPassword($string) {
-        $a = DB::update($this->table)->where('id', $this->user_id)
+        $a = \DB::update($this->table)->where('id', $this->user_id)
             ->set(array(
                 'password' => $this->hash_password((string)$string)
             ))
@@ -40,14 +42,14 @@ class Userwrapper extends \Auth\Auth_Login_Simpleauth {
     }
 
     private function updateAttr() {
-        $a = DB::update($this->table)->where('id', $this->user_id)
+        $a = \DB::update($this->table)->where('id', $this->user_id)
             ->set(array(
                 'profile_fields' => serialize($this->user_attr)
             ))->execute();
     }
 
     public function DBgetByUsernameEmail($key) {
-        $data = DB::select()->from($this->table)
+        $data = \DB::select()->from($this->table)
             ->where('username', $key)
             ->or_where('email', $key)
             ->execute();
@@ -67,7 +69,7 @@ class Userwrapper extends \Auth\Auth_Login_Simpleauth {
             if (is_null($key))
                 return $this->user_attr;
             else
-                return $this->user_attr[$key];
+                return (!empty($this->user_attr[$key])) ? $this->user_attr[$key] : false;
         } catch (Exception $e) {
             return FALSE;
         }
@@ -99,4 +101,30 @@ class Userwrapper extends \Auth\Auth_Login_Simpleauth {
         }
     }
 
+    public function getProviders($name = NULL) {
+        $a = \DB::select()->from($this->providersTable)->where('parent_id', $this->user_id);
+        if (!is_null($name)) {
+            $name = $this->_parseProviderName($name);
+            $a = $a->and_where('provider', $name);
+        }
+
+        return $a->execute()->as_array();
+    }
+
+    public function setProvider($name, $key, $value) {
+        $name = $this->_parseProviderName($name);
+        $a = \DB::update($this->providersTable)->where('parent_id', $this->user_id)
+            ->set(array(
+                $key => $value
+            ))->execute();
+
+        return $a;
+    }
+
+    public function _parseProviderName($name) {
+        if (strtolower($name) == 'github')
+            $name = 'GitHub';
+
+        return $name;
+    }
 }

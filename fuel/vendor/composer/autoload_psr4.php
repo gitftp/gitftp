@@ -8,5 +8,7 @@ $baseDir = dirname(dirname($vendorDir));
 return array(
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
+    'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
+    'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Fuel\\Upload\\' => array($vendorDir . '/fuelphp/upload/src'),
 );

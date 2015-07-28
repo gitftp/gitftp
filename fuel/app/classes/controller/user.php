@@ -17,7 +17,7 @@ class Controller_User extends Controller_Homepage {
             $key = Input::get('token');
             list($user_id, $key) = explode('-', $key);
             try {
-                $user = new Userwrapper($user_id);
+                $user = new \Craftpip\Auth($user_id);
                 $key2 = $user->getAttr('forgotpassword_key');
 
                 if ($key != $key2) {
@@ -53,7 +53,7 @@ class Controller_User extends Controller_Homepage {
             $key = Input::get('verify');
             list($user_id, $key) = explode('-', $key);
             try {
-                $user = new Userwrapper($user_id);
+                $user = new \Craftpip\Auth($user_id);
                 $key2 = $user->getAttr('verify_key');
 
                 if ($key != $key2) {

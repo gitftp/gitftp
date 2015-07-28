@@ -17,8 +17,12 @@ class Controller_Api_User extends Controller {
             $opauth = \Auth_Opauth::forge(FALSE);
             $status = $opauth->login_or_register();
             $provider = $opauth->get('auth.provider', '?');
+            $token = $opauth->get('auth.credentials.token', '?');
             echo '<pre>';
-            print_r($opauth);
+            $user = new \Craftpip\Auth();
+            $user->setProvider($provider, 'access_token', $token);
+            $user->setAttr('github', $opauth->get('auth.info.nickname'));
+
             switch ($status) {
                 // a local user was logged-in, the provider has been linked to this user
                 case 'linked':
@@ -71,6 +75,7 @@ class Controller_Api_User extends Controller {
 
     }
 
+    // perfect code below.
     public function action_login() {
         try {
             $i = Input::post();
@@ -142,13 +147,13 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
 
-            $user = new Userwrapper();
+            $user = new \Craftpip\Auth();
             $users = $user->DBgetByUsernameEmail($i['email']);
             if (!$users) {
                 throw new Exception('Email/Username not registered with us.');
             }
 
-            $mail = new Mailwrapper($users['id']);
+            $mail = new \Craftpip\Mail($users['id']);
             $mail->template_forgotpassword();
             $mail->send();
 
@@ -170,7 +175,7 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
 
-            $user = new Userwrapper($i['user_id']);
+            $user = new \Craftpip\Auth($i['user_id']);
             $key = $user->getAttr('forgotpassword_key');
             if ($key != $i['key']) {
                 throw new Exception('Sorry, the token has expired.');

@@ -1,5 +1,6 @@
 <?php
 
+return false;
 
 exec('git pull', $op);
 

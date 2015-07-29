@@ -4,17 +4,17 @@ $env = array(
     'production'  => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'https'
+        'protocol' => 'http'
     ),
     'staging'     => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'https'
+        'protocol' => 'http'
     ),
     'test'        => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'https'
+        'protocol' => 'http'
     ),
     'development' => array( // dev -> local server.
         'home'     => 'stg-home.gitftp.com',

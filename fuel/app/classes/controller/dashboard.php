@@ -5,8 +5,7 @@ class Controller_Dashboard extends Controller {
         if (!is_dash) {
             throw new HttpNotFoundException;
         }
-        echo \Auth::instance()->check();
-        die();
+
         if (!\Auth::instance()->check()) {
             Response::redirect(home_url . 'login#');
         }

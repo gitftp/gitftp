@@ -48,8 +48,8 @@ class Mail {
         $this->subject('Welcome to Gitftp');
         $this->to($user['email'], $user['username']);
 
-        $view = View::forge('email/base', array(
-            'content' => View::forge('email/signup', array(
+        $view = \View::forge('email/base', array(
+            'content' => \View::forge('email/signup', array(
                 'username'    => $user['username'],
                 'confirmLink' => home_url . 'login?verify=' . $user['id'] . '-' . $random,
             ))
@@ -68,8 +68,8 @@ class Mail {
         $this->subject('Forgot password');
         $this->to($user['email'], $user['username']);
 
-        $view = View::forge('email/base', array(
-            'content' => View::forge('email/forgotpassword', array(
+        $view = \View::forge('email/base', array(
+            'content' => \View::forge('email/forgotpassword', array(
                 'username'  => $user['username'],
                 'resetlink' => home_url . 'forgot-password?token=' . $user['id'] . '-' . $random,
             ))

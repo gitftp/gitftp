@@ -20,100 +20,100 @@
  */
 
 return array(
-	/**
-	 * global configuration
-	*/
+    /**
+     * global configuration
+     */
 
-	// set it to false to prevent the static session from auto-initializing, know that it might make your session
-	// expire sooner because it's not updated when it's not used. note that auto-initializing always loads the default driver
-	'auto_initialize'	=> true,
+    // set it to false to prevent the static session from auto-initializing, know that it might make your session
+    // expire sooner because it's not updated when it's not used. note that auto-initializing always loads the default driver
+    'auto_initialize'        => TRUE,
 
-	// if no session type is requested, use the default
-	'driver'			=> 'cookie',
+    // if no session type is requested, use the default
+    'driver'                 => 'cookie',
 
-	// check for an IP address match after loading the cookie (optional, default = false)
-	'match_ip'			=> false,
+    // check for an IP address match after loading the cookie (optional, default = false)
+    'match_ip'               => FALSE,
 
-	// check for a user agent match after loading the cookie (optional, default = true)
-	'match_ua'			=> false,
+    // check for a user agent match after loading the cookie (optional, default = true)
+    'match_ua'               => FALSE,
 
-	// cookie domain  (optional, default = '')
-	'cookie_domain' 	=> '.gitftp.com',
+    // cookie domain  (optional, default = '')
+    'cookie_domain'          => '.gitftp.com',
 
-	// cookie path  (optional, default = '/')
-	'cookie_path'		=> '/',
+    // cookie path  (optional, default = '/')
+    'cookie_path'            => '/',
 
-	// cookie http_only flag  (optional, default = use the cookie class default)
-	'cookie_http_only'	=> null,
+    // cookie http_only flag  (optional, default = use the cookie class default)
+    'cookie_http_only'       => NULL,
 
-	// whether or not to encrypt the session cookie (optional, default is true)
-	'encrypt_cookie'	=> true,
+    // whether or not to encrypt the session cookie (optional, default is true)
+    'encrypt_cookie'         => TRUE,
 
-	// if true, the session expires when the browser is closed (optional, default = false)
-	'expire_on_close'	=> false,
+    // if true, the session expires when the browser is closed (optional, default = false)
+    'expire_on_close'        => FALSE,
 
-	// session expiration time, <= 0 means 2 years! (optional, default = 2 hours)
-	'expiration_time'	=> 10,
+    // session expiration time, <= 0 means 2 years! (optional, default = 2 hours)
+    'expiration_time'        => 10,
 
-	// session ID rotation time  (optional, default = 300) Set to false to disable rotation
-	'rotation_time'		=> 300,
+    // session ID rotation time  (optional, default = 300) Set to false to disable rotation
+    'rotation_time'          => 300,
 
-	// default ID for flash variables  (optional, default = 'flash')
-	'flash_id'			=> 'flash',
+    // default ID for flash variables  (optional, default = 'flash')
+    'flash_id'               => 'flash',
 
-	// if false, expire flash values only after it's used  (optional, default = true)
-	'flash_auto_expire'	=> true,
+    // if false, expire flash values only after it's used  (optional, default = true)
+    'flash_auto_expire'      => TRUE,
 
-	// if true, a get_flash() automatically expires the flash data
-	'flash_expire_after_get' => true,
+    // if true, a get_flash() automatically expires the flash data
+    'flash_expire_after_get' => TRUE,
 
-	// for requests that don't support cookies (i.e. flash), use this POST variable to pass the cookie to the session driver
-	'post_cookie_name'	=> '',
+    // for requests that don't support cookies (i.e. flash), use this POST variable to pass the cookie to the session driver
+    'post_cookie_name'       => '',
 
-	// for requests in which you don't want to use cookies, use an HTTP header by this name to pass the cookie to the session driver
-	'http_header_name' => 'Session-Id',
+    // for requests in which you don't want to use cookies, use an HTTP header by this name to pass the cookie to the session driver
+    'http_header_name'       => 'Session-Id',
 
-	// if false, no cookie will be added to the response send back to the client
-	'enable_cookie'	=> true,
+    // if false, no cookie will be added to the response send back to the client
+    'enable_cookie'          => TRUE,
 
-	// if true, session data will be synced with PHP's native $_SESSION, to allow easier integration of third-party components
-	'native_emulation'	=> false,
+    // if true, session data will be synced with PHP's native $_SESSION, to allow easier integration of third-party components
+    'native_emulation'       => FALSE,
 
-	/**
-	 * specific driver configurations. to override a global setting, just add it to the driver config with a different value
-	*/
+    /**
+     * specific driver configurations. to override a global setting, just add it to the driver config with a different value
+     */
 
-	// special configuration settings for cookie based sessions
-	'cookie'			=> array(
-		'cookie_name'		=> 'gfcid',				// name of the session cookie for cookie based sessions
-						),
+    // special configuration settings for cookie based sessions
+    'cookie'                 => array(
+        'cookie_name' => 'gfcid',                // name of the session cookie for cookie based sessions
+    ),
 
-	// specific configuration settings for file based sessions
-	'file'				=> array(
-		'cookie_name'		=> 'gfcfid',				// name of the session cookie for file based sessions
-		'path'				=>	'/tmp',					// path where the session files should be stored
-		'gc_probability'	=>	5,						// probability % (between 0 and 100) for garbage collection
-						),
+    // specific configuration settings for file based sessions
+    'file'                   => array(
+        'cookie_name'    => 'gfcfid',                // name of the session cookie for file based sessions
+        'path'           => '/tmp',                    // path where the session files should be stored
+        'gc_probability' => 5,                        // probability % (between 0 and 100) for garbage collection
+    ),
 
-	// specific configuration settings for memcached based sessions
-	'memcached'			=> array(
-		'cookie_name'		=> 'gfcmid',				// name of the session cookie for memcached based sessions
-		'servers'			=> array(					// array of servers and portnumbers that run the memcached service
-								'default' => array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
-							),
-						),
+    // specific configuration settings for memcached based sessions
+    'memcached'              => array(
+        'cookie_name' => 'gfcmid',                // name of the session cookie for memcached based sessions
+        'servers'     => array(                    // array of servers and portnumbers that run the memcached service
+            'default' => array('host' => '127.0.0.1', 'port' => 11211, 'weight' => 100),
+        ),
+    ),
 
-	// specific configuration settings for database based sessions
-	'db'			=> array(
-		'cookie_name'		=> 'gfcdid',				// name of the session cookie for database based sessions
-		'database'			=> null,					// name of the database name (as configured in config/db.php)
-		'table'				=> 'sessions',				// name of the sessions table
-		'gc_probability'	=> 5,						// probability % (between 0 and 100) for garbage collection
-						),
+    // specific configuration settings for database based sessions
+    'db'                     => array(
+        'cookie_name'    => 'gfcdid',                // name of the session cookie for database based sessions
+        'database'       => NULL,                    // name of the database name (as configured in config/db.php)
+        'table'          => 'sessions',                // name of the sessions table
+        'gc_probability' => 5,                        // probability % (between 0 and 100) for garbage collection
+    ),
 
-	// specific configuration settings for redis based sessions
-	'redis'			=> array(
-		'cookie_name'		=> 'gfcrid',				// name of the session cookie for redis based sessions
-		'database'			=> 'default',				// name of the redis database to use (as configured in config/db.php)
-						),
+    // specific configuration settings for redis based sessions
+    'redis'                  => array(
+        'cookie_name' => 'gfcrid',                // name of the session cookie for redis based sessions
+        'database'    => 'default',                // name of the redis database to use (as configured in config/db.php)
+    ),
 );

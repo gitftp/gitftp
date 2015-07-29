@@ -59,6 +59,9 @@ class Crypt
 			}
 		}
 
+        // added by boni:
+        $update = false;
+
 		// update the config if needed
 		if ($update === true)
 		{

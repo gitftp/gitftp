@@ -35,10 +35,10 @@ return array(
 	'match_ip'			=> false,
 
 	// check for a user agent match after loading the cookie (optional, default = true)
-	'match_ua'			=> false,
+	'match_ua'			=> true,
 
 	// cookie domain  (optional, default = '')
-	'cookie_domain' 	=> '.gitftp.com',
+	'cookie_domain' 	=> '',
 
 	// cookie path  (optional, default = '/')
 	'cookie_path'		=> '/',
@@ -53,7 +53,7 @@ return array(
 	'expire_on_close'	=> false,
 
 	// session expiration time, <= 0 means 2 years! (optional, default = 2 hours)
-	'expiration_time'	=> 0,
+	'expiration_time'	=> 10,
 
 	// session ID rotation time  (optional, default = 300) Set to false to disable rotation
 	'rotation_time'		=> 300,
@@ -77,7 +77,7 @@ return array(
 	'enable_cookie'	=> true,
 
 	// if true, session data will be synced with PHP's native $_SESSION, to allow easier integration of third-party components
-	'native_emulation'	=> true,
+	'native_emulation'	=> false,
 
 	/**
 	 * specific driver configurations. to override a global setting, just add it to the driver config with a different value

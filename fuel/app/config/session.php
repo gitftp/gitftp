@@ -77,7 +77,7 @@ return array(
     'enable_cookie'          => TRUE,
 
     // if true, session data will be synced with PHP's native $_SESSION, to allow easier integration of third-party components
-    'native_emulation'       => FALSE,
+    'native_emulation'       => TRUE,
 
     /**
      * specific driver configurations. to override a global setting, just add it to the driver config with a different value

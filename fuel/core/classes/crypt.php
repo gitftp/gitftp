@@ -40,7 +40,7 @@ class Crypt
 		$hasher = new Crypt_Hash('sha256');
 
 		// load the config
-		\Config::load('crypt', true);
+		\Config::load('crypt');
 		static::$defaults = \Config::get('crypt', array());
 
 		// generate random crypto keys if we don't have them or they are incorrect length
@@ -58,9 +58,6 @@ class Crypt
 				$update = true;
 			}
 		}
-
-        // added by boni:
-        $update = false;
 
 		// update the config if needed
 		if ($update === true)

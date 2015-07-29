@@ -1,32 +1,41 @@
 <?php
 
 $env = array(
-    'production'  => array( // for production -> uses gitftp.com database.
-        'home' => 'www.gitftp.com',
-        'dash' => 'console.gitftp.com',
+    'production'  => array(
+        'home'     => 'www.gitftp.com',
+        'dash'     => 'console.gitftp.com',
+        'protocol' => 'https'
     ),
-    'test'        => array( // for test on production servers. -> uses craftpip.com database.
-        'home' => 'www.gitftp.com',
-        'dash' => 'console.gitftp.com',
+    'staging'     => array(
+        'home'     => 'www.gitftp.com',
+        'dash'     => 'console.gitftp.com',
+        'protocol' => 'https'
     ),
-    'development' => array( // for development -> uses local database. -> stg.gitftp.com.
-        'home' => 'stg-home.gitftp.com',
-        'dash' => 'stg.gitftp.com',
+    'test'        => array(
+        'home'     => 'www.gitftp.com',
+        'dash'     => 'console.gitftp.com',
+        'protocol' => 'https'
+    ),
+    'development' => array( // dev -> local server.
+        'home'     => 'stg-home.gitftp.com',
+        'dash'     => 'stg.gitftp.com',
+        'protocol' => 'http'
     ),
 );
-
 $current_env = $env[\Fuel::$env];
 
 if (isset($_SERVER['HTTP_HOST'])) {
     $host = $_SERVER['HTTP_HOST'];
-    // non cli ?
+    if (Input::protocol() != $current_env['protocol'])
+        Response::redirect($current_env['protocol'] . '://' . $current_env['home']);
 } else {
+    // cli.
     $host = $current_env['dash'];
 }
 
 // If any other host, redirect back to homepage !
 if (!in_array($host, Arr::flatten($current_env))) {
-    Response::redirect('http://' . $current_env['home']);
+    Response::redirect($current_env['protocol'] . '://' . $current_env['home']);
 }
 
 if ($host == $current_env['dash']) {
@@ -37,12 +46,13 @@ if ($host == $current_env['dash']) {
     $is_dash = FALSE;
 }
 
-$dash_url = 'http://' . $current_env['dash'] . '/';
-$home_url = 'http://' . $current_env['home'] . '/';
+$dash_url = $current_env['protocol'] . '://' . $current_env['dash'] . '/';
+$home_url = $current_env['protocol'] . '://' . $current_env['home'] . '/';
 
 define('dash_url', $dash_url);
 define('home_url', $home_url);
 define('is_dash', $is_dash);
 define('base_controller', $controller);
+define('protocol', $current_env['protocol']);
 
 return array();

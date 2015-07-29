@@ -6,9 +6,9 @@
 return array(
     'default' => array(
         'connection' => array(
-            'dsn' => 'mysql:host=pc.craftpip.com;dbname=craftrzt_gitploy',
-            'username' => 'root',
-            'password' => 'thisissparta',
+            'dsn'      => 'mysql:host=craftpip.com;dbname=craftrzt_gitftp',
+            'username' => 'craftrzt_gitftp',
+            'password' => 's.AmN-V?rXCT',
         ),
     ),
 );

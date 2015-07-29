@@ -177,4 +177,20 @@ class Controller_Test extends Controller {
 
         print_r($a);
     }
+
+
+    public function get_login(){
+        if(\Auth::instance()->login('boniface', 'asdasd')){
+            echo 'yes';
+        }else{
+            echo 'no';
+        }
+    }
+    public function get_checklogin(){
+        if(\Auth::instance()->check()){
+            echo 'yes';
+        }else{
+            echo 'no';
+        }
+    }
 }

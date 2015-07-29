@@ -35,7 +35,7 @@ return array(
     'match_ip'               => FALSE,
 
     // check for a user agent match after loading the cookie (optional, default = true)
-    'match_ua'               => FALSE,
+    'match_ua'               => TRUE,
 
     // cookie domain  (optional, default = '')
     'cookie_domain'          => '.gitftp.com',

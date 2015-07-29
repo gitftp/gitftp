@@ -40,9 +40,10 @@ class Crypt
 		$hasher = new Crypt_Hash('sha256');
 
 		// load the config
-		\Config::load('crypt');
+		\Config::load('crypt', true);
 		static::$defaults = \Config::get('crypt', array());
-
+        print_r(static::$defaults);
+        die();
 		// generate random crypto keys if we don't have them or they are incorrect length
 		$update = false;
 		foreach(array('crypto_key', 'crypto_iv', 'crypto_hmac') as $key)

@@ -85,7 +85,8 @@ return array(
 
     // special configuration settings for cookie based sessions
     'cookie'                 => array(
-        'cookie_name' => 'gfcid',                // name of the session cookie for cookie based sessions
+        'cookie_name'  => 'gfcid',                // name of the session cookie for cookie based sessions
+        'write_on_set' => TRUE
     ),
 
     // specific configuration settings for file based sessions

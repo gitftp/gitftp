@@ -22,24 +22,53 @@ return array(
     /**
      * DB connection, leave null to use default
      */
-    'db_connection' => NULL,
+    'db_connection'   => NULL,
     /**
      * DB table name for the user table
      */
-    'table_name'    => 'users',
+    'table_name'      => 'users',
     /**
      * Choose which columns are selected, must include: username, password, email, last_login,
      * login_hash, group & profile_fields
      */
-    'table_columns' => array('*'),
+    'table_columns'   => array('*'),
     /**
      * This will allow you to use the group & acl driver for non-logged in users
      */
-    'guest_login'   => FALSE,
+    'guest_login'     => FALSE,
     /**
      * Groups as id => array(name => <string>, roles => <array>)
      */
-    'groups'        => array(
+    /**
+     * This will allow the same user to be logged in multiple times.
+     *
+     * Note that this is less secure, as session hijacking countermeasures have to
+     * be disabled for this to work!
+     */
+    'multiple_logins' => FALSE,
+
+    /**
+     * Remember-me functionality
+     */
+    'remember_me'     => array(
+        /**
+         * Whether or not remember me functionality is enabled
+         */
+        'enabled'     => TRUE,
+
+        /**
+         * Name of the cookie used to record this functionality
+         */
+        'cookie_name' => 'rmcookie',
+
+        /**
+         * Remember me expiration (default: 31 days)
+         */
+        'expiration'  => 0,
+    ),
+
+
+    'groups'          => array(
         /**
          * Examples
          * ---
@@ -53,7 +82,7 @@ return array(
     /**
      * Roles as name => array(location => rights)
      */
-    'roles'         => array(/**
+    'roles'           => array(/**
      * Examples
      * ---
      *

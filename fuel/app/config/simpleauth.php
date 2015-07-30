@@ -36,38 +36,10 @@ return array(
      * This will allow you to use the group & acl driver for non-logged in users
      */
     'guest_login'     => FALSE,
+
     /**
      * Groups as id => array(name => <string>, roles => <array>)
      */
-    /**
-     * This will allow the same user to be logged in multiple times.
-     *
-     * Note that this is less secure, as session hijacking countermeasures have to
-     * be disabled for this to work!
-     */
-    'multiple_logins' => FALSE,
-
-    /**
-     * Remember-me functionality
-     */
-    'remember_me'     => array(
-        /**
-         * Whether or not remember me functionality is enabled
-         */
-        'enabled'     => TRUE,
-
-        /**
-         * Name of the cookie used to record this functionality
-         */
-        'cookie_name' => 'rmcookie',
-
-        /**
-         * Remember me expiration (default: 31 days)
-         */
-        'expiration'  => 0,
-    ),
-
-
     'groups'          => array(
         /**
          * Examples

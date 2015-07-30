@@ -42,6 +42,9 @@
         </div>
     </div>
 </section>
+<div class="space20"></div>
+<div class="space20"></div>
+<div class="space20"></div>
 <?php if (!is_null($email_verification)) { ?>
     <script>
         <?php if($email_verification){ ?>

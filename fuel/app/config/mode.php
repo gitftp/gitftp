@@ -22,6 +22,7 @@ $env = array(
         'protocol' => 'http'
     ),
 );
+
 $current_env = $env[\Fuel::$env];
 
 if (isset($_SERVER['HTTP_HOST'])) {

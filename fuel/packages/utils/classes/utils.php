@@ -68,7 +68,7 @@ class Utils {
      * @return string
      */
     public static function get_gravatar($email, $s = 80, $d = 'mm', $r = 'g', $img = FALSE, $atts = array()) {
-        $url = 'http://www.gravatar.com/avatar/';
+        $url = protocol . '://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
         $url .= "?s=$s&d=$d&r=$r";
         if ($img) {
@@ -187,14 +187,16 @@ class Utils {
             );
         }
     }
-    public static function parseProviderFromRepository($url){
-        if(preg_match('/bitbucket/', strtolower($url))){
+
+    public static function parseProviderFromRepository($url) {
+        if (preg_match('/bitbucket/', strtolower($url))) {
             return 'Bitbucket';
         }
-        if(preg_match('/github/', strtolower($url))){
+        if (preg_match('/github/', strtolower($url))) {
             return 'Github';
         }
     }
+
     public static function humanize_data($bytes) {
         $decimals = 2;
         $sz = 'BKMGTP';

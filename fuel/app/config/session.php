@@ -30,13 +30,13 @@ return array(
 
     // if no session type is requested, use the default
 //    'driver'                 => 'cookie',
-    'driver'                 => 'db',
+    'driver'                 => 'cookie',
 
     // check for an IP address match after loading the cookie (optional, default = false)
     'match_ip'               => FALSE,
 
     // check for a user agent match after loading the cookie (optional, default = true)
-    'match_ua'               => TRUE,
+    'match_ua'               => FALSE,
 
     // cookie domain  (optional, default = '')
     'cookie_domain'          => '.gitftp.com',

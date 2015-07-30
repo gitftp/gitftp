@@ -22,11 +22,11 @@ return array(
     /**
      * DB connection, leave null to use default
      */
-    'db_connection' => null,
+    'db_connection' => NULL,
     /**
      * DB table name for the user table
      */
-    'table_name' => 'users',
+    'table_name'    => 'users',
     /**
      * Choose which columns are selected, must include: username, password, email, last_login,
      * login_hash, group & profile_fields
@@ -35,26 +35,25 @@ return array(
     /**
      * This will allow you to use the group & acl driver for non-logged in users
      */
-    'guest_login' => true,
+    'guest_login'   => FALSE,
     /**
      * Groups as id => array(name => <string>, roles => <array>)
      */
-    'groups' => array(
+    'groups'        => array(
         /**
          * Examples
          * ---
          * */
-        -1 => array('name' => 'Banned', 'roles' => array('banned')),
-        0 => array('name' => 'Guests', 'roles' => array()),
-        1 => array('name' => 'Users', 'roles' => array('user')),
-        50 => array('name' => 'Moderators', 'roles' => array('user', 'moderator')),
+        -1  => array('name' => 'Banned', 'roles' => array('banned')),
+        0   => array('name' => 'Guests', 'roles' => array()),
+        1   => array('name' => 'Users', 'roles' => array('user')),
+        50  => array('name' => 'Moderators', 'roles' => array('user', 'moderator')),
         100 => array('name' => 'Administrators', 'roles' => array('user', 'moderator', 'admin')),
     ),
     /**
      * Roles as name => array(location => rights)
      */
-    'roles' => array(
-    /**
+    'roles'         => array(/**
      * Examples
      * ---
      *
@@ -76,13 +75,13 @@ return array(
     /**
      * Salt for the login hash
      */
-    'login_hash_salt' => 'averyrandomshitsalt',
+//    'login_hash_salt' => 'averyrandomshitsalt',
     /**
      * $_POST key for login username
      */
-    'username_post_key' => 'username',
+//    'username_post_key' => 'username',
     /**
      * $_POST key for login password
      */
-    'password_post_key' => 'password',
+//    'password_post_key' => 'password',
 );

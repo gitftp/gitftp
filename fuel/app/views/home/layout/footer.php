@@ -7,8 +7,8 @@
             <div class="col-md-6">
                 <ul class="list-inline">
                     <li><a href="mailto:support@gitftp.com" title="" class="uppercase-text strong-text">Support</a></li>
-                    <li><a href="#" title="" class="uppercase-text strong-text">Terms</a></li>
-                    <li><a href="#" title="" class="uppercase-text strong-text">Privacy</a></li>
+<!--                    <li><a href="#" title="" class="uppercase-text strong-text">Terms</a></li>-->
+<!--                    <li><a href="#" title="" class="uppercase-text strong-text">Privacy</a></li>-->
                 </ul>
             </div>
             <div class="col-md-6">

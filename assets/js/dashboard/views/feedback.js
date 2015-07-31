@@ -14,6 +14,7 @@ define([
             var $this = $(e.currentTarget);
 
             $.confirm({
+                container: 'body',
                 title: 'Feedback',
                 icon: 'fa fa-smile-o green',
                 content: 'Hello!, let us know what you think about gitftp, and how it can do better. <br>' +

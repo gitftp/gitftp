@@ -8,9 +8,11 @@ define([
             'click .ftp-connectionTest': 'testFtp',
             'click .ftp-server-delete': 'deleteftp',
             'click a.ftp-form-password-set-change': 'passwordFieldToggle',
-            'click button.ftp-form-password-set-cancel': 'passwordFieldToggle',
+            'click button.ftp-form-password-set-cancel': 'passwordFieldToggle'
         },
         passwordFieldToggle: function (e) {
+            console.log(e.currentTarget);
+
             e.preventDefault();
             var $this = $(e.currentTarget);
 
@@ -100,10 +102,17 @@ define([
         },
         testFtp: function (e) {
             e.preventDefault();
+            var that = this;
             var $this = $(e.currentTarget);
-            var form = $('#addftp-form').serializeArray();
-            $this.find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner');
-            $this.prop('disabled', true);
+            var form = $('#addftp-form').serializeObject();
+            if (!form.scheme || !form.host || !form.username) {
+                $.alert({
+                    title: 'Please enter necessary fields',
+                    content: 'Please enter enough data to connect to FTP server.'
+                });
+                return false;
+            }
+            $this.prop('disabled', true).find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner');
 
             _ajax({
                 url: base + 'api/ftp/testftp',
@@ -112,11 +121,11 @@ define([
                 data: form
             }).done(function (d) {
                 $.alert({
+                    container: that.$e,
                     title: (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
-                    content: (d.status) ? 'Connection established successfully.' : 'We tried hard connecting, but failed. <br>Reason: <code>' + d.reason + '</code>',
+                    content: (d.status) ? 'Connection established successfully, This FTP server is ready to roll.' : 'The connection could not be established. <br>Reason: <code>' + d.reason + '</code>',
                 });
-                $this.find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
-                $this.prop('disabled', false);
+                $this.prop('disabled', false).find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
             });
         },
         hostValidate: /^(?!:\/\/)([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i,
@@ -172,7 +181,8 @@ define([
         render: function (id) {
             var that = this;
 
-            this.$el.html(this.el = $('<div class="ftpadd-wrapper bb-loading">'));
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+
             if (id) {
                 _ajax({
                     url: base + 'api/ftp/get/' + id,
@@ -183,7 +193,7 @@ define([
                     template = template({
                         'ftp': data.data
                     });
-                    that.el.html(template);
+                    that.$e.html(template);
                     that.oneline();
                     that.validation();
                 });
@@ -193,7 +203,7 @@ define([
                 template = template({
                     'ftp': []
                 });
-                that.el.html(template);
+                that.$e.html(template);
                 that.id = false;
                 that.validation();
             }
@@ -236,19 +246,21 @@ define([
         },
         add: function (form) {
             var that = this;
-            $this = $(form);
-
-            $this.find('select, input').attr('readonly', true);
-            var that = this;
+            var $this = $(form);
+            var data = $this.serializeArray();
             var param = (this.id) ? 'editftp/' + this.id : 'addftp';
 
+            $this.find(':input').prop('disabled', true);
+
+            var $submitBtn = $this.find('button[type="submit"]');
+            $submitBtn.html('<i class="fa fa-spin fa-spinner"></i> Updating');
             _ajax({
                 url: base + 'api/ftp/' + param,
-                data: $this.serializeArray(),
+                data: data,
                 method: 'post',
                 dataType: 'json'
             }).done(function (data) {
-                $this.find('select, input').removeAttr('readonly');
+                $this.find(':input:not([data-notform="true"])').prop('disabled', false);
                 if (data.status) {
                     noty({
                         text: ((that.id) ? '<i clas="fa fa-pencil"></i>&nbsp; Your changed are saved.' : '<i class="fa fa-plus"></i>&nbsp; Added FTP server: ' + $this.find('[name="host"]').val() ),
@@ -261,6 +273,7 @@ define([
                         type: 'warning',
                     });
                 }
+                $submitBtn.html('Update');
             });
         },
     });

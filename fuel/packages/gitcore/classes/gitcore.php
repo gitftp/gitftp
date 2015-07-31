@@ -883,9 +883,12 @@ class gitcore {
             }
 
             $curr += 1;
-            $record->set($record_id, array(
-                'processed_files' => $curr
-            ), TRUE);
+
+            if ($curr % 5 == 0) {
+                $record->set($record_id, array(
+                    'processed_files' => $curr
+                ), TRUE);
+            }
 
         }
 
@@ -978,9 +981,12 @@ class gitcore {
             $this->output("^ uploaded $fileNo of $numberOfFilesToUpdate {$file}");
 
             $curr += 1;
-            $record->set($record_id, array(
-                'processed_files' => $curr
-            ), TRUE);
+
+            if ($curr % 5 == 0) {
+                $record->set($record_id, array(
+                    'processed_files' => $curr
+                ), TRUE);
+            }
         }
 
         //empty folders

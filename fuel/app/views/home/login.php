@@ -10,15 +10,16 @@
                 <div class="panel panel-default">
                     <form action="" id="home-login">
                         <div class="panel-body">
-                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>
 
-                            <div class="btn-group btn-group-justified">
-                                <a href="#" class="btn btn-default btn-clean btn-gitftp" id="login-via-github">
-                                    <i class="fa fa-github-alt"></i> Github
-                                </a>
-                            </div>
+<!--                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>-->
+<!---->
+<!--                            <div class="btn-group btn-group-justified">-->
+<!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp" id="login-via-github">-->
+<!--                                    <i class="fa fa-github-alt"></i> Github-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                            <hr/>-->
 
-                            <hr/>
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
                                 <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control">
@@ -34,7 +35,6 @@
                             <button type="submit" class="btn btn-info btn-block">
                                 <i class="fa fa-lock fa-fw" style=""></i> Login
                             </button>
-                            <!--                            <a href="--><?php //echo home_url . 'api/user/oauth/github'; ?><!--">github ?</a>-->
                         </div>
                     </form>
                 </div>

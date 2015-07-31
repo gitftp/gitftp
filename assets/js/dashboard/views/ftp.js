@@ -17,7 +17,7 @@ define([
         },
         render: function (id) {
             var that = this;
-            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.e = $('<div class="bb-loading">').addClass(viewClass()));
 
             _ajax({
                 url: base+ 'api/ftp/get',
@@ -26,7 +26,7 @@ define([
             }).done(function(data){
                 var template = _.template(ftplist);
                 template = template({list: data.data});
-                that.el.html(template);
+                that.e.html(template);
             });
         },
     });

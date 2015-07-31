@@ -64,9 +64,9 @@
                                 </div>
                                 <div class="ftp-form-password-field" style="display: none">
                                     <div class="input-group">
-                                        <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="">
+                                        <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="" data-notform="true">
                                         <span class="input-group-btn">
-                                            <button class="btn btn-block btn-clean ftp-form-password-set-cancel"><i class="fa fa-times"></i></button>
+                                            <button type="button" class="btn btn-block btn-clean ftp-form-password-set-cancel"><i class="fa fa-times"></i></button>
                                         </span>
                                     </div>
                                 </div>
@@ -94,14 +94,19 @@
     <div class="col-md-6 col-sm-6">
         <div class="panel panel-default">
             <div class="panel-body panel-body-material">
-                <p class="text-center"><strong>One line config:</strong>
-                    <br>
+                <p class="text-center">
+                    <strong>One line config:</strong>
+                    <br/>
                     <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
-                    <br>
-                    <br>
-                    <button type="button" class="btn btn-default btn-clean ftp-connectionTest"><i
-                            class="fa fa-exchange fa-fw"></i> Test connection
+                </p>
+                <p class="text-center">
+                    <button type="button" class="btn btn-warning ftp-connectionTest"><i
+                            class="fa fa-exchange fa-fw"></i> Connect to server.
                     </button>
+                </p>
+                <div class="space10"></div>
+                <p style="margin: 0">
+                    We highly recommend to test connection your server before saving. Incorrect configuration will lead to deploy failures.
                 </p>
             </div>
         </div>

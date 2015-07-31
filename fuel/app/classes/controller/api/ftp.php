@@ -27,7 +27,13 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
     public function post_testftp($a = NULL, $return = FALSE) {
         $i = Input::post();
+
         try {
+            if(!isset($i['host']) || !isset($i['scheme'])){
+                throw new Exception('Please enter necessary details to connect to your Server.');
+            }else if(trim($i['host']) == '' || trim($i['scheme']) == ''){
+                throw new Exception('Please enter necessary details to connect to your Server.');
+            }
 
             $options = array(
                 'user'   => $i['username'],
@@ -82,6 +88,8 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
          * test ftp before adding,
          */
         $data = Input::post();
+        $data = Utils::escapeHtmlChars($data);
+
         try {
 
             $ftp = new Model_Ftp();
@@ -125,6 +133,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
         try {
             $ftp = new Model_Ftp();
             $data = Input::post();
+            $data = Utils::escapeHtmlChars($data);
             $a = $ftp->set($id, $data);
 
             if ($a || FALSE) {

@@ -7,7 +7,7 @@ define([
         },
         render: function () {
             var that = this;
-            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading side-anim">').addClass(viewClass()));
             this.template = _.template(page);
             that.$e.html(that.template());
         },

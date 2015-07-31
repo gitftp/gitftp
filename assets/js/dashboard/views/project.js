@@ -16,7 +16,7 @@ define([
         },
         render: function (id) {
             var that = this;
-            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
             this.page = page;
             this.template = _.template(this.page);
             _ajax({
@@ -28,7 +28,7 @@ define([
                 }
             }).done(function (data) {
                 var template = that.template({'list': data.data});
-                that.el.html(template);
+                that.$e.html(template);
             });
         }
     });

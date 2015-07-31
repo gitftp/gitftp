@@ -212,7 +212,7 @@ define([
         },
         render: function (id, urlp) {
             var that = this;
-            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading project-activity-anim">').addClass(viewClass()));
             this.id = id;
             if (urlp[3]) {
                 this.branch_id = urlp[3];

@@ -138,7 +138,7 @@ define([
         render: function (id) {
             this.id = id;
             var that = this;
-            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading project-activity-anim">').addClass(viewClass()));
 
             $.when(this.getRecords(), this.getData()).then(function (records, data) {
                 records = records[0];

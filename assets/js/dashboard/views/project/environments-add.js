@@ -109,7 +109,7 @@ define([
         render: function (id) {
             var that = this;
             this.id = id;
-            this.$el.html(this.$e = $('<div class="bb-loading">').addClass(viewClass()));
+            this.$el.html(this.$e = $('<div class="bb-loading project-activity-anim">').addClass(viewClass()));
             var subPage = that.template();
             this.$e.html(subPage);
             this.$panel = $('.branch-single-view');

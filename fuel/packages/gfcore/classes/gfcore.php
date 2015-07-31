@@ -1,5 +1,7 @@
 <?php
 
+use \Symfony\Component\Process\Process;
+
 /**
  * Class Gfcore
  *
@@ -432,8 +434,10 @@ class Gfcore {
         try {
             \File::read_dir($this->repo_home . '/' . $this->user_id);
         } catch (Exception $e) {
-            \File::create_dir($this->repo_home, $this->user_id, 0755);
-
+//            \File::create_dir($this->repo_home, $this->user_id, 0777);
+            $p = new Process('mkdir ' . $this->repo_home . '/' . $this->user_id);
+            $p->run();
+            $this->output('Created user folder: ' . $this->user_dir);
         }
         $this->user_dir = $this->repo_home . '/' . $this->user_id;
 
@@ -442,14 +446,13 @@ class Gfcore {
             \File::read_dir($this->user_dir . '/' . $this->deploy_id);
             \Cli::write('could read the file.');
         } catch (Exception $ex) {
-            $a = \File::create_dir($this->user_dir, $this->deploy_id, 0755);
-            \Cli::write('Writing the file.'.$a);
+//            $a = \File::create_dir($this->user_dir, $this->deploy_id, 0777);
+            $p = new Process('mkdir ' . $this->user_dir . '/' . $this->deploy_id);
+            $p->run();
+            $this->output('Created repo folders: ' . $this->repo_dir);
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;
 
-
-        $this->output('Created user folder: ' . $this->user_dir);
-        $this->output('Created repo folders: ' . $this->repo_dir);
     }
 
     /**
@@ -607,7 +610,7 @@ class Gfcore {
      * @return bool
      */
     public static function deploy_in_bg($deploy_id) {
-        shell_exec('FUEL_ENV='.\Fuel::$env.' php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+        shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
 
         return TRUE;
     }

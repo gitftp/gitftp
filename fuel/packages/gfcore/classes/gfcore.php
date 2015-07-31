@@ -440,8 +440,10 @@ class Gfcore {
         // repo folder.
         try {
             File::read_dir($this->user_dir . '/' . $this->deploy_id);
+            \Cli::write('could read the file.');
         } catch (Exception $ex) {
             File::create_dir($this->user_dir, $this->deploy_id, 0755);
+            \Cli::write('Writing the file.');
 
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;

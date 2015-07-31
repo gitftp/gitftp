@@ -606,7 +606,7 @@ class Gfcore {
      * @return bool
      */
     public static function deploy_in_bg($deploy_id) {
-        shell_exec('php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+        shell_exec('FUEL_ENV='.\Fuel::$env.' php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
 
         return TRUE;
     }

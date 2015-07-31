@@ -10,6 +10,7 @@ use Fuel\Core\Cli;
 class Crontask {
 
     /**
+     * NOT USED YET.
      * Iterates through all deploy, finding which one is not deployed, and starts its deployment.
      */
     public function deploy_all() {
@@ -35,6 +36,7 @@ class Crontask {
      * @throws \Exception
      */
     public function deploy($deploy_id) {
+        Cli::write('ENVIRONMENT: '.\Fuel::$env);
         Cli::write("Starting with $deploy_id");
         $gfcore = new \Gfcore($deploy_id);
         $gfcore->deploy();

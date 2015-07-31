@@ -166,7 +166,7 @@ class Gfcore {
                 throw new Exception('Failed to connect to repository');
             } else {
                 $this->output('Fetched ' . count($branches) . ' branches');
-                $this->log('Connection to ' . $this->deploy_data['repository'] . ' successful.');
+                $this->log('repo_connect', 'Connection to ' . $this->deploy_data['repository'] . ' successful.');
             }
 
             // Getting branch data of the respective RECORD.
@@ -434,7 +434,6 @@ class Gfcore {
         try {
             \File::read_dir($this->repo_home . '/' . $this->user_id);
         } catch (Exception $e) {
-//            \File::create_dir($this->repo_home, $this->user_id, 0777);
             $p = new Process('mkdir ' . $this->repo_home . '/' . $this->user_id);
             $p->run();
             $this->output('Created user folder: ' . $this->user_dir);
@@ -446,13 +445,11 @@ class Gfcore {
             \File::read_dir($this->user_dir . '/' . $this->deploy_id);
             \Cli::write('could read the file.');
         } catch (Exception $ex) {
-//            $a = \File::create_dir($this->user_dir, $this->deploy_id, 0777);
             $p = new Process('mkdir ' . $this->user_dir . '/' . $this->deploy_id);
             $p->run();
             $this->output('Created repo folders: ' . $this->repo_dir);
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;
-
     }
 
     /**

@@ -430,21 +430,20 @@ class Gfcore {
 
         // user folder.
         try {
-            File::read_dir($this->repo_home . '/' . $this->user_id);
+            \File::read_dir($this->repo_home . '/' . $this->user_id);
         } catch (Exception $e) {
-            File::create_dir($this->repo_home, $this->user_id, 0755);
+            \File::create_dir($this->repo_home, $this->user_id, 0755);
 
         }
         $this->user_dir = $this->repo_home . '/' . $this->user_id;
 
         // repo folder.
         try {
-            File::read_dir($this->user_dir . '/' . $this->deploy_id);
+            \File::read_dir($this->user_dir . '/' . $this->deploy_id);
             \Cli::write('could read the file.');
         } catch (Exception $ex) {
-            $a = File::create_dir($this->user_dir, $this->deploy_id, 0755);
+            $a = \File::create_dir($this->user_dir, $this->deploy_id, 0755);
             \Cli::write('Writing the file.'.$a);
-
         }
         $this->repo_dir = $this->user_dir . '/' . $this->deploy_id;
 

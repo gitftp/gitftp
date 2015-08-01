@@ -2,6 +2,11 @@
 
 class Controller_Api_User extends Controller {
 
+    /**
+     * API called when user tries to login, or register using Oauth.
+     *
+     * @param null $provider
+     */
     public function action_oauth($provider = NULL) {
         if (is_null($provider)) {
             // please provider provider.
@@ -12,6 +17,12 @@ class Controller_Api_User extends Controller {
         \Auth_Opauth::forge();
     }
 
+    /**
+     * API called when user tries to login, or register using Oauth.
+     * --- callback from OAuth provider. user is redirected to dashboard from here.
+     *
+     * @throws FuelException
+     */
     public function action_callback() {
         try {
             $opauth = \Auth_Opauth::forge(FALSE);
@@ -75,7 +86,9 @@ class Controller_Api_User extends Controller {
 
     }
 
-    // perfect code below.
+    /**
+     * API called when user performs login from homepage.
+     */
     public function action_login() {
         try {
             $i = Input::post();
@@ -106,10 +119,16 @@ class Controller_Api_User extends Controller {
         echo json_encode($response);
     }
 
+    /**
+     * API called from homepage when user submits the registration form.
+     */
     public function action_register() {
         // todo: have to make this happen
     }
 
+    /**
+     * API call from dashboard, when user enters old and new password to changes his/hers password.
+     */
     public function post_changepassword() {
         try {
             $i = Input::post();
@@ -143,6 +162,11 @@ class Controller_Api_User extends Controller {
         echo json_encode($response);
     }
 
+    /**
+     * API call from forgot password,
+     * when request to send email is done.
+     *
+     */
     public function post_forgotpassword() {
         try {
             $i = Input::post();
@@ -171,6 +195,11 @@ class Controller_Api_User extends Controller {
         echo json_encode($response);
     }
 
+    /**
+     * API called from forgot password,
+     * When user is redirected from email.
+     *
+     */
     public function post_forgotpasswordconfirmed() {
         try {
             $i = Input::post();
@@ -186,6 +215,9 @@ class Controller_Api_User extends Controller {
 
             $user->setPassword($i['password']);
             $user->removeAttr('forgotpassword_key');
+            $user->setAttr('verified', TRUE); // because password reset happened via email.
+            if ($user->existAttr('verify_key'))
+                $user->removeAttr('verify_key');
             $user->force_login($user->user_id);
 
             $response = array(

@@ -8,6 +8,7 @@ define([], function () {
             var that = this;
 
             this.jconfirm.$b.find('.jc-global-update').on('click', function (e) {
+                $(this).attr('disabled', 'disabled');
                 that.deployUpdate(e);
             });
             this.jconfirm.$b.find('.jc-global-revert').on('click', function (e) {
@@ -74,6 +75,9 @@ define([], function () {
                 'This operation may consume time as it depends on number of files & sizes.',
                 confirmButton: 'Deploy',
                 confirm: function () {
+                    var jc = this;
+                    jc.$confirmButton.html('<i class="fa fa-spinner fa-spin"></i> ' + jc.confirmButton).prop('disabled', true);
+
                     _ajax({
                         url: dash_url + 'api/deploy/run/',
                         data: {
@@ -85,6 +89,12 @@ define([], function () {
                         dataType: 'json',
                     }).done(function (data) {
                         if (data.status) {
+
+                            if (that.jconfirm) {
+                                that.jconfirm.close();
+                            }
+                            jc.close();
+
                             noty({
                                 text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
                                 type: 'success'
@@ -96,11 +106,9 @@ define([], function () {
                             });
                         }
                     }).always(function () {
-                        console.log(that);
-                        if (that.jconfirm) {
-                            that.jconfirm.close();
-                        }
+                        jc.$confirmButton.html('<i class="fa fa-spinner fa-spin"></i> ' + jc.confirmButton).prop('disabled', true);
                     });
+                    return false;
                 }
             })
         },

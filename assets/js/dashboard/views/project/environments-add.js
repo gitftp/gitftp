@@ -131,7 +131,7 @@ define([
 
             this.validation();
             this.renderContent();
-
+            setTitle('New environment | Projects');
         },
         renderContent: function () {
             var that = this;

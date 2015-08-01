@@ -149,4 +149,12 @@ $(function () {
             return result;
         };
     })(jQuery);
+    window.defaultTitle = 'Gitftp console';
+    window.setTitle = function (title) {
+        if (title)
+            document.title = title + ' - ' + window.defaultTitle;
+        else
+            document.title = window.defaultTitle;
+    }
+
 });

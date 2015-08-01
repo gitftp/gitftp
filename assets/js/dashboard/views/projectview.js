@@ -73,6 +73,7 @@ define([
                 that.makeMenuSelection();
                 that.renderChild();
             });
+            setTitle('Projects');
         },
         getData: function () {
             return _ajax({

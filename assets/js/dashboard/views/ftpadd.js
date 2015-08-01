@@ -198,6 +198,7 @@ define([
                     that.validation();
                 });
                 that.id = id;
+                setTitle('Edit ftp server');
             } else {
                 var template = _.template(ftpadd);
                 template = template({
@@ -206,6 +207,7 @@ define([
                 that.$e.html(template);
                 that.id = false;
                 that.validation();
+                setTitle('Add ftp server');
             }
         },
         validation: function () {

@@ -27,33 +27,29 @@
                 <i class="fa fa-star-o fa-fw"></i> <strong>ID</strong>: <%= data.user.id %> <br>
             </div>
         </div>
-        <!--<div class="panel panel-default">-->
-            <!--<div class="panel-body panel-body-material">-->
-                <!--<div><i class="fa fa-line-chart"></i>&nbsp; <strong>STATISTICS</strong></div>-->
-            <!--</div>-->
-            <!--<div class="numbers">-->
-                <!--<table>-->
-                    <!--<tr>-->
-                        <!--<td><%= data.deploy.length %>/10</td>-->
-                        <!--<td>Projects</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td>4</td>-->
-                        <!--<td>Environments</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td>2000</td>-->
-                        <!--<td>Deploys</td>-->
-                    <!--</tr>-->
-                    <!--<tr>-->
-                        <!--<td>300 MB</td>-->
-                        <!--<td>Data deployed</td>-->
-                    <!--</tr>-->
-                <!--</table>-->
-            <!--</div>-->
-            <!--<div class="panel-body panel-body-material">-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="panel panel-default panel-disabled panel-loading panel-stats">
+            <div class="panel-body panel-body-material">
+                <div><i class="fa fa-line-chart"></i>&nbsp; <strong>STATISTICS</strong></div>
+            </div>
+            <div class="numbers">
+                <table>
+                    <tr>
+                        <td class="deploy_stats">&hellip;/&hellip;</td>
+                        <td>Projects</td>
+                    </tr>
+                    <tr>
+                        <td class="activity_count">&hellip;</td>
+                        <td>Deploys</td>
+                    </tr>
+                    <tr>
+                        <td class="data_deployed">&hellip;</td>
+                        <td>Data deployed</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-body panel-body-material">
+            </div>
+        </div>
     </div>
 </div>
 

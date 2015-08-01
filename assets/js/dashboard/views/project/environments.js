@@ -47,7 +47,9 @@ define([
                     deployid: id,
                 });
                 that.$e.html(subPage);
-            })
+            });
+
+            setTitle('Environments | Projects');
         }
     });
 

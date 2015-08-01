@@ -157,6 +157,7 @@ define([
                 that.$e.html(subPage);
                 console.log('loaded');
             });
+            setTitle('Activity | Projects');
         }
     });
 

@@ -360,6 +360,7 @@ define([
                 that.validation();
                 $('input[name="name"]').focus();
             });
+            setTitle('New project');
         }
     });
 });

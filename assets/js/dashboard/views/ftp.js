@@ -22,13 +22,14 @@ define([
             _ajax({
                 url: base+ 'api/ftp/get',
                 method: 'get',
-                dataType: 'json',
+                dataType: 'json'
             }).done(function(data){
                 var template = _.template(ftplist);
                 template = template({list: data.data});
                 that.e.html(template);
             });
-        },
+            setTitle('Ftp servers');
+        }
     });
 
     return d;

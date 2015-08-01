@@ -106,7 +106,8 @@ class Model_Record extends Model {
      *
      * returns everything except raw and post_data.
      */
-    public function get($id = NULL, $limit = FALSE, $offset = FALSE, $status = FALSE) {
+    public
+    function get($id = NULL, $limit = FALSE, $offset = FALSE, $status = FALSE) {
 
         $q = DB::select_array(array(
             'id',
@@ -176,7 +177,8 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public function get_raw_by_record($record_id, $direct = FALSE) {
+    public
+    function get_raw_by_record($record_id, $direct = FALSE) {
         $q = DB::select('raw')->from($this->table)->where('id', $record_id);
 
         if (!$direct) {
@@ -193,7 +195,8 @@ class Model_Record extends Model {
      * @param $deploy_id
      * @return mixed
      */
-    public function get_raw_by_deploy($deploy_id, $direct = FALSE) {
+    public
+    function get_raw_by_deploy($deploy_id, $direct = FALSE) {
         $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id);
 
         if (!$direct) {
@@ -210,7 +213,8 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public function get_post_data_by_record($record_id, $direct = FALSE) {
+    public
+    function get_post_data_by_record($record_id, $direct = FALSE) {
         $q = DB::select('post_data')->from($this->table)->where('id', $record_id);
 
         if (!$direct) {
@@ -228,7 +232,8 @@ class Model_Record extends Model {
      * @param $deploy_id
      * @return mixed
      */
-    public function get_post_data_by_deploy($deploy_id) {
+    public
+    function get_post_data_by_deploy($deploy_id) {
         $q = DB::select('post_data')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
 
         return $q;
@@ -237,19 +242,35 @@ class Model_Record extends Model {
     /**
      * return number of records.
      * @param type $id
+     * @param bool $direct
+     * @param bool $status
      * @return type
      */
-    public function get_count($id = NULL, $direct = FALSE) {
-        $q = DB::select('id')->from($this->table)->where('deploy_id', $id);
+    public function get_count($id = NULL, $direct = FALSE, $status = FALSE) {
+        $q = DB::select('id')->from($this->table);
 
-        if (!$direct) {
+        if ($id)
+            $q = $q->where('deploy_id', $id);
+
+        if (!$direct)
             $q = $q->and_where('user_id', $this->user_id);
-        }
+
+        if ($status)
+            $q = $q->and_where('status', $status);
 
         $q = $q->execute()->as_array();
 
         return count($q);
     }
+
+    public function get_sum_deployed_data($id = NULL, $direct = FALSE) {
+        $ex = DB::expr('SUM(amount_deployed_raw) as deploy_count');
+        $q = DB::select($ex)->from($this->table);
+        $result = $q->execute()->as_array();
+
+        return $result[0]['deploy_count'];
+    }
+
 
     /**
      * COLUMNS:
@@ -273,7 +294,8 @@ class Model_Record extends Model {
      *
      * @param type $ar
      */
-    public function set($id, $set = array(), $direct = FALSE) {
+    public
+    function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {
             $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
@@ -313,7 +335,8 @@ class Model_Record extends Model {
      * @param bool $user
      * @return mixed
      */
-    public function insert($ar, $user = FALSE) {
+    public
+    function insert($ar, $user = FALSE) {
         if (!$user) {
             $ar['user_id'] = $this->user_id;
         } else {
@@ -325,7 +348,8 @@ class Model_Record extends Model {
         return $r[0];
     }
 
-    public function delete($id, $direct = FALSE) {
+    public
+    function delete($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);
@@ -339,7 +363,8 @@ class Model_Record extends Model {
         return DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public function delete_by_branch_id($id, $direct = FALSE) {
+    public
+    function delete_by_branch_id($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('branch_id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);
@@ -353,7 +378,8 @@ class Model_Record extends Model {
         return DB::delete($this->table)->where('branch_id', $id)->execute();
     }
 
-    public function delete_by_deploy_id($id, $direct = FALSE) {
+    public
+    function delete_by_deploy_id($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('deploy_id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);

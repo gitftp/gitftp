@@ -4,7 +4,6 @@ class Model_Deploy extends Model {
     private $table = 'deploy';
     public $user_id;
     public $id = NULL; // deploy id.
-    private $hash = 'diorjorp435u94uu35u45u';
 
     public function __construct() {
         if (\Auth::instance()->check()) {

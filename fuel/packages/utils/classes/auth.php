@@ -22,6 +22,11 @@ class Auth extends \Auth\Auth_Login_Simpleauth {
             $this->updateWrapper();
     }
 
+    public function setId($user_id){
+        $this->user_id = $user_id;
+        $this->updateWrapper();
+    }
+
     private function updateWrapper() {
         $users = \DB::select()->from($this->table)->where('id', $this->user_id)->execute()->as_array();
         if (count($users)) {

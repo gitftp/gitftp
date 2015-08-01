@@ -277,6 +277,7 @@ define([
                     that.validation();
                 });
             });
+            setTitle('Manage environment | Projects');
         }
     });
 

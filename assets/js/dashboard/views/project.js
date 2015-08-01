@@ -30,6 +30,7 @@ define([
                 var template = that.template({'list': data.data});
                 that.$e.html(template);
             });
+            setTitle('Projects');
         }
     });
 

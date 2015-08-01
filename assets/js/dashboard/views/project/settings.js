@@ -180,6 +180,7 @@ define([
                 that.$form = that.$e.find('#deploy-view-form-edit');
                 that.validation();
             });
+            setTitle('Settings | Projects');
         }
     });
 

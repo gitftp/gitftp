@@ -13,11 +13,11 @@
                             <div class="panel-body">
                                 <div class="form-group">
                                     <label for="password">New password</label>
-                                    <input type="text" id="password" name="password" placeholder="New password" class="form-control">
+                                    <input type="password" id="password" name="password" placeholder="New password" class="form-control">
                                 </div>
                                 <div class="form-group">
                                     <label for="password2">Confirm new password</label>
-                                    <input type="text" id="password2" name="password2" placeholder="Re-enter new password" class="form-control">
+                                    <input type="password" id="password2" name="password2" placeholder="Re-enter new password" class="form-control">
                                 </div>
                                 <input type="hidden" name="user_id" value="<?php echo $user_id; ?>"/>
                                 <input type="hidden" name="key" value="<?php echo $key; ?>"/>

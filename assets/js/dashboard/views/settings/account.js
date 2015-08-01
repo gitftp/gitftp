@@ -8,6 +8,7 @@ define([
             this.template = _.template(page);
             that.$e.html(that.template());
             this.validation();
+            setTitle('Account | Settings');
         },
         validation: function () {
             var that = this;

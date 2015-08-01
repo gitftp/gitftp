@@ -41,6 +41,10 @@ class Mail {
         return TRUE;
     }
 
+    /**
+     * When user signup's with the Web interface.
+     * @return $this
+     */
     public function template_signup() {
         $user = $this->user->user;
         $random = \Str::random();
@@ -61,11 +65,15 @@ class Mail {
         return $this;
     }
 
+    /**
+     * When user request for forgot password via web interface.
+     * @return $this
+     */
     public function template_forgotpassword() {
         $user = $this->user->user;
         $random = \Str::random();
 
-        $this->subject('Forgot password');
+        $this->subject('Reset your password');
         $this->to($user['email'], $user['username']);
 
         $view = \View::forge('email/base', array(
@@ -77,6 +85,31 @@ class Mail {
 
         $this->body($view);
 
+        $this->user->setAttr('forgotpassword_key', $random);
+
+        return $this;
+    }
+
+    /**
+     * Invite a user to gitftp. registered via Admin panel.
+     *
+     * @return $this
+     */
+    public function template_new_user_invite() {
+        $user = $this->user->user;
+        $random = \Str::random();
+
+        $this->subject('Welcome to Gitftp');
+        $this->to($user['email'], $user['username']);
+
+        $view = \View::forge('email/base', array(
+            'content' => \View::forge('email/newuserinvite', array(
+                'username'  => $user['username'],
+                'resetlink' => home_url . 'forgot-password?token=' . $user['id'] . '-' . $random,
+            ))
+        ));
+
+        $this->body($view);
         $this->user->setAttr('forgotpassword_key', $random);
 
         return $this;

@@ -13,6 +13,7 @@ define([
         },
         render: function (id) {
             var that = this;
+            setTitle('Settings');
             this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
             this.template = _.template(page);
             that.el.html(that.template());

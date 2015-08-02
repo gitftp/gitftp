@@ -14,9 +14,12 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </button>
-                            <a style="background-color: #f9f9f9" class="navbar-brand"
-                                href="<?php echo home_url; ?>"> <?php echo Asset::img('logo-sm-2.png', array('style' => 'height: 34px; margin-top: -6px;')); ?> </a>
-                            <!--<a class="navbar-brand" href="<?php //echo Uri::base(false); ?>"><i class="fa fa-git fa-fw"></i></a>-->
+<!--                            <a style="background-color: #f9f9f9" class="navbar-brand"-->
+<!--                                href="--><?php //echo home_url; ?><!--"> --><?php //echo Asset::img('logo-sm-2.png', array('style' => 'height: 36px; margin-top: -7px;')); ?>
+<!--                            </a>-->
+                            <a style="background-color: rgb(2, 119, 189)" class="navbar-brand"
+                                href="<?php echo home_url; ?>"> <?php echo Asset::img('logo-sm-2w.png', array('style' => 'height: 36px; margin-top: -7px;')); ?>
+                            </a>
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-left drop">

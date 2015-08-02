@@ -22,7 +22,7 @@
 
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
-                                <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control">
+                                <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control" autofocus="true">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>

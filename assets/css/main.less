@@ -63,16 +63,14 @@ a {
       font-weight: 500;
     }
     > li > a {
-      transition: all .4s;
+      transition: all .2s @easing;
       color: white !important;
-      //    letter-spacing: 1px;
       font-size: 14px;
       text-transform: uppercase;
     }
     li.active a {
       background-image: none !important;
       background-color: @base !important;
-      //      box-shadow: inset 0px -4px 0 #0277bd;
       box-shadow: 0 2px @blue_dark;
     }
     .dropdown-menu {
@@ -87,6 +85,26 @@ a {
     }
     .dropdown.open .divider {
       background-color: @bg;
+    }
+    .dropdown {
+      .dropdown-menu {
+//        top: 80%;
+        display: block !important;
+        visibility: hidden;
+        opacity: 0;
+        transition: all .2s @easing;
+        z-index: -1;
+        transform: rotateX(90deg);
+        transform-origin: top;
+      }
+      &.open {
+        .dropdown-menu {
+          top: 100%;
+          visibility: visible;
+          opacity: 1;
+          transform: rotateX(0);
+        }
+      }
     }
   }
 }
@@ -123,10 +141,9 @@ h1, h2, h3, h4, h5, h6 {
   }
   .project-list-block {
     background-color: #fff;
-    //    border: solid 2px @border_color;
     padding: 10px 15px 10px;
     border-radius: 4px;
-    transition: border .2s;
+    transition: box-shadow .2s;
     .shadow;
 
     .header {
@@ -147,7 +164,7 @@ h1, h2, h3, h4, h5, h6 {
     }
 
     &:hover {
-      border-color: @base;
+      .shadow-x2;
     }
 
     &:active {
@@ -181,8 +198,8 @@ h1, h2, h3, h4, h5, h6 {
   border-width: 3px 0px 0px 0px;
   animation: spin .5s infinite linear;
   border: solid 2px rgba(0, 0, 0, 0);
-  border-top-color: @loading;
-  border-bottom-color: @loadingg;
+  border-top-color: @loadingg;
+  border-bottom-color: transparent;
 }
 
 .bb-loading:empty:before {
@@ -192,13 +209,13 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes spin {
   from {
     transform: rotate(0deg);
-    border-top-color: @loading;
-    border-bottom-color: @loadingg
+    //    border-top-color: @loading;
+    //    border-bottom-color: @loadingg
   }
   to {
     transform: rotate(359deg);
-    border-top-color: @loadingg;
-    border-bottom-color: @loading
+    //    border-top-color: @loadingg;
+    //    border-bottom-color: @loading
   }
 }
 
@@ -210,7 +227,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 13px;
   color: #444;
   font-weight: bold;
-  transition: all 1s;
+  transition: all .4s;
   min-width: 100px;
   text-align: center;
   background-color: @base;
@@ -255,15 +272,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .bb-wrapper > div > * {
-  animation: pagedrop .2s cubic-bezier(.43, .96, .53, .98);
+  animation: pagedrop .2s @easing;
 }
 
 .project-activity-anim > *, .side-anim > * {
-  animation: pageleft .4s cubic-bezier(.43, .96, .53, .98);
+  animation: pageleft .4s @easing;
 }
 
 .fadeIn > * {
-  animation: fadeIn .2s cubic-bezier(.43, .96, .53, .98);
+  animation: fadeIn .2s @easing;
 }
 
 @keyframes fadeIn {
@@ -370,7 +387,7 @@ h1, h2, h3, h4, h5, h6 {
 
     .branch-name-container {
       font-size: 18px;
-      > *{
+      > * {
         vertical-align: middle;
       }
     }

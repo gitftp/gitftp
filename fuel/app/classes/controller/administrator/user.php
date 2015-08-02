@@ -54,12 +54,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
 
     public function get_resetpassword($username) {
         $newpassword = \Auth::instance()->reset_password($username);
-        $s = 'new password for user: ' . $username . '<br> ------ : ';
-        $s .= $newpassword;
-
-        echo View::forge('admin/base_layout', array(
-            'data' => $s
-        ));
+        echo $newpassword;
     }
 
     public function post_add() {
@@ -90,6 +85,6 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
 
     public function get_delete($user_id) {
         \Auth::instance()->delete_user($user_id);
-        Response::redirect('/administrator/user');
+        echo 'OK';
     }
 }

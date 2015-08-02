@@ -14,7 +14,7 @@
                     <tbody>
                     <tr>
                         <td align="center" height="1" style="background-color: #B9E1FB; font-size: 0px">
-                            <img title="" alt="" class="CToWUd" src="https://dl.dropboxusercontent.com/u/95148605/gitftp/email_header2.jpg" style="width:100%;max-height:129px">
+                            <img title="" alt="" class="CToWUd" src="https://dl.dropboxusercontent.com/u/95148605/gitftp/email_header.jpg" style="width:100%;max-height:129px">
                         </td>
                     </tr>
                     <tr>

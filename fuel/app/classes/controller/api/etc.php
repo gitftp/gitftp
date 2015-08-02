@@ -53,7 +53,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
         $messages->insert(array(
             'message' => $i['message'],
-            'type'    => 1,
+            'type'    => $messages->type_feedback,
             'date'    => time()
         ));
 

@@ -2,6 +2,7 @@
 
 class Model_Messages extends Model {
 
+    public $type_feedback = 1;
     private $table = 'messages';
     public $user_id;
 
@@ -13,14 +14,22 @@ class Model_Messages extends Model {
         }
     }
 
-    public function get($id = NULL) {
+    public function get($id = NULL, $type = NULL, $direct = FALSE, $order = 'ASC') {
 
-        $q = DB::select()->from($this->table)
-            ->where('user_id', $this->user_id);
+        $q = DB::select()->from($this->table);
 
+        if (!$direct) {
+            $q = $q->where('user_id', $this->user_id);
+        }
         if ($id != NULL) {
             $q = $q->and_where('id', $id);
         }
+
+        if ($type != NULL) {
+            $q = $q->and_where('type', $type);
+        }
+
+        $q = $q->order_by('id', $order);
 
         $a = $q->execute()->as_array();
 

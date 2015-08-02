@@ -1,9 +1,14 @@
 <form action="#" method="get" class="form-inline">
-    <input type="text" class="form-control" name="key" placeholder="find this" value="<?php echo $key; ?>"/>
+    <select name="key" id="" class="form-control">
+        <option value="id">ID</option>
+        <option value="username">Username</option>
+        <option value="email">Email</option>
+        <option value="group">Group</option>
+    </select>
+
     <input type="text" class="form-control" name="value" placeholder="where this" value="<?php echo $value; ?>"/>
     <button type="submit" class="btn btn-success">Search</button>
-    <a href="<?php echo Uri::create('administrator/user/add'); ?>" class="btn btn-default pull-right">add user</a>
-
+    <a href="<?php echo Uri::create('administrator/user/add'); ?>" class="btn btn-default pull-right">Add user</a>
     <div class="clearfix"></div>
 </form>
 <br/>
@@ -34,12 +39,35 @@
                 <?php echo Date::forge($k['updated_at'])->format("%m/%d/%Y %H:%M"); ?>
             </td>
             <td>
-                <a onclick="return confirm('sure');" href="<?php echo Uri::create('administrator/user/delete/' . $k['username']); ?>">del</a>
+                <a class="delete" href="<?php echo Uri::create('administrator/user/delete/' . $k['username']); ?>">del</a>
                 &bull;
-                <a onclick="return confirm('sure');" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
+                <a class="resetpassword" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
                 &bull;
                 <a href="<?php echo Uri::create('administrator/user/edituser/' . $k['id']); ?>">edit</a>
             </td>
         </tr>
     <?php } ?>
 </table>
+
+
+<script>
+    $('a.resetpassword').click(function () {
+        if (!confirm('are you sure?'))
+            return false;
+
+//        var id = $(this).attr('data-id');
+        $.get($(this).attr('href'), function (data) {
+            alert(data);
+        });
+        return false;
+    });
+    $('a.delete').click(function () {
+        if (!confirm('delete user?'))
+            return false;
+
+        $.get($(this).attr('href'), function (data) {
+            alert(data);
+        });
+        return false;
+    });
+</script>

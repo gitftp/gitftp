@@ -9,7 +9,9 @@
 <html class="no-js" lang=""> <!--<![endif]-->
 <head>
     <!-- Latest compiled and minified CSS & JS -->
+    <title>Gitftp admin console</title>
     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <?php echo Asset::js('vendor/jquery-1.11.2.js'); ?>
 </head>
 <body>
 <br/>
@@ -19,13 +21,16 @@
         <div class="col-md-12">
 
             <nav class="navbar navbar-default navbar-fixed-top">
-                <a class="navbar-brand" href="#">Admin</a>
+                <a class="navbar-brand" href="<?php echo Uri::create(''); ?>">Gitftp</a>
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="<?php echo Uri::create('administrator/home/'); ?>">Home</a>
                     </li>
                     <li>
-                        <a href="<?php echo Uri::create('administrator/user/'); ?>" >List users</a>
+                        <a href="<?php echo Uri::create('administrator/user/'); ?>">List users</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Uri::create('administrator/feedback/'); ?>">Feedback</a>
                     </li>
                 </ul>
             </nav>
@@ -39,5 +44,6 @@
         </div>
     </div>
 </div>
+
 </body>
 </html>

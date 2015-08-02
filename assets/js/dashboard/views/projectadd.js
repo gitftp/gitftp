@@ -335,15 +335,44 @@ define([
             this.env_page = env_add;
             this.env_template = _.template(this.env_page);
 
-            _ajax({
-                url: base + 'api/ftp/get',
+            var $getftp = _ajax({
+                url: base + 'api/ftp/unused',
                 dataType: 'json',
-                method: 'get',
-            }).done(function (data) {
+                method: 'get'
+            });
+            var $getlimit = _ajax({
+                url: base + 'api/deploy/limit',
+                dataType: 'json',
+                method: 'get'
+            });
+            $.when($getftp, $getlimit).then(function (ftp, limit) {
+                var data = ftp[0];
+                var limit = limit[0];
+                that._ftps = data.data;
+                var page = that.template({});
+                that.$el.html(page);
+                that.validation();
+                $('input[name="name"]').focus();
+
+                if (limit.data.projects >= limit.data.limit) {
+                    $.alert({
+                        title: 'Maximum limit reached!',
+                        icon: 'fa fa-warning orange',
+                        content: 'Sorry, you\'ve hit maximum project limit on gitftp. Please delete old onces and try to create new onces.',
+                        backgroundDismiss: false,
+                        closeIcon: false,
+                        confirmButton: '<i class="fa fa-arrow-left"></i> Back',
+                        confirm: function () {
+                            window.history.go(-1); // back();
+                        }
+                    });
+                }
+
                 if (data.data.length == 0) {
                     $.alert({
-                        title: 'No FTP servers added.',
-                        content: 'To setup a deploy, you first need to add a FTP server configuration.',
+                        title: 'No FTP servers',
+                        icon: 'fa fa-info',
+                        content: 'You\'ve no available FTP servers ready to associate with your new project. Please create one.',
                         confirmButton: 'Add ftp',
                         confirm: function () {
                             Router.navigate('#ftp/add', {
@@ -354,11 +383,7 @@ define([
                         backgroundDismiss: false,
                     });
                 }
-                that._ftps = data.data;
-                var page = that.template({});
-                that.$el.html(page);
-                that.validation();
-                $('input[name="name"]').focus();
+
             });
             setTitle('New project');
         }

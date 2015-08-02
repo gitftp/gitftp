@@ -13,6 +13,21 @@ class Model_Ftp extends Model {
         }
     }
 
+    public function getUnused() {
+        $branch = new \Model_Branch();
+        $branch_data = $branch->get();
+        $ftp_list = $this->get();
+        foreach ($branch_data as $bk => $bv) {
+            foreach ($ftp_list as $fk => $fv) {
+                if ($bv['ftp_id'] == $fv['id']) {
+                    unset($ftp_list[$fk]);
+                }
+            }
+        }
+
+        return $ftp_list;
+    }
+
     public function get($id = NULL) {
 
         $q = DB::select()->from($this->table)

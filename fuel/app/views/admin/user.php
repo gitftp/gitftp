@@ -38,7 +38,7 @@
                 &bull;
                 <a onclick="return confirm('sure');" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
                 &bull;
-                <a onclick="return confirm('sure');" href="<?php echo Uri::create('administrator/user/edituser/' . $k['id']); ?>">edit</a>
+                <a href="<?php echo Uri::create('administrator/user/edituser/' . $k['id']); ?>">edit</a>
             </td>
         </tr>
     <?php } ?>

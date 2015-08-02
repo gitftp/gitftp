@@ -4809,8 +4809,15 @@ a.btn {
   padding: 9px 11px 7px 10px;
 }
 .btn.btn-circle.btn-circle-lg {
-  padding: 15px 17px 13px 16px;
+  padding: 0px;
   font-size: 16px;
+  height: 45px;
+  width: 45px;
+  vertical-align: middle;
+  margin: 0 auto;
+  text-align: center;
+  display: inline-block;
+  line-height: 45px;
 }
 .jconfirm.supervan .jconfirm-bg {
   background-color: rgba(255, 255, 255, 0.8);

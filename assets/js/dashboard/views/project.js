@@ -9,6 +9,12 @@ define([
         el: app.el,
         events: {
             'click .viewdeploy': 'goto',
+            'click #new-project': 'new'
+        },
+        new: function(e){
+            var $this = $(e.currentTarget);
+            var plus = $this.html();
+            $this.html('<i class="fa fa-spin fa-spinner"></i>');
         },
         goto: function (e) {
             var $this = $(e.currentTarget);

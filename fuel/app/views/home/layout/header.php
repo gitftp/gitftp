@@ -4,7 +4,17 @@
     var dash_url = '<?php echo dash_url; ?>';
     var is_dash = '<?php echo is_dash; ?>';
 </script>
-<header id="header" class="transparent <?php echo (count(Uri::segments()) == 0) ? 'white' : 'black'; ?>-header header active-section">
+<?php
+$color = 'black';
+$s = Uri::segments();
+if (count($s) == 0) {
+    $color = 'white';
+} elseif ($s[0] == 'welcome') {
+    $color = 'white';
+}
+?>
+
+<header id="header" class="transparent <?php echo $color; ?>-header header active-section">
     <div class="container">
         <div class="row">
             <div class="col-md-3">

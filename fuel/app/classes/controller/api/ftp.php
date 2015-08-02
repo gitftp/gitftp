@@ -2,36 +2,45 @@
 
 class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
-    public function action_index() {
+    public function get_unused() {
+        $ftp = new Model_Ftp();
+        $unusedftp = $ftp->getUnused();
 
+        $this->response(array(
+            'status' => TRUE,
+            'data'   => $unusedftp
+        ));
     }
 
     /**
      * List one or more FTP.
+     *
      * @param type $id
      * @return type
      */
     public function action_get($id = NULL) {
-
         $ftp = new Model_Ftp();
         $data = $ftp->get($id);
-
         $data = Utils::strip_passwords($data);
-
         $this->response(array(
             'status' => TRUE,
             'data'   => $data
         ));
-
     }
 
+    /**
+     * test connection to a ftp server.
+     *
+     * @param null $a
+     * @param bool $return
+     */
     public function post_testftp($a = NULL, $return = FALSE) {
         $i = Input::post();
 
         try {
-            if(!isset($i['host']) || !isset($i['scheme'])){
+            if (!isset($i['host']) || !isset($i['scheme'])) {
                 throw new Exception('Please enter necessary details to connect to your Server.');
-            }else if(trim($i['host']) == '' || trim($i['scheme']) == ''){
+            } else if (trim($i['host']) == '' || trim($i['scheme']) == '') {
                 throw new Exception('Please enter necessary details to connect to your Server.');
             }
 
@@ -125,7 +134,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
     }
 
     /**
-     * editing a FTP server.
+     * editing a FTP server by id.
      * @return boolean
      */
     public function post_editftp($id) {

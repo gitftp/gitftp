@@ -4,6 +4,21 @@ use Symfony\Component\Process\Process;
 
 class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
+    public function get_limit() {
+        $user = new \Craftpip\Auth();
+        $limit = $user->getAttr('project_limit');
+        $deploy = new Model_Deploy();
+        $deploy_data = $deploy->get(NULL, array('id', 'cloned'));
+
+        $this->response(array(
+            'status' => TRUE,
+            'data'   => array(
+                'projects' => count($deploy_data),
+                'limit'    => (int)$limit,
+            )
+        ));
+    }
+
     /**
      * Get selected only deploy data.
      *

@@ -7,5 +7,5 @@
     ga('create', 'UA-53264350-4', 'auto');
     ga('send', 'pageview');
     <?php list(,$user_id) = \Auth::instance()->get_user_id(); ?>
-    ga(‘set’, ‘&uid’, <?php echo $user_id; ?>);
+    ga('set', '&uid', <?php echo $user_id; ?>);
 </script>

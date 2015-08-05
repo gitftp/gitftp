@@ -16,7 +16,7 @@ define([
             // test connection to repo and get its branches
             'click #project-add-add-env': 'addEnv',
             'click .project-add-remove-env': 'removeEnv',
-            'change .env_ftp': 'updateFtpOptions',
+            'change .env_ftp': 'updateFtpOptions'
         },
         preventform: function (e) {
             e.preventDefault();
@@ -29,10 +29,10 @@ define([
                 data: {
                     repo: $('input[name="repo"]').val(),
                     username: $('input[name="username"]').val(),
-                    password: $('input[name="password"]').val(),
+                    password: $('input[name="password"]').val()
                 },
                 method: 'post',
-                dataType: 'json',
+                dataType: 'json'
             });
         },
         priCheck: function (e) {
@@ -69,26 +69,21 @@ define([
             var $this = $(e.currentTarget);
             e.preventDefault();
             var that = this;
-
             var valid = true;
             var $form = $('#add-deploy-form-step1');
             if (!$form.valid()) {
                 valid = false;
             }
-
             if (this.envforms.length == 0 && valid) {
                 $form.submit();
                 return false;
             }
-
             $.each(this.envforms, function (i, a) {
                 if (!a.el.valid())
                     valid = false;
             });
-
             if (!valid)
                 return false;
-
             // gathering env data.
             var envs = [];
             $.each($('.env-div'), function (i, a) {
@@ -101,32 +96,29 @@ define([
                 };
                 envs.push(envprop);
             });
-
             var data = {
                 repo: $('input[name="repo"]').val(),
                 name: $('input[name="name"]').val(),
                 username: $('input[name="username"]').val(),
                 password: $('input[name="password"]').val(),
                 env: envs,
-                key: $('input[name="key"]').val() || '',
+                key: $('input[name="key"]').val() || ''
             };
-
             $this.html('<i class="fa fa-spin fa-spinner"></i> Saving').prop('disalbed', true);
             this.togglePanel(1, 'disable');
             this.togglePanel(2, 'disable');
-
             _ajax({
                 url: base + 'api/deploy/create',
                 data: data,
                 dataType: 'json',
-                method: 'post',
+                method: 'post'
             }).done(function (data) {
                 if (data.status) {
                     $.alert({
                         title: 'Added',
                         icon: 'fa fa-check green',
                         content: 'Your project has been successfully created.',
-                        confirmButton: 'close',
+                        confirmButton: 'close'
                     });
                     Router.navigate('#/project', {
                         trigger: true
@@ -135,15 +127,14 @@ define([
                     $.alert({
                         title: 'Problem',
                         content: data.reason,
-                        icon: 'fa fa-info red',
+                        icon: 'fa fa-info red'
                     });
                 }
             }).always(function () {
-                $this.html('<i class="fa fa-spin fa-spinner"></i> Saving').prop('disalbed', false);
+                $this.html('Save').prop('disalbed', false);
                 this.togglePanel(1, 'enable');
                 this.togglePanel(2, 'enable');
             });
-
         },
         togglePanel: function (which, action) {
             var $panel = $('.panel-step-' + which);
@@ -204,13 +195,6 @@ define([
             });
             return _.compact(selectedFtps);
         },
-        getunusedFtp: function () {
-            //var selectedFtps = this.getselectedFtp();
-            //var unusedFtps = $.grep(this._ftps, function (a) {
-            //    return (_.indexOf(selectedFtps, a.id) >= 0 ) ? false : true;
-            //});
-            //return unusedFtps;
-        },
         addEnv: function () {
             var random = _.uniqueId();
             var that = this;
@@ -221,7 +205,7 @@ define([
                 noty({
                     text: 'Not enough FTP servers. please add new FTP servers to deploy on. <br>' +
                     '<i class="fa fa-warning"></i> You cannot deploy multiple projects/branches in one FTP server',
-                    type: 'error',
+                    type: 'error'
                 });
                 return false;
             }
@@ -254,13 +238,13 @@ define([
                 ignore: ":hidden:not(.selectpicker)",
                 rules: {
                     'env_name': {
-                        required: true,
+                        required: true
                     },
                     'env_branch': {
-                        required: true,
+                        required: true
                     },
                     'env_ftp': {
-                        required: true,
+                        required: true
                     }
                 }
             });
@@ -276,7 +260,7 @@ define([
                         icon: 'fa fa-spinner fa-spin',
                         content: 'Please wait while we fetch available branches on your repository.',
                         backgroundDismiss: false,
-                        closeIcon: false,
+                        closeIcon: false
                     });
                     that.testConnectionToRepo().done(function (data) {
                         console.log(data);
@@ -308,33 +292,31 @@ define([
                     },
                     'repo': {
                         required: true,
-                        url: true,
+                        url: true
                     },
                     'username': {
                         required: {
                             depends: function () {
                                 return $('input[name="isprivate"]').is(':checked');
                             }
-                        },
+                        }
                     },
                     'password': {
-                        required: false,
+                        required: false
                     },
                     'key': {
-                        required: false,
+                        required: false
                     }
                 }
             });
         },
         render: function (id) {
             var that = this;
-
             this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
             this.page = page;
             this.template = _.template(this.page);
             this.env_page = env_add;
             this.env_template = _.template(this.env_page);
-
             var $getftp = _ajax({
                 url: base + 'api/ftp/unused',
                 dataType: 'json',
@@ -353,37 +335,40 @@ define([
                 that.$el.html(page);
                 that.validation();
                 $('input[name="name"]').focus();
-
                 if (limit.data.projects >= limit.data.limit) {
                     $.alert({
-                        title: 'Maximum limit reached!',
+                        title: 'Limit reached!',
                         icon: 'fa fa-warning orange',
-                        content: 'Sorry, you\'ve hit maximum project limit on gitftp. Please delete old onces and try to create new onces.',
+                        content: 'Sorry, you\'ve hit maximum project limit on gitftp. Cannot create new project.',
                         backgroundDismiss: false,
                         closeIcon: false,
-                        confirmButton: '<i class="fa fa-arrow-left"></i> Back',
+                        confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
                         confirm: function () {
                             window.history.go(-1); // back();
                         }
                     });
+                    return false;
                 }
-
                 if (data.data.length == 0) {
-                    $.alert({
+                    $.confirm({
                         title: 'No FTP servers',
                         icon: 'fa fa-info',
                         content: 'You\'ve no available FTP servers ready to associate with your new project. Please create one.',
-                        confirmButton: 'Add ftp',
-                        confirm: function () {
+                        cancelButton: 'Add ftp',
+                        cancel: function () {
                             Router.navigate('#ftp/add', {
                                 trigger: true
                             });
                         },
-                        confirmButtonClass: 'btn-success',
-                        backgroundDismiss: false,
+                        confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
+                        confirm: function () {
+                            window.history.go(-1); // back();
+                        },
+                        confirmButtonClass: 'btn-default',
+                        cancelButtonClass: 'btn-success',
+                        backgroundDismiss: false
                     });
                 }
-
             });
             setTitle('New project');
         }

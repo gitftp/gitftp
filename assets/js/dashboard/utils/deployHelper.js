@@ -127,11 +127,13 @@ define([], function () {
             $.confirm({
                 title: 'Checkout revision',
                 content: 'Deploy changes of a specific hash on the server.<br>' +
-                '<input class="form-control" placeholder="Revision to deploy"/>' +
+                '<form><input class="form-control" placeholder="Revision to deploy"/></form>' +
                 '<div class="space5"></div><span class="orange"><strong>NOTE:</strong> You have auto deploy enabled.</span>',
                 confirmButton: 'Deploy',
                 confirm: function () {
-                    var $input = this.$b.find('input');
+                    var that = this;
+                    var $input = this.$b.find('input').prop('readonly', true);
+                    this.$confirmButton.prop('disabled', true);
                     var hash = $input.val();
                     var obj = this;
 
@@ -162,12 +164,20 @@ define([], function () {
                                 type: 'error'
                             });
                         }
+                    }).always(function(){
+                        $input.prop('readonly', false);
+                        that.$confirmButton.prop('disabled', false);
                     });
                     return false;
                 },
                 columnClass: 'col-md-4 col-md-offset-4',
                 onOpen: function () {
+                    var that = this;
                     this.$b.find('input').focus();
+                    this.$b.find('form').submit(function(e){
+                        e.preventDefault();
+                        that.confirm();
+                    })
                 }
             });
 

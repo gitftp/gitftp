@@ -96,10 +96,19 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
     public function post_create() {
         try {
             $i = Input::post();
-
             // todo: verify all details.
 
+
+            $user = new \Craftpip\Auth();
+            $limit = $user->getAttr('project_limit');
             $deploy = new Model_Deploy();
+            $deploy_data = $deploy->get(null, array(
+                'id','cloned'
+            ));
+            if(count($deploy_data) >= $limit){
+                throw new Exception('Sorry, project limit has reached.');
+            }
+
             $deploy_id = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['key'], $i['env'], 1);
 
             if ($deploy_id) {

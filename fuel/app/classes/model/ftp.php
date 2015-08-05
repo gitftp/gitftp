@@ -28,6 +28,21 @@ class Model_Ftp extends Model {
         return $ftp_list;
     }
 
+    /**
+     * Return true or false if a ftp is in use.
+     *
+     * @param $id
+     */
+    public function isUsed($id) {
+        $branch = new \Model_Branch();
+        $branches = $branch->get_by_ftp_id($id);
+        if (count($branches))
+            return count($branches);
+        else {
+            return FALSE;
+        }
+    }
+
     public function get($id = NULL) {
 
         $q = DB::select()->from($this->table)

@@ -18,7 +18,7 @@ define([
         },
         goto: function (e) {
             var $this = $(e.currentTarget);
-            Router.navigate('#/project/' + $this.attr('data-id'), {trigger: true});
+            Router.navigate('/project/' + $this.attr('data-id'), {trigger: true});
         },
         render: function (id) {
             var that = this;

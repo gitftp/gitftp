@@ -63,7 +63,7 @@ define([
                         text: 'Successfully created a new Environment.',
                         type: 'success'
                     });
-                    Router.navigate('#/project/' + that.id + '/environments', {
+                    Router.navigate('/project/' + that.id + '/environments', {
                         trigger: true
                     });
                 } else {

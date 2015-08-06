@@ -45,7 +45,23 @@ require([
         }
     });
     process.init();
-    Backbone.history.start();
+    Backbone.history.start({
+        pushState: true
+    });
+
+    $(document).on('click', "a[href^='/']", function(e){
+        var href = $(this).attr('href');
+        passThrough = $(this).attr('pt') || false;
+        if (!passThrough && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey){
+            e.preventDefault();
+        }
+        url = href.replace(/^\//,'').replace('\#\!\/','');
+        Router.navigate(url, {
+            trigger: true,
+        });
+        return false;
+    });
+
     $('[data-toggle="tooltip"]').tooltip();
     var feedback = new feedbackView();
     feedback.render();

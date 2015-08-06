@@ -85,11 +85,11 @@ define([
                     $.confirm({
                         title: 'Linked with — <i class="fa fa-cloud"></i> ' + branch['project_name'],
                         content: 'Cannot delete a FTP account that is in use, please unlink it from the existing enviornment. ' +
-                        '<br> <a target="_blank" href="#/project/' + branch['deploy_id'] + '/environments/manage/' + branch['id'] + '">' + branch['project_name'] + ' - <i class="fa fa-leaf green"></i> ' + branch['branch_name'] + '</a>',
+                        '<br> <a target="_blank" href="/project/' + branch['deploy_id'] + '/environments/manage/' + branch['id'] + '">' + branch['project_name'] + ' - <i class="fa fa-leaf green"></i> ' + branch['branch_name'] + '</a>',
                         confirmButton: 'Unlink',
                         cancelButton: 'Close',
                         confirm: function () {
-                            Router.navigate('#/project/' + branch['deploy_id'] + '/environments/manage/' + branch['id'], {
+                            Router.navigate('/project/' + branch['deploy_id'] + '/environments/manage/' + branch['id'], {
                                 trigger: true,
                             });
                         },

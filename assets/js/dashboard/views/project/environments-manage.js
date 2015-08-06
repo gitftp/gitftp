@@ -39,7 +39,7 @@ define([
                                 text: 'Successfully deleted environment',
                                 type: 'success'
                             });
-                            Router.navigate('#/project/' + that.id + '/environments', {
+                            Router.navigate('/project/' + that.id + '/environments', {
                                 trigger: true
                             });
                         } else {
@@ -123,7 +123,7 @@ define([
                 cancelButtonClass: 'btn-primary',
                 cancelButton: 'Dismiss',
                 confirm: function () {
-                    Router.navigate('#/ftp/edit/' + ftp_id, {
+                    Router.navigate('/ftp/edit/' + ftp_id, {
                         trigger: true
                     });
                 },

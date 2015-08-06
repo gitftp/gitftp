@@ -14,7 +14,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $channel = new \Suin\RSSWriter\Channel();
         $channel->title("GITFTP: Project deployment feed.")
             ->description("")
-            ->url(dash_url . '#/project')
+            ->url(dash_url . '/project')
             ->language('en-US')
             ->appendTo($feed);
 
@@ -33,7 +33,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 $item
                     ->title("Deployed " . $v['name'] . ' - ' . $branch_Formated[$v2['branch_id']]['name'] . " +" . $v2['file_add'] . " -" . $v2['file_remove'])
                     ->description("Successfully deployed " . $v['name'] . ' - ' . $branch_Formated[$v2['branch_id']]['name'] . ". Files changed: +" . $v2['file_add'] . " -" . $v2['file_remove'])
-                    ->url(dash_url . '#/project/' . $v['id'])
+                    ->url(dash_url . '/project/' . $v['id'])
                     ->pubDate($v2['date'])
                     ->guid($v2['id'])
                     ->appendTo($channel);

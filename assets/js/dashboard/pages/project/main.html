@@ -9,7 +9,7 @@
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
             <div class="pull-right">
-                <!--<a href="#/project/new" class="btn btn-success pull-right">create new</a>-->
+                <!--<a href="/project/new" class="btn btn-success pull-right">create new</a>-->
                 <% if(s.status.toLowerCase() == 'idle' || s.status.toLowerCase() == 'to be initialized' ){ %>
                 <div class="project-v-status" style="">
                     Idle
@@ -31,9 +31,9 @@
             <div class="sidebar-container">
                 <div class="projectview-sidebar-top"></div>
                 <div class="list-group projectview-siderbar">
-                    <a href="#/project/<%= s.id %>" class="list-group-item page-subview subview-activity"><i class="fa fa-list-ul fa-fw"></i> Activity</a>
-                    <a href="#/project/<%= s.id %>/environments" class="list-group-item page-subview subview-environments"><i class="fa fa-leaf fa-fw"></i> Environments</a>
-                    <a href="#/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings"><i class="fa fa-wrench fa-fw"></i> Settings</a>
+                    <a href="/project/<%= s.id %>" class="list-group-item page-subview subview-activity"><i class="fa fa-list-ul fa-fw"></i> Activity</a>
+                    <a href="/project/<%= s.id %>/environments" class="list-group-item page-subview subview-environments"><i class="fa fa-leaf fa-fw"></i> Environments</a>
+                    <a href="/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings"><i class="fa fa-wrench fa-fw"></i> Settings</a>
                 </div>
                 <div class="space10"></div>
                 <div style="color: #aaa">

@@ -50,7 +50,7 @@ define([
             app.obj.settings.render();
         },
         fourofour: function () {
-            Router.navigate('#/home', {trigger: true, replace: true});
+            Router.navigate('/home', {trigger: true, replace: true});
         }
 
     });

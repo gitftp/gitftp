@@ -30,7 +30,7 @@ define([
             // page find.
             if (this.urlp.length == 1) {
                 var page = 'activity';
-                Router.navigate('#/project/' + this.id + '/activity', {
+                Router.navigate('/project/' + this.id + '/activity', {
                     trigger: true,
                     replace: true
                 });
@@ -57,7 +57,7 @@ define([
                 that.data = response;
 
                 if (response.data.length == 0) {
-                    Router.navigate('#/project', {
+                    Router.navigate('/project', {
                         trigger: true,
                         replace: true
                     });

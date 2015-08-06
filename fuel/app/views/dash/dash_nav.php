@@ -23,17 +23,17 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-left drop">
-                                <li class="home"><a href="<?php echo Uri::base(FALSE); ?>#/home">
+                                <li class="home"><a href="/home">
                                         <i class="fa fa-home"></i>&nbsp; Dashboard
                                     </a>
                                 </li>
                                 <li class="project">
-                                    <a href="<?php echo Uri::base(FALSE); ?>#/project">
+                                    <a href="/project">
                                         <i class="fa fa-cloud"></i>&nbsp; Project
                                     </a>
                                 </li>
                                 <li class="ftp">
-                                    <a href="<?php echo Uri::base(FALSE); ?>#/ftp">
+                                    <a href="/ftp">
                                         <i class="fa fa-server"></i>&nbsp; FTP servers
                                     </a>
                                 </li>
@@ -45,7 +45,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                         aria-expanded="false">Account</a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#/user/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                                        <li><a href="/user/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                         <li class="divider"></li>
                                         <li><a href="<?php echo Uri::base(FALSE); ?>user/logout"><i
                                                     class="fa fa-sign-out fa-fw"></i> Logout</a></li>

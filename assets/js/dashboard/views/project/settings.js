@@ -70,7 +70,7 @@ define([
                                         title: 'Deleted',
                                         content: 'The project was successfully deleted.'
                                     });
-                                    Router.navigate('#/project', {
+                                    Router.navigate('/project', {
                                         trigger: true,
                                     })
                                 } else {

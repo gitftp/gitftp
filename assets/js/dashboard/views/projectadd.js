@@ -120,7 +120,7 @@ define([
                         content: 'Your project has been successfully created.',
                         confirmButton: 'close'
                     });
-                    Router.navigate('#/project', {
+                    Router.navigate('/project', {
                         trigger: true
                     });
                 } else {

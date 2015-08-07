@@ -344,7 +344,7 @@ define([
                         closeIcon: false,
                         confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
                         confirm: function () {
-                            window.history.go(-1); // back();
+                            window.history.back();
                         }
                     });
                     return false;
@@ -356,13 +356,13 @@ define([
                         content: 'You\'ve no available FTP servers ready to associate with your new project. Please create one.',
                         cancelButton: 'Add ftp',
                         cancel: function () {
-                            Router.navigate('#ftp/add', {
+                            Router.navigate('/ftp/add', {
                                 trigger: true
                             });
                         },
                         confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
                         confirm: function () {
-                            window.history.go(-1); // back();
+                            window.history.back();
                         },
                         confirmButtonClass: 'btn-default',
                         cancelButtonClass: 'btn-success',

@@ -295,18 +295,18 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes pagedrop {
   from {
     opacity: 0;
-    transform: translate(0px, -10px);
+//    transform: translate(0px, -10px);
   }
   to {
     opacity: 1;
-    transform: translate(0, 0);
+//    transform: translate(0, 0);
   }
 }
 
 @keyframes pageleft {
   from {
     opacity: 0;
-    transform: translate(-10px, 0px);
+    transform: translate(-5px, 0px);
   }
   to {
     opacity: 1;
@@ -613,6 +613,11 @@ h1, h2, h3, h4, h5, h6 {
         i {
           font-size: 40px;
           margin-bottom: 10px;
+        }
+        &.focus{
+          background-color: @bg;
+          color: black;
+          opacity: .4;
         }
       }
     }

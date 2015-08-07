@@ -71,7 +71,7 @@ define([
                                         content: 'The project was successfully deleted.'
                                     });
                                     Router.navigate('/project', {
-                                        trigger: true,
+                                        trigger: true
                                     })
                                 } else {
                                     $.alert({
@@ -111,7 +111,7 @@ define([
                         text: 'Updated project: ' + data.request.name,
                         type: 'success'
                     });
-                    app_reload();
+                    window.location.reload();
                 } else {
                     $.alert({
                         title: 'Something went wrong.',
@@ -147,9 +147,7 @@ define([
                     'password': {
                         required: false
                     },
-                    'key': {
-                        required: true
-                    }
+                    'key': 'validateKey'
                 },
                 messages: {
                     name: {
@@ -157,7 +155,10 @@ define([
                         maxlength: 'Name cannot be longer than 50 chars'
                     }
                 }
-            })
+            });
+            $.validator.addMethod('validateKey', function (v) {
+                return (v.indexOf(' ') == -1) && (v.trim().length != 0)
+            }, 'Please enter a valid key.');
         },
         initialize: function () {
             this.template = _.template(settingsHtml);

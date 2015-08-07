@@ -1,5 +1,5 @@
 define([
-    'text!pages/feedback.html'
+    'text!pages/actionbar.html'
 ], function (fbView) {
     d = Backbone.View.extend({
         el: 'body',
@@ -17,11 +17,11 @@ define([
                 container: 'body',
                 title: 'Feedback',
                 icon: 'fa fa-smile-o green',
-                content: 'Hello!, let us know what you think about gitftp, and how it can do better. <br>' +
+                content: 'Hey! let us know what you think about gitftp, and how it can be better. <br>' +
                 '<div class="space10"></div>' +
                 '<label>Your message</label>' +
                 '<form>' +
-                '<textarea style="resize: none; height: 100px;" name="message" class="form-control" placeholder="Your suggestions/Problems"/></textarea>' +
+                '<textarea style="resize: none; height: 100px;" name="message" class="form-control" placeholder="Your suggestions"/></textarea>' +
                 '</form>',
                 confirmButton: 'Send',
                 cancelButton: 'close',

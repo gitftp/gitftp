@@ -102,10 +102,10 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $user = new \Craftpip\Auth();
             $limit = $user->getAttr('project_limit');
             $deploy = new Model_Deploy();
-            $deploy_data = $deploy->get(null, array(
-                'id','cloned'
+            $deploy_data = $deploy->get(NULL, array(
+                'id', 'cloned'
             ));
-            if(count($deploy_data) >= $limit){
+            if (count($deploy_data) >= $limit) {
                 throw new Exception('Sorry, project limit has reached.');
             }
 
@@ -163,38 +163,40 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
             $result = $deploy->set($id, $data);
 
-            if ($result[1] !== 0) {
+            try {
+                if ($result[1] !== 0) {
+                    // changing clone url in git.
+                    list($deploy_data) = $deploy->get($id);
+                    $repo_url = parse_url($deploy_data['repository']);
 
-                // changing clone url in git.
-                list($deploy_data) = $deploy->get($id);
-                $repo_url = parse_url($deploy_data['repository']);
-
-                if (!empty($deploy_data['username'])) {
-                    $repo_url['user'] = $deploy_data['username'];
-                    if (!empty($deploy_data['password'])) {
-                        $repo_url['pass'] = $deploy_data['password'];
+                    if (!empty($deploy_data['username'])) {
+                        $repo_url['user'] = $deploy_data['username'];
+                        if (!empty($deploy_data['password'])) {
+                            $repo_url['pass'] = $deploy_data['password'];
+                        }
                     }
+
+                    $newRemote = http_build_url($repo_url);
+                    $repo_dir = Utils::get_repo_dir($deploy_data['id']);
+                    $git = new \PHPGit\Git();
+                    $git->setRepository($repo_dir);
+                    $git->remote->url->set('origin', $newRemote);
+
+                } else {
+                    throw new Exception('Sorry, something went wrong. Please try again later.');
                 }
+            } catch (Exception $e) {
 
-                $newRemote = http_build_url($repo_url);
-                $repo_dir = Utils::get_repo_dir($deploy_data['id']);
-                $git = new \PHPGit\Git();
-                $git->setRepository($repo_dir);
-                $git->remote->url->set('origin', $newRemote);
-
-                $response = array(
-                    'status'  => TRUE,
-                    'request' => $i
-                );
-            } else {
-                throw new Exception('Sorry, something went wrong. Please try again later.');
             }
-
+            $response = array(
+                'status'  => TRUE,
+                'request' => $i
+            );
         } catch (Exception $e) {
             $response = array(
                 'status'  => FALSE,
                 'request' => $i,
-                'reason'  => $e->getMessage()
+                'reason'  => $e->getMessage() . $e->getLine() . $e->getFile()
             );
         }
 
@@ -224,13 +226,15 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 $branches = $branch->get_by_branch_id($i['branch_id'], array(
                     'id',
                     'auto',
-                    'deploy_id'
+                    'deploy_id',
+                    'branch_name'
                 ));
             } else {
                 $branches = $branch->get($deploy_id, array(
                     'id',
                     'auto',
-                    'deploy_id'
+                    'deploy_id',
+                    'branch_name'
                 ));
             }
 
@@ -276,6 +280,17 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                                 $set['hash'] = $hash;
                             else
                                 throw new Exception('The hash provided is not valid or does not exist in the repository.');
+
+                            $process = $git->getProcessBuilder()->add('branch')
+                                ->add('-a')
+                                ->add('--contains')
+                                ->add($i['hash'])->getProcess();
+                            $a = $git->run($process);
+
+                            $f = strpos($a, $singlebranch['branch_name']);
+                            if(empty($f)){
+                                throw new Exception('The hash does not belong to the current environment branch.');
+                            }
 
                             break;
 

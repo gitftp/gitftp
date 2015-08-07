@@ -253,15 +253,32 @@ a.btn {
   display: none;
 }
 .checkbox.gf-checkbox label {
-  background: url('../img/checkboxBtn.png');
-  background-size: 20px;
-  background-repeat: no-repeat;
-  padding-left: 30px;
-  background-position: 0px 0px;
+  padding-left: 25px;
   line-height: 21px;
 }
-.checkbox.gf-checkbox input:checked + label {
-  background-position: 0px -20px;
+.checkbox.gf-checkbox label:before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  border: solid 2px #aaaaaa;
+  border-radius: 4px;
+  margin-top: 1px;
+  margin-left: -25px;
+  -webkit-transition: all .1s;
+          transition: all .1s;
+}
+.checkbox.gf-checkbox input:checked + label:before {
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+  height: 18px;
+  width: 10px;
+  border-radius: 0px;
+  margin-top: -2px;
+  margin-left: -20px;
+  border-width: 2px;
+  border-color: transparent #00c853 #00c853 transparent;
 }
 .panel {
   border: none;
@@ -679,32 +696,24 @@ h6 {
 @-webkit-keyframes pagedrop {
   from {
     opacity: 0;
-    -webkit-transform: translate(0px, -10px);
-            transform: translate(0px, -10px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translate(0, 0);
-            transform: translate(0, 0);
   }
 }
 @keyframes pagedrop {
   from {
     opacity: 0;
-    -webkit-transform: translate(0px, -10px);
-            transform: translate(0px, -10px);
   }
   to {
     opacity: 1;
-    -webkit-transform: translate(0, 0);
-            transform: translate(0, 0);
   }
 }
 @-webkit-keyframes pageleft {
   from {
     opacity: 0;
-    -webkit-transform: translate(-10px, 0px);
-            transform: translate(-10px, 0px);
+    -webkit-transform: translate(-5px, 0px);
+            transform: translate(-5px, 0px);
   }
   to {
     opacity: 1;
@@ -715,8 +724,8 @@ h6 {
 @keyframes pageleft {
   from {
     opacity: 0;
-    -webkit-transform: translate(-10px, 0px);
-            transform: translate(-10px, 0px);
+    -webkit-transform: translate(-5px, 0px);
+            transform: translate(-5px, 0px);
   }
   to {
     opacity: 1;
@@ -987,6 +996,11 @@ h6 {
 .jconfirm-deploy-options .row div a i {
   font-size: 40px;
   margin-bottom: 10px;
+}
+.jconfirm-deploy-options .row div a.focus {
+  background-color: #f5f5f5;
+  color: black;
+  opacity: .4;
 }
 .panel {
   position: relative;

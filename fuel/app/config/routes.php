@@ -1,8 +1,6 @@
 <?php
 if (is_dash) {
     $routes = array(
-        '_root_'                                          => base_controller,
-        '_404_'                                           => 'welcome/404',
         'feed'                                            => 'api/etc/feed',
         'hook/i/(:segment)/(:segment)/(:segment)'         => 'hook/$1/$2/$3',
         'api/(:segment)'                                  => 'api/$1',
@@ -14,11 +12,18 @@ if (is_dash) {
     );
 } else {
     $routes = array(
-        '_root_'          => base_controller,
-        '_404_'           => 'welcome/404',
         'login'           => 'user/login',
         'signup'          => 'user/signup',
         'forgot-password' => 'user/forgotpassword',
     );
 }
-return $routes;
+
+$defaults = array(
+    '_root_'                                         => base_controller,
+    '_404_'                                          => 'welcome/404',
+    'administrator/(:segment)'                       => 'administrator/$1',
+    'administrator/(:segment)/(:segment)'            => 'administrator/$1/$2',
+    'administrator/(:segment)/(:segment)/(:segment)' => 'administrator/$1/$2/$3',
+);
+
+return array_merge($defaults, $routes);

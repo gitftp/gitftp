@@ -238,7 +238,7 @@ define([
                 });
 
                 var ftp_notUsed = _ajax({
-                    url: base + 'api/ftp/get/',
+                    url: base + 'api/ftp/unused/',
                     method: 'get',
                     dataType: 'json',
                 });

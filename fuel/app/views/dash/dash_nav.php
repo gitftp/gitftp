@@ -23,18 +23,19 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-left drop">
-                                <li class="home"><a href="/home">
-                                        <i class="fa fa-home"></i>&nbsp; Dashboard
+                                <li class="home">
+                                    <a href="/home">
+                                        Dashboard
                                     </a>
                                 </li>
                                 <li class="project">
                                     <a href="/project">
-                                        <i class="fa fa-cloud"></i>&nbsp; Project
+                                        Projects
                                     </a>
                                 </li>
                                 <li class="ftp">
                                     <a href="/ftp">
-                                        <i class="fa fa-server"></i>&nbsp; FTP servers
+                                        FTP servers
                                     </a>
                                 </li>
                             </ul>

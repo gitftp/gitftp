@@ -246,15 +246,29 @@ a.btn {
   display: none;
 }
 .checkbox.gf-checkbox label {
-  background: url('../img/checkboxBtn.png');
-  background-size: 20px;
-  background-repeat: no-repeat;
-  padding-left: 30px;
-  background-position: 0px 0px;
+  padding-left: 25px;
   line-height: 21px;
 }
-.checkbox.gf-checkbox input:checked + label {
-  background-position: 0px -20px;
+.checkbox.gf-checkbox label:before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  border: solid 2px #aaaaaa;
+  border-radius: 4px;
+  margin-top: 1px;
+  margin-left: -25px;
+  transition: all .1s;
+}
+.checkbox.gf-checkbox input:checked + label:before {
+  transform: rotate(45deg);
+  height: 18px;
+  width: 10px;
+  border-radius: 0px;
+  margin-top: -2px;
+  margin-left: -20px;
+  border-width: 2px;
+  border-color: transparent #00c853 #00c853 transparent;
 }
 .panel {
   border: none;

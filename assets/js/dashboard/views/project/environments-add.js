@@ -137,6 +137,14 @@ define([
             var that = this;
             $.when(this.getBranches(), this.getFtp()).then(function (branches, ftp) {
                 console.log(branches, ftp);
+
+                if (ftp[0].data.length == 0) {
+                    noty({
+                        text: 'You\'ve no available FTP servers ready to associate with your new Environment. Please create one.',
+                        type: 'error'
+                    })
+                }
+
                 var branches_list = '',
                     ftp_list = '<option value="">Select a FTP server</option>';
 
@@ -169,7 +177,7 @@ define([
         },
         getFtp: function () {
             return _ajax({
-                url: dash_url + 'api/ftp/get',
+                url: dash_url + 'api/ftp/unused',
                 method: 'get',
                 dataType: 'json'
             });

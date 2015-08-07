@@ -339,23 +339,60 @@ a.btn {
   }
 }
 
+//.checkbox.gf-checkbox {
+//  input {
+//    display: none;
+//  }
+//  label {
+//    background: url('../img/checkboxBtn.png');
+//    background-size: 20px;
+//    background-repeat: no-repeat;
+//    padding-left: 30px;
+//    background-position: 0px 0px;
+//    line-height: 21px;
+//  }
+//  input:checked + label {
+//    background-position: 0px -20px;
+//  }
+//}
+
 .checkbox.gf-checkbox {
   input {
     display: none;
   }
   label {
-    background: url('../img/checkboxBtn.png');
-    background-size: 20px;
-    background-repeat: no-repeat;
-    padding-left: 30px;
-    background-position: 0px 0px;
+//    background: url('../img/checkboxBtn.png');
+//    background-size: 20px;
+//    background-repeat: no-repeat;
+//    background-position: 0px 0px;
+    padding-left: 25px;
     line-height: 21px;
+    &:before {
+      content: '';
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      border: solid 2px @gray;
+      border-radius: 4px;
+      margin-top: 1px;
+      margin-left: -25px;
+      transition: all .1s;
+    }
   }
   input:checked + label {
-    background-position: 0px -20px;
+//    background-position: 0px -20px;
+    &:before {
+      transform: rotate(45deg);
+      height: 18px;
+      width: 10px;
+      border-radius: 0px;
+      margin-top: -2px;
+      margin-left: -20px;
+      border-width: 2px;
+      border-color: transparent @green @green transparent;
+    }
   }
 }
-
 
 // panel
 .panel {
@@ -372,7 +409,7 @@ a.btn {
   }
 }
 
-select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .form-control{
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .form-control {
   //  border: solid 2px #eee !important;
   border: none;
   border-bottom: solid 2px @border_color;

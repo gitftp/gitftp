@@ -1,8 +1,10 @@
-Hello <?php echo $username; ?>,
+Hello <?php echo ucfirst($username); ?>,
 <br/><br/>
 Welcome to Gitftp, <br/>
-Your account has been setup and is ready to go.
+You're registered for the beta version of our product.
 <br/><br/>
-Please reset your password with the link below.
+Please complete the registration process by verifing your Email address with the link given below.
 <br/><br/>
-<a target="empty" href="<?php echo $resetlink; ?>">Verify Email & Reset password</a>
+<a target="empty" href="<?php echo $resetlink; ?>">Verify</a>
+<br/><br/>
+Kindly give us your Feedback on gitftp.

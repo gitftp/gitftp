@@ -8,7 +8,10 @@ define([], function () {
             var that = this;
 
             this.jconfirm.$b.find('.jc-global-update').on('click', function (e) {
-                $(this).attr('disabled', 'disabled');
+                var $this = $(this);
+                if($this.hasClass('focus'))
+                    return false;
+                $this.addClass('focus').find('i').removeAttr('class').addClass('fa fa-spin fa-spinner');
                 that.deployUpdate(e);
             });
             this.jconfirm.$b.find('.jc-global-revert').on('click', function (e) {
@@ -53,7 +56,7 @@ define([], function () {
                 confirmButton: false,
                 cancelButton: false,
                 //columnClass: "col-md-4 col-md-offset-4",
-                columnClass: 'col-md-6 col-md-offset-3',
+                columnClass: 'col-md-6 col-md-offset-3'
             });
         },
         deploySync: function (e, a) {
@@ -150,7 +153,7 @@ define([], function () {
                     }).done(function (data) {
                         if (data.status) {
                             noty({
-                                text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                                text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
                                 type: 'success'
                             });
                             obj.close();

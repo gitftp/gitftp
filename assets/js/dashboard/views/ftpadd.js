@@ -112,7 +112,7 @@ define([
                 });
                 return false;
             }
-            $this.prop('disabled', true).find('i').removeClass('fa-exchange').addClass('fa-spin fa-spinner');
+            $this.prop('disabled', true).find('i').addClass('gf gf-loading gf-btn');
 
             _ajax({
                 url: base + 'api/ftp/testftp',
@@ -125,7 +125,7 @@ define([
                     title: (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
                     content: (d.status) ? 'Connection established successfully, This FTP server is ready to roll.' : 'The connection could not be established. <br>Reason: <code>' + d.reason + '</code>',
                 });
-                $this.prop('disabled', false).find('i').addClass('fa-exchange').removeClass('fa-spin fa-spinner');
+                $this.prop('disabled', false).find('i').removeClass('gf gf-loading gf-btn');
             });
         },
         hostValidate: /^(?!:\/\/)([a-zA-Z0-9]+\.)?[a-zA-Z0-9][a-zA-Z0-9-]+\.[a-zA-Z]{2,6}?$/i,
@@ -255,7 +255,7 @@ define([
             $this.find(':input').prop('disabled', true);
 
             var $submitBtn = $this.find('button[type="submit"]');
-            $submitBtn.html('<i class="fa fa-spin fa-spinner"></i> Updating');
+            $submitBtn.html('<i class="gf gf-loading gf-btn"></i> Updating');
             _ajax({
                 url: base + 'api/ftp/' + param,
                 data: data,
@@ -264,11 +264,16 @@ define([
             }).done(function (data) {
                 $this.find(':input:not([data-notform="true"])').prop('disabled', false);
                 if (data.status) {
+                    if(that.executeAfterAdd){
+                        that.executeAfterAdd();
+                        return false;
+                    }
                     noty({
                         text: ((that.id) ? '<i clas="fa fa-pencil"></i>&nbsp; Your changed are saved.' : '<i class="fa fa-plus"></i>&nbsp; Added FTP server: ' + $this.find('[name="host"]').val() ),
                         type: 'success',
                     });
                     Router.navigate('ftp', {trigger: true});
+
                 } else {
                     noty({
                         text: '<i class="fa fa-times"></i>&nbsp; ' + data.reason,

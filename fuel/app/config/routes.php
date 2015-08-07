@@ -8,6 +8,7 @@ if (is_dash) {
         'api/(:segment)/(:segment)/(:segment)'            => 'api/$1/$2/$3',
         'api/(:segment)/(:segment)/(:segment)/(:segment)' => 'api/$1/$2/$3/$4',
         'user/logout'                                     => 'user/logout',
+        'test/(:segment)'                                 => 'test/$1',
         '(:any)'                                          => base_controller,
     );
 } else {

@@ -696,17 +696,25 @@ h6 {
 @-webkit-keyframes pagedrop {
   from {
     opacity: 0;
+    -webkit-transform: translate(0px, -5px);
+            transform: translate(0px, -5px);
   }
   to {
     opacity: 1;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
   }
 }
 @keyframes pagedrop {
   from {
     opacity: 0;
+    -webkit-transform: translate(0px, -5px);
+            transform: translate(0px, -5px);
   }
   to {
     opacity: 1;
+    -webkit-transform: translate(0, 0);
+            transform: translate(0, 0);
   }
 }
 @-webkit-keyframes pageleft {
@@ -1156,4 +1164,54 @@ h6 {
   padding: 5px 10px;
   text-transform: uppercase;
   font-weight: 500;
+}
+i.gf {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+i.gf-loading:before {
+  content: '';
+  height: inherit;
+  width: inherit;
+  background: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50px;
+  border-width: 3px 0px 0px 0px;
+  -webkit-animation: spin .5s infinite linear;
+          animation: spin .5s infinite linear;
+  border: solid 2px rgba(0, 0, 0, 0);
+  border-top-color: white;
+  border-bottom-color: transparent;
+}
+i.gf-btn {
+  margin-right: 5px;
+}
+.jconfirm.supervan2 .jconfirm-bg {
+  background-color: rgba(245, 245, 245, 0.95);
+}
+.jconfirm.supervan2 .jconfirm-box {
+  background-color: transparent;
+}
+.jconfirm.supervan2 .jconfirm-box div.title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: normal;
+}
+.jconfirm.supervan2 .jconfirm-box .buttons {
+  text-align: center;
+}
+.jconfirm.supervan2 .jconfirm-box .buttons button {
+  font-size: 16px;
+  border-radius: 2px;
+  background: #303f53;
+  text-shadow: none;
+  border: 0;
+  color: white;
+  width: 25%;
+  padding: 10px;
 }

@@ -1,7 +1,8 @@
 define([
     'text!pages/project/environments-add.html',
-    'text!pages/project/environment-add-ftplist.html'
-], function (envHtml, ftplistHtml) {
+    'text!pages/project/environment-add-ftplist.html',
+    'views/ftpadd'
+], function (envHtml, ftplistHtml, ftpaddView) {
     /**
      * Project Env add.
      */
@@ -9,7 +10,8 @@ define([
         el: app.el,
         events: {
             'click .load-branches': 'renderBranches',
-            'click .env-new-form-submit-button': 'submitForm'
+            'click .env-new-form-submit-button': 'submitForm',
+            'click .addnewserver': 'addnewserver'
         },
         renderBranches: function (e) {
             var $this = $(e.currentTarget);
@@ -52,6 +54,10 @@ define([
                 value: this.ftp_purge_el.selectivity('value')
             });
 
+            $this.find(':input').attr('disabled', true);
+            var $sbtn = $this.find('button.env-new-form-submit-button');
+            $sbtn.html('<i class="gf gf-loading gf-btn"></i> Creating..');
+
             _ajax({
                 url: dash_url + 'api/branch/create',
                 data: data,
@@ -72,6 +78,9 @@ define([
                         content: response.reason
                     });
                 }
+            }).always(function () {
+                $this.find(':input').attr('disabled', false);
+                $sbtn.html('Create')
             });
         },
         validation: function () {
@@ -142,7 +151,7 @@ define([
                     noty({
                         text: 'You\'ve no available FTP servers ready to associate with your new Environment. Please create one.',
                         type: 'error'
-                    })
+                    });
                 }
 
                 var branches_list = '',
@@ -181,6 +190,36 @@ define([
                 method: 'get',
                 dataType: 'json'
             });
+        },
+        addnewserver: function (e) {
+            e.preventDefault();
+            var that = this;
+            var $container = $('<div>');
+            var ftpview = new ftpaddView({
+                el: $container
+            });
+            ftpview.render();
+            $container.find('.page-head').remove();
+            var $jc = $.dialog({
+                title: 'Add new FTP server',
+                content: '',
+                columnClass: 'col-md-12',
+                animation: 'scale',
+                theme: 'supervan2'
+            })
+            $jc.contentDiv.html($container);
+            $jc.setDialogCenter();
+            ftpview.validation();
+            ftpview.executeAfterAdd = function () {
+                $jc.close();
+                that.getFtp().done(function (data) {
+                    ftp_list = '<option value="">Select a FTP server</option>'
+                    $.each(data.data, function (i, a) {
+                        ftp_list += '<option value="' + a.id + '">' + a.name + '</option>';
+                    });
+                    $('#ftp-list').html(ftp_list);
+                })
+            }
         }
     });
 

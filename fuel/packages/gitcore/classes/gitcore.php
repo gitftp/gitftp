@@ -872,13 +872,13 @@ class gitcore {
                 $this->connection->rm($file);
 
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-                $this->log("x removed $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->log("x removed $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("x removed $fileNo of $numberOfFilesToDelete {$file}");
 
             } catch (Exception $e) {
                 $this->output($e->getMessage());
                 $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
-                $this->log("not found $fileNo of $numberOfFilesToDelete {$file}");
+//                $this->log("not found $fileNo of $numberOfFilesToDelete {$file}");
                 $this->output("not found $fileNo of $numberOfFilesToDelete {$file}");
             }
 

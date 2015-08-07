@@ -8,6 +8,7 @@ Autoloader::add_classes(array(
     'Craftpip\GitApi\Github'          => __DIR__ . '/classes/gitapi/github.php',
     'Craftpip\GitApi\Bitbucket'       => __DIR__ . '/classes/gitapi/bitbucket.php',
     'Craftpip\GitApi'                 => __DIR__ . '/classes/gitapi/gitapi.php',
+    'Craftpip\Git'                 => __DIR__ . '/classes/git.php',
 ));
 
 /* End of file bootstrap.php */

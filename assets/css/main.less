@@ -88,7 +88,7 @@ a {
     }
     .dropdown {
       .dropdown-menu {
-//        top: 80%;
+        //        top: 80%;
         display: block !important;
         visibility: hidden;
         opacity: 0;
@@ -295,11 +295,11 @@ h1, h2, h3, h4, h5, h6 {
 @keyframes pagedrop {
   from {
     opacity: 0;
-//    transform: translate(0px, -10px);
+    transform: translate(0px, -5px);
   }
   to {
     opacity: 1;
-//    transform: translate(0, 0);
+    transform: translate(0, 0);
   }
 }
 
@@ -614,7 +614,7 @@ h1, h2, h3, h4, h5, h6 {
           font-size: 40px;
           margin-bottom: 10px;
         }
-        &.focus{
+        &.focus {
           background-color: @bg;
           color: black;
           opacity: .4;
@@ -780,3 +780,65 @@ h1, h2, h3, h4, h5, h6 {
     }
   }
 }
+
+i {
+  &.gf {
+    height: 20px;
+    width: 20px;
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+  }
+  &.gf-loading:before {
+    content: '';
+    height: inherit;
+    width: inherit;
+    background: transparent;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 50px;
+    border-width: 3px 0px 0px 0px;
+    animation: spin .5s infinite linear;
+    border: solid 2px rgba(0, 0, 0, 0);
+    border-top-color: white;
+    border-bottom-color: transparent;
+  }
+  &.gf-btn {
+    margin-right: 5px;
+  }
+}
+
+.jconfirm.supervan2 .jconfirm-bg {
+  background-color: fade(@bg, 95%);
+}
+
+.jconfirm.supervan2 .jconfirm-box {
+  background-color: transparent
+}
+
+.jconfirm.supervan2 .jconfirm-box div.title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: normal
+}
+
+.jconfirm.supervan2 .jconfirm-box .buttons {
+  text-align: center
+}
+
+.jconfirm.supervan2 .jconfirm-box .buttons button {
+  font-size: 16px;
+  border-radius: 2px;
+  background: #303f53;
+  text-shadow: none;
+  border: 0;
+  color: white;
+  width: 25%;
+  padding: 10px
+}
+
+
+
+
+

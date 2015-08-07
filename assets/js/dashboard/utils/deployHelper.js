@@ -92,12 +92,10 @@ define([], function () {
                         dataType: 'json',
                     }).done(function (data) {
                         if (data.status) {
-
+                            jc.close();
                             if (that.jconfirm) {
                                 that.jconfirm.close();
                             }
-                            jc.close();
-
                             noty({
                                 text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
                                 type: 'success'
@@ -134,11 +132,10 @@ define([], function () {
                 '<div class="space5"></div><span class="orange"><strong>NOTE:</strong> You have auto deploy enabled.</span>',
                 confirmButton: 'Deploy',
                 confirm: function () {
-                    var that = this;
-                    var $input = this.$b.find('input').prop('readonly', true);
-                    this.$confirmButton.prop('disabled', true);
+                    var jc = this;
+                    var $input = jc.$b.find('input').prop('readonly', true);
+                    jc.$confirmButton.prop('disabled', true);
                     var hash = $input.val();
-                    var obj = this;
 
                     _ajax({
                         url: dash_url + 'api/deploy/run/',
@@ -156,11 +153,11 @@ define([], function () {
                                 text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
                                 type: 'success'
                             });
-                            obj.close();
-                            console.log(that);
+                            jc.close();
                             if (that.jconfirm) {
                                 that.jconfirm.close();
                             }
+                            console.log(that.jconfirm);
                         } else {
                             noty({
                                 text: data.reason,
@@ -169,7 +166,7 @@ define([], function () {
                         }
                     }).always(function(){
                         $input.prop('readonly', false);
-                        that.$confirmButton.prop('disabled', false);
+                        jc.$confirmButton.prop('disabled', false);
                     });
                     return false;
                 },

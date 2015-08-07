@@ -178,6 +178,13 @@ class Controller_Test extends Controller {
         print_r($a);
     }
 
+    public function get_k(){
+        $path = Utils::get_repo_dir(48);
+        $git = new \Craftpip\Git();
+        $git->setRepository($path);
+        print_r($git->logBetween('c657d1c80','58efdc'));
+    }
+
 
     public function get_login(){
         if(\Auth::instance()->login('boniface', 'asdasd')){

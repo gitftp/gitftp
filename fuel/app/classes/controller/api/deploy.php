@@ -219,7 +219,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $deploy = new Model_Deploy();
             $deploy_id = $i['deploy_id'];
             $repo_dir = Utils::get_repo_dir($deploy_id);
-            $git = new \PHPGit\Git();
+            $git = new \Craftpip\Git();
             $git->setRepository($repo_dir);
 
             if (isset($i['branch_id'])) {
@@ -265,6 +265,8 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                             $set['record_type'] = $record->type_rollback;
                             if (!isset($i['hash']))
                                 throw new Exception('Missing parameter hash.');
+                            else
+                                $i['hash'] = trim($i['hash']);
 
                             $branches = $git->branch();
                             if (array_key_exists($i['hash'], $branches))
@@ -274,12 +276,12 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                             if (\Arr::in_array_recursive($i['hash'], $tags))
                                 throw new Exception('The hash provided is a Tag. Please enter a valid hash');
 
-                            $hash = Utils::git_verify_hash($i['deploy_id'], $i['hash']);
-
-                            if ($hash)
+                            try {
+                                $hash = $git->verifyhash($i['hash']);
                                 $set['hash'] = $hash;
-                            else
+                            } catch (Exception $e) {
                                 throw new Exception('The hash provided is not valid or does not exist in the repository.');
+                            }
 
                             $process = $git->getProcessBuilder()->add('branch')
                                 ->add('-a')

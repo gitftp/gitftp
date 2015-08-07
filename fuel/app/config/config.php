@@ -273,7 +273,7 @@ return array(
         'packages' => array(
             'gitcore',
             'bridge',
-            'utils',
+            'craftpip',
             'auth',
             'email',
             'parser',

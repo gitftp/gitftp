@@ -1,10 +1,10 @@
 <%
-    if (ftp.length != 0){
-    var f = ftp[0];
-    var e = true;
-    }else{
-    var e = false;
-    }
+if (ftp.length != 0){
+var f = ftp[0];
+var e = true;
+}else{
+var e = false;
+}
 %>
 <div class="page-head">
     <div class="row">
@@ -39,50 +39,53 @@
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Descriptive name"
-                                   value="<%= (e) ? f['name'] : '' %>">
+                                    value="<%= (e) ? f['name'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>Schema</label>
                             <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"
-                                   value="<%= (e) ? f['scheme'] : '' %>">
+                                    value="<%= (e) ? f['scheme'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>Host name</label>
                             <input type="text" name="host" class="form-control" placeholder="example.com / IP address"
-                                   value="<%= (e) ? f['host'] : '' %>">
+                                    value="<%= (e) ? f['host'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>FTP username</label>
                             <input type="text" name="username" class="form-control" placeholder="Username"
-                                   value="<%= (e) ? f['username'] : '' %>">
+                                    value="<%= (e) ? f['username'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>FTP password</label>
                             <% if(e && f['pset'] === true){ %>
-                                <div class="ftp-form-password-set">
-                                    <p class="form-control-static"><span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a class="ftp-form-password-set-change"> <i class="fa fa-pencil"></i> edit</a></p>
-                                </div>
-                                <div class="ftp-form-password-field" style="display: none">
-                                    <div class="input-group">
-                                        <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="" data-notform="true">
+                            <div class="ftp-form-password-set">
+                                <p class="form-control-static">
+                                    <span class="ast">∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗∗ —</span><a class="ftp-form-password-set-change">
+                                    <i class="fa fa-pencil"></i> edit</a></p>
+                            </div>
+                            <div class="ftp-form-password-field" style="display: none">
+                                <div class="input-group">
+                                    <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="" data-notform="true">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-block btn-clean ftp-form-password-set-cancel"><i class="fa fa-times"></i></button>
+                                            <button type="button" class="btn btn-block btn-clean ftp-form-password-set-cancel">
+                                                <i class="fa fa-times"></i></button>
                                         </span>
-                                    </div>
                                 </div>
+                            </div>
                             <% }else{ %>
-                                <input type="password" name="pass" class="form-control" placeholder="Password" value="">
+                            <input type="password" name="pass" class="form-control" placeholder="Password" value="">
                             <% } %>
                         </div>
                         <div class="form-group">
                             <label>Path to deploy</label>
                             <input type="text" name="path" class="form-control"
-                                   placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
+                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>FTP port</label>
                             <input type="text" name="port" class="form-control" placeholder="Port of FTP. EG: 21"
-                                   value="<%= (e) ? f['port'] : '' %>">
+                                    value="<%= (e) ? f['port'] : '' %>">
                         </div>
                         <div class="space10"></div>
                         <button type="submit" class="btn btn-success"><%= (e) ? 'Update' : 'Save' %></button>
@@ -99,20 +102,19 @@
                     <br/>
                     <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
                 </p>
+
                 <p class="text-center">
-                    <button type="button" class="btn btn-warning ftp-connectionTest"><i
-                            class="fa fa-exchange fa-fw"></i> Connect to server.
+                    <button type="button" class="btn btn-warning ftp-connectionTest">
+                        <i></i>Test connection.
                     </button>
                 </p>
-                <div class="space10"></div>
-                <p style="margin: 0">
-                    We highly recommend to test connection your server before saving. Incorrect configuration will lead to deploy failures.
+            </div>
+            <div class="line"></div>
+            <div class="panel-footer">
+                <p style="margin: 0" class="text-center">
+                    Its highly recommended to test your FTP connection before linking to an environment.
                 </p>
             </div>
         </div>
     </div>
 </div>
-
-<div class="space20"></div>
-<div class="space20"></div>
-<div class="space20"></div>

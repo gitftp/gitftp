@@ -1191,21 +1191,21 @@ i.gf-loading:before {
 i.gf-btn {
   margin-right: 5px;
 }
-.jconfirm.supervan2 .jconfirm-bg {
+.jconfirm.supervan2 > .jconfirm-bg {
   background-color: rgba(245, 245, 245, 0.95);
 }
-.jconfirm.supervan2 .jconfirm-box {
+.jconfirm.supervan2 > .jconfirm-scrollpane > .container > .row > .jconfirm-box-container > .jconfirm-box {
   background-color: transparent;
 }
-.jconfirm.supervan2 .jconfirm-box div.title {
+.jconfirm.supervan2 > .jconfirm-scrollpane > .container > .row > .jconfirm-box-container > .jconfirm-box > div.title {
   text-align: center;
   font-size: 22px;
   font-weight: normal;
 }
-.jconfirm.supervan2 .jconfirm-box .buttons {
+.jconfirm.supervan2 > .jconfirm-scrollpane > .container > .row > .jconfirm-box-container > .jconfirm-box > .buttons {
   text-align: center;
 }
-.jconfirm.supervan2 .jconfirm-box .buttons button {
+.jconfirm.supervan2 > .jconfirm-scrollpane > .container > .row > .jconfirm-box-container > .jconfirm-box > .buttons > button {
   font-size: 16px;
   border-radius: 2px;
   background: #303f53;

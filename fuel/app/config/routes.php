@@ -2,7 +2,7 @@
 if (is_dash) {
     $routes = array(
         'feed'                                            => 'api/etc/feed',
-        'hook/i/(:segment)/(:segment)/(:segment)'         => 'hook/$1/$2/$3',
+        'hook/i/(:segment)/(:segment)/(:segment)'         => 'hook/i/$1/$2/$3',
         'api/(:segment)'                                  => 'api/$1',
         'api/(:segment)/(:segment)'                       => 'api/$1/$2',
         'api/(:segment)/(:segment)/(:segment)'            => 'api/$1/$2/$3',

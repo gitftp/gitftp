@@ -31,39 +31,32 @@ class Controller_Api_User extends Controller {
             $token = $opauth->get('auth.credentials.token', '?');
             echo '<pre>';
             $user = new \Craftpip\Auth();
+            // everytime the user logs in , refresh the access token.
             $user->setProvider($provider, 'access_token', $token);
+            // store the user's username.
             $user->setAttr('github', $opauth->get('auth.info.nickname'));
 
             switch ($status) {
                 // a local user was logged-in, the provider has been linked to this user
                 case 'linked':
-                    // inform the user the link was succesfully made
-                    echo sprintf(__('login.provider-linked'), ucfirst($provider));
-                    // and set the redirect url for this status
-                    $url = dash_url;
+                    // user was logged in, and is linked with provider.
+                    $url = dash_url.'settings/services';
                     break;
 
                 // the provider was known and linked, the linked account as logged-in
                 case 'logged_in':
-                    // inform the user the login using the provider was succesful
-                    echo sprintf(__('login.logged_in_using_provider'), ucfirst($provider));
-                    // and set the redirect url for this status
+                    // user is logged in via oauth.
                     $url = dash_url;
                     break;
 
                 // we don't know this provider login, ask the user to create a local account first
                 case 'register':
-                    // inform the user the login using the provider was succesful, but we need a local account to continue
-                    echo sprintf(__('login.register-first'), ucfirst($provider));
-                    // and set the redirect url for this status
-                    $url = '';
+                    // we do not use this anymore.
                     break;
 
                 // we didn't know this provider login, but enough info was returned to auto-register the user
                 case 'registered':
-                    // inform the user the login using the provider was succesful, and we created a local account
-                    echo __('login.auto-registered');
-                    // and set the redirect url for this status
+                    // new user.
                     $url = dash_url;
                     break;
 

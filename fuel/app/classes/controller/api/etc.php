@@ -2,6 +2,15 @@
 
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
+    public function get_services() {
+        $user = new \Craftpip\Auth();
+        $a = $user->getProviders();
+        $this->response(array(
+            'status' => TRUE,
+            'data'   => $a
+        ));
+    }
+
     public function get_feed() {
         list(, $user_id) = \Auth::instance()->get_user_id();
 

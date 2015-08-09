@@ -74,16 +74,14 @@ return array(
      * Refer to individual strategy's documentation on configuration requirements.
      */
     'Strategy'                => array(
-
-        'Facebook' => array(
-            'app_id'     => '1102005696495607',
-            'app_secret' => 'efcfe3cd9cb538a1ae0a1b325d969638',
-            'scope'      => 'email'
-        ),
         'GitHub'   => array(
             'client_id'     => '7d936e80431b4d605c7f',
             'client_secret' => '8db2a8dcbeb6c72e6f0487f05f3827531d50d63e',
             'scope'         => 'repo,user:email,admin:repo_hook,admin:org_hook'
+        ),
+        'Bitbucket' => array(
+            'key' => 'mVjq4uHZzXpQrEggG3',
+            'secret' => '3SuqwYwTPURaGsx54cZeCXxxxvvfLvTQ'
         )
     ),
 );

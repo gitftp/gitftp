@@ -9,41 +9,54 @@ define([
     d = Backbone.View.extend({
         el: app.el,
         events: {
-            'click .settings-panel-nav a': 'navigation'
+
         },
-        render: function (id) {
+        render: function (path) {
             var that = this;
             setTitle('Settings');
-            this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
-            this.template = _.template(page);
-            that.el.html(that.template());
+            if(!$('.settingspageloaded').length){
+                this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
+                this.template = _.template(page);
+                that.el.html(that.template());
+            }
+
             that.subPage = '.settingspanel-container';
             that.pages = {
                 account: accountView,
-                notification: notificationView,
-                service: servicesView,
-                hook: hooksView,
-                project: projectView,
+                notifications: notificationView,
+                services: servicesView,
+                webhooks: hooksView,
+                projects: projectView,
             };
-            $('.settings-panel-nav a').eq(0).trigger('click');
+
+            if (!path) {
+                Router.navigate('/settings/account', {
+                    trigger: true,
+                    replace: true
+                });
+                return false;
+            }
+            this.loadSubPage(path);
         },
-        navigation: function (e) {
-            e.preventDefault();
-            var that = this;
-            var $this = $(e.currentTarget);
-            $this.siblings().removeClass('active-cs');
-            $this.addClass('active-cs');
-            var page = $this.attr('data-page');
+        loadSubPage: function (path) {
+            // loading this path.
+            var $list = $('.settings-panel-nav a');
+            $list.siblings().removeClass('active-cs');
+            $list.filter(function () {
+                return $(this).attr('data-page') == path;
+            }).addClass('active-cs');
+            var page = path;
 
             try {
                 if (this[page])
                     this[page].undelegateEvents();
 
                 this[page] = new this.pages[page]({
-                    el: that.subPage
+                    el: this.subPage
                 });
                 this[page].render();
             } catch (e) {
+                console.log(e);
                 console.log('We dont know what this is: ' + page);
             }
         }

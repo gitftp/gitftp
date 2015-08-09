@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cc49d710b21d1823cefbabf9619048c2",
+    "hash": "587ac5ee4a395c340f1d04ab9aadc865",
     "packages": [
         {
             "name": "composer/installers",
@@ -914,17 +914,17 @@
             "time": "2015-04-01 06:37:33"
         },
         {
-            "name": "opauth/facebook",
+            "name": "opauth/bitbucket",
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/opauth/facebook.git",
-                "reference": "31e26188d1ac67a8d1831c1a8426bab2b3b7cd02"
+                "url": "https://github.com/fancyguy/opauth-bitbucket.git",
+                "reference": "43bedd34661e3aec61570723d6b92162100502fe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/opauth/facebook/zipball/31e26188d1ac67a8d1831c1a8426bab2b3b7cd02",
-                "reference": "31e26188d1ac67a8d1831c1a8426bab2b3b7cd02",
+                "url": "https://api.github.com/repos/fancyguy/opauth-bitbucket/zipball/43bedd34661e3aec61570723d6b92162100502fe",
+                "reference": "43bedd34661e3aec61570723d6b92162100502fe",
                 "shasum": ""
             },
             "require": {
@@ -943,19 +943,19 @@
             ],
             "authors": [
                 {
-                    "name": "U-Zyn Chua",
-                    "email": "chua@uzyn.com",
-                    "homepage": "http://uzyn.com"
+                    "name": "Steve Buzonas",
+                    "email": "steve@fancyguy.com",
+                    "homepage": "http://www.stevebuzonas.com"
                 }
             ],
-            "description": "Facebook strategy for Opauth",
+            "description": "Bitbucket strategy for Opauth",
             "homepage": "http://opauth.org",
             "keywords": [
                 "Authentication",
                 "auth",
-                "facebook"
+                "bitbucket"
             ],
-            "time": "2013-10-13 23:57:34"
+            "time": "2012-09-30 18:41:38"
         },
         {
             "name": "opauth/github",
@@ -1000,50 +1000,6 @@
                 "github"
             ],
             "time": "2012-07-23 06:13:59"
-        },
-        {
-            "name": "opauth/google",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/opauth/google.git",
-                "reference": "35df77684c14acb346a8c3753ae3809852d1a47e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/opauth/google/zipball/35df77684c14acb346a8c3753ae3809852d1a47e",
-                "reference": "35df77684c14acb346a8c3753ae3809852d1a47e",
-                "shasum": ""
-            },
-            "require": {
-                "opauth/opauth": ">=0.2.0",
-                "php": ">=5.2.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "": "."
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "U-Zyn Chua",
-                    "email": "chua@uzyn.com",
-                    "homepage": "http://uzyn.com"
-                }
-            ],
-            "description": "Google strategy for Opauth",
-            "homepage": "http://opauth.org",
-            "keywords": [
-                "Authentication",
-                "auth",
-                "google"
-            ],
-            "time": "2012-10-18 14:39:52"
         },
         {
             "name": "opauth/opauth",
@@ -1183,7 +1139,7 @@
         },
         {
             "name": "symfony/event-dispatcher",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/EventDispatcher.git",
@@ -1241,7 +1197,7 @@
         },
         {
             "name": "symfony/options-resolver",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/OptionsResolver.git",
@@ -1295,7 +1251,7 @@
         },
         {
             "name": "symfony/process",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/Process.git",
@@ -1354,9 +1310,8 @@
         "fuel/oil": 20,
         "fuel/orm": 20,
         "fuel/parser": 20,
-        "opauth/facebook": 20,
-        "opauth/google": 20,
         "opauth/github": 20,
+        "opauth/bitbucket": 20,
         "kzykhys/git": 20,
         "gentle/bitbucket-api": 20
     },

@@ -200,4 +200,12 @@ class Controller_Test extends Controller {
             echo 'no';
         }
     }
+
+
+    public function get_l(){
+        $gitapi = new \Craftpip\GitApi();
+        $a = $gitapi->loadApi('github')->getRepositories();
+        print_r($a);
+    }
+
 }

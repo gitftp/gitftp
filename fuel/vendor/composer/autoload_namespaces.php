@@ -17,5 +17,5 @@ return array(
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
     'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
     'Bitbucket\\' => array($vendorDir . '/gentle/bitbucket-api/lib'),
-    '' => array($vendorDir . '/opauth/facebook', $vendorDir . '/opauth/google', $vendorDir . '/opauth/github', $vendorDir . '/kzykhys/git/src'),
+    '' => array($vendorDir . '/opauth/github', $vendorDir . '/kzykhys/git/src', $vendorDir . '/opauth/bitbucket'),
 );

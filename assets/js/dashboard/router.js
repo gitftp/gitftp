@@ -18,8 +18,9 @@ define([
             'project': 'project',
             'project/new': 'projectadd',
             'project/*path': 'projectview',
-            'user/settings': 'settings',
-            ':any': 'fourofour',
+            'settings': 'settings',
+            'settings/*path': 'settings',
+            '*path': 'fourofour'
         },
         projectview: function (str) {
             app.obj.projectview = app.obj.projectview || new projectviewView();
@@ -45,11 +46,12 @@ define([
             app.obj.ftpAdd = app.obj.ftpAdd || new ftpAdd();
             app.obj.ftpAdd.render(id);
         },
-        settings: function(){
+        settings: function(path){
             app.obj.settings = app.obj.settings || new settingsView();
-            app.obj.settings.render();
+            app.obj.settings.render(path);
         },
         fourofour: function () {
+
             Router.navigate('/home', {trigger: true, replace: true});
         }
 

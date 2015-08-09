@@ -46,7 +46,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                         aria-expanded="false">Account</a>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="/user/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                                        <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                         <li class="divider"></li>
                                         <li><a href="<?php echo Uri::base(FALSE); ?>user/logout"><i
                                                     class="fa fa-sign-out fa-fw"></i> Logout</a></li>

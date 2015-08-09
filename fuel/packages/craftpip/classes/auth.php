@@ -22,7 +22,7 @@ class Auth extends \Auth\Auth_Login_Simpleauth {
             $this->updateWrapper();
     }
 
-    public function setId($user_id){
+    public function setId($user_id) {
         $this->user_id = $user_id;
         $this->updateWrapper();
     }
@@ -74,7 +74,7 @@ class Auth extends \Auth\Auth_Login_Simpleauth {
             if (is_null($key))
                 return $this->user_attr;
             else
-                return (!empty($this->user_attr[$key])) ? $this->user_attr[$key] : false;
+                return (!empty($this->user_attr[$key])) ? $this->user_attr[$key] : FALSE;
         } catch (Exception $e) {
             return FALSE;
         }
@@ -106,14 +106,18 @@ class Auth extends \Auth\Auth_Login_Simpleauth {
         }
     }
 
-    public function getProviders($name = NULL) {
+    public function getProviders($name = NULL, $key = NULL) {
         $a = \DB::select()->from($this->providersTable)->where('parent_id', $this->user_id);
         if (!is_null($name)) {
             $name = $this->_parseProviderName($name);
             $a = $a->and_where('provider', $name);
         }
-
-        return $a->execute()->as_array();
+        $b = $a->execute()->as_array();
+        if(is_null($key)){
+            return $b;
+        }else{
+            return $b[0][$key];
+        }
     }
 
     public function setProvider($name, $key, $value) {

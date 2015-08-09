@@ -4,17 +4,14 @@
     <div class="container middle-content">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="element text-center" style="color: white">
+                <div class="element text-center anim" style="color: white">
                     <?php // echo Asset::img('logow.png'); ?>
-                    <h1 class="lighter larger-lead uppercase-text">
-                        <strong>GIT-ftp deployment made simple.</strong>
-                    </h1>
-
-                    <h3 class="uppercase-text letter-spacing">
-                        <strong>Setup branches as
-                            <i class="fa fa-leaf green"></i> Environments & Get them roll.</strong>
-                    </h3>
-
+                    <p class="b " style="font-size: 40px;">
+                        Git-ftp deployment made simple.
+                    </p>
+                    <p class="uppercase-text letter-spacing b" style="font-size: 20px;">
+                        Deploy to multiple servers from branches.
+                    </p>
                     <div class="space"></div>
                     <p>
                         <?php if(\Auth::instance()->check()){ ?>
@@ -34,7 +31,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
-                <h2 class="lighter uppercase-text"><strong>Perfect for your project</strong></h2>
+                <h3 class="lighter uppercase-text b">Perfect for your project</h3>
 
                 <p class="lead">You code, we deploy. Simple.</p>
 

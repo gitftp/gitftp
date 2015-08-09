@@ -4,7 +4,6 @@ namespace Craftpip\GitApi;
 
 use Github\Client;
 
-
 /**
  * Class Github
  * @package Craftpip\GitApi

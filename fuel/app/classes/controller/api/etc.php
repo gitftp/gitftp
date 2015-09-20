@@ -2,12 +2,50 @@
 
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
+
+    public function get_unlink() {
+
+        try {
+            $user = new \Craftpip\OAuth\Auth();
+            $provider = Input::get('provider');
+            $provider_data = $user->getProviders($provider);
+            if (!$provider_data) {
+                throw new \Craftpip\Exception('Sorry something went wrong, please try again later.');
+            }
+            $user->removeProvider($provider);
+            $user->removeAttr($provider);
+
+            $response = array(
+                'status' => TRUE,
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+
+        $this->response($response);
+    }
+
     public function get_services() {
-        $user = new \Craftpip\Auth();
-        $a = $user->getProviders();
+        $user = new \Craftpip\OAuth\Auth();
+//        $github = ;
+        $response = array(
+            'github'    => array(
+                'username' => $user->getProviders('github', 'username'),
+                'added_at' => $user->getProviders('github', 'created_at'),
+            ),
+            'bitbucket' => array(
+                'username' => $user->getProviders('bitbucket', 'username'),
+                'added_at' => $user->getProviders('bitbucket', 'created_at')
+            )
+        );
+
         $this->response(array(
             'status' => TRUE,
-            'data'   => $a
+            'data'   => $response
         ));
     }
 
@@ -74,33 +112,20 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
     public function post_getRemoteBranches() {
         $post = Input::post();
         try {
-            if (isset($post['deploy_id'])) {
-                $deploy = new Model_Deploy();
-                $data = $deploy->get($post['deploy_id']);
-
-                if (count($data) !== 1)
-                    throw new Exception('The project does not exist.');
-
-                $repo = $data[0]['repository'];
-                $username = $data[0]['username'];
-                $password = $data[0]['password'];
+            if ($post['type'] == 'service') {
+                $response = $this->branchesservice();
             } else {
-                $repo = $post['repo'];
-                $username = $post['username'];
-                $password = $post['password'];
+                $response = $this->branchesmanual();
             }
 
-            $a = Utils::gitGetBranches($repo, $username, $password);
-            if ($a) {
-                $response = array(
-                    'status'  => TRUE,
-                    'data'    => $a,
-                    'request' => $post
-                );
-            } else {
-                throw new Exception('Could not connect to GIT repository.');
-            }
+            $response = array(
+                'status'  => TRUE,
+                'data'    => $response,
+                'request' => $post
+            );
+
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
@@ -111,6 +136,43 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $this->response($response);
     }
 
+    public function branchesservice() {
+        $post = Input::post();
+        $gitapi = new Craftpip\GitApi();
+        $a = $gitapi->loadApi($post['provider'])->getBranches($post['name']);
+
+        return $a;
+    }
+
+    public function branchesmanual() {
+        $post = Input::post();
+        if (isset($post['deploy_id'])) {
+            $deploy = new Model_Deploy();
+            $data = $deploy->get($post['deploy_id']);
+
+            if (count($data) !== 1)
+                throw new \Craftpip\Exception('The project does not exist.');
+
+            $repo = $data[0]['repository'];
+            $username = $data[0]['username'];
+            $password = $data[0]['password'];
+        } else {
+            $repo = $post['repo'];
+            $username = $post['username'];
+            $password = $post['password'];
+        }
+
+        $a = Utils::gitGetBranches($repo, $username, $password);
+        if ($a) {
+            $response = $a;
+        } else {
+            throw new \Craftpip\Exception('Could not connect to GIT repository.');
+        }
+
+        return $response;
+    }
+
+
     // todo : dashboard.
     public function action_dashboard($what = '') {
         switch ($what) {
@@ -120,17 +182,25 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 return FALSE;
                 break;
         }
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
         list(, $user_id) = $user->get_user_id();
+        $deploy = new \Model_Deploy();
+        $deploy_data = $deploy->get();
+        $ftp = new \Model_Ftp();
+        $ftp_data = $ftp->get();
 
         $this->response(array(
             'status' => TRUE,
             'data'   => array(
-                'user' => array(
+                'user'    => array(
                     'id'     => (string)$user_id,
                     'name'   => $user->get_screen_name(),
                     'email'  => $user->get_email(),
                     'avatar' => \Utils::get_gravatar($user->get_email(), 40)
+                ),
+                'account' => array(
+                    'projects' => count($deploy_data),
+                    'ftp'      => count($ftp_data)
                 )
             ),
         ));
@@ -138,7 +208,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
     public function dashboard_stats() {
         $deploy = new Model_Deploy();
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
         $records = new Model_Record();
         $records_count = $records->get_count(NULL, FALSE, $records->success);
         $deployed_data = $records->get_sum_deployed_data(NULL, FALSE);
@@ -157,4 +227,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         ));
     }
 
+    public function dashboard_init() {
+
+    }
 }

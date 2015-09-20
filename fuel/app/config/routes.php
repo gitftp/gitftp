@@ -9,7 +9,6 @@ if (is_dash) {
         'api/(:segment)/(:segment)/(:segment)/(:segment)'            => 'api/$1/$2/$3/$4',
         'api/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)' => 'api/$1/$2/$3/$4/$5',
         'user/logout'                                                => 'user/logout',
-        'test/(:segment)'                                            => 'test/$1',
         '(:any)'                                                     => base_controller,
     );
 } else {
@@ -26,6 +25,9 @@ $defaults = array(
     'administrator/(:segment)'                       => 'administrator/$1',
     'administrator/(:segment)/(:segment)'            => 'administrator/$1/$2',
     'administrator/(:segment)/(:segment)/(:segment)' => 'administrator/$1/$2/$3',
+    'test/(:segment)'                                => 'test/$1',
+    'test/(:segment)/(:segment)'                     => 'test/$1/$2',
+    'test/(:segment)/(:segment)/(:segment)'          => 'test/$1/$2/$3',
 );
 
 return array_merge($defaults, $routes);

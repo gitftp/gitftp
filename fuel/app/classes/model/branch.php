@@ -4,8 +4,10 @@ class Model_Branch extends Model {
     private $table = 'branches';
     public $user_id;
 
-    public function __construct() {
-        if (Auth::check()) {
+    public function __construct($user_id = NULL) {
+        if (!is_null($user_id)) {
+            $this->user_id = $user_id;
+        } elseif (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
@@ -38,9 +40,11 @@ class Model_Branch extends Model {
         return $q;
     }
 
-    public function get($id = NULL, $select = NULL) { // by deploy id
-        $q = DB::select_array($select);
-        $q = $q->from($this->table)->where('user_id', $this->user_id);
+    public function get($id = NULL, $select = NULL, $direct = FALSE) { // by deploy id
+        $q = DB::select_array($select)->from($this->table);
+
+        if (!$direct)
+            $q = $q->where('user_id', $this->user_id);
 
         if ($id != NULL) {
             $q = $q->and_where('deploy_id', $id);
@@ -58,6 +62,8 @@ class Model_Branch extends Model {
                 $a[$k]['purge_path'] = ($a[$k]['purge_path'] !== '0') ? unserialize($a[$k]['purge_path']) : array();
             if (isset($a[$k]['skip_path']))
                 $a[$k]['skip_path'] = ($a[$k]['skip_path'] !== '0') ? unserialize($a[$k]['skip_path']) : array();
+            if (isset($a[$k]['include_path']))
+                $a[$k]['include_path'] = ($a[$k]['include_path'] !== '0') ? unserialize($a[$k]['include_path']) : array();
         }
 
         return $a;
@@ -66,7 +72,7 @@ class Model_Branch extends Model {
     public function get_by_branch_id($branch_id, $select = NULL) {
         $q = DB::select_array($select)->from($this->table)->where('user_id', $this->user_id)->and_where('id', $branch_id)->execute()->as_array();
         $q = $this->unserializeData($q);
-
+        
         return $q;
     }
 
@@ -109,6 +115,9 @@ class Model_Branch extends Model {
         if (isset($set['purge_path']))
             $set['purge_path'] = serialize($set['purge_path']);
 
+        if (isset($set['include_path']))
+            $set['include_path'] = serialize($set['include_path']);
+
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
@@ -147,6 +156,9 @@ class Model_Branch extends Model {
         }
         if (isset($data['purge_path'])) {
             $data['purge_path'] = serialize($data['purge_path']);
+        }
+        if (isset($data['include_path'])) {
+            $data['include_path'] = serialize($data['include_path']);
         }
 
         $a = DB::insert($this->table)->set($data)->execute();

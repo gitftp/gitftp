@@ -41,11 +41,12 @@
                             </ul>
 
 
-                            <ul class="nav navbar-nav navbar-right">
-                                <li class="dropdown">
+                            <ul class="nav navbar-nav navbar-right nav-dropdown">
+                                <li class="dropdown settings">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                         aria-expanded="false">Account</a>
                                     <ul class="dropdown-menu" role="menu">
+                                        <li><a href="/settings/services"><i class="fa fa-play fa-fw"></i> Connected Accounts</a></li>
                                         <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
                                         <li class="divider"></li>
                                         <li><a href="<?php echo Uri::base(FALSE); ?>user/logout"><i

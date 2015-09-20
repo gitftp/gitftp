@@ -2,21 +2,9 @@
 
 class Controller_Hook extends Controller {
 
-    public function action_index() {
-        echo '';
-    }
-
     public function action_i($user_id = NULL, $deploy_id = NULL, $key = NULL) {
 
         try {
-            $body = @file_get_contents('php://input');
-            $fc = substr($body, 0, 1);
-            if ($fc == '{' || $fc == '[') {
-                // is json.
-                $payload = json_decode($body, TRUE);
-            } else {
-                die('Invalid header request. please refer to documentation.');
-            }
 
             if (Input::method() != 'POST')
                 die('Invalid method. This API only supports POST requests');
@@ -30,10 +18,18 @@ class Controller_Hook extends Controller {
             if ($key == NULL)
                 die('Project hook key missing, please refer to documentation.');
 
+            $body = @file_get_contents('php://input');
+            $fc = substr($body, 0, 1);
+            if ($fc == '{' || $fc == '[') {
+                // is json.
+                $payload = json_decode($body, TRUE);
+            } else {
+                die('Invalid header request. please refer to documentation.');
+            }
+
             $deploy = new Model_Deploy();
             $deploy->user_id = $user_id;
             $repo = $deploy->get($deploy_id, NULL);
-
 
             if (count($repo) == 0) {
                 die('The project was not found, please refer to documentation.');
@@ -61,11 +57,11 @@ class Controller_Hook extends Controller {
 
             foreach ($branches as $branchSingle) {
                 if ($branchSingle['auto'] == 0) {
-                    echo 'Environemnt auto-deploy is disabled.';
+                    echo 'Environment auto-deploy is disabled.';
                     continue;
                 }
                 if ($branchSingle['ready'] == 0) {
-                    echo 'Environemnt not ready, please deploy first.';
+                    echo 'Environment not ready, please deploy first.';
                     continue;
                 }
 

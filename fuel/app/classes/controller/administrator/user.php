@@ -10,7 +10,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
         $users = $users->execute()->as_array();
 
         foreach ($users as $k => $v) {
-            $user = new \Craftpip\Auth($v['id']);
+            $user = new \Craftpip\OAuth\Auth($v['id']);
             $users[$k]['verified'] = $user->getAttr('verified');
             $users[$k]['repol'] = $user->getAttr('project_limit');
         }
@@ -31,7 +31,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
     }
 
     public function get_edituser($user_id) {
-        $user = new \Craftpip\Auth($user_id);
+        $user = new \Craftpip\OAuth\Auth($user_id);
         $rl = $user->getAttr('project_limit');
         $v = $user->getAttr('verified');
 
@@ -45,7 +45,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
     }
 
     public function post_edituser($user_id) {
-        $user = new \Craftpip\Auth($user_id);
+        $user = new \Craftpip\OAuth\Auth($user_id);
         $user->setAttr('verified', Input::post('verified'));
         $user->setAttr('project_limit', Input::post('project_limit'));
 
@@ -60,7 +60,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
     public function post_add() {
         $i = Input::post();
 
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
 
         $id = $user->create_user(
             $i['username'],

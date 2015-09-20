@@ -205,8 +205,9 @@ define([
                 content: '',
                 columnClass: 'col-md-12',
                 animation: 'scale',
-                theme: 'supervan2'
-            })
+                theme: 'white', //supervan2,
+                animationBounce: 1.2,
+            });
             $jc.contentDiv.html($container);
             $jc.setDialogCenter();
             ftpview.validation();

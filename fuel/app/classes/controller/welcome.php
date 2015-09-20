@@ -9,8 +9,11 @@ class Controller_Welcome extends Controller_Homepage {
         $view->header = View::forge('home/layout/header');
         $view->footer = View::forge('home/layout/footer');
         $view->body = View::forge('home/welcome');
-
         return $view;
+    }
+
+    public function action_404(){
+        echo \View::forge('errors/404');
     }
 
 }

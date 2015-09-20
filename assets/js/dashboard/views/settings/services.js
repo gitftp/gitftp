@@ -3,38 +3,47 @@ define([
 ], function (page) {
     d = Backbone.View.extend({
         events: {
-            'click .services-btn button': 'linkService'
+            'click .linkService': 'linkService',
+            'click .unlinkService': 'unlinkService'
         },
         linkService: function (e) {
             e.preventDefault();
+            var $this = $(e.currentTarget);
+            var name = $this.data('name');
+            $this.html('<i class="gf gf-loading"></i> Connecting');
+            window.location = home_url + 'api/user/authorize/' + name;
+        },
+        unlinkService: function (e) {
+            e.preventDefault();
             var name = $(e.currentTarget).data('name');
-            window.location = home_url + 'api/user/oauth/' + name;
+
+            _ajax({
+                url: base + 'api/etc/unlink',
+                method: 'get',
+                data: {
+                    provider: name
+                },
+                dataType: 'json'
+            }).done(function (response) {
+                app_reload();
+            });
         },
         render: function () {
             var that = this;
             this.$el.html(this.$e = $('<div class="bb-loading side-anim">').addClass(viewClass()));
             this.template = _.template(page);
             setTitle('Services | Settings');
-            that.$e.html(that.template());
-            this.$e.find('.panel').addClass('panel-disabled panel-loading');
-            this.loadContent();
-        },
-        loadContent: function (e) {
-            var that = this;
+
             _ajax({
                 url: base + 'api/etc/services',
                 method: 'get',
                 dataType: 'json',
             }).done(function (response) {
-                $.each(response.data, function (i, a) {
-                    var provider = a.provider.toLowerCase();
-                    $('button[data-name="'+provider+'"]').prop('disabled', true);
-                    // select thing here.
-                });
-                that.$e.find('.panel').removeClass('panel-disabled panel-loading');
+                that.$e.html(that.template({
+                    'service': response.data
+                }));
             });
-        },
-
+        }
     });
     return d;
 });

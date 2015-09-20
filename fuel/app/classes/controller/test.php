@@ -5,16 +5,141 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_r() {
+        $id = '18';
+        $path = '/var/www/html/fuel/repository/228/test';
+        $process = new \Symfony\Component\Process\Process('rm * -rf ' . $path);
+        $process->run();
+//        if ($process->isSuccessful()) {
+//            print_r($process->getOutput());
+//        } else {
+//            print_r($process->getErrorOutput());
+//        }
+    }
+
+    public function get_p() {
+        $gitapi = new \Craftpip\GitApi();
+        $a = $gitapi->auth->getToken('bitbucket');
+
+        print_r($a);
+    }
+
+    public function get_o() {
+        $gitapi = new \Craftpip\GitApi();
+//        $repo = $gitapi->loadApi('bitbucket')->getHook('testrepo');
+        $repo = $gitapi->loadApi('bitbucket')->updateHook('testrepo', '{3bf36961-ba9d-41b2-8655-3c4c0119f78c}', 'http://craftpip.com');
+//        $repo = $gitapi->loadApi('bitbucket')->removeHook('testrepo', '{183c8b91-ec25-47a1-9e90-0a7e04e5b369}');
+        print_r($repo);
+//        $auth = new \Craftpip\OAuth\OAuth();
+//        $token = $auth->getToken('bitbucket');
+//        $refresh_token = $token->getrefreshToken();
+    }
+
+    public function get_q() {
+        $a = 'https://ab44005618fb9022aa617cd65e02bb1f754217a6@github.com/craftpip/testrepo.git';
+        $b = \Utils::gitGetBranches2($a);
+        print_r($b);
+        die;
+    }
+
+    public function action_authtest($provider) {
+        $auth = new \Craftpip\Oauth\Oauth();
+        $a = $auth->init($provider);
+        print_r($a);
+    }
+
+    public function action_gtest() {
+//        $instance = new \Bitbucket\API\Users();
+//        $instance->getClient()->addListener(
+//            new \Bitbucket\API\Http\Listener\OAuthListener(array(
+//                'oauth_consumer_key'    => 'mVjq4uHZzXpQrEggG3',
+//                'oauth_consumer_secret' => '3SuqwYwTPURaGsx54cZeCXxxxvvfLvTQ',
+//                'oauth_token'           => 'ST0gyfNOoDpQhSLrSe_tzrbVoVG825x_FUvylTt9sYO-H7PmtX2_AeT7ZmXU78LyLzJEabEDdqouJCCq',
+//            ))
+//        );
+//
+//        echo $instance->repositories('craftpip');
+
+        $client = new GuzzleHttp\Client();
+
+//        $client->
+        $res = $client->get('https://api.bitbucket.org/2.0/user/emails', [
+//            'query' => ['access_token' => 'ST0gyfNOoDpQhSLrSe_tzrbVoVG825x_FUvylTt9sYO-H7PmtX2_AeT7ZmXU78LyLzJEabEDdqouJCCq']
+            'headers' => ['Authorization' => 'Bearer iNdx_7fgV_FcyKJW1zhI0Iy7OzozWnEupS0gieLeafhy6b6bjbNb3AZH_cM6FigOPejFlh8MTBf4GSRUXQ==']
+        ]);
+
+//        $res = $client->get('https://api.bitbucket.org/2.0/repositories/craftpip', [
+//            'headers' => ['Authorization' => 'Bearer ST0gyfNOoDpQhSLrSe_tzrbVoVG825x_FUvylTt9sYO-H7PmtX2_AeT7ZmXU78LyLzJEabEDdqouJCCq']
+//        ]);
+
+//        $res = $client->get('https://api.bitbucket.org/2.0/repositories/craftpip?access_token=ST0gyfNOoDpQhSLrSe_tzrbVoVG825x_FUvylTt9sYO-H7PmtX2_AeT7ZmXU78LyLzJEabEDdqouJCCq');
+        echo $res->getStatusCode();
+        echo $res->getBody();
+
+//        $headers = ['hey' => 'something'];
+//        $request = new GuzzleHttp\Psr7\Request('GET', 'https://api.bitbucket.org/2.0/repositories/craftpip', $headers);
+    }
+
+    public function get_bb() {
+        $provider = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
+            'clientId'     => 'ZHqyDjdsukYXpu5DJD',
+            'clientSecret' => 'mvGtbMXbJPkesfVJ7Xfg5hzE9uRw32gG',
+            'redirectUri'  => 'http://stg.gitftp.com/test/bb'
+        ]);
+
+        if (!isset($_GET['code'])) {
+            // If we don't have an authorization code then get one
+            $authUrl = $provider->getAuthorizationUrl();
+            $_SESSION['oauth2state'] = $provider->getState();
+//            print_r($provider);
+//            die;
+            echo $authUrl;
+//            die();
+            header('Location: ' . $authUrl);
+            exit;
+
+            // Check given state against previously stored one to mitigate CSRF attack
+//        } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
+
+//            unset($_SESSION['oauth2state']);
+//            exit('Invalid state');
+
+        } else {
+
+            // Try to get an access token (using the authorization code grant)
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code']
+            ]);
+
+            // Optional: Now you have a token you can look up a users profile data
+            try {
+                // We got an access token, let's now get the user's details
+                $user = $provider->getResourceOwner($token);
+
+                // Use these details to create a new profile
+                printf('Hello %s!', $user->getId());
+
+            } catch (Exception $e) {
+
+                // Failed to get user details
+                exit('Oh dear...');
+            }
+
+            // Use this to interact with an API on the users behalf
+            echo $token->getToken();
+        }
+    }
+
     public function get_ab() {
         $record = new Model_Record();
         $record->insert(array(
-            'deploy_id'   => '30',
-            'record_type' => $record->type_service,
-            'branch_id'   => '57',
-            'date'        => time(),
-            'status'      => $record->in_queue,
-            'triggerby'   => 'Boniface',
-            'hash'        => '',
+            'deploy_id' => '30',
+//            'record_type' => $record->type_service,
+//            'branch_id'   => '57',
+            'date'      => time(),
+            'status'    => $record->in_queue,
+            'triggerby' => 'Boniface',
+            'hash'      => '',
         ));
 
         Gfcore::deploy_in_bg('30');
@@ -144,12 +269,15 @@ class Controller_Test extends Controller {
     }
 
     public function get_h() {
-
+        $b = "\Craftpip\OAuth\OAuth";
+        $o = new $b();
+        $a = $o->getToken('github');
+        print_r($a);
     }
 
     public function get_i() {
 
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
         $providers = $user->getProviders();
         $token = $providers[0]['access_token'];
         $client = new \Github\Client();
@@ -178,34 +306,54 @@ class Controller_Test extends Controller {
         print_r($a);
     }
 
-    public function get_k(){
+    public function get_k() {
         $path = Utils::get_repo_dir(48);
         $git = new \Craftpip\Git();
         $git->setRepository($path);
-        print_r($git->logBetween('c657d1c80','58efdc'));
+        print_r($git->logBetween('c657d1c80', '58efdc'));
     }
 
-
-    public function get_login(){
-        if(\Auth::instance()->login('boniface', 'asdasd')){
+    public function get_login() {
+        if (\Auth::instance()->login('boniface', 'asdasd')) {
             echo 'yes';
-        }else{
-            echo 'no';
-        }
-    }
-    public function get_checklogin(){
-        if(\Auth::instance()->check()){
-            echo 'yes';
-        }else{
+        } else {
             echo 'no';
         }
     }
 
+    public function get_checklogin() {
+        if (\Auth::instance()->check()) {
+            echo 'yes';
+        } else {
+            echo 'no';
+        }
+    }
 
-    public function get_l(){
+    public function get_l() {
         $gitapi = new \Craftpip\GitApi();
-        $a = $gitapi->loadApi('github')->getRepositories();
+        $a = $gitapi->getRepositories();
+//        $a = $gitapi->loadApi('bitbucket')->getRepositories();
         print_r($a);
     }
 
+    public function get_m() {
+        $gitapi = new \Craftpip\GitApi();
+        $a = $gitapi->loadApi('bitbucket');
+//        print_r($a);
+//        die();
+        $url = $gitapi->buildHookUrl(25, Str::random());
+//        $b = $gitapi->api->setHook('testrepo', $url);
+        $b = $gitapi->api->getHook('testrepo', '90f41620-7876-45e8-9171-b3f1584ea066');
+//        print_r($b);
+        $b = $gitapi->api->updateHook('testrepo', '90f41620-7876-45e8-9171-b3a1584ea066', $url);
+        print_r($b);
+//        $b = $gitapi->api->getHook('testrepo', '5565637');
+//        print_r($b);
+    }
+
+    public function get_n() {
+        $gitapi = new \Craftpip\GitApi();
+        $a = $gitapi->loadApi('bitbucket')->getRepositories();
+        print_r($a);
+    }
 }

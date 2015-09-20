@@ -1,5 +1,6 @@
 <section class="big-hero section background-wrapper fullscreen with-overlay black-overlay active-section" style="height: 567px;">
-    <div class="background-image parallax-background" data-stellar-background-ratio="0.5" style="background: url('<?php echo Asset::get_file('home.jpg', 'img') ?>') 0% 0%;">
+<!--    parallax-background/-->
+    <div class="background-image background-move" data-stellar-background-ratio="0.5" style="background: url('<?php echo Asset::get_file('stardust.png', 'img') ?>') 0% 0%;">
     </div>
     <div class="container middle-content">
         <div class="row">
@@ -27,14 +28,28 @@
     <!--    <a href="#about" title="" class="scroll-down"><i class="fa animated infinite bounce ti-arrow-down"></i></a>-->
 </section>
 
+<section class="section background-wrapper small-padding with-overlay info-overlay active-section" style="overflow: initial">
+    <div class="background-image" style="background: url('<?php echo Asset::get_file('home.jpg', 'img') ?>') 50% 0%;">
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">
+                    <?php echo Asset::img('browser.png', array(
+                        'style' => 'transform: translate(0px, -70px);box-shadow: 0 5px 12px rgba(0,0,0,.4);border-radius: 9px;'
+                    )); ?>
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section class="section active-section small-padding">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
                 <h3 class="lighter uppercase-text b">Perfect for your project</h3>
-
                 <p class="lead">You code, we deploy. Simple.</p>
-
                 <div class="space hidden-sm hidden-xs"></div>
             </div>
             <div class="col-md-4">
@@ -140,28 +155,8 @@
             </div>
             <div class="col-md-6 col-md-offset-1">
                 <div class="embed-responsive embed-responsive-16by9">
-                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Q8TXgCzxEnw" frameborder="0" allowfullscreen=""></iframe>
+<!--                    <iframe width="560" height="315" src="https://www.youtube.com/embed/Q8TXgCzxEnw" frameborder="0" allowfullscreen=""></iframe>-->
                 </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<section class="section background-wrapper big-padding with-overlay info-overlay active-section">
-    <div class="background-image" style="background: url(demo/hero/big1.jpg) 50% 0%;">
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-5">
-                <h2 class="lighter">
-                    <strong>Material</strong> is an internationally renowned creative agency that makes kick ass branding, design &amp; film.
-                </h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>
-
-                <p><a href="#" class="btn btn-punch btn-link btn-white">What We Do</a>
-                    <a href="#" class="btn btn-punch btn-link btn-white">Get In Touch</a></p>
             </div>
         </div>
     </div>

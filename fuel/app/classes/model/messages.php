@@ -2,12 +2,14 @@
 
 class Model_Messages extends Model {
 
-    public $type_feedback = 1;
     private $table = 'messages';
+    public $type_feedback = 1;
     public $user_id;
 
-    public function __construct() {
-        if (Auth::check()) {
+    public function __construct($user_id = NULL) {
+        if (!is_null($user_id)) {
+            $this->user_id = $user_id;
+        } elseif (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
@@ -15,7 +17,6 @@ class Model_Messages extends Model {
     }
 
     public function get($id = NULL, $type = NULL, $direct = FALSE, $order = 'ASC') {
-
         $q = DB::select()->from($this->table);
 
         if (!$direct) {
@@ -49,11 +50,20 @@ class Model_Messages extends Model {
     }
 
     public function delete($id, $direct = FALSE) {
-        return DB::delete($this->table)->where('id', $id)->execute();
+        $a = DB::delete($this->table)->where('id', $id);
+        if (!$direct)
+            $a = $a->and_where('user_id', $this->user_id);
+
+        return $a->execute();
     }
 
-    public function insert($ar) {
-        $ar['user_id'] = $this->user_id;
+    public function insert($ar, $user_id = NULL) {
+        if (is_null($user_id)) {
+            $ar['user_id'] = $this->user_id;
+        } else {
+            $ar['user_id'] = $user_id;
+        }
+
         $r = DB::insert($this->table)
             ->set($ar)
             ->execute();

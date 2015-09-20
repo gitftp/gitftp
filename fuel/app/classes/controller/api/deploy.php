@@ -5,7 +5,7 @@ use Symfony\Component\Process\Process;
 class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
     public function get_limit() {
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
         $limit = $user->getAttr('project_limit');
         $deploy = new Model_Deploy();
         $deploy_data = $deploy->get(NULL, array('id', 'cloned'));
@@ -69,15 +69,36 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         $is_active = $record->is_queue_active($id);
 
         try {
-            if ($is_active) {
+            if ($is_active)
                 throw new Exception('Deployment is in progress, please try again later.');
-            }
+
             $deploy = new Model_Deploy();
+            $deploy_data = $deploy->get($id);
+            if (count($deploy_data) !== 1)
+                throw new \Craftpip\Exception('Something went wrong, please try again later.');
+
+            $deploy_data = $deploy_data[0];
+            $hook_id = $deploy_data['git_hook_id'];
+            if ($hook_id) {
+                $gitapi = new \Craftpip\GitApi();
+                $provider = \Utils::parseProviderFromRepository($deploy_data['repository']);
+                try {
+                    $gitapi->loadApi($provider)->removeHook($deploy_data['git_name'], $hook_id);
+                } catch (Exception $e) {
+                    // if it fails? Its because maybe the user has re authenticated himself from another account.
+                }
+            }
+
             $answer = $deploy->delete($id);
+            $path = \Utils::get_repo_dir($id);
+            $process = new Process('rm * -rf ' . $path);
+            $process->run();
+
             if ($answer) {
                 $response = array(
                     'status'  => TRUE,
                     'request' => $id,
+                    'data'    => $process->getOutput()
                 );
             } else {
                 throw new Exception('We got confused, please try again later.');
@@ -97,19 +118,80 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         try {
             $i = Input::post();
             // todo: verify all details.
-
-
-            $user = new \Craftpip\Auth();
+            $user = new \Craftpip\OAuth\Auth();
             $limit = $user->getAttr('project_limit');
             $deploy = new Model_Deploy();
             $deploy_data = $deploy->get(NULL, array(
                 'id', 'cloned'
             ));
+
             if (count($deploy_data) >= $limit) {
-                throw new Exception('Sorry, project limit has reached.');
+                throw new \Craftpip\Exception('Sorry, project limit has reached.');
             }
 
-            $deploy_id = $deploy->create($i['repo'], $i['name'], $i['username'], $i['password'], $i['key'], $i['env'], 1);
+            $gitapi = new \Craftpip\GitApi();
+
+            if ($i['type'] == 'service') {
+                $type = 'service';
+                $repo = $i['repo'];
+                $username = '';
+                $password = '';
+                $name = $i['name'];
+                $key = $i['key'];
+                $env = $i['env'];
+                $gitname = $i['gitname'];
+                $gitid = $i['gitid'];
+                $active = 1;
+                $branches = $gitapi->loadApi($i['provider'])->getBranches($i['gitname']);
+            } else {
+                $type = 'manual';
+                $repo = $i['repo'];
+                $name = $i['name'];
+                $username = $i['username'];
+                $password = $i['password'];
+                $key = $i['key'];
+                $env = $i['env'];
+                $gitname = '';
+                $gitid = '';
+                $active = 1;
+                $branches = \Utils::gitGetBranches($repo, $username, $password);
+            }
+
+            if (empty($key) || !$key || is_null($key))
+                $key = \Str::random('hexdec', 10);
+
+            if (!$branches) {
+                throw new \Craftpip\Exception('Could not connect to repository.');
+            }
+
+            $deploy_id = $deploy->create($gitid, $gitname, $type, $repo, $name, $username, $password, $key, $env, $active, $branches);
+
+            if ($deploy_id && $i['type'] == 'service') {
+                // set the web hook.
+                try {
+                    $url = $gitapi->buildHookUrl($deploy_id, $key);
+                    $a = $gitapi->loadApi($i['provider'])->setHook($gitname, $url);
+                    $deploy->set($deploy_id, array(
+                        'git_hook_id' => $a['id']
+                    ));
+                } catch (Exception $e) {
+                    // If there is an error is setting the hook, delete the created deploy, and show an error.
+                    $deploy->delete($deploy_id);
+                    throw new \Craftpip\Exception('The project could not be created, please try again.');
+                }
+            }
+
+            $record = new \Model_Record();
+            $set = array(
+                'deploy_id'   => $deploy_id,
+                'branch_id'   => NULL,
+                'date'        => time(),
+                'triggerby'   => '',
+                'status'      => $record->in_queue,
+                'record_type' => $record->type_first_clone,
+            );
+            $record->insert($set);
+            \Utils::startDeploy($deploy_id);
 
             if ($deploy_id) {
                 $response = array(
@@ -117,9 +199,12 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                     'request' => $i
                 );
             } else {
-                throw new Exception('Sorry, we got confused.');
+                throw new \Craftpip\Exception('Sorry, the request could not be processed. Please try again later.');
             }
+
         } catch (Exception $e) {
+            throw $e;
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status'  => FALSE,
                 'request' => $i,
@@ -128,6 +213,10 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         }
 
         $this->response($response);
+    }
+
+    public function get_startdeploy() {
+        \Utils::startDeploy(19);
     }
 
     public function post_update($id) {
@@ -218,7 +307,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $branch = new Model_Branch();
             $deploy = new Model_Deploy();
             $deploy_id = $i['deploy_id'];
-            $repo_dir = Utils::get_repo_dir($deploy_id);
+            $repo_dir = \Utils::get_repo_dir($deploy_id);
             $git = new \Craftpip\Git();
             $git->setRepository($repo_dir);
 
@@ -290,10 +379,9 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                             $a = $git->run($process);
 
                             $f = strpos($a, $singlebranch['branch_name']);
-                            if(empty($f)){
+                            if (empty($f)) {
                                 throw new Exception('The hash does not belong to the current environment branch.');
                             }
-
                             break;
 
                         default:
@@ -306,7 +394,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 }
             }
 
-            Gfcore::deploy_in_bg($deploy_id);
+            \Gfcore::deploy_in_bg($deploy_id);
             $response = array(
                 'status' => TRUE,
             );

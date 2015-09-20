@@ -62,6 +62,10 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                 $createData['skip_path'] = ($i['skip_path'] !== '') ? explode(',', $i['skip_path']) : array();
             }
 
+            if (isset($i['include_path'])) {
+                $createData['include_path'] = ($i['include_path'] !== '') ? explode(',', $i['include_path']) : array();
+            }
+
             if (isset($i['purge_path'])) {
                 $createData['purge_path'] = ($i['purge_path'] !== '') ? explode(',', $i['purge_path']) : array();
             }

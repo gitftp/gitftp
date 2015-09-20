@@ -7,6 +7,8 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Suin\\RSSWriter' => array($vendorDir . '/suin/php-rss-writer/Source'),
+    'SecurityLib' => array($vendorDir . '/ircmaxell/security-lib/lib'),
+    'RandomLib' => array($vendorDir . '/ircmaxell/random-lib/lib'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
@@ -17,5 +19,5 @@ return array(
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
     'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
     'Bitbucket\\' => array($vendorDir . '/gentle/bitbucket-api/lib'),
-    '' => array($vendorDir . '/opauth/github', $vendorDir . '/kzykhys/git/src', $vendorDir . '/opauth/bitbucket'),
+    '' => array($vendorDir . '/kzykhys/git/src'),
 );

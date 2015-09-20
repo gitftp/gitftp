@@ -1,23 +1,33 @@
-<div class="page-head">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="head">Dashboard</div>
-            <!--<div class="subhead">Have a glance at your repositories and activities</div>-->
-        </div>
-    </div>
-</div>
-<div class="head-body-divider"></div>
+<!--<div class="page-head">-->
+<!--<div class="row">-->
+<!--<div class="col-md-8">-->
+<!--<div class="head">Dashboard</div>-->
+<!--<div class="subhead">Have a glance at your repositories and activities</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<div class="space20"></div>
+<div class="space20"></div>
 <div class="row">
     <div class="col-md-8">
+        <% if(data.account.ftp == 0){ %>
         <div class="space20"></div>
-        <div class="space20"></div>
-        <div class="space20"></div>
-        <div class="space20"></div>
-        <div style="text-align: center; font-size: 20px;">
-            <i class="fa fa-wrench fa-3x"></i>
-            <div class="space10"></div>
-            <strong>Under work.</strong>
+        <div class="text-left" style="font-size: 30px;">
+            <strong>Lets get started.</strong>
         </div>
+        <div class="space20"></div>
+
+        <p>
+            This is your dashboard, you first need to create a new FTP server.
+        </p>
+
+        <p>
+            <a href="/ftp/add"><strong>ADD FTP SERVER</strong></a> &nbsp;
+            <a href="/ftp/add" class="btn btn-info btn-circle btn-circle-lg">
+                <i class="fa fa-arrow-right fa-fw"></i>
+            </a>
+        </p>
+        <% } %>
     </div>
     <div class="col-md-4">
         <div class="panel panel-default">
@@ -52,7 +62,3 @@
         </div>
     </div>
 </div>
-
-<div class="space20"></div>
-<div class="space20"></div>
-<div class="space20"></div>

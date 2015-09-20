@@ -73,13 +73,13 @@ define([], function () {
 
             $.confirm({
                 title: (this.branch.ready == '1') ? 'Re-upload all files?' : 'Upload all files?',
-                icon: 'fa fa-info blue',
+                icon: 'fa fa-info orange',
                 content: 'All files from repository will be uploaded. <br>' +
-                'This operation may consume time as it depends on number of files & sizes.',
+                '<span class="gray">This might take some time depending on the size of your repository</span>',
                 confirmButton: 'Deploy',
                 confirm: function () {
                     var jc = this;
-                    jc.$confirmButton.html('<i class="fa fa-spinner fa-spin"></i> ' + jc.confirmButton).prop('disabled', true);
+                    jc.$confirmButton.html('<i class="gf gf-loading gf-btn"></i> ' + jc.confirmButton).prop('disabled', true);
 
                     _ajax({
                         url: dash_url + 'api/deploy/run/',
@@ -134,7 +134,7 @@ define([], function () {
                 confirm: function () {
                     var jc = this;
                     var $input = jc.$b.find('input').prop('readonly', true);
-                    jc.$confirmButton.prop('disabled', true);
+                    jc.$confirmButton.html('<i class="gf gf-loading gf-btn"></i> ' + jc.confirmButton).prop('disabled', true);
                     var hash = $input.val();
 
                     _ajax({
@@ -166,7 +166,7 @@ define([], function () {
                         }
                     }).always(function(){
                         $input.prop('readonly', false);
-                        jc.$confirmButton.prop('disabled', false);
+                        jc.$confirmButton.html(jc.confirmButton).prop('disabled', false);
                     });
                     return false;
                 },

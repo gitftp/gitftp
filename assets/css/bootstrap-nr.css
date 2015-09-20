@@ -2379,7 +2379,7 @@ input[type="search"] {
     }
 }
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 .radio,
 .checkbox {
@@ -2618,7 +2618,7 @@ select[multiple].form-group-lg .form-control {
     display: block;
     margin-top: 5px;
     margin-bottom: 10px;
-    color: #D3D3D3;
+    color: #A0A0A0;
 }
 @media (min-width: 768px) {
     .form-inline .form-group {
@@ -3604,7 +3604,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav > li > a {
     position: relative;
     display: block;
-    padding: 10px 15px;
+    padding: 10px 20px;
 }
 .nav > li > a:hover,
 .nav > li > a:focus {

@@ -1,11 +1,7 @@
 <?php
 
 class Model_Record extends Model {
-
-    // table name
     private $table = 'records';
-
-    // user_id for filtering data for current logged in user.
     public $user_id;
 
     // status states
@@ -16,27 +12,25 @@ class Model_Record extends Model {
 
     // update files to the latest.
     public $type_update = '0';
-
     // update all files, to the latest.
     public $type_sync = '1';
-
     // rollback or front to a particular hash.
     public $type_rollback = '2';
-
     // push from service. Github or bitbucket.
     public $type_service_push = '3';
+    // First deploy.
+    public $type_first_clone = '4';
 
-    // Wheather if to check for user related content.
-    public $direct = FALSE;
 
-    public function __construct() {
-        if (Auth::check()) {
+    public function __construct($user_id = NULL) {
+        if (!is_null($user_id)) {
+            $this->user_id = $user_id;
+        } elseif (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
         }
     }
-
 
     /**
      * Returns latest id, hash, date record by branch_id.
@@ -49,7 +43,6 @@ class Model_Record extends Model {
 
         return $result->execute()->as_array();
     }
-
 
     /**
      * Get only last row from queue.
@@ -102,13 +95,12 @@ class Model_Record extends Model {
      * @param bool $limit
      * @param bool $offset
      * @param bool $status
+     * @param bool $direct
      * @return mixed
      *
      * returns everything except raw and post_data.
      */
-    public
-    function get($id = NULL, $limit = FALSE, $offset = FALSE, $status = FALSE) {
-
+    public function get($id = NULL, $limit = FALSE, $offset = FALSE, $status = FALSE, $direct = FALSE) {
         $q = DB::select_array(array(
             'id',
             'deploy_id',
@@ -133,8 +125,7 @@ class Model_Record extends Model {
             'processed_files',
         ))->from($this->table);
 
-        // if direct is set, doesnt check for user_id.
-        if (!$this->direct) {
+        if (!$direct) {
             $q = $q->where('user_id', $this->user_id);
         }
 
@@ -177,8 +168,7 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public
-    function get_raw_by_record($record_id, $direct = FALSE) {
+    public function get_raw_by_record($record_id, $direct = FALSE) {
         $q = DB::select('raw')->from($this->table)->where('id', $record_id);
 
         if (!$direct) {
@@ -195,8 +185,7 @@ class Model_Record extends Model {
      * @param $deploy_id
      * @return mixed
      */
-    public
-    function get_raw_by_deploy($deploy_id, $direct = FALSE) {
+    public function get_raw_by_deploy($deploy_id, $direct = FALSE) {
         $q = DB::select('raw')->from($this->table)->where('deploy_id', $deploy_id);
 
         if (!$direct) {
@@ -213,8 +202,7 @@ class Model_Record extends Model {
      * @param $record_id
      * @return mixed
      */
-    public
-    function get_post_data_by_record($record_id, $direct = FALSE) {
+    public function get_post_data_by_record($record_id, $direct = FALSE) {
         $q = DB::select('post_data')->from($this->table)->where('id', $record_id);
 
         if (!$direct) {
@@ -232,8 +220,7 @@ class Model_Record extends Model {
      * @param $deploy_id
      * @return mixed
      */
-    public
-    function get_post_data_by_deploy($deploy_id) {
+    public function get_post_data_by_deploy($deploy_id) {
         $q = DB::select('post_data')->from($this->table)->where('deploy_id', $deploy_id)->execute()->as_array();
 
         return $q;
@@ -271,7 +258,6 @@ class Model_Record extends Model {
         return $result[0]['deploy_count'];
     }
 
-
     /**
      * COLUMNS:
      * id,
@@ -294,8 +280,7 @@ class Model_Record extends Model {
      *
      * @param type $ar
      */
-    public
-    function set($id, $set = array(), $direct = FALSE) {
+    public function set($id, $set = array(), $direct = FALSE) {
 
         if (!$direct) {
             $a = DB::select()->from($this->table)->where('id', $id)->execute()->as_array();
@@ -335,8 +320,7 @@ class Model_Record extends Model {
      * @param bool $user
      * @return mixed
      */
-    public
-    function insert($ar, $user = FALSE) {
+    public function insert($ar, $user = FALSE) {
         if (!$user) {
             $ar['user_id'] = $this->user_id;
         } else {
@@ -348,8 +332,7 @@ class Model_Record extends Model {
         return $r[0];
     }
 
-    public
-    function delete($id, $direct = FALSE) {
+    public function delete($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);
@@ -363,8 +346,7 @@ class Model_Record extends Model {
         return DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public
-    function delete_by_branch_id($id, $direct = FALSE) {
+    public function delete_by_branch_id($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('branch_id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);
@@ -378,8 +360,7 @@ class Model_Record extends Model {
         return DB::delete($this->table)->where('branch_id', $id)->execute();
     }
 
-    public
-    function delete_by_deploy_id($id, $direct = FALSE) {
+    public function delete_by_deploy_id($id, $direct = FALSE) {
         $a = DB::select('id')->from($this->table)->where('deploy_id', $id);
         if (!$direct) {
             $a = $a->and_where('user_id', $this->user_id);

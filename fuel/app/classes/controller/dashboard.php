@@ -7,7 +7,8 @@ class Controller_Dashboard extends Controller {
         }
 
         if (!\Auth::instance()->check()) {
-            Response::redirect(home_url . 'login#');
+            $a = substr($_SERVER['REQUEST_URI'], 1);
+            Response::redirect(home_url . 'login?ref=' . urlencode(dash_url . $a));
         }
 
         $view = View::forge('dash/base_layout.mustache');
@@ -16,6 +17,7 @@ class Controller_Dashboard extends Controller {
         $view->header = View::forge('dash/header');
         $view->footer = View::forge('dash/footer');
         $view->body = View::forge('dash/dashboard');
+
         return $view;
     }
 }

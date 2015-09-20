@@ -57,7 +57,7 @@ return array(
     'expiration_time'        => 0,
 
     // session ID rotation time  (optional, default = 300) Set to false to disable rotation
-    'rotation_time'          => 300,
+    'rotation_time'          => false,
 
     // default ID for flash variables  (optional, default = 'flash')
     'flash_id'               => 'flash',

@@ -271,13 +271,11 @@ return array(
          * );
          */
         'packages' => array(
-            'gitcore',
             'bridge',
             'craftpip',
             'auth',
             'email',
             'parser',
-            'gfcore',
         ),
     ),
     /**

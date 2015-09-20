@@ -4,7 +4,7 @@ class Controller_Administrator_Feedback extends Controller_Administrator_Adminch
     public function action_index() {
         $messages = new Model_Messages();
         $feedback = $messages->get(NULL, $messages->type_feedback, TRUE, 'DESC');
-        $user = new \Craftpip\Auth();
+        $user = new \Craftpip\OAuth\Auth();
 
         foreach ($feedback as $k => $f) {
             $user->setId($f['user_id']);

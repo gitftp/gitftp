@@ -30,7 +30,7 @@ define([
                 dataType: 'json',
                 method: 'get',
                 data: {
-                    select: 'id,created_at,name,repository'
+                    select: 'id,created_at,name,repository,git_name'
                 }
             }).done(function (data) {
                 var template = that.template({'list': data.data});

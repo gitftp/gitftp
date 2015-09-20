@@ -1,10 +1,8 @@
-<% JSON.stringify(s) %>
 <div class="is-deploy-view-id" data-id="<%= s.id %>"></div>
-
 <div class="page-head">
     <div class="row">
         <div class="col-md-8 col-sm-8 col-xs-4">
-            <div class="head"><i class="fa fa-<%= (s.provider) ? ((s.provider.toLowerCase() == 'github') ? s.provider.toLowerCase()+'-alt' : s.provider.toLowerCase()) : 'cloud' %>"></i>&nbsp; <%= s.name %></div>
+            <div class="head"><i class="fa fa-<%= (s.git_name) ? s.provider.toLowerCase() : 'cloud' %>"></i>&nbsp;<%= s.name %></div>
             <div class="subhead" style="color: #aaa"><%= s.repository %></div>
         </div>
         <div class="col-md-4 col-sm-4 col-xs-4">
@@ -36,12 +34,13 @@
                     <a href="/project/<%= s.id %>/settings" class="list-group-item page-subview subview-settings"><i class="fa fa-gear fa-fw"></i> Settings</a>
                 </div>
                 <div class="space10"></div>
-                <div style="color: #aaa">
-                    <label>
-                        POST hook url:
-                    </label>
+                <% if(!s.git_name){ %>
+                <div class="posthook">
+                    <label>Auto deploy hook url:</label>
                     <input class="form-control" readonly style="font-family: consolas; font-size: 12px; background: transparent; cursor: default;" value="<%= base %>hook/i/<%= s.user_id %>/<%= s.id %>/<%= s.key %>">
+                    <p>This project was setup manually. Please add the hook url to your repository's webhook. <a href="#learnmore">learn more</a> </p>
                 </div>
+                <% } %>
             </div>
         </div>
     </div>
@@ -67,8 +66,3 @@
         <div class="deploy-sub-page bb-loading"></div>
     </div>
 </div>
-
-<div class="space20"></div>
-<div class="space20"></div>
-<div class="space20"></div>
-<div class="space20"></div>

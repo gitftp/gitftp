@@ -85,7 +85,7 @@
         });
     };
     var parallax_image = function ($this) {
-        $.stellar({horizontalScrolling: false, responsive: true});
+        //$.stellar({horizontalScrolling: false, responsive: true});
     }
     var fullscreen_section = function ($this) {
         $this.find('.fullscreen').each(function () {

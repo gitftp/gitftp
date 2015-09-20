@@ -1,6 +1,7 @@
 <?php
 namespace Fuel\Tasks;
 use Fuel\Core\Cli;
+
 /**
  * Class Crontask
  * @package Fuel\Tasks
@@ -8,7 +9,6 @@ use Fuel\Core\Cli;
  * Base start here.
  */
 class Crontask {
-
     /**
      * NOT USED YET.
      * Iterates through all deploy, finding which one is not deployed, and starts its deployment.
@@ -40,6 +40,23 @@ class Crontask {
         Cli::write("Starting with $deploy_id");
         $gfcore = new \Gfcore($deploy_id);
         $gfcore->deploy();
+        $this->output('RAM USED: '.\Utils::humanize_data(memory_get_usage(true)));
         Cli::beep();
     }
+
+    /**
+     * Actual function that is called from CLI.
+     * @param null $deploy_id
+     * @return string
+     * @throws \Exception
+     */
+    public function deploy2($deploy_id) {
+        \Cli::write('ENVIRONMENT: '.\Fuel::$env);
+        \Cli::write("Starting with $deploy_id");
+        $gfcore = new \Deploy($deploy_id);
+        $gfcore->init();
+        \Cli::write('RAM USED: '.\Utils::humanize_data(memory_get_usage(true)));
+        \Cli::beep();
+    }
+
 }

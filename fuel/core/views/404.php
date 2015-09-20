@@ -13,7 +13,7 @@
 <br/>
 <h4 class="text-center">404, We could not find anything for the requested URL.</h4>
 <p class="text-center">
-    Requested: <em><?php echo Uri::current(); ?></em>
+    Requested: <em><?php echo $_SERVER['REQUEST_URI']; ?></em>
 </p>
 <p class="text-center">
     <a href="<?php echo home_url; ?>" class="btn btn-info">RETURN HOME</a>

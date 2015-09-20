@@ -1,5 +1,3 @@
-@import url(http://fonts.googleapis.com/css?family=Bitter);
-
 body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 13px;
@@ -7,10 +5,6 @@ body {
   color: #222222;
   font-weight: 400;
   background-color: @bg;
-}
-
-.b {
-  font-family: 'Bitter', serif;
 }
 
 .small-text {
@@ -2147,10 +2141,22 @@ ul.portfolio-list li span:first-child {
   left: 0px;
   width: 100%;
   height: 100%;
-  background-size: cover !important;
+//  background-size: cover !important;
   z-index: 0;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+//  background-repeat: no-repeat;
+//  background-attachment: fixed;
+}
+
+.section.background-wrapper .background-move {
+  animation: bg 4000s infinite linear;
+}
+@keyframes bg {
+  from {
+    background-position: 0 0 ;
+  }
+  to {
+    background-position: 100000px -100000px;
+  }
 }
 
 .section.background-wrapper .video-wrapper, .section .background-wrapper .video-wrapper, .paper.background-wrapper .video-wrapper, .paper .background-wrapper .video-wrapper {
@@ -3022,13 +3028,13 @@ ul.portfolio-list li span:first-child {
 }
 
 #header.sticky {
-  line-height: 60px;
-  height: 60px;
+//  line-height: 60px;
+//  height: 60px;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 9999;
-  background-color: #FFF !important;
+  background-color: rgba(255,255,255,0.95) !important;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -3036,10 +3042,6 @@ ul.portfolio-list li span:first-child {
   -moz-box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-#header.sticky .logo a {
-  height: 60px;
 }
 
 #header.sticky.white-header img.standard-logo.black-logo, #header.sticky.black-header img.standard-logo.black-logo {
@@ -3070,7 +3072,6 @@ ul.portfolio-list li span:first-child {
 
 #header.sticky .menu ul li a, #header.sticky .menu-toggle {
   color: #222222 !important;
-  line-height: 60px;
   border: none !important;
 }
 

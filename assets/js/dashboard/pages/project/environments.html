@@ -13,7 +13,6 @@
                     <code><i class="fa fa-code-fork"></i> <%= a.branch_name %></code>
                     <br/>
                     <span class="onrevision">Revision: </span><span class="revision"><%= (a.revision) ? a.revision.substr(0, 6) : 'None' %></span>
-
                     <br/>
                     <!--<span class="autodeploy"><%= (a.ready == 1) ? '<i class="fa fa-check"></i> Ready' : 'Not deployed yet.' %></span>-->
                     <span class="autodeploy"><%= (a.auto == 1) ? ' <i class="fa fa-check green"></i>&nbsp; Auto-deploy enabled' : 'Auto-deploy disabled.' %></span>

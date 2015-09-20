@@ -5,9 +5,15 @@ class Model_Deploy extends Model {
     public $user_id;
     public $id = NULL; // deploy id.
 
-    public function __construct() {
-        if (\Auth::instance()->check()) {
-            list(, $this->user_id) = \Auth::instance()->get_user_id();
+    public $clone_success = 1;
+    public $clone_failed = 0;
+    public $clone_working = 2;
+
+    public function __construct($user_id = null) {
+        if(!is_null($user_id)){
+            $this->user_id = $user_id;
+        }elseif (Auth::check()) {
+            $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
         }
@@ -29,12 +35,11 @@ class Model_Deploy extends Model {
         }
 
         $a = $q->execute()->as_array();
-
         foreach ($a as $k => $v) {
             $id = $v['id'];
             $a[$k]['status'] = $this->getStatus($id, $v);
             if (isset($v['repository']))
-                $a[$k]['provider'] = Utils::parseProviderFromRepository($v['repository']);
+                $a[$k]['provider'] = \Utils::parseProviderFromRepository($v['repository']);
 
             if (isset($v['password']))
                 $a[$k]['password'] = \Crypt::instance()->decode($a[$k]['password']);
@@ -43,6 +48,7 @@ class Model_Deploy extends Model {
         return $a;
     }
 
+    // todo: compatible to new record type. init Something ...
     public function getStatus($id, $data = NULL) {
         $status = '';
 
@@ -68,12 +74,16 @@ class Model_Deploy extends Model {
             }
 
             $env = $branch->get_by_branch_id($active_records[0]['branch_id']);
-            $env = $env[0]['name'];
 
             $processed_files = ($processed_files !== 0) ? $processed_files : '&hellip;';
             $total_files = ($total_files !== 0) ? $total_files : '&hellip;';
 
-            $status = "Deploying to $env | $processed_files of $total_files files";
+            if(!empty($env)){
+                $env = $env[0]['name'];
+                $status = "Deploying to $env | $processed_files of $total_files files";
+            }else{
+                $status = "Preparing project...";
+            }
         } else if ($data['cloned'] == 0) {
             $status = 'To be initialized';
         } else if ($data['cloned'] == 2) {
@@ -137,26 +147,16 @@ class Model_Deploy extends Model {
             // folder doesnt exist.!!
         }
 
-        return DB::delete($this->table)->where('id', $id)->execute();
+        return \DB::delete($this->table)->where('id', $id)->execute();
     }
 
-    public function create($repo_url, $name, $username = NULL, $password = NULL, $key = NULL, $env, $active = 0) {
-
+    public function create($gitid, $gitname, $type, $repo_url, $name, $username = NULL, $password = NULL, $key = NULL, $env, $active = 0, $branches) {
         if (!$this->user_id) {
-            return FALSE;
+            throw new \Craftpip\Exception('No logged in user found.');
         }
 
         if (!count($env)) {
-            throw new Exception('Atleast one env required.');
-        }
-
-        if (empty($key) || !$key)
-            $key = Str::random('hexdec', 16);
-
-        $branches = Utils::gitGetBranches($repo_url, $username, $password);
-
-        if (!$branches) {
-            throw new Exception('Could not connect to repository.');
+            throw new \Craftpip\Exception('Atleast one environement is required.');
         }
 
         $fields = array(
@@ -168,16 +168,17 @@ class Model_Deploy extends Model {
             'env'      => $env,
         );
 
-        $v = Validation::forge();
+        $v = \Validation::forge();
         $v->add_field('repo', '', 'required|valid_url');
         $v->add_field('name', '', 'required');
         $v->add_field('key', '', 'required');
         $selectedFtps = [];
+
         foreach ($env as $k => $e) {
             $v->add_field('env[' . $k . '][env_name]', '', 'required');
             $v->add_field('env[' . $k . '][env_branch]', '', 'required');
-            if (!Arr::in_array_recursive($e['env_branch'], $branches)) {
-                throw new Exception('Sorry, we got confused.');
+            if (!\Arr::in_array_recursive($e['env_branch'], $branches)) {
+                throw new \Craftpip\Exception('Sorry, we got confused.');
             }
             $selectedFtps[] = $e['env_ftp'];
             $v->add_field('env[' . $k . '][env_ftp]', '', 'required');
@@ -187,13 +188,13 @@ class Model_Deploy extends Model {
         // todo: validation for ftp already in use.
 
         if (count($selectedFtps) !== count(array_unique($selectedFtps)))
-            throw new Exception('Sorry, we got confused.');
+            throw new \Craftpip\Exception('Sorry, we got confused.');
 
         if (!$v->run($fields))
-            throw new Exception('Sorry, we got confused.');
+            throw new \Craftpip\Exception('Sorry, we got confused.');
 
         if ($this->user_id == '*')
-            throw new Exception('Sorry, we got confused, please refresh your page and try again.');
+            throw new \Craftpip\Exception('Sorry, we got confused, please refresh your page and try again.');
 
         $deploy_id = DB::insert($this->table)->set(array(
             'repository' => $repo_url,
@@ -204,6 +205,8 @@ class Model_Deploy extends Model {
             'password'   => ($password) ? \Crypt::instance()->encode($password) : '',
             'key'        => $key,
             'cloned'     => 0,
+            'git_name'   => $gitname,
+            'git_id'     => $gitid,
             'created_at' => date("Y-m-d H:i:s", (new DateTime())->getTimestamp()),
         ))->execute();
 
@@ -225,7 +228,7 @@ class Model_Deploy extends Model {
         if ($deploy_id[1] !== 0) {
             return $deploy_id[0];
         } else {
-            throw new Exception('Sorry, we got confused, please refresh your page and try again.');
+            throw new \Craftpip\Exception('Sorry, we got confused, please refresh your page and try again.');
         }
     }
 }

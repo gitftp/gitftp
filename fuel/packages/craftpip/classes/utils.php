@@ -57,6 +57,52 @@ class Utils {
     }
 
     /**
+     * Executes an Git command and returns the results.
+     * if there is no output throw exception.
+     * $repo,
+     * $username,
+     * $password,
+     *
+     * @param type $arg
+     */
+    public static function gitGetBranches2($repo, $username = NULL, $password = NULL) {
+        $repo_url = parse_url($repo);
+        if (!is_null($username)) {
+            $repo_url['user'] = $username;
+        }
+        if (!is_null($password)) {
+            $repo_url['pass'] = $password;
+        }
+        $repo = http_build_url($repo_url);
+        if (trim($repo) == '') {
+            return FALSE;
+        }
+        $process = new \Symfony\Component\Process\Process("git ls-remote --heads $repo");
+        $process->run();
+        $output = $process->getOutput();
+        if (!$process->isSuccessful()) {
+            $output = $process->getErrorOutput();
+            if (preg_match('/authentication failed/', strtolower($output))) {
+                throw new Exception('Unauthorized');
+            }
+            throw new Exception('Could not connect');
+        }
+
+        $lines = preg_split('/\\n/', $output);
+
+        foreach ($lines as $k => $v) {
+            if (trim($v) == '')
+                continue;
+
+            $b = preg_split('/\s+/', $v);
+            $b = explode('/', $b[1]);
+            $op[$k] = $b[2];
+        }
+
+        return $op;
+    }
+
+    /**
      * Get avatar of an email address.
      *
      * @param type $email
@@ -78,6 +124,12 @@ class Utils {
         }
 
         return $url;
+    }
+
+    public static function startDeploy($deploy_id) {
+        shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy2 ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+
+        return TRUE;
     }
 
     /**

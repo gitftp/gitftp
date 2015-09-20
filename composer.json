@@ -30,16 +30,16 @@
         "fuel/orm": "dev-1.7/master",
         "fuel/parser": "dev-1.7/master",
         "fuelphp/upload": "2.0.2",
-        "opauth/opauth": "0.4.*",
         "mustache/mustache": "*",
         "monolog/monolog": "1.5.*",
         "michelf/php-markdown": "1.4.0",
-        "opauth/github": "dev-master",
-        "opauth/bitbucket": "dev-master",
-        "kzykhys/git": "dev-master",
         "suin/php-rss-writer": ">=1.0",
+        "kzykhys/git": "dev-master",
         "knplabs/github-api": "~1.4",
-        "gentle/bitbucket-api": "dev-develop"
+        "gentle/bitbucket-api": "dev-develop",
+        "league/oauth2-client": "1.0.0-beta2",
+        "stevenmaguire/oauth2-bitbucket": "dev-master",
+        "league/oauth2-github": "dev-master"
     },
     "suggest": {
         "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

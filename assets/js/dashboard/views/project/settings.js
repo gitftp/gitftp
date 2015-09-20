@@ -45,42 +45,43 @@ define([
                 '</ul>',
                 theme: 'white',
                 icon: 'fa fa-warning orange',
-                confirmButton: 'proceed',
+                confirmButton: 'Delete',
                 confirmButtonClass: 'btn-warning',
+                autoClose: 'cancel|10000',
                 confirm: function () {
-
-                    $.confirm({
-                        title: 'Sure',
-                        content: 'You cannot undo this action.',
-                        icon: 'fa fa-info red',
-                        confirmButton: 'Delete',
-                        confirmButtonClass: 'btn-danger',
-                        autoClose: 'cancel|10000',
+                    var t2 = this;
+                    t2.$confirmButton.html('<i class="gf gf-loading gf-btn"></i> Delete');
+                    var $loading = $.dialog({
+                        title: 'Please wait.',
+                        content: 'Removing the project may take a little time.',
+                        icon: 'fa fa-spin fa-spinner',
                         theme: 'white',
-                        confirm: function () {
-
-                            _ajax({
-                                url: base + 'api/deploy/delete/' + id,
-                                dataType: 'json',
-                                method: 'delete',
-                            }).done(function (data) {
-
-                                if (data.status) {
-                                    $.alert({
-                                        title: 'Deleted',
-                                        content: 'The project was successfully deleted.'
-                                    });
-                                    Router.navigate('/project', {
-                                        trigger: true
-                                    })
-                                } else {
-                                    $.alert({
-                                        title: 'Could not delete.',
-                                        content: 'Sorry, <br><code>' + data.reason + '</code>',
-                                    });
-                                }
+                        closeIcon: false,
+                        backgroundDismiss: false
+                    });
+                    _ajax({
+                        url: base + 'api/deploy/delete/' + id,
+                        dataType: 'json',
+                        method: 'delete'
+                    }).done(function (data) {
+                        if (data.status) {
+                            t2.close();
+                            $.alert({
+                                title: 'Deleted',
+                                content: 'The project was successfully deleted.'
+                            });
+                            Router.navigate('/project', {
+                                trigger: true
+                            })
+                        } else {
+                            $.alert({
+                                title: 'Could not delete.',
+                                content: 'Sorry, <br><code>' + data.reason + '</code>'
                             });
                         }
+                    }).always(function(){
+                        t2.$confirmButton.find('i').remove();
+                        $loading.close();
                     });
                 }
             });
@@ -104,7 +105,7 @@ define([
                 url: base + 'api/deploy/update/' + that.id,
                 data: data,
                 method: 'post',
-                dataType: 'json',
+                dataType: 'json'
             }).done(function (data) {
                 if (data.status) {
                     noty({

@@ -8,49 +8,89 @@ class GitApi {
     public $deploy;
     public $providers;
 
-    public function __construct() {
-        $this->auth = new \Craftpip\Auth();
+    public function __construct($user_id = NULL) {
+        $this->auth = new \Craftpip\OAuth\OAuth($user_id);
         $this->deploy = new \Model_Deploy();
 
-        $username = $this->auth->getAttr('github');
-        if ($username) {
-            $this->providers['github'] = new GitApi\Github($username);
-            $this->providers['github']->authenticate($this->auth->getProviders('github', 'access_token'));
+        if (!is_null($user_id))
+            $this->deploy->user_id = $user_id;
+        $this->providers = array();
+        $providers = $this->auth->getProviders();
+
+        foreach($providers as $provider){
+            $class = "\\Craftpip\\GitApi\\".ucfirst(strtolower($provider['provider']));
+            $this->providers[strtolower($provider['provider'])] = new $class($provider['username']);
+            $token = unserialize($provider['access_token']);
+            $expires = $token->getexpires();
+            if(!empty($expires)){
+                if($token->hasExpired()){
+                    $token = $this->auth->refreshToken($provider['provider']);
+                }
+            }
+            $this->providers[strtolower($provider['provider'])]->authenticate($token);
         }
-        $username = $this->auth->getAttr('bitbucket');
-        if ($username) {
-            $this->providers['bitbucket'] = new GitApi\Bitbucket($username);
-            $this->providers['bitbucket']->authenticate($this->auth->getProviders('bitbucket', 'access_token'));
-        }
+    }
+
+    public function buildHookUrl($deploy_id, $key, $user_id = NULL) {
+        if (is_null($user_id))
+            $user_id = $this->auth->user_id;
+
+        return dash_url . "hook/i/$user_id/$deploy_id/$key";
     }
 
     public function setDeployId($id) {
 
     }
 
-    public function setRepoUrl() {
+    public function parseRepositoryCloneUrl($data, $provider) {
+        // here data is database record array.
+        $url = $data['repository'];
+        if($data['git_name'] !== ''){
+            if($provider == 'github'){
+                $username = $this->auth->getToken('github')->getToken();
+            }
+            if($provider == 'bitbucket') {
+                // check for expired token.
+                $token = $this->auth->getToken('bitbucket');
+                if($token->hasExpired()){
+                    $token = $this->auth->refreshToken($provider['provider']);
+                }
+                $username = 'x-token-auth';
+                $password = $token->getToken();
+            }
+        }else{
+            // manual
+            $username = $data['username'];
+            $password = $data['password'];
+        }
 
+        if (!empty($username)) {
+            $repo_url = parse_url($url);
+            $repo_url['user'] = $username;
+
+            if (!empty($password)) {
+                $repo_url['pass'] = $password;
+            }
+            $url = http_build_url($repo_url);
+        }
+        return $url;
     }
-
     public function getRepositories() {
-        $a = array();
+        $r = array();
+        foreach ($this->providers as $provider) {
+            $repos = $provider->getRepositories();
+            $r = array_merge($r, $repos);
+        }
 
+        return $r;
     }
 
     public function loadApi($name) {
-        switch ($name) {
-            case 'github':
-                if ($this->auth->getAttr('github') !== '')
-                    $this->api = new \Craftpip\GitApi\Github($this->auth->getAttr('github'));
-                break;
-            case 'bitbucket':
-                if ($this->auth->getAttr('bitbucket') !== '')
-                    $this->api = new \Craftpip\GitApi\Bitbucket($this->auth->getAttr('bitbucket'));
-                break;
-            default:
-                throw new Exception('Unknown provider name: ' . $name);
+        try {
+            $api = $this->api = $this->providers[strtolower($name)];
+        } catch (\Exception $e) {
+            throw new Exception('Provider not found: ' . $name);
         }
-
-        return $this->api;
+        return $api;
     }
 }

@@ -4,79 +4,40 @@ class Controller_Api_User extends Controller {
 
     /**
      * API called when user tries to login, or register using Oauth.
-     *
      * @param null $provider
      */
-    public function action_oauth($provider = NULL) {
+    public function action_authorize($provider = NULL) {
         if (is_null($provider)) {
-            // please provider provider.
             \Response::redirect_back();
         }
-
-        // load Opauth, it will load the provider strategy and redirect to the provider
-        \Auth_Opauth::forge();
-    }
-
-    /**
-     * API called when user tries to login, or register using Oauth.
-     * --- callback from OAuth provider. user is redirected to dashboard from here.
-     *
-     * @throws FuelException
-     */
-    public function action_callback() {
+        $OAuth = new \Craftpip\OAuth\OAuth();
         try {
-            $opauth = \Auth_Opauth::forge(FALSE);
-            $status = $opauth->login_or_register();
-            $provider = $opauth->get('auth.provider', '?');
-            $token = $opauth->get('auth.credentials.token', '?');
-            echo '<pre>';
-            $user = new \Craftpip\Auth();
-            // everytime the user logs in , refresh the access token.
-            $user->setProvider($provider, 'access_token', $token);
-            // store the user's username.
-            $user->setAttr('github', $opauth->get('auth.info.nickname'));
-
-            switch ($status) {
-                // a local user was logged-in, the provider has been linked to this user
-                case 'linked':
-                    // user was logged in, and is linked with provider.
-                    $url = dash_url.'settings/services';
-                    break;
-
-                // the provider was known and linked, the linked account as logged-in
-                case 'logged_in':
-                    // user is logged in via oauth.
-                    $url = dash_url;
-                    break;
-
-                // we don't know this provider login, ask the user to create a local account first
-                case 'register':
-                    // we do not use this anymore.
-                    break;
-
-                // we didn't know this provider login, but enough info was returned to auto-register the user
-                case 'registered':
-                    // new user.
-                    $url = dash_url;
-                    break;
-
-                default:
-                    throw new \FuelException('Auth_Opauth::login_or_register() has come up with a result that we dont know how to handle.');
-            }
-
-            // redirect to the url set
-            if (!empty($url))
+            $OAuth->init($provider);
+            if ($OAuth->OAuth_is_callback) {
+                switch ($OAuth->OAuth_state) {
+                    case 'logged_in':
+                        $url = dash_url;
+                        // was registered and linked, now logged in.
+                        break;
+                    case 'linked':
+                        $url = dash_url . 'settings/services';
+                        $OAuth->setAttr('verified', TRUE);
+                        // was already registered but linked.
+                        break;
+                    case 'registered':
+                        $OAuth->setAttr('project_limit', 1);
+                        $OAuth->setAttr('verified', TRUE);
+                        $url = dash_url;
+                        // was registered and linked.
+                        break;
+                }
                 \Response::redirect($url);
-        } // deal with Opauth exceptions
-        catch (\OpauthException $e) {
-            echo $e->getMessage();
-//            \Response::redirect_back();
-        } // catch a user cancelling the authentication attempt (some providers allow that)
-        catch (\OpauthCancelException $e) {
-            // you should probably do something a bit more clean here...
-            exit('It looks like you canceled your authorisation.' . \Html::anchor('users/oath/' . $provider, 'Click here') . ' to try again.');
+            }
+        } catch (Exception $e) {
+            echo \View::forge('errors/generic_error', [
+                'message' => 'Maybe your autorization code has Expired, please go back and try again.'
+            ]);
         }
-
     }
 
     /**
@@ -164,8 +125,8 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
 
-            $user = new \Craftpip\Auth();
-            $users = $user->DBgetByUsernameEmail($i['email']);
+            $user = new \Craftpip\OAuth\Auth();
+            $users = $user->DB->getByUsernameEmail($i['email']);
             if (!$users) {
                 throw new Exception('Email/Username not registered with us.');
             }
@@ -197,7 +158,7 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
 
-            $user = new \Craftpip\Auth($i['user_id']);
+            $user = new \Craftpip\OAuth\Auth($i['user_id']);
             $key = $user->getAttr('forgotpassword_key');
             if ($key != $i['key']) {
                 throw new Exception('Sorry, the token has expired.');

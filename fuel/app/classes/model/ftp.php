@@ -5,9 +5,11 @@ class Model_Ftp extends Model {
     private $table = 'ftp';
     public $user_id;
 
-    public function __construct() {
-        if (\Auth::instance()->check()) {
-            list(, $this->user_id) = \Auth::instance()->get_user_id();
+    public function __construct($user_id = null) {
+        if(!is_null($user_id)){
+            $this->user_id = $user_id;
+        }elseif (Auth::check()) {
+            $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
         }

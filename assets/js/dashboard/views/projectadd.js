@@ -6,46 +6,92 @@ define([
     return Backbone.View.extend({
         el: app.el,
         events: {
+            'change #add-repo-from-service': 'manualswitch',
             'click #deploy-save-new': 'save',
-            // form save
             'submit #add-deploy-form, .env-form': 'preventform',
-            // form prevent
             'input input#add-repo': 'calcname',
-            // calculate repo name from url
             'change #deploy-add-privaterepo': 'priCheck',
-            // test connection to repo and get its branches
             'click #project-add-add-env': 'addEnv',
             'click .project-add-remove-env': 'removeEnv',
             'change .env_ftp': 'updateFtpOptions'
         },
+        manualswitch: function (e) {
+            var $this = $(e.currentTarget);
+            options = {
+                queue: false,
+                speed: 100,
+                easing: 'easeOutQuart'
+            };
+            if ($this.prop('checked')) {
+                $('#add-repo-service').prop('disabled', true);
+                $('.manual-project').slideDown(options);
+                $('.service-project').slideUp(options);
+            } else {
+                $('#add-repo-service').prop('disabled', false);
+                $('.manual-project').slideUp(options);
+                $('.service-project').slideDown(options);
+            }
+        },
         preventform: function (e) {
             e.preventDefault();
         },
-        testConnectionToRepo: function () {
+        getBranches: function () {
             var that = this;
-
-            return _ajax({
-                url: base + 'api/etc/getremotebranches',
-                data: {
+            if ($('input#add-repo-from-service').length && !$('input#add-repo-from-service').is(':checked')) {
+                var id = $('#add-repo-service').val();
+                var selected = _.filter(this._repo.data, function (num) {
+                    return num.id == id;
+                });
+                console.log('all: ', this._repo.data);
+                console.log('selected: ', selected);
+                console.log('selected count. ', selected.length);
+                if (!selected.length) {
+                    $.alert({
+                        title: "Problem",
+                        content: 'Something went wrong. please try again later.'
+                    });
+                    return false;
+                } else {
+                    selected = selected[0];
+                }
+                that.selectedRepo = selected; // for use later.
+                var data = {
+                    type: 'service',
+                    repo: selected.clone_url,
+                    id: selected.id,
+                    name: selected.name,
+                    provider: selected.provider
+                }
+            } else {
+                var data = {
+                    type: 'manual',
                     repo: $('input[name="repo"]').val(),
                     username: $('input[name="username"]').val(),
                     password: $('input[name="password"]').val()
-                },
+                };
+            }
+
+            return _ajax({
+                url: base + 'api/etc/getremotebranches',
+                data: data,
                 method: 'post',
                 dataType: 'json'
             });
         },
         priCheck: function (e) {
             var $this = $(e.currentTarget);
+            var options = {
+                queue: false,
+                speed: 100,
+                easing: 'easeOutQuart'
+            };
             if ($this.prop('checked')) {
-                $('#deploy-add-privaterepo-div').show().find('input').removeAttr('disabled').attr('required', true);
+                $('#deploy-add-privaterepo-div').slideDown(options).find('input').removeAttr('disabled');
             } else {
-                $('#deploy-add-privaterepo-div').hide().find('input').attr('disabled', true).removeAttr('required');
+                $('#deploy-add-privaterepo-div').slideUp(options).find('input').attr('disabled', true);
             }
         },
         calcname: function (e) {
-            $btn = $('.testconnectiontorepo');
-            $btn.removeClass('btn-success').html($btn.attr('data-html')).prop('disabled', false);
             var $this = $(e.currentTarget);
             var str = $this.val();
             var tar = $('input[name="name"]#name');
@@ -84,6 +130,7 @@ define([
             });
             if (!valid)
                 return false;
+
             // gathering env data.
             var envs = [];
             $.each($('.env-div'), function (i, a) {
@@ -96,15 +143,33 @@ define([
                 };
                 envs.push(envprop);
             });
-            var data = {
-                repo: $('input[name="repo"]').val(),
-                name: $('input[name="name"]').val(),
-                username: $('input[name="username"]').val(),
-                password: $('input[name="password"]').val(),
-                env: envs,
-                key: $('input[name="key"]').val() || ''
-            };
-            $this.html('<i class="fa fa-spin fa-spinner"></i> Saving').prop('disalbed', true);
+
+            // determine if service or manual.
+            if ($('input#add-repo-from-service').length && !$('input#add-repo-from-service').is(':checked')) {
+                var selected = that.selectedRepo;
+                var data = {
+                    type: 'service',
+                    repo: selected.clone_url,
+                    name: $('input[name="name"]').val(),
+                    env: envs,
+                    gitname: selected.name,
+                    gitid: selected.id,
+                    key: $('input[name="key"]').val() || '',
+                    provider: selected.provider
+                };
+            } else {
+                var data = {
+                    type: 'manual',
+                    repo: $('input[name="repo"]').val(),
+                    name: $('input[name="name"]').val(),
+                    username: $('input[name="username"]').val(),
+                    password: $('input[name="password"]').val(),
+                    env: envs,
+                    key: $('input[name="key"]').val() || ''
+                };
+            }
+
+            $this.html('<i class="gf gf-loading gf-btn"></i> Adding').prop('disalbed', true);
             this.togglePanel(1, 'disable');
             this.togglePanel(2, 'disable');
             _ajax({
@@ -132,8 +197,8 @@ define([
                 }
             }).always(function () {
                 $this.html('Save').prop('disalbed', false);
-                this.togglePanel(1, 'enable');
-                this.togglePanel(2, 'enable');
+                that.togglePanel(1, 'enable');
+                that.togglePanel(2, 'enable');
             });
         },
         togglePanel: function (which, action) {
@@ -257,12 +322,12 @@ define([
                     that.togglePanel(1, 'disable');
                     var $l = $.dialog({
                         title: 'Connecting...',
-                        icon: 'fa fa-spinner fa-spin',
+                        icon: 'gf gf-loading gf-block gf-alert',
                         content: 'Please wait while we fetch available branches on your repository.',
                         backgroundDismiss: false,
                         closeIcon: false
                     });
-                    that.testConnectionToRepo().done(function (data) {
+                    that.getBranches().done(function (data) {
                         console.log(data);
                         if (data.status) {
                             that.togglePanel(1, 'disable');
@@ -327,13 +392,41 @@ define([
                 dataType: 'json',
                 method: 'get'
             });
-            $.when($getftp, $getlimit).then(function (ftp, limit) {
+            var $getrepositories = _ajax({
+                url: base + 'api/git/repositories',
+                dataType: 'json',
+                method: 'get'
+            });
+
+            var $l = $.dialog({
+                title: 'Getting repositories..',
+                //icon: 'fa fa-spinner fa-spin',
+                icon: 'gf gf-loading gf-block gf-alert',
+                content: 'Please wait, While we fetch data from services.',
+                backgroundDismiss: false,
+                closeIcon: false,
+                container: that.el,
+                animation: 'scale',
+                animationBounce: 1.5
+            });
+
+            $.when($getftp, $getlimit, $getrepositories).then(function (ftp, limit, repo) {
+                $l.close();
                 var data = ftp[0];
                 var limit = limit[0];
+                var repo = repo[0];
+                that._repo = repo;
                 that._ftps = data.data;
-                var page = that.template({});
-                that.$el.html(page);
+                that._repoGrouped = _.groupBy(repo.data, function(a){ return a.provider });
+                var page = that.template({
+                    repo: repo,
+                    repogrouped: that._repoGrouped
+                });
+                that.el.html(page);
                 that.validation();
+                $('.boot-select').select2({
+                    placeholder: 'Select repository'
+                });
                 $('input[name="name"]').focus();
                 if (limit.data.projects >= limit.data.limit) {
                     $.alert({
@@ -345,7 +438,8 @@ define([
                         confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
                         confirm: function () {
                             window.history.back();
-                        }
+                        },
+                        container: that.el
                     });
                     return false;
                 }
@@ -366,9 +460,27 @@ define([
                         },
                         confirmButtonClass: 'btn-default',
                         cancelButtonClass: 'btn-success',
-                        backgroundDismiss: false
+                        backgroundDismiss: false,
+                        container: that.el
                     });
                 }
+            }).fail(function(){
+                $l.close();
+                $.confirm({
+                    title: 'Problem',
+                    content: 'We faced a problem while fetching ',
+                    confirm: function(){
+                        app_reload();
+                    },
+                    confirmButton: 'Retry',
+                    cancelButton: 'Close',
+                    cancel: function(){
+                        Router.navigate('project', {
+                            trigger: true,
+                            replace: true
+                        });
+                    }
+                });
             });
             setTitle('New project');
         }

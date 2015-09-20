@@ -4,6 +4,12 @@
   background: #aaa;
   color: white;
 }
+.b {
+  font-family: 'Bitter', serif;
+}
+.i {
+  font-style: italic;
+}
 .red {
   color: #ff5a5a;
 }
@@ -18,6 +24,9 @@
 }
 .gray {
   color: #aaaaaa;
+}
+.gray-bg {
+  background: #f8f8f8;
 }
 .blue {
   color: #0091ea;
@@ -123,7 +132,7 @@ label.error {
   line-height: inherit;
 }
 a.btn {
-  padding: 9px 10px 7px;
+  padding: 9px 10px 9px;
   line-height: 12px;
 }
 .btn {
@@ -195,7 +204,7 @@ a.btn {
   box-shadow: none;
 }
 .btn.btn-circle {
-  border-radius: 100%;
+  border-radius: 50px;
   padding: 9px 11px 7px 10px;
 }
 .btn.btn-circle.btn-circle-lg {
@@ -207,7 +216,7 @@ a.btn {
   margin: 0 auto;
   text-align: center;
   display: inline-block;
-  line-height: 45px;
+  line-height: 43px;
 }
 .jconfirm.supervan .jconfirm-bg {
   background-color: rgba(255, 255, 255, 0.8);
@@ -406,9 +415,6 @@ body {
   color: #222222;
   font-weight: 400;
   background-color: #f5f5f5;
-}
-.b {
-  font-family: 'Bitter', serif;
 }
 .small-text {
   font-size: 12px;
@@ -2479,10 +2485,18 @@ ul.portfolio-list li span:first-child {
   left: 0px;
   width: 100%;
   height: 100%;
-  background-size: cover !important;
   z-index: 0;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+}
+.section.background-wrapper .background-move {
+  animation: bg 4000s infinite linear;
+}
+@keyframes bg {
+  from {
+    background-position: 0 0 ;
+  }
+  to {
+    background-position: 100000px -100000px;
+  }
 }
 .section.background-wrapper .video-wrapper,
 .section .background-wrapper .video-wrapper,
@@ -4369,13 +4383,11 @@ ul.portfolio-list li span:first-child {
   padding-top: 350px;
 }
 #header.sticky {
-  line-height: 60px;
-  height: 60px;
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 9999;
-  background-color: #FFF !important;
+  background-color: rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
   -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
@@ -4383,9 +4395,6 @@ ul.portfolio-list li span:first-child {
   -moz-box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
   -o-box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
   box-shadow: '' 0 0 20px rgba(0, 0, 0, 0.08) 1px 2px rgba(0, 0, 0, 0.1);
-}
-#header.sticky .logo a {
-  height: 60px;
 }
 #header.sticky.white-header img.standard-logo.black-logo,
 #header.sticky.black-header img.standard-logo.black-logo {
@@ -4420,7 +4429,6 @@ ul.portfolio-list li span:first-child {
 #header.sticky .menu ul li a,
 #header.sticky .menu-toggle {
   color: #222222 !important;
-  line-height: 60px;
   border: none !important;
 }
 #header.sticky .menu ul li a:hover,

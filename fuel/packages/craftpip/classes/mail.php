@@ -8,7 +8,7 @@ class Mail {
 
     public function __construct($user_id = NULL) {
         $this->instance = \Email::forge();
-        $this->user = new \Craftpip\Auth($user_id);
+        $this->user = new \Craftpip\OAuth\Auth($user_id);
     }
 
     public function subject($subject) {

@@ -51,7 +51,6 @@ define([
             app.obj.settings.render(path);
         },
         fourofour: function () {
-
             Router.navigate('/home', {trigger: true, replace: true});
         }
 

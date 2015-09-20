@@ -28,6 +28,7 @@
                                 <%= data.repository %>
                             </p>
 
+                            <% if(!data.git_name){ %>
                             <div class="checkbox gf-checkbox">
                                 <input name="isprivate" type="checkbox"
                                         id="doesreponeedlogin" <%= (data.username !== '') ? 'checked':'' %> />
@@ -35,8 +36,23 @@
                                     This is a private repo.
                                 </label>
                             </div>
+                            <% } %>
                         </div>
                     </div>
+
+                    <% if(data.git_name){ %>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Git name</label>
+
+                        <div class="col-sm-9">
+                            <p class="form-control-static">
+                                <%= data.git_name %> -- <i class="fa fa-<%= data.provider.toLowerCase() %>"></i> <%= data.provider %>
+                            </p>
+                        </div>
+                    </div>
+                    <% } %>
+
+                    <% if(!data.git_name){ %>
                     <div class="privaterepo-toggle" style="<%= (data.username == '') ? 'display:none' : '' %>">
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="username">Username</label>
@@ -70,11 +86,13 @@
                             </div>
                         </div>
                     </div>
+                    <% } %>
                     <div class="form-group">
                         <label class="col-sm-3 control-label" for="">Hook Key</label>
 
                         <div class="col-sm-9">
                             <input type="text" name="key" placeholder="Post secret key." value="<%= data.key %>" class="form-control" title="Please enter a random string"/>
+                            <p class="help-block">A unique key used for your projects web hook link.</p>
                         </div>
                     </div>
                 </div>

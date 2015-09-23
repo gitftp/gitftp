@@ -1,5 +1,9 @@
 @import url(//fonts.googleapis.com/css?family=Roboto:400,700,500);
 @import url(//fonts.googleapis.com/css?family=Bitter);
+::-moz-selection {
+  background: #aaa;
+  color: white;
+}
 ::selection {
   background: #aaa;
   color: white;
@@ -139,7 +143,8 @@ a.btn {
   background-image: none;
   border: solid 1px;
   border-radius: 4px;
-  transition: all .4s;
+  -webkit-transition: all .4s;
+          transition: all .4s;
   text-transform: uppercase;
   font-weight: bold;
   border-color: transparent;
@@ -250,7 +255,9 @@ a.btn {
 }
 .jconfirm.supervan .jconfirm-box.hilight {
   box-shadow: none;
-  transform: scale(0.9);
+  -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+          transform: scale(0.9);
 }
 .checkbox.gf-checkbox input {
   display: none;
@@ -268,10 +275,13 @@ a.btn {
   border-radius: 4px;
   margin-top: 1px;
   margin-left: -25px;
-  transition: all .1s;
+  -webkit-transition: all .1s;
+          transition: all .1s;
 }
 .checkbox.gf-checkbox input:checked + label:before {
-  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+      -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
   height: 18px;
   width: 10px;
   border-radius: 0px;

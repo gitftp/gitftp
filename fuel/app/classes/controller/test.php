@@ -8,13 +8,17 @@ class Controller_Test extends Controller {
     public function get_r() {
         $id = '18';
         $path = '/var/www/html/fuel/repository/228/test';
-        $process = new \Symfony\Component\Process\Process('rm * -rf ' . $path);
-        $process->run();
-//        if ($process->isSuccessful()) {
-//            print_r($process->getOutput());
-//        } else {
-//            print_r($process->getErrorOutput());
-//        }
+        if (file_exists($path)) {
+            $process = new \Symfony\Component\Process\Process('rm -rf ' . $path);
+            $process->run();
+            if ($process->isSuccessful()) {
+                print_r($process->getOutput());
+            } else {
+                print_r($process->getErrorOutput());
+            }
+        } else {
+            echo 'no';
+        }
     }
 
     public function get_p() {

@@ -67,10 +67,10 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
         $record = new Model_Record();
         $is_active = $record->is_queue_active($id);
-
+        $force = Input::delete('force', 0); // force delete even if the deploy is in process.
         try {
-            if ($is_active)
-                throw new Exception('Deployment is in progress, please try again later.');
+            if ($is_active && $force == 0)
+                throw new Exception('Deployment is in progress, please try again later.', 19293);
 
             $deploy = new Model_Deploy();
             $deploy_data = $deploy->get($id);
@@ -91,14 +91,19 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
             $answer = $deploy->delete($id);
             $path = \Utils::get_repo_dir($id);
-            $process = new Process('rm * -rf ' . $path);
-            $process->run();
+
+            if (file_exists($path)) {
+                $process = new \Symfony\Component\Process\Process('rm -rf ' . $path);
+                $process->run();
+                if (!$process->isSuccessful()) {
+                    // failed? apparantly the folder was not readable ?
+                }
+            }
 
             if ($answer) {
                 $response = array(
                     'status'  => TRUE,
                     'request' => $id,
-                    'data'    => $process->getOutput()
                 );
             } else {
                 throw new Exception('We got confused, please try again later.');
@@ -109,6 +114,9 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 'request' => $id,
                 'reason'  => $e->getMessage(),
             );
+            if ($e->getCode() == 19293) {
+                $response['active'] = TRUE;
+            }
         }
 
         $this->response($response);
@@ -121,6 +129,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $user = new \Craftpip\OAuth\Auth();
             $limit = $user->getAttr('project_limit');
             $deploy = new Model_Deploy();
+            $branch = new Model_Branch();
             $deploy_data = $deploy->get(NULL, array(
                 'id', 'cloned'
             ));
@@ -191,6 +200,22 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 'record_type' => $record->type_first_clone,
             );
             $record->insert($set);
+
+            foreach ($env as $ev) {
+                if ($ev['env_deploy_now']) {
+                    $branch = $branch->get_by_ftp_id($ev['env_ftp']);
+                    $branch = $branch[0];
+                    $set = array(
+                        'deploy_id'   => $branch['deploy_id'],
+                        'branch_id'   => $branch['id'],
+                        'date'        => time(),
+                        'triggerby'   => '',
+                        'status'      => $record->in_queue,
+                        'record_type' => $record->type_sync,
+                    );
+                    $record->insert($set);
+                }
+            }
             \Utils::startDeploy($deploy_id);
 
             if ($deploy_id) {

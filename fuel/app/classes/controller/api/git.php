@@ -10,7 +10,6 @@ class Controller_Api_Git extends Controller_Api_Apilogincheck {
                 'data'   => $gitapi->getRepositories()
             );
         } catch (Exception $e) {
-            throw $e;
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status' => FALSE,

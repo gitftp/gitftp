@@ -63,7 +63,7 @@
         var icon = 'git';
         break;
         case '4':
-        var icon = 'coffee';
+        var icon = 'cloud-download';
         break;
         default:
         var icon = 'question';
@@ -95,7 +95,7 @@
             <%= (a.record_type == 0) ? '(Update to latest)' : '' %>
             <%= (a.record_type == 1) ? '(Sync all files)' : '' %>
             <%= (a.record_type == 2) ? '(Jump to revision)' : '' %>
-            <%= (a.record_type == 4) ? '(Initializing)' : '' %>
+            <%= (a.record_type == 4) ? '(Repository clone)' : '' %>
         </small>
         <% if(a.hash_before == null && a.hash == null){ %>
 
@@ -112,7 +112,7 @@
         <% if(a.triggerby){ %>
         <strong><%= a.triggerby %> </strong> <%= (a.branch.length) ? 'pushed to '+a.branch[0].branch_name : '' %>
         <% }else{ %>
-        <strong>Triggered manually</strong>
+        <strong>Started by You</strong>
         <% } %>
         <% if(a.record_type != '4'){ %>
         <div class="pull-right">

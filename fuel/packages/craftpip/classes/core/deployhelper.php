@@ -22,7 +22,7 @@ Class DeployHelper {
             if (is_array($message)) {
                 $message = print_r($message, TRUE);
             }
-            if ($this->writefile) {
+            if ($this->writefile && is_writeable($this->writefile)) {
                 $file = $this->logfile;
                 $current = file_get_contents($file);
                 $current .= "$message\n";

@@ -30,7 +30,59 @@ define([
                 $field.find('input').prop('disabled', false);
             }
         },
+        forceDelete: function (id) {
+            $.confirm({
+                title: 'delete?',
+                content: 'The project is currently being deployed, do you really want to delete the project?',
+                theme: 'white',
+                icon: 'fa fa-warning orange',
+                confirmButton: 'Force Delete',
+                confirmButtonClass: 'btn-warning',
+                //autoClose: 'cancel|10000',
+                confirm: function () {
+                    var t2 = this;
+                    t2.$confirmButton.html('<i class="gf gf-loading gf-btn"></i> Force Delete');
+                    var $loading = $.dialog({
+                        title: 'Please wait.',
+                        content: 'Removing the project may take some time.',
+                        icon: 'fa fa-spin fa-spinner',
+                        theme: 'white',
+                        closeIcon: false,
+                        backgroundDismiss: false
+                    });
+
+                    _ajax({
+                        url: base + 'api/deploy/delete/' + id,
+                        dataType: 'json',
+                        method: 'delete',
+                        data: {
+                            force: 1,
+                        }
+                    }).done(function (data) {
+                        if (data.status) {
+                            t2.close();
+                            $.alert({
+                                title: 'Deleted',
+                                content: 'The project was successfully deleted.'
+                            });
+                            Router.navigate('/project', {
+                                trigger: true
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Could not delete.',
+                                content: 'Sorry, <code>' + data.reason + '</code>'
+                            });
+                        }
+                    }).always(function (data) {
+                        t2.$confirmButton.find('i').remove();
+                        $loading.close();
+                    });
+                }
+            });
+        },
         deleteProject: function (e) {
+            var that = this;
             e.preventDefault();
             var $this = $(e.currentTarget);
             var id = $this.attr('data-id');
@@ -59,10 +111,14 @@ define([
                         closeIcon: false,
                         backgroundDismiss: false
                     });
+
                     _ajax({
                         url: base + 'api/deploy/delete/' + id,
                         dataType: 'json',
-                        method: 'delete'
+                        method: 'delete',
+                        data: {
+                            force: 0,
+                        }
                     }).done(function (data) {
                         if (data.status) {
                             t2.close();
@@ -72,14 +128,19 @@ define([
                             });
                             Router.navigate('/project', {
                                 trigger: true
-                            })
-                        } else {
-                            $.alert({
-                                title: 'Could not delete.',
-                                content: 'Sorry, <br><code>' + data.reason + '</code>'
                             });
+                        } else {
+                            if (typeof data.active !== 'undefined') {
+                                that.forceDelete(id);
+                            } else {
+                                $.alert({
+                                    title: 'Could not delete.',
+                                    content: 'Sorry, <code>' + data.reason + '</code>'
+                                });
+                            }
                         }
-                    }).always(function(){
+
+                    }).always(function (data) {
                         t2.$confirmButton.find('i').remove();
                         $loading.close();
                     });

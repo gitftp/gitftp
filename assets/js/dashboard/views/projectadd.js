@@ -139,7 +139,8 @@ define([
                     'env_name': b.find('input[name="env_name"]').val(),
                     'env_branch': b.find('select[name="env_branch"]').val(),
                     'env_ftp': b.find('select[name="env_ftp"]').val(),
-                    'env_deploy': b.find('input[name="env_deploy"]').prop('checked')
+                    'env_deploy': b.find('input[name="env_deploy"]').prop('checked'),
+                    'env_deploy_now': b.find('input[name="env_deploy_now"]').prop('checked')
                 };
                 envs.push(envprop);
             });
@@ -310,7 +311,7 @@ define([
                     },
                     'env_ftp': {
                         required: true
-                    }
+                    },
                 }
             });
         },
@@ -417,7 +418,9 @@ define([
                 var repo = repo[0];
                 that._repo = repo;
                 that._ftps = data.data;
-                that._repoGrouped = _.groupBy(repo.data, function(a){ return a.provider });
+                that._repoGrouped = _.groupBy(repo.data, function (a) {
+                    return a.provider
+                });
                 var page = that.template({
                     repo: repo,
                     repogrouped: that._repoGrouped
@@ -464,17 +467,17 @@ define([
                         container: that.el
                     });
                 }
-            }).fail(function(){
+            }).fail(function () {
                 $l.close();
                 $.confirm({
                     title: 'Problem',
                     content: 'We faced a problem while fetching ',
-                    confirm: function(){
+                    confirm: function () {
                         app_reload();
                     },
                     confirmButton: 'Retry',
                     cancelButton: 'Close',
-                    cancel: function(){
+                    cancel: function () {
                         Router.navigate('project', {
                             trigger: true,
                             replace: true

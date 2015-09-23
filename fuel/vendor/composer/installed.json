@@ -560,101 +560,6 @@
         }
     },
     {
-        "name": "mustache/mustache",
-        "version": "v2.8.0",
-        "version_normalized": "2.8.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bobthecow/mustache.php.git",
-            "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/64c28cc73e01d5edcef7de8cb2b16782615f648a",
-            "reference": "64c28cc73e01d5edcef7de8cb2b16782615f648a",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.4"
-        },
-        "require-dev": {
-            "fabpot/php-cs-fixer": "~1.6",
-            "phpunit/phpunit": "~3.7|~4.0"
-        },
-        "time": "2015-04-01 06:37:33",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Mustache": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Justin Hileman",
-                "email": "justin@justinhileman.info",
-                "homepage": "http://justinhileman.com"
-            }
-        ],
-        "description": "A Mustache implementation in PHP.",
-        "homepage": "https://github.com/bobthecow/mustache.php",
-        "keywords": [
-            "mustache",
-            "templating"
-        ]
-    },
-    {
-        "name": "suin/php-rss-writer",
-        "version": "1.3",
-        "version_normalized": "1.3.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/suin/php-rss-writer.git",
-            "reference": "82812ff988bb470f746d24e153cdc138e8838ff3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/82812ff988bb470f746d24e153cdc138e8838ff3",
-            "reference": "82812ff988bb470f746d24e153cdc138e8838ff3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2014-03-12 06:05:28",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Suin\\RSSWriter": "Source"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "suin",
-                "email": "suinyeze@gmail.com",
-                "homepage": "https://www.facebook.com/suinyeze",
-                "role": "Developer, Renaming Specialist"
-            }
-        ],
-        "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
-        "homepage": "https://github.com/suin/php-rss-writer",
-        "keywords": [
-            "feed",
-            "generator",
-            "rss",
-            "writer"
-        ]
-    },
-    {
         "name": "kriswallsmith/buzz",
         "version": "v0.15",
         "version_normalized": "0.15.0.0",
@@ -763,62 +668,6 @@
         "homepage": "https://github.com/jacobkiers/OAuth",
         "keywords": [
             "oauth"
-        ]
-    },
-    {
-        "name": "gentle/bitbucket-api",
-        "version": "dev-develop",
-        "version_normalized": "dev-develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/gentlero/bitbucket-api.git",
-            "reference": "81df65d545ba9d057e2d8d4c13f57e1bd31cd488"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/gentlero/bitbucket-api/zipball/81df65d545ba9d057e2d8d4c13f57e1bd31cd488",
-            "reference": "81df65d545ba9d057e2d8d4c13f57e1bd31cd488",
-            "shasum": ""
-        },
-        "require": {
-            "jacobkiers/oauth": "~1.0.10",
-            "kriswallsmith/buzz": "~0.13",
-            "php": "~5.3"
-        },
-        "conflict": {
-            "eabay/bitbucket-repo-sync": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "suggest": {
-            "ext-curl": "*"
-        },
-        "time": "2015-07-15 07:46:51",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Bitbucket\\": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Alexandru Guzinschi",
-                "email": "alex@gentle.ro",
-                "homepage": "http://www.sebi.me",
-                "role": "Developer"
-            }
-        ],
-        "description": "Bitbucket API wrapper for PHP >= 5.3",
-        "homepage": "https://bitbucket.org/gentlero/bitbucket-api",
-        "keywords": [
-            "api",
-            "bitbucket"
         ]
     },
     {
@@ -965,236 +814,6 @@
             "rest",
             "web service"
         ]
-    },
-    {
-        "name": "knplabs/github-api",
-        "version": "1.4.14",
-        "version_normalized": "1.4.14.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/php-github-api.git",
-            "reference": "9010dbe21f4b0bae0edae26bbe031d7d91347938"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/9010dbe21f4b0bae0edae26bbe031d7d91347938",
-            "reference": "9010dbe21f4b0bae0edae26bbe031d7d91347938",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "guzzle/guzzle": "~3.7",
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "suggest": {
-            "knplabs/gaufrette": "Needed for optional Gaufrette cache"
-        },
-        "time": "2015-07-03 14:59:20",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.4.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Github\\": "lib/Github/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thibault Duplessis",
-                "email": "thibault.duplessis@gmail.com",
-                "homepage": "http://ornicar.github.com"
-            },
-            {
-                "name": "KnpLabs Team",
-                "homepage": "http://knplabs.com"
-            }
-        ],
-        "description": "GitHub API v3 client",
-        "homepage": "https://github.com/KnpLabs/php-github-api",
-        "keywords": [
-            "api",
-            "gh",
-            "gist",
-            "github"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "v2.7.3",
-        "version_normalized": "2.7.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/Process.git",
-            "reference": "48aeb0e48600321c272955132d7606ab0a49adb3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/Process/zipball/48aeb0e48600321c272955132d7606ab0a49adb3",
-            "reference": "48aeb0e48600321c272955132d7606ab0a49adb3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "require-dev": {
-            "symfony/phpunit-bridge": "~2.7"
-        },
-        "time": "2015-07-01 11:25:50",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "symfony/options-resolver",
-        "version": "v2.7.3",
-        "version_normalized": "2.7.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/OptionsResolver.git",
-            "reference": "98c313c831e5d99bb393ba1844df91bab2bb5b8b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/OptionsResolver/zipball/98c313c831e5d99bb393ba1844df91bab2bb5b8b",
-            "reference": "98c313c831e5d99bb393ba1844df91bab2bb5b8b",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "require-dev": {
-            "symfony/phpunit-bridge": "~2.7"
-        },
-        "time": "2015-06-18 19:21:56",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\OptionsResolver\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony OptionsResolver Component",
-        "homepage": "https://symfony.com",
-        "keywords": [
-            "config",
-            "configuration",
-            "options"
-        ]
-    },
-    {
-        "name": "symfony/event-dispatcher",
-        "version": "v2.7.3",
-        "version_normalized": "2.7.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/EventDispatcher.git",
-            "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
-            "reference": "9310b5f9a87ec2ea75d20fec0b0017c77c66dac3",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "require-dev": {
-            "psr/log": "~1.0",
-            "symfony/config": "~2.0,>=2.0.5",
-            "symfony/dependency-injection": "~2.6",
-            "symfony/expression-language": "~2.6",
-            "symfony/phpunit-bridge": "~2.7",
-            "symfony/stopwatch": "~2.3"
-        },
-        "suggest": {
-            "symfony/dependency-injection": "",
-            "symfony/http-kernel": ""
-        },
-        "time": "2015-06-18 19:21:56",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\EventDispatcher\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony EventDispatcher Component",
-        "homepage": "https://symfony.com"
     },
     {
         "name": "guzzlehttp/promises",
@@ -1358,70 +977,6 @@
             "message",
             "stream",
             "uri"
-        ]
-    },
-    {
-        "name": "guzzlehttp/guzzle",
-        "version": "6.0.2",
-        "version_normalized": "6.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "a8dfeff00eb84616a17fea7a4d72af35e750410f"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/a8dfeff00eb84616a17fea7a4d72af35e750410f",
-            "reference": "a8dfeff00eb84616a17fea7a4d72af35e750410f",
-            "shasum": ""
-        },
-        "require": {
-            "guzzlehttp/promises": "~1.0",
-            "guzzlehttp/psr7": "~1.1",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "ext-curl": "*",
-            "phpunit/phpunit": "~4.0",
-            "psr/log": "~1.0"
-        },
-        "time": "2015-07-04 20:09:24",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "6.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "src/functions_include.php"
-            ],
-            "psr-4": {
-                "GuzzleHttp\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle is a PHP HTTP client library",
-        "homepage": "http://guzzlephp.org/",
-        "keywords": [
-            "client",
-            "curl",
-            "framework",
-            "http",
-            "http client",
-            "rest",
-            "web service"
         ]
     },
     {
@@ -1589,22 +1144,466 @@
         ]
     },
     {
+        "name": "mustache/mustache",
+        "version": "v2.9.0",
+        "version_normalized": "2.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "c745b01956caf27d26b55a72a90aff56bc169cd6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/c745b01956caf27d26b55a72a90aff56bc169cd6",
+            "reference": "c745b01956caf27d26b55a72a90aff56bc169cd6",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "fabpot/php-cs-fixer": "~1.6",
+            "phpunit/phpunit": "~3.7|~4.0"
+        },
+        "time": "2015-08-15 19:23:13",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
+        ]
+    },
+    {
+        "name": "suin/php-rss-writer",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/suin/php-rss-writer.git",
+            "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/96ff59575442dbe23e15fe7ff56d0bf27486cff9",
+            "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2015-08-21 06:24:39",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Suin\\RSSWriter": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Hidehito Nozawa aka Suin",
+                "email": "suinyeze@gmail.com"
+            }
+        ],
+        "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
+        "homepage": "https://github.com/suin/php-rss-writer",
+        "keywords": [
+            "feed",
+            "generator",
+            "php",
+            "rss",
+            "writer"
+        ]
+    },
+    {
+        "name": "symfony/event-dispatcher",
+        "version": "v2.7.4",
+        "version_normalized": "2.7.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/EventDispatcher.git",
+            "reference": "b58c916f1db03a611b72dd702564f30ad8fe83fa"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/EventDispatcher/zipball/b58c916f1db03a611b72dd702564f30ad8fe83fa",
+            "reference": "b58c916f1db03a611b72dd702564f30ad8fe83fa",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/config": "~2.0,>=2.0.5",
+            "symfony/dependency-injection": "~2.6",
+            "symfony/expression-language": "~2.6",
+            "symfony/phpunit-bridge": "~2.7",
+            "symfony/stopwatch": "~2.3"
+        },
+        "suggest": {
+            "symfony/dependency-injection": "",
+            "symfony/http-kernel": ""
+        },
+        "time": "2015-08-24 07:13:45",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\EventDispatcher\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony EventDispatcher Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "knplabs/github-api",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/KnpLabs/php-github-api.git",
+            "reference": "313d7ed61494f525ab93cfd8595ec2d398533220"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/313d7ed61494f525ab93cfd8595ec2d398533220",
+            "reference": "313d7ed61494f525ab93cfd8595ec2d398533220",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "guzzle/guzzle": "~3.7",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "suggest": {
+            "knplabs/gaufrette": "Needed for optional Gaufrette cache"
+        },
+        "time": "2015-08-20 09:44:33",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Github\\": "lib/Github/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thibault Duplessis",
+                "email": "thibault.duplessis@gmail.com",
+                "homepage": "http://ornicar.github.com"
+            },
+            {
+                "name": "KnpLabs Team",
+                "homepage": "http://knplabs.com"
+            }
+        ],
+        "description": "GitHub API v3 client",
+        "homepage": "https://github.com/KnpLabs/php-github-api",
+        "keywords": [
+            "api",
+            "gh",
+            "gist",
+            "github"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v2.7.4",
+        "version_normalized": "2.7.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/Process.git",
+            "reference": "f7b3f73f70a7f8f49a1c838dc3debbf054732d8e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/Process/zipball/f7b3f73f70a7f8f49a1c838dc3debbf054732d8e",
+            "reference": "f7b3f73f70a7f8f49a1c838dc3debbf054732d8e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2015-08-27 06:45:45",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Process\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/options-resolver",
+        "version": "v2.7.4",
+        "version_normalized": "2.7.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/OptionsResolver.git",
+            "reference": "0240d768d6dba7fd45c293fa90925291b577d2df"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/OptionsResolver/zipball/0240d768d6dba7fd45c293fa90925291b577d2df",
+            "reference": "0240d768d6dba7fd45c293fa90925291b577d2df",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "symfony/phpunit-bridge": "~2.7"
+        },
+        "time": "2015-08-24 07:13:45",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.7-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\OptionsResolver\\": ""
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony OptionsResolver Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "config",
+            "configuration",
+            "options"
+        ]
+    },
+    {
+        "name": "guzzlehttp/guzzle",
+        "version": "6.1.0",
+        "version_normalized": "6.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/guzzle.git",
+            "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
+            "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/promises": "~1.0",
+            "guzzlehttp/psr7": "~1.1",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "ext-curl": "*",
+            "phpunit/phpunit": "~4.0",
+            "psr/log": "~1.0"
+        },
+        "time": "2015-09-08 17:36:26",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "6.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/functions_include.php"
+            ],
+            "psr-4": {
+                "GuzzleHttp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle is a PHP HTTP client library",
+        "homepage": "http://guzzlephp.org/",
+        "keywords": [
+            "client",
+            "curl",
+            "framework",
+            "http",
+            "http client",
+            "rest",
+            "web service"
+        ]
+    },
+    {
+        "name": "gentle/bitbucket-api",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gentlero/bitbucket-api.git",
+            "reference": "0c36dbc4fa6154cee33ae5f09cff5deafe7616b8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gentlero/bitbucket-api/zipball/0c36dbc4fa6154cee33ae5f09cff5deafe7616b8",
+            "reference": "0c36dbc4fa6154cee33ae5f09cff5deafe7616b8",
+            "shasum": ""
+        },
+        "require": {
+            "jacobkiers/oauth": "~1.0.10",
+            "kriswallsmith/buzz": "~0.13",
+            "php": ">=5.3"
+        },
+        "conflict": {
+            "eabay/bitbucket-repo-sync": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "suggest": {
+            "ext-curl": "*"
+        },
+        "time": "2015-09-08 05:28:55",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Bitbucket\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alexandru Guzinschi",
+                "email": "alex@gentle.ro",
+                "homepage": "http://www.sebi.me",
+                "role": "Developer"
+            }
+        ],
+        "description": "Bitbucket API wrapper for PHP >= 5.3",
+        "homepage": "https://bitbucket.org/gentlero/bitbucket-api",
+        "keywords": [
+            "api",
+            "bitbucket"
+        ]
+    },
+    {
         "name": "stevenmaguire/oauth2-bitbucket",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
         "source": {
             "type": "git",
             "url": "https://github.com/stevenmaguire/oauth2-bitbucket.git",
-            "reference": "7aa26c4f1f57608184520288c5809582cf53588d"
+            "reference": "754204cb0fc89676c9f513ddac198d51a65cf635"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/stevenmaguire/oauth2-bitbucket/zipball/7aa26c4f1f57608184520288c5809582cf53588d",
-            "reference": "7aa26c4f1f57608184520288c5809582cf53588d",
+            "url": "https://api.github.com/repos/stevenmaguire/oauth2-bitbucket/zipball/754204cb0fc89676c9f513ddac198d51a65cf635",
+            "reference": "754204cb0fc89676c9f513ddac198d51a65cf635",
             "shasum": ""
         },
         "require": {
-            "league/oauth2-client": "1.0.0-beta2",
+            "league/oauth2-client": "~1.0",
             "php": ">=5.5.0"
         },
         "require-dev": {
@@ -1612,7 +1611,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2015-08-12 16:16:14",
+        "time": "2015-08-20 14:32:29",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1653,16 +1652,16 @@
         "source": {
             "type": "git",
             "url": "https://github.com/thephpleague/oauth2-github.git",
-            "reference": "33b73e31d703485447aa0df57bce9fb9a56469f1"
+            "reference": "67f394f40fdb362174149393daabf5d87d67ade4"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/oauth2-github/zipball/33b73e31d703485447aa0df57bce9fb9a56469f1",
-            "reference": "33b73e31d703485447aa0df57bce9fb9a56469f1",
+            "url": "https://api.github.com/repos/thephpleague/oauth2-github/zipball/67f394f40fdb362174149393daabf5d87d67ade4",
+            "reference": "67f394f40fdb362174149393daabf5d87d67ade4",
             "shasum": ""
         },
         "require": {
-            "league/oauth2-client": "1.0.0-beta2",
+            "league/oauth2-client": "~1.0",
             "php": ">=5.5.0"
         },
         "require-dev": {
@@ -1670,7 +1669,7 @@
             "phpunit/phpunit": "~4.0",
             "squizlabs/php_codesniffer": "~2.0"
         },
-        "time": "2015-08-12 16:22:43",
+        "time": "2015-08-20 15:16:21",
         "type": "library",
         "extra": {
             "branch-alias": {

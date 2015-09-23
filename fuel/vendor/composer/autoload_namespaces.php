@@ -6,7 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname(dirname($vendorDir));
 
 return array(
-    'Suin\\RSSWriter' => array($vendorDir . '/suin/php-rss-writer/Source'),
+    'Suin\\RSSWriter' => array($vendorDir . '/suin/php-rss-writer/src'),
     'SecurityLib' => array($vendorDir . '/ircmaxell/security-lib/lib'),
     'RandomLib' => array($vendorDir . '/ircmaxell/random-lib/lib'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log'),

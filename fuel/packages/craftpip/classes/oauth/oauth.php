@@ -25,7 +25,11 @@ class OAuth extends Auth {
 
     public function __construct($user_id = NULL) {
         parent::__construct($user_id);
-        $this->config = \Config::load('oauth');
+        if (\Fuel::$env == 'development') {
+            $this->config = \Config::load('oauth-dev');
+        } else {
+            $this->config = \Config::load('oauth');
+        }
         $this->client = new \GuzzleHttp\Client();
     }
 
@@ -75,6 +79,7 @@ class OAuth extends Auth {
         $this->updateProvider($this->OAuth_provider, [
             'access_token' => serialize($new_token)
         ]);
+
         return $new_token;
     }
 

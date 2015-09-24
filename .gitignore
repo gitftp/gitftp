@@ -6,3 +6,6 @@
 /fuel/app/cache
 /fuel/vendor/**/.git
 /.htaccess
+/.ftpquota
+/error_log
+/index.html

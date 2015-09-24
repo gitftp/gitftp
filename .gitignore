@@ -4,3 +4,4 @@
 /commit.bat
 /.idea
 /fuel/app/cache
+/fuel/vendor/**/.git

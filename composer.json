@@ -50,7 +50,8 @@
         "mthaml/mthaml": "Allow Haml templating with Twig supports with the Parser package"
     },
     "config": {
-        "vendor-dir": "fuel/vendor"
+        "vendor-dir": "fuel/vendor",
+        "preferred-install": "dist"
     },
     "extra": {
         "installer-paths": {

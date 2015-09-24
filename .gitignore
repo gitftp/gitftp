@@ -5,3 +5,4 @@
 /.idea
 /fuel/app/cache
 /fuel/vendor/**/.git
+/.htaccess

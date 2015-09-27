@@ -30,6 +30,27 @@ class Crontask {
     }
 
     /**
+     * NOT USED YET.
+     * Iterates through all deploy, finding which one is not deployed, and starts its deployment.
+     */
+    public function deploy_all2() {
+        $deploy = new \Model_Deploy();
+        $record = new \Model_Record();
+
+        $projects = $deploy->get(NULL, array('id', 'cloned'), TRUE);
+        foreach ($projects as $project) {
+            $deploy_id = $project['id'];
+            $is_active = $record->is_queue_active($deploy_id);
+            if ($is_active) {
+                continue;
+            } else {
+                \Utils::startDeploy($deploy_id);
+            }
+        }
+    }
+
+
+    /**
      * Actual function that is called from CLI.
      * @param null $deploy_id
      * @return string

@@ -32,7 +32,7 @@ class Deploy extends DeployHelper {
     public $attempt = 0;
 
     public $logfile = '';
-    public $writefile = TRUE;
+    public $writefile = FALSE;
 
     // deploy script
     public $globalFilesToIgnore = array(
@@ -83,7 +83,8 @@ class Deploy extends DeployHelper {
         $this->provider = strtolower(\Utils::parseProviderFromRepository($this->data['repository'])); // get current provider
         chdir($this->repo_dir); // change to repo dir !!!. we are on repo dir forever. NO NEED TO CHANGE IT LATER.
         $this->output('Current directory: ' . getcwd());
-
+        $this->repo = $this->repo_dir;
+        $this->mainRepo = $this->repo_dir;
         $old_error_handler = set_error_handler(array( // Handle traditional errors. Instead throw exceptions.
             $this,
             'error_handler'
@@ -92,6 +93,7 @@ class Deploy extends DeployHelper {
 
     public function error_handler($errno, $errstr, $errfile, $errline) {
         /* Don't execute PHP internal error handler */
+        // apparently those will break the deploys.
         return TRUE;
     }
 
@@ -123,17 +125,17 @@ class Deploy extends DeployHelper {
         $this->output('Starting with record id: ' . $this->record_id);
 
         try {
-            // check for connectivity.
+            // check for connectivity to git service.
             try {
                 $branches = \Utils::gitGetBranches2($this->clone_url());
             } catch (Exception $e) {
-                $this->log('connection', 'Error: ' . $e->getMessage() . ', Could not connect to repository');
+                $this->log('connection', 'Error: ' . $e->getMessage() . ', could not connect to repository');
                 throw $e;
             }
 
-            $this->output(is_array($branches) ? 'found branches ' . implode(', ', $branches) : 'no branches found.');
+            $this->output(is_array($branches) ? 'found branches ' . implode(', ', $branches) : 'no branches found.'); // no branches found ? that shouldnt happen.
             $this->output('Fetched ' . count($branches) . ' branches');
-            $this->log('connection', 'Connected to ' . $this->deploy_data['repository'] . '.');
+            $this->log('connection', 'Connected to ' . $this->data['repository'] . '.');
 
             if ($this->record_type == $this->m_record->type_first_clone) {
                 if (!$this->is_cloned) {
@@ -165,8 +167,13 @@ class Deploy extends DeployHelper {
                 $this->initUpload();
 
                 // done with branch.
+
+                $this->m_record->set($this->record_id, array(
+                    'raw' => serialize($this->log)
+                ), TRUE);
                 $this->m_branches->set($this->record['branch_id'], array(
-                    'ready' => 1
+                    'revision' => $this->localRevision,
+                    'ready'    => 1
                 ), TRUE);
             }
 
@@ -298,20 +305,23 @@ class Deploy extends DeployHelper {
             $this->attempt += 1;
             if ($this->attempt == 5) {
                 $this->log('error', 'Error 10006: Could not connect to FTP server at 5 attempts.');
-                throw new Exception('Could not connect to FTP server, ');
+                throw new Exception('Could not connect to FTP server');
             }
         }
 
-        $this->log('ftp_connect', 'Connected to ftp server on ' . $this->attempt . ' attempt.');
+        $this->log('ftp_connect', 'Connected to ftp server on ' . $this->attempt . ' attempt(s).');
         $this->log('enviornment', $this->branch['name']);
         $this->log('enviornment_branch', $this->branch['branch_name']);
 
         // lets checkout the required branch.
         $this->gitCommand('checkout ' . $this->branch['branch_name']);
-        $this->log('revision_on_remote', $this->branch['revision']);
+        $this->log('Revision on server: ' . $this->branch['revision']);
 
         // set remote
         $this->remoteRevision = $this->branch['revision'];
+        $this->m_record->set($this->record_id, array(
+            'hash_before' => $this->remoteRevision
+        ), TRUE);
 
         if ($this->record_type == $this->m_record->type_rollback && !empty($this->record['hash'])) {
             $this->gitCommand('checkout ' . $this->record['hash']);
@@ -330,23 +340,32 @@ class Deploy extends DeployHelper {
         }
 
         $this->localRevision = $this->gitCommand('rev-parse HEAD'); // where is the HEAD.
+
         if (isset($this->localRevision[0]))
             $this->localRevision = trim($this->localRevision[0]);
 
         if ($this->localRevision == $this->remoteRevision)
             $this->log('Note: remote server has latest changes');
 
+        $this->log('Revision to update: ' . $this->localRevision);
+
+        $this->m_record->set($this->record_id, array(
+            'hash' => $this->localRevision,
+        ), TRUE);
+
         $this->scanSubmodules = TRUE;
         $this->scanSubSubmodules = FALSE;
 
         $this->checkSubmodules($this->repo_dir);
         $this->deploy();
+
     }
 
     public function deploy() {
         $revision = $this->localRevision;
         $this->prepareServer();
         $this->connect();
+        $this->log('connected to ftp server.');
         $files = $this->compare();
         $this->push($files);
 
@@ -369,6 +388,11 @@ class Deploy extends DeployHelper {
 
         // Done.
         $this->output("\r\n|----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------|");
+        $this->m_record->set($this->record_id, array(
+            'amount_deployed_raw' => $this->deploymentSize,
+            'amount_deployed'     => $this->humanFilesize($this->deploymentSize),
+        ), TRUE); // set deployed amount.
+
         $this->deploymentSize = 0;
     }
 
@@ -382,16 +406,36 @@ class Deploy extends DeployHelper {
         $filesToUpload = $files['upload'];
         unset($files);
 
+        // total files
+        $this->output('Starting to make changes on server');
+
+        $totalcount = count($filesToDelete) + count($filesToUpload);
+        $this->m_record->set($this->record_id, array(
+            'total_files' => (int)$totalcount,
+        ), TRUE);
+        $currentFile = 0;
+
+        $this->output('Total files to process, ' . $totalcount);
+        $this->log('Gathered ' . $totalcount . ' changed files.');
+
         // Delete files
         if (count($filesToDelete) > 0) {
             foreach ($filesToDelete as $fileNo => $file) {
                 $numberOfFilesToDelete = count($filesToDelete);
-                if ($this->connection->exists($file)) {
+                try {
                     $this->connection->rm($file);
                     $this->output("× $fileNo of $numberOfFilesToDelete {$file}");
-                } else {
+                } catch (Exception $e) {
                     $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                     $this->output("! $fileNo of $numberOfFilesToDelete {$file} not found");
+                    $this->log("Warn: ! {$file} file not found to be delete. ");
+                }
+
+                $currentFile += 1; // incremented.
+                if ($currentFile % 5 == 0 || $currentFile == $totalcount) { // update in database after 5 files.
+                    $this->m_record->set($this->record_id, array(
+                        'processed_files' => $currentFile
+                    ), TRUE);
                 }
             }
         }
@@ -452,6 +496,7 @@ class Deploy extends DeployHelper {
                     }
 
                     $data = file_get_contents($this->repo . '/' . $file);
+                    $this->output($this->repo . '/' . $file);
                     $remoteFile = $file;
                     $uploaded = $this->connection->put($data, $remoteFile);
 
@@ -460,6 +505,13 @@ class Deploy extends DeployHelper {
                         $this->output("Failed to upload {$file}. Retrying (attempt $attempts/10)...");
                     } else {
                         $this->deploymentSize += filesize($this->repo . '/' . $file);
+
+                        $currentFile += 1; // incremented.
+                        if ($currentFile % 5 == 0 || $currentFile == $totalcount) { // update in database after 5 files.
+                            $this->m_record->set($this->record_id, array(
+                                'processed_files' => $currentFile
+                            ), TRUE);
+                        }
                     }
                 }
 
@@ -474,7 +526,6 @@ class Deploy extends DeployHelper {
         if ($this->revision != 'HEAD') {
             $this->gitCommand('checkout ' . ($initialBranch ?: 'master'));
         }
-        // todo: we are here
     }
 
     public function compare() {
@@ -527,6 +578,14 @@ class Deploy extends DeployHelper {
         $filesToDelete = $filteredFilesToDelete['files'];
         $filesToUpload = $filteredFilesToUpload['files'];
         $filesToSkip = array_merge($filteredFilesToDelete['filesToSkip'], $filteredFilesToUpload['filesToSkip']);
+        $this->m_record->set($this->record_id, array(
+            'file_add'    => count($filesToUpload),
+            'file_remove' => count($filesToDelete),
+            'file_skip'   => count($filesToSkip),
+        ), TRUE);
+        $this->log('Files modified/added: ' . count($filesToUpload));
+        $this->log('Files deleted/renamed: ' . count($filesToDelete));
+        $this->log('Files Skipped: ' . count($filesToSkip));
 
         return array(
             'delete' => $filesToDelete,

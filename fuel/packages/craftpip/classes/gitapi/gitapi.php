@@ -17,13 +17,13 @@ class GitApi {
         $this->providers = array();
         $providers = $this->auth->getProviders();
 
-        foreach($providers as $provider){
-            $class = "\\Craftpip\\GitApi\\".ucfirst(strtolower($provider['provider']));
+        foreach ($providers as $provider) {
+            $class = "\\Craftpip\\GitApi\\" . ucfirst(strtolower($provider['provider']));
             $this->providers[strtolower($provider['provider'])] = new $class($provider['username']);
             $token = unserialize($provider['access_token']);
             $expires = $token->getexpires();
-            if(!empty($expires)){
-                if($token->hasExpired()){
+            if (!empty($expires)) {
+                if ($token->hasExpired()) {
                     $token = $this->auth->refreshToken($provider['provider']);
                 }
             }
@@ -45,20 +45,29 @@ class GitApi {
     public function parseRepositoryCloneUrl($data, $provider) {
         // here data is database record array.
         $url = $data['repository'];
-        if($data['git_name'] !== ''){
-            if($provider == 'github'){
-                $username = $this->auth->getToken('github')->getToken();
+        if ($data['git_name'] !== '') {
+            if ($provider == 'github') {
+
+                if ($username = $this->auth->getToken('github')) {
+                    $username = $username->getToken();
+                } else {
+                    throw new Exception('Github account is not accessible');
+                }
             }
-            if($provider == 'bitbucket') {
+            if ($provider == 'bitbucket') {
                 // check for expired token.
                 $token = $this->auth->getToken('bitbucket');
-                if($token->hasExpired()){
-                    $token = $this->auth->refreshToken($provider['provider']);
+                if ($token) {
+                    if ($token->hasExpired()) {
+                        $token = $this->auth->refreshToken($provider['provider']);
+                    }
+                    $username = 'x-token-auth';
+                    $password = $token->getToken();
+                } else {
+                    throw new Exception('Bitbucket account is not accessible');
                 }
-                $username = 'x-token-auth';
-                $password = $token->getToken();
             }
-        }else{
+        } else {
             // manual
             $username = $data['username'];
             $password = $data['password'];
@@ -73,8 +82,10 @@ class GitApi {
             }
             $url = http_build_url($repo_url);
         }
+
         return $url;
     }
+
     public function getRepositories() {
         $r = array();
         foreach ($this->providers as $provider) {
@@ -91,6 +102,7 @@ class GitApi {
         } catch (\Exception $e) {
             throw new Exception('Provider not found: ' . $name);
         }
+
         return $api;
     }
 }

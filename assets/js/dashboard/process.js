@@ -49,7 +49,7 @@ define([], function () {
                 that.deployView();
             }, this.deployViewInterval);
         },
-        deployViewInterval: 3000,
+        deployViewInterval: 10000,
         timeUpdateInterval: 500,
         timeUpdate: function () {
             /*

@@ -5,10 +5,12 @@ Class DeployHelper {
     // create user & repo folder.
     public function createFolders() {
         $this->output('Creating folders');
-        exec("mkdir " . $this->repo_home . "/" . $this->user_id);
         $this->user_dir = $this->repo_home . "/" . $this->user_id;
-        exec("mkdir " . $this->user_dir . "/" . $this->deploy_id);
         $this->repo_dir = $this->user_dir . "/" . $this->deploy_id;
+        if (!file_exists($this->user_dir))
+            exec("mkdir " . $this->repo_home . "/" . $this->user_id);
+        if (!file_exists($this->repo_dir))
+            exec("mkdir " . $this->user_dir . "/" . $this->deploy_id);
     }
 
     // return clone url.
@@ -28,7 +30,6 @@ Class DeployHelper {
                 $current .= "$message\n";
                 file_put_contents($file, $current);
             }
-
             \Cli::write("~ $message", $color, $bgcolor);
         }
     }
@@ -91,7 +92,9 @@ Class DeployHelper {
         // Escape special chars in string with a backslash
         if ($escape)
             $command = escapeshellcmd($command);
-        $this->output("CONSOLE: $command");
+        if($this->debug)
+            $this->output("CONSOLE: $command");
+
         exec($command, $output);
         $this->output($output);
 

@@ -124,12 +124,12 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
     public function post_create() {
         try {
-            $i = Input::post();
+            $i = \Input::post();
             // todo: verify all details.
             $user = new \Craftpip\OAuth\Auth();
             $limit = $user->getAttr('project_limit');
-            $deploy = new Model_Deploy();
-            $branch = new Model_Branch();
+            $deploy = new \Model_Deploy();
+            $branch = new \Model_Branch();
             $deploy_data = $deploy->get(NULL, array(
                 'id', 'cloned'
             ));
@@ -202,12 +202,12 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             $record->insert($set);
 
             foreach ($env as $ev) {
-                if ($ev['env_deploy_now']) {
-                    $branch = $branch->get_by_ftp_id($ev['env_ftp']);
-                    $branch = $branch[0];
+                if ((String)$ev['env_deploy_now'] == 'true') {
+                    $branch_one = $branch->get_by_ftp_id($ev['env_ftp']);
+                    $branch_one = $branch_one[0];
                     $set = array(
-                        'deploy_id'   => $branch['deploy_id'],
-                        'branch_id'   => $branch['id'],
+                        'deploy_id'   => $branch_one['deploy_id'],
+                        'branch_id'   => $branch_one['id'],
                         'date'        => time(),
                         'triggerby'   => '',
                         'status'      => $record->in_queue,
@@ -216,7 +216,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                     $record->insert($set);
                 }
             }
-            \Utils::startDeploy($deploy_id);
+//            \Utils::startDeploy($deploy_id);
 
             if ($deploy_id) {
                 $response = array(
@@ -414,12 +414,11 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                             break;
                     }
 
-
                     $record_id = $record->insert($set);
                 }
             }
 
-            \Gfcore::deploy_in_bg($deploy_id);
+//            \Gfcore::deploy_in_bg($deploy_id);
             $response = array(
                 'status' => TRUE,
             );

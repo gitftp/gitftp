@@ -403,7 +403,7 @@ define([
                 title: 'Getting repositories..',
                 //icon: 'fa fa-spinner fa-spin',
                 icon: 'gf gf-loading gf-block gf-alert',
-                content: 'Please wait, While we fetch data from services.',
+                content: 'Please wait, while we fetch data from services.',
                 backgroundDismiss: false,
                 closeIcon: false,
                 container: that.el,

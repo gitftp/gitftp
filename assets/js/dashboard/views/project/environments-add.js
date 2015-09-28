@@ -149,7 +149,7 @@ define([
 
                 if (ftp[0].data.length == 0) {
                     noty({
-                        text: 'You\'ve no available FTP servers ready to associate with your new Environment. Please create one.',
+                        text: 'You\'ve no available FTP servers ready to Link with your new Environment. Please create one.',
                         type: 'error'
                     });
                 }

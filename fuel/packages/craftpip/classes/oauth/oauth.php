@@ -149,8 +149,9 @@ class OAuth extends Auth {
             $this->OAuth_state = 'logged_in';
         } else {
             $user = $this->getByUsernameEmail($this->OAuth_email);
+
             if ($user) {
-                $user_id = $user[0]['id'];
+                $user_id = $user['id'];
                 $this->setId($user_id);
                 $this->OAuth_state = 'logged_in';
             } else {

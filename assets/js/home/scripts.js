@@ -1,10 +1,7 @@
 (function ($) {
     "use strict";
     $(document).ready(function () {
-        //fullscreen_section($(this));
         parallax_image();
-        //flex_slider($);
-        //fix_height();
         progress_bar($(this));
         mobile_nav($(this));
         owl_carousel($(this));
@@ -246,8 +243,8 @@
     jconfirm.defaults = {
         container: 'body',
         theme: 'white git', //supervan
-        animation: 'opacity',
-        columnClass: 'col-md-4 col-md-offset-4',
+        animation: 'zoom',
+        columnClass: 'col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3',
         animationSpeed: 200,
         animationBounce: 1,
         confirmButtonClass: 'btn-success',
@@ -258,10 +255,136 @@
     var app = {
         init: function () {
             this.login();
+            this.signup();
             this.resetPassword();
             this.resetPasswordConfirmed();
             this.footerAlign();
             this.socialLogins();
+        },
+        signup: function () {
+            this.$signupform = $('#home-signup')
+            if (!this.$signupform.length)
+                return false;
+            var EmailValid = false,
+                UsernameValid = false,
+                request = false;
+
+            this.$signupform.find('[name="username"]').on('keyup blur', function (e) {
+                var $this = $(this);
+                if ($this.valid()) {
+                    if (request)
+                        request.abort();
+
+                    request = $.ajax({
+                        url: home_url + 'api/user/validate',
+                        data: {
+                            key: $this.val(),
+                        },
+                        method: 'post',
+                        dataType: 'json'
+                    }).done(function (res) {
+                        $('.usernamevalid').hide();
+                        if (res.status) {
+                            // the username is taken.
+                            UsernameValid = false;
+                            $('.usernamevalid').css('display', 'inline-block');
+                        } else {
+                            UsernameValid = true;
+                        }
+                    });
+                } else {
+                    $('.usernamevalid').hide();
+                }
+            });
+            this.$signupform.find('[name="email"]').on('keyup blur', function (e) {
+                var $this = $(this);
+                if ($this.valid()) {
+
+                    if (request)
+                        request.abort();
+
+                    request = $.ajax({
+                        url: home_url + 'api/user/validate',
+                        data: {
+                            key: $this.val(),
+                        },
+                        method: 'post',
+                        dataType: 'json'
+                    }).done(function (res) {
+                        $('.emailvalid').hide();
+                        if (res.status) {
+                            // the user is registered.
+                            EmailValid = false;
+                            $('.emailvalid').css('display', 'inline-block');
+                        } else {
+                            EmailValid = true;
+                        }
+                    });
+                } else {
+                    $('.emailvalid').hide();
+                }
+            });
+            this.$signupform.validate({
+                submitHandler: function (form) {
+                    var $form = $(form);
+                    var data = $form.serializeArray();
+                    if (!EmailValid || !UsernameValid) {
+                        return false;
+                    }
+                    $form.find(':input').attr('disabled', 'disabled');
+                    $.ajax({
+                        url: home_url + 'api/user/register',
+                        method: 'post',
+                        dataType: 'json',
+                        data: data,
+                    }).done(function (res) {
+                        if (res.status) {
+                            $.alert({
+                                title: 'Welcome',
+                                content: 'You\'ve successfully registered with Gitftp.com, <br/> Please head to your Email account to activate your Gitftp account.',
+                                confirmButton: 'Dismiss',
+                                icon: 'fa fa-check green'
+                            });
+                        } else {
+                            $.alert({
+                                title: 'Problem',
+                                content: res.reason,
+                                confirmButton: 'Dismiss',
+                                icon: 'fa fa-info blue'
+                            });
+                        }
+                    }).fail(function () {
+                        $.alert({
+                            title: 'Something went wrong',
+                            content: 'We experienced an issue and is being resolved. Please try again.',
+                            confirmButton: 'Dismiss',
+                            icon: 'fa fa-warning red'
+                        });
+                    }).always(function () {
+                        $form.find(':input').removeAttr('disabled');
+                    });
+                },
+                rules: {
+                    fullname: {
+                        required: true,
+                    },
+                    email: {
+                        required: true,
+                        email: true,
+                    },
+                    username: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 18
+                    },
+                    password: {
+                        required: true,
+                        minlength: 6,
+                        maxlength: 18
+
+                    }
+                }
+            })
         },
         login: function () {
             this.$loginform = $('#home-login')
@@ -286,7 +409,8 @@
                             $.dialog({
                                 title: '',
                                 content: '<span class=""><i class="fa fa-spin fa-spinner"></i>&nbsp; Logged in, Redirecting... </span>',
-                                closeIcon: false
+                                closeIcon: false,
+                                backgroundDismiss: false
                             });
                             if (getUrlParameter('ref')) {
                                 window.location = decodeURIComponent(getUrlParameter('ref'));
@@ -296,8 +420,9 @@
                         } else {
                             $.alert({
                                 title: 'Problem',
+                                icon: 'fa fa-info orange fa-fw',
                                 content: data.reason,
-                                confirmButton: 'close',
+                                confirmButton: 'Dismiss',
                                 confirmButtonClass: 'btn btn-default'
                             });
                         }
@@ -346,13 +471,16 @@
                         if (data.status) {
                             $.alert({
                                 title: 'Email sent!',
-                                content: 'We have sent you an email with instructions to reset your password.',
+                                icon: 'fa fa-check green fa-fw',
+                                content: 'We have sent you an Email with instructions to reset your password.',
                                 closeIcon: false,
+                                confirmButton: 'Dismiss'
                             });
                         } else {
                             $.alert({
                                 title: 'Problem',
                                 content: data.reason,
+                                icon: 'fa fa-info orange fa-fw',
                                 confirmButton: 'close',
                                 confirmButtonClass: 'btn btn-default'
                             });
@@ -447,25 +575,24 @@
             if (bh < wh) {
                 $footer.css({
                     'margin-top': wh - bh - fh
-                })
+                });
             } else {
                 $footer.css({
                     'margin-top': 0
-                })
+                });
             }
         },
         socialLogins: function () {
-            $('#login-via-github').on('click', function (e) {
+            $('.login-via').on('click', function (e) {
                 e.preventDefault();
-                window.location.href = home_url + 'api/user/oauth/github';
+                var via = $(this).data('id');
+                window.location.href = home_url + 'api/user/authorize/' + via;
             });
         }
     }
-
     $(window).resize(function () {
         app.footerAlign();
     });
-
 })(jQuery);
 
 

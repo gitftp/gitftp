@@ -450,7 +450,7 @@ define([
                     $.confirm({
                         title: 'No FTP servers',
                         icon: 'fa fa-info',
-                        content: 'You\'ve no available FTP servers ready to associate with your new project. Please create one.',
+                        content: 'You\'ve no available FTP servers ready to Link with your new project. Please create one.',
                         cancelButton: 'Add ftp',
                         cancel: function () {
                             Router.navigate('/ftp/add', {

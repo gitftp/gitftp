@@ -730,24 +730,25 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.numbers {
-  padding: 10px 20px;
-  background: @bg;
-  table {
-    width: 100%;
-    tr {
-      td:first-child {
-        font-weight: 500;
-        font-size: 20px;
-        text-align: right;
-        padding-right: 20px;
-        width: 40%;
-        vertical-align: middle;
+.panel-stats {
+  .numbers {
+    padding: 10px 20px;
+    background: @bg;
+    table {
+      width: 100%;
+      tr {
+        td:first-child {
+          font-weight: 500;
+          font-size: 20px;
+          text-align: right;
+          padding-right: 20px;
+          width: 40%;
+          vertical-align: middle;
+        }
       }
     }
   }
 }
-
 
 .bottomBar {
   position: fixed;
@@ -816,29 +817,6 @@ i {
   }
   &.gf-alert {
     margin-bottom: 10px;
-  }
-}
-
-.hilight {
-  animation: shake infinite .4s @easing;
-  .shadow-x5;
-}
-
-@keyframes shake {
-  1% {
-    transform: translate(20px, 0px);
-  }
-  25% {
-    transform: translate(-20px, 0px);
-  }
-  50% {
-    transform: translate(20px, 0px);
-  }
-  75% {
-    transform: translate(-20px, 0px);
-  }
-  99% {
-    transform: translate(20px, 0px);
   }
 }
 
@@ -1548,15 +1526,34 @@ i {
   width: 100%;
 }
 
-.posthook{
+.posthook {
   color: #aaa;
-  label{
+  label {
     margin: 0px;
   }
-  p{
+  p {
     margin-top: 10px;
-    a{
+    a {
       font-style: italic;
     }
   }
+}
+
+.panel-user-details {
+  .top {
+    padding: 20px 20px 20px;
+    text-align: center;
+    background-color: #eee;
+
+    h3 {
+      margin-top: 8px;
+      margin-bottom: 0px;
+    }
+    img {
+      border-radius: 50px;
+      height: 40px;
+      width: 40px;
+    }
+  }
+
 }

@@ -10,16 +10,17 @@
                 <div class="panel panel-default">
                     <form action="" id="home-login">
                         <div class="panel-body">
-
-<!--                            <p class="text-center big-text" style="font-weight: 500; text-transform: uppercase">Login with</p>-->
-<!---->
-<!--                            <div class="btn-group btn-group-justified">-->
-<!--                                <a href="#" class="btn btn-default btn-clean btn-gitftp" id="login-via-github">-->
-<!--                                    <i class="fa fa-github-alt"></i> Github-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <hr/>-->
-
+                            <div class="btn-group btn-group-justified">
+                                <a href="#" class="btn btn-default btn-clean btn-gitftp login-via" data-id="github">
+                                    <i class="fa fa-github-alt"></i> Github
+                                </a>
+                                <a href="#" class="btn btn-default btn-clean btn-gitftp login-via" data-id="bitbucket">
+                                    <i class="fa fa-bitbucket"></i> Bitbucket
+                                </a>
+                            </div>
+                            <div class="line">
+                                <p class="text">or</p>
+                            </div>
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
                                 <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control" autofocus="true">
@@ -28,7 +29,7 @@
                                 <label for="password">Password</label>
                                 <input type="password" id="password" name="password" placeholder="Your Password" class="form-control">
                             </div>
-                            <strong><a class="pull-right" href="<?php echo Uri::create('forgot-password') ?>">Forgot password</a></strong>
+                            <strong><a class="pull-right" href="<?php echo Uri::create('forgot-password') ?>">Forgot password?</a></strong>
 
                             <div class="clearfix"></div>
                             <div class="space10"></div>
@@ -48,20 +49,26 @@
 <?php if (!is_null($email_verification)) { ?>
     <script>
         <?php if($email_verification){ ?>
-        $.alert({
+        $.confirm({
             title: 'Thank you!',
-            content: 'Your Email has been successfully verified',
-            icon: 'fa fa-check green',
-            confirmButton: 'close',
-            confirmButtonClass: 'btn-info'
+            content: 'Your account has been successfully activated. <br/>You may now login to your account.',
+            icon: 'fa fa-check green fa-fw',
+            cancelButton: 'Dismiss',
+            confirmButtonClass: 'btn-info',
+            confirmButton: 'Login',
+            confirm: function () {
+                window.location.href = home_url + 'login';
+            },
+            backgroundDismiss: false,
         });
         <?php }else{ ?>
         $.alert({
-            title: 'Verification Expired!',
-            content: 'The verification token has expired.',
-            icon: 'fa fa-info gray',
+            title: 'Activation Expired!',
+            content: 'The Activation token has expired.',
+            icon: 'fa fa-warning fa-fw orange',
             confirmButton: 'close',
-            confirmButtonClass: 'btn-default btn-clean'
+            confirmButtonClass: 'btn-default btn-clean',
+            backgroundDismiss: false,
         });
         <?php } ?>
     </script>

@@ -87,7 +87,6 @@ class Controller_Hook extends Controller {
 
     }
 
-
     /*
      * Logic ends here.
      */

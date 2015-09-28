@@ -107,7 +107,7 @@ $(function () {
         }
     };
     window._debug = true;
-    window.defaultTitle = 'Gitftp console';
+    window.defaultTitle = 'Gitftp Console';
     window.setTitle = function (title) {
         if (title)
             document.title = title + ' - ' + window.defaultTitle;

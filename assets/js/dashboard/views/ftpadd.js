@@ -120,11 +120,27 @@ define([
                 method: 'post',
                 data: form
             }).done(function (d) {
-                $.alert({
-                    container: that.$e,
-                    title: (d.status) ? '<i class="fa fa-check green"></i> Connection successful' : 'Problem',
-                    content: (d.status) ? 'Connection established successfully, This FTP server is ready to roll.' : 'The connection could not be established. <br>Reason: <code>' + d.reason + '</code>',
-                });
+                if (d.status) {
+                    $.alert({
+                        container: that.$e,
+                        title: '<i class="fa fa-check green fa-fw"></i> Successful',
+                        content: 'Connection established successfully, This FTP config is ready to be linked with a project.',
+                        icon: 'fa fa-check green fa-fw'
+                    });
+                } else {
+                    $.confirm({
+                        container: that.$e,
+                        title: 'Problem',
+                        content: 'The connection could not be established. <br>Reason: <code>' + d.reason + '</code>',
+                        icon: 'fa fa-info orange fa-fw',
+                        confirmButton: 'Retry',
+                        cancelButton: 'Dismiss',
+                        confirm: function () {
+                            $('.ftp-connectionTest').click();
+                        }
+                    });
+                }
+
                 $this.prop('disabled', false).find('i').removeClass('gf gf-loading gf-btn');
             });
         },
@@ -264,7 +280,7 @@ define([
             }).done(function (data) {
                 $this.find(':input:not([data-notform="true"])').prop('disabled', false);
                 if (data.status) {
-                    if(that.executeAfterAdd){
+                    if (that.executeAfterAdd) {
                         that.executeAfterAdd();
                         return false;
                     }

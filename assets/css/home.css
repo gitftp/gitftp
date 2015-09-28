@@ -319,7 +319,7 @@ input[type="tel"],
 input[type="color"],
 .form-control {
   border: none;
-  border-bottom: solid 2px #cfd8dc;
+  border-bottom: solid 2px #cfd8dc !important;
   box-shadow: none;
   border-radius: 0px;
   padding-left: 0px;
@@ -359,7 +359,7 @@ input[type="search"]:active,
 input[type="tel"]:active,
 input[type="color"]:active,
 .form-control:active {
-  border-bottom-color: #0091ea;
+  border-bottom-color: #0091ea !important;
   box-shadow: none;
   outline: none;
 }
@@ -397,7 +397,7 @@ input[type="search"][readonly],
 input[type="tel"][readonly],
 input[type="color"][readonly],
 .form-control[readonly] {
-  border-bottom: dotted 2px #cfd8dc;
+  border-bottom: dotted 2px #cfd8dc !important;
 }
 select.error,
 textarea.error,
@@ -416,7 +416,56 @@ input[type="search"].error,
 input[type="tel"].error,
 input[type="color"].error,
 .form-control.error {
-  border-bottom-color: #ff5a5a;
+  border-bottom-color: #ff5a5a !important;
+}
+.hilight {
+  -webkit-animation: shake infinite 0.4s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+          animation: shake infinite 0.4s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+  box-shadow: 0 8px 10px -5px rgba(0, 0, 0, 0.14), 0 16px 24px 2px rgba(0, 0, 0, 0.098), 0 6px 30px 5px rgba(0, 0, 0, 0.084);
+}
+@-webkit-keyframes shake {
+  1% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
+  25% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px);
+  }
+  50% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
+  75% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px);
+  }
+  99% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
+}
+@keyframes shake {
+  1% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
+  25% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px);
+  }
+  50% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
+  75% {
+    -webkit-transform: translate(-20px, 0px);
+            transform: translate(-20px, 0px);
+  }
+  99% {
+    -webkit-transform: translate(20px, 0px);
+            transform: translate(20px, 0px);
+  }
 }
 body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -4894,4 +4943,25 @@ html[xmlns] .flexslider .slides {
   .section.full .container {
     margin: 0;
   }
+}
+div.line {
+  height: 1px;
+  background: #888;
+  display: block;
+  margin: 20px 0;
+  text-align: center;
+  position: relative;
+}
+div.line p {
+  line-height: 0px;
+  background: white;
+  position: absolute;
+  display: block;
+  width: 40px;
+  left: 50%;
+  margin-left: -20px;
+  top: -5px;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: #888;
 }

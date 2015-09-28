@@ -425,21 +425,45 @@ a.btn {
 select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .form-control {
   //  border: solid 2px #eee !important;
   border: none;
-  border-bottom: solid 2px @border_color;
+  border-bottom: solid 2px @border_color !important;
   box-shadow: none;
   border-radius: 0px;
   padding-left: 0px;
   background: transparent;
 
   &:focus, &:active {
-    border-bottom-color: @blue;
+    border-bottom-color: @blue !important;
     box-shadow: none;
     outline: none;
   }
   &[disabled], &[readonly] {
-    border-bottom: dotted 2px @border_color;
+    border-bottom: dotted 2px @border_color !important;
   }
   &.error {
-    border-bottom-color: @red;
+    border-bottom-color: @red !important;
+  }
+}
+
+
+.hilight {
+  animation: shake infinite .4s @easing;
+  .shadow-x5;
+}
+
+@keyframes shake {
+  1% {
+    transform: translate(20px, 0px);
+  }
+  25% {
+    transform: translate(-20px, 0px);
+  }
+  50% {
+    transform: translate(20px, 0px);
+  }
+  75% {
+    transform: translate(-20px, 0px);
+  }
+  99% {
+    transform: translate(20px, 0px);
   }
 }

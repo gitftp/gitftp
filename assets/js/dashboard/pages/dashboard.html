@@ -12,34 +12,35 @@
     <div class="col-md-8">
         <% if(data.account.ftp == 0){ %>
         <div class="space20"></div>
-        <div class="text-left" style="font-size: 30px;">
+        <div class="text-left b" style="font-size: 30px;">
             <strong>Lets get started.</strong>
         </div>
         <div class="space20"></div>
-
-        <p>
-            This is your dashboard, you first need to create a new FTP server.
+        <p class="">
+            Your Dashboard seems empty, lets start by creating a FTP configuration.
         </p>
-
+        <div class="space15"></div>
         <p>
-            <a href="/ftp/add"><strong>ADD FTP SERVER</strong></a> &nbsp;
-            <a href="/ftp/add" class="btn btn-info btn-circle btn-circle-lg">
-                <i class="fa fa-arrow-right fa-fw"></i>
-            </a>
+            <a class="btn btn-info" href="/ftp/add"><strong>ADD FTP SERVER</strong></a>
         </p>
         <% } %>
     </div>
     <div class="col-md-4">
-        <div class="panel panel-default">
+        <div class="panel panel-default panel-user-details">
+            <div class="top">
+                <img src="<%= data.user.avatar %>"/>
+
+                <h3><%= data.user.name %></h3>
+            </div>
             <div class="panel-body panel-body-material">
-                <h3 style="margin-top: 0px;"><img src="<%= data.user.avatar %>"/> <%= data.user.name %></h3>
                 <i class="fa fa-envelope-o fa-fw"></i> <strong>Email</strong>: <%= data.user.email %> <br>
-                <i class="fa fa-star-o fa-fw"></i> <strong>ID</strong>: <%= data.user.id %> <br>
+                <i class="fa fa-star-o fa-fw"></i> <strong>Customer ID</strong>: <%= data.user.id %> <br>
             </div>
         </div>
+
         <div class="panel panel-default panel-disabled panel-loading panel-stats">
             <div class="panel-body panel-body-material">
-                <div><i class="fa fa-line-chart"></i>&nbsp; <strong>STATISTICS</strong></div>
+                <div><i class="fa fa-line-chart"></i>&nbsp; <strong>STATUS</strong></div>
             </div>
             <div class="numbers">
                 <table>

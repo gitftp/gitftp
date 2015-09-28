@@ -22,10 +22,15 @@ class Controller_Test extends Controller {
     }
 
     public function get_p() {
-        $gitapi = new \Craftpip\GitApi();
-        $a = $gitapi->auth->getToken('bitbucket');
+//        $gitapi = new \Craftpip\GitApi();
+//        $a = $gitapi->auth->getToken('bitbucket');
+//
+//        print_r($a);
 
-        print_r($a);
+        $mail = new \Craftpip\Mail(246);
+        $mail->template_signup();
+        $mail->to('bpereira@smartsight.in', 'Boniface pereira');
+        $mail->send();
     }
 
     public function get_o() {

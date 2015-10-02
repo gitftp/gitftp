@@ -136,6 +136,11 @@ h1, h2, h3, h4, h5, h6 {
   &.delete {
     opacity: 0.3;
   }
+  &.is-deploy-deactive{
+    .project-list-block{
+      opacity: 0.5;
+    }
+  }
   .project-list-block {
     background-color: #fff;
     padding: 10px 15px 10px;
@@ -162,6 +167,7 @@ h1, h2, h3, h4, h5, h6 {
 
     &:hover {
       .shadow-x2;
+      opacity: 1;
     }
 
     &:active {
@@ -1542,12 +1548,16 @@ i {
 .panel-user-details {
   .top {
     padding: 20px 20px 20px;
-    text-align: center;
+    text-align: left;
     background-color: #eee;
+    > * {
+      display: inline-block;
+    }
 
     h3 {
-      margin-top: 8px;
+      margin-top: 0px;
       margin-bottom: 0px;
+      margin-left: 10px;
     }
     img {
       border-radius: 50px;

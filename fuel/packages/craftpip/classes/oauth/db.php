@@ -170,4 +170,15 @@ class Db extends \Auth\Auth_Login_Simpleauth {
             ))->execute();
     }
 
+    public function removeUser($user_id) {
+        try {
+            $a = \DB::delete($this->usersTable)->where('id', $user_id);
+            $b = \DB::delete($this->providersTable)->where('parent_id', $user_id);
+
+            return TRUE;
+        } catch (Exception $e) {
+            return FALSE;
+        }
+    }
+
 }

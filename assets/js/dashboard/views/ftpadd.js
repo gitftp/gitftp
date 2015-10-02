@@ -123,8 +123,8 @@ define([
                 if (d.status) {
                     $.alert({
                         container: that.$e,
-                        title: '<i class="fa fa-check green fa-fw"></i> Successful',
-                        content: 'Connection established successfully, This FTP config is ready to be linked with a project.',
+                        title: 'Successful',
+                        content: 'Connection established successfully, This FTP config is ready to be Linked with a project.',
                         icon: 'fa fa-check green fa-fw'
                     });
                 } else {
@@ -253,7 +253,7 @@ define([
                 }
             });
             $.validator.addMethod('validatePath', function (value) {
-                return value.substr(0, 1) == '/';
+                return !/(\/)\1+/ig.test(value) && /^\/|^\\/.test(value);
             }, 'Path must contain a leading slash');
             $.validator.addMethod('validateScheme', function (value) {
                 return value == 'ftp' || value == 'ftps' || value == 'sftp';
@@ -285,15 +285,14 @@ define([
                         return false;
                     }
                     noty({
-                        text: ((that.id) ? '<i clas="fa fa-pencil"></i>&nbsp; Your changed are saved.' : '<i class="fa fa-plus"></i>&nbsp; Added FTP server: ' + $this.find('[name="host"]').val() ),
-                        type: 'success',
+                        text: ((that.id) ? 'Your changed are saved.' : 'Added FTP server: ' + $this.find('[name="host"]').val() ),
+                        type: 'success'
                     });
                     Router.navigate('ftp', {trigger: true});
-
                 } else {
                     noty({
-                        text: '<i class="fa fa-times"></i>&nbsp; ' + data.reason,
-                        type: 'warning',
+                        text: data.reason,
+                        type: 'warning'
                     });
                 }
                 $submitBtn.html('Update');

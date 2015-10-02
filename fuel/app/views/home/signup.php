@@ -10,25 +10,32 @@
                 <div class="panel panel-default">
                     <form action="" id="home-signup">
                         <div class="panel-body">
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="email">Email address</label>
-                                        <input type="text" id="email" name="email" placeholder="Your Email address" class="form-control">
-                                        <label class="emailvalid error" style="display: none;">This email address is already registered.<br> <a href="<?php echo \Uri::create('forgot-password'); ?>" >Reset password</a> or <a href="<?php echo \Uri::create('login'); ?>" >Login</a></label>
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="username">Username</label>
-                                        <input type="username" id="username" name="username" placeholder="Your Username" class="form-control">
-                                        <label class="usernamevalid error" style="display: none;">This username is taken</label>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="password">Password</label>
-                                        <input type="password" id="password" name="password" placeholder="Your Password" class="form-control">
-                                    </div>
-                                </div>
+                            <div class="btn-group btn-group-justified">
+                                <a href="#" class="btn btn-default btn-clean btn-gitftp login-via" data-id="github">
+                                    <i class="fa fa-github-alt"></i> Github
+                                </a>
+                                <a href="#" class="btn btn-default btn-clean btn-gitftp login-via" data-id="bitbucket">
+                                    <i class="fa fa-bitbucket"></i> Bitbucket
+                                </a>
+                            </div>
+                            <div class="line">
+                                <p class="text">or</p>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="text" id="email" name="email" placeholder="Your Email address" class="form-control">
+                                <label class="emailvalid error" style="display: none;">This email address is already registered.<br>
+                                    <a href="<?php echo \Uri::create('forgot-password'); ?>">Reset password</a> or
+                                    <a href="<?php echo \Uri::create('login'); ?>">Login</a></label>
+                            </div>
+                            <div class="form-group">
+                                <label for="username">Username</label>
+                                <input type="username" id="username" name="username" placeholder="Your Username" class="form-control">
+                                <label class="usernamevalid error" style="display: none;">This username is taken</label>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" id="password" name="password" placeholder="Your Password" class="form-control">
                             </div>
                             <button type="submit" class="btn btn-info btn-block">
                                 <i class="fa fa-lock fa-fw" style=""></i> Signup

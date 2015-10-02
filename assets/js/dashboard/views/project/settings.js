@@ -242,8 +242,40 @@ define([
                 that.$e.html(subPage);
                 that.$form = that.$e.find('#deploy-view-form-edit');
                 that.validation();
+                that.renderSize();
+                that.totalDeploy();
             });
             setTitle('Settings | Projects');
+        },
+        totalDeploy: function () {
+            $.ajax({
+                url: base + 'api/etc/totaldeploy',
+                data: {
+                    id: this.id
+                },
+                method: 'get',
+                dataType: 'json'
+            }).done(function (res) {
+                if (res.status) {
+                    $('.project-deployed-count').html(res.size_human);
+                }
+            });
+        },
+        renderSize: function () {
+            $.ajax({
+                url: base + 'api/etc/sizeondisk',
+                data: {
+                    id: this.id
+                },
+                method: 'get',
+                dataType: 'json'
+            }).done(function (res) {
+                if (res.status) {
+                    $('.project-size').html(res.size_human);
+                } else {
+                    $('.project-size').html(res.reason);
+                }
+            });
         }
     });
 

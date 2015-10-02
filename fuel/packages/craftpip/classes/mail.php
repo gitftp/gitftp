@@ -34,9 +34,9 @@ class Mail {
         try {
             $this->instance->send();
         } catch (\EmailValidationFailedException $e) {
-            throw $e;
+            return FALSE;
         } catch (\EmailSendingFailedException $e) {
-            throw $e;
+            return FALSE;
         }
 
         return TRUE;
@@ -50,7 +50,7 @@ class Mail {
         $user = $this->user->user;
         $random = \Str::random();
 
-        $this->subject('Welcome to Gitftp');
+        $this->subject('Gitftp account activation');
         $this->to($user['email'], $user['username']);
 
         $view = \View::forge('email/' . $this->theme . '/base', array(

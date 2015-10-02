@@ -46,7 +46,8 @@
 
                         <div class="col-sm-9">
                             <p class="form-control-static">
-                                <%= data.git_name %> -- <i class="fa fa-<%= data.provider.toLowerCase() %>"></i> <%= data.provider %>
+                                <%= data.git_name %> --
+                                <i class="fa fa-<%= data.provider.toLowerCase() %>"></i> <%= data.provider %>
                             </p>
                         </div>
                     </div>
@@ -92,6 +93,7 @@
 
                         <div class="col-sm-9">
                             <input type="text" name="key" placeholder="Post secret key." value="<%= data.key %>" class="form-control" title="Please enter a random string"/>
+
                             <p class="help-block">A unique key used for your projects web hook link.</p>
                         </div>
                     </div>
@@ -99,26 +101,37 @@
                 <div class="col-md-5">
                     <div class="project-settings-info">
                         <p>
-                            <i class="fa fa-heartbeat"></i> &nbsp;Project Status.
+                            <i class="fa fa-heartbeat"></i> &nbsp;Project Summary.
                         </p>
 
                         <p>
-                            <strong>Active</strong>: <%= (data.active) ? '<i class="fa fa-check green"></i> is active.' : '<i class="fa fa-times redalt"></i>' %>
+                            <strong>Status</strong>: <%= (data.active == '1') ? 'Active.' : '<span class="orange">Deactivated</span>' %>
+                        </p>
+
+                        <!--<p>-->
+                            <!--<strong>Processed</strong>:-->
+                            <!--<%= (data.cloned) ? '<i class="fa fa-check green"></i> is ready.' : '<i class="fa fa-times redalt"></i>' %>-->
+                        <!--</p>-->
+
+                        <p>
+                            <!--<strong>Env</strong>: -->
+                            <%= data.branches.length %>
+                            <i class="fa fa-leaf"></i> environment<%= (data.branches.length == 1) ? '' : 's' %>.
+                            - <a class="gray" href="/project/<%= data.id %>/environments">Manage</a>
                         </p>
 
                         <p>
-                            <strong>Processed</strong>: <%= (data.cloned) ? '<i class="fa fa-check green"></i> is ready.' : '<i class="fa fa-times redalt"></i>' %>
+                            <strong>Created</strong>: <%= moment(data.created_at).format('D MMM YYYY hh:mm a') %>
                         </p>
 
                         <p>
-                            <strong>Env</strong>: <%= data.branches.length %>
-                            <i class="fa fa-leaf"></i> environment<%= (data.branches.length == 1) ? '' : 's' %> set.
-                            <a class="gray" href="/project/<%= data.id %>/environments">edit</a>
+                            <strong>Size</strong>: <span class="project-size"><i class="gf gf-loading"></i></span>
                         </p>
 
                         <p>
-                            <strong>Created</strong>: <%= data.created_at %>
+                            <strong>Data deployed</strong>: <span class="project-deployed-count"><i class="gf gf-loading"></i></span>
                         </p>
+
                     </div>
                 </div>
 

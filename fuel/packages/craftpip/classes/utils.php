@@ -13,9 +13,10 @@ class Utils {
         return Utils::runCommand($command);
     }
 
-    public static function runCommand($command) {
+    public static function runCommand($command, $escape = TRUE) {
         // Escape special chars in string with a backslash
-        $command = escapeshellcmd($command);
+        if ($escape)
+            $command = escapeshellcmd($command);
         exec($command, $output);
 
         return $output;

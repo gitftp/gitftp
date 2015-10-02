@@ -49,16 +49,11 @@
 <?php if (!is_null($email_verification)) { ?>
     <script>
         <?php if($email_verification){ ?>
-        $.confirm({
+        $.alert({
             title: 'Thank you!',
             content: 'Your account has been successfully activated. <br/>You may now login to your account.',
             icon: 'fa fa-check green fa-fw',
             cancelButton: 'Dismiss',
-            confirmButtonClass: 'btn-info',
-            confirmButton: 'Login',
-            confirm: function () {
-                window.location.href = home_url + 'login';
-            },
             backgroundDismiss: false,
         });
         <?php }else{ ?>

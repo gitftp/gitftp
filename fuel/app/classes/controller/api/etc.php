@@ -3,6 +3,75 @@
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
 
+    public function get_sizeondisk() {
+
+        try {
+            $deploy_id = \Input::get('id', NULL);
+            if (is_null($deploy_id)) {
+                throw new Exception('Missing parameters');
+            }
+
+            $deploy = new \Model_Deploy();
+            $deploys = $deploy->get($deploy_id);
+            if (!count($deploys))
+                throw new Exception('Something went wrong, please try again.');
+
+            $path = \Utils::get_repo_dir($deploy_id);
+            $op = \Utils::runCommand('du -sb ' . $path, FALSE);
+            if(count($op) == 0){
+                throw new Exception('Unavailable');
+            }
+            $count = $op[0];
+            $a = preg_split('/\s+/', $count);
+
+            $response = array(
+                'status'     => TRUE,
+                'size'       => $a[0],
+                'size_human' => \Utils::humanize_data($a[0])
+            );
+
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        $this->response($response);
+    }
+
+    public function get_totaldeploy() {
+
+        try {
+            $deploy_id = \Input::get('id', NULL);
+            if (is_null($deploy_id)) {
+                throw new Exception('Missing parameters');
+            }
+
+            $deploy = new \Model_Deploy();
+            $deploys = $deploy->get($deploy_id);
+            if (!count($deploys))
+                throw new Exception('Something went wrong, please try again.');
+
+            $record = new \Model_Record();
+            $data = $record->get_sum_deployed_data($deploy_id);
+
+            $response = array(
+                'status'     => TRUE,
+                'size'       => $data,
+                'size_human' => \Utils::humanize_data($data)
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        $this->response($response);
+
+    }
+
     public function get_unlink() {
 
         try {
@@ -15,6 +84,18 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
             $user->removeProvider($provider);
             $user->removeAttr($provider);
 
+            $deploy = new \Model_Deploy();
+            $deploys = $deploy->get();
+            $res = array();
+            foreach ($deploys as $a) {
+                $repo_provider = \Utils::parseProviderFromRepository($a['repository']);
+                if (!empty($a['git_id']) && strtolower($repo_provider) == strtolower($provider)) {
+                    $deploy->set($a['id'], array(
+                        'active' => FALSE
+                    ));
+                }
+            }
+
             $response = array(
                 'status' => TRUE,
             );
@@ -26,6 +107,39 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
             );
         }
 
+        $this->response($response);
+    }
+
+    public function get_unlinkprojects() {
+        try {
+            $name = \Input::get('provider', NULL);
+            if (is_null($name))
+                throw new Exception('Something went wrong, please try again.');
+
+            $deploy = new \Model_Deploy();
+            $deploys = $deploy->get();
+            $res = array();
+            foreach ($deploys as $a) {
+                $repo_provider = \Utils::parseProviderFromRepository($a['repository']);
+                if (!empty($a['git_id']) && strtolower($repo_provider) == strtolower($name)) {
+                    $res[] = array(
+                        'name'    => $a['name'],
+                        'gitname' => $a['git_name']
+                    );
+                }
+            }
+
+            $response = array(
+                'status'   => $name,
+                'projects' => $res,
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
         $this->response($response);
     }
 
@@ -109,10 +223,29 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         ));
     }
 
+    // todo : we are here.
     public function post_getRemoteBranches() {
         $post = Input::post();
         try {
-            if ($post['type'] == 'service') {
+
+            if (!isset($post['type'])) {
+                if (isset($post['id'])) {
+                    $deploy = new \Model_Deploy();
+                    $deploys = $deploy->get($post['id']);
+                    if (count($deploys)) {
+                        if (!empty($deploys[0]['git_id']))
+                            $type = 'service';
+                    } else {
+                        throw new \Craftpip\Exception('Something went wrong');
+                    }
+                } else {
+                    throw new \Craftpip\Exception('Something went wrong');
+                }
+            } else {
+                $type = $post['type'];
+            }
+
+            if ($type == 'service') {
                 $response = $this->branchesservice();
             } else {
                 $response = $this->branchesmanual();

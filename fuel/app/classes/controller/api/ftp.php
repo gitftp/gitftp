@@ -151,7 +151,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                     'request' => Input::post(),
                 );
             } else {
-                throw new Exception('Cannot update with the same values.');
+                throw new Exception('No changes were saved.');
             }
 
         } catch (Exception $e) {

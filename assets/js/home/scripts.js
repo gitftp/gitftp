@@ -418,13 +418,42 @@
                                 window.location = data.redirect;
                             }
                         } else {
-                            $.alert({
+                            var o = {
                                 title: 'Problem',
                                 icon: 'fa fa-info orange fa-fw',
                                 content: data.reason,
-                                confirmButton: 'Dismiss',
-                                confirmButtonClass: 'btn btn-default'
-                            });
+                                cancelButton: 'Dismiss',
+                                cancelButtonClass: 'btn btn-default',
+                                confirmButton: false,
+                            };
+                            if (/not activated/ig.test(data.reason)) {
+                                o['confirmButton'] = 'Resend email';
+                                o['confirm'] = function () {
+                                    this.$confirmButton.html('<i class="gf gf-loading"></i> Resend email').prop('disabled', true);
+                                    var email = $('#email').val();
+                                    var jc = this;
+                                    $.ajax({
+                                        url: home_url + 'api/user/resendact',
+                                        data: {
+                                            email: email
+                                        },
+                                        dataType: "json",
+                                        method: 'get',
+                                    }).done(function (res) {
+                                        if(res.status){
+                                            $.alert({
+                                                title: 'Email sent',
+                                                content: 'Please head to your Email account to activate your Gitftp account.',
+                                                confirmButton: 'Dismiss',
+                                                icon: 'fa fa-check green'
+                                            });
+                                        }
+                                        jc.close();
+                                    });
+                                    return false;
+                                };
+                            }
+                            $.confirm(o);
                         }
                     }).always(function (data) {
                         $form.find(':input').removeAttr('disabled');

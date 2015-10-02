@@ -28,7 +28,6 @@
     <br>
     <br>
     <a href="/project/new" class="btn btn-success">
-
         <i class="fa fa-file-o fa-3x"></i>
         <br/>
         <br/>
@@ -41,19 +40,25 @@
 
 <div class="row">
     <% $.each(list, function(i, a){ %>
-    <div class="viewdeploy col-md-6 is-deploy-list" style="cursor:pointer" data-id="<%= a.id %>">
-        <div class="project-list-block">
-            <div class="header">
-                <p>
+    <div class="col-md-6">
+        <div class="viewdeploy is-deploy-list <%= a.active == '1' ? '' : 'is-deploy-deactive' %>" style="cursor:pointer" data-id="<%= a.id %>">
+            <div class="project-list-block">
+                <div class="header">
+                    <p>
                     <span class="head">
                         <i class="fa fa-fw fa-<%= (a.git_name) ? a.provider.toLowerCase() : 'cloud' %>"></i>&nbsp; <%= a.name %>
                     </span> <br/>
-                    <span class="status">(<%= a.status %>)</span>
-                </p>
-                <div class="clearfix"></div>
+                        <span class="status">(<%= a.status %>)</span>
+                    </p>
+
+                    <div class="clearfix"></div>
+                </div>
+                <span style="color: #aaa">(<%= a.repository %>)</span><br>
+                <span>
+                    <span class="">last deployed: <%= (a.lastdeploy == '0') ? 'Not yet' : moment(a.lastdeploy).format('D-MM-YY hh:mm a') %></span>
+                    <%= a.active == '1' ? '' : '<span class="pull-right orange">Deactivated</span>' %>
+                </span>
             </div>
-            <span style="color: #aaa">(<%= a.repository %>)</span><br>
-            <span><span class=""><%= (a.lastdeploy == '0') ? 'Not deployed' : moment(a.lastdeploy).format('D/MMMM/YYYY hh:mm a') %></span></span>
         </div>
     </div>
     <% }) %>

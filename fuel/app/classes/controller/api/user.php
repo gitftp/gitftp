@@ -41,6 +41,37 @@ class Controller_Api_User extends Controller {
         }
     }
 
+    public function action_resendact() {
+        try {
+            $i = \Input::get();
+
+            $auth = new \Craftpip\OAuth\Auth();
+            $user = $auth->getByUsernameEmail($i['email']);
+            if (!$user) {
+                throw new Exception('');
+            }
+
+            $mail = new \Craftpip\Mail($user['id']);
+            $mail->template_signup();
+            if (!$mail->send()) {
+                throw new Exception('');
+            }
+
+            $response = array(
+                'status' => TRUE
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+
+        }
+        echo json_encode($response);
+
+    }
+
     /**
      * API called when user performs login from homepage.
      */
@@ -59,6 +90,12 @@ class Controller_Api_User extends Controller {
                 if (!$user) {
                     throw new \Craftpip\Exception('The Email or Username is not registered with us.');
                 }
+                $auth->setId($user['id']);
+                $isVerified = $auth->getAttr('verified');
+                if (!$isVerified) {
+                    throw new Exception('This account is not activated, please head to your Email & activate your Gitftp account.');
+                }
+
                 $a = $auth->login($i['email'], $i['password']);
                 if ($a) {
                     $response = array(
@@ -108,9 +145,12 @@ class Controller_Api_User extends Controller {
                 $auth->setAttr('verified', FALSE);
                 $auth->setAttr('project_limit', 2);
 
+
                 $mail = new \Craftpip\Mail($user_id);
                 $mail->template_signup();
-                $mail->send();
+                if (!$mail->send()) {
+                    $auth->removeUser($user_id);
+                }
             } else {
                 throw new \Craftpip\Exception('Something is not right. Please try again');
             }

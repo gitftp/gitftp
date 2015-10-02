@@ -576,6 +576,10 @@ h6 {
 .ftp-servers-list.delete {
   opacity: 0.3;
 }
+.viewdeploy.is-deploy-deactive .project-list-block,
+.ftp-servers-list.is-deploy-deactive .project-list-block {
+  opacity: 0.5;
+}
 .viewdeploy .project-list-block,
 .ftp-servers-list .project-list-block {
   background-color: #fff;
@@ -603,6 +607,7 @@ h6 {
 .viewdeploy .project-list-block:hover,
 .ftp-servers-list .project-list-block:hover {
   box-shadow: 0 2px 4px -1px rgba(0, 0, 0, 0.14), 0 4px 5px 0 rgba(0, 0, 0, 0.098), 0 1px 10px 0 rgba(0, 0, 0, 0.084);
+  opacity: 1;
 }
 .viewdeploy .project-list-block:active,
 .ftp-servers-list .project-list-block:active {
@@ -1872,12 +1877,16 @@ i.gf-alert {
 }
 .panel-user-details .top {
   padding: 20px 20px 20px;
-  text-align: center;
+  text-align: left;
   background-color: #eee;
 }
+.panel-user-details .top > * {
+  display: inline-block;
+}
 .panel-user-details .top h3 {
-  margin-top: 8px;
+  margin-top: 0px;
   margin-bottom: 0px;
+  margin-left: 10px;
 }
 .panel-user-details .top img {
   border-radius: 50px;

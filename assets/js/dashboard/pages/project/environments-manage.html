@@ -102,11 +102,11 @@
                 <form action="" class="project-branch-env-save-form-2">
                     <div class="space10"></div>
                     <div class="form-group">
-                        <label for="selective-skip" class="control-label">Skip files that match:</label>
+                        <label for="selective-skip" class="control-label">Skip files/directories that match:</label>
 
                         <div class="selective-skip" id="selective-skip"></div>
                         <p class="help-block text-right">
-                            * wildcard allowed.
+                            * wildcard allowed. case sensitive.
                         </p>
                     </div>
                     <div class="form-group">
@@ -116,6 +116,9 @@
                                 class="fa fa-info blue fa-fw"></i></span></label>
 
                         <div class="selective-purge" id="selective-purge"></div>
+                        <p class="help-block text-right">
+                            Case sensitive. relative from ftp directory.
+                        </p>
                     </div>
                 </form>
             </div>

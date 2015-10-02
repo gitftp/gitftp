@@ -89,7 +89,6 @@ define([
                 debug: true,
                 submitHandler: function (form) {
                     that.add(form);
-
                     return false;
                 },
                 errorClass: 'error',
@@ -178,7 +177,7 @@ define([
             return _ajax({
                 url: dash_url + 'api/etc/getremotebranches',
                 data: {
-                    'deploy_id': this.id
+                    'id': this.id
                 },
                 method: 'post',
                 dataType: 'json'

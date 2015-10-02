@@ -18,7 +18,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
             $path = \Utils::get_repo_dir($deploy_id);
             $op = \Utils::runCommand('du -sb ' . $path, FALSE);
-            if(count($op) == 0){
+            if (count($op) == 0) {
                 throw new Exception('Unavailable');
             }
             $count = $op[0];
@@ -223,31 +223,98 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         ));
     }
 
-    // todo : we are here.
-    public function post_getRemoteBranches() {
+    public $type;
+    public $id = NULL;
+    public $provider;
+    public $name;
+
+
+    public function post_getremotebranches() {
+        $i = Input::post();
+
+        try {
+            $id = isset($i['id']) ? $i['id'] : NULL;
+            $type = isset($i['type']) ? $i['type'] : 'manual';
+
+            if ($type == 'service') {
+                $provider = $i['provider'];
+                $name = $i['name'];
+                $gitapi = new Craftpip\GitApi();
+                $a = $gitapi->loadApi($provider)->getBranches($name);
+                $response = array(
+                    'status' => TRUE,
+                    'data'   => $a,
+                );
+            } else {
+                if (is_null($id)) {
+                    $repo = $i['repo'];
+                    $username = $i['username'];
+                    $password = $i['password'];
+                } else {
+                    $deploy = new Model_Deploy();
+                    $data = $deploy->get($id);
+                    if (!count($data))
+                        throw new \Craftpip\Exception('Something went wrong, please try again later.');
+
+                    $repo = $data[0]['repository'];
+                    $username = $data[0]['username'];
+                    $password = $data[0]['password'];
+                }
+
+                $a = \Utils::gitGetBranches($repo, $username, $password);
+                if ($a) {
+                    $response = array(
+                        'status' => TRUE,
+                        'data'   => $a,
+                    );
+                } else {
+                    throw new \Craftpip\Exception('Could not connect to GIT repository.');
+                }
+            }
+        } catch (Exception $e) {
+            throw $e;
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'data'   => $e->getMessage(),
+            );
+        }
+        $this->response($response);
+    }
+
+
+    public function post_getRemoteBranches3() {
         $post = Input::post();
+
         try {
 
             if (!isset($post['type'])) {
                 if (isset($post['id'])) {
+                    $this->id = $post['id'];
                     $deploy = new \Model_Deploy();
-                    $deploys = $deploy->get($post['id']);
+                    $deploys = $deploy->get($this->id);
                     if (count($deploys)) {
-                        if (!empty($deploys[0]['git_id']))
-                            $type = 'service';
+                        if (!empty($deploys[0]['git_id'])) {
+                            $this->type = 'service';
+                        } else {
+                            $this->type = 'manual';
+                        }
                     } else {
-                        throw new \Craftpip\Exception('Something went wrong');
+                        throw new \Craftpip\Exception('Something is not right, please try again later.');
                     }
                 } else {
-                    throw new \Craftpip\Exception('Something went wrong');
+                    throw new \Craftpip\Exception('Something is not right, please try again later.');
                 }
             } else {
-                $type = $post['type'];
+                $this->type = $post['type'];
             }
 
-            if ($type == 'service') {
+            if ($this->type == 'service') {
+                $this->name = $post['name'];
+                $this->provider = $post['provider'];
                 $response = $this->branchesservice();
             } else {
+                $this->deploy_data = $deploys;
                 $response = $this->branchesmanual();
             }
 
@@ -272,14 +339,14 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
     public function branchesservice() {
         $post = Input::post();
         $gitapi = new Craftpip\GitApi();
-        $a = $gitapi->loadApi($post['provider'])->getBranches($post['name']);
+        $a = $gitapi->loadApi($this->provider)->getBranches($this->name);
 
         return $a;
     }
 
     public function branchesmanual() {
         $post = Input::post();
-        if (isset($post['deploy_id'])) {
+        if (isset($this->id)) {
             $deploy = new Model_Deploy();
             $data = $deploy->get($post['deploy_id']);
 

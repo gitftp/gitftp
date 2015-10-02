@@ -120,9 +120,6 @@
                             - <a class="gray" href="/project/<%= data.id %>/environments">Manage</a>
                         </p>
 
-                        <p>
-                            <strong>Created</strong>: <%= moment(data.created_at).format('D MMM YYYY hh:mm a') %>
-                        </p>
 
                         <p>
                             <strong>Size</strong>: <span class="project-size"><i class="gf gf-loading"></i></span>
@@ -130,6 +127,10 @@
 
                         <p>
                             <strong>Data deployed</strong>: <span class="project-deployed-count"><i class="gf gf-loading"></i></span>
+                        </p>
+
+                        <p>
+                            <strong>Created</strong>: <%= moment(data.created_at).format('D MMM YYYY hh:mm a') %>
                         </p>
 
                     </div>

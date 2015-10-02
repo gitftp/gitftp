@@ -13,8 +13,8 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
      */
     public function post_create() {
         try {
-            $i = Input::post();
-            $i = Utils::escapeHtmlChars($i); // wow
+            $i = \Input::post();
+            $i = \Utils::escapeHtmlChars($i); // wow
 
             $fields = array(
                 'name'        => $i['name'],
@@ -74,6 +74,19 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
 
             if ($a[1] !== 1) {
                 throw new Exception('We faced some problem while adding the environment. please try again later.', 200);
+            }
+
+            if (isset($i['deploynow'])) {
+                $record = new \Model_Record();
+                $set = array(
+                    'deploy_id'   => $i['deploy_id'],
+                    'branch_id'   => $a[0],
+                    'date'        => time(),
+                    'triggerby'   => '',
+                    'status'      => $record->in_queue,
+                    'record_type' => $record->type_sync,
+                );
+                $record->insert($set);
             }
 
             $response = array('status' => TRUE);

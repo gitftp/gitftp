@@ -244,6 +244,7 @@ Class DeployHelper {
      */
     public function hasDeletedDirectories($filesToDelete) {
         $dirsToDelete = [];
+        $this->output('has directories to delete');
         foreach ($filesToDelete as $file) {
 
             // Break directories into a list of items
@@ -261,10 +262,12 @@ Class DeployHelper {
                 }
 
                 // Relative path won't work consistently, thus getcwd().
-                $part = getcwd() . '/' . $prefix . $part;
+                $part2 = getcwd() . '/' . $prefix . $part;
+                $this->output('path '.$part2);
 
                 // If directory doesn't exist, add to files to delete
-                if (!is_dir($part)) {
+                if (!is_dir($part2)) {
+                    $this->output('need to delete: '.$part);
                     $dirsToDelete[] = $part;
                 }
             }

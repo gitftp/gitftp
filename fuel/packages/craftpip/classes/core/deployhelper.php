@@ -92,7 +92,7 @@ Class DeployHelper {
         // Escape special chars in string with a backslash
         if ($escape)
             $command = escapeshellcmd($command);
-        if($this->debug)
+        if ($this->debug)
             $this->output("CONSOLE: $command");
 
         exec($command, $output);
@@ -121,47 +121,92 @@ Class DeployHelper {
      *
      * @var string $purgeDirs
      */
+//    public function purge($purgeDirs) {
+//        foreach ($purgeDirs as $dir) {
+//            $origin = $this->connection->pwd();
+//            $this->connection->cd($dir);
+//
+//            $this->output("Purging directory {$dir}");
+//
+//            if (!$tmpFiles = $this->connection->ls()) {
+//                $this->output(" - Nothing to purge in {$dir}");
+//                $this->connection->cd($origin);
+//                continue;
+//            }
+//
+//            $haveFiles = FALSE;
+//            $innerDirs = array();
+//            foreach ($tmpFiles as $file) {
+//                $curr = $this->connection->pwd();
+//                if ($this->connection->cd($file)) {
+//                    $innerDirs[] = $file;
+//                    $this->connection->cd($curr);
+//                } else {
+//                    $haveFiles = TRUE;
+//                    $this->output(" - {$file} is removed from directory");
+//                    $this->connection->rm($file);
+//                }
+//            }
+//
+//            if (!$haveFiles) {
+//                $this->output(" - Nothing to purge in {$dir}");
+//            } else {
+//                $this->output("Purged {$dir}");
+//            }
+//
+//            if (count($innerDirs) > 0) {
+//                $this->purge($innerDirs);
+//            }
+//
+//            $this->connection->cd($origin);
+//        }
+//    }
     public function purge($purgeDirs) {
         foreach ($purgeDirs as $dir) {
+            $this->output('------ ' . $dir);
             $origin = $this->connection->pwd();
-            $this->connection->cd($dir);
+            if (substr($dir, 0, 1) == '/') {
+                $this->log("Warning: Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
+                $dir = substr($dir, 1, strlen($dir));
+                $this->log("Using $dir instead");
+            }
 
-            $this->output("Purging directory {$dir}");
-
-            if (!$tmpFiles = $this->connection->ls()) {
-                $this->output(" - Nothing to purge in {$dir}");
-                $this->connection->cd($origin);
+            try {
+                $this->connection->cd($dir);
+            } catch (Exception $e) {
+                $this->log('Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
                 continue;
             }
 
-            $haveFiles = FALSE;
-            $innerDirs = array();
+            if (!$tmpFiles = $this->connection->ls()) {
+                $this->output("Nothing to purge in {$dir}");
+                $this->log("Nothing to purge in {$dir}");
+                continue;
+            }
+
             foreach ($tmpFiles as $file) {
-                $curr = $this->connection->pwd();
-                if ($this->connection->cd($file)) {
-                    $innerDirs[] = $file;
-                    $this->connection->cd($curr);
-                } else {
-                    $haveFiles = TRUE;
-                    $this->output(" - {$file} is removed from directory");
-                    $this->connection->rm($file);
+                try {
+                    // Okay folder found.
+                    $this->connection->cd($file);
+                    $this->connection->cd('../');
+                    $this->output($file . ' is a folder.');
+                    $this->purge(array($file));
+                    $this->connection->rmdir($file);
+                } catch (Exception $e) {
+                    // Its a file. remove it !
+                    try {
+                        $this->connection->rm($file);
+                        $this->output("Purged file $file");
+                    } catch (Exception $e) {
+                        $this->log('could not purge file: ' . $file);
+                    }
                 }
             }
 
-            if (!$haveFiles) {
-                $this->output(" - Nothing to purge in {$dir}");
-            } else {
-                $this->output("Purged {$dir}");
-            }
-
-            if (count($innerDirs) > 0) {
-                $this->purge($innerDirs);
-            }
-
+            $this->output("Purged {$dir}");
             $this->connection->cd($origin);
         }
     }
-
 
     /**
      * Glob the file path

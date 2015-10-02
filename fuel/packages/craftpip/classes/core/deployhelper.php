@@ -268,9 +268,9 @@ Class DeployHelper {
                 // If directory doesn't exist, add to files to delete
                 if (!is_dir($part2)) {
                     $this->output('need to delete: ' . $part);
-                    $path = implode(array_slice($parts, 0, $i));
+                    $path = implode(array_slice($parts, 0, $i)) . '/' . $part;
                     $this->output('delete ' . $path);
-                    $dirsToDelete[] = $part;
+                    $dirsToDelete[] = $path;
                 }
             }
         }

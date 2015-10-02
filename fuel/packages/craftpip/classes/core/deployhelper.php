@@ -168,10 +168,10 @@ Class DeployHelper {
             if (substr($dir, 0, 1) == '/') {
                 $this->log("Warning: Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
                 $dir = substr($dir, 1, strlen($dir));
-                if(trim($dir) == ''){
+                if (trim($dir) == '') {
                     $this->log("Warning: Cannot purge home directory.");
                     continue;
-                }else{
+                } else {
                     $this->log("Using $dir instead");
                 }
             }
@@ -245,7 +245,7 @@ Class DeployHelper {
     public function hasDeletedDirectories($filesToDelete) {
         $dirsToDelete = [];
         $this->output('has directories to delete');
-        foreach ($filesToDelete as $file) {
+        foreach ($filesToDelete as $i => $file) {
 
             // Break directories into a list of items
 
@@ -263,11 +263,13 @@ Class DeployHelper {
 
                 // Relative path won't work consistently, thus getcwd().
                 $part2 = getcwd() . '/' . $prefix . $part;
-                $this->output('path '.$part2);
+                $this->output('path ' . $part2);
 
                 // If directory doesn't exist, add to files to delete
                 if (!is_dir($part2)) {
-                    $this->output('need to delete: '.$part);
+                    $this->output('need to delete: ' . $part);
+                    $path = implode(array_slice($parts, 0, $i));
+                    $this->output('delete ' . path);
                     $dirsToDelete[] = $part;
                 }
             }

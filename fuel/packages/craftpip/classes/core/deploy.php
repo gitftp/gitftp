@@ -184,6 +184,9 @@ class Deploy extends DeployHelper {
             ), TRUE);
 
         } catch (Exception $e) {
+
+            $this->log('ERROR', $e->getCode() . ' ' . $e->getMessage());
+
             $this->m_record->set($this->record_id, array(
                 'status' => $this->m_record->failed,
                 'raw'    => serialize($this->log)

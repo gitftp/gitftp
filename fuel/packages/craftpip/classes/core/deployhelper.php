@@ -168,7 +168,12 @@ Class DeployHelper {
             if (substr($dir, 0, 1) == '/') {
                 $this->log("Warning: Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
                 $dir = substr($dir, 1, strlen($dir));
-                $this->log("Using $dir instead");
+                if(trim($dir) == ''){
+                    $this->log("Warning: Cannot purge home directory.");
+                    continue;
+                }else{
+                    $this->log("Using $dir instead");
+                }
             }
 
             try {

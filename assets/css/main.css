@@ -1882,6 +1882,7 @@ i.gf-alert {
 }
 .panel-user-details .top > * {
   display: inline-block;
+  vertical-align: middle;
 }
 .panel-user-details .top h3 {
   margin-top: 0px;

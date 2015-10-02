@@ -14,7 +14,7 @@
 <br/>
 <table class="table table-condensed">
     <tr>
-        <th>V</th>
+        <th>Activated</th>
         <th>Repo_l</th>
         <th>ID</th>
         <th>username</th>
@@ -26,7 +26,7 @@
     </tr>
     <?php foreach ($users as $k) { ?>
         <tr>
-            <td><?php echo $k['verified'] ?></td>
+            <td><?php echo $k['verified'] == 1 ? 'yes' : 'no'  ?></td>
             <td><?php echo $k['repol'] ?></td>
             <td><?php echo $k['id'] ?></td>
             <td><?php echo $k['username'] ?></td>

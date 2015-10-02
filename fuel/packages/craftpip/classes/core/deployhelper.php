@@ -269,7 +269,7 @@ Class DeployHelper {
                 if (!is_dir($part2)) {
                     $this->output('need to delete: ' . $part);
                     $path = implode(array_slice($parts, 0, $i));
-                    $this->output('delete ' . path);
+                    $this->output('delete ' . $path);
                     $dirsToDelete[] = $part;
                 }
             }

@@ -61,7 +61,8 @@ define([
                 },
                 confirmButton: 'Close',
                 theme: 'white',
-                columnClass: 'col-md-6 col-md-offset-3'
+                columnClass: 'col-md-6 col-md-offset-3',
+                animation: 'top',
             });
         },
         getRawData: function (e) {
@@ -85,7 +86,8 @@ define([
                 },
                 confirmButton: 'Close',
                 theme: 'white',
-                columnClass: 'col-md-6 col-md-offset-3'
+                columnClass: 'col-md-6 col-md-offset-3',
+                animation: 'top',
             });
         },
         renderMoreActivity: function (e) {

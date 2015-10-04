@@ -9,22 +9,96 @@
 <div class="space20"></div>
 <div class="space20"></div>
 <div class="row">
+    <% if(data.account.ftp == 0 || data.account.projects == 0){ %>
     <div class="col-md-8">
-        <% if(data.account.ftp == 0){ %>
         <div class="space20"></div>
-        <div class="text-left b" style="font-size: 30px;">
+        <div class="space20"></div>
+        <div class="space20"></div>
+        <div class="text-center b" style="font-size: 30px;">
             <strong>Lets get started.</strong>
         </div>
+
         <div class="space20"></div>
-        <p class="">
-            Your Dashboard seems empty, lets start by creating a FTP configuration.
+        <p class="text-center">
+            Quick things to help you get going.
         </p>
+
         <div class="space15"></div>
-        <p>
-            <a class="btn btn-info" href="/ftp/add"><strong>ADD FTP SERVER</strong></a>
-        </p>
-        <% } %>
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="addnew">
+                    <a class="btn btn-info " href="/ftp/add">
+                        <strong>Add FTP</strong></a>
+                    <span>or</span>
+                    <a class="btn btn-info " href="/project/new">
+                        <strong>new Project</strong></a>
+                </div>
+            </div>
+        </div>
     </div>
+    <% }else{ %>
+    <div class="col-md-8">
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="panel panel-default none">
+                    <div class="space20"></div>
+                    <div class="space20"></div>
+                    <p class="text-center">
+                        <i class="fa fa-cloud fa-4x gray"></i> <br/>
+                        No deploy running now.
+                    </p>
+
+                    <div class="space20"></div>
+                    <div class="space20"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong class="blue">DEPLOYING NOW</strong>
+                    </div>
+                    <!--<div class="panel-body-material"></div>-->
+                    <table class="table table-material">
+                        <tr>
+                            <td><strong>Bootstrap select</strong></td>
+                            <td class="text-right">Processing <i class="gf gf-loading"></i></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <strong class="blue">PROJECTS</strong>
+                    </div>
+                    <table class="table table-material">
+                        <tr>
+                            <td>
+                                Bootstrap something something
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bootstrap something something
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Bootstrap something something
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="text-center">
+                                <a href="/project/new">Add new</a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <% } %>
     <div class="col-md-4">
         <div class="panel panel-default panel-user-details">
             <div class="top">

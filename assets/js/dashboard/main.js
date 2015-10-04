@@ -21,7 +21,7 @@ require([
         var j = l.split('/')[0] || l.split('/')[1];
         $('.navbar-nav li').removeClass('active');
         if(typeof j === 'undefined')
-            j = 'home';
+            j = 'project';
         $('.navbar-nav li.' + j).addClass('active');
     });
     Backbone.history.start({

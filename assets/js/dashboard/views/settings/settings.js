@@ -8,13 +8,11 @@ define([
 ], function (page, accountView, notificationView, servicesView, hooksView, projectView) {
     d = Backbone.View.extend({
         el: app.el,
-        events: {
-
-        },
+        events: {},
         render: function (path) {
             var that = this;
             setTitle('Settings');
-            if(!$('.settingspageloaded').length){
+            if (!$('.settingspageloaded').length) {
                 this.$el.html(this.el = $('<div class="bb-loading">').addClass(viewClass()));
                 this.template = _.template(page);
                 that.el.html(that.template());
@@ -22,7 +20,7 @@ define([
 
             that.subPage = '.settingspanel-container';
             that.pages = {
-                account: accountView,
+                basic: accountView,
                 notifications: notificationView,
                 services: servicesView,
                 webhooks: hooksView,
@@ -30,7 +28,7 @@ define([
             };
 
             if (!path) {
-                Router.navigate('/settings/account', {
+                Router.navigate('/settings/basic', {
                     trigger: true,
                     replace: true
                 });
@@ -56,8 +54,10 @@ define([
                 });
                 this[page].render();
             } catch (e) {
-                console.log(e);
-                console.log('We dont know what this is: ' + page);
+                Router.navigate('/settings/basic', {
+                    trigger: true,
+                    replace: true
+                });
             }
         }
     });

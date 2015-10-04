@@ -50,7 +50,7 @@ define([
                             url: base + 'api/etc/feedback',
                             data: data,
                             method: 'post',
-                            dataType: 'json',
+                            dataType: 'json'
                         }).always(function () {
                             that.$b.find(':input').prop('disabled', false);
                             that.$confirmButton.html('send');
@@ -59,6 +59,7 @@ define([
                                 that.close();
                                 $.alert({
                                     title: 'Submitted',
+                                    icon: 'fa fa-thumbs-up blue',
                                     content: 'Thank you for your support, we appreciate it.',
                                     confirmButton: 'close'
                                 })

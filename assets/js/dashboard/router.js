@@ -10,8 +10,8 @@ define([
 
     var r = Backbone.Router.extend({
         routes: {
-            '': 'dashboard',
-            'home': 'dashboard',
+            '': 'project',
+            //'home': 'dashboard',
             'ftp': 'ftpView',
             'ftp/add': 'ftpAdd',
             'ftp/edit/:id': 'ftpAdd',
@@ -51,7 +51,7 @@ define([
             app.obj.settings.render(path);
         },
         fourofour: function () {
-            Router.navigate('/home', {trigger: true, replace: true});
+            Router.navigate('/project', {trigger: true, replace: true});
         }
 
     });

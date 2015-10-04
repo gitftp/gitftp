@@ -6,8 +6,17 @@ define([
             var that = this;
             this.$el.html(this.$e = $('<div class="bb-loading side-anim">').addClass(viewClass()));
             this.template = _.template(page);
-            that.$e.html(that.template());
-            this.validation();
+            $.ajax({
+                url: base + 'api/etc/me',
+                method: 'get',
+                dataType: 'json'
+            }).done(function (res) {
+                that.$e.html(that.template({
+                    'data': res.data
+                }));
+                that.validation();
+            });
+
             setTitle('Account | Settings');
         },
         validation: function () {

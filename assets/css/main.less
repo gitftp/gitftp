@@ -54,6 +54,7 @@ a {
   border-bottom: solid 2px @bg !important;
   background: @base;
   .shadow-x3;
+  z-index: 999999999;
 
   .navbar-nav {
     a {
@@ -132,12 +133,31 @@ h1, h2, h3, h4, h5, h6 {
 
 .viewdeploy, .ftp-servers-list {
   margin-bottom: 30px;
-
+  position: relative;
+  .url {
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
+    color: #aaa;
+    display: block;
+  }
+  .status {
+    position: absolute;
+    top: -13px;
+    right: 13px;
+    background: #00C853;
+    padding: 2px 8px;
+    font-weight: bold;
+    color: white;
+    border-radius: 4px;
+    font-size: 12px;
+  }
   &.delete {
     opacity: 0.3;
   }
-  &.is-deploy-deactive{
-    .project-list-block{
+  &.is-deploy-deactive {
+    .project-list-block {
       opacity: 0.5;
     }
   }
@@ -157,7 +177,7 @@ h1, h2, h3, h4, h5, h6 {
       span.head {
         font-size: 24px;
         padding-top: 0px;
-        max-width: 85%;
+        max-width: 90%;
         text-overflow: ellipsis;
         overflow: hidden;
         display: inline-block;
@@ -1559,11 +1579,28 @@ i {
       margin-top: 0px;
       margin-bottom: 0px;
       margin-left: 10px;
+
+      white-space: nowrap;
+      width: 77%;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      text-transform: capitalize;
     }
     img {
       border-radius: 50px;
       height: 40px;
       width: 40px;
     }
+  }
+}
+
+.addnew {
+  text-align: center;
+  a {
+    width: 40%;
+    padding: 20px;
+  }
+  span {
+    padding: 0 8px;
   }
 }

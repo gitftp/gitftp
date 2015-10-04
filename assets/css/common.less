@@ -185,6 +185,12 @@ label.error {
   }
 }
 
+.form-control-static {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .mono {
   font-family: consolas;
 }
@@ -195,7 +201,7 @@ label.error {
 
 a.btn {
   padding: 9px 10px 9px;
-  line-height: 12px;
+  //  line-height: 12px;
 }
 
 .btn {
@@ -206,6 +212,9 @@ a.btn {
   text-transform: uppercase;
   font-weight: bold;
   border-color: transparent;
+
+  white-space: normal;
+  line-height: 18px;
 
   &:focus {
     outline: none !important;

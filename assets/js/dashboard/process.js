@@ -41,7 +41,7 @@ define([], function () {
                         if (response.status && response.data.length) {
                             $.each(response.data, function (i, a) {
                                 $target = $('.is-deploy-list[data-id="' + a.id + '"]');
-                                $target.find('.status').html('(' + a.status + ')');
+                                $target.find('.status').html(a.status);
                             });
                         }
                     });

@@ -23,11 +23,11 @@
                         </div>
                         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                             <ul class="nav navbar-nav navbar-left drop">
-                                <li class="home">
-                                    <a href="/home">
-                                        Dashboard
-                                    </a>
-                                </li>
+<!--                                <li class="home">-->
+<!--                                    <a href="/home">-->
+<!--                                        Dashboard-->
+<!--                                    </a>-->
+<!--                                </li>-->
                                 <li class="project">
                                     <a href="/project">
                                         Projects

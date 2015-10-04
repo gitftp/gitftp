@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="head">Projects</div>
-            <div class="subhead">Get started with deployment in minutes.</div>
+            <div class="subhead">List &amp; Deploy your projects.</div>
         </div>
         <div class="col-md-4">
             <% if(list.length != 0){ %>
@@ -33,36 +33,76 @@
         <br/>
         Create new
     </a>
-
 </p>
 
 <% }else{ %>
-
 <div class="row">
-    <% $.each(list, function(i, a){ %>
-    <div class="col-md-6">
-        <div class="viewdeploy is-deploy-list <%= a.active == '1' ? '' : 'is-deploy-deactive' %>" style="cursor:pointer" data-id="<%= a.id %>">
-            <div class="project-list-block">
-                <div class="header">
-                    <p>
-                    <span class="head">
-                        <i class="fa fa-fw fa-<%= (a.git_name) ? a.provider.toLowerCase() : 'cloud' %>"></i>&nbsp; <%= a.name %>
-                    </span> <br/>
-                        <span class="status">(<%= a.status %>)</span>
-                    </p>
+    <div class="col-md-4">
+        <div class="panel panel-default panel-user-details">
+            <div class="top">
+                <img src="<%= data.user.avatar %>"/>
 
-                    <div class="clearfix"></div>
-                </div>
-                <span style="color: #aaa">(<%= a.repository %>)</span><br>
-                <span>
-                    <span class="">last deployed: <%= (a.lastdeploy == '0') ? 'Not yet' : moment(a.lastdeploy).format('D-MM-YY hh:mm a') %></span>
-                    <%= a.active == '1' ? '' : '<span class="pull-right orange">Deactivated</span>' %>
-                </span>
+                <h3><%= data.user.name %></h3>
+            </div>
+            <div class="panel-body panel-body-material">
+                <i class="fa fa-envelope-o fa-fw"></i> <strong>Email</strong>: <%= data.user.email %> <br>
+                <i class="fa fa-star-o fa-fw"></i> <strong>Customer ID</strong>: <%= data.user.id %> <br>
+            </div>
+        </div>
+
+        <div class="panel panel-default panel-disabled panel-loading panel-stats">
+            <div class="panel-body panel-body-material">
+                <div><strong>ACCOUNT</strong></div>
+            </div>
+            <div class="numbers">
+                <table>
+                    <tr>
+                        <td class="deploy_stats">&hellip;/&hellip;</td>
+                        <td>Projects</td>
+                    </tr>
+                    <tr>
+                        <td class="activity_count">&hellip;</td>
+                        <td>Deploys</td>
+                    </tr>
+                    <tr>
+                        <td class="data_deployed">&hellip;</td>
+                        <td>Data deployed</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="panel-body panel-body-material">
             </div>
         </div>
     </div>
-    <% }) %>
+    <div class="col-md-8">
+        <div class="row">
+            <% $.each(list, function(i, a){ %>
+            <div class="col-md-6">
+                <div class="viewdeploy is-deploy-list <%= a.active == '1' ? '' : 'is-deploy-deactive' %>" style="cursor:pointer" data-id="<%= a.id %>">
+                    <div class="project-list-block">
+                        <div class="header">
+                            <p>
+                                <span class="head">
+                                    <i class="fa fa-fw fa-<%= (a.git_name) ? a.provider.toLowerCase() : 'cloud' %>"></i>&nbsp; <%= a.name %>
+                                </span> <br/>
+                                <span class="status"><%= a.status %></span>
+                            </p>
+
+                            <div class="clearfix"></div>
+                        </div>
+                        <span class="url">(<%= a.repository %>)</span>
+                <span>
+                    <span class="">Last deployed: <%= (a.lastdeploy == '0') ? 'Not yet' : moment(a.lastdeploy).format('D-MM-YY hh:mm a') %></span>
+                    <%= a.active == '1' ? '' : '<span class="pull-right orange">Deactivated</span>' %>
+                </span>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+        </div>
+    </div>
 </div>
+
 <% } %>
 
 <script>

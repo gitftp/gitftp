@@ -129,6 +129,11 @@ label.error {
   font-weight: 500;
   padding: 4px 25px 4px 20px;
 }
+.form-control-static {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .mono {
   font-family: consolas;
 }
@@ -137,7 +142,6 @@ label.error {
 }
 a.btn {
   padding: 9px 10px 9px;
-  line-height: 12px;
 }
 .btn {
   background-image: none;
@@ -148,6 +152,8 @@ a.btn {
   text-transform: uppercase;
   font-weight: bold;
   border-color: transparent;
+  white-space: normal;
+  line-height: 18px;
 }
 .btn:focus {
   outline: none !important;
@@ -497,6 +503,7 @@ a:hover {
   border-bottom: solid 2px #f5f5f5 !important;
   background: #0091ea;
   box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.14), 0 6px 10px 0 rgba(0, 0, 0, 0.098), 0 1px 18px 0 rgba(0, 0, 0, 0.084);
+  z-index: 999999999;
 }
 .navbar-default .navbar-nav a {
   font-weight: 500;
@@ -571,6 +578,28 @@ h6 {
 .viewdeploy,
 .ftp-servers-list {
   margin-bottom: 30px;
+  position: relative;
+}
+.viewdeploy .url,
+.ftp-servers-list .url {
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+  color: #aaa;
+  display: block;
+}
+.viewdeploy .status,
+.ftp-servers-list .status {
+  position: absolute;
+  top: -13px;
+  right: 13px;
+  background: #00C853;
+  padding: 2px 8px;
+  font-weight: bold;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
 }
 .viewdeploy.delete,
 .ftp-servers-list.delete {
@@ -598,7 +627,7 @@ h6 {
 .ftp-servers-list .project-list-block .header span.head {
   font-size: 24px;
   padding-top: 0px;
-  max-width: 85%;
+  max-width: 90%;
   text-overflow: ellipsis;
   overflow: hidden;
   display: inline-block;
@@ -1888,9 +1917,24 @@ i.gf-alert {
   margin-top: 0px;
   margin-bottom: 0px;
   margin-left: 10px;
+  white-space: nowrap;
+  width: 77%;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-transform: capitalize;
 }
 .panel-user-details .top img {
   border-radius: 50px;
   height: 40px;
   width: 40px;
+}
+.addnew {
+  text-align: center;
+}
+.addnew a {
+  width: 40%;
+  padding: 20px;
+}
+.addnew span {
+  padding: 0 8px;
 }

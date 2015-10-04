@@ -262,7 +262,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             // data to update
             $data = array(
                 'name' => $i['name'],
-                'key'  => $i['key'],
+                'key'  => $i['key'], // key will not update.
             );
 
             if (isset($i['isprivate'])) {

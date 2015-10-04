@@ -339,4 +339,30 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
     public function dashboard_init() {
 
     }
+
+    public function get_me() {
+        $auth = new \Craftpip\OAuth\Auth();
+        try {
+            $deploy = new \Model_Deploy();
+            $projects = $deploy->get(NULL, array('id', 'cloned', 'name'));
+            $response = array(
+                'status' => FALSE,
+                'data'   => array(
+                    'username'       => $auth->get_screen_name(),
+                    'email'         => $auth->get_email(),
+                    'id'            => $auth->user_id,
+                    'verified'      => $auth->getAttr('verified'),
+                    'project_limit' => $auth->getAttr('project_limit'),
+                    'projects'      => $projects,
+                )
+            );
+        } catch (Exception $e) {
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        $this->response($response);
+
+    }
 }

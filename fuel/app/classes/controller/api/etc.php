@@ -2,7 +2,6 @@
 
 class Controller_Api_Etc extends Controller_Api_Apilogincheck {
 
-
     public function get_sizeondisk() {
 
         try {
@@ -30,6 +29,79 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 'size_human' => \Utils::humanize_data($a[0])
             );
 
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        $this->response($response);
+    }
+
+    public function get_webhook() {
+        try {
+            $deploy = new \Model_Deploy();
+            $auth = new \Craftpip\OAuth\Auth();
+            $projects = $deploy->get(NULL, array('id', 'name', 'key', 'git_name', 'git_hook_id', 'cloned', 'repository'));
+            $projects2 = array();
+            foreach ($projects as $a => $b) {
+                if (!empty($b['git_hook_id'])) {
+                    $b['git_username'] = $auth->getProviders($b['provider'], 'username');
+                    $projects2[] = $b;
+                }
+            }
+            $response = array(
+                'status' => TRUE,
+                'data'   => $projects2,
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+        $this->response($response);
+    }
+
+    public function post_webhook() {
+        try {
+            $i = $_POST;
+            if (!isset($i['id']) || !isset($i['key']))
+                throw new \Craftpip\Exception('Something went wrong, please try again later.');
+
+
+            $deploy_id = $i['id'];
+            $key = $i['key'];
+
+            $deploy = new \Model_Deploy();
+            $project = $deploy->get($deploy_id);
+            if (!count($project)) {
+                throw new \Craftpip\Exception('Something is not right, please try again later.');
+            }
+
+            $project = $project[0];
+            $hook_id = $project['git_hook_id'];
+            $git_name = $project['git_name'];
+
+            $provider = \Utils::parseProviderFromRepository($project['repository']);
+            $gitapi = new \Craftpip\GitApi();
+            $gitapi->loadApi($provider);
+            $url = $gitapi->buildHookUrl($deploy_id, $key);
+            $apiResponse = $gitapi->api->updateHook($git_name, $hook_id, $url);
+
+            if($apiResponse['url'] == $url){
+                // successfull.
+                $deploy->set($deploy_id, array(
+                    'key' => $key
+                ));
+            }
+
+            $response = array(
+                'status' => TRUE,
+                'res'    => $apiResponse
+            );
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
@@ -348,7 +420,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
             $response = array(
                 'status' => FALSE,
                 'data'   => array(
-                    'username'       => $auth->get_screen_name(),
+                    'username'      => $auth->get_screen_name(),
                     'email'         => $auth->get_email(),
                     'id'            => $auth->user_id,
                     'verified'      => $auth->getAttr('verified'),

@@ -7,7 +7,19 @@ define([
             var that = this;
             this.$el.html(this.$e = $('<div class="bb-loading side-anim">').addClass(viewClass()));
             this.template = _.template(page);
-            that.$e.html(that.template());
+            $.ajax({
+                url: base + 'api/deploy/only',
+                data: {
+                    size: true,
+                    select: 'id,name,git_name,repository'
+                },
+                method: 'get',
+                dataType: 'json'
+            }).done(function (res) {
+                that.$e.html(that.template({
+                    data: res.data
+                }));
+            });
             setTitle('Projects | Settings');
         }
     });

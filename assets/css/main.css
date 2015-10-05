@@ -1286,6 +1286,9 @@ i.gf-loading:before {
   border-top-color: #0091ea;
   border-bottom-color: transparent;
 }
+i.gf-loading-white:before {
+  border-top-color: white;
+}
 i.gf-btn {
   margin-right: 5px;
 }
@@ -1937,4 +1940,7 @@ i.gf-alert {
 }
 .addnew span {
   padding: 0 8px;
+}
+.table-middle td {
+  vertical-align: middle !important;
 }

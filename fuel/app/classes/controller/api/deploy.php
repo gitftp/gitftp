@@ -25,12 +25,28 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
      * @param null $id
      */
     public function get_only($id = NULL) {
-        $a = Input::get();
-        $deploy = new Model_Deploy();
+        $a = \Input::get();
+        $deploy = new \Model_Deploy();
         $a = explode(',', $a['select']);
         array_push($a, 'cloned'); // neeeded for getting status.
         $b = $deploy->get($id, $a);
-        $b = Utils::strip_passwords($b);
+        $b = \Utils::strip_passwords($b);
+
+        if (!is_null(\Input::get('size', NULL))) {
+            foreach ($b as $c => $d) {
+                $id = $d['id'];
+                $path = \Utils::get_repo_dir($id);
+                $op = \Utils::runCommand('du -sb ' . $path, FALSE);
+                if (count($op) == 0) {
+                    $b[$c]['size'] = 'Unavailable';
+                } else {
+                    $count = $op[0];
+                    $size = preg_split('/\s+/', $count);
+                    $b[$c]['size'] = \Utils::humanize_data($size[0]);
+                }
+            }
+        }
+
         $response = array(
             'status' => TRUE,
             'data'   => $b
@@ -262,8 +278,11 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             // data to update
             $data = array(
                 'name' => $i['name'],
-                'key'  => $i['key'], // key will not update.
             );
+
+            if (isset($i['key']))
+                $data['key'] = $i['key'];
+
 
             if (isset($i['isprivate'])) {
                 if (isset($i['username']))

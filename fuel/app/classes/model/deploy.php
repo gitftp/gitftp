@@ -80,6 +80,8 @@ class Model_Deploy extends Model {
 
             if(!empty($env)){
                 $env = $env[0]['name'];
+                if(strlen($env) > 12)
+                    $env = substr($env, 0, 12).'..';
                 $status = "Deploying to $env | $processed_files of $total_files files";
             }else{
                 $status = "Preparing project...";

@@ -24,7 +24,8 @@ define([], function () {
                                 el.html(data.status);
                             } else {
                                 el.addClass("project-co-loading");
-                                el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> ' + data.status);
+                                //el.html('<i class="fa fa-spin fa-refresh fa-fw"></i> ' + data.status);
+                                el.html('<i class="gf gf-loading gf-loading-white gf-btn"></i> ' + data.status);
                             }
                         }
                     });
@@ -49,7 +50,7 @@ define([], function () {
                 that.deployView();
             }, this.deployViewInterval);
         },
-        deployViewInterval: 10000,
+        deployViewInterval: 4000,
         timeUpdateInterval: 500,
         timeUpdate: function () {
             /*

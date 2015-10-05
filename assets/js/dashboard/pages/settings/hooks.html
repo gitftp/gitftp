@@ -1,13 +1,61 @@
 <div class="panel panel-default panel-user-settings">
     <div class="panel-body panel-body-material">
         <div class="panel-title">
-            <i class="fa fa-anchor blue"></i>&nbsp; Hooks
+            <i class="fa fa-anchor blue"></i>&nbsp; Webhooks
         </div>
         <div class="space20"></div>
-        <div class="row">
-            <div class="col-md-8">
-                Work in progress...
-            </div>
+        <p>Webhooks helps Gitftp know when you commit &amp; push changes to your Git host provider, so we start deploying.
+        </p>
+        <% JSON.stringify(data) %>
+        <div class="alert alert-warning">
+            <i class="fa fa-warning"></i> Incorrect configuration can stop Auto-deploy your projects. Please use with caution.
         </div>
+        <a class="pull-right" href="#learnmore">Learn more about Webhooks</a>
+        <div class="clear"></div>
     </div>
+    <% if(data.length == 0){ %>
+    <div class="space20"></div>
+    <p class="text-center gray">
+        <i class="fa fa-anchor fa-3x"></i> <br/>
+        <strong>Nothing here</strong>
+    </p>
+    <div class="space20"></div>
+    <div class="space20"></div>
+    <% }else{ %>
+    <table class="table table-material">
+        <tr>
+            <th>
+                Project name
+            </th>
+            <th class="text-right">
+                Key
+            </th>
+            <th></th>
+        </tr>
+        <% $.each(data, function(i, a){ %>
+        <tr>
+            <td>
+                <%= a.name %>
+            </td>
+            <td class="text-right">
+                <%= a.key %>
+            </td>
+            <td class="text-right">
+                <a href="#" class="changekey" data-key="<%= a.key %>" data-id="<%= a.id %>">
+                    <i class="fa fa-pencil"></i>
+                </a>
+                &nbsp;|&nbsp;
+                <%
+                if(a.provider.toLowerCase() == 'github'){
+                var url = 'https://github.com/'+a.git_username+'/'+a.git_name.toLowerCase()+'/settings/hooks/'+a.git_hook_id;
+                }else if(a.provider.toLowerCase() == 'bitbucket'){
+                var url = 'https://bitbucket.org/'+a.git_username+'/'+a.git_name.toLowerCase()+'/admin/addon/admin/bitbucket-webhooks/bb-webhooks-repo-admin';
+                }
+                %>
+                <a target="_blank" href="<%= url %>" title="View on <%= a.provider %>">View</a>
+            </td>
+        </tr>
+        <% }); %>
+    </table>
+    <% } %>
 </div>

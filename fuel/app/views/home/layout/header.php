@@ -8,9 +8,9 @@
 $color = 'black';
 $s = Uri::segments();
 if (count($s) == 0) {
-    $color = 'white';
+//    $color = 'white';
 } elseif ($s[0] == 'welcome') {
-    $color = 'white';
+//    $color = 'white';
 }
 ?>
 

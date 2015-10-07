@@ -50,9 +50,10 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.anim, .anim-2, .anim-3{
-  animation: intro 1s @easing;
+.anim{
+//  animation: intro 1s @easing;
 }
+
 @keyframes intro {
   from{
     transform: scale(0.8) translate(0, 40px);
@@ -2141,22 +2142,7 @@ ul.portfolio-list li span:first-child {
   left: 0px;
   width: 100%;
   height: 100%;
-//  background-size: cover !important;
   z-index: 0;
-//  background-repeat: no-repeat;
-//  background-attachment: fixed;
-}
-
-.section.background-wrapper .background-move {
-  animation: bg 4000s infinite linear;
-}
-@keyframes bg {
-  from {
-    background-position: 0 0 ;
-  }
-  to {
-    background-position: 100000px -100000px;
-  }
 }
 
 .section.background-wrapper .video-wrapper, .section .background-wrapper .video-wrapper, .paper.background-wrapper .video-wrapper, .paper .background-wrapper .video-wrapper {
@@ -3786,5 +3772,12 @@ div.line{
     text-transform: uppercase;
     font-weight: bold;
     color: #888;
+  }
+}
+.home-page-title{
+  p.tag{
+    .b;
+    font-size: 26px;
+    line-height: 32px;
   }
 }

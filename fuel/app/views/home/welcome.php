@@ -1,17 +1,16 @@
-<section class="big-hero section background-wrapper fullscreen with-overlay black-overlay active-section" style="height: 567px;">
-<!--    parallax-background/-->
-    <div class="background-image background-move" data-stellar-background-ratio="0.5" style="background: url('<?php echo Asset::get_file('stardust.png', 'img') ?>') 0% 0%;">
+<section class="big-hero section background-wrapper fullscreen white-overlay active-section" style="height: 567px;">
+    <div class="background-image background-move" data-stellar-background-ratio="0.5" >
     </div>
     <div class="container middle-content">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <div class="element text-center anim" style="color: white">
-                    <?php // echo Asset::img('logow.png'); ?>
-                    <p class="b " style="font-size: 40px;">
-                        Git-ftp deployment made simple.
-                    </p>
-                    <p class="uppercase-text letter-spacing b" style="font-size: 20px;">
-                        Deploy to multiple servers from branches.
+                <div class="element text-center home-page-title" >
+                    <?php echo Asset::img('logo.png'); ?>
+                    <p class="tag">
+                        Automatically deploy files from Git to Ftp. <br/>
+                        <small>
+                            hassle free project deploy tool.
+                        </small>
                     </p>
                     <div class="space"></div>
                     <p>

@@ -515,12 +515,6 @@ body {
   text-transform: uppercase;
   letter-spacing: 1px;
 }
-.anim,
-.anim-2,
-.anim-3 {
-  -webkit-animation: intro 1s cubic-bezier(0.43, 0.96, 0.53, 0.98);
-          animation: intro 1s cubic-bezier(0.43, 0.96, 0.53, 0.98);
-}
 @-webkit-keyframes intro {
   from {
     -webkit-transform: scale(0.8) translate(0, 40px);
@@ -2442,26 +2436,6 @@ ul.portfolio-list li span:first-child {
   width: 100%;
   height: 100%;
   z-index: 0;
-}
-.section.background-wrapper .background-move {
-  -webkit-animation: bg 4000s infinite linear;
-          animation: bg 4000s infinite linear;
-}
-@-webkit-keyframes bg {
-  from {
-    background-position: 0 0 ;
-  }
-  to {
-    background-position: 100000px -100000px;
-  }
-}
-@keyframes bg {
-  from {
-    background-position: 0 0 ;
-  }
-  to {
-    background-position: 100000px -100000px;
-  }
 }
 .section.background-wrapper .video-wrapper,
 .section .background-wrapper .video-wrapper,
@@ -4970,4 +4944,9 @@ div.line p {
   text-transform: uppercase;
   font-weight: bold;
   color: #888;
+}
+.home-page-title p.tag {
+  font-family: 'Bitter', serif;
+  font-size: 26px;
+  line-height: 32px;
 }

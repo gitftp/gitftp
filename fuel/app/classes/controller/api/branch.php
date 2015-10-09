@@ -14,7 +14,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
     public function post_create() {
         try {
             $i = \Input::post();
-            $i = \Utils::escapeHtmlChars($i); // wow
+            $i = \Utils::escapeHtmlChars($i);
 
             $fields = array(
                 'name'        => $i['name'],
@@ -24,21 +24,21 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                 'deploy_id'   => $i['deploy_id'],
             );
 
-            $v = Validation::forge();
+            $v = \Validation::forge();
             $v->add_field('name', '', 'required');
             $v->add_field('branch_name', '', 'required');
 
             if (!$v->run($fields)) {
-                throw new Exception('Sorry, we got confused.', 200);
+                throw new \Craftpip\Exception('Sorry, something is not right.');
             }
 
             // check if owner of this deploy.
-            $deploy = new Model_Deploy();
-            $branch = new Model_Branch();
+            $deploy = new \Model_Deploy();
+            $branch = new \Model_Branch();
             $deploy_data = $deploy->get($i['deploy_id']);
 
             if (count($deploy_data) !== 1) {
-                throw new Exception('Something went wrong.', 200);
+                throw new Exception('');
             }
 
             $branch_data = $branch->get_by_ftp_id($i['ftp_id']);
@@ -91,6 +91,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
 
             $response = array('status' => TRUE);
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array('status' => FALSE, 'reason' => $e->getMessage());
         }
 

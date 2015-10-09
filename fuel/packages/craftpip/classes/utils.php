@@ -286,7 +286,6 @@ class Utils {
     }
 
     public static function escapeHtmlChars($string, $except = array()) {
-
         if (is_array($string)) {
             foreach ($string as $k => $v) {
                 if (!is_array($v) && $k !== 'password' && $k !== 'pass' && $k !== 'skip_path') {

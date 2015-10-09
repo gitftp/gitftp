@@ -28,7 +28,7 @@ require([
         pushState: true
     });
     process.init();
-    $(document).on('click', "a[href^='/']", function (e) {
+    $(document).on('click', "a[href^='/']", function (event) {
         var href = $(this).attr('href');
         passThrough = $(this).attr('pt') || false;
         if (!passThrough && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {

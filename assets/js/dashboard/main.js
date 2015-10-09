@@ -32,7 +32,7 @@ require([
         var href = $(this).attr('href');
         passThrough = $(this).attr('pt') || false;
         if (!passThrough && !event.altKey && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
-            e.preventDefault();
+            event.preventDefault();
         }
         url = href.replace(/^\//, '').replace('\#\!\/', '');
         Router.navigate(url, {

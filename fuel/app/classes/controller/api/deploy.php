@@ -95,6 +95,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
             $deploy_data = $deploy_data[0];
             $hook_id = $deploy_data['git_hook_id'];
+
             if ($hook_id) {
                 $gitapi = new \Craftpip\GitApi();
                 $provider = \Utils::parseProviderFromRepository($deploy_data['repository']);
@@ -125,6 +126,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                 throw new Exception('We got confused, please try again later.');
             }
         } catch (Exception $e) {
+            throw $e;
             $response = array(
                 'status'  => FALSE,
                 'request' => $id,

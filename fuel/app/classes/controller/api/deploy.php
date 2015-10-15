@@ -234,8 +234,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                     $record->insert($set);
                 }
             }
-//            \Utils::startDeploy($deploy_id);
-
+            \Utils::startDeploy($deploy_id);
             if ($deploy_id) {
                 $response = array(
                     'status'  => TRUE,
@@ -258,9 +257,9 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         $this->response($response);
     }
 
-    public function get_startdeploy() {
-        \Utils::startDeploy(19);
-    }
+//    public function get_startdeploy() {
+//        \Utils::startDeploy(19);
+//    }
 
     public function post_update($id) {
 
@@ -440,6 +439,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             }
 
 //            \Gfcore::deploy_in_bg($deploy_id);
+            \Utils::startDeploy($deploy_id);
             $response = array(
                 'status' => TRUE,
             );

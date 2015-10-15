@@ -10,7 +10,6 @@ define([], function () {
             setTimeout(function () {
                 if ($('.is-deploy-view-id').length) {
                     var id = $('.is-deploy-view-id').attr('data-id');
-
                     _ajax({
                         url: base + 'api/deploy/get/' + id,
                         method: 'get',

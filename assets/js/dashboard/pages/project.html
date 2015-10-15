@@ -13,29 +13,8 @@
         </div>
     </div>
 </div>
-
 <div class="head-body-divider"></div>
 
-<% if(list.length == 0){ %>
-
-<div class="space10"></div>
-<div class="space10"></div>
-<p class="text-center" style="color: #aaa;">
-
-    <span style="font-size: 24px;">You've no projects setup</span>
-    <br>
-    <span>Click on "create new" to get started.</span>
-    <br>
-    <br>
-    <a href="/project/new" class="btn btn-success">
-        <i class="fa fa-file-o fa-3x"></i>
-        <br/>
-        <br/>
-        Create new
-    </a>
-</p>
-
-<% }else{ %>
 <div class="row">
     <div class="col-md-4">
         <div class="panel panel-default panel-user-details">
@@ -75,6 +54,24 @@
         </div>
     </div>
     <div class="col-md-8">
+        <% if(list.length == 0){ %>
+        <div class="space10"></div>
+        <div class="space10"></div>
+        <p class="text-center" style="color: #aaa;">
+            <span style="font-size: 24px;">You've no projects setup</span>
+            <br>
+            <span>Click on the BIG green button to get started.</span>
+            <br>
+            <br>
+            <a href="/project/new" class="btn btn-success">
+                <i class="fa fa-file-o fa-3x"></i>
+                <br/>
+                <br/>
+                Create new
+            </a>
+        </p>
+
+        <% }else{ %>
         <div class="row">
             <% $.each(list, function(i, a){ %>
             <div class="col-md-6">
@@ -100,11 +97,9 @@
             </div>
             <% }) %>
         </div>
+        <% } %>
     </div>
 </div>
-
-<% } %>
-
 <script>
     $('[data-toggle="tooltip"]').tooltip();
 </script>

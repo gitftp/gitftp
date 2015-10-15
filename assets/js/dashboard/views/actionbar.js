@@ -21,7 +21,7 @@ define([
                 '<div class="space10"></div>' +
                 '<label>Your message</label>' +
                 '<form>' +
-                '<textarea style="resize: none; height: 100px;" name="message" class="form-control" placeholder="Anything you loved &hearts;, or anything you want to be improved. Let us know."/></textarea>' +
+                '<textarea style="resize: none; height: 100px;" name="message" class="form-control" placeholder=""/></textarea>' +
                 '</form>',
                 confirmButton: 'Send',
                 cancelButton: 'close',
@@ -36,7 +36,7 @@ define([
                         rules: {
                             message: {
                                 required: true,
-                                minlength: 50,
+                                minlength: 10,
                                 maxlength: 200
                             }
                         }

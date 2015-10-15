@@ -408,7 +408,7 @@
                         if (data.status) {
                             $.dialog({
                                 title: '',
-                                content: '<span class=""><i class="fa fa-spin fa-spinner"></i>&nbsp; Logged in, Redirecting... </span>',
+                                content: '<span class=""><i class="gf gf-loading"></i>&nbsp; Logged in, Redirecting... </span>',
                                 closeIcon: false,
                                 backgroundDismiss: false
                             });

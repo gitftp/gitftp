@@ -473,6 +473,48 @@ input[type="color"].error,
             transform: translate(20px, 0px);
   }
 }
+i.gf {
+  height: 20px;
+  width: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  position: relative;
+}
+i.gf-loading:before {
+  content: '';
+  height: inherit;
+  width: inherit;
+  background: transparent;
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-radius: 50px;
+  border-width: 3px 0px 0px 0px;
+  -webkit-animation: spin .5s infinite linear;
+          animation: spin .5s infinite linear;
+  border: solid 2px rgba(0, 0, 0, 0);
+  border-top-color: #0091ea;
+  border-bottom-color: transparent;
+}
+i.gf-loading-white:before {
+  border-top-color: white;
+}
+i.gf-btn {
+  margin-right: 5px;
+}
+i.gf-block {
+  display: block;
+}
+i.gf-alert {
+  margin-bottom: 10px;
+}
+.btn-warning i.gf-loading:before,
+.btn-primary i.gf-loading:before,
+.btn-danger i.gf-loading:before,
+.btn-info i.gf-loading:before,
+.btn-success i.gf-loading:before {
+  border-top-color: white;
+}
 /* ==========================================================================
     www.gitftp.com
     Git deploy automation software
@@ -1116,11 +1158,12 @@ h6 {
   content: '';
   position: absolute;
   top: 0;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.92);
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 999;
+  border-radius: 4px;
 }
 .panel:after {
   z-index: 1000;
@@ -1262,48 +1305,6 @@ h6 {
   padding: 6px 10px 4px;
   text-transform: uppercase;
   font-weight: 500;
-}
-i.gf {
-  height: 20px;
-  width: 20px;
-  display: inline-block;
-  vertical-align: middle;
-  position: relative;
-}
-i.gf-loading:before {
-  content: '';
-  height: inherit;
-  width: inherit;
-  background: transparent;
-  position: absolute;
-  left: 0;
-  top: 0;
-  border-radius: 50px;
-  border-width: 3px 0px 0px 0px;
-  -webkit-animation: spin .5s infinite linear;
-          animation: spin .5s infinite linear;
-  border: solid 2px rgba(0, 0, 0, 0);
-  border-top-color: #0091ea;
-  border-bottom-color: transparent;
-}
-i.gf-loading-white:before {
-  border-top-color: white;
-}
-i.gf-btn {
-  margin-right: 5px;
-}
-i.gf-block {
-  display: block;
-}
-i.gf-alert {
-  margin-bottom: 10px;
-}
-.btn-warning i.gf-loading:before,
-.btn-primary i.gf-loading:before,
-.btn-danger i.gf-loading:before,
-.btn-info i.gf-loading:before,
-.btn-success i.gf-loading:before {
-  border-top-color: white;
 }
 .jconfirm.supervan2 > .jconfirm-bg {
   background-color: rgba(245, 245, 245, 0.95);

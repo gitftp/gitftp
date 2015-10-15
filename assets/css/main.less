@@ -813,50 +813,6 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-i {
-  &.gf {
-    height: 20px;
-    width: 20px;
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-  }
-  &.gf-loading:before {
-    content: '';
-    height: inherit;
-    width: inherit;
-    background: transparent;
-    position: absolute;
-    left: 0;
-    top: 0;
-    border-radius: 50px;
-    border-width: 3px 0px 0px 0px;
-    animation: spin .5s infinite linear;
-    border: solid 2px rgba(0, 0, 0, 0);
-    border-top-color: @base;
-    border-bottom-color: transparent;
-  }
-
-  &.gf-loading-white:before{
-    border-top-color: white;
-  }
-  &.gf-btn {
-    margin-right: 5px;
-  }
-  &.gf-block {
-    display: block;
-  }
-  &.gf-alert {
-    margin-bottom: 10px;
-  }
-}
-
-.btn-warning, .btn-primary, .btn-danger, .btn-info, .btn-success {
-  i.gf-loading:before {
-    border-top-color: white;
-  }
-}
-
 .jconfirm.supervan2 > .jconfirm-bg {
   background-color: fade(@bg, 95%);
 }

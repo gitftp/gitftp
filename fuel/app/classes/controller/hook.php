@@ -37,11 +37,13 @@ class Controller_Hook extends Controller {
                 if ($key != $repo[0]['key']) {
                     die('The project and key do not match, please refer to documentation.');
                 }
-                if ($repo[0]['cloned'] == 0) {
-                    die('The project is not yet been initialized. please manually deploy first.');
-                }
+
+//                if ($repo[0]['cloned'] == 0) {
+//                    die('The project is not yet been initialized. please manually deploy first.');
+//                }
+
                 if ($repo[0]['active'] == 0) {
-                    die('Sorry, cannot deploy this project for the moment, please contact support.');
+                    die('Sorry, This project is deactivated, please contact support.');
                 }
             }
 

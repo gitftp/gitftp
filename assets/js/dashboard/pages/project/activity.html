@@ -108,7 +108,7 @@
         <strong class="pull-right">deployed <%= a.amount_deployed %></strong>
         <% } %>
         <br/>
-        <%= (a.avatar_url)? '<img src="'+a.avatar_url+'&s=20"/>' : '' %>
+        <%= (a.avatar_url)? '<img class="av" src="'+a.avatar_url+'&s=20"/>' : '' %>
         <% if(a.triggerby){ %>
         <strong><%= a.triggerby %> </strong> <%= (a.branch.length) ? 'pushed to '+a.branch[0].branch_name : '' %>
         <% }else{ %>

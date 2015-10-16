@@ -1006,6 +1006,10 @@ h6 {
   font-size: 2em;
   margin-top: 16px;
 }
+.project-record-list-wrapper .project-record-list .av {
+  width: 20px;
+  height: 20px;
+}
 .project-record-list-wrapper .activity-data-records-view-more {
   background: transparent;
   border: none !important;

@@ -116,8 +116,12 @@
         <% } %>
         <% if(a.record_type != '4'){ %>
         <div class="pull-right">
+            <% if(a.file_add != 0){ %>
             <span class="green" data-toggle="tooltip" data-placement="left" title="Added/Modified"><i class="fa fa-plus-circle"></i> <%= a.file_add %></span> &nbsp;
+            <% } %>
+            <% if(a.file_remove != 0){ %>
             <span class="gray" data-toggle="tooltip" data-placement="left" title="Removed"><i class="fa fa-minus-circle"></i> <%= a.file_remove %></span>
+            <% } %>
         </div>
         <% } %>
     </div>

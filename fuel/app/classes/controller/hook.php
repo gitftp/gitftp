@@ -82,7 +82,7 @@ class Controller_Hook extends Controller {
             }
 
 //            Gfcore::deploy_in_bg($deploy_id);
-            \Utils::log('succes');
+            \Utils::startDeploy($deploy_id);
         } catch (Exception $e) {
             \Utils::log($e->getMessage());
         }

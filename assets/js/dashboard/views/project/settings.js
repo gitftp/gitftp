@@ -106,7 +106,7 @@ define([
                     var $loading = $.dialog({
                         title: 'Please wait.',
                         content: 'Removing the project may take a little time.',
-                        icon: 'fa fa-spin fa-spinner',
+                        icon: 'gf gf-loading gf-block gf-alert',
                         theme: 'white',
                         closeIcon: false,
                         backgroundDismiss: false
@@ -115,10 +115,7 @@ define([
                     _ajax({
                         url: base + 'api/deploy/delete/' + id,
                         dataType: 'json',
-                        method: 'delete',
-                        data: {
-                            force: 0,
-                        }
+                        method: 'get',
                     }).done(function (data) {
                         if (data.status) {
                             t2.close();

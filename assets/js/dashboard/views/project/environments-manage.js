@@ -60,6 +60,7 @@ define([
         setRevision: function (e) {
             var that = this;
             var branch_id = this.branch_id;
+            e.preventDefault();
 
             $.confirm({
                 title: 'Set remote Revision',
@@ -103,7 +104,10 @@ define([
                 },
                 confirmButton: 'Change',
                 backgroundDismiss: false,
-                columnClass: 'col-md-4 col-md-offset-4'
+                columnClass: 'col-md-4 col-md-offset-4',
+                onOpen: function(){
+                    this.$b.find('input').focus();
+                }
             })
         },
         showFtpDetails: function (e) {
@@ -169,13 +173,13 @@ define([
                     if (data.status) {
                         app_reload();
                         noty({
-                            text: '<i class="fa fa-check fa-fw"></i> Changes were saved. ' + data.message,
-                            type: 'success',
+                            text: 'Changes were successfully saved. ' + data.message,
+                            type: 'success'
                         })
                     } else {
                         noty({
-                            text: '<i class="fa fa-warning fa-fw"></i> ' + data.reason,
-                            type: 'error',
+                            text: data.reason,
+                            type: 'warning'
                         });
                     }
                 });
@@ -262,14 +266,14 @@ define([
                     that.ftp_skip_el = $('.selective-skip');
                     that.ftp_skip_el.selectivity({
                         inputType: 'Email',
-                        placeholder: 'Add file patterns to skip',
+                        placeholder: 'Enter file pattern to skip',
                         value: that.branch.skip_path,
                     });
 
                     that.ftp_purge_el = $('.selective-purge');
                     that.ftp_purge_el.selectivity({
                         inputType: 'Email',
-                        placeholder: 'folders to purge',
+                        placeholder: 'Enter directory path to delete',
                         value: that.branch.purge_path,
                     });
 

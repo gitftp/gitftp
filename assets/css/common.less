@@ -369,32 +369,11 @@ a.btn {
   }
 }
 
-//.checkbox.gf-checkbox {
-//  input {
-//    display: none;
-//  }
-//  label {
-//    background: url('../img/checkboxBtn.png');
-//    background-size: 20px;
-//    background-repeat: no-repeat;
-//    padding-left: 30px;
-//    background-position: 0px 0px;
-//    line-height: 21px;
-//  }
-//  input:checked + label {
-//    background-position: 0px -20px;
-//  }
-//}
-
 .checkbox.gf-checkbox {
   input {
     display: none;
   }
   label {
-    //    background: url('../img/checkboxBtn.png');
-    //    background-size: 20px;
-    //    background-repeat: no-repeat;
-    //    background-position: 0px 0px;
     padding-left: 25px;
     line-height: 21px;
     &:before {
@@ -405,21 +384,75 @@ a.btn {
       border: solid 2px @gray;
       border-radius: 4px;
       margin-top: 1px;
-      margin-left: -25px;
-      transition: all .1s;
+      left: 0;
+      transition: all .2s;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      border: solid 2px;
+      height: 22px;
+      width: 11px;
+      border-radius: 0px;
+      margin-top: 3px;
+      left: 0;
+      top: 0;
+      margin-left: 4px;
+      border-color: transparent @green @green transparent;
+      transition: all .2s @easing;
+      transform: scale(0) rotate(41deg);
     }
   }
   input:checked + label {
     //    background-position: 0px -20px;
     &:before {
-      transform: rotate(45deg);
+      border-color: lighten(@gray, 20%);
+    }
+    &:after {
+      transform: scale(1) rotate(41deg);
+    }
+  }
+}
+
+.radio.gf-radio {
+  input {
+    display: none;
+  }
+  label {
+    padding-left: 25px;
+    line-height: 21px;
+
+    &:before {
+      content: '';
+      position: absolute;
       height: 18px;
-      width: 10px;
-      border-radius: 0px;
-      margin-top: -2px;
-      margin-left: -20px;
-      border-width: 2px;
-      border-color: transparent @green @green transparent;
+      width: 18px;
+      border: solid 2px @gray;
+      margin-top: 1px;
+      margin-left: -25px;
+      transition: all .2s;
+      border-radius: 50px;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      height: 8px;
+      width: 8px;
+      left: 0;
+      border-radius: 4px;
+      background: @green;
+      margin-top: 6px;
+      margin-left: 5px;
+      transition: all .2s @easing;
+      transform: scale(0);
+    }
+  }
+  input:checked + label {
+    &:before {
+      border-color: @green;
+    }
+    &:after {
+      transform: scale(1);
     }
   }
 }
@@ -484,7 +517,6 @@ select, textarea, input[type="text"], input[type="password"], input[type="dateti
   }
 }
 
-
 i {
   &.gf {
     height: 20px;
@@ -509,7 +541,7 @@ i {
     border-bottom-color: transparent;
   }
 
-  &.gf-loading-white:before{
+  &.gf-loading-white:before {
     border-top-color: white;
   }
   &.gf-btn {

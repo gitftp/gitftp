@@ -100,7 +100,8 @@
     background: #f8f8f8;
     border-radius: 2px;
     cursor: text;
-    max-height: 145px;
+    /*max-height: 145px;*/
+    height: 145px;
     min-height: -webkit-calc(2em + 4px);
     min-height: calc(2em + 4px);
     overflow: hidden;

@@ -11,7 +11,22 @@ define([
         events: {
             'click .load-branches': 'renderBranches',
             'click .env-new-form-submit-button': 'submitForm',
-            'click .addnewserver': 'addnewserver'
+            'click .addnewserver': 'addnewserver',
+            'change input[name="deploy"]': 'deployscheme',
+        },
+        deployscheme: function (e) {
+            var $this = $(e.currentTarget);
+            var v = $this.val();
+            var r = $('.revisionbox');
+            if (v == 'no'){
+                r.show();
+                $('.tip.dn').hide();
+                $('.tip.sr').show();
+            }else{
+                r.hide();
+                $('.tip.dn').show();
+                $('.tip.sr').hide();
+            }
         },
         renderBranches: function (e) {
             var $this = $(e.currentTarget);
@@ -102,11 +117,21 @@ define([
                     },
                     'ftp_id': {
                         required: true,
+                    },
+                    'revision': {
+                        required: {
+                            depends: function () {
+                                return $('input[name="deploy"]').val() == 'yes';
+                            }
+                        }
                     }
                 },
                 messages: {
                     name: {
                         maxlength: 'Name cannot be longer than 50 chars'
+                    },
+                    revision: {
+                        required: 'Please enter a valid Git hash'
                     }
                 }
             })
@@ -166,6 +191,7 @@ define([
 
                 $('#branches-list').html(branches_list);
                 $('#ftp-list').html(ftp_list);
+                $('.env-nfcb').attr('href', '/project/' + that.id + '/environments');
 
                 that.$panel.find(':input').removeAttr('disabled')
                     .end().removeClass('panel-loading');

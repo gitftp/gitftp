@@ -21,7 +21,6 @@ class Model_Record extends Model {
     // First deploy.
     public $type_first_clone = '4';
 
-
     public function __construct($user_id = NULL) {
         if (!is_null($user_id)) {
             $this->user_id = $user_id;
@@ -32,6 +31,51 @@ class Model_Record extends Model {
         }
     }
 
+    public function select($select = NULL, $direct = FALSE) {
+        $q = \DB::select($select)->from($this->table);
+        if (!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
+        return $q;
+    }
+
+    /**
+     * Returns the latest record by deploy id.
+     * @param $deploy_id
+     */
+    public function get_latest_by_deploy_id($deploy_id, $type = NULL, $records = 1, $direct = FALSE) {
+        $result = \DB::select()->from($this->table)->where('deploy_id', $deploy_id);
+
+        if (!$direct)
+            $result = $result->and_where('user_id', $this->user_id);
+
+        if (!is_null($type))
+            $result = $result->and_where('status', $type);
+
+
+        $result = $result->and_where('record_type', '!=', $this->type_first_clone)->limit($records)->order_by('id', 'DESC');
+
+        return $result->execute()->as_array();
+    }
+
+    /**
+     * Returns the latest record by deploy id.
+     * @param $deploy_id
+     */
+    public function get_latest_by_branch_id($branch_id, $type = NULL, $records = 1, $direct = FALSE) {
+        $result = \DB::select()->from($this->table)->where('id', $branch_id);
+
+        if (!$direct)
+            $result = $result->and_where('user_id', $this->user_id);
+
+        if (!is_null($type))
+            $result = $result->and_where('status', $type);
+
+        $result = $result->and_where('record_type', '!=', $this->type_first_clone)->limit($records)->order_by('id', 'DESC');
+
+        return $result->execute()->as_array();
+    }
+
     /**
      * Returns latest id, hash, date record by branch_id.
      *
@@ -39,7 +83,8 @@ class Model_Record extends Model {
      * @return mixed
      */
     public function get_latest_revision_by_branch_id($branch_id) {
-        $result = DB::select('id', 'hash', 'date')->from($this->table)->where('branch_id', $branch_id)->and_where('status', $this->success)->limit(1)->order_by('id', 'DESC');
+        $result = DB::select('id', 'hash', 'date')->from($this->table)->where('branch_id', $branch_id)
+            ->and_where('status', $this->success)->limit(1)->order_by('id', 'DESC');
 
         return $result->execute()->as_array();
     }

@@ -280,21 +280,78 @@ a.btn {
   border: solid 2px #aaaaaa;
   border-radius: 4px;
   margin-top: 1px;
-  margin-left: -25px;
-  -webkit-transition: all .1s;
-          transition: all .1s;
+  left: 0;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+}
+.checkbox.gf-checkbox label:after {
+  content: '';
+  position: absolute;
+  border: solid 2px;
+  height: 22px;
+  width: 11px;
+  border-radius: 0px;
+  margin-top: 3px;
+  left: 0;
+  top: 0;
+  margin-left: 4px;
+  border-color: transparent #00c853 #00c853 transparent;
+  -webkit-transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+          transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+  -webkit-transform: scale(0) rotate(41deg);
+      -ms-transform: scale(0) rotate(41deg);
+          transform: scale(0) rotate(41deg);
 }
 .checkbox.gf-checkbox input:checked + label:before {
-  -webkit-transform: rotate(45deg);
-      -ms-transform: rotate(45deg);
-          transform: rotate(45deg);
+  border-color: #dddddd;
+}
+.checkbox.gf-checkbox input:checked + label:after {
+  -webkit-transform: scale(1) rotate(41deg);
+      -ms-transform: scale(1) rotate(41deg);
+          transform: scale(1) rotate(41deg);
+}
+.radio.gf-radio input {
+  display: none;
+}
+.radio.gf-radio label {
+  padding-left: 25px;
+  line-height: 21px;
+}
+.radio.gf-radio label:before {
+  content: '';
+  position: absolute;
   height: 18px;
-  width: 10px;
-  border-radius: 0px;
-  margin-top: -2px;
-  margin-left: -20px;
-  border-width: 2px;
-  border-color: transparent #00c853 #00c853 transparent;
+  width: 18px;
+  border: solid 2px #aaaaaa;
+  margin-top: 1px;
+  margin-left: -25px;
+  -webkit-transition: all .2s;
+          transition: all .2s;
+  border-radius: 50px;
+}
+.radio.gf-radio label:after {
+  content: '';
+  position: absolute;
+  height: 8px;
+  width: 8px;
+  left: 0;
+  border-radius: 4px;
+  background: #00c853;
+  margin-top: 6px;
+  margin-left: 5px;
+  -webkit-transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+          transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
+  -webkit-transform: scale(0);
+      -ms-transform: scale(0);
+          transform: scale(0);
+}
+.radio.gf-radio input:checked + label:before {
+  border-color: #00c853;
+}
+.radio.gf-radio input:checked + label:after {
+  -webkit-transform: scale(1);
+      -ms-transform: scale(1);
+          transform: scale(1);
 }
 .panel {
   border: none;

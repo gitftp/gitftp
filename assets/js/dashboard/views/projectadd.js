@@ -58,7 +58,6 @@ define([
                 var data = {
                     type: 'service',
                     repo: selected.clone_url,
-                    id: selected.id,
                     name: selected.name,
                     provider: selected.provider
                 }

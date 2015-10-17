@@ -4,22 +4,26 @@ $env = array(
     'production'  => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'https'
+        'protocol' => 'https',
+        'debug'    => FALSE
     ),
     'staging'     => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'https'
+        'protocol' => 'https',
+        'debug'    => FALSE
     ),
     'test'        => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
-        'protocol' => 'http'
+        'protocol' => 'http',
+        'debug'    => FALSE
     ),
     'development' => array( // dev -> local server.
         'home'     => 'stg-home.gitftp.com',
         'dash'     => 'stg.gitftp.com',
-        'protocol' => 'http'
+        'protocol' => 'http',
+        'debug'    => TRUE
     ),
 );
 
@@ -55,5 +59,6 @@ define('home_url', $home_url);
 define('is_dash', $is_dash);
 define('base_controller', $controller);
 define('protocol', $current_env['protocol']);
+define('is_debug', $current_env['debug']);
 
 return array();

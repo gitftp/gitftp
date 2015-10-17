@@ -33,7 +33,8 @@ define([], function () {
                     _ajax({
                         url: base + 'api/deploy/only/',
                         data: {
-                            select: 'id'
+                            select: 'id',
+                            last_deploy: true
                         },
                         method: 'get',
                         dataType: 'json'
@@ -42,6 +43,14 @@ define([], function () {
                             $.each(response.data, function (i, a) {
                                 $target = $('.is-deploy-list[data-id="' + a.id + '"]');
                                 $target.find('.status').html(a.status);
+                                if (a.last_deploy != 0) {
+                                    $target.find('.nd').addClass('hide').end()
+                                        .find('.ld').removeClass('hide');
+
+                                    t = $target.find('.dynamicTime').attr('data-timestamp');
+                                    if (t != a.last_deploy)
+                                        $target.find('.dynamicTime').attr('data-timestamp', a.last_deploy);
+                                }
                             });
                         }
                     });

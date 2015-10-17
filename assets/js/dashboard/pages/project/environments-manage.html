@@ -18,7 +18,7 @@
         </div>
         <div class="space15"></div>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-8 ">
                 <form action="" class="form-horizontal project-branch-env-save-form">
                     <input type="hidden" name="branch_id" value="<%= branch.id %>"/>
 
@@ -57,15 +57,19 @@
                                 </span>
                             </div>
                             <% }else{ %>
-                            <p class="form-control-static">
-                                Not deployed on server yet.
-                            </p>
+                            <div class="input-group">
+                                <p class="form-control-static">
+                                    <a type="button" href="#" class="project-env-edit-revision">
+                                        <i class="fa fa-pencil"></i>&nbsp; Set remote hash
+                                    </a>
+                                </p>
+                            </div>
                             <% } %>
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="autodeploycheckbox" class="col-sm-3 control-label">
-                            Auto:
+                            Deployments:
                         </label>
 
                         <div class="col-sm-9">
@@ -79,7 +83,7 @@
                     </div>
                     <div class="form-group">
                         <label for="env_ftp_select" class="col-sm-3 control-label">
-                            FTP:
+                            Linked FTP:
                         </label>
 
                         <div class="col-sm-9">
@@ -95,20 +99,26 @@
                             </p>
                         </div>
                     </div>
+                    <div class="space20"></div>
                 </form>
             </div>
-
-            <div class="col-md-6">
-                <form action="" class="project-branch-env-save-form-2">
-                    <div class="space10"></div>
+        </div>
+        <div class="line"></div>
+        <div class="row">
+            <form action="" class="project-branch-env-save-form-2">
+                <div class="space20"></div>
+                <div class="space20"></div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="selective-skip" class="control-label">Skip files/directories that match:</label>
 
                         <div class="selective-skip" id="selective-skip"></div>
                         <p class="help-block text-right">
-                            * wildcard allowed. case sensitive.
+                            * Wildcard allowed. Case sensitive.
                         </p>
                     </div>
+                </div>
+                <div class="col-md-6">
                     <div class="form-group">
                         <label for="selective-purge" class="control-label">Purge directories on upload: <span
                                 data-toggle="tooltip" data-placement="top"
@@ -117,14 +127,17 @@
 
                         <div class="selective-purge" id="selective-purge"></div>
                         <p class="help-block text-right">
-                            Case sensitive. relative from ftp directory.
+                            Case sensitive.<br/> Relative from Ftp directory "<%= ftp.path %>"
                         </p>
                     </div>
-                </form>
-            </div>
+                </div>
+                <div class="space20"></div>
+                <div class="space20"></div>
+            </form>
             <div class="col-md-12">
                 <div class="space10"></div>
-                <button type="text" class="btn btn-success project-branch-env-save-form-submit">Update</button>
+                <button type="button" class="btn btn-success project-branch-env-save-form-submit">Update</button>
+                <a href="/project/<%= branch.deploy_id %>/environments" class="btn btn-default btn-clean project-branch-env-save-form-cancel pull-right">Cancel</a>
             </div>
         </div>
     </div>

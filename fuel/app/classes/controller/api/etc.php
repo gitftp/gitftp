@@ -91,7 +91,7 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
             $url = $gitapi->buildHookUrl($deploy_id, $key);
             $apiResponse = $gitapi->api->updateHook($git_name, $hook_id, $url);
 
-            if($apiResponse['url'] == $url){
+            if ($apiResponse['url'] == $url) {
                 // successfull.
                 $deploy->set($deploy_id, array(
                     'key' => $key
@@ -305,12 +305,28 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $i = Input::post();
 
         try {
-            $id = isset($i['id']) ? $i['id'] : NULL;
+            $id = isset($i['id']) ? $i['id'] : NULL; // deploy id.
             $type = isset($i['type']) ? $i['type'] : 'manual';
+            $provider = isset($i['provider']) ? $i['provider'] : NULL;
+            $name = isset($i['name']) ? $i['name'] : NULL;
+
+            $deploy = new Model_Deploy();
+
+            if (!is_null($id)) {
+                $deploy_data = $deploy->get($id);
+                if (count($deploy_data) == 0)
+                    throw new Exception('Something is not right, please try again later.');
+
+                $deploy_data = $deploy_data[0];
+
+                if (!empty($deploy_data['git_name'])) {
+                    $type = 'service';
+                    $provider = \Utils::parseProviderFromRepository($deploy_data['repository']);
+                    $name = $deploy_data['git_name'];
+                }
+            }
 
             if ($type == 'service') {
-                $provider = $i['provider'];
-                $name = $i['name'];
                 $gitapi = new Craftpip\GitApi();
                 $a = $gitapi->loadApi($provider)->getBranches($name);
                 $response = array(
@@ -323,7 +339,6 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                     $username = $i['username'];
                     $password = $i['password'];
                 } else {
-                    $deploy = new Model_Deploy();
                     $data = $deploy->get($id);
                     if (!count($data))
                         throw new \Craftpip\Exception('Something went wrong, please try again later.');
@@ -344,11 +359,10 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
                 }
             }
         } catch (Exception $e) {
-            throw $e;
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status' => FALSE,
-                'data'   => $e->getMessage(),
+                'reason' => $e->getMessage(),
             );
         }
         $this->response($response);

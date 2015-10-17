@@ -5,7 +5,7 @@ namespace Craftpip;
 class Exception extends \Exception {
     protected $code;
     protected $message;
-    protected $debug = TRUE;
+    protected $debug = is_debug;
 
     public function __construct($message = "", $code = 193, $commandLine = NULL, \Exception $previous = NULL) {
         $this->code = $code;

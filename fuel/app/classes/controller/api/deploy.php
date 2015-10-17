@@ -26,31 +26,51 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
      */
     public function get_only($id = NULL) {
         $a = \Input::get();
-        $deploy = new \Model_Deploy();
-        $a = explode(',', $a['select']);
-        array_push($a, 'cloned'); // neeeded for getting status.
-        $b = $deploy->get($id, $a);
-        $b = \Utils::strip_passwords($b);
 
-        if (!is_null(\Input::get('size', NULL))) {
-            foreach ($b as $c => $d) {
-                $id = $d['id'];
-                $path = \Utils::get_repo_dir($id);
-                $op = \Utils::runCommand('du -sb ' . $path, FALSE);
-                if (count($op) == 0) {
-                    $b[$c]['size'] = 'Unavailable';
-                } else {
-                    $count = $op[0];
-                    $size = preg_split('/\s+/', $count);
-                    $b[$c]['size'] = \Utils::humanize_data($size[0]);
+        try {
+            $deploy = new \Model_Deploy();
+            $record = new \Model_Record();
+
+            $a = explode(',', $a['select']);
+            array_push($a, 'cloned'); // needed for getting status.
+            $b = $deploy->get($id, $a);
+            $b = \Utils::strip_passwords($b);
+
+            $last_deploy = (Boolean)\Input::get('last_deploy', FALSE);
+            $size = (Boolean)\Input::get('size', FALSE);
+            if ($last_deploy || $size) {
+                foreach ($b as $c => $d) {
+                    $id = $d['id'];
+
+                    if($size){
+                        $path = \Utils::get_repo_dir($id);
+                        $op = \Utils::runCommand('du -sb ' . $path, FALSE);
+                        if (count($op) == 0) {
+                            $b[$c]['size'] = 'Unavailable';
+                        } else {
+                            $count = $op[0];
+                            $size = preg_split('/\s+/', $count);
+                            $b[$c]['size'] = \Utils::humanize_data($size[0]);
+                        }
+                    }
+                    if($last_deploy){
+                        $record_data = $record->get_latest_by_deploy_id($id, $record->success);
+                        $b[$c]['last_deploy'] = count($record_data) == 0 ? 0 : (int)$record_data[0]['date'];
+                    }
                 }
             }
+            $response = array(
+                'status' => TRUE,
+                'data'   => $b
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
         }
 
-        $response = array(
-            'status' => TRUE,
-            'data'   => $b
-        );
         $this->response($response);
     }
 
@@ -79,12 +99,14 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
         $this->response($response, 200);
     }
 
-    public function delete_delete($id = NULL) { // deploy id.
+    public function get_delete($id = NULL) { // deploy id.
 
-        $record = new Model_Record();
+        $record = new \Model_Record();
         $is_active = $record->is_queue_active($id);
-        $force = Input::delete('force', 0); // force delete even if the deploy is in process.
+        $force = Input::get('force', 0); // force delete even if the deploy is in process.
+
         try {
+//            throw new \Craftpip\Exception('hey');
             if ($is_active && $force == 0)
                 throw new Exception('Deployment is in progress, please try again later.', 19293);
 

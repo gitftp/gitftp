@@ -84,14 +84,16 @@
                                 </span> <br/>
                                 <span class="status"><%= a.status %></span>
                             </p>
-
                             <div class="clearfix"></div>
                         </div>
                         <span class="url">(<%= a.repository %>)</span>
-                <span>
-                    <span class="">Last deployed: <%= (a.lastdeploy == '0') ? 'Not yet' : moment(a.lastdeploy).format('D-MM-YY hh:mm a') %></span>
-                    <%= a.active == '1' ? '' : '<span class="pull-right orange">Deactivated</span>' %>
-                </span>
+                        <span>
+                            <span class="nd <%= (a.last_deploy == 0) ? '' : 'hide' %>">Not deployed yet</span>
+                            <span class="ld <%= (a.last_deploy == 0) ? 'hide' : '' %>">
+                                Last deployed <span class="dynamicTime" data-toggle="tooltip" data-placement="top" title="<%= moment(timestamp(a.last_deploy)).format('DD/MM/YYYY hh:mm:ss a') %>" data-timestamp="<%= a.last_deploy %>"></span>
+                            </span>
+                            <%= a.active == '1' ? '' : '<span class="pull-right orange">Deactivated</span>' %>
+                        </span>
                     </div>
                 </div>
             </div>

@@ -55,8 +55,8 @@ define([], function () {
                 },
                 confirmButton: false,
                 cancelButton: false,
-                //columnClass: "col-md-4 col-md-offset-4",
-                columnClass: 'col-md-6 col-md-offset-3'
+                columnClass: 'col-md-6 col-md-offset-3',
+                animation: 'opacity',
             });
         },
         deploySync: function (e, a) {

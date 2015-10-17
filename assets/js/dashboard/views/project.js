@@ -2,19 +2,10 @@ define([
     'text!pages/project.html'
 ], function (page) {
 
-    /**
-     * PROJECT LISTING.
-     */
     d = Backbone.View.extend({
         el: app.el,
         events: {
             'click .viewdeploy': 'goto',
-            'click #new-project': 'new'
-        },
-        new: function (e) {
-            //var $this = $(e.currentTarget);
-            //var plus = $this.html();
-            //$this.html('<i class="fa fa-spin fa-spinner"></i>');
         },
         goto: function (e) {
             var $this = $(e.currentTarget);
@@ -26,13 +17,6 @@ define([
             this.page = page;
             this.template = _.template(this.page);
 
-            //.
-            //done(function (data) {
-            //    var ctemplate = that.template({data: data.data});
-            //    that.$e.html(ctemplate);
-            //    that.renderStats();
-            //});
-
             $.when(_ajax({
                 url: base + 'api/etc/dashboard',
                 method: 'get',
@@ -42,7 +26,9 @@ define([
                 dataType: 'json',
                 method: 'get',
                 data: {
-                    select: 'id,created_at,name,repository,git_name,active'
+                    select: 'id,created_at,name,repository,git_name,active',
+                    last_deploy: true,
+                    size: true,
                 }
             })).then(function (dash, data) {
                 dash = dash[0];

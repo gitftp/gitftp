@@ -46,5 +46,6 @@ require([
     $('[data-toggle="tooltip"]').tooltip();
     var actionbar = new actionbar();
     actionbar.render();
+    console.log('Interested in how this is made? ask me: bonifacepereira@gmail.com');
 
 });

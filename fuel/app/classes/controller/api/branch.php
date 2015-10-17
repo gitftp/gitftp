@@ -38,14 +38,14 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $deploy_data = $deploy->get($i['deploy_id']);
 
             if (count($deploy_data) !== 1) {
-                throw new Exception('');
+                throw new \Craftpip\Exception('Something is not right, please try again later.');
             }
 
             $branch_data = $branch->get_by_ftp_id($i['ftp_id']);
 
             foreach ($branch_data as $b) {
                 if ($b['branch_name'] == $i['branch_name'] && $b['deploy_id'] == $i['deploy_id'])
-                    throw new Exception('An Environment named "' . $b['name'] . '" already has the same Branch and FTP configured.', 200);
+                    throw new \Craftpip\Exception('An Environment named "' . $b['name'] . '" already has the same Branch and FTP configured.');
             }
 
             $createData = array();
@@ -70,13 +70,24 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                 $createData['purge_path'] = ($i['purge_path'] !== '') ? explode(',', $i['purge_path']) : array();
             }
 
+            if (isset($i['deploy']) && $i['deploy'] == 'no') {
+                if (!isset($i['revision']))
+                    throw new \Craftpip\Exception('Please enter a valid Hash');
+
+                $hash = Utils::git_verify_hash($i['deploy_id'], $i['revision']);
+                if (!$hash)
+                    throw new \Craftpip\Exception($i['revision'] . ' is not a valid hash');
+
+                $createData['revision'] = $hash;
+            }
+
             $a = $branch->create($createData);
 
             if ($a[1] !== 1) {
-                throw new Exception('We faced some problem while adding the environment. please try again later.', 200);
+                throw new \Craftpip\Exception('We faced some problem while adding the environment. please try again later.');
             }
 
-            if (isset($i['deploynow'])) {
+            if (isset($i['deploy']) && $i['deploy'] == 'yes') {
                 $record = new \Model_Record();
                 $set = array(
                     'deploy_id'   => $i['deploy_id'],
@@ -87,6 +98,7 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                     'record_type' => $record->type_sync,
                 );
                 $record->insert($set);
+                \Utils::startDeploy($i['deploy_id']);
             }
 
             $response = array('status' => TRUE);

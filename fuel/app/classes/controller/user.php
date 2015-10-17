@@ -1,6 +1,6 @@
 <?php
 
-class Controller_User extends Controller_Homepage {
+class Controller_User extends Controller {
     /**
      * Page for user logout, redirects the user to respective homepage.
      */

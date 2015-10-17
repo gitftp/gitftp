@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Welcome extends Controller_Homepage {
+class Controller_Welcome extends Controller {
 
     public function action_index() {
         $view = View::forge('home/base_layout.mustache');

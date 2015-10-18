@@ -4,10 +4,20 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
     public function action_index() {
         $users = DB::select()->from('users');
 
-        if (isset($_GET['key']))
-            $users = $users->where($_GET['key'], $_GET['value']);
+        if (isset($_GET['value'])) {
+            $value = $_GET['value'];
+            $users = $users
+                ->where('username', 'like', $value)
+                ->or_where('email', 'like', $value)
+                ->or_where('id', 'like', $value)
+                ->or_where('group', 'like', $value);
+        }
 
-        $users = $users->execute()->as_array();
+        $users = $users->order_by('id', 'DESC');
+
+        $users = $users
+            ->execute()
+            ->as_array();
 
         foreach ($users as $k => $v) {
             $user = new \Craftpip\OAuth\Auth($v['id']);
@@ -15,11 +25,11 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
             $users[$k]['repol'] = $user->getAttr('project_limit');
         }
 
-        echo View::forge('admin/base_layout', array(
-            'data' => View::forge('admin/user', array(
+        echo \View::forge('admin/base_layout', array(
+            'data' => \View::forge('admin/user', array(
                 'users' => $users,
-                'key'   => (Input::method() == "POST") ? $_POST['key'] : '',
-                'value' => (Input::method() == "POST") ? $_POST['value'] : '',
+                'value' => \Input::get('value', ''),
+//                'pagination' => $pagination
             ))
         ));
     }
@@ -46,8 +56,8 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
 
     public function post_edituser($user_id) {
         $user = new \Craftpip\OAuth\Auth($user_id);
-        $user->setAttr('verified', Input::post('verified'));
-        $user->setAttr('project_limit', Input::post('project_limit'));
+        $user->setAttr('verified', \Input::post('verified', FALSE));
+        $user->setAttr('project_limit', \Input::post('project_limit', 0));
 
         Response::redirect('/administrator/user');
     }
@@ -83,8 +93,11 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
         Response::redirect('/administrator/user');
     }
 
-    public function get_delete($user_id) {
-        \Auth::instance()->delete_user($user_id);
-        echo 'OK';
-    }
+//    public function get_delete($username) {
+//        $data = \DB::select()->from('users')->where('username', $username)->execute();
+//        $userid = $data[0]['id'];
+//        \Auth::instance()->delete_user($username);
+//        \DB::delete('users_providers')->where('parent_id', $userid)->execute();
+//        echo 'OK';
+//    }
 }

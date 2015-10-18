@@ -14,6 +14,14 @@ class Model_Branch extends Model {
         }
     }
 
+    public function select($select = NULL, $direct = FALSE) {
+        $q = \DB::select($select)->from($this->table);
+        if (!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
+        return $q;
+    }
+
     public function get_by_deploy_id($deploy_id, $direct = FALSE) {
         $q = DB::select()->from($this->table)
             ->where('deploy_id', $deploy_id);

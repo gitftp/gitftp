@@ -1,14 +1,14 @@
 <form action="#" method="get" class="form-inline">
-    <select name="key" id="" class="form-control">
-        <option value="id">ID</option>
-        <option value="username">Username</option>
-        <option value="email">Email</option>
-        <option value="group">Group</option>
-    </select>
-
-    <input type="text" class="form-control" name="value" placeholder="where this" value="<?php echo $value; ?>"/>
-    <button type="submit" class="btn btn-success">Search</button>
+<!--    <select name="key" id="" class="form-control">-->
+<!--        <option value="id">ID</option>-->
+<!--        <option value="username">Username</option>-->
+<!--        <option value="email">Email</option>-->
+<!--        <option value="group">Group</option>-->
+<!--    </select>-->
+    <input type="text" class="form-control" name="value" placeholder="Search here" value="<?php echo $value; ?>"/>
+    <button type="submit" class="btn btn-default">Search</button>
     <a href="<?php echo Uri::create('administrator/user/add'); ?>" class="btn btn-default pull-right">Add user</a>
+
     <div class="clearfix"></div>
 </form>
 <br/>
@@ -26,7 +26,7 @@
     </tr>
     <?php foreach ($users as $k) { ?>
         <tr>
-            <td><?php echo $k['verified'] == 1 ? 'yes' : 'no'  ?></td>
+            <td><?php echo $k['verified'] == 1 ? 'yes' : 'no' ?></td>
             <td><?php echo $k['repol'] ?></td>
             <td><?php echo $k['id'] ?></td>
             <td><?php echo $k['username'] ?></td>
@@ -38,17 +38,16 @@
             <td>
                 <?php echo Date::forge($k['updated_at'])->format("%m/%d/%Y %H:%M"); ?>
             </td>
-            <td>
-                <a class="delete" href="<?php echo Uri::create('administrator/user/delete/' . $k['username']); ?>">del</a>
-                &bull;
-                <a class="resetpassword" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
-                &bull;
+            <td class="text-right">
                 <a href="<?php echo Uri::create('administrator/user/edituser/' . $k['id']); ?>">edit</a>
+                &bull;
+<!--                <a class="delete" href="--><?php //echo Uri::create('administrator/user/delete/' . $k['username']); ?><!--">del</a>-->
+<!--                &bull;-->
+                <a class="resetpassword" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
             </td>
         </tr>
     <?php } ?>
 </table>
-
 
 <script>
     $('a.resetpassword').click(function () {

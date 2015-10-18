@@ -10,6 +10,7 @@
 <head>
     <!-- Latest compiled and minified CSS & JS -->
     <title>Gitftp admin console</title>
+    <?php echo Asset::css('bootstrap.css'); ?>
     <link rel="stylesheet" media="screen" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
     <?php echo Asset::js('vendor/jquery-1.11.2.js'); ?>
 </head>
@@ -31,6 +32,12 @@
                     </li>
                     <li>
                         <a href="<?php echo Uri::create('administrator/feedback/'); ?>">Feedback</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Uri::create('administrator/log/'); ?>">Logs</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Uri::create('administrator/manage/'); ?>">Manage</a>
                     </li>
                 </ul>
             </nav>

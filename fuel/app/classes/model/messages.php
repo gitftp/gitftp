@@ -16,6 +16,14 @@ class Model_Messages extends Model {
         }
     }
 
+    public function select($select = NULL, $direct = FALSE) {
+        $q = \DB::select($select)->from($this->table);
+        if (!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
+        return $q;
+    }
+
     public function get($id = NULL, $type = NULL, $direct = FALSE, $order = 'ASC') {
         $q = DB::select()->from($this->table);
 

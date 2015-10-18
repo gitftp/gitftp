@@ -15,6 +15,14 @@ class Model_Ftp extends Model {
         }
     }
 
+    public function select($select = NULL, $direct = FALSE) {
+        $q = \DB::select($select)->from($this->table);
+        if (!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
+        return $q;
+    }
+
     public function getUnused() {
         $branch = new \Model_Branch();
         $branch_data = $branch->get();

@@ -22,7 +22,7 @@ if (is_dash) {
 $defaults = array(
     '_root_'                                         => base_controller,
     '_404_'                                          => 'welcome/404',
-    'administrator'                                  => 'administrator',
+    'administrator'                                  => 'administrator/home',
     'administrator/(:segment)'                       => 'administrator/$1',
     'administrator/(:segment)/(:segment)'            => 'administrator/$1/$2',
     'administrator/(:segment)/(:segment)/(:segment)' => 'administrator/$1/$2/$3',

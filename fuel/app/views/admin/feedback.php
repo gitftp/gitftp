@@ -28,7 +28,6 @@
             </td>
             <td>
                 <a href="<?php echo Uri::create('administrator/user', array(), array(
-                    'key'   => 'id',
                     'value' => $f['user_id']
                 )) ?>"><?php echo $f['username']; ?></a>
             </td>

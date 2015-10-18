@@ -19,6 +19,14 @@ class Model_Deploy extends Model {
         }
     }
 
+    public function select($select = NULL, $direct = FALSE) {
+        $q = \DB::select($select)->from($this->table);
+        if (!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
+        return $q;
+    }
+
     public function get($id = NULL, $select = NULL, $direct = FALSE) {
         if (is_null($id) && !is_null($this->id)) {
             $id = $this->id;

@@ -298,6 +298,8 @@ class Model_Record extends Model {
     public function get_sum_deployed_data($id = NULL, $direct = FALSE) {
         $ex = DB::expr('SUM(amount_deployed_raw) as deploy_count');
         $q = DB::select($ex)->from($this->table);
+        if(!is_null($id))
+            $q = $q->where('deploy_id', $id);
         $result = $q->execute()->as_array();
 
         return $result[0]['deploy_count'];

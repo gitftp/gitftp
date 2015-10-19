@@ -11,4 +11,15 @@ return array(
             'password' => 's.AmN-V?rXCT',
         ),
     ),
+    'frontend' => array(
+        'type'         => 'mysqli',
+        'connection'   => array(
+            'hostname' => 'craftpip.com',
+            'port'     => '3306',
+            'database' => 'craftrzt_gitftp_frontend',
+            'username' => 'craftrzt_gitftp',
+            'password' => 's.AmN-V?rXCT',
+        ),
+        'table_prefix' => '',
+    ),
 );

@@ -240,6 +240,8 @@
         });
     }
 
+
+
     jconfirm.defaults = {
         container: 'body',
         theme: 'white git', //supervan
@@ -249,7 +251,7 @@
         animationBounce: 1,
         confirmButtonClass: 'btn-success',
         cancelButton: 'close',
-        keyboardEnabled: false,
+        keyboardEnabled: true,
     }
 
     var app = {
@@ -260,6 +262,12 @@
             this.resetPasswordConfirmed();
             this.footerAlign();
             this.socialLogins();
+
+            $('.browser-screens').flexslider({
+                animation: 'slide',
+                slideshowSpeed: 10000,
+            });
+
         },
         signup: function () {
             this.$signupform = $('#home-signup')

@@ -26,7 +26,14 @@ class Controller_Test extends Controller {
 //        $a = $gitapi->auth->getToken('bitbucket');
 //
 //        print_r($a);
+        echo '<pre>';
+//
+//        \Database_Connection::instance()->disconnect();
+//        \Config::set('db.active','frontend');
+        $a = \DB::select('*')->from('seo')->execute('frontend')->as_array();
 
+        print_r($a);
+        die;
         $mail = new \Craftpip\Mail(246);
         $mail->template_signup();
         $mail->to('bpereira@smartsight.in', 'Boniface pereira');

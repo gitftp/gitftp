@@ -7,4 +7,5 @@ echo Asset::css(array(
     'home/animate.css',
     'home/owl.carousel.css',
     'home.css',
+    'flexslider.css'
 ));

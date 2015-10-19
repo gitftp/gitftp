@@ -4,12 +4,22 @@
  */
 
 return array(
-    'default' => array(
+    'default'  => array(
         'connection' => array(
             'dsn'      => 'mysql:host=127.0.0.1;dbname=craftrzt_gitftp',
-//            'dsn'      => 'mysql:host=stg.gitftp.com;dbname=craftrzt_gitftp',
             'username' => 'root',
             'password' => '',
         ),
+    ),
+    'frontend' => array(
+        'type'         => 'mysqli',
+        'connection'   => array(
+            'hostname' => '127.0.0.1',
+            'port'     => '3306',
+            'database' => 'craftrzt_gitftp_frontend',
+            'username' => 'root',
+            'password' => '',
+        ),
+        'table_prefix' => '',
     ),
 );

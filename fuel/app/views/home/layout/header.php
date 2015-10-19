@@ -28,28 +28,28 @@ if (count($s) == 0) {
             <div class="col-md-9 menu-col text-right">
                 <div class="menu">
                     <ul class="list-inline">
+                        <li class="">
+                            <a class="" href="<?php echo home_url . 'documentation'; ?>">Documentation</a>
+                        </li>
                         <?php if (\Auth::instance()->check()) { ?>
                             <li class="">
-                                <a href="<?php echo dash_url; ?>">
-                                    <i class="fa fa-sign-in"></i>&nbsp; <?php echo strtoupper(\Auth::instance()->get('username')); ?>
+                                <a class="blue" href="<?php echo dash_url; ?>">
+                                    <?php echo strtolower(\Auth::instance()->get('username')); ?>
                                 </a>
+                                <a class="gray" href="<?php echo home_url . 'user/logout'; ?>"> logout</a>
                             </li>
-                            <li class="">
-                                <a href="<?php echo home_url . 'user/logout'; ?>"> LOGOUT</a>
-                            </li>
+<!--                            <li class="">-->
+<!--                            </li>-->
                         <?php } else { ?>
                             <li class="">
-                                <a href="<?php echo home_url . 'login'; ?>">LOGIN</a>
+                                <a class="blue" href="<?php echo home_url . 'login'; ?>">login</a>
                             </li>
                             <li class="">
-                                <a href="<?php echo home_url . 'signup'; ?>">SIGNUP</a>
+                                <a class="green" href="<?php echo home_url . 'signup'; ?>">signup</a>
                             </li>
                         <?php } ?>
                     </ul>
                 </div>
-            </div>
-            <div class="header-line">
-                <div class="line"></div>
             </div>
             <div class="menu-toggle">
                 <i class="ti-menu"></i>

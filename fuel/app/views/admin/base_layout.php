@@ -22,13 +22,13 @@
         <div class="col-md-12">
 
             <nav class="navbar navbar-default navbar-fixed-top">
-                <a class="navbar-brand" href="<?php echo Uri::create(''); ?>">Gitftp</a>
+                <a class="navbar-brand" href="<?php echo Uri::create(''); ?>"><?php echo Asset::img('logo-sm-2.png', ['style' => 'margin-top: -9px;']); ?></a>
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="<?php echo Uri::create('administrator/home/'); ?>">Home</a>
                     </li>
                     <li>
-                        <a href="<?php echo Uri::create('administrator/user/'); ?>">List users</a>
+                        <a href="<?php echo Uri::create('administrator/user/'); ?>">Users</a>
                     </li>
                     <li>
                         <a href="<?php echo Uri::create('administrator/feedback/'); ?>">Feedback</a>
@@ -38,6 +38,9 @@
                     </li>
                     <li>
                         <a href="<?php echo Uri::create('administrator/manage/'); ?>">Manage</a>
+                    </li>
+                    <li>
+                        <a href="<?php echo Uri::create('administrator/seo/'); ?>">Seo</a>
                     </li>
                 </ul>
             </nav>

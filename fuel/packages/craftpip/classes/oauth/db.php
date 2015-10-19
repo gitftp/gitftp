@@ -34,6 +34,39 @@ class Db extends \Auth\Auth_Login_Simpleauth {
     }
 
     /**
+     * Get user provider by provider USER ID
+     */
+    public function getUserByProviderUID($uid){
+        $data = \DB::select()->from($this->providersTable)
+            ->where('uid', (String)$uid)
+            ->execute()->as_array();
+
+        if(count($data) == 0)
+            return false;
+
+        $user_id = $data[0]['parent_id'];
+        return $this->getUser($user_id);
+    }
+
+    /**
+     * Get user that has a match, username, or email.
+     *
+     * @param $key
+     * @return bool
+     */
+    public function getByEmail($key) {
+        $data = \DB::select()->from($this->usersTable)
+            ->where('username', $key)
+            ->or_where('email', $key)
+            ->execute();
+
+        if (count($data) == 1)
+            return $data[0];
+        else
+            return FALSE;
+    }
+
+    /**
      * Get user by id. If id is not provided, Current user data will be returned.
      *
      * @param null $user_id

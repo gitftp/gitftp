@@ -63,7 +63,7 @@ class Model_Record extends Model {
      * @param $deploy_id
      */
     public function get_latest_by_branch_id($branch_id, $type = NULL, $records = 1, $direct = FALSE) {
-        $result = \DB::select()->from($this->table)->where('id', $branch_id);
+        $result = \DB::select()->from($this->table)->where('branch_id', $branch_id);
 
         if (!$direct)
             $result = $result->and_where('user_id', $this->user_id);

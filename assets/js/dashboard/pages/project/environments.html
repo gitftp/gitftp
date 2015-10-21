@@ -18,7 +18,7 @@
                     <span class="autodeploy"><%= (a.auto == 1) ? ' <i class="fa fa-check green"></i>&nbsp; Auto-deploy enabled' : 'Auto-deploy disabled.' %></span>
                     <% if(a.revision != '' || a.ready != 0){ %>
                         <span class="pull-right date">
-                        last deploy <span class="dynamicTime" data-timestamp="<%= a.date %>"></span>
+                        last deploy <span class="dynamicTime" data-timestamp="<%= a.last_deploy %>"></span>
                         </span>
                     <% }else{ %>
                         <span class="pull-right">

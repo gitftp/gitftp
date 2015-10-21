@@ -105,7 +105,7 @@ define([
                 confirmButton: 'Change',
                 backgroundDismiss: false,
                 columnClass: 'col-md-4 col-md-offset-4',
-                onOpen: function(){
+                onOpen: function () {
                     this.$b.find('input').focus();
                 }
             })

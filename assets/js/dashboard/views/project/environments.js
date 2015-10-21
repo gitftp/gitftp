@@ -37,7 +37,8 @@ define([
             _ajax({
                 url: base + 'api/branch/get',
                 data: {
-                    deploy_id: id
+                    deploy_id: id,
+                    last_deploy: true
                 },
                 method: 'get',
                 dataType: 'json',

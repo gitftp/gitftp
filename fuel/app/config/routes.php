@@ -16,6 +16,7 @@ if (is_dash) {
         'login'           => 'user/login',
         'signup'          => 'user/signup',
         'forgot-password' => 'user/forgotpassword',
+        'terms'           => 'pages/terms',
     );
 }
 

@@ -1,6 +1,6 @@
 body {
   font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   -webkit-font-smoothing: antialiased;
   color: #222222;
   font-weight: 400;
@@ -144,7 +144,7 @@ h5 {
 }
 
 h6 {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 24px;
   padding-top: 4px;
   margin-bottom: 12px;
@@ -153,7 +153,7 @@ h6 {
 }
 
 p {
-  font-size: 13px;
+  font-size: 14px;
   line-height: 20px;
   padding-top: 6px;
   margin-bottom: 14px;
@@ -2596,10 +2596,9 @@ ul.portfolio-list li span:first-child {
 
 .section.page-title h1, .paper.page-title h1 {
   margin-bottom: 15px;
-  letter-spacing: 0.5em;
+  letter-spacing: 1px;
   font-size: 30px;
   line-height: 1.8;
-  text-transform: uppercase;
 }
 
 .section.page-title p, .paper.page-title p {
@@ -2794,12 +2793,23 @@ ul.portfolio-list li span:first-child {
   z-index: 99;
 }
 
+#header.menu-open {
+  background: rgba(255, 255, 255, 0.95) !important
+}
 
 #header.transparent {
   position: fixed;
   top: 0;
   width: 100%;
   background-color: transparent;
+}
+
+#header.transparent.sticky {
+  .shadow-1;
+}
+
+#header.transparent:not(.home) {
+  .shadow-1;
 }
 
 #header.transparent.white-header img.standard-logo.black-logo {
@@ -2909,7 +2919,7 @@ ul.portfolio-list li span:first-child {
 }
 
 #header.transparent + .section.small-padding {
-  padding-top: 115px;
+  padding-top: 85px;
 }
 
 #header.transparent + .section.big-padding {
@@ -2955,6 +2965,10 @@ ul.portfolio-list li span:first-child {
   z-index: 9999;
   background-color: rgba(255, 255, 255, 0.95) !important;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+#header:not(.home) {
+  background-color: rgba(255, 255, 255, 0.95) !important;
 }
 
 #header.sticky.white-header img.standard-logo.black-logo, #header.sticky.black-header img.standard-logo.black-logo {
@@ -3027,7 +3041,7 @@ ul.portfolio-list li span:first-child {
 }
 
 #header .menu ul li {
-//  margin: 0 5px;
+  //  margin: 0 5px;
 }
 
 #header .menu ul li.dropdown:hover > ul.dropdown-menu, #header .menu ul li.dropdown:focus > ul.dropdown-menu {
@@ -3048,29 +3062,48 @@ ul.portfolio-list li span:first-child {
   font-weight: 500;
   font-size: 14px;
   line-height: 21px;
-  display: block;
+  display: inline-block;
   z-index: 10;
   border: solid 3px transparent;
   padding: 4px 12px;
   border-radius: 4px;
   margin-top: 17px;
-  text-transform: capitalize;
-  &:hover{
+  text-transform: uppercase;
+  &:hover {
     border-color: lighten(@gray, 20%);
   }
-  &.blue{
+  &.blue {
     border-color: @blue;
+    &:hover {
+
+      background: @blue;
+      color: white !important;
+    }
   }
-  &.orange{
+  &.orange {
     border-color: @orange;
+    &:hover {
+
+      background: @orange;
+      color: white !important;
+    }
   }
-  &.green{
+  &.green {
     border-color: @green;
+    background: @green;
+    color: white !important;
+    &:hover {
+      border-color: darken(@green, 3%);
+      background: darken(@green, 3%);
+      color: white !important;
+    }
   }
-  &.gray{
+  &.gray {
     border-color: lighten(@gray, 20%);
-    &:hover{
+    &:hover {
       border-color: @gray;
+      background: @gray;
+      color: white !important;
     }
   }
 }
@@ -3089,7 +3122,7 @@ ul.portfolio-list li span:first-child {
   color: #737373;
   border: none;
   cursor: default;
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
   outline: none;
   padding: 10px 0;
@@ -3138,7 +3171,7 @@ ul.portfolio-list li span:first-child {
 
 #header .menu ul li ul.dropdown-menu li a {
   line-height: initial;
-  font-size: 13px;
+  font-size: 14px;
   border: none;
   padding: 6px 20px;
   color: #737373;
@@ -3165,6 +3198,15 @@ ul.portfolio-list li span:first-child {
   line-height: 48px;
   font-weight: 300;
   text-transform: none;
+  display: block;
+  margin: 0;
+  background: transparent;
+  color: #222 !important;
+  border: none;
+  &:hover {
+    color: #222 !important;
+    background: transparent;
+  }
 }
 
 #header .menu.mobile-menu ul li a:hover:after, #header .menu.mobile-menu ul li a:focus:after {
@@ -3211,7 +3253,7 @@ ul.portfolio-list li span:first-child {
   position: absolute;
   top: 0;
   right: 15px;
-  line-height: 60px;
+  line-height: 70px;
   font-size: 22px;
   display: none;
 }
@@ -3707,6 +3749,15 @@ div.line {
     font-size: 26px;
     line-height: 32px;
   }
+  @media(max-width: 768px){
+    img{
+      width: 80%;
+    }
+    p.tag{
+      font-size: 20px;
+      line-height: 30px;
+    }
+  }
 }
 
 .browser {
@@ -3719,8 +3770,73 @@ div.line {
   img {
     width: 100%;
   }
+  @media(max-width: 992px){
+    width: 90%;
+  }
 }
-
 .browser-screens .flex-control-nav {
   bottom: 1px !important;
+}
+
+.page-title-cp {
+  padding-bottom: 15px !important;
+}
+
+.page-section-cp {
+  padding-top: 30px !important;
+}
+
+.section.page-title.small-padding .breadcrumb, .paper.page-title.small-padding .breadcrumb {
+  margin-top: -8px !important;
+}
+
+.menu .list-inline > li {
+  padding: 0;
+}
+@media(max-width: 600px){
+  .browser-container{
+    display: none;
+  }
+  .big-hero{
+    height: 470px !important;
+  }
+}
+.works-with{
+  span{
+    line-height: 40px;
+    font-size: 18px;
+    color: #CBCACA;
+    margin-right: 19px;
+    top: 3px;
+    position: relative;
+  }
+  @media(max-width: 560px){
+    span{
+      display: block;
+    }
+    img{
+//      width: 80%;
+    }
+  }
+}
+@media(max-width:992px){
+  .paper{
+    padding: 0 !important;
+    .space{
+      height: 0px;
+    }
+  }
+}
+@media (max-width: 750px){
+  .try-it-for-free{
+    padding: 10px 0px 20px;
+
+    h3, a{
+      float: none !important;
+      text-align: center;
+    }
+    h3{
+      margin-bottom: 20px;
+    }
+  }
 }

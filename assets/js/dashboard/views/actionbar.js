@@ -28,19 +28,6 @@ define([
                 confirm: function () {
                     var that = this;
                     var $form = this.$b.find('form');
-                    $form.validate({
-                        debug: true,
-                        submitHandler: function () {
-                            return false;
-                        },
-                        rules: {
-                            message: {
-                                required: true,
-                                minlength: 10,
-                                maxlength: 200
-                            }
-                        }
-                    });
                     if ($form.valid()) {
                         var data = $form.serializeArray();
                         that.$b.find(':input').prop('disabled', true);
@@ -69,6 +56,20 @@ define([
                     return false;
                 },
                 onOpen: function () {
+                    var that = this;
+                    this.$b.find('form').validate({
+                        debug: true,
+                        submitHandler: function () {
+                            return false;
+                        },
+                        rules: {
+                            message: {
+                                required: true,
+                                minlength: 10,
+                                maxlength: 200
+                            }
+                        }
+                    });
                     this.$b.find('textarea').focus();
                 }
             });

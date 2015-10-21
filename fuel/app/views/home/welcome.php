@@ -27,7 +27,7 @@
     <!--    <a href="#about" title="" class="scroll-down"><i class="fa animated infinite bounce ti-arrow-down"></i></a>-->
 </section>
 
-<section class="section background-wrapper small-padding with-overlay info-overlay active-section" style="overflow: initial">
+<section class="section background-wrapper small-padding with-overlay info-overlay active-section browser-container" style="overflow: initial">
     <div class="background-image" style="background: url('<?php echo Asset::get_file('home.jpg', 'img') ?>') 50% 0%;">
     </div>
     <div class="container">
@@ -59,14 +59,14 @@
 </section>
 <section class="section active-section small-padding text-center">
     <div class="works-with">
-        <?php echo Asset::img('generic/works-with.png'); ?>
+        <span>Works with</span> <?php echo Asset::img('generic/works-with.png'); ?>
     </div>
 </section>
 <section class="section active-section small-padding">
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2 text-center">
-                <h2 class="lighter b">Perfect for your Project</h2>
+                <h2 class="lighter b">Perfect for your Project!</h2>
 
                 <p class="lead">You push, we deploy.</p>
             </div>
@@ -121,58 +121,11 @@
         </div>
     </div>
 </section>
-
-<!--<section class="section content-col-3 active-section">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-4 editContent">-->
-<!--                <h4>Material Design</h4>-->
-<!---->
-<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>-->
-<!--            </div>-->
-<!--            <div class="col-md-4 editContent">-->
-<!--                <h4>Frontend Page Builder</h4>-->
-<!---->
-<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>-->
-<!--            </div>-->
-<!--            <div class="col-md-4 editContent">-->
-<!--                <h4>Easy to Use</h4>-->
-<!---->
-<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<!--<section class="section big-padding grey-background active-section">-->
-<!--<section class="section big-padding  active-section">-->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-md-5">-->
-<!--                <h2 class="lighter">Introducing <strong>Material</strong></h2>-->
-<!---->
-<!--                <p class="lead">Sed ut perspiciatis unde omnis iste eillo inventore.</p>-->
-<!--                <h5>What is <strong>Google Material Design</strong></h5>-->
-<!---->
-<!--                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.</p>-->
-<!---->
-<!--                <p><a href="#" title="" class="btn btn-punch btn-link btn-black">Learn More</a>-->
-<!--                    <a href="#" title="" class="btn btn-punch btn-link btn-black">Watch Video</a></p>-->
-<!--            </div>-->
-<!--            <div class="col-md-6 col-md-offset-1">-->
-<!--                <div class="embed-responsive embed-responsive-16by9">-->
-<!--                                        <iframe width="560" height="315" src="https://www.youtube.com/embed/Q8TXgCzxEnw" frameborder="0" allowfullscreen=""></iframe>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</section>-->
-
-<section class="section grey-background active-section">
+<section class="section grey-background active-section try-it-for-free">
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-center clearfix">
-                <h2 class="pull-left no-margin-bottom lighter b">Ready to boost your Workflow?</h2>
+                <h3 class="pull-left no-margin-bottom lighter b">Ready to boost your Workflow?</h3>
                 <a href="<?php
                 echo \Uri::create('signup');
                 ?>" title="" class="btn btn-punch btn-success btn-lg btn-darker pull-right">Try it for free</a>

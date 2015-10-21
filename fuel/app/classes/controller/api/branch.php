@@ -115,10 +115,21 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
 
         $i = Input::get();
 
+        $branches = [];
         if (isset($i['branch_id'])) {
             $branches = $branch->get_by_branch_id($i['branch_id']);
         } else if (isset($i['deploy_id'])) {
             $branches = $branch->get_by_deploy_id($i['deploy_id']);
+        }
+
+        $last_deploy = (Boolean)\Input::get('last_deploy', FALSE);
+
+        if ($last_deploy) {
+            $record = new \Model_Record();
+            foreach ($branches as $k => $branch) {
+                $record_data = $record->get_latest_by_branch_id($branch['id'], $record->success);
+                $branches[$k]['last_deploy'] = count($record_data) == 0 ? 0 : (int)$record_data[0]['date'];
+            }
         }
 
         $this->response(array(

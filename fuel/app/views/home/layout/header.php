@@ -6,17 +6,17 @@
 </script>
 <?php
 $color = 'black';
+$e = '';
 $s = Uri::segments();
-if (count($s) == 0) {
+if (count($s) == 0 || $s[0] == 'welcome') {
 //    $color = 'white';
-} elseif ($s[0] == 'welcome') {
-//    $color = 'white';
+    $e = 'home';
 }
 ?>
 
-<header id="header" class="transparent <?php echo $color; ?>-header header active-section">
+<header id="header" class="transparent <?php echo $color; ?>-header header active-section <?php echo $e ?>">
     <div class="container">
-        <div class="row">
+        <div class="row" style="position: relative">
             <div class="col-md-3">
                 <div class="logo">
                     <a href="<?php echo home_url; ?>" title="">
@@ -28,9 +28,6 @@ if (count($s) == 0) {
             <div class="col-md-9 menu-col text-right">
                 <div class="menu">
                     <ul class="list-inline">
-                        <li class="">
-                            <a class="" href="<?php echo home_url . 'documentation'; ?>">Documentation</a>
-                        </li>
                         <?php if (\Auth::instance()->check()) { ?>
                             <li class="">
                                 <a class="blue" href="<?php echo dash_url; ?>">
@@ -38,11 +35,9 @@ if (count($s) == 0) {
                                 </a>
                                 <a class="gray" href="<?php echo home_url . 'user/logout'; ?>"> logout</a>
                             </li>
-<!--                            <li class="">-->
-<!--                            </li>-->
                         <?php } else { ?>
-                            <li class="">
-                                <a class="blue" href="<?php echo home_url . 'login'; ?>">login</a>
+                            <li>
+                                <a class="" href="<?php echo home_url . 'login'; ?>">login</a>
                             </li>
                             <li class="">
                                 <a class="green" href="<?php echo home_url . 'signup'; ?>">signup</a>

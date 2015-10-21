@@ -30,7 +30,7 @@
   color: #aaaaaa;
 }
 .gray-bg {
-  background: #f8f8f8;
+  background: rgba(248, 248, 248, 0.42);
 }
 .blue {
   color: #0091ea;
@@ -109,7 +109,7 @@ label.error {
 .dropdown .open .divider,
 .dropdown-toggle .open .divider,
 .bootstrap-select .open .divider {
-  background-color: #f5f5f5;
+  background-color: rgba(245, 245, 245, 0.42);
 }
 .dropdown .dropdown-menu,
 .dropdown-toggle .dropdown-menu,

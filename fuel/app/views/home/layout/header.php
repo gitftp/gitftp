@@ -19,7 +19,7 @@ if (count($s) == 0 || $s[0] == 'welcome') {
         <div class="row" style="position: relative">
             <div class="col-md-3">
                 <div class="logo">
-                    <a href="<?php echo home_url; ?>" title="">
+                    <a href="<?php echo home_url.'home'; ?>" title="">
                         <img src="assets/img/logo-sm-2-name.png" class="black-logo standard-logo middle-content" alt="">
                         <img src="assets/img/logo-sm-2w-name.png" class="white-logo standard-logo middle-content" alt="">
                     </a>

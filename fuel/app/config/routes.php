@@ -13,6 +13,7 @@ if (is_dash) {
     );
 } else {
     $routes = array(
+        'home'            => 'welcome',
         'login'           => 'user/login',
         'signup'          => 'user/signup',
         'forgot-password' => 'user/forgotpassword',

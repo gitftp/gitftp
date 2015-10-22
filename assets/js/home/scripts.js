@@ -340,7 +340,10 @@
                     var $form = $(form);
                     var data = $form.serializeArray();
                     if (!EmailValid || !UsernameValid) {
-                        return false;
+                        $.alert({
+                            title: 'Validation',
+                            content: 'Please enter a valid Email ID'
+                        })
                     }
                     $form.find(':input').attr('disabled', 'disabled');
                     $.ajax({

@@ -37,7 +37,7 @@ class Mail {
             return FALSE;
         } catch (\EmailSendingFailedException $e) {
             return FALSE;
-        } catch (\SmtpCommandFailureException $e) {
+        } catch (Exception $e) {
             if (!preg_match('/OK/ig', $e->getMessage())) {
                 return FALSE;
             }

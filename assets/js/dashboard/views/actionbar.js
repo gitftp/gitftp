@@ -26,8 +26,30 @@ define([
                 confirmButton: 'Send',
                 cancelButton: 'close',
                 confirm: function () {
+                    this.sendMessage();
+                    return false;
+                },
+                onOpen: function () {
+                    var that = this;
+                    this.$b.find('form').validate({
+                        debug: true,
+                        submitHandler: function () {
+                            return false;
+                        },
+                        rules: {
+                            message: {
+                                required: true,
+                                minlength: 10,
+                                maxlength: 200
+                            }
+                        }
+                    });
+                    this.$b.find('textarea').focus();
+                },
+                sendMessage: function () {
                     var that = this;
                     var $form = this.$b.find('form');
+                    console.log('send', $form);
                     if ($form.valid()) {
                         var data = $form.serializeArray();
                         that.$b.find(':input').prop('disabled', true);
@@ -53,24 +75,6 @@ define([
                             }
                         });
                     }
-                    return false;
-                },
-                onOpen: function () {
-                    var that = this;
-                    this.$b.find('form').validate({
-                        debug: true,
-                        submitHandler: function () {
-                            return false;
-                        },
-                        rules: {
-                            message: {
-                                required: true,
-                                minlength: 10,
-                                maxlength: 200
-                            }
-                        }
-                    });
-                    this.$b.find('textarea').focus();
                 }
             });
         },

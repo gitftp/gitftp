@@ -37,7 +37,7 @@ class Mail {
             return FALSE;
         } catch (\EmailSendingFailedException $e) {
             return FALSE;
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             // sometimes the Email is sent with Message OK, but the response code doenst match, hence throws an exception.
             if (!preg_match('/OK/ig', $e->getMessage())) {
                 return FALSE;

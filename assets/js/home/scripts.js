@@ -357,7 +357,7 @@
                         });
                         return false;
                     }
-                    if(!UsernameValid){
+                    if (!UsernameValid) {
                         $.alert({
                             title: 'Validation',
                             icon: 'fa fa-icon fa-fw orange',
@@ -366,6 +366,7 @@
                         return false;
                     }
                     $form.find(':input').attr('disabled', 'disabled');
+                    $form.find('button').html('<i class="gf gf-loading"></i>');
                     $.ajax({
                         url: home_url + 'api/user/register',
                         method: 'post',
@@ -374,11 +375,12 @@
                     }).done(function (res) {
                         if (res.status) {
                             $.alert({
-                                title: 'Welcome',
+                                title: 'Welcome!',
                                 content: 'You\'ve successfully registered with Gitftp.com, <br/> Please head to your Email account to activate your Gitftp account.',
                                 confirmButton: 'Dismiss',
                                 icon: 'fa fa-check green'
                             });
+                            $form.find(':input').val('');
                         } else {
                             $.alert({
                                 title: 'Problem',
@@ -396,6 +398,7 @@
                         });
                     }).always(function () {
                         $form.find(':input').removeAttr('disabled');
+                        $form.find('button').html('<i class="fa fa-lock fa-fw" style=""></i> Signup');
                     });
                 },
                 rules: {
@@ -431,6 +434,7 @@
                     var $form = $(form);
                     var data = $form.serializeArray();
                     $form.find(':input').attr('disabled', 'disabled');
+                    $form.find('button').html('<i class="gf gf-loading"></i>');
 
                     $.ajax({
                         url: base + 'api/user/login',
@@ -491,6 +495,7 @@
                         }
                     }).always(function (data) {
                         $form.find(':input').removeAttr('disabled');
+                        $form.find('button').html('<i class="fa fa-lock fa-fw" style=""></i> Signup');
                     });
                 },
                 rules: {
@@ -537,8 +542,9 @@
                                 icon: 'fa fa-check green fa-fw',
                                 content: 'We have sent you an Email with instructions to reset your password.',
                                 closeIcon: false,
-                                confirmButton: 'Dismiss'
+                                confirmButton: 'Dismiss',
                             });
+                            $form.find(':input').val('');
                         } else {
                             $.alert({
                                 title: 'Problem',
@@ -586,7 +592,7 @@
                     }).done(function (data) {
                         if (data.status) {
                             $.confirm({
-                                title: 'Password changed',
+                                title: 'Redirecting to dashboard',
                                 content: data.message,
                                 closeIcon: false,
                                 confirmButton: 'Goto Dashboard',
@@ -594,6 +600,10 @@
                                     location.href = dash_url;
                                 }
                             });
+
+                            setTimeout(function(){
+                                window.location.reload();
+                            }, 2000);
                         } else {
                             $.alert({
                                 title: 'Problem',

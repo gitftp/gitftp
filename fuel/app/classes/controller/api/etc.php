@@ -284,6 +284,10 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $messages = new Model_Messages();
         $i = Utils::escapeHtmlChars($i);
 
+//        echo '<pre>';
+//        print_r($i);
+//        die;
+
         $messages->insert(array(
             'message' => $i['message'],
             'type'    => $messages->type_feedback,

@@ -91,13 +91,15 @@ class Controller_Api_User extends Controller {
                     throw new \Craftpip\Exception('The Email or Username is not registered with us.');
                 }
                 $auth->setId($user['id']);
-                $isVerified = $auth->getAttr('verified');
-                if (!$isVerified) {
-                    throw new Exception('This account is not activated, please head to your Email & activate your Gitftp account.');
-                }
 
                 $a = $auth->login($i['email'], $i['password']);
                 if ($a) {
+                    $isVerified = $auth->getAttr('verified');
+                    if (!$isVerified) {
+                        $auth->logout();
+                        throw new Exception('This account is not activated, please head to your Email & activate your Gitftp account.');
+                    }
+
                     $response = array(
                         'status'   => TRUE,
                         'redirect' => dash_url,

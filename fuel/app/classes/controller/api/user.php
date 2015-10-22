@@ -133,6 +133,10 @@ class Controller_Api_User extends Controller {
                 ->add_rule('max_length', 18);
 
             if ($validation->run()) {
+                $email = $i['email'];
+                if (\Utils::isDisposableEmail($email))
+                    throw new \Craftpip\Exception("The email id: $email is a disposable Email, please use a Genuine Email-id to continue registration.");
+
                 $auth = new \Craftpip\OAuth\Auth();
                 $user_id = $auth->create_user(
                     $i['username'],
@@ -292,7 +296,7 @@ class Controller_Api_User extends Controller {
                 $user = $auth->getByUsernameEmail($key);
                 if ($user) {
                     if ($type == 'email')
-                        throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password') . '">Reset password</a> or <a href="' . \Uri::create('login') . '">Login</a>');
+                        throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password', [], ['email' => $key]) . '">Reset password</a> or <a href="' . \Uri::create('login', [], ['email' => $key]) . '">Login</a>');
                     elseif ($type == 'username')
                         throw new \Craftpip\Exception('This username is taken');
                 } else {

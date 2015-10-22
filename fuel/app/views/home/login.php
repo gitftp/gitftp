@@ -30,11 +30,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Username or Email</label>
-                                <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control" autofocus="true">
+                                <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control" <?php echo \Input::get('email', null) ? '' : 'autofocus="true"' ?> value="<?php echo \Input::get('email', ''); ?>">
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" id="password" name="password" placeholder="Your Password" class="form-control">
+                                <input type="password" id="password" name="password" placeholder="Your Password" <?php echo \Input::get('email', null) ? 'autofocus="true"' : '' ?> class="form-control">
                             </div>
                             <strong><a class="pull-right" href="<?php echo Uri::create('forgot-password') ?>">Forgot password?</a></strong>
 

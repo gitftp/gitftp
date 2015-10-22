@@ -276,7 +276,9 @@
                 return false;
             var EmailValid = false,
                 UsernameValid = false,
-                request = false;
+                request = false,
+                timer,
+                timer2;
 
             this.$signupform.find('[name="username"]').on('keyup blur', function (e) {
                 var $this = $(this);
@@ -284,24 +286,28 @@
                     if (request)
                         request.abort();
 
-                    request = $.ajax({
-                        url: home_url + 'api/user/validate',
-                        data: {
-                            key: $this.val(),
-                            type: 'username'
-                        },
-                        method: 'post',
-                        dataType: 'json'
-                    }).done(function (res) {
-                        $('.usernamevalid').hide();
-                        if (res.status) {
-                            // the username is taken.
-                            UsernameValid = false;
-                            $('.usernamevalid').css('display', 'inline-block').html(res.reason);
-                        } else {
-                            UsernameValid = true;
-                        }
-                    });
+                    clearTimeout(timer2);
+
+                    timer2 = setTimeout(function () {
+                        request = $.ajax({
+                            url: home_url + 'api/user/validate',
+                            data: {
+                                key: $this.val(),
+                                type: 'username'
+                            },
+                            method: 'post',
+                            dataType: 'json'
+                        }).done(function (res) {
+                            $('.usernamevalid').hide();
+                            if (res.status) {
+                                // the username is taken.
+                                UsernameValid = false;
+                                $('.usernamevalid').css('display', 'inline-block').html(res.reason);
+                            } else {
+                                UsernameValid = true;
+                            }
+                        });
+                    }, 200);
                 } else {
                     $('.usernamevalid').hide();
                 }
@@ -313,24 +319,28 @@
                     if (request)
                         request.abort();
 
-                    request = $.ajax({
-                        url: home_url + 'api/user/validate',
-                        data: {
-                            key: $this.val(),
-                            type: 'email'
-                        },
-                        method: 'post',
-                        dataType: 'json'
-                    }).done(function (res) {
-                        $('.emailvalid').hide();
-                        if (res.status) {
-                            // the user is registered.
-                            EmailValid = false;
-                            $('.emailvalid').css('display', 'inline-block').html(res.reason);
-                        } else {
-                            EmailValid = true;
-                        }
-                    });
+                    clearTimeout(timer);
+
+                    timer = setTimeout(function () {
+                        request = $.ajax({
+                            url: home_url + 'api/user/validate',
+                            data: {
+                                key: $this.val(),
+                                type: 'email'
+                            },
+                            method: 'post',
+                            dataType: 'json'
+                        }).done(function (res) {
+                            $('.emailvalid').hide();
+                            if (res.status) {
+                                // the user is registered.
+                                EmailValid = false;
+                                $('.emailvalid').css('display', 'inline-block').html(res.reason);
+                            } else {
+                                EmailValid = true;
+                            }
+                        });
+                    }, 200);
                 } else {
                     $('.emailvalid').hide();
                 }
@@ -339,11 +349,21 @@
                 submitHandler: function (form) {
                     var $form = $(form);
                     var data = $form.serializeArray();
-                    if (!EmailValid || !UsernameValid) {
+                    if (!EmailValid) {
                         $.alert({
                             title: 'Validation',
+                            icon: 'fa fa-info fa-fw orange',
                             content: 'Please enter a valid Email ID'
-                        })
+                        });
+                        return false;
+                    }
+                    if(!UsernameValid){
+                        $.alert({
+                            title: 'Validation',
+                            icon: 'fa fa-icon fa-fw orange',
+                            content: 'Please enter a valid Username'
+                        });
+                        return false;
                     }
                     $form.find(':input').attr('disabled', 'disabled');
                     $.ajax({

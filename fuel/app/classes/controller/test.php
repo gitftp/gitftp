@@ -5,7 +5,12 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
-    public function get_r() {
+    public function get_eva() {
+        print_r(Utils::isDisposableEmail('asda@gmail.com'));
+    }
+
+    public
+    function get_r() {
         $id = '18';
         $path = '/var/www/html/fuel/repository/228/test';
         if (file_exists($path)) {
@@ -21,26 +26,28 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function get_p() {
+    public
+    function get_p() {
 //        $gitapi = new \Craftpip\GitApi();
 //        $a = $gitapi->auth->getToken('bitbucket');
 //
 //        print_r($a);
-        echo '<pre>';
+//        echo '<pre>';
 //
 //        \Database_Connection::instance()->disconnect();
 //        \Config::set('db.active','frontend');
-        $a = \DB::select('*')->from('seo')->execute('frontend')->as_array();
-
-        print_r($a);
-        die;
-        $mail = new \Craftpip\Mail(246);
-        $mail->template_signup();
-        $mail->to('bpereira@smartsight.in', 'Boniface pereira');
+//        $a = \DB::select('*')->from('seo')->execute('frontend')->as_array();
+//
+//        print_r($a);
+//        die;
+        $mail = new \Craftpip\Mail(229);
+        $mail->template_forgotpassword();
+        $mail->to('bonifacepereira@gmail.com', 'Boniface pereira');
         $mail->send();
     }
 
-    public function get_o() {
+    public
+    function get_o() {
         $gitapi = new \Craftpip\GitApi();
 //        $repo = $gitapi->loadApi('bitbucket')->getHook('testrepo');
         $repo = $gitapi->loadApi('bitbucket')->updateHook('testrepo', '{3bf36961-ba9d-41b2-8655-3c4c0119f78c}', 'http://craftpip.com');
@@ -51,20 +58,23 @@ class Controller_Test extends Controller {
 //        $refresh_token = $token->getrefreshToken();
     }
 
-    public function get_q() {
+    public
+    function get_q() {
         $a = 'https://ab44005618fb9022aa617cd65e02bb1f754217a6@github.com/craftpip/testrepo.git';
         $b = \Utils::gitGetBranches2($a);
         print_r($b);
         die;
     }
 
-    public function action_authtest($provider) {
+    public
+    function action_authtest($provider) {
         $auth = new \Craftpip\Oauth\Oauth();
         $a = $auth->init($provider);
         print_r($a);
     }
 
-    public function action_gtest() {
+    public
+    function action_gtest() {
 //        $instance = new \Bitbucket\API\Users();
 //        $instance->getClient()->addListener(
 //            new \Bitbucket\API\Http\Listener\OAuthListener(array(
@@ -96,7 +106,8 @@ class Controller_Test extends Controller {
 //        $request = new GuzzleHttp\Psr7\Request('GET', 'https://api.bitbucket.org/2.0/repositories/craftpip', $headers);
     }
 
-    public function get_bb() {
+    public
+    function get_bb() {
         $provider = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
             'clientId'     => 'ZHqyDjdsukYXpu5DJD',
             'clientSecret' => 'mvGtbMXbJPkesfVJ7Xfg5hzE9uRw32gG',
@@ -146,7 +157,8 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function get_ab() {
+    public
+    function get_ab() {
         $record = new Model_Record();
         $record->insert(array(
             'deploy_id' => '30',
@@ -161,12 +173,14 @@ class Controller_Test extends Controller {
         Gfcore::deploy_in_bg('30');
     }
 
-    public function get_test() {
+    public
+    function get_test() {
         $a = DB::select()->from('deploy')->execute()->as_array();
         print_r($a);
     }
 
-    public function get_test2() {
+    public
+    function get_test2() {
         $files = array(
             'folder/folder2/',
             'folder/folder2/',
@@ -197,13 +211,15 @@ class Controller_Test extends Controller {
 //        print_r($a);
     }
 
-    public function get_a() {
+    public
+    function get_a() {
         $a = 'ftp_chdir(): CWD failed. "/asdsad": directory not found';
         $b = explode(': ', $a);
         print_r($b[count($b) - 1]);
     }
 
-    public function get_purge() {
+    public
+    function get_purge() {
         $ftp = new Model_Ftp();
         $d = $ftp->get(130);
         $d = $d[0];
@@ -218,19 +234,22 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function delete($dir, $conn, $o) {
+    public
+    function delete($dir, $conn, $o) {
         $list = $conn->ls($o . '/' . $dir);
         foreach ($list as $item) {
             echo $item;
         }
     }
 
-    public function get_e() {
+    public
+    function get_e() {
 //        echo strtotime('Tue, 21 Aug 2012 19:50:37 +0900');
         echo strtotime('2015-07-23 20:46:36');
     }
 
-    public function get_c() {
+    public
+    function get_c() {
 //        echo Fuel::$env;
 //        echo Crypt::encode('asda', 'randomcode');
 //        $response = new Response();
@@ -239,13 +258,15 @@ class Controller_Test extends Controller {
         throw new Exception('No', 503);
     }
 
-    public function get_dbspeed() {
+    public
+    function get_dbspeed() {
         $deploy = new Model_Deploy();
         $a = $deploy->get(47, NULL, TRUE);
         print_r($a);
     }
 
-    public function get_d() {
+    public
+    function get_d() {
 
 //        $a = '{"actor": {"display_name": "boniface pereira", "username": "craftpip", "links": {"self": {"href": "https://api.bitbucket.org/2.0/users/craftpip"}, "avatar": {"href": "https:/' ;
 //        echo substr($a, 0, 1);
@@ -258,19 +279,22 @@ class Controller_Test extends Controller {
 
     }
 
-    public function get_logs() {
+    public
+    function get_logs() {
         $a = DB::select()->from('log')->order_by('id', 'desc')->execute()->as_array();
         print_r($a);
     }
 
-    public function get_f() {
+    public
+    function get_f() {
         $p = 'zombieismyname191993bit';
         echo $nhash = \Crypt::instance()->encode($p);
         echo '<br>';
         echo \Crypt::instance()->decode($nhash);
     }
 
-    public function get_email() {
+    public
+    function get_email() {
         $email = new \Craftpip\Mail();
         $email = $email->template_signup();
         try {
@@ -280,18 +304,21 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function get_g() {
+    public
+    function get_g() {
         $a = new \Craftpip\Gitapi();
     }
 
-    public function get_h() {
+    public
+    function get_h() {
         $b = "\Craftpip\OAuth\OAuth";
         $o = new $b();
         $a = $o->getToken('github');
         print_r($a);
     }
 
-    public function get_i() {
+    public
+    function get_i() {
 
         $user = new \Craftpip\OAuth\Auth();
         $providers = $user->getProviders();
@@ -315,21 +342,24 @@ class Controller_Test extends Controller {
         print_r($hooks);
     }
 
-    public function get_j() {
+    public
+    function get_j() {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->getAllRepositories();
 
         print_r($a);
     }
 
-    public function get_k() {
+    public
+    function get_k() {
         $path = Utils::get_repo_dir(48);
         $git = new \Craftpip\Git();
         $git->setRepository($path);
         print_r($git->logBetween('c657d1c80', '58efdc'));
     }
 
-    public function get_login() {
+    public
+    function get_login() {
         if (\Auth::instance()->login('boniface', 'asdasd')) {
             echo 'yes';
         } else {
@@ -337,7 +367,8 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function get_checklogin() {
+    public
+    function get_checklogin() {
         if (\Auth::instance()->check()) {
             echo 'yes';
         } else {
@@ -345,14 +376,16 @@ class Controller_Test extends Controller {
         }
     }
 
-    public function get_l() {
+    public
+    function get_l() {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->getRepositories();
 //        $a = $gitapi->loadApi('bitbucket')->getRepositories();
         print_r($a);
     }
 
-    public function get_m() {
+    public
+    function get_m() {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->loadApi('bitbucket');
 //        print_r($a);
@@ -367,7 +400,8 @@ class Controller_Test extends Controller {
 //        print_r($b);
     }
 
-    public function get_n() {
+    public
+    function get_n() {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->loadApi('bitbucket')->getRepositories();
         print_r($a);

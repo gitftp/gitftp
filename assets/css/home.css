@@ -4257,6 +4257,8 @@ ul.portfolio-list li span:first-child {
   top: 0;
   width: 100%;
   background-color: transparent;
+  -webkit-transition: all .2s;
+          transition: all .2s;
 }
 #header.transparent.sticky {
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);

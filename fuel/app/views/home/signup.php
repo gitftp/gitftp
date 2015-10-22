@@ -31,15 +31,13 @@
                             </div>
                             <div class="form-group">
                                 <label for="email">Email address</label>
-                                <input type="text" id="email" name="email" placeholder="Your Email address" class="form-control">
-                                <label class="emailvalid error" style="display: none;">This email address is already registered.<br>
-                                    <a href="<?php echo \Uri::create('forgot-password'); ?>">Reset password</a> or
-                                    <a href="<?php echo \Uri::create('login'); ?>">Login</a></label>
+                                <input type="text" id="email" name="email" placeholder="Your Email address" class="form-control" autofocus="">
+                                <p class="emailvalid error orange" style="display: none;"></p>
                             </div>
                             <div class="form-group">
                                 <label for="username">Username</label>
                                 <input type="username" id="username" name="username" placeholder="Your Username" class="form-control">
-                                <label class="usernamevalid error" style="display: none;">This username is taken</label>
+                                <p class="usernamevalid error orange" style="display: none;"></p>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>

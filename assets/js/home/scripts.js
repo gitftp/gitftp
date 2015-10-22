@@ -242,7 +242,6 @@
     }
 
 
-
     jconfirm.defaults = {
         container: 'body',
         theme: 'white git', //supervan
@@ -289,6 +288,7 @@
                         url: home_url + 'api/user/validate',
                         data: {
                             key: $this.val(),
+                            type: 'username'
                         },
                         method: 'post',
                         dataType: 'json'
@@ -297,7 +297,7 @@
                         if (res.status) {
                             // the username is taken.
                             UsernameValid = false;
-                            $('.usernamevalid').css('display', 'inline-block');
+                            $('.usernamevalid').css('display', 'inline-block').html(res.reason);
                         } else {
                             UsernameValid = true;
                         }
@@ -317,6 +317,7 @@
                         url: home_url + 'api/user/validate',
                         data: {
                             key: $this.val(),
+                            type: 'email'
                         },
                         method: 'post',
                         dataType: 'json'
@@ -325,7 +326,7 @@
                         if (res.status) {
                             // the user is registered.
                             EmailValid = false;
-                            $('.emailvalid').css('display', 'inline-block');
+                            $('.emailvalid').css('display', 'inline-block').html(res.reason);
                         } else {
                             EmailValid = true;
                         }
@@ -450,7 +451,7 @@
                                         dataType: "json",
                                         method: 'get',
                                     }).done(function (res) {
-                                        if(res.status){
+                                        if (res.status) {
                                             $.alert({
                                                 title: 'Email sent',
                                                 content: 'Please head to your Email account to activate your Gitftp account.',

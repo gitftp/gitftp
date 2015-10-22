@@ -1,10 +1,10 @@
-Hello <?php echo $username; ?>,
+Hello <?php echo ucfirst($username); ?>,
 <br/><br/>
-You recently requested for a password reset, <br/>
+You recently requested to reset your password, <br/>
 please click on the link below and you will be requested to enter your new password.
 <br/><br/>
 <center>
-    <a target="empty" href="<?php echo $resetlink; ?>">Reset password</a>
+    <a target="_blank" href="<?php echo $resetlink; ?>">Reset password</a>
 </center>
 <br/><br/>
 <small>

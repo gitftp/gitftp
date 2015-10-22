@@ -10,7 +10,7 @@ return array(
         /**
          * Mail useragent string
          */
-        'useragent'      => 'FuelPHP, PHP 5.3 Framework',
+        'useragent'      => 'Gitftp - the deployment tool',
         /**
          * Mail driver (mail, smtp, sendmail, noop)
          */
@@ -47,7 +47,7 @@ return array(
          */
         'from'           => array(
             'email' => 'no-reply@gitftp.com',
-            'name'  => 'Gitftp - Git Deployments',
+            'name'  => 'Gitftp - You push we deploy',
         ),
 
         /**

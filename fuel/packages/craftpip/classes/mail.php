@@ -37,6 +37,10 @@ class Mail {
             return FALSE;
         } catch (\EmailSendingFailedException $e) {
             return FALSE;
+        } catch (\SmtpCommandFailureException $e) {
+            if (!preg_match('/OK/ig', $e->getMessage())) {
+                return FALSE;
+            }
         }
 
         return TRUE;
@@ -50,7 +54,7 @@ class Mail {
         $user = $this->user->user;
         $random = \Str::random();
 
-        $this->subject('Gitftp account activation');
+        $this->subject('Account activation');
         $this->to($user['email'], $user['username']);
 
         $view = \View::forge('email/' . $this->theme . '/base', array(

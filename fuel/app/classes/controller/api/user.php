@@ -279,26 +279,38 @@ class Controller_Api_User extends Controller {
 
     public function post_validate() {
         $key = \Input::post('key', NULL);
+        $type = \Input::post('type', NULL);
         $auth = new \Craftpip\OAuth\Auth();
 
-        if (!is_null($key)) {
-            $user = $auth->getByUsernameEmail($key);
-            if ($user) {
-                $response = array(
-                    'status' => TRUE,
-                );
+        try {
+            if (!is_null($key)) {
+
+                if (\Utils::isDisposableEmail($key) && $type == 'email') {
+                    throw new \Craftpip\Exception('Please use a Genuine Email id.');
+                }
+
+                $user = $auth->getByUsernameEmail($key);
+                if ($user) {
+                    if ($type == 'email')
+                        throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password') . '">Reset password</a> or <a href="' . \Uri::create('login') . '">Login</a>');
+                    elseif ($type == 'username')
+                        throw new \Craftpip\Exception('This username is taken');
+                } else {
+                    $response = array(
+                        'status' => FALSE,
+                    );
+                }
             } else {
-                $response = array(
-                    'status' => FALSE,
-                );
+                throw new \Craftpip\Exception('Missing parameters');
             }
-            echo json_encode($response);
-        } else {
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
-                'reason' => 'Missing parameters'
+                'status' => TRUE,
+                'reason' => $e->getMessage()
             );
         }
+        echo json_encode($response);
     }
 
 }

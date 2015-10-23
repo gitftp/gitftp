@@ -292,7 +292,7 @@ class Controller_Api_User extends Controller {
             if (!is_null($key)) {
 
                 if (\Utils::isDisposableEmail($key) && $type == 'email') {
-                    throw new \Craftpip\Exception('Please use a Genuine Email id.');
+                    throw new \Craftpip\Exception("The Email id: $key is a disposable Email, please use a Genuine Email it to continue.");
                 }
 
                 $user = $auth->getByUsernameEmail($key);

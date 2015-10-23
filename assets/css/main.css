@@ -642,6 +642,7 @@ a:hover {
 .navbar-default .navbar-nav .dropdown-menu {
   border: none;
   background: white;
+  z-index: -1;
 }
 .navbar-default .navbar-nav .dropdown.open > a {
   background-color: white !important;
@@ -1975,7 +1976,7 @@ h6 {
   text-align: left;
   background-color: #eee;
   background-image: url('../img/generic/bg-image.jpg');
-  background-position: center;
+  background-position: center bottom;
   background-size: cover;
   border-radius: 4px 4px 0 0;
   position: relative;

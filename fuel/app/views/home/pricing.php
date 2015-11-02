@@ -1,7 +1,22 @@
-<section class="section active-section">
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="space20"></div>
+            <div class="space20"></div>
+            <div class="space20"></div>
+            <div class="space20"></div>
+            <div class="space20"></div>
+            <h3 class="text-center">
+                Choose that is best for you.
+            </h3>
+            <div class="space10"></div>
+        </div>
+    </div>
+</div>
+<section class="section small-padding active-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6">
                 <div class="promo-block grey-background shadow-1">
                     <div class="pb-header grey-background">
                         <span class="sp">Free</span><br/>for Everyone
@@ -24,7 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6">
                 <div class="promo-block grey-background shadow-2" data-animate="fadeInRight">
                     <div class="pb-header success-background">
                         <span class="sp">Basic</span><br/>for Freelancers
@@ -52,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6">
                 <div class="promo-block grey-background" data-animate="fadeInRight">
                     <div class="pb-header warning-background">
                         <span class="sp">Team</span><br/>for Small Businesses
@@ -81,7 +96,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-3 col-sm-6">
                 <div class="promo-block grey-background" data-animate="fadeInRight">
                     <div class="pb-header info-background">
                         <span class="sp">Pro</span><br/>for Professionals
@@ -111,4 +126,8 @@
             </div>
         </div>
     </div>
+    <div class="space20"></div>
+    <div class="space20"></div>
+    <div class="space20"></div>
+    <div class="space20"></div>
 </section>

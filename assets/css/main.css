@@ -265,14 +265,19 @@ a.btn {
       -ms-transform: scale(0.9);
           transform: scale(0.9);
 }
-.checkbox.gf-checkbox input {
+.gf-checkbox {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.gf-checkbox input {
   display: none;
 }
-.checkbox.gf-checkbox label {
+.gf-checkbox label {
   padding-left: 25px;
   line-height: 21px;
 }
-.checkbox.gf-checkbox label:before {
+.gf-checkbox label:before {
   content: '';
   position: absolute;
   height: 18px;
@@ -281,43 +286,50 @@ a.btn {
   border-radius: 4px;
   margin-top: 1px;
   left: 0;
+  top: 0;
   -webkit-transition: all .2s;
           transition: all .2s;
 }
-.checkbox.gf-checkbox label:after {
+.gf-checkbox label:after {
   content: '';
   position: absolute;
   border: solid 2px;
   height: 22px;
   width: 11px;
   border-radius: 0px;
-  margin-top: 3px;
-  left: 0;
-  top: 0;
-  margin-left: 4px;
+  left: 4px;
+  top: -4px;
   border-color: transparent #00c853 #00c853 transparent;
   -webkit-transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
           transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
   -webkit-transform: scale(0) rotate(41deg);
       -ms-transform: scale(0) rotate(41deg);
           transform: scale(0) rotate(41deg);
+  -webkit-transform-origin: center;
+      -ms-transform-origin: center;
+          transform-origin: center;
 }
-.checkbox.gf-checkbox input:checked + label:before {
+.gf-checkbox input:checked + label:before {
   border-color: #dddddd;
 }
-.checkbox.gf-checkbox input:checked + label:after {
+.gf-checkbox input:checked + label:after {
   -webkit-transform: scale(1) rotate(41deg);
       -ms-transform: scale(1) rotate(41deg);
           transform: scale(1) rotate(41deg);
 }
-.radio.gf-radio input {
+.gf-radio {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.gf-radio input {
   display: none;
 }
-.radio.gf-radio label {
+.gf-radio label {
   padding-left: 25px;
   line-height: 21px;
 }
-.radio.gf-radio label:before {
+.gf-radio label:before {
   content: '';
   position: absolute;
   height: 18px;
@@ -329,7 +341,7 @@ a.btn {
           transition: all .2s;
   border-radius: 50px;
 }
-.radio.gf-radio label:after {
+.gf-radio label:after {
   content: '';
   position: absolute;
   height: 8px;
@@ -345,13 +357,33 @@ a.btn {
       -ms-transform: scale(0);
           transform: scale(0);
 }
-.radio.gf-radio input:checked + label:before {
+.gf-radio input:checked + label:before {
   border-color: #00c853;
 }
-.radio.gf-radio input:checked + label:after {
+.gf-radio input:checked + label:after {
   -webkit-transform: scale(1);
       -ms-transform: scale(1);
           transform: scale(1);
+}
+.form-horizontal .radio.gf-checkbox label:before,
+.form-horizontal .checkbox.gf-checkbox label:before,
+.form-horizontal .radio-inline.gf-checkbox label:before,
+.form-horizontal .checkbox-inline.gf-checkbox label:before,
+.form-horizontal .radio.gf-radio label:before,
+.form-horizontal .checkbox.gf-radio label:before,
+.form-horizontal .radio-inline.gf-radio label:before,
+.form-horizontal .checkbox-inline.gf-radio label:before {
+  top: 7px !important;
+}
+.form-horizontal .radio.gf-checkbox label:after,
+.form-horizontal .checkbox.gf-checkbox label:after,
+.form-horizontal .radio-inline.gf-checkbox label:after,
+.form-horizontal .checkbox-inline.gf-checkbox label:after,
+.form-horizontal .radio.gf-radio label:after,
+.form-horizontal .checkbox.gf-radio label:after,
+.form-horizontal .radio-inline.gf-radio label:after,
+.form-horizontal .checkbox-inline.gf-radio label:after {
+  top: 5px !important;
 }
 .panel {
   border: none;

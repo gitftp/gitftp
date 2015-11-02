@@ -370,7 +370,11 @@ a.btn {
   }
 }
 
-.checkbox.gf-checkbox {
+.gf-checkbox {
+  display: block;
+  position:relative;
+  cursor: pointer;
+
   input {
     display: none;
   }
@@ -386,6 +390,7 @@ a.btn {
       border-radius: 4px;
       margin-top: 1px;
       left: 0;
+      top: 0;
       transition: all .2s;
     }
     &:after {
@@ -395,13 +400,12 @@ a.btn {
       height: 22px;
       width: 11px;
       border-radius: 0px;
-      margin-top: 3px;
-      left: 0;
-      top: 0;
-      margin-left: 4px;
+      left: 4px;
+      top: -4px;
       border-color: transparent @green @green transparent;
       transition: all .2s @easing;
       transform: scale(0) rotate(41deg);
+      transform-origin: center;
     }
   }
   input:checked + label {
@@ -415,7 +419,11 @@ a.btn {
   }
 }
 
-.radio.gf-radio {
+.gf-radio {
+  display: block;
+  position:relative;
+  cursor: pointer;
+
   input {
     display: none;
   }
@@ -454,6 +462,17 @@ a.btn {
     }
     &:after {
       transform: scale(1);
+    }
+  }
+}
+
+.form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline{
+  &.gf-checkbox, &.gf-radio{
+    label:before{
+      top: 7px !important;
+    }
+    label:after{
+      top: 5px !important;
     }
   }
 }

@@ -265,14 +265,19 @@ a.btn {
       -ms-transform: scale(0.9);
           transform: scale(0.9);
 }
-.checkbox.gf-checkbox input {
+.gf-checkbox {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.gf-checkbox input {
   display: none;
 }
-.checkbox.gf-checkbox label {
+.gf-checkbox label {
   padding-left: 25px;
   line-height: 21px;
 }
-.checkbox.gf-checkbox label:before {
+.gf-checkbox label:before {
   content: '';
   position: absolute;
   height: 18px;
@@ -281,43 +286,50 @@ a.btn {
   border-radius: 4px;
   margin-top: 1px;
   left: 0;
+  top: 0;
   -webkit-transition: all .2s;
           transition: all .2s;
 }
-.checkbox.gf-checkbox label:after {
+.gf-checkbox label:after {
   content: '';
   position: absolute;
   border: solid 2px;
   height: 22px;
   width: 11px;
   border-radius: 0px;
-  margin-top: 3px;
-  left: 0;
-  top: 0;
-  margin-left: 4px;
+  left: 4px;
+  top: -4px;
   border-color: transparent #00c853 #00c853 transparent;
   -webkit-transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
           transition: all 0.2s cubic-bezier(0.43, 0.96, 0.53, 0.98);
   -webkit-transform: scale(0) rotate(41deg);
       -ms-transform: scale(0) rotate(41deg);
           transform: scale(0) rotate(41deg);
+  -webkit-transform-origin: center;
+      -ms-transform-origin: center;
+          transform-origin: center;
 }
-.checkbox.gf-checkbox input:checked + label:before {
+.gf-checkbox input:checked + label:before {
   border-color: #dddddd;
 }
-.checkbox.gf-checkbox input:checked + label:after {
+.gf-checkbox input:checked + label:after {
   -webkit-transform: scale(1) rotate(41deg);
       -ms-transform: scale(1) rotate(41deg);
           transform: scale(1) rotate(41deg);
 }
-.radio.gf-radio input {
+.gf-radio {
+  display: block;
+  position: relative;
+  cursor: pointer;
+}
+.gf-radio input {
   display: none;
 }
-.radio.gf-radio label {
+.gf-radio label {
   padding-left: 25px;
   line-height: 21px;
 }
-.radio.gf-radio label:before {
+.gf-radio label:before {
   content: '';
   position: absolute;
   height: 18px;
@@ -329,7 +341,7 @@ a.btn {
           transition: all .2s;
   border-radius: 50px;
 }
-.radio.gf-radio label:after {
+.gf-radio label:after {
   content: '';
   position: absolute;
   height: 8px;
@@ -345,13 +357,33 @@ a.btn {
       -ms-transform: scale(0);
           transform: scale(0);
 }
-.radio.gf-radio input:checked + label:before {
+.gf-radio input:checked + label:before {
   border-color: #00c853;
 }
-.radio.gf-radio input:checked + label:after {
+.gf-radio input:checked + label:after {
   -webkit-transform: scale(1);
       -ms-transform: scale(1);
           transform: scale(1);
+}
+.form-horizontal .radio.gf-checkbox label:before,
+.form-horizontal .checkbox.gf-checkbox label:before,
+.form-horizontal .radio-inline.gf-checkbox label:before,
+.form-horizontal .checkbox-inline.gf-checkbox label:before,
+.form-horizontal .radio.gf-radio label:before,
+.form-horizontal .checkbox.gf-radio label:before,
+.form-horizontal .radio-inline.gf-radio label:before,
+.form-horizontal .checkbox-inline.gf-radio label:before {
+  top: 7px !important;
+}
+.form-horizontal .radio.gf-checkbox label:after,
+.form-horizontal .checkbox.gf-checkbox label:after,
+.form-horizontal .radio-inline.gf-checkbox label:after,
+.form-horizontal .checkbox-inline.gf-checkbox label:after,
+.form-horizontal .radio.gf-radio label:after,
+.form-horizontal .checkbox.gf-radio label:after,
+.form-horizontal .radio-inline.gf-radio label:after,
+.form-horizontal .checkbox-inline.gf-radio label:after {
+  top: 5px !important;
 }
 .panel {
   border: none;
@@ -599,6 +631,7 @@ body {
   color: #222222;
   font-weight: 400;
   background-color: rgba(245, 245, 245, 0.42);
+  overflow-y: scroll;
 }
 .small-text {
   font-size: 12px;
@@ -1646,10 +1679,14 @@ select:-webkit-autofill {
   -webkit-border-radius: 2px;
 }
 .promo-block .pb-header {
-  padding: 30px 60px;
+  padding: 30px 28px;
   border-top-right-radius: 2px;
   border-top-left-radius: 2px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+}
+.promo-block .pb-header .sp {
+  font-size: 24px;
+  font-weight: bold;
 }
 .promo-block .pb-header h1,
 .promo-block .pb-header h2,
@@ -1663,7 +1700,7 @@ select:-webkit-autofill {
 .promo-block .pb-content {
   overflow: hidden;
   position: relative;
-  padding: 60px;
+  padding: 28px;
   border-bottom-right-radius: 2px;
   border-bottom-left-radius: 2px;
 }
@@ -1675,11 +1712,15 @@ select:-webkit-autofill {
   bottom: -25%;
 }
 .promo-block .pb-content .price {
-  font-size: 60px;
-  line-height: 60px;
+  font-size: 48px;
+  line-height: 48px;
   font-weight: 100;
   margin-bottom: 15px;
   display: block;
+}
+.promo-block .pb-content .price .rupee {
+  vertical-align: middle;
+  opacity: .4;
 }
 .promo-block .pb-content .price .dollar {
   opacity: .4;
@@ -1690,13 +1731,39 @@ select:-webkit-autofill {
   text-transform: uppercase;
   font-weight: bold;
   display: block;
-  margin: 15px 0;
+  margin: -15px 0 0px;
+}
+.promo-block .pb-content .count {
+  background: white;
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: black;
+}
+.promo-block .pb-content .line {
+  line-height: 3px;
+  background: rgba(255, 255, 255, 0.3);
+}
+.promo-block .pb-content .line span {
+  margin: 0 auto;
+  width: 34px;
+  display: inline-block;
+}
+.success-background .line span {
+  background: #4CAF50;
+}
+.warning-background .line span {
+  background: #F57C00;
+}
+.info-background .line span {
+  background: #2196F3;
 }
 .promo-block .pb-content ul {
   list-style: none;
   padding: 0;
   margin: 0;
   margin-bottom: 20px;
+  margin-top: 15px;
 }
 .promo-block .pb-content:hover .icon-background,
 .promo-block .pb-content:focus .icon-background {
@@ -4451,6 +4518,11 @@ ul.portfolio-list li span:first-child {
 #header.menu-open {
   height: auto;
 }
+#header .logo {
+  display: inline-block;
+  height: 70px;
+  margin-right: 30px;
+}
 #header .logo a {
   height: 70px;
   display: block;
@@ -4477,6 +4549,20 @@ ul.portfolio-list li span:first-child {
     display: none;
   }
 }
+#header .menu {
+  display: inline-block;
+  vertical-align: top;
+}
+#header .menu.right {
+  float: right;
+}
+@media (max-width: 992px) {
+  #header .menu {
+    display: block;
+    vertical-align: inherit;
+    float: none !important;
+  }
+}
 #header .menu ul li.dropdown:hover > ul.dropdown-menu,
 #header .menu ul li.dropdown:focus > ul.dropdown-menu {
   display: block;
@@ -4499,7 +4585,7 @@ ul.portfolio-list li span:first-child {
   border: solid 3px transparent;
   padding: 4px 12px;
   border-radius: 4px;
-  margin-top: 17px;
+  margin: 17px 0;
   text-transform: uppercase;
 }
 #header .menu ul li a:hover {

@@ -61,12 +61,14 @@ class Deploy extends DeployHelper {
         $this->deploy_id = $deploy_id;
         $this->repo_home = DOCROOT . 'fuel/repository';
         $this->logfile = '/var/www/html/log';
-
         $this->m_deploy = new \Model_Deploy();
         $this->m_deploy->id = $this->deploy_id;
         $this->data = $this->m_deploy->get(NULL, NULL, TRUE);
 
+        \Log::info('CORE: DEPLOY SCRIPT INIT FOR ' . $deploy_id);
+
         if (count($this->data) !== 1) {
+            \Log::warning('CORE: DEPLOY DID NOT EXIST: ' . $deploy_id);
             throw new \Craftpip\Exception("Project id: $deploy_id does not exist.");
         } else {
             $this->data = $this->data[0];
@@ -81,7 +83,11 @@ class Deploy extends DeployHelper {
         $this->is_cloned = ($this->data['cloned'] == 1) ? TRUE : FALSE;
         $this->gitapi = new \Craftpip\GitApi($this->user_id); // get GIT API HELPER.
         $this->provider = strtolower(\Utils::parseProviderFromRepository($this->data['repository'])); // get current provider
-        chdir($this->repo_dir); // change to repo dir !!!. we are on repo dir forever. NO NEED TO CHANGE IT LATER.
+        try {
+            chdir($this->repo_dir); // change to repo dir !!!. we are on repo dir forever. NO NEED TO CHANGE IT LATER.
+        } catch (Exception $e) {
+            \Log::error('CORE: FOLDER COULD NOT BE CREATED. ' . $e->getMessage());
+        }
         $this->output('Current directory: ' . getcwd());
         $this->repo = $this->repo_dir;
         $this->mainRepo = $this->repo_dir;
@@ -150,7 +156,8 @@ class Deploy extends DeployHelper {
                 $branch_id = $this->record['branch_id'];
                 $branch = $this->m_branches->get_by_branch_id($branch_id);
                 if (count($branch) !== 1) {
-                    $this->log['error'] = 'ERROR 10004: Environment was not found';
+                    \Log::warning('CORE: ENV NOT FOUND.'. $branch_id);
+                    $this->log['error'] = 'ENV: ERROR 10004: Environment was not found';
                     throw new Exception('Branch/Environment not found.');
                 } else {
                     $this->branch = $branch[0];
@@ -185,6 +192,7 @@ class Deploy extends DeployHelper {
 
         } catch (Exception $e) {
 
+            \Log::error("CORE $this->deploy_id ERROR: " . $e->getMessage());
             $this->log('ERROR', $e->getCode() . ' ' . $e->getMessage());
 
             $this->m_record->set($this->record_id, array(
@@ -295,7 +303,7 @@ class Deploy extends DeployHelper {
 
         $this->ftp_data = $this->m_ftp->get($this->branch['ftp_id']);
         if (count($this->ftp_data) == 0) {
-            $this->log('error', 'Error 10005: Envionrment does not have a linked FTP account.');
+            $this->log('error', 'ENV: Error 10005: Envionrment does not have a linked FTP account.');
             throw new Exception('No linked ftp account');
         } else {
             $this->ftp_data = $this->ftp_data[0];
@@ -307,7 +315,7 @@ class Deploy extends DeployHelper {
             $this->output('FTP connection attempt: ' . $this->attempt);
             $this->attempt += 1;
             if ($this->attempt == 5) {
-                $this->log('error', 'Error 10006: Could not connect to FTP server at 5 attempts.');
+                $this->log('error', 'FTP: Error 10006: Could not connect to FTP server at 5 attempts.');
                 throw new Exception('Could not connect to FTP server');
             }
         }
@@ -348,7 +356,7 @@ class Deploy extends DeployHelper {
             $this->localRevision = trim($this->localRevision[0]);
 
         if ($this->localRevision == $this->remoteRevision)
-            $this->log('Note: remote server has latest changes');
+            $this->log('Note: Remote server has latest changes');
 
         $this->log('Revision to update: ' . $this->localRevision);
 
@@ -368,7 +376,7 @@ class Deploy extends DeployHelper {
         $revision = $this->localRevision;
         $this->prepareServer();
         $this->connect();
-        $this->log('connected to ftp server.');
+        $this->log('Connected to ftp server.');
         $files = $this->compare();
         $this->push($files);
 

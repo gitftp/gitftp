@@ -2,7 +2,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>Guide</h1>
+                <h1>HELP TOPICS</h1>
                 <p class="">Professionally iterate efficient best practices and cooperative communities</p>
                 <ol class="breadcrumb">
                     <li><a href="<?php

@@ -7,8 +7,8 @@
 <?php
 $color = 'black';
 $e = '';
-$s = Uri::segments();
-if (count($s) == 0 || $s[0] == 'welcome') {
+$s = \Uri::segments();
+if (count($s) == 0 || $s[0] == 'welcome' || $s[0] == 'home') {
 //    $color = 'white';
     $e = 'home';
 }
@@ -17,16 +17,28 @@ if (count($s) == 0 || $s[0] == 'welcome') {
 <header id="header" class="transparent <?php echo $color; ?>-header header active-section <?php echo $e ?>">
     <div class="container">
         <div class="row" style="position: relative">
-            <div class="col-md-3">
+            <div class="col-md-12">
                 <div class="logo">
-                    <a href="<?php echo home_url.'home'; ?>" title="">
+                    <a href="<?php echo home_url . 'home'; ?>" title="">
                         <img src="assets/img/logo-sm-2-name.png" class="black-logo standard-logo middle-content" alt="">
                         <img src="assets/img/logo-sm-2w-name.png" class="white-logo standard-logo middle-content" alt="">
                     </a>
                 </div>
-            </div>
-            <div class="col-md-9 menu-col text-right">
                 <div class="menu">
+                    <ul class="list-inline">
+                        <li class="">
+                            <a class="" href="<?php echo home_url . 'pricing'; ?>">
+                                Pricing
+                            </a>
+                        </li>
+<!--                        <li class="">-->
+<!--                            <a class="" href="--><?php //echo home_url . 'guide'; ?><!--">-->
+<!--                                Guide-->
+<!--                            </a>-->
+<!--                        </li>-->
+                    </ul>
+                </div>
+                <div class="menu right">
                     <ul class="list-inline">
                         <?php if (\Auth::instance()->check()) { ?>
                             <li class="">

@@ -272,7 +272,7 @@
             });
         },
         stickyPage: function () {
-            $st = $('$st');
+            var $st = $('$st');
             $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0 });
         },
         pageFeedback: function () {

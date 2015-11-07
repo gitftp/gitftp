@@ -557,7 +557,7 @@
                         }
                     }).always(function (data) {
                         $form.find(':input').removeAttr('disabled');
-                        $form.find('button').html('<i class="fa fa-lock fa-fw" style=""></i> Signup');
+                        $form.find('button').html('<i class="fa fa-lock fa-fw" style=""></i> Login');
                     });
                 },
                 rules: {

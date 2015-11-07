@@ -5,19 +5,19 @@ $env = array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
         'protocol' => 'https',
-        'debug'    => FALSE
+        'debug'    => TRUE
     ),
     'staging'     => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
         'protocol' => 'https',
-        'debug'    => FALSE
+        'debug'    => TRUE
     ),
     'test'        => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
         'protocol' => 'http',
-        'debug'    => FALSE
+        'debug'    => TRUE
     ),
     'development' => array( // dev -> local server.
         'home'     => 'stg-home.gitftp.com',

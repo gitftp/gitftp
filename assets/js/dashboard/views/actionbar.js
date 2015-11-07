@@ -25,6 +25,7 @@ define([
                 '</form>',
                 confirmButton: 'Send',
                 cancelButton: 'close',
+                keyboardEnabled: false,
                 confirm: function () {
                     this.sendMessage();
                     return false;

@@ -1,3 +1,6 @@
+<a class="btn btn-default disabled" href="<?php echo \Uri::create('administrator/feedback') ?>">General feedback</a>
+<a class="btn btn-default" href="<?php echo \Uri::create('administrator/feedback/page') ?>">Page feedback</a>
+<div style="height: 10px"></div>
 <div class="panel panel-default">
     <div class="panel-heading">
         Feedback
@@ -52,10 +55,10 @@
     $('span.delete').click(function () {
         if (!confirm('sure?'))
             return false;
-
+        var t = $(this);
         var id = $(this).attr('data-id');
-        $.get('delete/' + id, function (data) {
-            alert(data);
+        $.get('feedback/delete/' + id, function (data) {
+            t.html('Deleted');
         })
     });
 </script>

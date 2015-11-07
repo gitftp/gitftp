@@ -262,13 +262,75 @@
             this.resetPasswordConfirmed();
             this.footerAlign();
             this.socialLogins();
+            this.pageFeedback();
+            this.stickyPage();
 
             $('.browser-screens').flexslider({
                 animation: 'slide',
                 slideshowSpeed: 10000,
                 directionNav: false
             });
+        },
+        stickyPage: function () {
+            $st = $('$st');
+            $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0 });
+        },
+        pageFeedback: function () {
+            var that = this;
+            $('.page-feedback').click(function (e) {
+                var $this = $(this);
+                e.preventDefault();
+                if ($this.data('type') == 0) {
+                    $.confirm({
+                        title: 'Sorry about that',
+                        content: 'Please let us know what you were looking for, or how can we improve it?' +
+                        '<textarea style="resize: none" placeholder="Write to us (optional)"></textarea>',
+                        confirmButton: 'Send',
+                        cancelButton: 'Dismiss',
+                        keyboardEnabled: false,
+                        confirm: function () {
+                            var jc = this;
+                            this.$btnc.find('button').prop('disabled', true);
+                            this.$confirmButton.html('<i class="fa fa-spinner fa-spin"></i> Sending');
+                            this.contentDiv.find('textarea').prop('disabled', true);
+                            var pageid = $this.attr('data-page-id');
+                            var type = $this.attr('data-type');
+                            var message = jc.contentDiv.find('textarea').val();
+                            that.sendfeedback(pageid, type, message, function () {
+                                jc.close();
+                            });
+                            return false;
+                        }
+                    })
+                } else {
+                    var pageid = $this.attr('data-page-id');
+                    var type = $this.attr('data-type');
+                    var message = 'Page helpful';
+                    that.sendfeedback(pageid, type, message);
+                }
+            });
+        },
+        sendfeedback: function (pageid, type, message, callback) {
+            $.ajax({
+                url: home_url + 'api/pagefeedback',
+                data: {
+                    pageid: pageid,
+                    type: type,
+                    message: message,
+                },
+                method: 'post',
+                dataType: 'json'
+            }).always(function () {
+                if (typeof callback == 'function')
+                    callback();
 
+                $.alert({
+                    title: false,
+                    content: '<div class="space10"></div>' +
+                    'Thanks for your feedback',
+                    confirmButton: 'Close',
+                });
+            });
         },
         signup: function () {
             this.$signupform = $('#home-signup')
@@ -601,7 +663,7 @@
                                 }
                             });
 
-                            setTimeout(function(){
+                            setTimeout(function () {
                                 window.location.reload();
                             }, 2000);
                         } else {
@@ -667,20 +729,3 @@
         app.footerAlign();
     });
 })(jQuery);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

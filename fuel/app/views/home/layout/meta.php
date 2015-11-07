@@ -13,7 +13,7 @@ $data = $seo->getByUrl($s);
 <meta name="Keywords" content="<?php echo $data['keywords'] ?>"/>
 <meta name="author" content="The Gitftp Team">
 <link rel="canonical" href="<?php echo \Fuel\Core\Uri::current() ?>"/>
-<link rel="icon" type="img/ico" href="favicon.ico">
+<link rel="icon" type="img/ico" href="<?php echo \Uri::base(); ?>favicon.ico">
 <meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8"/>
 <meta name="robots" content="index,follow,noodp,noydir"/>
 <meta property="og:title" content="<?php echo $data['title'] ?>"/>

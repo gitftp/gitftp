@@ -3,7 +3,9 @@
 class Model_Messages extends Model {
 
     private $table = 'messages';
+    public $conn = 'frontend';
     public $type_feedback = 1;
+    public $type_pagefeedback = 2;
     public $user_id;
 
     public function __construct($user_id = NULL) {
@@ -40,7 +42,12 @@ class Model_Messages extends Model {
 
         $q = $q->order_by('id', $order);
 
-        $a = $q->execute()->as_array();
+        $a = $q->execute($this->conn)->as_array();
+
+        foreach ($a as $_k => $_v) {
+            if (Str::is_serialized($a[$_k]['extras']))
+                $a[$_k]['extras'] = unserialize($a[$_k]['extras']);
+        }
 
         return $a;
     }
@@ -54,7 +61,7 @@ class Model_Messages extends Model {
             }
         }
 
-        return DB::update($this->table)->set($set)->where('id', $id)->execute();
+        return DB::update($this->table)->set($set)->where('id', $id)->execute($this->conn);
     }
 
     public function delete($id, $direct = FALSE) {
@@ -62,7 +69,7 @@ class Model_Messages extends Model {
         if (!$direct)
             $a = $a->and_where('user_id', $this->user_id);
 
-        return $a->execute();
+        return $a->execute($this->conn);
     }
 
     public function insert($ar, $user_id = NULL) {
@@ -71,10 +78,12 @@ class Model_Messages extends Model {
         } else {
             $ar['user_id'] = $user_id;
         }
+        if (isset($ar['extras']))
+            $ar['extras'] = serialize($ar['extras']);
 
         $r = DB::insert($this->table)
             ->set($ar)
-            ->execute();
+            ->execute($this->conn);
 
         return $r[0];
     }

@@ -41,13 +41,13 @@
                     <div class="browser-screens">
                         <ul class="slides">
                             <li>
-                                <?php echo Asset::img('generic/1-1.png', array()); ?>
+                                <?php echo Asset::img('generic/1-1.jpg', array()); ?>
                             </li>
                             <li>
-                                <?php echo Asset::img('generic/2-1.png', array()); ?>
+                                <?php echo Asset::img('generic/2-1.jpg', array()); ?>
                             </li>
                             <li>
-                                <?php echo Asset::img('generic/3-1.png', array()); ?>
+                                <?php echo Asset::img('generic/3-1.jpg', array()); ?>
                             </li>
                         </ul>
                     </div>

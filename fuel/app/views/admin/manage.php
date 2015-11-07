@@ -191,7 +191,7 @@
 
     <div class="panel panel-default">
         <div class="panel-heading">
-            Environments
+            Records
         </div>
         <table class="table table-condensed table-bordered">
             <tr>

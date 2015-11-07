@@ -14,7 +14,7 @@
 <br/>
 <div class="panel panel-default">
     <div class="panel-heading">
-        Projects
+        SEO records
     </div>
     <table class="table table-condensed table-bordered">
         <tr>
@@ -37,22 +37,23 @@
             </th>
         </tr>
         <?php foreach ($list as $d) { ?>
-            <tr>
+            <tr data-id="<?php echo $d['id']; ?>">
                 <td>
-                    <?php echo $d['id'] ?>
+                    <?php echo $d['id']; ?>
                 </td>
                 <td>
-                    <?php echo $d['path'] ?>
+                    <input class="form-control" type="text" data-name="path" value="<?php echo $d['path'] ?>"/>
                 </td>
                 <td>
-                    <?php echo $d['data']['title'] ?>
+                    <input class="form-control" type="text" data-name="title" value="<?php echo $d['data']['title'] ?>"/>
                 </td>
                 <td>
-                    <?php echo $d['data']['description'] ?>
+                    <textarea class="form-control" data-name="description"><?php echo $d['data']['description'] ?></textarea>
                 </td>
                 <td>
-                    <?php echo $d['data']['keywords'] ?>
+                    <textarea class="form-control" data-name="keywords"><?php echo $d['data']['keywords'] ?></textarea>
                 </td>
+
                 <td class="text-center">
                     <a href="<?php
                     echo Uri::create('administrator/seo/edit/' . $d['id'])
@@ -67,3 +68,30 @@
         <?php } ?>
     </table>
 </div>
+<style>
+    textarea{
+        resize: vertical;
+    }
+</style>
+<script>
+    $(function(){
+        $('[data-name]').keyup(function(){
+            var id = $(this).parents('tr').attr('data-id');
+            var name = $(this).attr('data-name');
+            var val = $(this).val();
+
+            $.ajax({
+                url: '',
+                method:'post',
+                dataType: 'json',
+                data: {
+                    id: id,
+                    name: name,
+                    val: val,
+                }
+            }).done(function(res){
+                console.log(res);
+            });
+        });
+    })
+</script>

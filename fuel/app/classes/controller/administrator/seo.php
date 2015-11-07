@@ -1,7 +1,7 @@
 <?php
 
 class Controller_Administrator_Seo extends Controller_Administrator_Admincheck {
-    public function action_index() {
+    public function get_index() {
         $seo_list = [];
 
         $seo = new Model_Seo();
@@ -25,6 +25,23 @@ class Controller_Administrator_Seo extends Controller_Administrator_Admincheck {
                 'list' => $seo_list
             ), FALSE)
         ), FALSE);
+    }
+
+    public function post_index() {
+        $data = \Input::post();
+        $seo = new \Model_Seo();
+        $data = $seo->getById($data['id']);
+
+        $name = \Input::post('name', NULL);
+        $val = \Input::post('val', NULL);
+
+        if($name == 'path'){
+            $data['path'] = $val;
+        }else{
+            $data['data'][$name] = $val;
+        }
+
+        $seo->update(\Input::post('id'), $data['path'], $data['data']);
     }
 
     public function get_create() {

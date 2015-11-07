@@ -9,20 +9,39 @@ class Model_Seo extends Model {
         $this->db = 'frontend';
     }
 
-
+    /**
+     *
+     *   $default = [
+        'title'       => 'Gitftp',
+        'description' => 'Gitftp description',
+        'keywords'    => 'some other key words and things like that',
+        'author'      => ''
+        ];
+     *
+     * @param string $url
+     * @return mixed
+     */
     public function getByUrl($url = '/') {
-//        $default = [
-//            'title'       => 'Gitftp',
-//            'description' => 'Gitftp description',
-//            'keywords'    => 'some other key words and things like that',
-//            'author'      => ''
-//        ];
+        if($url == 'home' || $url == 'welcome')
+            $url = '/';
 
         $d = \DB::select()->from($this->table)->where('path', $url)->execute($this->db)->as_array();
-        if (!count($d))
-            return $this->getByUrl('default');
+        $default = \DB::select()->from($this->table)->where('path', 'default')->execute($this->db)->as_array();
 
-        return unserialize($d[0]['data']);
+        if(!count($d)){
+            $d = $default;
+            $d = unserialize($d[0]['data']);
+        }else{
+            $d = unserialize($d[0]['data']);
+            $default = unserialize($default[0]['data']);
+
+            $d['description'] = empty($d['description']) ? $default['description'] : $d['description'];
+            $d['keywords'] = empty($d['keywords']) ? $default['keywords'] : $d['keywords'];
+            $d['title'] = empty($d['title']) ? $default['title'] : $d['title'];
+        }
+
+
+        return $d;
     }
 
     public function getById($id) {

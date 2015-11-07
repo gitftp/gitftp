@@ -45,12 +45,12 @@
                         <span class="sp">Basic</span><br/>for Freelancers
                     </div>
                     <div class="pb-content success-background clearfix">
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 249</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 199</span>
                         <span class="date">Monthly</span>
                         <div class="line">
                             <span>OR</span>
                         </div>
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 2499</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 1999</span>
                         <span class="date">Yearly</span>
                         <div class="space20"></div>
                         <ul>
@@ -68,18 +68,18 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
-                <div class="promo-block grey-background" data-animate="fadeInRight">
+                <div class="promo-block grey-background shadow-2" data-animate="fadeInRight">
                     <div class="pb-header warning-background">
                         <span class="sp">Team</span><br/>for Small Businesses
                     </div>
                     <div class="pb-content warning-background clearfix">
                         <i class="icon-background large icon-flag"></i>
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 499</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 429</span>
                         <span class="date">Monthly</span>
                         <div class="line">
                             <span>OR</span>
                         </div>
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 5499</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 4299</span>
                         <span class="date">Yearly</span>
                         <div class="space20"></div>
                         <ul>
@@ -97,17 +97,17 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-6">
-                <div class="promo-block grey-background" data-animate="fadeInRight">
+                <div class="promo-block grey-background shadow-2" data-animate="fadeInRight">
                     <div class="pb-header info-background">
                         <span class="sp">Pro</span><br/>for Professionals
                     </div>
                     <div class="pb-content info-background clearfix">
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 999</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 859</span>
                         <span class="date">Monthly</span>
                         <div class="line">
                             <span>OR</span>
                         </div>
-                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 9999</span>
+                        <span class="price"><span class="rupee"><i class="fa fa-rupee"></i></span> 8599</span>
                         <span class="date">Yearly</span>
                         <div class="space20"></div>
                         <ul>

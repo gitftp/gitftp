@@ -12,19 +12,19 @@ if (is_dash) {
     );
 } else {
     $routes = array(
-        'home'                                                       => 'welcome',
-        'login'                                                      => 'user/login',
-        'signup'                                                     => 'user/signup',
-        'forgot-password'                                            => 'user/forgotpassword',
-        'terms'                                                      => 'pages/terms',
-        'pricing'                                                    => 'pages/pricing',
-        'docs'                                                       => 'pages/guide',
-        'docs/(:segment)'                                            => 'pages/guide/$1',
-        'api/(:segment)'                                             => 'home_api/$1',
-        'api/(:segment)/(:segment)'                                  => 'home_api/$1/$2',
-        'api/(:segment)/(:segment)/(:segment)'                       => 'home_api/$1/$2/$3',
-        'api/(:segment)/(:segment)/(:segment)/(:segment)'            => 'home_api/$1/$2/$3/$4',
-        'api/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)' => 'home_api/$1/$2/$3/$4/$5',
+        'home'                                                        => 'welcome',
+        'login'                                                       => 'user/login',
+        'signup'                                                      => 'user/signup',
+        'forgot-password'                                             => 'user/forgotpassword',
+        'terms'                                                       => 'pages/terms',
+        'pricing'                                                     => 'pages/pricing',
+        'docs'                                                        => 'pages/guide',
+        'docs/(:segment)'                                             => 'pages/guide/$1',
+        'hapi/(:segment)'                                             => 'home_api/$1',
+        'hapi/(:segment)/(:segment)'                                  => 'home_api/$1/$2',
+        'hapi/(:segment)/(:segment)/(:segment)'                       => 'home_api/$1/$2/$3',
+        'hapi/(:segment)/(:segment)/(:segment)/(:segment)'            => 'home_api/$1/$2/$3/$4',
+        'hapi/(:segment)/(:segment)/(:segment)/(:segment)/(:segment)' => 'home_api/$1/$2/$3/$4/$5',
     );
 }
 

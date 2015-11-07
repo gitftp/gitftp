@@ -312,7 +312,7 @@
         },
         sendfeedback: function (pageid, type, message, callback) {
             $.ajax({
-                url: home_url + 'api/pagefeedback',
+                url: home_url + 'hapi/pagefeedback',
                 data: {
                     pageid: pageid,
                     type: type,

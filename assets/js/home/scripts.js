@@ -272,7 +272,7 @@
             });
         },
         stickyPage: function () {
-            var $st = $('$st');
+            var $st = $('#st');
             $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0 });
         },
         pageFeedback: function () {
@@ -324,12 +324,7 @@
                 if (typeof callback == 'function')
                     callback();
 
-                $.alert({
-                    title: false,
-                    content: '<div class="space10"></div>' +
-                    'Thanks for your feedback',
-                    confirmButton: 'Close',
-                });
+                $('.article-helper').html('<li>Thanks for your feedback!</li>');
             });
         },
         signup: function () {

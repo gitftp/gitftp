@@ -112,7 +112,7 @@
                         <div class="space20"></div>
                         <ul>
                             <li>
-                                <span class="count">UNLIMITED</span> Projects<br/>
+                                <span class="count">TWENTY</span> Projects<br/>
                                 <div class="space5"></div>
                             </li>
                             <li>Unlimited Environments</li>

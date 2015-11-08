@@ -31,10 +31,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-2">
-                <div class="sidebar">
+                <div class="sidebar" id="st" data-top="90" data-bottom="100">
                     <div class="widget">
                         <h3 class="widget-title">Getting started</h3>
-
                         <div class="list-group list-group-cp">
                             <?php foreach ($doc_list as $p) { ?>
                                 <a href="<?php echo \Uri::create('docs/' . $p['slug']) ?>" class="list-group-item <?php echo $slug == $p['slug'] ? 'active-item' : '' ?>"><?php echo $p['title'] ?></a>
@@ -77,7 +76,7 @@
                                 <?php echo $page['content']; ?>
                             </div>
                             <div class="entry-bottom">
-                                <ul class="list-inline text-right">
+                                <ul class="list-inline text-right article-helper">
                                     <li>Was this article helpful?</li>
                                     <li>
                                         <a class="green page-feedback" data-type="1" data-page-id="<?php echo $page['id'] ?>" href="#" title="">

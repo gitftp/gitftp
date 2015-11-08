@@ -14,5 +14,6 @@ echo Asset::js(array(
     'vendor/jquery.form.min.js',
     'vendor/isotope.pkgd.min.js',
     'vendor/jquery-confirm.min.js',
+    'vendor/sticky.js',
     'home/scripts.js',
 ));

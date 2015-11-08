@@ -68,9 +68,9 @@ define([
                             if (data.status) {
                                 that.close();
                                 $.alert({
-                                    title: 'Submitted',
-                                    icon: 'fa fa-thumbs-up blue',
-                                    content: 'Thank you for your support, we appreciate it.',
+                                    title: 'You\'re awesome',
+                                    icon: 'fa fa-thumbs-up green',
+                                    content: 'Thanks for your support, we appreciate it.',
                                     confirmButton: 'close'
                                 })
                             }

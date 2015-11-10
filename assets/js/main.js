@@ -21,7 +21,8 @@ $(function () {
                 switch (data.status) {
                     case 0:
                         _problem({
-                            content: 'This is temporary!, <br>Seems like your internet isn\'t working at the moment.',
+                            title: 'Cannot connect',
+                            content: 'This is temporary, <br>It seems like your internet isn\'t working at the moment.',
                             confirm: function () {
                                 location.reload();
                                 return false;
@@ -35,7 +36,8 @@ $(function () {
                     default:
                         _problem({
                             title: false,
-                            content: 'Something went wrong, Please reload the browser and try again. <br><code>Error code: '+data.status+'</code>',
+                            content: '<div class="space10"></div>' +
+                            'Something is not right, Please reload the browser and try again. <br>Error code: <code>' + data.status + '</code>',
                             icon: 'fa fa-exclamation-circle',
                             confirm: function () {
                                 history.back();
@@ -66,7 +68,7 @@ $(function () {
     window._problem = function (a) {
         var b = {};
         $.extend(b, a, {
-            title: a.title || 'Problem',
+            title: typeof a.title == 'undefined' ? 'Problem' : a.title,
             content: a.content || 'Please try again later.',
             icon: 'fa fa-warning',
             confirmButtonClass: 'btn-warning'
@@ -115,7 +117,28 @@ $(function () {
             document.title = window.defaultTitle;
     }
 
-    $.easing.jswing=$.easing.swing,$.extend($.easing,{easeOutQuart:function(f,d,c,b,g){return -b*((d=d/g-1)*d*d*d-1)+c},easeOutExpo:function(f,d,c,b,g){return d==g?c+b:b*(-Math.pow(2,-10*d/g)+1)+c},easeOutElastic:function(h,f,d,c,k){var b=1.70158,j=0,g=c;if(0==f){return d}if(1==(f/=k)){return d+c}if(j||(j=0.3*k),g<Math.abs(c)){g=c;var b=j/4}else{var b=j/(2*Math.PI)*Math.asin(c/g)}return g*Math.pow(2,-10*f)*Math.sin((f*k-b)*2*Math.PI/j)+c+d}});
+    $.easing.jswing = $.easing.swing, $.extend($.easing, {
+        easeOutQuart: function (f, d, c, b, g) {
+            return -b * ((d = d / g - 1) * d * d * d - 1) + c
+        }, easeOutExpo: function (f, d, c, b, g) {
+            return d == g ? c + b : b * (-Math.pow(2, -10 * d / g) + 1) + c
+        }, easeOutElastic: function (h, f, d, c, k) {
+            var b = 1.70158, j = 0, g = c;
+            if (0 == f) {
+                return d
+            }
+            if (1 == (f /= k)) {
+                return d + c
+            }
+            if (j || (j = 0.3 * k), g < Math.abs(c)) {
+                g = c;
+                var b = j / 4
+            } else {
+                var b = j / (2 * Math.PI) * Math.asin(c / g)
+            }
+            return g * Math.pow(2, -10 * f) * Math.sin((f * k - b) * 2 * Math.PI / j) + c + d
+        }
+    });
 
     (function ($) {
         $.fn.serializeObject = function () {

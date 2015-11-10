@@ -256,6 +256,7 @@
 
     var app = {
         init: function () {
+            var that = this;
             this.login();
             this.signup();
             this.resetPassword();
@@ -264,6 +265,11 @@
             this.socialLogins();
             this.pageFeedback();
             this.stickyPage();
+            this.pageContentImage();
+            $(window).resize(function(){
+                that.pageContentImage();
+                that.stickyPage();
+            });
 
             $('.browser-screens').flexslider({
                 animation: 'slide',
@@ -271,9 +277,32 @@
                 directionNav: false
             });
         },
+        pageContentImage: function () {
+            var $el = $('.entry-content img');
+            $.each($el, function (i, a) {
+                var $e = $(this);
+                var w = $e.attr('data-width');
+                if (w) {
+                    var pw = $e.parents('.entry-content').outerWidth();
+                    if (w > pw)
+                        $e.css({
+                            'width': pw
+                        });
+                    else
+                        $e.removeAttr('style');
+                } else {
+                    $e.attr('data-width', $e.width());
+                }
+            });
+        },
         stickyPage: function () {
             var $st = $('#st');
-            $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0 });
+            var w = $(window).width();
+            if(w > 992){
+                $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0});
+            }else{
+                $st.unstick();
+            }
         },
         pageFeedback: function () {
             var that = this;

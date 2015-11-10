@@ -7,6 +7,8 @@ class Controller_Test extends Controller {
 
     public function get_eva() {
         print_r(Utils::isDisposableEmail('asda@gmail.com'));
+        \Fuel\Core\Log::debug('asda');
+
     }
 
     public

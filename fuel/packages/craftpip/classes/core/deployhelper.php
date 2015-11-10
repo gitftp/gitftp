@@ -161,31 +161,32 @@ Class DeployHelper {
 //            $this->connection->cd($origin);
 //        }
 //    }
+
     public function purge($purgeDirs) {
         foreach ($purgeDirs as $dir) {
             $this->output('------ ' . $dir);
             $origin = $this->connection->pwd();
             if (substr($dir, 0, 1) == '/') {
-                $this->log("Warning: Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
+                $this->log("PURGE: Warning, Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
                 $dir = substr($dir, 1, strlen($dir));
                 if (trim($dir) == '') {
-                    $this->log("Warning: Cannot purge home directory.");
+                    $this->log("PURGE: Warning, Cannot purge home directory.");
                     continue;
                 } else {
-                    $this->log("Using $dir instead");
+                    $this->log("PURGE: Using $dir instead");
                 }
             }
 
             try {
                 $this->connection->cd($dir);
             } catch (Exception $e) {
-                $this->log('Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
+                $this->log('PURGE: Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
                 continue;
             }
 
             if (!$tmpFiles = $this->connection->ls()) {
-                $this->output("Nothing to purge in {$dir}");
-                $this->log("Nothing to purge in {$dir}");
+                $this->output("PURGE: Nothing to purge in {$dir}");
+                $this->log("PURGE: Nothing to purge in {$dir}");
                 continue;
             }
 
@@ -203,12 +204,13 @@ Class DeployHelper {
                         $this->connection->rm($file);
                         $this->output("Purged file $file");
                     } catch (Exception $e) {
-                        $this->log('could not purge file: ' . $file);
+                        $this->log('PURGE: could not purge file: ' . $file);
                     }
                 }
             }
 
-            $this->output("Purged {$dir}");
+            $this->output("PURGE: Purged {$dir}");
+            $this->log("PURGE: Purged {$dir}");
             $this->connection->cd($origin);
         }
     }
@@ -302,9 +304,9 @@ Class DeployHelper {
         return $this->runCommand($command, ($repoPath === FALSE) ? FALSE : NULL);
     }
 
-    // start in bg
+    // start in bg - UPDATE
     public static function deploy_in_bg($deploy_id) {
-        // todo: update this.
+        // todo: This is moved in Utils,  no need for it to be here.
         shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
 
         return TRUE;

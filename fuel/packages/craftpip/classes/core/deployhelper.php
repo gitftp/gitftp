@@ -161,10 +161,10 @@ Class DeployHelper {
 
     public function purge($purgeDirs) {
         foreach ($purgeDirs as $dir) {
-            $this->output('------ ' . $dir);
+            $this->output('Purging ' . $dir);
             $origin = $this->connection->pwd();
             if (\Str::starts_with($dir, '/')) {
-                $this->log("PURGE: Warning: Please use path relative to FTP root directory: $dir.");
+                $this->log("PURGE: Warning: Please use path relative to FTP root directory: '$dir'.");
                 $odir = $dir;
                 $dir = preg_replace('/^(\/+)/', '', $dir);
                 if (trim($dir) == '') {
@@ -172,7 +172,7 @@ Class DeployHelper {
                     $this->connection->cd($origin);
                     continue;
                 } else {
-                    $this->log("PURGE: Using directory $dir instead of $odir");
+                    $this->log("PURGE: Using directory '$dir' instead of '$odir'");
                 }
             }
             try {
@@ -185,8 +185,8 @@ Class DeployHelper {
             }
 
             if (!$tmpFiles) {
-                $this->output("PURGE: Nothing to purge in dir {$dir}");
-                $this->log("PURGE: Nothing to purge in dir {$dir}");
+                $this->output("PURGE: Nothing to purge in dir '{$dir}'");
+                $this->log("PURGE: Nothing to purge in dir '{$dir}'");
                 $this->connection->cd($origin);
                 continue;
             }
@@ -203,7 +203,7 @@ Class DeployHelper {
                     // Its a file. remove it !
                     try {
                         $this->connection->rm($file);
-                        $this->output("Purged file $file");
+                        $this->output("Purged file '$file'");
                     } catch (Exception $e) {
                         $this->log('PURGE: could not purge file: ' . $file);
                     }
@@ -211,7 +211,7 @@ Class DeployHelper {
             }
 
             $this->output("PURGE: Purged {$dir}");
-            $this->log("PURGE: Purged dir {$dir}");
+            $this->log("PURGE: Purged dir '{$dir}'");
             $this->connection->cd($origin);
         }
     }

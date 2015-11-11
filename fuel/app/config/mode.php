@@ -5,13 +5,13 @@ $env = array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
         'protocol' => 'https',
-        'debug'    => TRUE
+        'debug'    => FALSE
     ),
     'staging'     => array(
         'home'     => 'www.gitftp.com',
         'dash'     => 'console.gitftp.com',
         'protocol' => 'https',
-        'debug'    => TRUE
+        'debug'    => FALSE
     ),
     'test'        => array(
         'home'     => 'www.gitftp.com',

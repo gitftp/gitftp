@@ -146,23 +146,22 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
             $branch = new Model_Branch();
             $branch_data = $branch->get_by_branch_id($id);
             if (count($branch_data) !== 1) {
-                throw new Exception('Sorry, we got confused. Please reload your browser and try again.');
+                throw new \Craftpip\Exception('Sorry, we got confused. Please reload your browser and try again.');
             }
 
             $branch_data = $branch_data[0];
             $deploy_id = $branch_data['deploy_id'];
-            $repo_dir = Utils::get_repo_dir($deploy_id);
+            $repo_dir = \Utils::get_repo_dir($deploy_id);
             $git = new \PHPGit\Git();
             $git->setRepository($repo_dir);
 
             $branches = $git->branch();
             if (array_key_exists($hash, $branches))
-                throw new Exception('The hash provided is a Branch. Please enter a valid hash');
+                throw new \Craftpip\Exception('The hash provided is a Branch. Please enter a valid hash');
 
             $tags = $git->tag();
             if (\Arr::in_array_recursive($hash, $tags))
-                throw new Exception('The hash provided is a Tag. Please enter a valid hash');
-
+                throw new \Craftpip\Exception('The hash provided is a Tag. Please enter a valid hash');
 
             $hash = Utils::git_verify_hash($branch_data['deploy_id'], $hash);
 
@@ -176,10 +175,11 @@ class Controller_Api_Branch extends Controller_Api_Apilogincheck {
                     'hash'   => $hash
                 );
             } else {
-                throw new Exception('The hash provided is not valid or does not exist in the repository.');
+                throw new \Craftpip\Exception('The hash provided is not valid or does not exist in the repository.');
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status' => FALSE,
                 'reason' => $e->getMessage()

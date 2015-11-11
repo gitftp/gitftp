@@ -3,16 +3,13 @@
 class Controller_Api_Records extends Controller_Api_Apilogincheck {
 
     public function get_get($deploy_id = NULL) {
-
         try {
             $i = Input::get();
             $limit = isset($i['limit']) ? $i['limit'] : FALSE;
             $offset = isset($i['offset']) ? $i['offset'] : FALSE;
             $record = new Model_Record();
             $data = $record->get($deploy_id, $limit, $offset);
-
             $branch = new Model_Branch();
-
             foreach ($data as $k => $v) {
                 $data[$k]['branch'] = $branch->get_by_branch_id($v['branch_id']);
                 $data[$k]['raw'] = (!empty($data[$k]['raw'])) ? TRUE : FALSE;
@@ -56,7 +53,7 @@ class Controller_Api_Records extends Controller_Api_Apilogincheck {
             }
 
             $this->response(array(
-                'status' => FALSE,
+                'status' => TRUE,
                 'data'   => $string,
             ), 200);
 
@@ -69,7 +66,6 @@ class Controller_Api_Records extends Controller_Api_Apilogincheck {
     }
 
     public function action_payload($record_id) {
-
         try {
             $record = new Model_Record();
             $record = $record->get_post_data_by_record($record_id);
@@ -84,7 +80,7 @@ class Controller_Api_Records extends Controller_Api_Apilogincheck {
             }
 
             $this->response(array(
-                'status' => FALSE,
+                'status' => TRUE,
                 'data'   => $data,
             ), 200);
 
@@ -94,8 +90,6 @@ class Controller_Api_Records extends Controller_Api_Apilogincheck {
                 'status' => FALSE,
                 'reason' => $e->getMessage(),
             ), $e->getCode());
-
         }
-
     }
 }

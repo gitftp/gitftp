@@ -531,7 +531,12 @@ class Deploy extends DeployHelper {
                     $data = file_get_contents($this->repo . '/' . $file);
                     $this->output($this->repo . '/' . $file);
                     $remoteFile = $file;
-                    $uploaded = $this->connection->put($data, $remoteFile);
+
+                    try {
+                        $uploaded = $this->connection->put($data, $remoteFile);
+                    } catch (Exception $e) {
+                        $uploaded = FALSE;
+                    }
 
                     if (!$uploaded) {
                         $attempts = $attempts + 1;

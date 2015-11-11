@@ -74,8 +74,10 @@ class Crontask {
     public function deploy2($deploy_id) {
         \Cli::write('ENVIRONMENT: '.\Fuel::$env);
         \Cli::write("Starting with $deploy_id");
-        $gfcore = new \Deploy($deploy_id);
-        $gfcore->init();
+        logger(550, 'starting deploy script');
+        $deploy = new \Deploy($deploy_id);
+        logger(550, 'starting deploy script INIT', __METHOD__);
+        $deploy->init();
         \Cli::write('RAM USED: '.\Utils::humanize_data(memory_get_usage(true)));
         \Cli::beep();
     }

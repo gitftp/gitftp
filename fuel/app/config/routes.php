@@ -20,6 +20,7 @@ if (is_dash) {
         'pricing'                                                     => 'pages/pricing',
         'docs'                                                        => 'pages/guide',
         'docs/(:segment)'                                             => 'pages/guide/$1',
+        'docs/(:segment)/(:segment)'                                  => 'pages/guide/$1/$2',
         'hapi/(:segment)'                                             => 'home_api/$1',
         'hapi/(:segment)/(:segment)'                                  => 'home_api/$1/$2',
         'hapi/(:segment)/(:segment)/(:segment)'                       => 'home_api/$1/$2/$3',

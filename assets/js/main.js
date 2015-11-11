@@ -21,8 +21,8 @@ $(function () {
                 switch (data.status) {
                     case 0:
                         _problem({
-                            title: 'Cannot connect',
-                            content: 'This is temporary, <br>It seems like your internet isn\'t working at the moment.',
+                            title: false,
+                            content: 'This is temporary, it seems like your internet isn\'t working at the moment.',
                             confirm: function () {
                                 location.reload();
                                 return false;

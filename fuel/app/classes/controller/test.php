@@ -6,9 +6,13 @@ class Controller_Test extends Controller {
     }
 
     public function get_eva() {
-        print_r(Utils::isDisposableEmail('asda@gmail.com'));
-        \Fuel\Core\Log::debug('asda');
-
+//        print_r(Utils::isDisposableEmail('asda@gmail.com'));
+//        \Fuel\Core\Log::debug('asda');
+        logger(300, 'message');
+        logger(400, 'message');
+        logger(500, 'message');
+        logger(550, 'message');
+        logger(600, 'message');
     }
 
     public

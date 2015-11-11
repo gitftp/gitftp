@@ -33,13 +33,15 @@
                     <?php echo $f['id']; ?>
                 </td>
                 <td>
-                    <?php echo $f['user_id']; ?>
                     <?php if($f['user_id'] != 0 ){ ?>
-                    <br/>
                     <a href="<?php echo Uri::create('administrator/user', array(), array(
                         'value' => $f['user_id']
                     )) ?>"><?php echo $f['username']; ?></a>
+                    <?php }else{ ?>
+                        Anonymous
                     <?php } ?>
+                     -
+                    <?php echo $f['user_id']; ?>
                 </td>
                 <td>
                     <?php echo $f['extras']['page_helpful'] ?>

@@ -28,11 +28,8 @@ class Deploy extends DeployHelper {
 
     public $localRevision;
     public $remoteRevision;
-
+    public $writeOutputToLog = FALSE;
     public $attempt = 0;
-
-    public $logfile = '';
-    public $writefile = FALSE;
 
     // deploy script
     public $globalFilesToIgnore = array(
@@ -55,21 +52,21 @@ class Deploy extends DeployHelper {
     public $deploymentSize = 0;
 
     // END deploy script
-
-
     public function __construct($deploy_id) {
+        if (is_debug)
+            $this->writeOutputToLog = TRUE;
+        $old_error_handler = set_error_handler(array( // Handle traditional errors. Instead throw & log exceptions.
+            $this,
+            'error_handler'
+        ));
         $this->deploy_id = $deploy_id;
         $this->repo_home = DOCROOT . 'fuel/repository';
-        $this->logfile = '/var/www/html/log';
         $this->m_deploy = new \Model_Deploy();
         $this->m_deploy->id = $this->deploy_id;
         $this->data = $this->m_deploy->get(NULL, NULL, TRUE);
-
-        \Log::info('CORE: DEPLOY SCRIPT INIT FOR ' . $deploy_id);
-
         if (count($this->data) !== 1) {
-            \Log::warning('CORE: DEPLOY DID NOT EXIST: ' . $deploy_id);
-            throw new \Craftpip\Exception("Project id: $deploy_id does not exist.");
+            logger(550, 'CORE: deploy doesnt exist: ' . $deploy_id, __METHOD__);
+            throw new \Exception("Project id: $deploy_id does not exist.");
         } else {
             $this->data = $this->data[0];
         }
@@ -82,25 +79,25 @@ class Deploy extends DeployHelper {
         $this->m_ftp = new \Model_Ftp($this->user_id);
         $this->is_cloned = ($this->data['cloned'] == 1) ? TRUE : FALSE;
         $this->gitapi = new \Craftpip\GitApi($this->user_id); // get GIT API HELPER.
+
+        // github or bitbucket.
         $this->provider = strtolower(\Utils::parseProviderFromRepository($this->data['repository'])); // get current provider
+
         try {
             chdir($this->repo_dir); // change to repo dir !!!. we are on repo dir forever. NO NEED TO CHANGE IT LATER.
         } catch (Exception $e) {
-            \Log::error('CORE: FOLDER COULD NOT BE CREATED. ' . $e->getMessage());
+            logger(600, 'User & Repo dir not created: ' . $e->getMessage(), __METHOD__);
         }
         $this->output('Current directory: ' . getcwd());
         $this->repo = $this->repo_dir;
         $this->mainRepo = $this->repo_dir;
-        $old_error_handler = set_error_handler(array( // Handle traditional errors. Instead throw exceptions.
-            $this,
-            'error_handler'
-        ));
     }
 
     public function error_handler($errno, $errstr, $errfile, $errline) {
         /* Don't execute PHP internal error handler */
         // apparently those will break the deploys.
-        return TRUE;
+        logger(600, "An error was handled: $errstr File: $errfile Line: $errline", __METHOD__);
+        throw new Exception($errstr, $errno);
     }
 
     // start deploy process.
@@ -128,6 +125,8 @@ class Deploy extends DeployHelper {
             'status' => $this->m_record->in_progress // its in progress now.
         ));
 
+        logger(550, 'Processing record ' . $this->record_id, __METHOD__);
+
         $this->output('Starting with record id: ' . $this->record_id);
 
         try {
@@ -135,13 +134,13 @@ class Deploy extends DeployHelper {
             try {
                 $branches = \Utils::gitGetBranches2($this->clone_url());
             } catch (Exception $e) {
-                $this->log('connection', 'Error: ' . $e->getMessage() . ', could not connect to repository');
+                $this->log('CORE: Error, ' . $e->getMessage() . ', could not connect to repository');
                 throw $e;
             }
 
             $this->output(is_array($branches) ? 'found branches ' . implode(', ', $branches) : 'no branches found.'); // no branches found ? that shouldnt happen.
             $this->output('Fetched ' . count($branches) . ' branches');
-            $this->log('connection', 'Connected to ' . $this->data['repository'] . '.');
+            $this->log('CORE: Connected to ' . $this->data['repository'] . '.');
 
             if ($this->record_type == $this->m_record->type_first_clone) {
                 if (!$this->is_cloned) {
@@ -156,8 +155,8 @@ class Deploy extends DeployHelper {
                 $branch_id = $this->record['branch_id'];
                 $branch = $this->m_branches->get_by_branch_id($branch_id);
                 if (count($branch) !== 1) {
-                    \Log::warning('CORE: ENV NOT FOUND.'. $branch_id);
-                    $this->log['error'] = 'ENV: ERROR 10004: Environment was not found';
+                    logger(300, 'CORE: ENV NOT FOUND.' . $branch_id, __METHOD__);
+                    $this->log('ENV: ERROR 10004: Environment was not found');
                     throw new Exception('Branch/Environment not found.');
                 } else {
                     $this->branch = $branch[0];
@@ -191,20 +190,22 @@ class Deploy extends DeployHelper {
             ), TRUE);
 
         } catch (Exception $e) {
-
-            \Log::error("CORE $this->deploy_id ERROR: " . $e->getMessage());
-            $this->log('ERROR', $e->getCode() . ' ' . $e->getMessage());
+            logger(550, "CORE $this->deploy_id ERROR: " . $e->getMessage(), __METHOD__);
+            $error = $e->getCode() . ' ' . $e->getMessage();
+            if (is_debug)
+                $error .= ' <br>Trace: ' . $e->getTraceAsString();
+            $this->log('ERROR', $error);
 
             $this->m_record->set($this->record_id, array(
                 'status' => $this->m_record->failed,
                 'raw'    => serialize($this->log)
             ), TRUE);
 
-            if ($this->is_cloned)
-                $this->gitCommand('checkout master');
-
             $this->output('DAMMIT!, ' . $e->getMessage(), 'white', 'red');
         }
+
+        if ($this->is_cloned)
+            $this->gitCommand('checkout master');
 
         // Looping here.
         $this->init();
@@ -239,15 +240,16 @@ class Deploy extends DeployHelper {
             $this->output('Clone attempt: ' . $this->attempt);
             $this->attempt += 1;
             if ($this->attempt == 5) {
-                $this->log['error'] = 'ERROR 10002: Could not connect to repository: <br>URL: ' . $this->deploy_data['repository'];
+                $this->log('CORE: Error 10002: Could not connect: ' . $this->deploy_data['repository']);
                 $this->m_deploy->set(NULL, array(
                     'cloned' => FALSE,
                 ));
-                throw new \Exception('Git folder not found after clone');
+
+                throw new \Exception('Could not connect to repository.');
             }
         }
 
-        $this->log['repo_processed'] = 'Yes';
+        $this->log('repo_processed', 'Yes');
         $this->m_deploy->set(NULL, array(
             'cloned' => TRUE,
         ));
@@ -303,7 +305,7 @@ class Deploy extends DeployHelper {
 
         $this->ftp_data = $this->m_ftp->get($this->branch['ftp_id']);
         if (count($this->ftp_data) == 0) {
-            $this->log('error', 'ENV: Error 10005: Envionrment does not have a linked FTP account.');
+            $this->log('ENV: Error 10005: Envionrment does not have a linked FTP account.');
             throw new Exception('No linked ftp account');
         } else {
             $this->ftp_data = $this->ftp_data[0];
@@ -315,18 +317,18 @@ class Deploy extends DeployHelper {
             $this->output('FTP connection attempt: ' . $this->attempt);
             $this->attempt += 1;
             if ($this->attempt == 5) {
-                $this->log('error', 'FTP: Error 10006: Could not connect to FTP server at 5 attempts.');
+                $this->log('FTP: Error 10006: Could not connect to FTP server at 5 attempts.');
                 throw new Exception('Could not connect to FTP server');
             }
         }
 
-        $this->log('ftp_connect', 'Connected to ftp server on ' . $this->attempt . ' attempt(s).');
-        $this->log('enviornment', $this->branch['name']);
-        $this->log('enviornment_branch', $this->branch['branch_name']);
+        $this->log('FTP: Connected to ftp server on ' . $this->attempt . ' attempt(s).');
+        $this->log('ENV: enviornment: ' . $this->branch['name']);
+        $this->log('ENV: branch name: ' . $this->branch['branch_name']);
 
         // lets checkout the required branch.
         $this->gitCommand('checkout ' . $this->branch['branch_name']);
-        $this->log('Revision on server: ' . $this->branch['revision']);
+        $this->log('ENV: Revision on remote server: ' . $this->branch['revision']);
 
         // set remote
         $this->remoteRevision = $this->branch['revision'];
@@ -352,13 +354,19 @@ class Deploy extends DeployHelper {
 
         $this->localRevision = $this->gitCommand('rev-parse HEAD'); // where is the HEAD.
 
-        if (isset($this->localRevision[0]))
+        if (count($this->localRevision))
             $this->localRevision = trim($this->localRevision[0]);
+        else
+            $this->localRevision = '';
+
+        if ($this->localRevision == '')
+            logger(600, 'Local revision is null. Repository is not cloned but ready.', __METHOD__);
+        // this happened once.
 
         if ($this->localRevision == $this->remoteRevision)
-            $this->log('Note: Remote server has latest changes');
+            $this->log('ENV: Remote server has latest changes');
 
-        $this->log('Revision to update: ' . $this->localRevision);
+        $this->log('ENV: Updating remote server at: ' . $this->localRevision);
 
         $this->m_record->set($this->record_id, array(
             'hash' => $this->localRevision,
@@ -369,14 +377,13 @@ class Deploy extends DeployHelper {
 
         $this->checkSubmodules($this->repo_dir);
         $this->deploy();
-
     }
 
     public function deploy() {
         $revision = $this->localRevision;
         $this->prepareServer();
         $this->connect();
-        $this->log('Connected to ftp server.');
+        $this->log('FTP: Connected to ftp server.');
         $files = $this->compare();
         $this->push($files);
 
@@ -388,7 +395,7 @@ class Deploy extends DeployHelper {
             foreach ($this->submodules as $submodule) {
                 $this->repo = $submodule['path'];
                 $this->currentSubmoduleName = $submodule['name'];
-                $this->output("\r\n SUBMODULE: " . $this->currentSubmoduleName);
+                $this->output("SUBMODULE: " . $this->currentSubmoduleName);
                 $files = $this->compare($revision);
                 $this->push($files);
             }
@@ -398,10 +405,13 @@ class Deploy extends DeployHelper {
         }
 
         // Done.
-        $this->output("\r\n|----------------[ " . $this->humanFilesize($this->deploymentSize) . " Deployed ]----------------|");
+//        $this->log('CORE: deployed ' . \Num::format_bytes($this->deploymentSize, 2));
+        $formatedBytes = \Num::format_bytes($this->deploymentSize, 2);
+        $this->log('CORE: Deployed ' . $this->deploymentSize . ' Bytes');
+        $this->output($formatedBytes . " Deployed");
         $this->m_record->set($this->record_id, array(
             'amount_deployed_raw' => $this->deploymentSize,
-            'amount_deployed'     => $this->humanFilesize($this->deploymentSize),
+            'amount_deployed'     => $formatedBytes == 0 ? '0 B' : $formatedBytes,
         ), TRUE); // set deployed amount.
 
         $this->deploymentSize = 0;
@@ -427,7 +437,7 @@ class Deploy extends DeployHelper {
         $currentFile = 0;
 
         $this->output('Total files to process, ' . $totalcount);
-        $this->log('Gathered ' . $totalcount . ' changed files.');
+        $this->log('CORE: Gathered ' . $totalcount . ' changed files.');
 
         // Delete files
         if (count($filesToDelete) > 0) {
@@ -439,7 +449,7 @@ class Deploy extends DeployHelper {
                 } catch (Exception $e) {
                     $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                     $this->output("! $fileNo of $numberOfFilesToDelete {$file} not found");
-                    $this->log("Warn: ! {$file} file not found to be delete. ");
+                    $this->log("CORE: Warning, {$file} could not delete file.");
                 }
 
                 $currentFile += 1; // incremented.
@@ -455,7 +465,14 @@ class Deploy extends DeployHelper {
         if (count($dirsToDelete) > 0) {
             foreach ($dirsToDelete as $dirNo => $dir) {
                 $numberOfdirsToDelete = count($dirsToDelete);
-                $this->connection->rmdir($dir);
+                try {
+                    if (\Str::starts_with($dir, '/'))
+                        $dir = \Str::sub($dir, 1, strlen($dir));
+
+                    $this->connection->rmdir($dir);
+                } catch (Exception $e) {
+                    $this->log("CORE: Warning: Could not remove directory $dir - $e->getMessage()");
+                }
                 $dirNo = str_pad(++$dirNo, strlen($numberOfdirsToDelete), ' ', STR_PAD_LEFT);
                 $this->output("× $dirNo of $numberOfdirsToDelete {$dir}");
             }
@@ -483,7 +500,12 @@ class Deploy extends DeployHelper {
                             $origin = $this->connection->pwd();
 
                             if (!$this->connection->exists($path)) {
-                                $this->connection->mkdir($path);
+                                try {
+                                    $this->connection->mkdir($path);
+                                } catch (Exception $e) {
+                                    $this->log('CORE: Could not create dir ' . $path);
+                                    throw new \Exception('Could not create directory');
+                                }
                                 $this->output("Created directory '$path'.");
                                 $pathsThatExist[$path] = TRUE;
                             } else {
@@ -514,6 +536,7 @@ class Deploy extends DeployHelper {
                     if (!$uploaded) {
                         $attempts = $attempts + 1;
                         $this->output("Failed to upload {$file}. Retrying (attempt $attempts/10)...");
+                        $this->log("Failed to upload {$file}. Retrying (attempt $attempts/10)...");
                     } else {
                         $this->deploymentSize += filesize($this->repo . '/' . $file);
 
@@ -534,9 +557,9 @@ class Deploy extends DeployHelper {
         // If $this->revision is not HEAD, it means the rollback command was provided
         // The working copy was rolled back earlier to run the deployment, and we now want to return the working copy
         // back to its original state
-        if ($this->revision != 'HEAD') {
-            $this->gitCommand('checkout ' . ($initialBranch ?: 'master'));
-        }
+//        if ($this->revision != 'HEAD') {
+//            $this->gitCommand('checkout ' . ($initialBranch ?: 'master'));
+//        }
     }
 
     public function compare() {
@@ -594,9 +617,9 @@ class Deploy extends DeployHelper {
             'file_remove' => count($filesToDelete),
             'file_skip'   => count($filesToSkip),
         ), TRUE);
-        $this->log('Files modified/added: ' . count($filesToUpload));
-        $this->log('Files deleted/renamed: ' . count($filesToDelete));
-        $this->log('Files Skipped: ' . count($filesToSkip));
+        $this->log('CORE: Files modified/added: ' . count($filesToUpload));
+        $this->log('CORE: Files deleted/renamed: ' . count($filesToDelete));
+        $this->log('CORE: Files Skipped: ' . count($filesToSkip));
 
         return array(
             'delete' => $filesToDelete,
@@ -633,7 +656,7 @@ class Deploy extends DeployHelper {
         $this->purgeDirs = $this->branch['purge_path'];
 
         if ($options['pass'] == '') {
-            $this->log('FTP does not have a password');
+            $this->log('FTP: FTP does not have a password');
         }
 
         $bridgeOptions = array();
@@ -676,7 +699,7 @@ class Deploy extends DeployHelper {
             $connection = new bridge($this->server['url'], $this->server['options']);
             $this->connection = $connection;
         } catch (Exception $e) {
-            $this->log('error', $e->getMessage());
+            $this->log('FTP: Error: ' . $e->getMessage());
             throw $e;
         }
     }

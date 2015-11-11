@@ -97,7 +97,7 @@ define([], function () {
                                 that.jconfirm.close();
                             }
                             noty({
-                                text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                                text: 'Deploy is Queued, will be processed shortly.',
                                 type: 'success'
                             });
                         } else {
@@ -150,7 +150,7 @@ define([], function () {
                     }).done(function (data) {
                         if (data.status) {
                             noty({
-                                text: '<i class="fa fa-check"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                                text: 'Deploy is Queued, will be processed shortly.',
                                 type: 'success'
                             });
                             jc.close();
@@ -206,7 +206,7 @@ define([], function () {
             }).done(function (data) {
                 if (data.status) {
                     noty({
-                        text: '<i class="fa fa-check fa-2x"></i>&nbsp; Deploy is Queued, will be processed shortly.',
+                        text: 'Deploy is Queued, will be processed shortly.',
                         type: 'success',
                     });
                 } else {

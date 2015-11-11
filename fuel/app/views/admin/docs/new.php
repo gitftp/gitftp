@@ -44,9 +44,14 @@
             </div>
             <div class="form-group">
                 <div class="checkbox">
-                    <?php $published = isset($page) ? $page['published'] : NULL ?>
+                    <?php
+                        $published = isset($page) ? $page['published'] : NULL;
+                        if(is_null($published)){
+                            $published = 0;
+                        }
+                    ?>
                     <label for="pub">
-                        <input id="pub" type="checkbox" value="1" name="published" <?php echo is_null($published) ? '' : 'checked' ?> /> Published
+                        <input id="pub" type="checkbox" value="1" name="published" <?php echo $published == '0' ? '' : 'checked'  ?> /> Published
                     </label>
                 </div>
             </div>

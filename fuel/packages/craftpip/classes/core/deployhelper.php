@@ -2,9 +2,9 @@
 
 Class DeployHelper {
 
-    // create user & repo folder.
+    // create user & repo folders.
     public function createFolders() {
-        $this->output('Creating folders');
+        $this->output('Creating folders...');
         $this->user_dir = $this->repo_home . "/" . $this->user_id;
         $this->repo_dir = $this->user_dir . "/" . $this->deploy_id;
         if (!file_exists($this->user_dir))
@@ -24,11 +24,8 @@ Class DeployHelper {
             if (is_array($message)) {
                 $message = print_r($message, TRUE);
             }
-            if ($this->writefile && is_writeable($this->writefile)) {
-                $file = $this->logfile;
-                $current = file_get_contents($file);
-                $current .= "$message\n";
-                file_put_contents($file, $current);
+            if ($this->writeOutputToLog) {
+                logger(550, $message, __METHOD__);
             }
             \Cli::write("~ $message", $color, $bgcolor);
         }
@@ -223,20 +220,6 @@ Class DeployHelper {
      */
     public function patternMatch($pattern, $string) {
         return preg_match("#^" . strtr(preg_quote($pattern, '#'), array('\*' => '.*', '\?' => '.')) . "$#i", $string);
-    }
-
-
-    /**
-     * Return a human readable filesize
-     *
-     * @param int $bytes
-     * @param int $decimals
-     */
-    public function humanFilesize($bytes, $decimals = 2) {
-        $sz = 'BKMGTP';
-        $factor = floor((strlen($bytes) - 1) / 3);
-
-        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
     /**

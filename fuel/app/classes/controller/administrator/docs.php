@@ -9,7 +9,8 @@ class Controller_Administrator_Docs extends Controller_Administrator_Admincheck 
             ), FALSE)
         ), FALSE);
     }
-    public function post_index($type = null){
+
+    public function post_index($type = NULL) {
         $data = Input::post();
         $a = \DB::update('pages')->set($data)->where('id', $data['id'])->execute('frontend');
         echo json_encode($a);
@@ -45,6 +46,7 @@ class Controller_Administrator_Docs extends Controller_Administrator_Admincheck 
 
     public function post_edit($id) {
         $data = Input::post();
+        $data['published'] = \Input::post('published', 0);
         $res = \DB::update('pages')->set($data)->where('id', $data['id'])->execute('frontend');
         echo json_encode([
             'status' => $res

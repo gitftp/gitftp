@@ -29,8 +29,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <nav class="navbar navbar-default navbar-fixed-top">
-                <a class="navbar-brand" href="<?php echo Uri::create(''); ?>"><?php echo Asset::img('logo-sm-2.png', ['style' => 'margin-top: -9px;']); ?></a>
+            <nav class="navbar navbar-default navbar-fixed-top navbar-inverse">
+                <a class="navbar-brand" href="<?php echo Uri::create(''); ?>"><?php echo Asset::img('logo-sm-2w.png', ['style' => 'margin-top: -9px;']); ?></a>
                 <ul class="nav navbar-nav">
                     <li>
                         <a href="<?php echo Uri::create('administrator/home/'); ?>">Home</a>
@@ -52,6 +52,14 @@
                     </li>
                     <li>
                         <a href="<?php echo Uri::create('administrator/docs/'); ?>">Docs pages</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav pull-right">
+                    <li class="">
+                        <?php
+                        $ru = $_SERVER['REQUEST_URI'];
+                        ?>
+                        <a class="" href="<?php echo (is_dash) ? home_url . substr($ru, 1, strlen($ru)) : dash_url . substr($ru, 1, strlen($ru))  ?>">Switch</a>
                     </li>
                 </ul>
             </nav>

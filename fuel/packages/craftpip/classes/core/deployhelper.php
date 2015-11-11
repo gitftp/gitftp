@@ -174,7 +174,7 @@ Class DeployHelper {
                     $this->log("PURGE: Using directory $dir instead of $odir");
                 }
             }
-
+            $this->log('Current directory: ' . $this->connection->pwd());
             try {
                 $this->connection->cd($dir);
                 $tmpFiles = $this->connection->ls();

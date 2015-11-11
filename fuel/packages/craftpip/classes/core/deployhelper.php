@@ -170,18 +170,19 @@ Class DeployHelper {
                     $this->log("PURGE: Warning, Cannot purge home directory.");
                     continue;
                 } else {
-                    $this->log("PURGE: Using $dir instead");
+                    $this->log("PURGE: Using $dir instead.");
                 }
             }
 
             try {
                 $this->connection->cd($dir);
-            } catch (Exception $e) {
-                $this->log('PURGE: Ignoring directory "' . $dir . '", reason: doesn\'t exist.');
+                $tmpFiles = $this->connection->ls();
+            } catch (\Exception $e) {
+                $this->log('PURGE: Ignoring directory "' . $dir . '", Reason: doesn\'t exist.');
                 continue;
             }
 
-            if (!$tmpFiles = $this->connection->ls()) {
+            if (!$tmpFiles) {
                 $this->output("PURGE: Nothing to purge in {$dir}");
                 $this->log("PURGE: Nothing to purge in {$dir}");
                 continue;

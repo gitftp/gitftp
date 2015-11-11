@@ -449,7 +449,7 @@ class Deploy extends DeployHelper {
                 } catch (Exception $e) {
                     $fileNo = str_pad(++$fileNo, strlen($numberOfFilesToDelete), ' ', STR_PAD_LEFT);
                     $this->output("! $fileNo of $numberOfFilesToDelete {$file} not found");
-                    $this->log("CORE: Warning, {$file} could not delete file.");
+                    $this->log("CORE: Warning: could not delete {$file}.");
                 }
 
                 $currentFile += 1; // incremented.

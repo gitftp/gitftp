@@ -163,14 +163,15 @@ Class DeployHelper {
         foreach ($purgeDirs as $dir) {
             $this->output('------ ' . $dir);
             $origin = $this->connection->pwd();
-            if (substr($dir, 0, 1) == '/') {
-                $this->log("PURGE: Warning, Leading slash may delete all files in root directory, please use path relative to FTP root directory.: $dir.");
-                $dir = substr($dir, 1, strlen($dir));
+            if (\Str::starts_with($dir, '/')) {
+                $this->log("PURGE: Warning: Please use path relative to FTP root directory: $dir.");
+                $odir = $dir;
+                $dir = preg_replace('/^(\/+)/', '', $dir);
                 if (trim($dir) == '') {
-                    $this->log("PURGE: Warning, Cannot purge home directory.");
+                    $this->log("PURGE: Warning: Cannot purge home directory. provided /");
                     continue;
                 } else {
-                    $this->log("PURGE: Using $dir instead.");
+                    $this->log("PURGE: Using directory $dir instead of $odir");
                 }
             }
 
@@ -183,8 +184,8 @@ Class DeployHelper {
             }
 
             if (!$tmpFiles) {
-                $this->output("PURGE: Nothing to purge in {$dir}");
-                $this->log("PURGE: Nothing to purge in {$dir}");
+                $this->output("PURGE: Nothing to purge in dir {$dir}");
+                $this->log("PURGE: Nothing to purge in dir {$dir}");
                 continue;
             }
 
@@ -208,7 +209,7 @@ Class DeployHelper {
             }
 
             $this->output("PURGE: Purged {$dir}");
-            $this->log("PURGE: Purged {$dir}");
+            $this->log("PURGE: Purged dir {$dir}");
             $this->connection->cd($origin);
         }
     }

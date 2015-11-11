@@ -467,7 +467,7 @@ class Deploy extends DeployHelper {
                 $numberOfdirsToDelete = count($dirsToDelete);
                 try {
                     if (\Str::starts_with($dir, '/'))
-                        $dir = \Str::sub($dir, 1, strlen($dir));
+                        $dir = preg_replace('/^(\/+)/', '', $dir);
 
                     $this->connection->rmdir($dir);
                 } catch (Exception $e) {

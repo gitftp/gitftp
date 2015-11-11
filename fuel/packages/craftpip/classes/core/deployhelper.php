@@ -169,23 +169,25 @@ Class DeployHelper {
                 $dir = preg_replace('/^(\/+)/', '', $dir);
                 if (trim($dir) == '') {
                     $this->log("PURGE: Warning: Cannot purge home directory. provided /");
+                    $this->connection->cd($origin);
                     continue;
                 } else {
                     $this->log("PURGE: Using directory $dir instead of $odir");
                 }
             }
-            $this->log('Current directory: ' . $this->connection->pwd());
             try {
                 $this->connection->cd($dir);
                 $tmpFiles = $this->connection->ls();
             } catch (\Exception $e) {
                 $this->log('PURGE: Ignoring directory "' . $dir . '", Reason: doesn\'t exist.');
+                $this->connection->cd($origin);
                 continue;
             }
 
             if (!$tmpFiles) {
                 $this->output("PURGE: Nothing to purge in dir {$dir}");
                 $this->log("PURGE: Nothing to purge in dir {$dir}");
+                $this->connection->cd($origin);
                 continue;
             }
 

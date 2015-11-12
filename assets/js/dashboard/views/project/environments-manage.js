@@ -66,7 +66,7 @@ define([
                 title: 'Set remote Revision',
                 content: 'Gitftp tracks the remote server via this hash,<br>' +
                 '<span class="gray small"><i class="fa fa-info"></i>&nbsp; You may change this if you\'ve manually uploaded the files.</span>' +
-                '<input type="text" class="form-control mono" autocomplete="off" autocorrect="off" value="' + this.branch.revision + '">',
+                '<input type="text" spellcheck="false" class="form-control mono" autocomplete="off" autocorrect="off" value="' + this.branch.revision + '">',
                 confirm: function () {
                     var that = this;
                     var $input = this.$b.find('input');

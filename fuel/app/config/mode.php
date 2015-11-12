@@ -1,5 +1,24 @@
 <?php
 
+/**
+ * Explaination
+ *
+ *
+ * Production : the live site.
+ * Core database: AWS - craftrzt_gitftp
+ * Frontend Database: Bigrock frontend - craftrzt_gitftp_frontend
+ *
+ * Staging : the live site.
+ * same as production, but partial debug is on.
+ *
+ * Test : at dev7.gitftp.com
+ * Core Database: Bigrock - craftrzt_gitftp
+ * Frontend Databse: Bigrock - craftrzt_gitftp
+ *
+ * Development : at virtualbox
+ *
+ */
+
 $env = array(
     'production'  => array(
         'home'     => 'www.gitftp.com',
@@ -14,9 +33,9 @@ $env = array(
         'debug'    => FALSE
     ),
     'test'        => array(
-        'home'     => 'www.gitftp.com',
-        'dash'     => 'console.gitftp.com',
-        'protocol' => 'http',
+        'home'     => 'dev7.gitftp.com',
+        'dash'     => 'dev7-console.gitftp.com',
+        'protocol' => 'https',
         'debug'    => TRUE
     ),
     'development' => array( // dev -> local server.

@@ -128,7 +128,7 @@ define([], function () {
             $.confirm({
                 title: 'Checkout revision',
                 content: 'Deploy changes of a specific hash on the server.<br>' +
-                '<form><input class="form-control" placeholder="Revision to deploy"/></form>' +
+                '<form><input type="text" spellcheck="false" class="form-control mono" autocomplete="off" autocorrect="off" placeholder="Revision to deploy"/></form>' +
                 '<div class="space5"></div><span class="orange"><strong>NOTE:</strong> You have auto deploy enabled.</span>',
                 confirmButton: 'Deploy',
                 confirm: function () {

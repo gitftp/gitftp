@@ -18,7 +18,7 @@ return array(
         'connection'   => array(
             'hostname' => 'craftpip.com',
             'port'     => '3306',
-            'database' => 'craftrzt_gitftp_frontend',
+            'database' => 'craftrzt_gitftp',
             'username' => 'craftrzt_gitftp',
             'password' => 's.AmN-V?rXCT',
         ),

@@ -18,7 +18,7 @@ if (is_dash) {
         'forgot-password'                                             => 'user/forgotpassword',
         'terms'                                                       => 'pages/terms',
         'pricing'                                                     => 'pages/pricing',
-        'docs'                                                        => 'pages/guide',
+        'docs'                                                        => 'pages/guide/introduction',
         'docs/(:segment)'                                             => 'pages/guide/$1',
         'docs/(:segment)/(:segment)'                                  => 'pages/guide/$1/$2',
         'hapi/(:segment)'                                             => 'home_api/$1',

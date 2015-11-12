@@ -35,7 +35,7 @@ $env = array(
     'test'        => array(
         'home'     => 'dev7.gitftp.com',
         'dash'     => 'dev7-console.gitftp.com',
-        'protocol' => 'https',
+        'protocol' => 'http',
         'debug'    => TRUE
     ),
     'development' => array( // dev -> local server.

@@ -137,6 +137,7 @@ define([], function () {
                     jc.$confirmButton.html('<i class="gf gf-loading gf-btn"></i> ' + jc.confirmButton).prop('disabled', true);
                     var hash = $input.val();
 
+
                     _ajax({
                         url: dash_url + 'api/deploy/run/',
                         data: {

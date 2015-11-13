@@ -28,7 +28,7 @@ class Fuel
 	/**
 	 * @var  string  The version of Fuel
 	 */
-	const VERSION = '1.7.3';
+	const VERSION = '1.8-dev';
 
 	/**
 	 * @var  string  constant used for when in testing mode
@@ -170,9 +170,8 @@ class Fuel
 		// Set locale, log warning when it fails
 		if (static::$locale)
 		{
-			setlocale(LC_ALL, static::$locale);
-//			setlocale(LC_ALL, static::$locale) or
-//				logger(\Fuel::L_WARNING, 'The configured locale '.static::$locale.' is not installed on your system.', __METHOD__);
+			setlocale(LC_ALL, static::$locale) or
+				logger(\Fuel::L_WARNING, 'The configured locale '.static::$locale.' is not installed on your system.', __METHOD__);
 		}
 
 		if ( ! static::$is_cli)
@@ -198,6 +197,20 @@ class Fuel
 		// BC FIX FOR APPLICATIONS <= 1.6.1, makes Redis_Db available as Redis,
 		// like it was in versions before 1.7
 		class_exists('Redis', false) or class_alias('Redis_Db', 'Redis');
+
+		// BC FIX FOR PHP < 7.0 to make the error class available
+		if (PHP_VERSION_ID < 70000)
+		{
+			// alias the error class to the new errorhandler
+			class_alias('\Fuel\Core\Errorhandler', '\Fuel\Core\Error');
+
+			// does the app have an overloaded Error class?
+			if (class_exists('Error'))
+			{
+				// then alias that too
+				class_alias('Error', 'Errorhandler');
+			}
+		}
 
 		static::$initialized = true;
 

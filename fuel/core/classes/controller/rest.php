@@ -35,9 +35,9 @@ abstract class Controller_Rest extends \Controller
 	protected $format = null;
 
 	/**
-	 * @var  integer  response http status
+	 * @var  integer  default response http status
 	 */
-	protected $http_status = null;
+	protected $http_status = 200;
 
 	/**
 	 * @var  string  xml basenode name
@@ -96,8 +96,9 @@ abstract class Controller_Rest extends \Controller
 	 * Requests are not made to methods directly The request will be for an "object".
 	 * this simply maps the object and method to the correct Controller method.
 	 *
-	 * @param  string
-	 * @param  array
+	 * @param  string $resource
+	 * @param  array $arguments
+	 * @return bool|mixed
 	 */
 	public function router($resource, $arguments)
 	{
@@ -216,7 +217,9 @@ abstract class Controller_Rest extends \Controller
 			if (\Fuel::$env == \Fuel::PRODUCTION)
 			{
 				// not acceptable in production
-				$http_status = 406;
+				if ($http_status == 200)
+				{	$http_status = 406;
+				}
 				$this->response->body('The requested REST method returned an array or object, which is not compatible with the output format "'.$this->format.'"');
 			}
 			else

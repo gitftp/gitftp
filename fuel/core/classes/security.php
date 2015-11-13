@@ -58,7 +58,14 @@ class Security
 			$check_token_methods = \Config::get('security.csrf_autoload_methods', array('post', 'put', 'delete'));
 			if (in_array(strtolower(\Input::method()), $check_token_methods) and ! static::check_token())
 			{
-				throw new \SecurityException('CSRF validation failed, Possible hacking attempt detected!');
+				if (\Config::get('security.csrf_bad_request_on_fail', false))
+				{
+					throw new \HttpBadRequestException('CSRF validation failed, Possible hacking attempt detected!');
+				}
+				else
+				{
+					throw new \SecurityException('CSRF validation failed, Possible hacking attempt detected!');
+				}
 			}
 		}
 
@@ -81,6 +88,7 @@ class Security
 	 *
 	 * @param  string  $uri     uri to clean
 	 * @param  bool    $strict  whether to remove relative directories
+	 * @return array|mixed
 	 */
 	public static function clean_uri($uri, $strict = false)
 	{
@@ -104,6 +112,11 @@ class Security
 
 	/**
 	 * Generic variable clean method
+	 *
+	 * @param  mixed   $var
+	 * @param  mixed   $filters
+	 * @param  string  $type
+	 * @return array|mixed
 	 */
 	public static function clean($var, $filters = null, $type = 'security.input_filter')
 	{
@@ -293,7 +306,7 @@ class Security
 	/**
 	 * Check CSRF Token
 	 *
-	 * @param   string  CSRF token to be checked, checks post when empty
+	 * @param   string  $value  CSRF token to be checked, checks post when empty
 	 * @return  bool
 	 */
 	public static function check_token($value = null)

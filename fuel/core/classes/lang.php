@@ -51,12 +51,13 @@ class Lang
 	/**
 	 * Loads a language file.
 	 *
-	 * @param    mixed        $file        string file | language array | Lang_Interface instance
+	 * @param    mixed       $file         string file | language array | Lang_Interface instance
 	 * @param    mixed       $group        null for no group, true for group is filename, false for not storing in the master lang
-	 * @param    string|null $language     name of the language to load, null for the configurated language
+	 * @param    string|null $language     name of the language to load, null for the configured language
 	 * @param    bool        $overwrite    true for array_merge, false for \Arr::merge
 	 * @param    bool        $reload       true to force a reload even if the file is already loaded
 	 * @return   array                     the (loaded) language array
+	 * @throws \FuelException
 	 */
 	public static function load($file, $group = null, $language = null, $overwrite = false, $reload = false)
 	{
@@ -108,7 +109,7 @@ class Lang
 
 			if (class_exists($class))
 			{
-				static::$loaded_files[$language.'/'.$file] = true;
+				static::$loaded_files[$language.'/'.$file] = func_get_args();
 				$file = new $class($file, $languages);
 			}
 			else
@@ -156,8 +157,9 @@ class Lang
 	 *
 	 * @param   string          $file      desired file name
 	 * @param   string|array    $lang      master language array key or language array
-	 * @param   string|null     $language  name of the language to load, null for the configurated language
+	 * @param   string|null     $language  name of the language to load, null for the configured language
 	 * @return  bool                       false when language is empty or invalid else \File::update result
+	 * @throws \LangException
 	 */
 	public static function save($file, $lang, $language = null)
 	{
@@ -205,7 +207,7 @@ class Lang
 	 * @param   string       $line      key for the line
 	 * @param   array        $params    array of params to str_replace
 	 * @param   mixed        $default   default value to return
-	 * @param   string|null  $language  name of the language to get, null for the configurated language
+	 * @param   string|null  $language  name of the language to get, null for the configured language
 	 * @return  mixed                   either the line or default when not found
 	 */
 	public static function get($line, array $params = array(), $default = null, $language = null)
@@ -221,7 +223,7 @@ class Lang
 	 * @param    string       $line      a (dot notated) language key
 	 * @param    mixed        $value     the language string
 	 * @param    string       $group     group
-	 * @param    string|null  $language  name of the language to set, null for the configurated language
+	 * @param    string|null  $language  name of the language to set, null for the configured language
 	 * @return   void                    the \Arr::set result
 	 */
 	public static function set($line, $value, $group = null, $language = null)
@@ -232,7 +234,7 @@ class Lang
 
 		isset(static::$lines[$language]) or static::$lines[$language] = array();
 
-		return \Arr::set(static::$lines[$language], $line, \Fuel::value($value));
+		\Arr::set(static::$lines[$language], $line, \Fuel::value($value));
 	}
 
 	/**
@@ -240,7 +242,7 @@ class Lang
 	 *
 	 * @param    string       $item      a (dot notated) language key
 	 * @param    string       $group     group
-	 * @param    string|null  $language  name of the language to set, null for the configurated language
+	 * @param    string|null  $language  name of the language to set, null for the configured language
 	 * @return   array|bool              the \Arr::delete result, success boolean or array of success booleans
 	 */
 	public static function delete($item, $group = null, $language = null)
@@ -250,5 +252,41 @@ class Lang
 		($language === null) and $language = static::get_lang();
 
 		return isset(static::$lines[$language]) ? \Arr::delete(static::$lines[$language], $item) : false;
+	}
+
+	/**
+	 * Sets the current language, and optionally reloads all language files loaded in another language
+	 *
+	 * @param    string      $language  name of the language to activate
+	 * @param    bool        $reload    true to force a reload of already loaded language files
+	 * @return   bool                   success boolean, false if no language or the current was passed, true otherwise
+	 */
+	public static function set_lang($language, $reload = false)
+	{
+		// check if a language was passedd
+		if ( ! empty($language) and $language != static::get_lang())
+		{
+			// set it
+			\Config::set('language', $language);
+
+			// do we need to reload?
+			if ($reload)
+			{
+				foreach (static::$loaded_files as $file => $args)
+				{
+					// reload with exactly the same arguments
+					if (strpos($file, $language.'/') !== 0)
+					{
+						call_user_func_array('Lang::load', $args);
+					}
+				}
+			}
+
+			// return success
+			return true;
+		}
+
+		// no language or the current language was passed
+		return false;
 	}
 }

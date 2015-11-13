@@ -448,6 +448,12 @@ if ( ! function_exists('call_fuel_func_array'))
 
 			list($instance, $method) = $callback;
 
+			// If php is 5.6 or higher then use variadic
+			if (PHP_VERSION_ID >= 50600)
+			{
+				return $instance->{$method}(...$args);
+			}
+
 			// calling the method directly is faster then call_user_func_array() !
 			switch ($count)
 			{
@@ -472,6 +478,12 @@ if ( ! function_exists('call_fuel_func_array'))
 		{
 			list($class, $method) = $callback;
 			$class = '\\'.ltrim($class, '\\');
+
+			// If php is 5.6 or higher then use variadic
+			if (PHP_VERSION_ID >= 50600)
+			{
+				return $class::{$method}(...$args);
+			}
 
 			// calling the method directly is faster then call_user_func_array() !
 			switch (count($args))
@@ -498,6 +510,12 @@ if ( ! function_exists('call_fuel_func_array'))
 		{
 			is_string($callback) and $callback = ltrim($callback, '\\');
 
+			// If php is 5.6 or higher then use variadic
+			if (PHP_VERSION_ID >= 50600)
+			{
+				return $callback(...$args);
+			}
+
 			// calling the method directly is faster then call_user_func_array() !
 			switch (count($args))
 			{
@@ -520,5 +538,47 @@ if ( ! function_exists('call_fuel_func_array'))
 
 		// fallback, handle the old way
 		return call_user_func_array($callback, $args);
+	}
+}
+
+/**
+ * hash_pbkdf2() implementation for PHP < 5.5.0
+ */
+if ( ! function_exists('hash_pbkdf2'))
+{
+    /* PBKDF2 Implementation (described in RFC 2898)
+     *
+     *  @param string a   hash algorithm to use
+     *  @param string p   password
+     *  @param string s   salt
+     *  @param int    c   iteration count (use 1000 or higher)
+     *  @param int    kl  derived key length
+     *  @param bool   r   when set to TRUE, outputs raw binary data. FALSE outputs lowercase hexits.
+     *
+     *  @return string derived key
+     */
+    function hash_pbkdf2($a, $p, $s, $c, $kl = 0, $r = false)
+    {
+        $hl = strlen(hash($a, null, true)); # Hash length
+        $kb = ceil($kl / $hl);              # Key blocks to compute
+        $dk = '';                           # Derived key
+
+        # Create key
+        for ( $block = 1; $block <= $kb; $block ++ )
+        {
+            # Initial hash for this block
+            $ib = $b = hash_hmac($a, $s . pack('N', $block), $p, true);
+
+            # Perform block iterations
+            for ( $i = 1; $i < $c; $i ++ )
+            {
+                # XOR each iterate
+                $ib ^= ($b = hash_hmac($a, $b, $p, true));
+            }
+            $dk .= $ib; # Append iterated block
+        }
+
+        # Return derived key of correct length
+		return substr($r ? $dk : bin2hex($dk), 0, $kl);
 	}
 }

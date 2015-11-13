@@ -29,6 +29,7 @@ class DBUtil
 	/**
 	 * Sets the database connection to use for following DBUtil calls.
 	 *
+	 * @throws \FuelException
 	 * @param  string  $connection  connection name, null for default
 	 */
 	public static function set_connection($connection)
@@ -46,7 +47,7 @@ class DBUtil
 	 *
 	 * @throws  Fuel\Database_Exception
 	 * @param   string  $database       the database name
-	 * @param   string  $database       the character set
+	 * @param   string  $charset        the character set
 	 * @param   boolean $if_not_exists  whether to add an IF NOT EXISTS statement.
 	 * @param   string  $db             the database connection to use
 	 * @return  int     the number of affected rows
@@ -105,15 +106,15 @@ class DBUtil
 	 * Creates a table.
 	 *
 	 * @throws  \Database_Exception
-	 * @param   string  $table          the table name
-	 * @param   array   $fields         the fields array
-	 * @param   array   $primary_keys   an array of primary keys
-	 * @param   boolean $if_not_exists  whether to add an IF NOT EXISTS statement.
-	 * @param   string  $engine         storage engine overwrite
-	 * @param   string  $charset        default charset overwrite
-	 * @param   array   $foreign_keys   an array of foreign keys
-	 * @param   string  $db             the database connection to use
-	 * @return  int     number of affected rows.
+	 * @param   string          $table          the table name
+	 * @param   array           $fields         the fields array
+	 * @param   array           $primary_keys   an array of primary keys
+	 * @param   boolean         $if_not_exists  whether to add an IF NOT EXISTS statement.
+	 * @param   string|boolean  $engine         storage engine overwrite
+	 * @param   string          $charset        default charset overwrite
+	 * @param   array           $foreign_keys   an array of foreign keys
+	 * @param   string          $db             the database connection to use
+	 * @return  int             number of affected rows.
 	 */
 	public static function create_table($table, $fields, $primary_keys = array(), $if_not_exists = true, $engine = false, $charset = null, $foreign_keys = array(), $db = null)
 	{
@@ -125,19 +126,8 @@ class DBUtil
 		$sql .= static::process_fields($fields, '', $db);
 		if ( ! empty($primary_keys))
 		{
-			$key_name = \DB::quote_identifier(implode('_', $primary_keys), $db ? $db : static::$connection);
 			$primary_keys = \DB::quote_identifier($primary_keys, $db ? $db : static::$connection);
-			$sql .= ",\n\tPRIMARY KEY ";
-			if (strtolower(\Config::get('db.'.($db ? $db : \Config::get('db.active')).'.type')) === 'pdo')
-			{
-				$dsn = \Config::get('db.'.($db ? $db : \Config::get('db.active')).'.connection.dsn');
-				$_dsn_find_collon = strpos($dsn, ':');
-				if (($_dsn_find_collon ? substr($dsn, 0, $_dsn_find_collon) : null) !== 'sqlite')
-				{
-					$sql .= $key_name;
-				}
-			}
-			$sql .= $key_name." (" . implode(', ', $primary_keys) . ")";
+			$sql .= ",\n\tPRIMARY KEY (".implode(', ', $primary_keys).')';
 		}
 
 		empty($foreign_keys) or $sql .= static::process_foreign_keys($foreign_keys, $db);
@@ -167,8 +157,9 @@ class DBUtil
 	 * Modifies fields in a table.  Will throw a Database_Exception if it cannot.
 	 *
 	 * @throws  Fuel\Database_Exception
-	 * @param   string  $table    the table name
-	 * @param   array   $fields   the modified fields
+	 * @param   string  $table   the table name
+	 * @param   array   $fields  the modified fields
+	 * @param   string  $db      the database connection to use
 	 * @return  int     the number of affected
 	 */
 	public static function modify_fields($table, $fields, $db = null)
@@ -438,7 +429,7 @@ class DBUtil
 	 * @param    bool      $is_default    whether to use default
 	 * @param    string    $db            the database name in the config
 	 * @param    string    $collation     the collating sequence to be used
-	 * @return   string    the formated charset sql
+	 * @return   string    the formatted charset sql
 	 */
 	protected static function process_charset($charset = null, $is_default = false, $db = null, $collation = null)
 	{
@@ -517,9 +508,10 @@ class DBUtil
 	/**
 	 * Returns string of foreign keys
 	 *
+	 * @throws  \Database_Exception
 	 * @param   array   $foreign_keys  Array of foreign key rules
 	 * @param   string  $db            the database connection to use
-	 * @return  string  the formated foreign key string
+	 * @return  string  the formatted foreign key string
 	 */
 	public static function process_foreign_keys($foreign_keys, $db = null)
 	{
@@ -633,6 +625,7 @@ class DBUtil
 	/**
 	 * Checks if a given table exists.
 	 *
+	 * @throws  \Database_Exception
 	 * @param   string  $table  Table name
 	 * @param   string  $db     the database connection to use
 	 * @return  bool
@@ -662,6 +655,7 @@ class DBUtil
 	/**
 	 * Checks if given field(s) in a given table exists.
 	 *
+	 * @throws  \Database_Exception
 	 * @param   string          $table      Table name
 	 * @param   string|array    $columns    columns to check
 	 * @param   string          $db         the database connection to use

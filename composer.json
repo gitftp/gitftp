@@ -39,7 +39,9 @@
         "gentle/bitbucket-api": "dev-develop",
         "league/oauth2-client": "1.0.0-beta2",
         "stevenmaguire/oauth2-bitbucket": "dev-master",
-        "league/oauth2-github": "dev-master"
+        "league/oauth2-github": "dev-master",
+        "league/flysystem": "^1.0",
+        "league/flysystem-sftp": "^1.0"
     },
     "suggest": {
         "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

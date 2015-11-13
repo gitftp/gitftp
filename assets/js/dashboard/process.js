@@ -1,6 +1,11 @@
-define([], function () {
+define([
+
+], function () {
 
     var process = {
+        records: function(){
+
+        },
         process_id: 0,
         deployView: function (e) {
             /*

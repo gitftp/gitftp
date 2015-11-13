@@ -31,11 +31,9 @@ var e = false;
             <div class="panel-body panel-body-material">
                 <div class="addftp-div">
                     <form action="" class="" id="addftp-form">
-
                         <% if(e){ %>
                         <input type="hidden" name="id" value="<%= f['id'] %>">
                         <% } %>
-
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Descriptive name"
@@ -43,21 +41,44 @@ var e = false;
                         </div>
                         <div class="form-group">
                             <label>Schema</label>
-                            <input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"
-                                    value="<%= (e) ? f['scheme'] : '' %>">
+                            <!--<input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"-->
+                            <!--value="<%= (e) ? f['scheme'] : '' %>">-->
+                            <select class="form-control" id="scheme" name="scheme">
+                                <option value="ftp">FTP</option>
+                                <option value="ftps">FTPS</option>
+                                <option value="sftp">SFTP / SSH</option>
+                            </select>
+                            <% if(e){ %>
+                            <script>
+                                document.getElementById('scheme').value = '<%= f["scheme"] %>';
+                            </script>
+                            <% } %>
                         </div>
                         <div class="form-group">
-                            <label>Host name</label>
+                            <label>Hostname</label>
                             <input type="text" name="host" class="form-control" placeholder="example.com / IP address"
                                     value="<%= (e) ? f['host'] : '' %>">
                         </div>
                         <div class="form-group">
-                            <label>FTP username</label>
+                            <label>Path to deploy</label>
+                            <input type="text" name="path" class="form-control"
+                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
+
+                            <p class="help-block">Full path from your Root/Home directory.
+                                <br>Example: /var/www/html/website or /public_html/website.</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Port</label>
+                            <input type="text" name="port" class="form-control" placeholder="Port of FTP. EG: 21"
+                                    value="<%= (e) ? f['port'] : '' %>">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
                             <input type="text" name="username" class="form-control" placeholder="Username"
                                     value="<%= (e) ? f['username'] : '' %>">
                         </div>
                         <div class="form-group">
-                            <label>FTP password</label>
+                            <label>Password</label>
                             <% if(e && f['pset'] === true){ %>
                             <div class="ftp-form-password-set">
                                 <p class="form-control-static">
@@ -77,16 +98,6 @@ var e = false;
                             <input type="password" name="pass" class="form-control" placeholder="Password" value="">
                             <% } %>
                         </div>
-                        <div class="form-group">
-                            <label>Path to deploy</label>
-                            <input type="text" name="path" class="form-control"
-                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
-                        </div>
-                        <div class="form-group">
-                            <label>FTP port</label>
-                            <input type="text" name="port" class="form-control" placeholder="Port of FTP. EG: 21"
-                                    value="<%= (e) ? f['port'] : '' %>">
-                        </div>
                         <div class="space10"></div>
                         <button type="submit" class="btn btn-success"><%= (e) ? 'Update' : 'Save' %></button>
                     </form>
@@ -97,17 +108,20 @@ var e = false;
     <div class="col-md-6 col-sm-6">
         <div class="panel panel-default">
             <div class="panel-body panel-body-material">
-                <p class="text-center">
+                <p class="">
                     <strong>One line config:</strong>
                     <br/>
                     <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
                 </p>
 
-                <p class="text-center">
+                <p class="">
                     <button type="button" class="btn btn-warning ftp-connectionTest">
-                        <i></i>Test connection.
+                        Test connection.
                     </button>
                 </p>
+                <div class="status">
+                    <div class="alert alert-info no-margin-bottom no-border" style="display: none;"></div>
+                </div>
             </div>
             <div class="line"></div>
             <div class="panel-footer">

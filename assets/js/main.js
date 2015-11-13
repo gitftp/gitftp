@@ -48,7 +48,7 @@ $(function () {
                         break;
                 }
             }).always(function (data) {
-                console.log('Received data: ', data);
+                //console.log('Received data: ', data);
                 if (!data.status) {
                     if (data.reason == '10001') {
                         _problem({

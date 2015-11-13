@@ -132,10 +132,48 @@
   height: 20px;
 }
 
+.border-radius {
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+
+.precent-padding {
+  padding: 15%;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+.no-padding-top {
+  padding-top: 0 !important;
+}
+
+.no-padding-bottom {
+  padding-top: 0 !important;
+}
+
+.no-border {
+  border: none !important;
+}
+
+.margin {
+  margin: 0 !important;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0;
+}
+
+.no-margin-top {
+  margin-top: 0;
+}
+
 label.error {
-  font-weight: 100;
-  font-size: 12px;
-  color: red;
+  font-weight: bold;
+  font-size: 13px;
+  color: @red;
 }
 
 .shadow {
@@ -372,7 +410,7 @@ a.btn {
 
 .gf-checkbox {
   display: block;
-  position:relative;
+  position: relative;
   cursor: pointer;
 
   input {
@@ -421,7 +459,7 @@ a.btn {
 
 .gf-radio {
   display: block;
-  position:relative;
+  position: relative;
   cursor: pointer;
 
   input {
@@ -466,12 +504,12 @@ a.btn {
   }
 }
 
-.form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline{
-  &.gf-checkbox, &.gf-radio{
-    label:before{
+.form-horizontal .radio, .form-horizontal .checkbox, .form-horizontal .radio-inline, .form-horizontal .checkbox-inline {
+  &.gf-checkbox, &.gf-radio {
+    label:before {
       top: 7px !important;
     }
-    label:after{
+    label:after {
       top: 5px !important;
     }
   }

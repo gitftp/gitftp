@@ -107,38 +107,26 @@ define([
             var form = $('#addftp-form').serializeObject();
             if (!form.scheme || !form.host || !form.username) {
                 $.alert({
-                    title: 'Please enter necessary fields',
-                    content: 'Please enter enough data to connect to FTP server.'
+                    title: false,
+                    content: '<div class="space10"></div>' +
+                    'Please enter enough data to connect to the FTP server.',
+                    confirmButton: 'Dismiss',
                 });
                 return false;
             }
-            $this.prop('disabled', true).find('i').addClass('gf gf-loading gf-btn');
-
+            $this.prop('disabled', true);
+            var $s = $('.status .alert');
+            $s.removeClass('alert-success alert-danger').addClass('alert-info').show().html('<i class="gf gf-loading gf-btn"></i> Trying to connect..')
             _ajax({
-                url: base + 'api/ftp/testftp',
+                url: base + 'api/ftp/test',
                 dataType: 'json',
                 method: 'post',
                 data: form
             }).done(function (d) {
                 if (d.status) {
-                    $.alert({
-                        container: that.$e,
-                        title: 'Successful',
-                        content: 'Connection established successfully, This FTP config is ready to be Linked with a project.',
-                        icon: 'fa fa-check green fa-fw'
-                    });
+                    $s.removeClass('alert-info').addClass('alert-success').html('Connected successfully.');
                 } else {
-                    $.confirm({
-                        container: that.$e,
-                        title: 'Problem',
-                        content: 'The connection could not be established. <br>Reason: <code>' + d.reason + '</code>',
-                        icon: 'fa fa-info orange fa-fw',
-                        confirmButton: 'Retry',
-                        cancelButton: 'Dismiss',
-                        confirm: function () {
-                            $('.ftp-connectionTest').click();
-                        }
-                    });
+                    $s.removeClass('alert-info').addClass('alert-danger').html('We tried hard to connect, but failed <br> '+d.reason);
                 }
 
                 $this.prop('disabled', false).find('i').removeClass('gf gf-loading gf-btn');
@@ -245,7 +233,11 @@ define([
                     'username': {
                         required: true,
                     },
-                    'path': 'validatePath',
+                    'path': {
+                        required: true,
+                        'validatePath': true,
+                        'validatePathSlash': true,
+                    },
                     'port': {
                         required: true,
                         number: true,
@@ -253,14 +245,17 @@ define([
                 }
             });
             $.validator.addMethod('validatePath', function (value) {
-                return !/(\/)\1+/ig.test(value) && /^\/|^\\/.test(value);
-            }, 'Path must contain a leading slash');
+                return !/(\/)\1+|\\/ig.test(value);
+            }, 'Please enter a valid path');
+            $.validator.addMethod('validatePathSlash', function (value) {
+                return /^\/|^\\/.test(value);
+            }, 'The path must contain a leading slash');
             $.validator.addMethod('validateScheme', function (value) {
                 return value == 'ftp' || value == 'ftps' || value == 'sftp';
             }, 'Please enter a valid schema.');
             $.validator.addMethod('validateHost', function (value) {
                 return that.hostValidate.test(value) || that.ipValidate.test(value);
-            }, 'Please enter a valid host/IP.');
+            }, 'Please enter the Servers\'s URL or IP address.');
         },
         add: function (form) {
             var that = this;

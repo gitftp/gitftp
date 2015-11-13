@@ -18,7 +18,7 @@ define([
                 environments: environmentsView,
                 manage: manageenvironmentsView,
                 add: addenvironmentsView
-            }
+            };
             this.subPage = '.deploy-sub-page';
         },
         render: function (url) {

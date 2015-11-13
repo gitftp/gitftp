@@ -4,9 +4,50 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "78145dd2d8d6ef8cbcb5135618c03240",
-    "content-hash": "c55ebacc2ea4679207872d099fe20455",
+    "hash": "48365228e26da6e94abf1666222652ca",
+    "content-hash": "621c03be168a1f2f1965700d0b4c5d0c",
     "packages": [
+        {
+            "name": "banago/bridge",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/banago/Bridge.git",
+                "reference": "f2ac67c796850e89f061310562a40169244bfa8b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/banago/Bridge/zipball/f2ac67c796850e89f061310562a40169244bfa8b",
+                "reference": "f2ac67c796850e89f061310562a40169244bfa8b",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Banago\\Bridge\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL v3"
+            ],
+            "authors": [
+                {
+                    "name": "Baki Goxhaj",
+                    "email": "banago@gmail.com",
+                    "homepage": "http://wplancer.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A PHP class to transfer data using different protocols (sftp, ftp, http, etc). Utilizes PHPs ssh2, ftp and curl functions if available.",
+            "keywords": [
+                "banago",
+                "ftp",
+                "sftp",
+                "ssh"
+            ],
+            "time": "2015-10-13 09:05:13"
+        },
         {
             "name": "composer/installers",
             "version": "v1.0.22",
@@ -150,7 +191,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/core/zipball/2177ea4448a967dabf14aaece3f96541eee29896",
+                "url": "https://api.github.com/repos/fuel/core/zipball/0e7422f83f7d9a1930d1a3ac0b118f6ac51e132d",
                 "reference": "2177ea4448a967dabf14aaece3f96541eee29896",
                 "shasum": ""
             },
@@ -185,7 +226,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fuel/docs/zipball/954d1a87b3427b661a551ec124aa8f739ab303ec",
+                "url": "https://api.github.com/repos/fuel/docs/zipball/f6cd44453161d70c2c1403018ab697e98230098e",
                 "reference": "954d1a87b3427b661a551ec124aa8f739ab303ec",
                 "shasum": ""
             },
@@ -1432,6 +1473,54 @@
                 "templating"
             ],
             "time": "2015-08-15 19:23:13"
+        },
+        {
+            "name": "nicolab/php-ftp-client",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Nicolab/php-ftp-client.git",
+                "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Nicolab/php-ftp-client/zipball/ad954c9f221531a4e2e9db6a2d408f2c735c607f",
+                "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "FtpClient": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Tallefourtane",
+                    "email": "dev@nicolab.net",
+                    "homepage": "http://nicolab.net"
+                }
+            ],
+            "description": "A flexible FTP and SSL-FTP client for PHP. This lib provides helpers easy to use to manage the remote files.",
+            "homepage": "https://github.com/Nicolab/php-ftp-client",
+            "keywords": [
+                "file",
+                "ftp",
+                "helper",
+                "lib",
+                "server",
+                "sftp",
+                "ssl",
+                "ssl-ftp"
+            ],
+            "time": "2014-12-13 14:27:17"
         },
         {
             "name": "phpseclib/phpseclib",

@@ -802,7 +802,7 @@ class Gitcore {
      * @throws Exception if it can't connect to FTP server
      */
     public function connect($server) {
-        $connection = new bridge($server['url'], $server['options']);
+        $connection = new \Banago\Bridge\Bridge($server['url'], $server['options']);
         $this->connection = $connection;
     }
 

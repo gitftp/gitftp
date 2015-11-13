@@ -1676,7 +1676,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fuel/core/zipball/2177ea4448a967dabf14aaece3f96541eee29896",
+            "url": "https://api.github.com/repos/fuel/core/zipball/0e7422f83f7d9a1930d1a3ac0b118f6ac51e132d",
             "reference": "2177ea4448a967dabf14aaece3f96541eee29896",
             "shasum": ""
         },
@@ -1713,7 +1713,7 @@
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/fuel/docs/zipball/954d1a87b3427b661a551ec124aa8f739ab303ec",
+            "url": "https://api.github.com/repos/fuel/docs/zipball/f6cd44453161d70c2c1403018ab697e98230098e",
             "reference": "954d1a87b3427b661a551ec124aa8f739ab303ec",
             "shasum": ""
         },
@@ -1923,5 +1923,98 @@
             "source": "https://github.com/fuel/parser/tree/1.8/develop",
             "issues": "https://github.com/fuel/parser/issues"
         }
+    },
+    {
+        "name": "banago/bridge",
+        "version": "1.1.1",
+        "version_normalized": "1.1.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/banago/Bridge.git",
+            "reference": "f2ac67c796850e89f061310562a40169244bfa8b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/banago/Bridge/zipball/f2ac67c796850e89f061310562a40169244bfa8b",
+            "reference": "f2ac67c796850e89f061310562a40169244bfa8b",
+            "shasum": ""
+        },
+        "time": "2015-10-13 09:05:13",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Banago\\Bridge\\": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "LGPL v3"
+        ],
+        "authors": [
+            {
+                "name": "Baki Goxhaj",
+                "email": "banago@gmail.com",
+                "homepage": "http://wplancer.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A PHP class to transfer data using different protocols (sftp, ftp, http, etc). Utilizes PHPs ssh2, ftp and curl functions if available.",
+        "keywords": [
+            "banago",
+            "ftp",
+            "sftp",
+            "ssh"
+        ]
+    },
+    {
+        "name": "nicolab/php-ftp-client",
+        "version": "v1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Nicolab/php-ftp-client.git",
+            "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Nicolab/php-ftp-client/zipball/ad954c9f221531a4e2e9db6a2d408f2c735c607f",
+            "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4"
+        },
+        "time": "2014-12-13 14:27:17",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "FtpClient": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Nicolas Tallefourtane",
+                "email": "dev@nicolab.net",
+                "homepage": "http://nicolab.net"
+            }
+        ],
+        "description": "A flexible FTP and SSL-FTP client for PHP. This lib provides helpers easy to use to manage the remote files.",
+        "homepage": "https://github.com/Nicolab/php-ftp-client",
+        "keywords": [
+            "file",
+            "ftp",
+            "helper",
+            "lib",
+            "server",
+            "sftp",
+            "ssl",
+            "ssl-ftp"
+        ]
     }
 ]

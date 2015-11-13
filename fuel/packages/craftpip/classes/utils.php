@@ -880,7 +880,7 @@ class Utils {
 
     public static function test_ftp($http_url) {
         try {
-            $conn = new bridge($http_url);
+            $conn = new Banago\Bridge\Bridge($http_url);
 
             return TRUE;
         } catch (Exception $e) {

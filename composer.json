@@ -41,7 +41,9 @@
         "stevenmaguire/oauth2-bitbucket": "dev-master",
         "league/oauth2-github": "dev-master",
         "league/flysystem": "^1.0",
-        "league/flysystem-sftp": "^1.0"
+        "league/flysystem-sftp": "^1.0",
+        "banago/bridge": "^1.1",
+        "nicolab/php-ftp-client": "^1.2"
     },
     "suggest": {
         "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

@@ -5,6 +5,7 @@ define([
         el: app.el,
         events: {
             'keyup #addftp-form input': 'oneline',
+            'change #addftp-form select': 'oneline',
             'click .ftp-connectionTest': 'testFtp',
             'click .ftp-server-delete': 'deleteftp',
             'click a.ftp-form-password-set-change': 'passwordFieldToggle',
@@ -124,9 +125,9 @@ define([
                 data: form
             }).done(function (d) {
                 if (d.status) {
-                    $s.removeClass('alert-info').addClass('alert-success').html('Connected successfully.');
+                    $s.removeClass('alert-info').addClass('alert-success').html(d.message);
                 } else {
-                    $s.removeClass('alert-info').addClass('alert-danger').html('We tried hard to connect, but failed <br> '+d.reason);
+                    $s.removeClass('alert-info').addClass('alert-danger').html('We tried hard to connect, but failed<br> ' + d.reason);
                 }
 
                 $this.prop('disabled', false).find('i').removeClass('gf gf-loading gf-btn');
@@ -140,7 +141,7 @@ define([
             var host = $('input[name="host"]').val();
             var username = $('input[name="username"]').val();
             var pass = $('input[name="pass"]:not(:disabled)').val();
-            var scheme = $('input[name="scheme"]').val();
+            var scheme = $('select[name="scheme"]').val();
             var path = $('input[name="path"]').val();
             var port = $('input[name="port"]').val();
 
@@ -266,32 +267,76 @@ define([
             $this.find(':input').prop('disabled', true);
 
             var $submitBtn = $this.find('button[type="submit"]');
-            $submitBtn.html('<i class="gf gf-loading gf-btn"></i> Updating');
-            _ajax({
-                url: base + 'api/ftp/' + param,
+            var submitBtnT = $submitBtn.html();
+            $submitBtn.html('<i class="gf gf-loading gf-btn"></i> ' + (submitBtnT == 'Save' ? 'Saving' : 'Updating'));
+
+            $connecting = $.dialog({
+                title: false,
+                content: '<i class="gf gf-loading gf-alert"></i>' +
+                '<br>This will just take a moment, we are testing connection to your server',
+                cancel: function () {
+                    $tC.abort();
+                },
+                backgroundDismiss: false,
+            });
+
+            $tC = _ajax({
+                url: base + 'api/ftp/test',
                 data: data,
                 method: 'post',
-                dataType: 'json'
-            }).done(function (data) {
-                $this.find(':input:not([data-notform="true"])').prop('disabled', false);
-                if (data.status) {
-                    if (that.executeAfterAdd) {
-                        that.executeAfterAdd();
-                        return false;
-                    }
-                    noty({
-                        text: ((that.id) ? 'Your changed are saved.' : 'Added FTP server: ' + $this.find('[name="host"]').val() ),
-                        type: 'success'
-                    });
-                    Router.navigate('ftp', {trigger: true});
+                dataType: 'json',
+            }).done(function (res) {
+                $connecting.close();
+                if (res.status) {
+                    create();
                 } else {
-                    noty({
-                        text: data.reason,
-                        type: 'warning'
-                    });
+                    $.confirm({
+                        title: false,
+                        content: '<div class="space10"></div>' +
+                        'We tried hard connecting to your server,<br>' + res.reason + ' You can proceed with errors or review the configuration again.',
+                        confirm: function () {
+                            create();
+                        },
+                        cancel: function () {
+                            $this.find(':input:not([data-notform="true"])').prop('disabled', false);
+                            $submitBtn.html(submitBtnT);
+                        },
+                        confirmButton: 'Proceed anyway',
+                        confirmButtonClass: 'btn-default',
+                        cancelButtonClass: 'btn-success',
+                        cancelButton: 'Review',
+                    })
                 }
-                $submitBtn.html('Update');
             });
+
+
+            function create() {
+                _ajax({
+                    url: base + 'api/ftp/' + param,
+                    data: data,
+                    method: 'post',
+                    dataType: 'json'
+                }).done(function (data) {
+                    $this.find(':input:not([data-notform="true"])').prop('disabled', false);
+                    if (data.status) {
+                        if (that.executeAfterAdd) {
+                            that.executeAfterAdd();
+                            return false;
+                        }
+                        noty({
+                            text: ((that.id) ? 'Your changed are saved.' : 'Added server: ' + $this.find('[name="host"]').val() ),
+                            type: 'success'
+                        });
+                        Router.navigate('ftp', {trigger: true});
+                    } else {
+                        noty({
+                            text: data.reason,
+                            type: 'warning'
+                        });
+                    }
+                    $submitBtn.html('Update');
+                });
+            }
         },
     });
 

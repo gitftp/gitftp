@@ -900,7 +900,7 @@ class PHPloy {
      */
     public function connect($server) {
         try {
-            $connection = new Bridge($server['url'], $server['options']);
+            $connection = new \Banago\Bridge\Bridge($server['url'], $server['options']);
             $this->connection = $connection;
         } catch (\Exception $e) {
             echo Ansi::tagsToColors("\r\n<red>Oh Snap: {$e->getMessage()}\r\n");

@@ -19,5 +19,8 @@ Autoloader::add_classes(array(
     'bridge' => __DIR__ . '/classes/bridge.php',
 ));
 
+// todo: remove this package.
+// its added via composer.
+
 
 /* End of file bootstrap.php */

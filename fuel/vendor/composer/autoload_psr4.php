@@ -20,4 +20,5 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Fuel\\Upload\\' => array($vendorDir . '/fuelphp/upload/src'),
+    'Banago\\Bridge\\' => array($vendorDir . '/banago/bridge/src'),
 );

@@ -20,15 +20,15 @@ $(function () {
             .error(function (data) {
                 switch (data.status) {
                     case 0:
-                        _problem({
-                            title: false,
-                            content: 'This is temporary, it seems like your internet isn\'t working at the moment.',
-                            confirm: function () {
-                                location.reload();
-                                return false;
-                            },
-                            confirmButton: '<i class="fa fa-refresh"></i>&nbsp; Reload'
-                        });
+                        //_problem({
+                        //    title: false,
+                        //    content: 'This is temporary, it seems like your internet isn\'t working at the moment.',
+                        //    confirm: function () {
+                        //        location.reload();
+                        //        return false;
+                        //    },
+                        //    confirmButton: '<i class="fa fa-refresh"></i>&nbsp; Reload'
+                        //});
                         break;
                     case 404:
                     case 200:

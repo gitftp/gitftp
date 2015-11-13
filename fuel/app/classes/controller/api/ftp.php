@@ -34,14 +34,10 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      * @param null $a
      * @param bool $return
      */
-    public function post_test($a = NULL, $return = FALSE) {
+    public function post_testwasted($a = NULL, $return = FALSE) {
+        return FALSE;
         $i = Input::post();
 
-//        function error_handler($errno, $errstr, $errfile, $errline){
-//            throw new Exception($errstr, $errno);
-//            return true;
-//        }
-//        $old_error_handler = set_error_handler('error_handler');
         try {
             if (!isset($i['host']) || !isset($i['scheme'])) {
                 throw new \Craftpip\Exception('Please enter necessary details to connect to your Server.');
@@ -49,6 +45,15 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 throw new \Craftpip\Exception('Please enter necessary details to connect to your Server.');
             }
 
+            function error_handler($errno, $errstr, $errfile, $errline) {
+//                echo $errstr;
+                $response = array(
+                    'status' => FALSE,
+                    'reason' => $errstr,
+                );
+            }
+
+//            $old_error_handler = set_error_handler('error_handler');
             if (!isset($i['pass']) && isset($i['id'])) {
                 /*
                  * Take the password that is stored with us.
@@ -82,7 +87,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 $options['passive'] = TRUE;
                 $adapter = new \League\Flysystem\Adapter\Ftp($options);
             } elseif ($i['scheme'] == 'sftp') {
-                $options['privateKey'] = 'path/to/privatekey';
+//                $options['privateKey'] = 'path/to/privatekey';
                 $adapter = new \League\Flysystem\Sftp\SftpAdapter($options);
             }
 
@@ -99,11 +104,89 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 'status'  => TRUE,
                 'message' => $message,
             );
-        } catch (Exception $e) {
+        } catch (\Fuel\Core\PhpErrorException $e) {
+            echo $e;
             throw $e;
             $response = array(
                 'status' => FALSE,
-                'reason' => $e->getMessage()
+                'reason' => $e->getMessage(),
+            );
+        }
+
+        $this->response($response);
+    }
+
+    /**
+     * test connection to a ftp server.
+     *
+     * @param null $a
+     * @param bool $return
+     */
+    public function post_test($a = NULL, $return = FALSE) {
+        $i = Input::post();
+
+        try {
+            if (!isset($i['host']) || !isset($i['scheme'])) {
+                throw new Exception('Please enter necessary details to connect to your Server.');
+            } else if (trim($i['host']) == '' || trim($i['scheme']) == '') {
+                throw new Exception('Please enter necessary details to connect to your Server.');
+            }
+
+            $options = array(
+                'user'   => $i['username'],
+                'host'   => $i['host'],
+                'pass'   => (isset($i['pass'])) ? $i['pass'] : '',
+                'scheme' => $i['scheme'],
+                'port'   => $i['port'],
+//                'path'   => $i['path'],
+            );
+            if (!isset($i['pass']) && isset($i['id'])) {
+                /*
+                 * Take the password that is stored with us.
+                 */
+                $ftp_id = $i['id'];
+                $ftp_model = new Model_Ftp();
+                $ftp_data = $ftp_model->get($ftp_id);
+                if (count($ftp_data) !== 1) {
+                    throw new Exception('Ftp does not exist, or has been deleted.');
+                }
+                $ftp_data = $ftp_data[0];
+                if (!empty($ftp_data['pass'])) {
+                    $options['pass'] = $ftp_data['pass'];
+                }
+            }
+
+            $ftp_url = http_build_url($options);
+            $conn = new \Banago\Bridge\Bridge($ftp_url, [
+                'timeout' => 20
+            ]);
+
+            $message = 'Connected successfully.';
+            if (!$conn->exists($i['path'])) {
+                try {
+                    $conn->mkdir($i['path']);
+                    $message .= '<br>Created directory ' . $i['path'];
+                } catch (Exception $e) {
+                    $message .= '<br><i class="fa fa-warning orange"></i> Failed to create directory: ' . $i['path'] . ', please check for permissions or manually create the directory.';
+                }
+            } else {
+//                $conn->cd($i['path']);
+//                $files = $conn->ls();
+//                if (count($files)) {
+//                    $message .= '<br><i class="fa fa-info"></i> The Target path is not empty.';
+//                }
+            }
+
+            $response = array(
+                'status'  => TRUE,
+                'message' => $message
+            );
+
+        } catch (\Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
             );
         }
 
@@ -167,14 +250,14 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             $data = Utils::escapeHtmlChars($data);
             $a = $ftp->set($id, $data);
 
-            if ($a || FALSE) {
+//            if ($a || FALSE) {
                 $response = array(
                     'status'  => TRUE,
                     'request' => Input::post(),
                 );
-            } else {
-                throw new Exception('No changes were saved.');
-            }
+//            } else {
+//                throw new Exception('No changes were saved.');
+//            }
 
         } catch (Exception $e) {
             $response = array(

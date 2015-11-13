@@ -16,6 +16,7 @@ return array(
     'JacobKiers\\OAuth' => array($vendorDir . '/jacobkiers/oauth/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
+    'FtpClient' => array($vendorDir . '/nicolab/php-ftp-client/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src'),
     'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
     'Bitbucket\\' => array($vendorDir . '/gentle/bitbucket-api/lib'),

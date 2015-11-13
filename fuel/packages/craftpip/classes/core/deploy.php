@@ -701,7 +701,7 @@ class Deploy extends DeployHelper {
 
     public function connect() {
         try {
-            $connection = new bridge($this->server['url'], $this->server['options']);
+            $connection = new \Banago\Bridge\Bridge($this->server['url'], $this->server['options']);
             $this->connection = $connection;
         } catch (Exception $e) {
             $this->log('FTP: Error: ' . $e->getMessage());

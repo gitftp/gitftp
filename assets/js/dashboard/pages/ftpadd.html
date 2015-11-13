@@ -9,7 +9,7 @@ var e = false;
 <div class="page-head">
     <div class="row">
         <div class="col-md-8">
-            <div class="head"><%= (e) ? 'Edit' : 'Add' %> FTP Server</div>
+            <div class="head"><%= (e) ? 'Edit' : 'Add' %> Server</div>
             <div class="subhead"></div>
         </div>
         <div class="col-md-4">
@@ -26,7 +26,7 @@ var e = false;
 </div>
 <div class="head-body-divider"></div>
 <div class="row">
-    <div class="col-md-6 col-sm-6 ">
+    <div class="col-md-6 col-sm-6 col-md-offset-1">
         <div class="panel panel-default">
             <div class="panel-body panel-body-material">
                 <div class="addftp-div">
@@ -105,27 +105,24 @@ var e = false;
             </div>
         </div>
     </div>
-    <div class="col-md-6 col-sm-6">
+    <div class="col-md-4 col-sm-6">
         <div class="panel panel-default">
             <div class="panel-body panel-body-material">
                 <p class="">
                     <strong>One line config:</strong>
                     <br/>
-                    <span class="text-success ftp-oneline">ftp://example:password@production-example.com:21/path/to/installation</span>
+                    <span class="text-success ftp-oneline" style="word-wrap: break-word;">ftp://example:password@production-example.com:21/path/to/installation</span>
                 </p>
-
-                <p class="">
-                    <button type="button" class="btn btn-warning ftp-connectionTest">
-                        Test connection.
-                    </button>
-                </p>
+                <button type="button" class="btn btn-warning ftp-connectionTest">
+                    Test connection.
+                </button>
                 <div class="status">
-                    <div class="alert alert-info no-margin-bottom no-border" style="display: none;"></div>
+                    <div class="alert alert-info no-margin-bottom no-border" style="display: none;margin-top: 10px"></div>
                 </div>
             </div>
             <div class="line"></div>
             <div class="panel-footer">
-                <p style="margin: 0" class="text-center">
+                <p class="text-center no-margin-top no-margin-bottom">
                     Its highly recommended to test your FTP connection before linking to a project.
                 </p>
             </div>

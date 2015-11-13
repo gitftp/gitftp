@@ -27,7 +27,8 @@
             <div class="header">
                 <p>
                     <span class="head">
-                        <i class="fa fa-server fa-fw"></i>
+                        <!--<i class="fa fa-server fa-fw"></i>-->
+                        <span class="server-type <%= a.scheme %>"><%= a.scheme %></span>
                         <%= (a.name) ? a.name : '(unnamed)' %>
                     </span> <br/>
                     <span class="">(<%= a.host %> - <%= a.username %>)</span>
@@ -36,7 +37,7 @@
                 <div class="clearfix"></div>
             </div>
             <span style="color: #aaa">Scheme: (<%= a.scheme %>) Port: <%= a.port %></span><br>
-            <span>to folder <%= a.path %> <span class="pull-right"><%= moment(a.created_at).format('D/MMMM/YYYY hh:mm a') %></span></span>
+            <span>to path <%= a.path %> <span class="pull-right">Created at <%= moment(a.created_at).format('D/MM/YY hh:mm a') %></span></span>
         </div>
     </div>
     <% }) %>

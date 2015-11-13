@@ -472,7 +472,7 @@ class Smarty_Fuel_Extension {
             throw new \UnexpectedValueException("The type parameter is required.");
         }
         $folder = isset($params['folder']) ? $params['folder'] : '';
-        return Asset::find_file($params['file'], $params['file'], $folder);
+        return Asset::find_file($params['file'], $params['type'], $folder);
     }
 
     /**
@@ -488,7 +488,7 @@ class Smarty_Fuel_Extension {
         if (!isset($params['text'])) {
             throw new \UnexpectedValueException("The text parameter is required.");
         }
-        $attrs = isset($params['folder']) ? $params['folder'] : array();
+        $attrs = isset($params['attrs']) ? $params['attrs'] : array();
         $secure = isset($params['secure']) ? $params['secure'] : null;
         return Html::anchor($params['href'], $params['text'], $attrs, $secure);
     }

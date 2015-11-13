@@ -406,7 +406,7 @@ class Auth_Opauth
 			isset($user['email']) ? $user['email'] : null,
 
 			// which group are they in?
-			\Config::get('opauth.default_group', -1),
+			isset($user['group_id']) ? $user['group_id'] : \Config::get('opauth.default_group', -1),
 
 			// extra information
 			array(
@@ -421,6 +421,16 @@ class Auth_Opauth
 		);
 
 		return $user_id ?: false;
+	}
+
+	/**
+	 * Returns the Opauth instance for interaction with the core library.
+	 *
+	 * @return \Opauth
+	 */
+	public function get_instance()
+	{
+		return $this->opauth;
 	}
 
 }

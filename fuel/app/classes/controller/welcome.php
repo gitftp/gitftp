@@ -3,7 +3,7 @@
 class Controller_Welcome extends Controller {
 
     public function action_index() {
-        $view = View::forge('home/base_layout.mustache');
+        $view = View::forge('home/base_layout');
         $view->css = View::forge('home/layout/css');
         $view->meta = View::forge('home/layout/meta');
         $view->js = View::forge('home/layout/js');

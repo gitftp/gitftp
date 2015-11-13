@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-
-    {{{meta}}}
-    {{{css}}}
-    {{{js}}}
-
+    <?php echo $meta ?>
+    <?php echo $css ?>
+    <?php echo $js ?>
     <!--[if lt IE 9]>
     <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--[if lt IE 9]>
@@ -15,12 +13,12 @@
 </head>
 <body class="loaded">
 <!--<div class="loader">-->
-    <!--<div class="animated rubberBand spinner"></div>-->
+<!--<div class="animated rubberBand spinner"></div>-->
 <!--</div>-->
 <div class="layout-wrapper page" id="page">
-{{{header}}}
-{{{body}}}
-{{{footer}}}
+    <?php echo $header ?>
+    <?php echo $body ?>
+    <?php echo $footer ?>
 </div>
 </body>
 </html>

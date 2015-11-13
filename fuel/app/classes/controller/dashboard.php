@@ -11,7 +11,7 @@ class Controller_Dashboard extends Controller {
             Response::redirect(home_url . 'login?ref=' . urlencode(dash_url . $a));
         }
 
-        $view = View::forge('dash/base_layout.mustache');
+        $view = View::forge('dash/base_layout');
         $view->css = View::forge('dash/css');
         $view->js = View::forge('dash/js');
         $view->header = View::forge('dash/header');

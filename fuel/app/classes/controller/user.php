@@ -36,7 +36,7 @@ class Controller_User extends Controller {
             }
         }
 
-        $view = View::forge('home/base_layout.mustache');
+        $view = View::forge('home/base_layout');
         $view->css = View::forge('home/layout/css');
         $view->js = View::forge('home/layout/js');
         $view->header = View::forge('home/layout/header');
@@ -80,7 +80,7 @@ class Controller_User extends Controller {
             }
         }
 
-        $view = View::forge('home/base_layout.mustache');
+        $view = View::forge('home/base_layout');
         $view->css = View::forge('home/layout/css');
         $view->meta = View::forge('home/layout/meta');
         $view->js = View::forge('home/layout/js');
@@ -103,7 +103,7 @@ class Controller_User extends Controller {
         if(\Auth::instance()->check())
             Response::redirect(dash_url);
 
-        $view = View::forge('home/base_layout.mustache');
+        $view = View::forge('home/base_layout');
         $view->css = View::forge('home/layout/css');
         $view->meta = View::forge('home/layout/meta');
         $view->js = View::forge('home/layout/js');

@@ -204,7 +204,7 @@ class Gfcore {
             $ftp_data['user'] = $ftp_data['username'];
             $ftp_url = http_build_url($ftp_data);
 //            $ftp_test = utils::test_ftp($ftp_url);
-            $ftp_test = new \bridge($ftp_url);
+            $ftp_test = new \Banago\Bridge\Bridge($ftp_url);
             if ($ftp_test) {
                 $this->log('ftp_connect', 'connected');
             }

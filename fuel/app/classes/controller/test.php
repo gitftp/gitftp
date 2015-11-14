@@ -233,7 +233,7 @@ class Controller_Test extends Controller {
         $d = $d[0];
         $d['user'] = $d['username'];
         $s = http_build_url($d);
-        $conn = new \bridge($s);
+        $conn = new \Banago\Bridge\Bridge($s);
         $purge = ['images'];
 //        $this->purge($purge);
         $origin = $conn->pwd();

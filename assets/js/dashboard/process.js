@@ -3,10 +3,9 @@ define([
 ], function () {
 
     var process = {
-        records: function(){
+        deployViewUpdate: function(){
 
         },
-        process_id: 0,
         deployView: function (e) {
             /*
              * Project view page.

@@ -289,7 +289,7 @@ class Deploy extends DeployHelper {
             $this->ftp_data['user'] = $this->ftp_data['username'];
             $ftp_url = http_build_url($this->ftp_data);
             $this->output($ftp_url);
-            $ftp_test = new \bridge($ftp_url);
+            $ftp_test = new \Banago\Bridge\Bridge($ftp_url);
             if ($ftp_test) {
                 return TRUE;
             }

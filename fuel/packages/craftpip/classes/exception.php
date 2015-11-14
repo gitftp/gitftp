@@ -16,6 +16,7 @@ class Exception extends \Exception {
             if ($this->code == 193) {
                 $this->message = $message;
             } else {
+                logger(600, $message , __METHOD__);
                 $this->message = 'Sorry, something went wrong.';
             }
         }

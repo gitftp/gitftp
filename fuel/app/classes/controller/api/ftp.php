@@ -156,6 +156,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 }
             }
 
+
             $ftp_url = http_build_url($options);
             $conn = new \Banago\Bridge\Bridge($ftp_url, [
                 'timeout' => 20

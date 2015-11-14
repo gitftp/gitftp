@@ -201,6 +201,8 @@ define([
                     that.$e.html(template);
                     that.oneline();
                     that.validation();
+                    that.formState = $.param($('form#addftp-form').serializeArray());
+                    console.log(that.formState);
                 });
                 that.id = id;
                 setTitle('Edit ftp server');
@@ -270,46 +272,51 @@ define([
             var submitBtnT = $submitBtn.html();
             $submitBtn.html('<i class="gf gf-loading gf-btn"></i> ' + (submitBtnT == 'Save' ? 'Saving' : 'Updating'));
 
-            $connecting = $.dialog({
-                title: false,
-                content: '<i class="gf gf-loading gf-alert"></i>' +
-                '<br>This will just take a moment, we are testing connection to your server',
-                cancel: function () {
-                    $tC.abort();
-                },
-                backgroundDismiss: false,
-            });
+            //console.log(that.formState);
+            if (that.formState == $.param(data)){
+                create();
+            } else {
+                $connecting = $.dialog({
+                    title: false,
+                    content: '<i class="gf gf-loading gf-alert"></i>' +
+                    '<br>Please wait while we verify connection to your server...',
+                    cancel: function () {
+                        $this.find(':input:not([data-notform="true"])').prop('disabled', false);
+                        $submitBtn.html(submitBtnT);
+                        $tC.abort();
+                    },
+                    backgroundDismiss: false,
+                });
 
-            $tC = _ajax({
-                url: base + 'api/ftp/test',
-                data: data,
-                method: 'post',
-                dataType: 'json',
-            }).done(function (res) {
-                $connecting.close();
-                if (res.status) {
-                    create();
-                } else {
-                    $.confirm({
-                        title: false,
-                        content: '<div class="space10"></div>' +
-                        'We tried hard connecting to your server,<br>' + res.reason + ' You can proceed with errors or review the configuration again.',
-                        confirm: function () {
-                            create();
-                        },
-                        cancel: function () {
-                            $this.find(':input:not([data-notform="true"])').prop('disabled', false);
-                            $submitBtn.html(submitBtnT);
-                        },
-                        confirmButton: 'Proceed anyway',
-                        confirmButtonClass: 'btn-default',
-                        cancelButtonClass: 'btn-success',
-                        cancelButton: 'Review',
-                    })
-                }
-            });
-
-
+                $tC = _ajax({
+                    url: base + 'api/ftp/test',
+                    data: data,
+                    method: 'post',
+                    dataType: 'json',
+                }).done(function (res) {
+                    $connecting.close();
+                    if (res.status) {
+                        create();
+                    } else {
+                        $.confirm({
+                            title: false,
+                            content: '<div class="space10"></div>' +
+                            'We tried hard connecting to your server,<br>' + res.reason + ' You can proceed with errors or review the configuration again.',
+                            confirm: function () {
+                                create();
+                            },
+                            cancel: function () {
+                                $this.find(':input:not([data-notform="true"])').prop('disabled', false);
+                                $submitBtn.html(submitBtnT);
+                            },
+                            confirmButton: 'Proceed anyway',
+                            confirmButtonClass: 'btn-default',
+                            cancelButtonClass: 'btn-success',
+                            cancelButton: 'Review',
+                        })
+                    }
+                });
+            }
             function create() {
                 _ajax({
                     url: base + 'api/ftp/' + param,

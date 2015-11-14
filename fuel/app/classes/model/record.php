@@ -300,6 +300,10 @@ class Model_Record extends Model {
         $q = DB::select($ex)->from($this->table);
         if (!is_null($id))
             $q = $q->where('deploy_id', $id);
+
+        if(!$direct)
+            $q = $q->and_where('user_id', $this->user_id);
+
         $result = $q->execute()->as_array();
 
         return $result[0]['deploy_count'];

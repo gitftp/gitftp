@@ -411,7 +411,12 @@ class Controller_Api_Etc extends Controller_Api_Apilogincheck {
         $records = new Model_Record();
         $records_count = $records->get_count(NULL, FALSE, $records->success);
         $deployed_data = $records->get_sum_deployed_data(NULL, FALSE);
-        $deployed_data = Utils::humanize_data($deployed_data);
+
+        if($deployed_data == 0)
+            $deployed_data = '0 B';
+        else
+            $deployed_data = \Num::format_bytes($deployed_data, 2);
+
         $deploy_data = $deploy->get(NULL, array('id', 'cloned'));
         $project_limit = ($user->getAttr('project_limit')) ? $user->getAttr('project_limit') : '&infin;';
 

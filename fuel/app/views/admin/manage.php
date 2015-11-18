@@ -31,6 +31,9 @@
         <table class="table table-condensed table-bordered">
             <tr>
                 <th>
+                    User
+                </th>
+                <th>
                     ID
                 </th>
                 <th>
@@ -38,9 +41,6 @@
                 </th>
                 <th>
                     Repository
-                </th>
-                <th>
-                    User
                 </th>
                 <th>
                     Active
@@ -58,6 +58,13 @@
             <?php foreach ($projects as $k => $project) { ?>
                 <tr>
                     <td>
+                        <a href="<?php
+                        echo \Fuel\Core\Uri::create('administrator/user', [], [
+                            'value' => $project['user_id']
+                        ]);
+                        ?>"><?php echo $project['user_id'] ?> </a>
+                    </td>
+                    <td>
                         <?php echo $project['id'] ?>
                     </td>
                     <td>
@@ -65,13 +72,6 @@
                     </td>
                     <td>
                         <?php echo $project['repository'] ?>
-                    </td>
-                    <td>
-                        <a href="<?php
-                        echo \Fuel\Core\Uri::create('administrator/user', [], [
-                            'value' => $project['user_id']
-                        ]);
-                        ?>"><?php echo $project['user_id'] ?> </a>
                     </td>
                     <td>
                         <?php echo $project['active'] ?>
@@ -100,7 +100,10 @@
                     </td>
                     <td class="text-center">
                         <a href="<?php
-                        echo \Uri::create('');
+                        echo \Uri::create('administrator/manage/records', [], [
+                            'search' => $project['id'],
+                            'key'    => 'deploy_id'
+                        ]);
                         ?>">Ftp</a>
                     </td>
                 </tr>
@@ -118,7 +121,7 @@
         <table class="table table-condensed table-bordered">
             <tr>
                 <th>
-                    Id
+                    UID
                 </th>
                 <th>
                     Deploy id
@@ -140,7 +143,11 @@
             <?php foreach ($branches as $branch) { ?>
                 <tr>
                     <td>
-                        <?php echo $branch['id'] ?>
+                        <a href="<?php
+                        echo \Fuel\Core\Uri::create('administrator/user', [], [
+                            'value' => $branch['user_id']
+                        ]);
+                        ?>"><?php echo $branch['user_id'] ?> </a>
                     </td>
                     <td>
                         <?php echo $branch['deploy_id'] ?>
@@ -196,6 +203,9 @@
         <table class="table table-condensed table-bordered">
             <tr>
                 <th>
+                    UID
+                </th>
+                <th>
                     Id
                 </th>
                 <th>
@@ -213,11 +223,18 @@
                 <th>
                     hash
                 </th>
-                <th colspan="2">
+                <th colspan="3">
                 </th>
             </tr>
             <?php foreach ($records as $record) { ?>
                 <tr>
+                    <td>
+                        <a href="<?php
+                        echo \Fuel\Core\Uri::create('administrator/user', [], [
+                            'value' => $record['user_id']
+                        ]);
+                        ?>"><?php echo $record['user_id'] ?> </a>
+                    </td>
                     <td>
                         <?php echo $record['id'] ?>
                     </td>
@@ -274,7 +291,7 @@
                         <?php echo \Date::forge($record['date']) ?>
                     </td>
                     <td>
-                        <?php echo $record['hash_before'] . ' - ' . $record['hash'] ?>
+                        <?php echo 'Before: ' . $record['hash_before'] . ' - <br> After: ' . $record['hash'] ?>
                     </td>
                     <td class="text-center">
                         <a href="<?php
@@ -292,6 +309,18 @@
                         ]);
                         ?>">Env</a>
                     </td>
+                    <td class="text-center">
+                        <a target="_blank" href="<?php
+                        echo \Uri::create('administrator/manage/recordlog', [], [
+                            'id'  => $record['id'],
+                            'raw' => 1
+                        ]);
+                        ?>">LOG</a> / <a target="_blank" href="<?php
+                        echo \Uri::create('administrator/manage/recordlog', [], [
+                            'id' => $record['id'],
+                        ]);
+                        ?>">PL</a>
+                    </td>
                 </tr>
             <?php } ?>
         </table>
@@ -306,6 +335,9 @@
         </div>
         <table class="table table-condensed table-bordered">
             <tr>
+                <th>
+                    UID
+                </th>
                 <th>
                     Id
                 </th>
@@ -332,6 +364,13 @@
             </tr>
             <?php foreach ($ftps as $ftp) { ?>
                 <tr>
+                    <td>
+                        <a href="<?php
+                        echo \Fuel\Core\Uri::create('administrator/user', [], [
+                            'value' => $ftp['user_id']
+                        ]);
+                        ?>"><?php echo $ftp['user_id'] ?> </a>
+                    </td>
                     <td>
                         <?php echo $ftp['id'] ?>
                     </td>
@@ -363,7 +402,7 @@
                     </td>
                     <td class="text-center">
                         <a href="<?php
-                        echo \Uri::create('administrator/manage/ftp_test/'.$ftp['id']);
+                        echo \Uri::create('administrator/manage/ftp_test/' . $ftp['id']);
                         ?>" target="_blank">Test</a>
                     </td>
                 </tr>

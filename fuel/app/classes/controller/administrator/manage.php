@@ -114,6 +114,22 @@ class Controller_Administrator_Manage extends Controller_Administrator_Adminchec
         ), FALSE);
     }
 
+    public function get_recordlog() {
+        $r = new \Model_Record();
+        $data = $r->select('*', TRUE)->where('id', \Input::get('id'))->execute()->as_array();
+        if(!count($data))
+            throw new \Exception('The record was not found');
+
+        if(\Input::get('raw')){
+            $raw = unserialize($data[0]['raw']);
+        }else{
+            $raw = $data[0]['post_data'];
+        }
+        echo '<pre>';
+        print_r($raw);
+        die;
+    }
+
     public function action_ftp_test($ftpID) {
         echo 'Testing ftp id : ' . $ftpID . '<br>';
         $ftp = new \Model_Ftp();

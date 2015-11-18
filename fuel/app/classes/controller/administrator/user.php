@@ -19,8 +19,11 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
             ->execute()
             ->as_array();
 
+        $deploy = new \Model_Deploy();
         foreach ($users as $k => $v) {
             $user = new \Craftpip\OAuth\Auth($v['id']);
+            $deploys = $deploy->select('*', TRUE)->where('user_id', $v['id'])->execute()->as_array();
+            $users[$k]['repo'] = count($deploys);
             $users[$k]['verified'] = $user->getAttr('verified');
             $users[$k]['repol'] = $user->getAttr('project_limit');
         }

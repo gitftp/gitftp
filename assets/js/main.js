@@ -14,22 +14,15 @@ $(function () {
         var timestamp = (new Date(parseInt(stamp) * 1000)).getTime();
         return timestamp;
     };
-//    ajaxHelper
+    // ajaxHelper
+    $.ajaxSetup({
+        cache: false,
+    });
     window._ajax = function (arg) {
         return $.ajax(arg)
             .error(function (data) {
                 switch (data.status) {
                     case 0:
-                        //_problem({
-                        //    title: false,
-                        //    content: 'This is temporary, it seems like your internet isn\'t working at the moment.',
-                        //    confirm: function () {
-                        //        location.reload();
-                        //        return false;
-                        //    },
-                        //    confirmButton: '<i class="fa fa-refresh"></i>&nbsp; Reload'
-                        //});
-                        break;
                     case 404:
                     case 200:
                     case 500:
@@ -49,19 +42,17 @@ $(function () {
                 }
             }).always(function (data) {
                 //console.log('Received data: ', data);
-                if (!data.status) {
-                    if (data.reason == '10001') {
-                        _problem({
-                            title: 'Logged out',
-                            content: 'You\'ve been logged out, please login to proceed.',
-                            confirm: function () {
-                                var currentLocation = window.location.href;
-                                window.location.href = home_url + 'login?ref=' + encodeURIComponent(currentLocation);
-                            },
-                            confirmButton: 'Login',
-                            cancelButton: false
-                        });
-                    }
+                if (!data.status && data.reason == '10001') {
+                    _problem({
+                        title: 'Logged out',
+                        content: 'You\'ve been logged out, please login to proceed.',
+                        confirm: function () {
+                            var currentLocation = window.location.href;
+                            window.location.href = home_url + 'login?ref=' + encodeURIComponent(currentLocation);
+                        },
+                        confirmButton: 'Login',
+                        cancelButton: false
+                    });
                 }
             });
     }

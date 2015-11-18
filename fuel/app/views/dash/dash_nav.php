@@ -60,7 +60,7 @@
 
                             <ul class="nav navbar-nav navbar-right">
                                 <li><a href="#" onclick="Backbone.history.loadUrl(); return false;"
-                                        data-toggle="tooltip" data-placement="left" title="Reload"><i
+                                        data-toggle="tooltip" data-placement="bottom" title="Reload"><i
                                             class="fa fa-refresh fa-fw"></i></a></li>
                             </ul>
 

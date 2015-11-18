@@ -14,6 +14,7 @@ class Crontask {
      * Iterates through all deploy, finding which one is not deployed, and starts its deployment.
      */
     public function deploy_all() {
+        // not used anymore.
         $deploy = new \Model_Deploy();
         $record = new \Model_Record();
 
@@ -49,7 +50,6 @@ class Crontask {
         }
     }
 
-
     /**
      * Actual function that is called from CLI.
      * @param null $deploy_id
@@ -57,6 +57,7 @@ class Crontask {
      * @throws \Exception
      */
     public function deploy($deploy_id) {
+        // not used anymore.
         Cli::write('ENVIRONMENT: '.\Fuel::$env);
         Cli::write("Starting with $deploy_id");
         $gfcore = new \Gfcore($deploy_id);
@@ -72,14 +73,9 @@ class Crontask {
      * @throws \Exception
      */
     public function deploy2($deploy_id) {
-        \Cli::write('ENVIRONMENT: '.\Fuel::$env);
-        \Cli::write("Starting with $deploy_id");
-        logger(550, 'starting deploy script');
+        logger(550, "Starting to deploy project: {$deploy_id}", __METHOD__);
         $deploy = new \Deploy($deploy_id);
-        logger(550, 'starting deploy script INIT', __METHOD__);
         $deploy->init();
-        \Cli::write('RAM USED: '.\Utils::humanize_data(memory_get_usage(true)));
-        \Cli::beep();
     }
 
 }

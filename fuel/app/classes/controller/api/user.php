@@ -182,17 +182,17 @@ class Controller_Api_User extends Controller {
             $i = Input::post();
 
             if (!\Auth::instance()->check()) {
-                throw new Exception('Sorry, we got confused. Please try again later.', 123);
+                throw new \Craftpip\Exception('Sorry, we got confused. Please try again later.', 123);
             }
 
             if ($i['newpassword'] !== $i['newpassword2']) {
-                throw new Exception('Sorry, the new passwords do not match.', 123);
+                throw new \Craftpip\Exception('Sorry, the new passwords do not match.', 123);
             }
 
             $a = \Auth::instance()->change_password($i['oldpassword'], $i['newpassword']);
 
             if (!$a) {
-                throw new Exception('Sorry, the old password is incorrect. Please try again.', 123);
+                throw new \Craftpip\Exception('Sorry, the old password is incorrect. Please try again.', 123);
             }
 
             // todo: count length of password please...
@@ -223,7 +223,7 @@ class Controller_Api_User extends Controller {
             $auth = new \Craftpip\OAuth\Auth();
             $users = $auth->getByUsernameEmail($i['email']);
             if (!$users) {
-                throw new Exception('Email/Username not registered with us.');
+                throw new \Craftpip\Exception('Email/Username not registered with us.');
             }
 
             $mail = new \Craftpip\Mail($users['id']);
@@ -235,6 +235,7 @@ class Controller_Api_User extends Controller {
                 'message' => 'asdsa',
             );
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status' => FALSE,
                 'reason' => $e->getMessage(),

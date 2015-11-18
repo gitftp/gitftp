@@ -864,8 +864,16 @@ class Utils {
     }
 
     public static function startDeploy($deploy_id) {
-        shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy2 ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+//        shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy2 ' . $deploy_id . ' > /dev/null 2>/dev/null &');
+        $process = new \Symfony\Component\Process\Process('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy2 ' . $deploy_id);
+        $process->setTimeout(0);
+//        $process->disableOutput();
+        $process->start(function ($something, $somethingelse) {
 
+        });
+        $pid = $process->getPid();
+
+        logger(600, 'function started with pid: ' . $pid, __METHOD__);
         return TRUE;
     }
 

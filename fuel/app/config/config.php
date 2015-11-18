@@ -43,7 +43,7 @@ return array(
      */
     // 'index_file' => false,
 
-    'profiling'         => FALSE,
+    'profiling'         => false,
 
     /**
      * Default location for the file cache
@@ -77,14 +77,14 @@ return array(
     /**
      * Localization & internationalization settings
      */
-     'language'           => 'en', // Default language
-     'language_fallback'  => 'en', // Fallback language when file isn't available for default language
-     'locale'             => 'en_US', // PHP set_locale() setting, null to not set
+    'language'          => 'en', // Default language
+    'language_fallback' => 'en', // Fallback language when file isn't available for default language
+    'locale'            => 'en_US', // PHP set_locale() setting, null to not set
 
     /**
      * Internal string encoding charset
      */
-     'encoding'  => 'UTF-8',
+    'encoding'          => 'UTF-8',
 
     /**
      * DateTime settings
@@ -107,9 +107,9 @@ return array(
      * Fuel::L_INFO
      * Fuel::L_ALL
      */
-     'log_threshold'    => Fuel::L_WARNING,
-     'log_path'         => APPPATH.'logs/',
-     'log_date_format'  => 'Y-m-d H:i:s',
+    'log_threshold'     => Fuel::L_WARNING,
+    'log_path'          => APPPATH . 'logs/',
+    'log_date_format'   => 'Y-m-d H:i:s',
 
     /**
      * Security settings

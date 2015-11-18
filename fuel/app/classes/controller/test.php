@@ -5,16 +5,33 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_eve() {
+
+//        echo '<pre>';
+//        print_r(\Fuel\Core\Cache::get('p'));
+//        die;
+
+//        $a = DB::select()->from('pages')->cached(0)->execute('frontend')->as_array();
+        $a = DB::select()->from('pages')->execute('frontend')->as_array();
+        echo '<pre>';
+        print_r($a);
+        die;
+    }
+
     public function get_eva() {
-//        print_r(Utils::isDisposableEmail('asda@gmail.com'));
-//        \Fuel\Core\Log::debug('asda');
-
-        $a = '///////';
-
-        $b = preg_replace('/^(\/+)/', '', $a);
-//        echo $a;
-        echo $b;
-
+        $process = new \Symfony\Component\Process\Process('ls -la');
+        $process->start();
+        try {
+            $processes = \Fuel\Core\Cache::get('p', FALSE);
+        } catch (Exception $e) {
+            $processes = [];
+        }
+        $process->isRunning();
+        $processes[] = [
+            'pid' => $process->getPid(),
+            'did' => 12
+        ];
+        \Fuel\Core\Cache::set('p.asd.sa.da', $processes, FALSE);
     }
 
     public

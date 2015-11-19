@@ -79,7 +79,7 @@ class Ssh2 implements Backend {
         //Set default directory
         if (isset($parsedUrl['path']) && $parsedUrl['path']) {
             if (!$this->cd(urldecode($parsedUrl['path']))) {
-                throw new \Exception("Could not change directory to '{$data['path']}'. Please make sure the directory exists.");
+                throw new \Exception("Could not change directory to '{$parsedUrl['path']}'. Please make sure the directory exists.");
             }
         }
     }

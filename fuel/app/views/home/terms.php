@@ -52,7 +52,7 @@
                     </li>
                 </ul>
                 <p>
-                    Without limiting any of those representations or warranties, Cocoon has the right (though not the obligation) to, in Cocoon sole discretion (i) refuse or remove any content that, in Cocoon's reasonable opinion, violates any Cocoon policy or is in any way harmful or objectionable, or (ii) terminate or deny access to and use of the Website to any individual or entity for any reason, in Cocoon's sole discretion. Cocoon will have no obligation to provide a refund of any amounts previously paid.
+                    Without limiting any of those representations or warranties, Gitftp has the right (though not the obligation) to, in Gitftp sole discretion (i) refuse or remove any content that, in Gitftp's reasonable opinion, violates any Gitftp policy or is in any way harmful or objectionable, or (ii) terminate or deny access to and use of the Website to any individual or entity for any reason, in Gitftp's sole discretion. Gitftp will have no obligation to provide a refund of any amounts previously paid.
                 </p>
                 <h4>
                     Copyright Infringement

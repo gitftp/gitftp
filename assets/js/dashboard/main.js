@@ -20,7 +20,7 @@ require([
         var l = Backbone.history.getFragment();
         var j = l.split('/')[0] || l.split('/')[1];
         $('.navbar-nav li').removeClass('active');
-        if(typeof j === 'undefined')
+        if (typeof j === 'undefined')
             j = 'project';
         $('.navbar-nav li.' + j).addClass('active');
     });
@@ -46,6 +46,6 @@ require([
     $('[data-toggle="tooltip"]').tooltip();
     var actionbar = new actionbar();
     actionbar.render();
-    console.log('Interested in how this is made? ask me: bonifacepereira@gmail.com');
+    //console.log('Interested in how this is made? ask me: bonifacepereira@gmail.com');
 
 });

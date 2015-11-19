@@ -117,12 +117,12 @@ class Controller_Administrator_Manage extends Controller_Administrator_Adminchec
     public function get_recordlog() {
         $r = new \Model_Record();
         $data = $r->select('*', TRUE)->where('id', \Input::get('id'))->execute()->as_array();
-        if(!count($data))
+        if (!count($data))
             throw new \Exception('The record was not found');
 
-        if(\Input::get('raw')){
+        if (\Input::get('raw')) {
             $raw = unserialize($data[0]['raw']);
-        }else{
+        } else {
             $raw = $data[0]['post_data'];
         }
         echo '<pre>';
@@ -140,14 +140,12 @@ class Controller_Administrator_Manage extends Controller_Administrator_Adminchec
         $data = $data[0];
         $data['user'] = $data['username'];
         $data['pass'] = \Crypt::instance()->decode($data['pass']);
-        $data = http_build_url($data);
-        echo $data . '<br>';
-
-        try {
-            $data = \Utils::test_ftp($data);
-            echo 'Succesful';
-        } catch (Exception $e) {
-            echo $e->getMessage();
-        }
+        $http_url = http_build_url($data);
+        echo $http_url . '<br>';
+        echo '<pre>';
+        $conn = new Banago\Bridge\Bridge($http_url);
+        $files = $conn->ls();
+        echo 'Succesful';
+        print_r($files);
     }
 }

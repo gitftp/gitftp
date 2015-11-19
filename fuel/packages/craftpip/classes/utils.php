@@ -869,11 +869,8 @@ class Utils {
 //        $process->setTimeout(0);
 //        $process->disableOutput();
 //        $process->start(function ($something, $somethingelse) {
-//
 //        });
 //        $pid = $process->getPid();
-
-
         logger(600, 'deploy start for ' . $deploy_id, __METHOD__);
 
         return TRUE;

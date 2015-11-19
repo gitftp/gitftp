@@ -872,7 +872,6 @@ class Utils {
 //
 //        });
 //        $pid = $process->getPid();
-
         logger(600, 'deploy start for ' . $deploy_id, __METHOD__);
 
         return TRUE;

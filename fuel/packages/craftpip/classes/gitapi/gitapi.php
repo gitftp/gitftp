@@ -47,7 +47,6 @@ class GitApi {
         $url = $data['repository'];
         if ($data['git_name'] !== '') {
             if ($provider == 'github') {
-
                 if ($username = $this->auth->getToken('github')) {
                     $username = $username->getToken();
                 } else {

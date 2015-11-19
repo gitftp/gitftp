@@ -1,21 +1,13 @@
 (function ($) {
     "use strict";
     $(document).ready(function () {
-        parallax_image();
-        progress_bar($(this));
         mobile_nav($(this));
-        owl_carousel($(this));
-        one_page_scroll($(this));
         sticky_header($(this));
         bs_tooltip($(this));
-        isotope_go($(this));
         app.init();
     });
     jQuery(window).load(function () {
-        site_loader($(this));
         fullscreen_section($(this));
-        parallax_image();
-        isotope_go($(this));
         $('.section').each(function () {
             animate_start($(this));
         });
@@ -81,9 +73,6 @@
             }, {offset: '80%', triggerOnce: true});
         });
     };
-    var parallax_image = function ($this) {
-        //$.stellar({horizontalScrolling: false, responsive: true});
-    }
     var fullscreen_section = function ($this) {
         $this.find('.fullscreen').each(function () {
             var $this = $(this);
@@ -131,16 +120,7 @@
             auto_height();
         });
     }
-    var progress_bar = function ($this) {
-        $this.find('.progress-bar').each(function () {
-            var $this = $(this);
-            $this.waypoint(function (direction) {
-                $this.css('width', $this.attr('aria-valuenow') + '%');
-            }, {offset: '80%', triggerOnce: true});
-        });
-    }
     var mobile_nav = function ($this) {
-
         $('.menu-toggle').on('click', function () {
             $(this).closest('header').toggleClass('menu-open');
             if ($(this).closest('header').hasClass('menu-3')) {
@@ -159,51 +139,6 @@
             add_mm_class();
         });
     }
-    var owl_carousel = function ($this) {
-        $('.owl-carousel').each(function () {
-            var $this = $(this);
-            $this.owlCarousel({
-                loop: true,
-                margin: 0,
-                responsiveClass: true,
-                responsive: {
-                    0: {items: 1, nav: true},
-                    768: {items: $this.data('col-sm'), nav: false},
-                    992: {items: $this.data('col-md'), nav: true, loop: false},
-                    1200: {items: $this.data('col-lg'), nav: true, loop: false}
-                }
-            });
-        });
-    }
-    var one_page_scroll = function ($this) {
-        $(function () {
-            var sections = jQuery('.section');
-            var navigation_links = jQuery('.menu a, a.scroll-down');
-            sections.waypoint({
-                handler: function (direction) {
-                    var active_section;
-                    active_section = jQuery(this);
-                    if (direction === "up")active_section = active_section.prev();
-                    var active_link = jQuery('.menu a[href="#' + active_section.attr("id") + '"]');
-                    navigation_links.removeClass("active");
-                    active_link.addClass("active");
-                    active_section.addClass("active-section");
-                }, offset: '80%'
-            });
-        });
-        $('.menu, .scroll-down').each(function () {
-            var $this = $(this);
-            $this.localScroll({offset: -30, duration: 500})
-        });
-        $('a.scroll-down').localScroll();
-    }
-    var site_loader = function ($this) {
-        $('.loader').css('opacity', 0);
-        setTimeout(function () {
-            $('.loader').hide();
-            $('body').addClass('loaded')
-        }, 600);
-    }
     var bs_tooltip = function ($this) {
         $('[data-toggle="tooltip"]').tooltip()
     }
@@ -216,31 +151,6 @@
             }
         });
     }
-    var isotope_go = function ($this) {
-        var $container = $('.isotope-container');
-        $container.isotope({
-            itemSelector: '.isotope-item',
-            filter: '*',
-            resizable: false,
-            animationOptions: {duration: 750, easing: 'linear', queue: false}
-        });
-        $('ul.portfolio-filter a').on('click', function () {
-            var selector = $(this).attr('data-filter');
-            $container.isotope({filter: selector, animationOptions: {duration: 750, easing: 'linear', queue: false}});
-            return false;
-        });
-        var $optionSets = $('ul.portfolio-filter'), $optionLinks = $optionSets.find('a');
-        $optionLinks.on('click', function () {
-            var $this = $(this);
-            if ($this.hasClass('selected')) {
-                return false;
-            }
-            var $optionSet = $this.parents('ul.portfolio-filter');
-            $optionSet.find('.selected').removeClass('selected');
-            $this.addClass('selected');
-        });
-    }
-
 
     jconfirm.defaults = {
         container: 'body',
@@ -266,7 +176,7 @@
             this.pageFeedback();
             this.stickyPage();
             this.pageContentImage();
-            $(window).resize(function(){
+            $(window).resize(function () {
                 that.pageContentImage();
                 that.stickyPage();
             });
@@ -298,9 +208,9 @@
         stickyPage: function () {
             var $st = $('#st');
             var w = $(window).width();
-            if(w > 992){
+            if (w > 992) {
                 $st.sticky({topSpacing: $st.data('top') || 0, bottomSpacing: $st.data('botom') || 0});
-            }else{
+            } else {
                 $st.unstick();
             }
         },
@@ -360,8 +270,8 @@
             this.$signupform = $('#home-signup')
             if (!this.$signupform.length)
                 return false;
-            var EmailValid = false,
-                UsernameValid = false,
+            var EmailValid = true,
+                UsernameValid = true,
                 request = false,
                 timer,
                 timer2;
@@ -437,17 +347,17 @@
                     var data = $form.serializeArray();
                     if (!EmailValid) {
                         $.alert({
-                            title: 'Validation',
-                            icon: 'fa fa-info fa-fw orange',
-                            content: 'Please enter a valid Email ID'
+                            title: false,
+                            content: 'Please review your Email-ID',
+                            confirmButton: 'Close',
                         });
                         return false;
                     }
                     if (!UsernameValid) {
                         $.alert({
-                            title: 'Validation',
-                            icon: 'fa fa-icon fa-fw orange',
-                            content: 'Please enter a valid Username'
+                            title: false,
+                            content: 'Please review your Username',
+                            confirmButton: 'Close'
                         });
                         return false;
                     }
@@ -510,7 +420,8 @@
             })
         },
         login: function () {
-            this.$loginform = $('#home-login')
+            var that = this;
+            this.$loginform = $('#home-login');
             if (!this.$loginform.length)
                 return false;
 
@@ -543,10 +454,10 @@
                             }
                         } else {
                             var o = {
-                                title: 'Problem',
-                                icon: 'fa fa-info orange fa-fw',
-                                content: data.reason,
-                                cancelButton: 'Dismiss',
+                                title: false,
+                                content: '<div class="space10"></div>' +
+                                '' + data.reason,
+                                cancelButton: 'Close',
                                 cancelButtonClass: 'btn btn-default',
                                 confirmButton: false,
                             };
@@ -566,10 +477,10 @@
                                     }).done(function (res) {
                                         if (res.status) {
                                             $.alert({
-                                                title: 'Email sent',
-                                                content: 'Please head to your Email account to activate your Gitftp account.',
-                                                confirmButton: 'Dismiss',
-                                                icon: 'fa fa-check green'
+                                                title: false,
+                                                content: '<div class="space10"></div>' +
+                                                'We have resent you the activation Email, head to your Email account to activate your Gitftp account.',
+                                                confirmButton: 'Close',
                                             });
                                         }
                                         jc.close();

@@ -35,6 +35,7 @@ class Controller_Api_User extends Controller {
                 \Response::redirect($url);
             }
         } catch (Exception $e) {
+            throw $e;
             echo \View::forge('errors/generic_error', [
                 'message' => 'Maybe your autorization code has Expired, please go back and try again.'
             ]);
@@ -47,9 +48,13 @@ class Controller_Api_User extends Controller {
 
             $auth = new \Craftpip\OAuth\Auth();
             $user = $auth->getByUsernameEmail($i['email']);
-            if (!$user) {
-                throw new Exception('');
-            }
+            if (!$user)
+                throw new \Craftpip\Exception('The email is not registered with us.');
+
+            $auth->setId($user['id']);
+            $verified = $auth->getAttr('verified');
+            if ($verified)
+                throw new \Craftpip\Exception('Your account is already Activated.');
 
             $mail = new \Craftpip\Mail($user['id']);
             $mail->template_signup();
@@ -97,7 +102,7 @@ class Controller_Api_User extends Controller {
                     $isVerified = $auth->getAttr('verified');
                     if (!$isVerified) {
                         $auth->logout();
-                        throw new Exception('This account is not activated, please head to your Email & activate your Gitftp account.');
+                        throw new \Craftpip\Exception('Your account is not activated, please head to your Email & activate your Gitftp account.');
                     }
 
                     $response = array(
@@ -137,9 +142,14 @@ class Controller_Api_User extends Controller {
             if ($validation->run()) {
                 $email = $i['email'];
                 if (\Utils::isDisposableEmail($email))
-                    throw new \Craftpip\Exception("The email id: $email is a disposable Email, please use a Genuine Email-id to continue registration.");
+                    throw new \Craftpip\Exception("$email is a disposable Email, please use a genuine Email-id to signup.");
 
                 $auth = new \Craftpip\OAuth\Auth();
+
+                $user = $auth->getByUsernameEmail($i['email']);
+                if ($user)
+                    throw new \Craftpip\Exception('This Email-ID is already registered.');
+
                 $user_id = $auth->create_user(
                     $i['username'],
                     $i['password'],
@@ -291,17 +301,15 @@ class Controller_Api_User extends Controller {
 
         try {
             if (!is_null($key)) {
-
                 if (\Utils::isDisposableEmail($key) && $type == 'email') {
-                    throw new \Craftpip\Exception("The Email id: $key is a disposable Email, please use a Genuine Email it to continue.");
+                    throw new \Craftpip\Exception("$key is a disposable Email, please use a genuine Email-id to signup.");
                 }
-
                 $user = $auth->getByUsernameEmail($key);
                 if ($user) {
                     if ($type == 'email')
                         throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password', [], ['email' => $key]) . '">Reset password</a> or <a href="' . \Uri::create('login', [], ['email' => $key]) . '">Login</a>');
                     elseif ($type == 'username')
-                        throw new \Craftpip\Exception('This username is taken');
+                        throw new \Craftpip\Exception('This username is taken.');
                 } else {
                     $response = array(
                         'status' => FALSE,

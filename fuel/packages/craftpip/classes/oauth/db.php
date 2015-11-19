@@ -41,7 +41,7 @@ class Db extends \Auth\Auth_Login_Simpleauth {
             ->where('uid', (String)$uid)
             ->execute()->as_array();
 
-        if(count($data) == 0)
+        if(!count($data))
             return false;
 
         $user_id = $data[0]['parent_id'];

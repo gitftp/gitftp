@@ -53,6 +53,9 @@
                     <li>
                         <a href="<?php echo Uri::create('administrator/docs/'); ?>">Docs pages</a>
                     </li>
+                    <li>
+                        <a href="<?php echo Uri::create('administrator/settings/'); ?>">Settings</a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav pull-right">
                     <li class="">

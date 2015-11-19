@@ -29,8 +29,8 @@ Class Controller_Pages extends Controller {
         if (is_null($slug))
             \Response::redirect(\Uri::create('docs/introduction'));
 
-        $list = \DB::select('title', 'slug')->from('pages')->where('type', 'getting-started')->and_where('published', 1)->order_by('position', 'ASC')->execute('frontend')->as_array();
-        $curr_page = \DB::select()->from('pages')->where('slug', $slug)->and_where('type', 'getting-started')->and_where('published', 1)->execute('frontend');
+        $list = \DB::select('title', 'slug')->from('pages')->where('type', 'getting-started')->and_where('published', 1)->order_by('position', 'ASC')->cached(3600 * 30)->execute('frontend')->as_array();
+        $curr_page = \DB::select()->from('pages')->where('slug', $slug)->and_where('type', 'getting-started')->and_where('published', 1)->cached(3600 * 30)->execute('frontend');
 
         $view = View::forge('home/base_layout');
         $view->css = View::forge('home/layout/css');

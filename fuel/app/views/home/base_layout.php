@@ -12,9 +12,6 @@
     <![endif]-->
 </head>
 <body class="loaded">
-<!--<div class="loader">-->
-<!--<div class="animated rubberBand spinner"></div>-->
-<!--</div>-->
 <div class="layout-wrapper page" id="page">
     <?php echo $header ?>
     <?php echo $body ?>

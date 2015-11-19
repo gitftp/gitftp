@@ -367,8 +367,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
         try {
             if (!isset($i['deploy_id']) || !isset($i['type']))
-                throw new Exception('Missing parameter.');
-
+                throw new \Craftpip\Exception('Missing parameters.');
 
             $record = new Model_Record();
             $branch = new Model_Branch();
@@ -420,23 +419,26 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
                         case 'revert':
                             $set['record_type'] = $record->type_rollback;
                             if (!isset($i['hash']))
-                                throw new Exception('Missing parameter hash.');
+                                throw new \Craftpip\Exception('Missing parameter hash.');
                             else
                                 $i['hash'] = trim($i['hash']);
 
+                            if(strtolower($i['hash']) == 'head')
+                                throw new \Craftpip\Exception('Please enter a valid hash');
+
                             $branches = $git->branch();
                             if (array_key_exists($i['hash'], $branches))
-                                throw new Exception('The hash provided is a Branch. Please enter a valid hash');
+                                throw new \Craftpip\Exception('The hash provided is a Branch. Please enter a valid hash');
 
                             $tags = $git->tag();
                             if (\Arr::in_array_recursive($i['hash'], $tags))
-                                throw new Exception('The hash provided is a Tag. Please enter a valid hash');
+                                throw new \Craftpip\Exception('The hash provided is a Tag. Please enter a valid hash');
 
                             try {
                                 $hash = $git->verifyhash($i['hash']);
                                 $set['hash'] = $hash;
                             } catch (Exception $e) {
-                                throw new Exception('The hash provided is not valid or does not exist in the repository.');
+                                throw new \Craftpip\Exception('The hash provided is not valid or does not exist in the repository.');
                             }
 
                             $process = $git->getProcessBuilder()->add('branch')
@@ -447,10 +449,9 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
 
                             $f = strpos($a, $singlebranch['branch_name']);
                             if (empty($f)) {
-                                throw new Exception('The hash does not belong to the current environment branch.');
+                                throw new \Craftpip\Exception('The hash does not belong to the current environment branch.');
                             }
                             break;
-
                         default:
                             throw new Exception('Invalid value Type passed.');
                             break;
@@ -466,6 +467,7 @@ class Controller_Api_Deploy extends Controller_Api_Apilogincheck {
             );
 
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status' => FALSE,
                 'reason' => $e->getMessage(),

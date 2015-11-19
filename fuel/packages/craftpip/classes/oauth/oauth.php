@@ -3,6 +3,7 @@
 namespace Craftpip\OAuth;
 
 use Craftpip\Exception;
+use Gf\Settings;
 
 /**
  * Wrapper class to validate Oauth logins.
@@ -25,11 +26,6 @@ class OAuth extends Auth {
 
     public function __construct($user_id = NULL) {
         parent::__construct($user_id);
-        if (\Fuel::$env == 'development') {
-            $this->config = \Config::load('oauth-dev');
-        } else {
-            $this->config = \Config::load('oauth');
-        }
         $this->client = new \GuzzleHttp\Client();
     }
 
@@ -69,7 +65,6 @@ class OAuth extends Auth {
 
     public function refreshToken($provider) {
         $this->OAuth_provider = $this->_parseProviderName($provider);
-        $this->loadConfig($this->OAuth_provider);
         $driver = $this->getDriver();
         $token = $this->getToken($provider);
         $refresh_token = $token->getRefreshToken(); // refresh token used to retrive the new token.
@@ -83,26 +78,21 @@ class OAuth extends Auth {
         return $new_token;
     }
 
-    public function loadConfig($provider) {
-        if (array_key_exists($provider, $this->config['providers'])) {
-            $this->OAuth_providerConfig = $this->config['providers'][$provider];
-        } else {
-            throw new Exception($provider . ': Provider not found.');
-        }
-    }
-
-    public function init($provider) {
+    public function init($provider, $refUrl = NULL) {
         $provider = $this->_parseProviderName($provider);
-        $this->loadConfig($provider);
         $this->OAuth_provider = $provider;
         $this->OAuth_callbackUrl = \Uri::current();
         $provider = $this->getDriver();
+
         if (!isset($_GET['code'])) {
             $authUrl = $provider->getAuthorizationUrl($this->OAuth_scope);
             \Session::set('oauth2state', $provider->getState());
+//            \Session::set('oauth2state_ref', $refUrl);
             \Response::redirect($authUrl);
+
         } elseif (empty($_GET['state']) || $_GET['state'] != \Session::get('oauth2state')) {
             \Session::delete('oauth2state');
+//            \Session::delete('oauth2state_ref');
         } elseif ($this->is_error()) {
             //todo: error if request is denied.
         } else {
@@ -146,19 +136,29 @@ class OAuth extends Auth {
 
     public function processCallback() {
         if ($this->user_id != 0) {
+            // meaning, the user is already logged in.
             $this->OAuth_state = 'logged_in';
         } else {
+            // user is not logged in.
 
             $user = $this->getUserByProviderUID($this->OAuth_user['uid']);
-            if (!$user || count($user) > 1)
+            // check if user is registered by this provider UID.
+
+            if (!$user)
                 $user = $this->getByUsernameEmail($this->OAuth_email);
 
             if ($user) {
                 $user_id = $user['id'];
-                $this->setId($user_id);
+                $this->setId($user_id); // set User ID here.
                 $this->OAuth_state = 'logged_in';
             } else {
-                $user_id = $this->create_user($this->OAuth_user['username'], \Str::random(), $this->OAuth_email, $this->config['default_group'], array());
+                $user_id = $this->create_user(
+                    $this->OAuth_user['username'],
+                    \Str::random(),
+                    $this->OAuth_email,
+                    Settings::get('oauth_default_group'),
+                    array()
+                );
                 $this->setId($user_id);
                 $this->OAuth_state = 'registered';
             }
@@ -195,17 +195,17 @@ class OAuth extends Auth {
         switch (strtolower($this->OAuth_provider)) {
             case 'github':
                 $this->OAuth_scope = [
-                    'scope' => explode(',', $this->OAuth_providerConfig['scope'])
+                    'scope' => explode(',', Settings::get('oauth_provider_github_scope'))
                 ];
                 $driver = new \League\OAuth2\Client\Provider\Github([
-                    'clientId'     => $this->OAuth_providerConfig['client_id'],
-                    'clientSecret' => $this->OAuth_providerConfig['client_secret'],
+                    'clientId'     => Settings::get('oauth_provider_github_client_id'),
+                    'clientSecret' => Settings::get('oauth_provider_github_client_secret'),
                 ]);
                 break;
             case 'bitbucket':
                 $driver = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
-                    'clientId'     => $this->OAuth_providerConfig['key'],
-                    'clientSecret' => $this->OAuth_providerConfig['secret'],
+                    'clientId'     => Settings::get('oauth_provider_bitbucket_key'),
+                    'clientSecret' => Settings::get('oauth_provider_bitbucket_secret'),
                     'redirectUri'  => $this->OAuth_callbackUrl,
                 ]);
                 break;

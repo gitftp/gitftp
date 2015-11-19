@@ -27,7 +27,7 @@
             <th>email</th>
             <th>created</th>
             <th>updated</th>
-            <th colspan="2"></th>
+            <th colspan="3"></th>
         </tr>
         <?php foreach ($users as $k) { ?>
             <tr>
@@ -52,6 +52,14 @@
                 </td>
                 <td class="text-center">
                     <a class="resetpassword" href="<?php echo Uri::create('administrator/user/resetpassword/' . $k['username']); ?>">resetpass</a>
+                </td>
+                <td class="text-center">
+                    <a href="<?php
+                    echo \Uri::create('administrator/manage', [], [
+                        'search' => $k['id'],
+                        'key'    => 'user_id'
+                    ]);
+                    ?>">Proj</a>
                 </td>
             </tr>
         <?php } ?>

@@ -47,12 +47,12 @@
                                         aria-expanded="false"><?php echo \Auth::instance()->get_screen_name() ?></a>
                                     <ul class="dropdown-menu" role="menu">
                                         <li>
-                                            <a href="/settings/services"><i class="fa fa-play fa-fw"></i> Connected Accounts</a>
+                                            <a href="/settings/services"><i class="fa fa-refresh gray"></i>&nbsp; Connected Accounts</a>
                                         </li>
-                                        <li><a href="/settings"><i class="fa fa-gear fa-fw"></i> Settings</a></li>
+                                        <li><a href="/settings"><i class="fa fa-gear gray"></i>&nbsp; Settings</a></li>
                                         <li class="divider"></li>
                                         <li>
-                                            <a href="<?php echo Uri::base(FALSE); ?>logout"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                                            <a href="<?php echo Uri::base(FALSE); ?>logout" class="">Logout</a>
                                         </li>
                                     </ul>
                                 </li>

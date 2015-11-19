@@ -24,10 +24,10 @@ Class DeployHelper {
             if (is_array($message)) {
                 $message = print_r($message, TRUE);
             }
-            if ($this->writeOutputToLog) {
-                logger(550, $message, __METHOD__);
-            }
             \Cli::write("~ $message", $color, $bgcolor);
+        }
+        if ($this->writeOutputToLog) {
+            logger(550, $message, __METHOD__);
         }
     }
 
@@ -290,13 +290,4 @@ Class DeployHelper {
 
         return $this->runCommand($command, ($repoPath === FALSE) ? FALSE : NULL);
     }
-
-    // start in bg - UPDATE
-    public static function deploy_in_bg($deploy_id) {
-        // todo: This is moved in Utils,  no need for it to be here.
-        shell_exec('FUEL_ENV=' . \Fuel::$env . ' php /var/www/html/oil refine crontask:deploy ' . $deploy_id . ' > /dev/null 2>/dev/null &');
-
-        return TRUE;
-    }
-
 }

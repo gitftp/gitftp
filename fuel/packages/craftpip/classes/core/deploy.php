@@ -53,8 +53,8 @@ class Deploy extends DeployHelper {
 
     // END deploy script
     public function __construct($deploy_id) {
-        if (is_debug)
-            $this->writeOutputToLog = TRUE;
+        $this->writeOutputToLog = \Gf\Settings::get('deploy_write_output_to_log');
+        $this->debug = \Gf\Settings::get('deploy_debug');
         $old_error_handler = set_error_handler(array( // Handle traditional errors. Instead throw & log exceptions.
             $this,
             'error_handler'
@@ -191,14 +191,18 @@ class Deploy extends DeployHelper {
 
         } catch (Exception $e) {
             logger(550, "CORE $this->deploy_id ERROR: " . $e->getMessage(), __METHOD__);
-            $error = $e->getCode() . ' ' . $e->getMessage();
-            if (is_debug)
+
+            $error = $e->getMessage();
+            if (\Gf\Settings::get('deploy_log_trace')) {
+                $error .= ' CODE: ' . $e->getCode();
                 $error .= ' <br>Trace: ' . $e->getTraceAsString();
-            $this->log('ERROR', $error);
+            }
+            $this->log('Failure', $error);
 
             $this->m_record->set($this->record_id, array(
-                'status' => $this->m_record->failed,
-                'raw'    => serialize($this->log)
+                'status'         => $this->m_record->failed,
+                'raw'            => serialize($this->log),
+                'failure_reason' => $e->getMessage()
             ), TRUE);
 
             $this->output('DAMMIT!, ' . $e->getMessage(), 'white', 'red');
@@ -471,7 +475,7 @@ class Deploy extends DeployHelper {
 
                     $this->connection->rmdir($dir);
                 } catch (Exception $e) {
-                    $this->log("CORE: Warning: Could not remove directory $dir - $e->getMessage()");
+                    $this->log("CORE: Warning: Could not remove directory $dir");
                 }
                 $dirNo = str_pad(++$dirNo, strlen($numberOfdirsToDelete), ' ', STR_PAD_LEFT);
                 $this->output("× $dirNo of $numberOfdirsToDelete {$dir}");

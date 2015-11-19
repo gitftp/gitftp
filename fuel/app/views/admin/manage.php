@@ -51,7 +51,7 @@
                 <th>
                     Date created
                 </th>
-                <th colspan="3">
+                <th colspan="2">
 
                 </th>
             </tr>
@@ -97,14 +97,6 @@
                             'key'    => 'deploy_id'
                         ]);
                         ?>">Recs</a>
-                    </td>
-                    <td class="text-center">
-                        <a href="<?php
-                        echo \Uri::create('administrator/manage/records', [], [
-                            'search' => $project['id'],
-                            'key'    => 'deploy_id'
-                        ]);
-                        ?>">Ftp</a>
                     </td>
                 </tr>
             <?php } ?>

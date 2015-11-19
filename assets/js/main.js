@@ -23,6 +23,7 @@ $(function () {
             .error(function (data) {
                 switch (data.status) {
                     case 0:
+                        break;
                     case 404:
                     case 200:
                     case 500:

@@ -29,7 +29,7 @@
                                 <p class="text">or</p>
                             </div>
                             <div class="form-group">
-                                <label for="email">Username or Email</label>
+                                <label for="email">Email or Username</label>
                                 <input type="text" id="email" name="email" placeholder="Your Email or Username" class="form-control" <?php echo \Input::get('email', null) ? '' : 'autofocus="true"' ?> value="<?php echo \Input::get('email', ''); ?>">
                             </div>
                             <div class="form-group">

@@ -6,16 +6,15 @@ class Controller_Test extends Controller {
     }
 
     public function get_eve() {
-
 //        echo '<pre>';
 //        print_r(\Fuel\Core\Cache::get('p'));
 //        die;
-
 //        $a = DB::select()->from('pages')->cached(0)->execute('frontend')->as_array();
-        $a = DB::select()->from('pages')->execute('frontend')->as_array();
-        echo '<pre>';
-        print_r($a);
-        die;
+//        $a = DB::select()->from('pages')->execute('frontend')->as_array();
+//        echo '<pre>';
+//        print_r($a);
+//        die;
+//        asdasdas
     }
 
     public function get_eva() {

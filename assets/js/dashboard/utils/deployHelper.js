@@ -32,13 +32,13 @@ define([], function () {
                 '<div class="deploytitle">Deploy type</div>' +
                 '<div class="row">' +
                 '<div class="col-md-4 col-sm-4">' +
-                '<div class="row"><a href="#" class="jc-global-update"><i class="fa fa-level-up"></i><br>Update</a></div>' +
+                '<a href="#" class="jc-global-update"><i class="fa fa-level-up"></i><br>Update</a>' +
                 '</div>' +
                 '<div class="col-md-4 col-sm-4">' +
-                '<div class="row"><a href="#" class="jc-global-revert"><i class="fa fa-reply"></i><br>Revision</a></div>' +
+                '<a href="#" class="jc-global-revert"><i class="fa fa-reply"></i><br>Revision</a>' +
                 '</div>' +
                 '<div class="col-md-4 col-sm-4">' +
-                '<div class="row"><a href="#" class="jc-global-sync"><i class="fa fa-refresh"></i><br>Upload all</a></div>' +
+                '<a href="#" class="jc-global-sync"><i class="fa fa-refresh"></i><br>Upload all</a>' +
                 '</div>' +
                 '</div>' +
                 '</div>';

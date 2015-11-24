@@ -1,5 +1,6 @@
 <?php
 
+// todo: delete this.
 return array(
     'default_group'     => 1,
     'providers'         => array(

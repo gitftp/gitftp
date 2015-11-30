@@ -751,8 +751,7 @@ class Utils {
 
     public static function runCommand($command, $escape = TRUE) {
         // Escape special chars in string with a backslash
-        if ($escape)
-            $command = escapeshellcmd($command);
+        if ($escape) $command = escapeshellcmd($command);
         exec($command, $output);
 
         return $output;
@@ -828,8 +827,7 @@ class Utils {
         $lines = preg_split('/\\n/', $output);
 
         foreach ($lines as $k => $v) {
-            if (trim($v) == '')
-                continue;
+            if (trim($v) == '') continue;
 
             $b = preg_split('/\s+/', $v);
             $b = explode('/', $b[1]);
@@ -1024,6 +1022,10 @@ class Utils {
         return $data;
     }
 
+    /**
+     * TODO: remove this . not used.
+     * @param $string
+     */
     public static function log($string) {
         DB::insert('log')->set(array('a' => $string,))->execute();
     }
@@ -1058,6 +1060,29 @@ class Utils {
         chdir($origin);
 
         return (count($results)) ? $results[0] : FALSE;
+    }
+
+    public static function get_ftp_key_path($ftp_id) {
+
+    }
+
+    /**
+     * $publickey = $keys['publickey'];
+     * $privatekey = $keys['privatekey'];
+     *
+     * @param null   $comment
+     * @param string $postComment
+     * @return array
+     */
+    public static function get_new_openssh_public_private_pair($comment = NULL, $postComment = '-deploy@gitftp') {
+        $rsa = new phpseclib\Crypt\RSA();
+        $rsa->setPublicKeyFormat(6); // CRYPT_RSA_PUBLIC_FORMAT_OPENSSH is 6
+        if (is_null($comment)) $comment = \Str::random('alum', 6);
+
+        $rsa->comment = $comment . $postComment;
+        $keys = $rsa->createKey();
+
+        return $keys;
     }
 }
 

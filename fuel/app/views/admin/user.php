@@ -27,11 +27,12 @@
             <th>email</th>
             <th>created</th>
             <th>updated</th>
+            <th>Last login</th>
             <th colspan="3"></th>
         </tr>
         <?php foreach ($users as $k) { ?>
             <tr>
-                <td><?php echo $k['verified'] == 1 ? 'yes' : 'no' ?></td>
+                <td style="color: white;background-color: <?php echo $k['verified'] == 1 ? 'green' : 'red' ?>"><?php echo $k['verified'] == 1 ? 'yes' : 'no' ?></td>
                 <td><?php echo $k['repo'] ?></td>
                 <td><?php echo $k['repol'] ?></td>
                 <td><?php echo $k['id'] ?></td>
@@ -39,11 +40,12 @@
                 <td><?php echo $k['group'] ?></td>
                 <td><?php echo $k['email'] ?></td>
                 <td>
-                    <?php echo Date::forge($k['created_at'])->format("%m/%d/%Y %H:%M"); ?>
+                    <?php echo \Date::forge($k['created_at'])->format("%m/%d/%Y %H:%M"); ?>
                 </td>
                 <td>
-                    <?php echo Date::forge($k['updated_at'])->format("%m/%d/%Y %H:%M"); ?>
+                    <?php echo \Date::forge($k['updated_at'])->format("%m/%d/%Y %H:%M"); ?>
                 </td>
+                <td><?php echo \Date::time_ago($k['last_login']); ?></td>
                 <td class="text-center">
                     <a href="<?php echo Uri::create('administrator/user/edituser/' . $k['id']); ?>">edit</a>
                     <!--                    &bull;-->

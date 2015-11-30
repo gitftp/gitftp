@@ -15,7 +15,8 @@ Autoloader::add_classes(array(
 
     'Craftpip\Git'                    => __DIR__ . '/classes/git.php',
     'Craftpip\Exception'              => __DIR__ . '/classes/exception.php',
-    'Gf\Settings'                     => __DIR__ . '/classes/settings.php',
+    'Gf\Settings'                     => __DIR__ . '/classes/gf/settings.php',
+    'Gf\Path'                         => __DIR__ . '/classes/gf/path.php',
 
     'Gfcore'                          => __DIR__ . '/classes/core/gfcore.php',
     'Gitcore'                         => __DIR__ . '/classes/core/gitcore.php',

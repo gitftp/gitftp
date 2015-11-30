@@ -21,10 +21,15 @@ class Settings {
             \Cache::set(self::$cname, $c, 3600 * 30);
         }
 
-        if (array_key_exists($name, $c))
-            return $c[$name];
-        else
+        if (array_key_exists($name, $c)) {
+            if ($c[$name] == '0') {
+                return FALSE;
+            } else {
+                return $c[$name];
+            }
+        } else {
             return FALSE;
+        }
     }
 
     public static function set($name, $value) {

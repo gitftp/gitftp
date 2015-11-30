@@ -19,43 +19,41 @@ $(function () {
         cache: false,
     });
     window._ajax = function (arg) {
-        return $.ajax(arg)
-            .error(function (data) {
-                switch (data.status) {
-                    case 0:
-                        break;
-                    case 404:
-                    case 200:
-                    case 500:
-                    default:
-                        _problem({
-                            title: false,
-                            content: '<div class="space10"></div>' +
-                            'Something is not right, Please reload the browser and try again. <br>Error code: <code>' + data.status + '</code>',
-                            icon: 'fa fa-exclamation-circle',
-                            confirm: function () {
-                                history.back();
-                            },
-                            confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
-                            cancelButton: 'close'
-                        });
-                        break;
-                }
-            }).always(function (data) {
-                //console.log('Received data: ', data);
-                if (!data.status && data.reason == '10001') {
+        return $.ajax(arg).error(function (data) {
+            switch (data.status) {
+                case 0:
+                    break;
+                case 404:
+                case 200:
+                case 500:
+                default:
                     _problem({
-                        title: 'Logged out',
-                        content: 'You\'ve been logged out, please login to proceed.',
+                        title: false,
+                        content: '<div class="space10"></div>' + 'Something is not right, Please reload the browser and try again. <br>Error code: <code>' + data.status + '</code>',
+                        icon: 'fa fa-exclamation-circle',
                         confirm: function () {
-                            var currentLocation = window.location.href;
-                            window.location.href = home_url + 'login?ref=' + encodeURIComponent(currentLocation);
+                            history.back();
                         },
-                        confirmButton: 'Login',
-                        cancelButton: false
+                        confirmButton: '<i class="fa fa-arrow-left"></i>&nbsp; Back',
+                        cancelButton: 'close'
                     });
-                }
-            });
+                    break;
+            }
+        }).always(function (data) {
+            //console.log('Received data: ', data);
+            if (!data.status && data.reason == '10001') {
+                _problem({
+                    title: 'Logged out',
+                    content: 'You\'ve been logged out, please login to proceed.',
+                    confirm: function () {
+                        var currentLocation = window.location.href;
+                        window.location.href = home_url + 'login?ref=' + encodeURIComponent(currentLocation);
+                    },
+                    confirmButton: 'Login',
+                    cancelButton: false
+                });
+            }
+        });
     }
     window._problem = function (a) {
         var b = {};
@@ -104,17 +102,18 @@ $(function () {
     window.defaultTitle = 'Gitftp Console';
     window.setTitle = function (title) {
         if (title)
-            document.title = title + ' - ' + window.defaultTitle;
-        else
+            document.title = title + ' - ' + window.defaultTitle; else
             document.title = window.defaultTitle;
     }
 
     $.easing.jswing = $.easing.swing, $.extend($.easing, {
         easeOutQuart: function (f, d, c, b, g) {
             return -b * ((d = d / g - 1) * d * d * d - 1) + c
-        }, easeOutExpo: function (f, d, c, b, g) {
+        },
+        easeOutExpo: function (f, d, c, b, g) {
             return d == g ? c + b : b * (-Math.pow(2, -10 * d / g) + 1) + c
-        }, easeOutElastic: function (h, f, d, c, k) {
+        },
+        easeOutElastic: function (h, f, d, c, k) {
             var b = 1.70158, j = 0, g = c;
             if (0 == f) {
                 return d

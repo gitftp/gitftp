@@ -5,10 +5,10 @@ class Model_Ftp extends Model {
     private $table = 'ftp';
     public $user_id;
 
-    public function __construct($user_id = null) {
-        if(!is_null($user_id)){
+    public function __construct($user_id = NULL) {
+        if (!is_null($user_id)) {
             $this->user_id = $user_id;
-        }elseif (Auth::check()) {
+        } elseif (Auth::check()) {
             $this->user_id = Auth::get_user_id()[1];
         } else {
             $this->user_id = '*';
@@ -17,8 +17,7 @@ class Model_Ftp extends Model {
 
     public function select($select = NULL, $direct = FALSE) {
         $q = \DB::select($select)->from($this->table);
-        if (!$direct)
-            $q = $q->and_where('user_id', $this->user_id);
+        if (!$direct) $q = $q->and_where('user_id', $this->user_id);
 
         return $q;
     }
@@ -46,17 +45,36 @@ class Model_Ftp extends Model {
     public function isUsed($id) {
         $branch = new \Model_Branch();
         $branches = $branch->get_by_ftp_id($id);
-        if (count($branches))
-            return count($branches);
-        else {
+        if (count($branches)) return count($branches); else {
             return FALSE;
         }
     }
 
+    public function getParsed($id) {
+        $q = \DB::select()->from($this->table)->where('user_id', $this->user_id)->and_where('id', $id)->execute()->as_array();
+        foreach ($q as $k => $a) {
+            $q[$k]['privatekey'] = $this->parseKeyPath($a['fspath'], $a['priv']);
+        }
+
+        return $q;
+    }
+
+    public function getKeyContents($pathID, $key) {
+        $path = $this->parseKeyPath($pathID, $key);
+        if (is_readable($path)) {
+            return \File::read($path, TRUE);
+        } else {
+            throw new \Exception("The file {$path} doesn\'t exists.");
+        }
+    }
+
+    public function parseKeyPath($pathID, $key) {
+        return \Gf\Path::get($pathID) . '/' . $this->user_id . '/' . $key;
+    }
+
     public function get($id = NULL) {
 
-        $q = DB::select()->from($this->table)
-            ->where('user_id', $this->user_id);
+        $q = \DB::select()->from($this->table)->where('user_id', $this->user_id);
 
         if ($id != NULL) {
             $q = $q->and_where('id', $id);
@@ -89,11 +107,9 @@ class Model_Ftp extends Model {
             $a = $a->and_where('user_id', $this->user_id);
         }
         $a = $a->execute()->as_array();
-        if (!count($a))
-            return FALSE;
+        if (!count($a)) return FALSE;
 
-        if (isset($set['pass']))
-            $set['pass'] = \Crypt::instance()->encode($set['pass']);
+        if (isset($set['pass'])) $set['pass'] = \Crypt::instance()->encode($set['pass']);
 
         return DB::update($this->table)->set($set)->where('id', $id)->execute();
     }
@@ -114,9 +130,7 @@ class Model_Ftp extends Model {
         $ar['pass'] = \Crypt::instance()->encode($ar['pass']);
 
         $ar['user_id'] = $this->user_id;
-        $r = DB::insert($this->table)
-            ->set($ar)
-            ->execute();
+        $r = DB::insert($this->table)->set($ar)->execute();
 
         return $r[0];
     }

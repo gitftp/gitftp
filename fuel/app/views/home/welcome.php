@@ -73,7 +73,7 @@
             <div class="col-md-3">
                 <div class="paper text-center">
                     <span class="space"></span>
-                    <i class="icon large fa fa-rocket red"></i>
+                    <i class="icon large fa ti-bolt red"></i>
                     <h4 class="b">Flexibility</h4>
 
                     <p class="lead">
@@ -85,7 +85,7 @@
             <div class="col-md-3">
                 <div class="paper text-center">
                     <span class="space"></span>
-                    <i class="icon large fa fa-leaf green"></i>
+                    <i class="icon large fa ti-cloud green"></i>
                     <h4 class="b">Environments</h4>
 
                     <p class="lead">
@@ -97,7 +97,7 @@
             <div class="col-md-3">
                 <div class="paper text-center">
                     <span class="space"></span>
-                    <i class="icon large fa fa-server orange"></i>
+                    <i class="icon large fa ti-server orange"></i>
                     <h4 class="b">Supports FTP/SSH</h4>
 
                     <p class="lead">
@@ -109,7 +109,7 @@
             <div class="col-md-3">
                 <div class="paper text-center">
                     <span class="space"></span>
-                    <i class="icon large fa fa-lock blue"></i>
+                    <i class="icon large fa ti-lock blue"></i>
                     <h4 class="b">Security</h4>
 
                     <p class="lead">

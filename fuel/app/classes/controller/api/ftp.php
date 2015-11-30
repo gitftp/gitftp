@@ -3,13 +3,22 @@
 class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
     public function get_unused() {
-        $ftp = new Model_Ftp();
-        $unusedftp = $ftp->getUnused();
+        try {
+            $ftp = new \Model_Ftp();
+            $unusedftp = $ftp->getUnused();
 
-        $this->response(array(
-            'status' => TRUE,
-            'data'   => $unusedftp
-        ));
+            $response = array(
+                'status' => TRUE,
+                'data'   => $unusedftp
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage(),
+            );
+        }
+        $this->response($response);
     }
 
     /**
@@ -19,18 +28,70 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      * @return type
      */
     public function action_get($id = NULL) {
-        $ftp = new Model_Ftp();
-        $data = $ftp->get($id);
-        $data = Utils::strip_passwords($data);
-        $this->response(array(
-            'status' => TRUE,
-            'data'   => $data
-        ));
+        try {
+            $ftp = new \Model_Ftp();
+            $data = $ftp->get($id);
+            $data = \Utils::strip_passwords($data);
+
+            if (!is_null($id)) {
+                foreach ($data as $d => $a) {
+                    if (empty($a['pub']) || empty($a['priv'])) continue;
+
+                    $public = $ftp->getKeyContents($a['fspath'], $a['pub']);
+                    $data[$d]['command'] = "echo -e '$public' >> ~/.ssh/authorized_keys <br>chmod 0600 ~/.ssh/authorized_keys";;
+                }
+            }
+
+            $response = array(
+                'status' => TRUE,
+                'data'   => $data
+            );
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            );
+        }
+
+        $this->response($response);
+    }
+
+    public function get_authkey($id = NULL) {
+        try {
+            if (is_null($id)) {
+                $id = \Str::random('numeric', 8);
+                $key = \Utils::get_new_openssh_public_private_pair();
+                $life = \Gf\Settings::get('ftp_temp_key_cache_life');
+                \Cache::set('key.' . $id, serialize($key), (int)$life);
+                $public = $key['publickey'];
+            } else {
+                $key = \Cache::get('key.' . $id);
+                $key = unserialize($key);
+                $public = $key['publickey'];
+            }
+            $command = "echo -e '$public' >> ~/.ssh/authorized_keys <br>chmod 0600 ~/.ssh/authorized_keys";
+            $response = [
+                'status' => TRUE,
+                'data'   => [
+                    'id'      => $id,
+                    'command' => $command
+                ]
+            ];
+
+        } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = [
+                'status' => FALSE,
+                'reason' => $e->getMessage()
+            ];
+        }
+        $this->response($response);
     }
 
     /**
      * test connection to a ftp server.
-     *
+     * todo: delete this
      * @param null $a
      * @param bool $return
      */
@@ -126,141 +187,342 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
         $i = Input::post();
 
         try {
-            if (!isset($i['host']) || !isset($i['scheme'])) {
-                throw new Exception('Please enter necessary details to connect to your Server.');
-            } else if (trim($i['host']) == '' || trim($i['scheme']) == '') {
-                throw new Exception('Please enter necessary details to connect to your Server.');
-            }
+            $message = '';
+            $scheme = \Input::post('scheme', FALSE);
+            $host = \Input::post('host', FALSE);
+            $key_id = \Input::post('ssh-k', FALSE);
+            $id = \Input::post('id', FALSE);
+            $username = \Input::post('username', '');
+            $is_pass = isset($i['pass']);
+            $pass = \Input::post('pass', '');
+            $port = \Input::post('port', 21); // default to 21.
+            $is_key = \Input::post('publickey', FALSE);
+            $path = \Input::post('path', FALSE);
+            $to_removeTempKey = FALSE;
+            $ftp = new \Model_Ftp();
 
             $options = array(
-                'user'   => $i['username'],
-                'host'   => $i['host'],
-                'pass'   => (isset($i['pass'])) ? $i['pass'] : '',
-                'scheme' => $i['scheme'],
-                'port'   => $i['port'],
-//                'path'   => $i['path'],
+                'user'   => $username,
+                'host'   => $host,
+                'pass'   => $pass,
+                'scheme' => $scheme,
+                'port'   => $port,
             );
-            if (!isset($i['pass']) && isset($i['id'])) {
-                /*
-                 * Take the password that is stored with us.
-                 */
-                $ftp_id = $i['id'];
-                $ftp_model = new Model_Ftp();
-                $ftp_data = $ftp_model->get($ftp_id);
-                if (count($ftp_data) !== 1) {
-                    throw new Exception('Ftp does not exist, or has been deleted.');
-                }
+
+            $configs = [
+                'timeout' => 20
+            ];
+
+            if ($id) {
+                $ftp_data = $ftp->get($id);
+                if (!count($ftp_data)) throw new \Craftpip\Exception('Something is not right, we could not find the FTP configuration. Please refresh the page try again.');
+
                 $ftp_data = $ftp_data[0];
-                if (!empty($ftp_data['pass'])) {
-                    $options['pass'] = $ftp_data['pass'];
-                }
             }
 
+            if (!$scheme or !$host or !$path) {
+                throw new \Craftpip\Exception('Please enter necessary details to connect to your Server.');
+            } else if (trim($scheme) == '' or trim($host) == '') {
+                throw new \Craftpip\Exception('Please enter necessary details to connect to your Server.');
+            }
+
+            if (!$is_pass && $id) {
+                // password not provided. get the password from database.
+                if (!empty($ftp_data['pass'])) $options['pass'] = $ftp_data['pass'];
+            }
+
+            if ($is_key && $scheme == 'sftp') {
+                // add key authentication to configuration.
+                $auth = new \Craftpip\OAuth\Auth();
+                $options['pass'] = NULL;
+
+                if (empty($key_id) && $id) {
+                    // key file not avail coz its already saved.
+                    if (empty($ftp_data['fspath'])) $pathId = \Gf\Settings::get('ftp_key_create_path_id'); else
+                        $pathId = $ftp_data['fspath'];
+                    $pathStore = \Gf\Path::get($pathId);
+                    $pathStore .= '/';
+
+                    if (empty($ftp_data['priv']) or empty($ftp_data['pub'])) {
+                        logger(600, "User $auth->user_id FTP $id Error 20007", __METHOD__);
+                        throw new \Craftpip\Exception('Error 20007: Something is not right, please contact support.');
+                    }
+
+                    $privateKey = $pathStore . $auth->user_id . '/' . $ftp_data['priv'];
+                    $publicKey = $pathStore . $auth->user_id . '/' . $ftp_data['pub'];
+                } elseif ($key_id) {
+                    $tmpPath = \Gf\Settings::get('ftp_key_temp_path');
+                    $tmpPath .= '/';
+
+                    $pubKey = \Str::random('num');
+                    $privKey = \Str::random('num');
+
+                    try {
+                        $keys = \Cache::get("key.$key_id", NULL);
+                    } catch (\Exception $e) {
+                        throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                    }
+
+                    if (!\Str::is_serialized($keys)) throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                    $keys = unserialize($keys);
+                    \File::create($tmpPath, $pubKey, $keys['publickey']);
+                    \File::create($tmpPath, $privKey, $keys['privatekey']);
+
+                    $privateKey = $tmpPath . '/' . $privKey;
+                    $publicKey = $tmpPath . '/' . $pubKey;
+                    $to_removeTempKey = 1;
+                }
+
+                $configs['pubkey']['privkeyfile'] = $privateKey;
+                $configs['pubkey']['pubkeyfile'] = $publicKey;
+                $configs['pubkey']['user'] = $username;
+                $configs['pubkey']['passphrase'] = FALSE;
+            }
 
             $ftp_url = http_build_url($options);
-            $conn = new \Banago\Bridge\Bridge($ftp_url, [
-                'timeout' => 20
-            ]);
-
-            $message = 'Connected successfully.';
-            if (!$conn->exists($i['path'])) {
-                try {
-                    $conn->mkdir($i['path']);
-                    $message .= '<br>Created directory ' . $i['path'];
-                } catch (Exception $e) {
-                    $message .= '<br><i class="fa fa-warning orange"></i> Failed to create directory: ' . $i['path'] . ', please check for permissions or manually create the directory.';
-                }
-            } else {
-//                $conn->cd($i['path']);
-//                $files = $conn->ls();
-//                if (count($files)) {
-//                    $message .= '<br><i class="fa fa-info"></i> The Target path is not empty.';
-//                }
+            try {
+                $conn = new \Banago\Bridge\Bridge($ftp_url, $configs);
+            } catch (Exception $e) {
+                $m = $e->getMessage();
+//                list(, $m) = explode(':', $m);
+                $m = \Str::sub($m, strrpos($m, ':') + 1, strlen($m));
+                throw new \Craftpip\Exception('We tried hard connecting: ' . $m);
             }
+
+            $message .= '<i class="fa ti-check fa-fw green"></i> Connected successfully.';
+
+            if (!\Str::starts_with($path, '/')) $path = '/' . $path;
+
+            if (!$conn->exists($path)) {
+                try {
+                    $conn->mkdir($path);
+                    $message .= '<br><i class="fa fa-fw ti-check green"></i> Created directory ' . $path;
+                } catch (Exception $e) {
+                    throw new \Craftpip\Exception('Failed to create directory: ' . $path . ', please check for permissions or manually create the directory.');
+                }
+            }
+
+            try {
+                $conn->cd($path);
+                $listing = $conn->ls();
+                if (count($listing)) {
+                    $message .= '<br><i class="fa fa-fw ti-info-alt blue"></i> The remote directory is not empty.';
+                }
+            } catch (Exception $e) {
+                throw new \Craftpip\Exception('Could not access remote path');
+            }
+            if (!\Str::ends_with($path, '/')) $path .= '/';
+            $testFileName = 'gitftp-test-' . \Str::random('num', 4);
+            try {
+                $conn->cd('/');
+                $conn->put('This file was used by Gitftp to test connection to this server, its safe to delete this file.', $path . $testFileName);
+                $message .= '<br><i class="fa fa-fw ti-check green"></i> Created a test file: ' . $testFileName;
+            } catch (Exception $e) {
+                throw new \Craftpip\Exception('User "' . $username . '" does not have write permission to the directory: ' . $path);
+            }
+
+            try {
+                $conn->rm($path . $testFileName);
+                $message .= '<br><i class="fa fa-fw ti-check green"></i> Removed test file';
+            } catch (Exception $e) {
+                throw new \Craftpip\Exception('Could not remove test file: ' . $e->getMessage());
+            }
+
 
             $response = array(
                 'status'  => TRUE,
                 'message' => $message
             );
-
         } catch (\Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            if ($message != '') $message .= '<br>';
+            $message .= '<i class="fa ti-alert red fa-fw"></i> ' . $e->getMessage();
             $response = array(
-                'status' => FALSE,
-                'reason' => $e->getMessage(),
+                'status'  => FALSE,
+                'message' => $message,
             );
         }
-
+        if($to_removeTempKey){
+            \File::delete($privateKey);
+            \File::delete($publicKey);
+        }
         $this->response($response);
     }
 
     /**
      * adding a FTP server.
+     *
      * @return boolean
      */
-    public function post_addftp() {
+    public function post_add() {
         /**
          * test ftp before adding,
          */
-        $data = Input::post();
-        $data = Utils::escapeHtmlChars($data);
 
         try {
-
+            $data = \Utils::escapeHtmlChars(\Input::post());
             $ftp = new Model_Ftp();
+            $pathId = \Gf\Settings::get('ftp_key_create_path_id');
+            $path = \Gf\Path::get($pathId);
+            $path .= '/'; //append to path.
+            $pubKey = '';
+            $privKey = '';
+            $key_id = FALSE;
 
-            $stripformatch = $data;
-            if (isset($data['name']))
-                unset($stripformatch['name']);
-
-            $existing = $ftp->match($stripformatch);
-
-            if (count($existing) > 0) {
-                throw new Exception('Sorry, A FTP account "' . $existing[0]['name'] . '" with the same configuration already exist in your account.');
-            } else {
-                $a = $ftp->insert($data);
-                if ($a) {
-                    $response = array(
-                        'status'  => TRUE,
-                        'request' => Input::post()
-                    );
+            if (\Input::post('scheme') == 'sftp' && \Input::post('publickey', FALSE)) {
+                $data['pass'] = '';
+                $auth = new \Craftpip\OAuth\Auth();
+                $pubKey = \Str::random('num');
+                $privKey = \Str::random('num');
+                if (!is_dir($path . $auth->user_id)) {
+                    \File::create_dir($path, $auth->user_id, 0777);
                 }
+                $key_id = \Input::post('ssh-k', '');
+                if (empty($key_id)) {
+                    throw new \Craftpip\Exception('Something is not right, please reload your browser & try again.');
+                }
+                try {
+                    $keys = \Cache::get("key.$key_id", NULL);
+                } catch (\Exception $e) {
+                    throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                }
+                if (!\Str::is_serialized($keys)) throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                $keys = unserialize($keys);
+                \File::create($path . $auth->user_id, $pubKey, $keys['publickey']);
+                \File::create($path . $auth->user_id, $privKey, $keys['privatekey']);
+                // create the key files.
             }
+            $set = [
+                'name'     => $data['name'],
+                'username' => $data['username'],
+                'port'     => $data['port'],
+                'scheme'   => $data['scheme'],
+                'path'     => $data['path'],
+                'host'     => $data['host'],
+                'pass'     => $data['pass'],
+                'fspath'   => $pathId,
+                'pub'      => $pubKey,
+                'priv'     => $privKey
+            ];
 
+            $a = $ftp->insert($set);
+            if ($a) {
+
+                try {
+                    if ($key_id) \Cache::delete("key.$key_id");
+                } catch (Exception $e) {
+                }
+
+                $response = array(
+                    'status'  => TRUE,
+                    'request' => Input::post()
+                );
+            }
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
                 'request' => (Input::method() == 'POST') ? Input::post() : ''
             );
         }
-
         $this->response($response);
-
     }
 
     /**
      * editing a FTP server by id.
+     *
      * @return boolean
      */
-    public function post_editftp($id) {
+    public function post_edit($id) {
 
         try {
-            $ftp = new Model_Ftp();
-            $data = Input::post();
-            $data = Utils::escapeHtmlChars($data);
-            $a = $ftp->set($id, $data);
+            $ftp = new \Model_Ftp();
+            $data = \Utils::escapeHtmlChars(\Input::post());
+            $ftp_data = $ftp->get($id);
+            if (!count($ftp_data)) throw new \Craftpip\Exception('Could not find the Server Configuration');
+            $ftp_data = $ftp_data[0];
+            $pubKey = $ftp_data['pub'];
+            $privKey = $ftp_data['priv'];
+            $toDeleteKey = 0;
+            $toClearCache = 0;
 
-//            if ($a || FALSE) {
-                $response = array(
-                    'status'  => TRUE,
-                    'request' => Input::post(),
-                );
-//            } else {
-//                throw new Exception('No changes were saved.');
-//            }
+            if (empty($ftp_data['fspath'])) $pathId = \Gf\Settings::get('ftp_key_create_path_id'); else
+                $pathId = $ftp_data['fspath'];
+
+            if (isset($_POST['pass'])) $data['pass'] = \Input::post('pass');
+
+            $path = \Gf\Path::get($pathId);
+            $path .= '/';
+            $auth = new \Craftpip\OAuth\Auth();
+
+            if (\Input::post('scheme') == 'ftps' || \Input::post('scheme') == 'ftp') {
+                if (!empty($privKey) || !empty($pubKey)) $toDeleteKey = 1;
+                $privKey = '';
+                $pubKey = '';
+                $toDeleteKey = 1;
+            } elseif (\Input::post('scheme') == 'sftp' && \Input::post('publickey', FALSE)) {
+                $data['pass'] = NULL;
+
+                $key_id = \Input::post('ssh-k', '');
+                if (empty($key_id)) {
+                    // the key is already created. nothing to do.
+                } else {
+                    // the key is not created, the user has just switched to SSH
+                    $pubKey = \Str::random('num');
+                    $privKey = \Str::random('num');
+                    if (!is_dir($path . $auth->user_id)) {
+                        \File::create_dir($path, $auth->user_id, 0777);
+                    }
+                    try {
+                        $keys = \Cache::get("key.$key_id", NULL);
+                    } catch (\Exception $e) {
+                        throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                    }
+                    if (!\Str::is_serialized($keys)) throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
+                    $keys = unserialize($keys);
+                    \File::create($path . $auth->user_id, $pubKey, $keys['publickey']);
+                    \File::create($path . $auth->user_id, $privKey, $keys['privatekey']);
+                    $toClearCache = 1;
+                }
+            } elseif (!\Input::post('publickey', FALSE) && !empty($pubKey) && !empty($privKey)) {
+                $pubKey = '';
+                $privKey = '';
+                $toDeleteKey = 1;
+            }
+
+            $set = [
+                'name'     => $data['name'],
+                'username' => $data['username'],
+                'port'     => $data['port'],
+                'scheme'   => $data['scheme'],
+                'path'     => $data['path'],
+                'host'     => $data['host'],
+                'fspath'   => $pathId,
+                'pub'      => $pubKey,
+                'priv'     => $privKey
+            ];
+
+            if (isset($data['pass'])) $set['pass'] = $data['pass'];
+
+            $a = $ftp->set($id, $set);
+
+            try {
+                if ($toClearCache) \Cache::delete("key.$key_id");
+                if ($toDeleteKey) {
+                    \File::delete($path . $auth->user_id . '/' . $ftp_data['pub']);
+                    \File::delete($path . $auth->user_id . '/' . $ftp_data['priv']);
+                }
+            } catch (Exception $e) {
+            }
+
+            $response = array(
+                'status'  => TRUE,
+                'request' => Input::post(),
+            );
 
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status'  => FALSE,
                 'reason'  => $e->getMessage(),
@@ -295,6 +557,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
     /**
      * Delete a FTP server by ID
+     *
      * @param type $id
      * @return type
      */
@@ -302,22 +565,31 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
         try {
             $ftp = new Model_Ftp();
-            $row = $ftp->get($id);
+            $ftp_data = $ftp->get($id);
 
-            if (count($row) == 0) {
-                throw new Exception('We got confused, please refresh the page and try again.');
+            if (count($ftp_data) == 0) {
+                throw new \Craftpip\Exception('We got confused, please refresh the page and try again.');
             } else {
+                $ftp_data = $ftp_data[0];
                 $result = $ftp->delete($id);
-                $response = array(
-                    'status'  => TRUE,
-                    'request' => Input::post()
-                );
+                if ($result) {
+                    $auth = new \Craftpip\OAuth\Auth();
+                    $path = \Gf\Path::get($ftp_data['fspath']);
+                    $path .= '/';
+                    if (!empty($ftp_data['pub'])) \File::delete($path . $auth->user_id . '/' . $ftp_data['pub']);
+                    if (!empty($ftp_data['priv'])) \File::delete($path . $auth->user_id . '/' . $ftp_data['priv']);
+                    $response = array(
+                        'status'  => TRUE,
+                        'request' => Input::post()
+                    );
+                }
             }
         } catch (Exception $e) {
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
                 'status'  => FALSE,
                 'request' => (Input::method() == 'POST') ? Input::post() : FALSE,
-                'reason'  => 'Cound not insert the value'
+                'reason'  => $e->getMessage(),
             );
         }
 

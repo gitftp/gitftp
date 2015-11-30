@@ -65,6 +65,7 @@ class Ssh2 implements Backend {
 		
 		//Provide authentication information
 		if($pubkey) { //Using public key authentication
+            throw new \Exception('came in');
 			if(isset($pubkey['passphrase']) && $pubkey['passphrase']) {
 				$status = ssh2_auth_pubkey_file($this->ssh, $pubkey['user'], $pubkey['pubkeyfile'], $pubkey['privkeyfile'], $pubkey['passphrase']);
 			}
@@ -74,8 +75,7 @@ class Ssh2 implements Backend {
 			if(!$status) {
 				throw new \Exception("Could not login to '$host' as '{$pubkey['user']}' using public key authentication");
 			}
-		}
-		else if(isset($parsedUrl['user']) && $parsedUrl['user']) { //Using login & password
+		} else if (isset($parsedUrl['user']) && $parsedUrl['user']) { //Using login & password
 			$user = urldecode($parsedUrl['user']);
 			$pass = urldecode($parsedUrl['pass']);
 			if(!ssh2_auth_password($this->ssh, $user, $pass)) {

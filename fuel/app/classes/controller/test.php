@@ -5,6 +5,76 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_la(){
+        Lang::save('en', 'foo', 'asdasd');
+//        echo \Lang::get_lang();
+    }
+
+    public function get_ss() {
+//        \Session::set('hey', 'what');
+//        $a = \Session::get($id);
+//        print_r(unserialize($a));
+//        $key = \Session::get($id);
+//        $key = unserialize($key);
+//        $public = $key['publickey'];
+//        echo \Gf\Settings::get('gf_exception_debug');
+//        echo \Gf\Path::get(4);
+        echo \Session::get('58974400');
+    }
+    
+    public function get_co() {
+//        $url = 'sftp://ubuntu@52.28.221.93/var/www/html';
+        $url = 'sftp://ubuntu@192.168.1.9/var/www/html';
+
+        $options = [
+            'pubkey' => [
+                'pubkeyfile'  => '/var/www/html/pub',
+                'privkeyfile' => '/var/www/html/priv',
+                'user'        => 'ubuntu',
+                'passphrase'  => FALSE
+            ]
+        ];
+
+        $conn = new \Banago\Bridge\Bridge($url, $options);
+        $a = $conn->ls();
+        echo '<pre>';
+        print_r($a);
+        die;
+    }
+
+    public function get_gk(){
+
+        print_r(Utils::get_new_openssh_public_private_pair());
+
+        die;
+        $rsa = new phpseclib\Crypt\RSA();
+        $rsa->setPublicKeyFormat(6); // CRYPT_RSA_PUBLIC_FORMAT_OPENSSH is 6
+        $rsa->comment = 'Something';
+        $keys = $rsa->createKey();
+        $publickey = $keys['publickey'];
+        $privatekey = $keys['privatekey'];
+        echo "$publickey\r\n\r\n$privatekey";
+    }
+
+    public function get_getKey() {
+        $config = array(
+            "digest_alg"       => "sha512",
+            "private_key_bits" => 4096,
+            "private_key_type" => OPENSSL_KEYTYPE_RSA,
+        );
+        $res = openssl_pkey_new($config);
+        // Extract the private key from $res to $privKey
+        openssl_pkey_export($res, $privKey);
+
+        // Extract the public key from $res to $pubKey
+        $pubKey = openssl_pkey_get_details($res);
+        $pubKey = $pubKey["key"];
+
+        echo $pubKey;
+        echo '<br>';
+        echo $privKey;
+    }
+
     public function get_eve() {
 //        echo '<pre>';
 //        print_r(\Fuel\Core\Cache::get('p'));

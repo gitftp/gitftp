@@ -36,7 +36,7 @@
                         <h3 class="widget-title">Getting started</h3>
                         <div class="list-group list-group-cp">
                             <?php foreach ($doc_list as $p) { ?>
-                                <a href="<?php echo \Uri::create('docs/' . $p['slug']) ?>" class="list-group-item <?php echo $slug == $p['slug'] ? 'active-item' : '' ?>"><?php echo $p['title'] ?></a>
+                                <a href="<?php echo \Uri::create('guide/' . $p['slug']) ?>" class="list-group-item <?php echo $slug == $p['slug'] ? 'active-item' : '' ?>"><?php echo $p['title'] ?></a>
                             <?php } ?>
                         </div>
                     </div>

@@ -31,38 +31,41 @@ class Controller_Api_Records extends Controller_Api_Apilogincheck {
 
     public function action_raw($record_id) {
         try {
-            $record = new Model_Record();
+            $record = new \Model_Record();
             $record = $record->get_raw_by_record($record_id);
-
             if (!count($record)) {
-                throw new Exception('Sorry, Record was not found.', 200);
+                throw new \Craftpip\Exception('Sorry, Record was not found.');
             }
-
             $record = unserialize($record[0]['raw']);
-
             if (empty($record)) {
                 $data = '<p class="text-center" style="color: #aaa;font-size: 20px;">Sorry, no logs yet.</p>';
             } else {
-                $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding deployments.<br><code> --- <br>';
+                $string = '<i class="fa fa-wrench fa-fw"></i> Raw output data is presented for understanding deployments.<br><span class="mono" style="font-size: 12px"> --- <br>';
                 $record_n = new RecursiveIteratorIterator(new RecursiveArrayIterator($record));
                 foreach ($record_n as $k => $v) {
-                    $k = (is_numeric($k)) ? '' : $k . '->';
-                    $string .= "$ $k$v<br>";
-                }
-                $string .= '</code>';
-            }
+                    if($k === 'Failure'){
+                        $k = (is_numeric($k)) ? '' : $k . ': ';
+                        $string .= "<span class=\"red-bg\">$ $k$v</span><br>";
+                    }else{
+                        $k = (is_numeric($k)) ? '' : $k . ': ';
+                        $string .= "$ $k$v<br>";
+                    }
 
-            $this->response(array(
+                }
+                $string .= '</span>';
+            }
+            $response = array(
                 'status' => TRUE,
                 'data'   => $string,
-            ), 200);
-
+            );
         } catch (Exception $e) {
-            $this->response(array(
+            $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
+            $response = array(
                 'status' => FALSE,
                 'reason' => $e->getMessage()
-            ), $e->getCode());
+            );
         }
+        $this->response($response);
     }
 
     public function action_payload($record_id) {

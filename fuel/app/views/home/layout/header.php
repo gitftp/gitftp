@@ -19,8 +19,10 @@ if (count($s) == 0 || $s[0] == 'welcome' || $s[0] == 'home') {
             <div class="col-md-12">
                 <div class="logo">
                     <a href="<?php echo home_url . 'home'; ?>" title="">
-                        <img src="<?php echo \Asset::get_file('logo-sm-2-name.png', 'img') ?>" class="black-logo standard-logo middle-content" alt="">
-                        <img src="<?php echo \Asset::get_file('logo-sm-2w-name.png', 'img') ?>" class="white-logo standard-logo middle-content" alt="">
+                        <img src="<?php echo \Asset::get_file('logo-sm-2-name.png', 'img') ?>"
+                             class="black-logo standard-logo middle-content" alt="">
+                        <img src="<?php echo \Asset::get_file('logo-sm-2w-name.png', 'img') ?>"
+                             class="white-logo standard-logo middle-content" alt="">
                     </a>
                 </div>
                 <div class="menu">
@@ -31,8 +33,8 @@ if (count($s) == 0 || $s[0] == 'welcome' || $s[0] == 'home') {
                             </a>
                         </li>
                         <li class="">
-                            <a class="" href="<?php echo home_url . 'docs'; ?>">
-                                Docs
+                            <a class="" href="<?php echo home_url . 'guide'; ?>">
+                                Guide
                             </a>
                         </li>
                     </ul>

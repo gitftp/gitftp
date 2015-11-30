@@ -37,47 +37,55 @@ var e = false;
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" name="name" class="form-control" placeholder="Descriptive name"
-                                    value="<%= (e) ? f['name'] : '' %>">
+                                   value="<%= (e) ? f['name'] : '' %>">
                         </div>
-                        <div class="form-group">
-                            <label>Schema</label>
-                            <!--<input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"-->
-                            <!--value="<%= (e) ? f['scheme'] : '' %>">-->
-                            <select class="form-control" id="scheme" name="scheme">
-                                <option value="ftp">FTP</option>
-                                <option value="ftps">FTPS</option>
-                                <option value="sftp">SFTP / SSH</option>
-                            </select>
-                            <% if(e){ %>
-                            <script>
-                                document.getElementById('scheme').value = '<%= f["scheme"] %>';
-                            </script>
-                            <% } %>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label>Schema</label>
+                                    <!--<input type="text" name="scheme" class="form-control" placeholder="ftp, sftp, ftps"-->
+                                    <!--value="<%= (e) ? f['scheme'] : '' %>">-->
+                                    <select class="form-control" id="scheme" name="scheme">
+                                        <option value="ftp">FTP</option>
+                                        <option value="ftps">FTPS</option>
+                                        <option value="sftp">SFTP / SSH</option>
+                                    </select>
+                                    <% if(e){ %>
+                                    <script>
+                                        document.getElementById('scheme').value = '<%= f["scheme"] %>';
+                                    </script>
+                                    <% } %>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Port</label>
+                                    <input type="text" name="port" class="form-control" id="portno"
+                                           placeholder="Port of FTP. EG: 21"
+                                           value="<%= (e) ? f['port'] : '21' %>" data-useri="<%= (e) ? 1 : '' %>">
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Hostname</label>
                             <input type="text" name="host" class="form-control" placeholder="example.com / IP address"
-                                    value="<%= (e) ? f['host'] : '' %>">
+                                   value="<%= (e) ? f['host'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>Path to deploy</label>
                             <input type="text" name="path" class="form-control"
-                                    placeholder="Starting from root. EG: /public_html" value="<%= (e) ? f['path'] : '' %>">
+                                   placeholder="Starting from root. EG: /public_html"
+                                   value="<%= (e) ? f['path'] : '' %>">
 
-                            <p class="help-block">Full path from your Root/Home directory.
+                            <p class="help-block">Full path from your <strong>root</strong> directory.
                                 <br>Example: /var/www/html/website or /public_html/website.</p>
-                        </div>
-                        <div class="form-group">
-                            <label>Port</label>
-                            <input type="text" name="port" class="form-control" placeholder="Port of FTP. EG: 21"
-                                    value="<%= (e) ? f['port'] : '' %>">
                         </div>
                         <div class="form-group">
                             <label>Username</label>
                             <input type="text" name="username" class="form-control" placeholder="Username"
-                                    value="<%= (e) ? f['username'] : '' %>">
+                                   value="<%= (e) ? f['username'] : '' %>">
                         </div>
-                        <div class="form-group">
+                        <div class="form-group pass-c" style="display: <%= (e && f['command']) ? 'none' : 'block' %>">
                             <label>Password</label>
                             <% if(e && f['pset'] === true){ %>
                             <div class="ftp-form-password-set">
@@ -87,9 +95,11 @@ var e = false;
                             </div>
                             <div class="ftp-form-password-field" style="display: none">
                                 <div class="input-group">
-                                    <input disabled type="password" name="pass" class="form-control" placeholder="Password" value="" data-notform="true">
+                                    <input disabled type="password" name="pass" class="form-control"
+                                           placeholder="Password" value="" data-notform="true">
                                         <span class="input-group-btn">
-                                            <button type="button" class="btn btn-block btn-clean ftp-form-password-set-cancel">
+                                            <button type="button"
+                                                    class="btn btn-block btn-clean ftp-form-password-set-cancel">
                                                 <i class="fa fa-times"></i></button>
                                         </span>
                                 </div>
@@ -97,6 +107,27 @@ var e = false;
                             <% }else{ %>
                             <input type="password" name="pass" class="form-control" placeholder="Password" value="">
                             <% } %>
+                        </div>
+                        <div class="f-ssh" style="display: <%= (e && f['scheme'] == 'sftp') ? 'block' : 'none' %>">
+                            <div class="checkbox gf-checkbox">
+                                <input name="publickey" type="checkbox"
+                                       id="use-pk" <%= (e && f['command']) ? 'checked' : '' %>/>
+                                <label for="use-pk">
+                                    Use public key for authentication
+                                </label>
+                            </div>
+                            <div class="pkey-ac" style="display: <%= (e && f['command']) ? 'block' : 'none' %>">
+                                <small>
+                                    To <strong>add our public key</strong>, execute these commands on your server as the
+                                    user you're going to log in with. <strong class="sup-user"></strong>
+                                </small>
+                                <div class="row-m">
+                                    <input type="hidden" name="ssh-k" id="ssh-k"
+                                           data-loaded="<%= (e && f['command']) ? '1' : '' %>"/>
+
+                                    <div class="ssh-c"><%= (e && f['command']) ? f['command'] : '' %></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="space10"></div>
                         <button type="submit" class="btn btn-success"><%= (e) ? 'Update' : 'Save' %></button>
@@ -117,7 +148,8 @@ var e = false;
                     Test connection.
                 </button>
                 <div class="status">
-                    <div class="alert alert-info no-margin-bottom no-border" style="display: none;margin-top: 10px"></div>
+                    <div class="alert alert-info no-margin-bottom no-border"
+                         style="display: none;margin-top: 10px"></div>
                 </div>
             </div>
             <div class="line"></div>

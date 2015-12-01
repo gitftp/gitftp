@@ -708,7 +708,8 @@ class Deploy extends DeployHelper {
 //
 //            $bridgeOptions['pubkey'] = $key;
 //        }
-        $this->log(http_build_url('', $options));
+        if($this->debug)
+            $this->log(http_build_url('', $options));
         $this->server = array(
             'url'     => http_build_url('', $options),
             // Turn options into an URL so that Bridge can work with it.

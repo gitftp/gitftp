@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -1348,8 +1348,6 @@ class Model implements \ArrayAccess, \Iterator, \Sanitization
 			}
 			$this->unfreeze();
 
-			$this->_update_original();
-
 			$this->observe('after_save');
 
 			$use_transaction and $db->commit_transaction();
@@ -1401,6 +1399,7 @@ class Model implements \ArrayAccess, \Iterator, \Sanitization
 
 		// update the original properties on creation and cache object for future retrieval in this request
 		$this->_is_new = false;
+
 		$this->_original = $this->_data;
 		static::$_cached_objects[get_class($this)][static::implode_pk($this)] = $this;
 
@@ -1456,6 +1455,9 @@ class Model implements \ArrayAccess, \Iterator, \Sanitization
 		{
 			return false;
 		}
+
+		$this->_original = $this->_data;
+		static::$_cached_objects[get_class($this)][static::implode_pk($this)] = $this;
 
 		// update the original property on success
 		$this->observe('after_update');

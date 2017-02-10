@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -134,9 +134,16 @@ return array(
 	// See notes in /parser/classes/view/jade.php
 	// ------------------------------------------------------------------------
 	'View_Jade' => array(
+		// global config
+		'cache_dir'   => APPPATH.'cache'.DS.'jade'.DS,
+
+		// Everzet config
 		'include'     => APPPATH.'vendor'.DS.'Jade'.DS.'autoload.php.dist',
 		'auto_encode' => true,
-		'cache_dir'   => APPPATH.'cache'.DS.'jade'.DS,
+
+		// Tale config
+		'lifetime'    => 3600,
+		'pretty'      => false,
 	),
 
 	// HAML / PHAMLP ( http://code.google.com/p/phamlp/ )

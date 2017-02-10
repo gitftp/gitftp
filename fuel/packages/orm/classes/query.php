@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -1195,9 +1195,15 @@ class Query
 		}
 
 		// if the result to be generated is an array and the current object is not yet in there
-		if (is_array($result->data) and ! array_key_exists($pk, $result->data))
-		{
-			$result->data[$pk] = $obj;
+		if (is_array($result->data)) {
+			if (! array_key_exists($pk, $result->data))
+			{
+				$result->data[$pk] = $obj;
+			}
+			else
+			{
+				$obj = $result->data[$pk];
+			}
 		}
 		// if the result to be generated is a single object and empty
 		elseif ( ! is_array($result->data) and empty($result->data))

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -85,4 +85,43 @@ class Test_Security extends TestCase
 		$expected = '&quot;H&amp;M&quot;';
 		$this->assertEquals($expected, $output);
 	}
+
+	/**
+	* Tests Security::clean()
+	*
+	* @test
+	*/
+	public function test_clean()
+	{
+		// test correct recursive cleaning
+		$input = array(
+			array(' level1 '),
+			array(
+				array(' level2 '),
+				array(
+					array(' level3 '),
+					array(
+						array(' level4 '),
+					),
+				),
+			),
+		);
+
+		$expected = array(
+			array('level1'),
+			array(
+				array('level2'),
+				array(
+					array('level3'),
+					array(
+						array('level4'),
+					),
+				),
+			),
+		);
+
+		$output = Security::clean($input, array('trim'));
+		$this->assertEquals($expected, $output);
+	}
+
 }

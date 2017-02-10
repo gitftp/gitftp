@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -449,7 +449,7 @@ abstract class Session_Driver
 	 */
 	protected function _new_session_id()
 	{
-		return \Str::random('alnum', 32);
+		return substr(\Security::generate_token(), 0, 32);
 	}
 
 	// --------------------------------------------------------------------

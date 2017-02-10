@@ -1,12 +1,12 @@
 <?php
 
 class Controller_Api_User extends Controller {
-
     /**
      * API called when user tries to login, or register using Oauth.
+     *
      * @param null $provider
      */
-    public function action_authorize($provider = NULL) {
+    public function action_authorize($provider = null) {
         if (is_null($provider)) {
             \Response::redirect_back();
         }
@@ -17,17 +17,17 @@ class Controller_Api_User extends Controller {
                 switch ($OAuth->OAuth_state) {
                     case 'logged_in':
                         $url = dash_url;
-                        $OAuth->setAttr('verified', TRUE);
+                        $OAuth->setAttr('verified', true);
                         // was registered and linked, now logged in.
                         break;
                     case 'linked':
                         $url = dash_url . 'settings/services';
-                        $OAuth->setAttr('verified', TRUE);
+                        $OAuth->setAttr('verified', true);
                         // was already registered but linked.
                         break;
                     case 'registered':
                         $OAuth->setAttr('project_limit', 2);
-                        $OAuth->setAttr('verified', TRUE);
+                        $OAuth->setAttr('verified', true);
                         $url = dash_url;
                         // was registered and linked.
                         break;
@@ -48,13 +48,11 @@ class Controller_Api_User extends Controller {
 
             $auth = new \Craftpip\OAuth\Auth();
             $user = $auth->getByUsernameEmail($i['email']);
-            if (!$user)
-                throw new \Craftpip\Exception('The email is not registered with us.');
+            if (!$user) throw new \Craftpip\Exception('The email is not registered with us.');
 
             $auth->setId($user['id']);
             $verified = $auth->getAttr('verified');
-            if ($verified)
-                throw new \Craftpip\Exception('Your account is already Activated.');
+            if ($verified) throw new \Craftpip\Exception('Your account is already Activated.');
 
             $mail = new \Craftpip\Mail($user['id']);
             $mail->template_signup();
@@ -63,12 +61,12 @@ class Controller_Api_User extends Controller {
             }
 
             $response = array(
-                'status' => TRUE
+                'status' => true
             );
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage(),
             );
 
@@ -85,12 +83,15 @@ class Controller_Api_User extends Controller {
             $i = Input::post();
             $auth = new \Craftpip\OAuth\Auth();
             $auth->logout();
-            if (\Auth::instance()->check()) {
+            if (\Auth::instance()
+                     ->check()
+            ) {
                 $response = array(
-                    'status'   => TRUE,
+                    'status'   => true,
                     'redirect' => dash_url,
                 );
-            } else {
+            }
+            else {
                 $user = $auth->getByUsernameEmail($i['email']);
                 if (!$user) {
                     throw new \Craftpip\Exception('The Email or Username is not registered with us.');
@@ -106,17 +107,18 @@ class Controller_Api_User extends Controller {
                     }
 
                     $response = array(
-                        'status'   => TRUE,
+                        'status'   => true,
                         'redirect' => dash_url,
                     );
-                } else {
+                }
+                else {
                     throw new \Craftpip\Exception('The username & password did not match.');
                 }
             }
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage(),
             );
         }
@@ -131,34 +133,30 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
             $validation = \Fuel\Core\Validation::forge();
-            $validation->add('email', 'Email')->add_rule('required')->add_rule('valid_email');
-            $validation->add('username', 'Username')->add_rule('required')
-                ->add_rule('min_length', 6)
-                ->add_rule('max_length', 18);
-            $validation->add('password', 'Password')->add_rule('required')
-                ->add_rule('min_length', 6)
-                ->add_rule('max_length', 18);
+            $validation->add('email', 'Email')
+                       ->add_rule('required')
+                       ->add_rule('valid_email');
+            $validation->add('username', 'Username')
+                       ->add_rule('required')
+                       ->add_rule('min_length', 6)
+                       ->add_rule('max_length', 18);
+            $validation->add('password', 'Password')
+                       ->add_rule('required')
+                       ->add_rule('min_length', 6)
+                       ->add_rule('max_length', 18);
 
             if ($validation->run()) {
                 $email = $i['email'];
-                if (\Utils::isDisposableEmail($email))
-                    throw new \Craftpip\Exception("$email is a disposable Email, please use a genuine Email-id to signup.");
+                if (\Utils::isDisposableEmail($email)) throw new \Craftpip\Exception("$email is a disposable Email, please use a genuine Email-id to signup.");
 
                 $auth = new \Craftpip\OAuth\Auth();
 
                 $user = $auth->getByUsernameEmail($i['email']);
-                if ($user)
-                    throw new \Craftpip\Exception('This Email-ID is already registered.');
+                if ($user) throw new \Craftpip\Exception('This Email-ID is already registered.');
 
-                $user_id = $auth->create_user(
-                    $i['username'],
-                    $i['password'],
-                    $i['email'],
-                    1,
-                    array()
-                );
+                $user_id = $auth->create_user($i['username'], $i['password'], $i['email'], 1, array());
                 $auth->setId($user_id);
-                $auth->setAttr('verified', FALSE);
+                $auth->setAttr('verified', false);
                 $auth->setAttr('project_limit', 2);
 
 
@@ -167,16 +165,17 @@ class Controller_Api_User extends Controller {
                 if (!$mail->send()) {
                     $auth->removeUser($user_id);
                 }
-            } else {
+            }
+            else {
                 throw new \Craftpip\Exception('Something is not right. Please try again');
             }
             $response = array(
-                'status' => TRUE
+                'status' => true
             );
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage()
             );
         }
@@ -191,7 +190,9 @@ class Controller_Api_User extends Controller {
         try {
             $i = Input::post();
 
-            if (!\Auth::instance()->check()) {
+            if (!\Auth::instance()
+                      ->check()
+            ) {
                 throw new \Craftpip\Exception('Sorry, we got confused. Please try again later.', 123);
             }
 
@@ -199,7 +200,8 @@ class Controller_Api_User extends Controller {
                 throw new \Craftpip\Exception('Sorry, the new passwords do not match.', 123);
             }
 
-            $a = \Auth::instance()->change_password($i['oldpassword'], $i['newpassword']);
+            $a = \Auth::instance()
+                      ->change_password($i['oldpassword'], $i['newpassword']);
 
             if (!$a) {
                 throw new \Craftpip\Exception('Sorry, the old password is incorrect. Please try again.', 123);
@@ -208,12 +210,12 @@ class Controller_Api_User extends Controller {
             // todo: count length of password please...
 
             $response = array(
-                'status' => TRUE,
+                'status' => true,
             );
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage(),
             );
         }
@@ -224,7 +226,7 @@ class Controller_Api_User extends Controller {
     /**
      * API call from forgot password,
      * when request to send email is done.
-     *
+
      */
     public function post_forgotpassword() {
         try {
@@ -241,13 +243,13 @@ class Controller_Api_User extends Controller {
             $mail->send();
 
             $response = array(
-                'status'  => TRUE,
+                'status'  => true,
                 'message' => 'asdsa',
             );
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage(),
             );
         }
@@ -258,7 +260,7 @@ class Controller_Api_User extends Controller {
     /**
      * API called from forgot password,
      * When user is redirected from email.
-     *
+
      */
     public function post_forgotpasswordconfirmed() {
         try {
@@ -270,23 +272,21 @@ class Controller_Api_User extends Controller {
                 throw new Exception('Sorry, the token has expired.');
             }
 
-            if (!(strlen($i['password']) > 5 && strlen($i['password']) < 12))
-                throw new Exception('Sorry, something went wrong.');
+            if (!(strlen($i['password']) > 5 && strlen($i['password']) < 12)) throw new Exception('Sorry, something went wrong.');
 
             $user->setPassword($i['password']);
             $user->removeAttr('forgotpassword_key');
-            $user->setAttr('verified', TRUE); // because password reset happened via email.
-            if ($user->existAttr('verify_key'))
-                $user->removeAttr('verify_key');
+            $user->setAttr('verified', true); // because password reset happened via email.
+            if ($user->existAttr('verify_key')) $user->removeAttr('verify_key');
             $user->force_login($user->user_id);
 
             $response = array(
-                'status'  => TRUE,
+                'status'  => true,
                 'message' => 'Password has been changed successfully.',
             );
         } catch (Exception $e) {
             $response = array(
-                'status' => FALSE,
+                'status' => false,
                 'reason' => $e->getMessage(),
             );
         }
@@ -295,8 +295,8 @@ class Controller_Api_User extends Controller {
 
 
     public function post_validate() {
-        $key = \Input::post('key', NULL);
-        $type = \Input::post('type', NULL);
+        $key = \Input::post('key', null);
+        $type = \Input::post('type', null);
         $auth = new \Craftpip\OAuth\Auth();
 
         try {
@@ -306,22 +306,22 @@ class Controller_Api_User extends Controller {
                 }
                 $user = $auth->getByUsernameEmail($key);
                 if ($user) {
-                    if ($type == 'email')
-                        throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password', [], ['email' => $key]) . '">Reset password</a> or <a href="' . \Uri::create('login', [], ['email' => $key]) . '">Login</a>');
-                    elseif ($type == 'username')
-                        throw new \Craftpip\Exception('This username is taken.');
-                } else {
+                    if ($type == 'email') throw new \Craftpip\Exception('This email address is already registered.<br><a href="' . \Uri::create('forgot-password', [], ['email' => $key]) . '">Reset password</a> or <a href="' . \Uri::create('login', [], ['email' => $key]) . '">Login</a>');
+                    elseif ($type == 'username') throw new \Craftpip\Exception('This username is taken.');
+                }
+                else {
                     $response = array(
-                        'status' => FALSE,
+                        'status' => false,
                     );
                 }
-            } else {
+            }
+            else {
                 throw new \Craftpip\Exception('Missing parameters');
             }
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = array(
-                'status' => TRUE,
+                'status' => true,
                 'reason' => $e->getMessage()
             );
         }

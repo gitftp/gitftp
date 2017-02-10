@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -553,6 +553,48 @@ class Test_Validation extends TestCase
 		$expected = true;
 
 		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	 * Validation:  valid_ip
+	 * Expecting:   success
+	 */
+	public function test_validation_valid_ip_v6_only_success()
+	{
+		$val = Validation::forge(__FUNCTION__);
+		$val->add_field('ipv6', 'IPv6 address', 'valid_ip[ipv6]');
+
+		$output = $val->run(array('ipv6' => '2001:0db8:85a3:08d3:1319:8a2e:0370:7334'));
+
+		$this->assertTrue($output);
+	}
+
+	/**
+	 * Validation:  valid_ip
+	 * Expecting:   failure
+	 */
+	public function test_validation_valid_ip_v6_only_failure()
+	{
+		$val = Validation::forge(__FUNCTION__);
+		$val->add_field('ipv6', 'IPv6 address', 'valid_ip[ipv6]');
+
+		$output = $val->run(array('ipv6' => '192.168.0.1'));
+
+		$this->assertFalse($output);
+	}
+
+	/**
+	 * Validation:  valid_ip
+	 * Expecting:   failure
+	 */
+	public function test_validation_valid_ip_v4_only_failure()
+	{
+		$val = Validation::forge(__FUNCTION__);
+		$val->add_field('ipv4', 'IPv4 address', 'valid_ip[ipv4]');
+
+		$output = $val->run(array('ipv4' => '2001:0db8:85a3:08d3:1319:8a2e:0370:7334'));
+
+		$this->assertFalse($output);
 	}
 
 	/**

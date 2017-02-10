@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -65,6 +65,10 @@ class Route
 	public $controller = null;
 
 	/**
+	 * @var  string  controller path
+	 */
+	public $controller_path = null;
+	/**
 	 * @var  string  default controller action
 	 */
 	public $action = 'index';
@@ -108,12 +112,14 @@ class Route
 
 		$search = str_replace(array(
 			':any',
+			':everything',
 			':alnum',
 			':num',
 			':alpha',
 			':segment',
 		), array(
 			'.+',
+			'.*',
 			'[[:alnum:]]+',
 			'[[:digit:]]+',
 			'[[:alpha:]]+',
@@ -182,7 +188,10 @@ class Route
 				// strip the extension if needed and there is something to strip
 				if ($this->strip_extension and strrchr($uri, '.') == $ext = '.'.\Input::extension())
 				{
-					$uri = substr($uri, 0, -(strlen($ext)));
+					if ($this->strip_extension === true or (is_array($this->strip_extension) and in_array($ext, $this->strip_extension)))
+					{
+						$uri = substr($uri, 0, -(strlen($ext)));
+					}
 				}
 
 				if ($this->case_sensitive)

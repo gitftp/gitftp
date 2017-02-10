@@ -11,6 +11,7 @@ return array(
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
     'Stevenmaguire\\OAuth2\\Client\\' => array($vendorDir . '/stevenmaguire/oauth2-bitbucket/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'League\\OAuth2\\Client\\' => array($vendorDir . '/league/oauth2-client/src', $vendorDir . '/league/oauth2-github/src'),
     'League\\Flysystem\\Sftp\\' => array($vendorDir . '/league/flysystem-sftp/src'),
@@ -20,5 +21,6 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Fuel\\Upload\\' => array($vendorDir . '/fuelphp/upload/src'),
+    'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Banago\\Bridge\\' => array($vendorDir . '/banago/bridge/src'),
 );

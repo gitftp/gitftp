@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -20,6 +20,19 @@ namespace Fuel\Core;
  */
 class Test_Form extends TestCase
 {
+	private static $config_security;
+
+	public static function setUpBeforeClass()
+	{
+		Config::load('security');
+		static::$config_security = Config::get('security');
+	}
+
+	public static function tearDownAfterClass()
+	{
+		Config::set('security', static::$config_security);
+	}
+
 	protected function setUp()
 	{
 		Config::load('form');
@@ -37,6 +50,9 @@ class Test_Form extends TestCase
 			'inline_errors'         => false,
 			'error_class'           => 'validation_error',
 		));
+
+		Config::set('security.csrf_auto_token', false);
+		Config::set('security.csrf_token_key', 'fuel_csrf_token');
 	}
 
 	/**
@@ -274,5 +290,61 @@ class Test_Form extends TestCase
 		$this->assertEquals($expected, $output);
 		
 		\Config::set('form.auto_id', $config);
+	}
+
+	/**
+	* Tests Form::open()
+	*
+	* @test
+	*/
+	public function test_open()
+	{
+		$form = \Form::forge(__METHOD__);
+		
+		$output = $form->open('uri/to/form');
+		$expected = '<form action="uri/to/form" accept-charset="utf-8" method="post">';
+		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	* Tests Form::open()
+	*
+	* @test
+	*/
+	public function test_open_auto_csrf_token()
+	{
+		\Config::set('security.csrf_auto_token', true);
+
+		$form = \Form::forge(__METHOD__);
+		
+		$output = $form->open('uri/to/form');
+		$expected = '<form action="uri/to/form" accept-charset="utf-8" method="post">'.PHP_EOL.'<input name="fuel_csrf_token" value="%s" type="hidden" id="form_fuel_csrf_token" />';
+		$this->assertStringMatchesFormat($expected, $output);
+	}
+
+	/**
+	* Tests Form::open()
+	*
+	* @test
+	*/
+	public function test_open_static()
+	{
+		$output = Form::open('uri/to/form');
+		$expected = '<form action="uri/to/form" accept-charset="utf-8" method="post">';
+		$this->assertEquals($expected, $output);
+	}
+
+	/**
+	* Tests Form::open()
+	*
+	* @test
+	*/
+	public function test_open_auto_csrf_token_static()
+	{
+		\Config::set('security.csrf_auto_token', true);
+
+		$output = Form::open('uri/to/form');
+		$expected = '<form action="uri/to/form" accept-charset="utf-8" method="post">'.PHP_EOL.'<input name="fuel_csrf_token" value="%s" type="hidden" id="form_fuel_csrf_token" />';
+		$this->assertStringMatchesFormat($expected, $output);
 	}
 }

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -160,6 +160,11 @@ return array(
 		'csrf_bad_request_on_fail' => false,
 
 		/**
+		 * If true, Form::open() adds CSRF token hidden field automatically.
+		 */
+		'csrf_auto_token'          => false,
+
+		/**
 		 * Name of the form field that holds the CSRF token.
 		 */
 		'csrf_token_key'           => 'fuel_csrf_token',
@@ -297,7 +302,8 @@ return array(
 		'case_sensitive' => true,
 
 		/**
-		 *  Whether to strip the extension
+		 * whether to strip the extension (true/false, or an array with
+		 * a list of extensions, including the dot! p.e. array('.html', '.php')
 		 */
 		'strip_extension' => true,
 	),
@@ -317,14 +323,14 @@ return array(
 	 */
 	'config' => array(
 		/*
-		 * Name of the table used by the Config_Db driver
-		 */
-		'table_name' => 'config',
-
-		/*
 		 * Database that holds the config table
 		 */
 		'database' => null,
+
+		/*
+		 * Name of the table used by the Config_Db driver
+		 */
+		'table_name' => 'config',
 
 		/*
 		 * Array of servers and portnumbers that run the memcached service for config data
@@ -341,6 +347,11 @@ return array(
 	 * Lang settings
 	 */
 	'lang' => array(
+		/*
+		 * Database that holds the lang table
+		 */
+		'database' => null,
+
 		/*
 		 * Name of the table used by the Lang_Db driver
 		 */

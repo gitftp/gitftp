@@ -4,11 +4,14 @@ namespace League\Flysystem\Adapter;
 
 use DirectoryIterator;
 use FilesystemIterator;
-use Finfo;
+use finfo as Finfo;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
+use League\Flysystem\Exception;
 use League\Flysystem\NotSupportedException;
+use League\Flysystem\UnreadableFileException;
 use League\Flysystem\Util;
+use LogicException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -30,8 +33,8 @@ class Local extends AbstractAdapter
      */
     protected static $permissions = [
         'file' => [
-            'public' => 0744,
-            'private' => 0700,
+            'public' => 0644,
+            'private' => 0600,
         ],
         'dir' => [
             'public' => 0755,
@@ -68,15 +71,15 @@ class Local extends AbstractAdapter
      */
     public function __construct($root, $writeFlags = LOCK_EX, $linkHandling = self::DISALLOW_LINKS, array $permissions = [])
     {
-        // permissionMap needs to be set before ensureDirectory() is called.
+        $root = is_link($root) ? realpath($root) : $root;
         $this->permissionMap = array_replace_recursive(static::$permissions, $permissions);
-        $realRoot = $this->ensureDirectory($root);
+        $this->ensureDirectory($root);
 
-        if (! is_dir($realRoot) || !is_readable($realRoot)) {
-            throw new \LogicException('The root path '.$root.' is not readable.');
+        if ( ! is_dir($root) || ! is_readable($root)) {
+            throw new LogicException('The root path ' . $root . ' is not readable.');
         }
 
-        $this->setPathPrefix($realRoot);
+        $this->setPathPrefix($root);
         $this->writeFlags = $writeFlags;
         $this->linkHandling = $linkHandling;
     }
@@ -86,17 +89,21 @@ class Local extends AbstractAdapter
      *
      * @param string $root root directory path
      *
-     * @return string real path to root
+     * @return void
+     *
+     * @throws Exception in case the root directory can not be created
      */
     protected function ensureDirectory($root)
     {
-        if (! is_dir($root)) {
+        if ( ! is_dir($root)) {
             $umask = umask(0);
-            mkdir($root, $this->permissionMap['dir']['public'], true);
+            @mkdir($root, $this->permissionMap['dir']['public'], true);
             umask($umask);
-        }
 
-        return realpath($root);
+            if ( ! is_dir($root)) {
+                throw new Exception(sprintf('Impossible to create the root directory "%s".', $root));
+            }
+        }
     }
 
     /**
@@ -139,15 +146,15 @@ class Local extends AbstractAdapter
     {
         $location = $this->applyPathPrefix($path);
         $this->ensureDirectory(dirname($location));
-        $stream = fopen($location, 'w+');
+        $stream = fopen($location, 'w+b');
 
-        if (! $stream) {
+        if ( ! $stream) {
             return false;
         }
 
         stream_copy_to_stream($resource, $stream);
 
-        if (! fclose($stream)) {
+        if ( ! fclose($stream)) {
             return false;
         }
 
@@ -164,7 +171,7 @@ class Local extends AbstractAdapter
     public function readStream($path)
     {
         $location = $this->applyPathPrefix($path);
-        $stream = fopen($location, 'r');
+        $stream = fopen($location, 'rb');
 
         return compact('stream', 'path');
     }
@@ -249,9 +256,9 @@ class Local extends AbstractAdapter
     public function listContents($directory = '', $recursive = false)
     {
         $result = [];
-        $location = $this->applyPathPrefix($directory).$this->pathSeparator;
+        $location = $this->applyPathPrefix($directory);
 
-        if (! is_dir($location)) {
+        if ( ! is_dir($location)) {
             return [];
         }
 
@@ -296,8 +303,13 @@ class Local extends AbstractAdapter
     {
         $location = $this->applyPathPrefix($path);
         $finfo = new Finfo(FILEINFO_MIME_TYPE);
+        $mimetype = $finfo->file($location);
 
-        return ['mimetype' => $finfo->file($location)];
+        if (in_array($mimetype, ['application/octet-stream', 'inode/x-empty'])) {
+            $mimetype = Util\MimeType::detectByFilename($location);
+        }
+
+        return ['mimetype' => $mimetype];
     }
 
     /**
@@ -328,7 +340,11 @@ class Local extends AbstractAdapter
     {
         $location = $this->applyPathPrefix($path);
         $type = is_dir($location) ? 'dir' : 'file';
-        chmod($location, $this->permissionMap[$type][$visibility]);
+        $success = chmod($location, $this->permissionMap[$type][$visibility]);
+
+        if ($success === false) {
+            return false;
+        }
 
         return compact('visibility');
     }
@@ -342,7 +358,7 @@ class Local extends AbstractAdapter
         $umask = umask(0);
         $visibility = $config->get('visibility', 'public');
 
-        if (! is_dir($location) && !mkdir($location, $this->permissionMap['dir'][$visibility], true)) {
+        if ( ! is_dir($location) && ! mkdir($location, $this->permissionMap['dir'][$visibility], true)) {
             $return = false;
         } else {
             $return = ['path' => $dirname, 'type' => 'dir'];
@@ -360,30 +376,36 @@ class Local extends AbstractAdapter
     {
         $location = $this->applyPathPrefix($dirname);
 
-        if (! is_dir($location)) {
+        if ( ! is_dir($location)) {
             return false;
         }
 
-        $contents = new RecursiveIteratorIterator(
-            new RecursiveDirectoryIterator($location, FilesystemIterator::SKIP_DOTS),
-            RecursiveIteratorIterator::CHILD_FIRST
-        );
+        $contents = $this->getRecursiveDirectoryIterator($location, RecursiveIteratorIterator::CHILD_FIRST);
 
         /** @var SplFileInfo $file */
         foreach ($contents as $file) {
-            switch ($file->getType()) {
-                case 'dir':
-                    rmdir($file->getRealPath());
-                    break;
-                case 'link':
-                    unlink($file->getPathname());
-                    break;
-                default:
-                    unlink($file->getRealPath());
-            }
+            $this->guardAgainstUnreadableFileInfo($file);
+            $this->deleteFileInfoObject($file);
         }
 
         return rmdir($location);
+    }
+
+    /**
+     * @param SplFileInfo $file
+     */
+    protected function deleteFileInfoObject(SplFileInfo $file)
+    {
+        switch ($file->getType()) {
+            case 'dir':
+                rmdir($file->getRealPath());
+                break;
+            case 'link':
+                unlink($file->getPathname());
+                break;
+            default:
+                unlink($file->getRealPath());
+        }
     }
 
     /**
@@ -395,7 +417,7 @@ class Local extends AbstractAdapter
      */
     protected function normalizeFileInfo(SplFileInfo $file)
     {
-        if (! $file->isLink()) {
+        if ( ! $file->isLink()) {
             return $this->mapFileInfo($file);
         }
 
@@ -421,15 +443,16 @@ class Local extends AbstractAdapter
 
     /**
      * @param string $path
+     * @param int    $mode
      *
      * @return RecursiveIteratorIterator
      */
-    protected function getRecursiveDirectoryIterator($path)
+    protected function getRecursiveDirectoryIterator($path, $mode = RecursiveIteratorIterator::SELF_FIRST)
     {
-        $directory = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
-        $iterator = new RecursiveIteratorIterator($directory, RecursiveIteratorIterator::SELF_FIRST);
-
-        return $iterator;
+        return new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS),
+            $mode
+        );
     }
 
     /**
@@ -473,5 +496,17 @@ class Local extends AbstractAdapter
         $prefixedPath = parent::applyPathPrefix($path);
 
         return str_replace('/', DIRECTORY_SEPARATOR, $prefixedPath);
+    }
+
+    /**
+     * @param SplFileInfo $file
+     *
+     * @throws UnreadableFileException
+     */
+    protected function guardAgainstUnreadableFileInfo(SplFileInfo $file)
+    {
+        if ( ! $file->isReadable()) {
+            throw UnreadableFileException::forFileInfo($file);
+        }
     }
 }

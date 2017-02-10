@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -255,7 +255,15 @@ class View
 			// Get the captured output and close the buffer
 			return ob_get_clean();
 		};
-		return $clean_room($file_override ?: $this->file_name, $this->get_data());
+
+		// import and process the view file
+		$result = $clean_room($file_override ?: $this->file_name, $data = $this->get_data());
+
+		// disable sanitization on objects that support it
+		$this->unsanitize($data);
+
+		// return the result
+		return $result;
 	}
 
 	/**
@@ -303,6 +311,31 @@ class View
 		}
 
 		return $data;
+	}
+
+	/**
+	 * disable sanitation on any objects in the data that support it
+	 *
+	 * @param   mixed
+	 * @return  mixed
+	 */
+	protected function unsanitize($var)
+	{
+		// deal with objects that can be sanitized
+		if ($var instanceOf \Sanitization)
+		{
+			$var->unsanitize();
+		}
+
+		// deal with array's or array emulating objects
+		elseif (is_array($var) or ($var instanceOf \Traversable and $var instanceOf \ArrayAccess))
+		{
+			// recurse on array values
+			foreach($var as $key => $value)
+			{
+				$var[$key] = $this->unsanitize($value);
+			}
+		}
 	}
 
 	/**
@@ -384,31 +417,65 @@ class View
 	 *
 	 *     $view->set_filename($file);
 	 *
-	 * @param   string  $file  view filename
+	 * @param   string  $file    view filename
+	 * @param   bool    $prefix  whether or not to reverse the search
 	 * @return  View
 	 * @throws  \FuelException
 	 */
-	public function set_filename($file)
+	public function set_filename($file, $reverse = false)
 	{
-		// strip the extension from it
-		$pathinfo = pathinfo($file);
-		if ( ! empty($pathinfo['extension']))
+		// reset the filename
+		$this->file_name = null;
+
+		// define the list of files to search
+		$searches = array(
+			array('file' => $file, 'extension' => $this->extension),
+		);
+
+		// if the file contains a dot, is it an extension of a part of the filename?
+		if (strpos($file, '.') !== false)
 		{
-			$this->extension = $pathinfo['extension'];
-			$file = substr($file, 0, strlen($this->extension)*-1 - 1);
+			// strip the extension from it
+			$pathinfo = pathinfo($file);
+
+			// add the result to the search list
+			if ($reverse)
+			{
+				array_unshift($searches, array(
+					'file' => substr($file, 0, strlen($pathinfo['extension'])*-1 - 1),
+					 'extension' => $pathinfo['extension'],
+				));
+			}
+			else
+			{
+				$searches[] = array(
+					'file' => substr($file, 0, strlen($pathinfo['extension'])*-1 - 1),
+					 'extension' => $pathinfo['extension'],
+				);
+			}
 		}
 
 		// set find_file's one-time-only search paths
 		\Finder::instance()->flash($this->request_paths);
 
 		// locate the view file
-		if (($path = \Finder::search('views', $file, '.'.$this->extension, false, false)) === false)
+		foreach ($searches as $search)
 		{
-			throw new \FuelException('The requested view could not be found: '.\Fuel::clean_path($file).'.'.$this->extension);
+			if ($path = \Finder::search('views', $search['file'], '.'.$search['extension'], false, false))
+			{
+				// store the file info locally
+				$this->file_name = $path;
+				$this->extension = $search['extension'];
+
+				break;
+			}
 		}
 
-		// Store the file path locally
-		$this->file_name = $path;
+		// did we find it?
+		if ( ! $this->file_name)
+		{
+			throw new \FuelException('The requested view could not be found: '.\Fuel::clean_path($search['file']).'.'.$search['extension']);
+		}
 
 		return $this;
 	}

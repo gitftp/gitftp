@@ -2,6 +2,35 @@
 All notable changes to this project will be documented in this file.  
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
+### Added:
+  - Endpoint to get a list of teams to which caller has access.
+  - Endpoint to get emails for authenticated user.
+  - Basic pager in order to support response pagination. (_@see #17_)
+
+### Changed:
+  - Minimum required PHP version has been bumped to 5.4 from 5.3
+  - SSL certificate verification is now enabled by default.
+  - `Api` constructor signature was modified in order to reflect removal of transport object dependency. (_@see Removed[2]_)
+  
+### Removed:
+  - Removed deprecated methods from `Api` (_childFactory, processResponse, authorize_)
+  - Removed transport object dependency from `Api`.
+
+## 0.8.1 / 2016-05-08
+
+### Fixed:
+  - Declining a PR without a `message` parameter caused a 500 response. (issue #43)
+
+## 0.8.0 / 2015-12-05
+
+### Added:
+  - Implemented build statuses endpoints. (PR #27)
+
+### Fixed:
+  - Usage of short array syntax inside one test, forced the test suite to fail on PHP 5.3
+
 ## 0.7.1 / 2015-11-07
 
 ### Fixed:

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -186,12 +186,12 @@ class Image
 	/**
 	 * Adds a watermark to the image.
 	 *
-	 * @param   string   $filename  The filename of the watermark file to use.
-	 * @param   string   $position  The position of the watermark, ex: "bottom right", "center center", "top left"
-	 * @param   integer  $padding   The spacing between the edge of the image.
+	 * @param   string         $filename  The filename of the watermark file to use.
+	 * @param   string         $position  The position of the watermark, ex: "bottom right", "center center", "top left"
+	 * @param   integer|array  $padding   The spacing between the edge of the image, or an array with seperate horizontal and vertical padding
 	 * @return  Image_Driver
 	 */
-	public static function watermark($filename, $position, $padding = 5)
+	public static function watermark($filename, $position, $padding = array(5,5))
 	{
 		return static::instance()->watermark($filename, $position, $padding);
 	}

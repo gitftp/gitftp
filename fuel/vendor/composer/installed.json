@@ -1,92 +1,5 @@
 [
     {
-        "name": "fuelphp/upload",
-        "version": "2.0.2",
-        "version_normalized": "2.0.2.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuelphp/upload.git",
-            "reference": "b0d4c8df2d7cc64b8b13415d5de0e3aadd8c2004"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuelphp/upload/zipball/b0d4c8df2d7cc64b8b13415d5de0e3aadd8c2004",
-            "reference": "b0d4c8df2d7cc64b8b13415d5de0e3aadd8c2004",
-            "shasum": ""
-        },
-        "require": {
-            "ext-fileinfo": "*",
-            "php": ">=5.3"
-        },
-        "require-dev": {
-            "mockery/mockery": "0.8.*"
-        },
-        "time": "2014-07-17 21:15:12",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Fuel\\Upload\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "Uploaded file processing.",
-        "homepage": "https://github.com/fuelphp/upload",
-        "keywords": [
-            "file uploads",
-            "upload"
-        ]
-    },
-    {
-        "name": "psr/log",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-fig/log.git",
-            "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/log/zipball/fe0936ee26643249e916849d48e3a51d5f5e278b",
-            "reference": "fe0936ee26643249e916849d48e3a51d5f5e278b",
-            "shasum": ""
-        },
-        "time": "2012-12-21 11:40:51",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Psr\\Log\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
-            }
-        ],
-        "description": "Common interface for logging libraries",
-        "keywords": [
-            "log",
-            "psr",
-            "psr-3"
-        ]
-    },
-    {
         "name": "monolog/monolog",
         "version": "1.5.0",
         "version_normalized": "1.5.0.0",
@@ -117,7 +30,7 @@
             "mlehner/gelf-php": "Allow sending log messages to a GrayLog2 server",
             "raven/raven": "Allow sending log messages to a Sentry server"
         },
-        "time": "2013-04-23 10:09:48",
+        "time": "2013-04-23T10:09:48+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -168,7 +81,7 @@
         "require": {
             "php": ">=5.3.0"
         },
-        "time": "2013-11-29 17:09:24",
+        "time": "2013-11-29T17:09:24+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -227,7 +140,7 @@
         "suggest": {
             "ext-curl": "*"
         },
-        "time": "2015-06-25 17:26:56",
+        "time": "2015-06-25T17:26:56+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -276,7 +189,7 @@
         "require-dev": {
             "symfony/filesystem": ">=2.3"
         },
-        "time": "2014-02-27 13:14:59",
+        "time": "2014-02-27T13:14:59+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -357,7 +270,7 @@
         "suggest": {
             "guzzlehttp/guzzle": "Guzzle 5 has moved to a new package name. The package you have installed, Guzzle 3, is deprecated."
         },
-        "time": "2015-03-18 18:23:50",
+        "time": "2015-03-18T18:23:50+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -396,1018 +309,8 @@
             "http client",
             "rest",
             "web service"
-        ]
-    },
-    {
-        "name": "psr/http-message",
-        "version": "1.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/php-fig/http-message.git",
-            "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/php-fig/http-message/zipball/85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
-            "reference": "85d63699f0dbedb190bbd4b0d2b9dc707ea4c298",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2015-05-04 20:22:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Psr\\Http\\Message\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
         ],
-        "authors": [
-            {
-                "name": "PHP-FIG",
-                "homepage": "http://www.php-fig.org/"
-            }
-        ],
-        "description": "Common interface for HTTP messages",
-        "keywords": [
-            "http",
-            "http-message",
-            "psr",
-            "psr-7",
-            "request",
-            "response"
-        ]
-    },
-    {
-        "name": "ircmaxell/security-lib",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/ircmaxell/SecurityLib.git",
-            "reference": "80934de3c482dcafb46b5756e59ebece082b6dc7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/ircmaxell/SecurityLib/zipball/80934de3c482dcafb46b5756e59ebece082b6dc7",
-            "reference": "80934de3c482dcafb46b5756e59ebece082b6dc7",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "mikey179/vfsstream": "1.1.*"
-        },
-        "time": "2013-04-30 18:00:34",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "SecurityLib": "lib"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Anthony Ferrara",
-                "email": "ircmaxell@ircmaxell.com",
-                "homepage": "http://blog.ircmaxell.com"
-            }
-        ],
-        "description": "A Base Security Library",
-        "homepage": "https://github.com/ircmaxell/PHP-SecurityLib"
-    },
-    {
-        "name": "ircmaxell/random-lib",
-        "version": "v1.1.0",
-        "version_normalized": "1.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/ircmaxell/RandomLib.git",
-            "reference": "13efa4368bb2ac88bb3b1459b487d907de4dbf7c"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/ircmaxell/RandomLib/zipball/13efa4368bb2ac88bb3b1459b487d907de4dbf7c",
-            "reference": "13efa4368bb2ac88bb3b1459b487d907de4dbf7c",
-            "shasum": ""
-        },
-        "require": {
-            "ircmaxell/security-lib": "1.0.*@dev",
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "mikey179/vfsstream": "1.1.*",
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2015-01-15 16:31:45",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "RandomLib": "lib"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Anthony Ferrara",
-                "email": "ircmaxell@ircmaxell.com",
-                "homepage": "http://blog.ircmaxell.com"
-            }
-        ],
-        "description": "A Library For Generating Secure Random Numbers",
-        "homepage": "https://github.com/ircmaxell/RandomLib",
-        "keywords": [
-            "cryptography",
-            "random",
-            "random-numbers",
-            "random-strings"
-        ]
-    },
-    {
-        "name": "league/oauth2-client",
-        "version": "1.0.0-beta2",
-        "version_normalized": "1.0.0.0-beta2",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thephpleague/oauth2-client.git",
-            "reference": "ef48d09d0a36508c4df40432b0e5f4a4d0be4295"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/ef48d09d0a36508c4df40432b0e5f4a4d0be4295",
-            "reference": "ef48d09d0a36508c4df40432b0e5f4a4d0be4295",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "guzzlehttp/guzzle": "~6.0",
-            "ircmaxell/random-lib": "~1.1",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "jakub-onderka/php-parallel-lint": "0.8.*",
-            "mockery/mockery": "~0.9",
-            "phpunit/phpunit": "~4.0",
-            "satooshi/php-coveralls": "0.6.*",
-            "squizlabs/php_codesniffer": "~2.0"
-        },
-        "time": "2015-08-12 13:46:33",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "League\\OAuth2\\Client\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Alex Bilbie",
-                "email": "hello@alexbilbie.com",
-                "homepage": "http://www.alexbilbie.com",
-                "role": "Developer"
-            }
-        ],
-        "description": "OAuth 2.0 Client Library",
-        "keywords": [
-            "Authentication",
-            "SSO",
-            "authorization",
-            "identity",
-            "idp",
-            "oauth",
-            "oauth2",
-            "single sign on"
-        ]
-    },
-    {
-        "name": "mustache/mustache",
-        "version": "v2.9.0",
-        "version_normalized": "2.9.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/bobthecow/mustache.php.git",
-            "reference": "c745b01956caf27d26b55a72a90aff56bc169cd6"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/c745b01956caf27d26b55a72a90aff56bc169cd6",
-            "reference": "c745b01956caf27d26b55a72a90aff56bc169cd6",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.2.4"
-        },
-        "require-dev": {
-            "fabpot/php-cs-fixer": "~1.6",
-            "phpunit/phpunit": "~3.7|~4.0"
-        },
-        "time": "2015-08-15 19:23:13",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Mustache": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Justin Hileman",
-                "email": "justin@justinhileman.info",
-                "homepage": "http://justinhileman.com"
-            }
-        ],
-        "description": "A Mustache implementation in PHP.",
-        "homepage": "https://github.com/bobthecow/mustache.php",
-        "keywords": [
-            "mustache",
-            "templating"
-        ]
-    },
-    {
-        "name": "suin/php-rss-writer",
-        "version": "1.3.1",
-        "version_normalized": "1.3.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/suin/php-rss-writer.git",
-            "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/96ff59575442dbe23e15fe7ff56d0bf27486cff9",
-            "reference": "96ff59575442dbe23e15fe7ff56d0bf27486cff9",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0"
-        },
-        "time": "2015-08-21 06:24:39",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Suin\\RSSWriter": "src"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Hidehito Nozawa aka Suin",
-                "email": "suinyeze@gmail.com"
-            }
-        ],
-        "description": "Yet another simple RSS writer library for PHP 5.3 or later.",
-        "homepage": "https://github.com/suin/php-rss-writer",
-        "keywords": [
-            "feed",
-            "generator",
-            "php",
-            "rss",
-            "writer"
-        ]
-    },
-    {
-        "name": "guzzlehttp/guzzle",
-        "version": "6.1.0",
-        "version_normalized": "6.1.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/guzzle.git",
-            "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
-            "reference": "66fd14b4d0b8f2389eaf37c5458608c7cb793a81",
-            "shasum": ""
-        },
-        "require": {
-            "guzzlehttp/promises": "~1.0",
-            "guzzlehttp/psr7": "~1.1",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "ext-curl": "*",
-            "phpunit/phpunit": "~4.0",
-            "psr/log": "~1.0"
-        },
-        "time": "2015-09-08 17:36:26",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "6.1-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "files": [
-                "src/functions_include.php"
-            ],
-            "psr-4": {
-                "GuzzleHttp\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle is a PHP HTTP client library",
-        "homepage": "http://guzzlephp.org/",
-        "keywords": [
-            "client",
-            "curl",
-            "framework",
-            "http",
-            "http client",
-            "rest",
-            "web service"
-        ]
-    },
-    {
-        "name": "league/oauth2-github",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thephpleague/oauth2-github.git",
-            "reference": "67f394f40fdb362174149393daabf5d87d67ade4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/oauth2-github/zipball/67f394f40fdb362174149393daabf5d87d67ade4",
-            "reference": "67f394f40fdb362174149393daabf5d87d67ade4",
-            "shasum": ""
-        },
-        "require": {
-            "league/oauth2-client": "~1.0",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "mockery/mockery": "~0.9",
-            "phpunit/phpunit": "~4.0",
-            "squizlabs/php_codesniffer": "~2.0"
-        },
-        "time": "2015-08-20 15:16:21",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "League\\OAuth2\\Client\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Steven Maguire",
-                "email": "stevenmaguire@gmail.com",
-                "homepage": "https://github.com/stevenmaguire"
-            }
-        ],
-        "description": "Github OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
-        "keywords": [
-            "authorisation",
-            "authorization",
-            "client",
-            "github",
-            "oauth",
-            "oauth2"
-        ]
-    },
-    {
-        "name": "stevenmaguire/oauth2-bitbucket",
-        "version": "dev-master",
-        "version_normalized": "9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/stevenmaguire/oauth2-bitbucket.git",
-            "reference": "754204cb0fc89676c9f513ddac198d51a65cf635"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/stevenmaguire/oauth2-bitbucket/zipball/754204cb0fc89676c9f513ddac198d51a65cf635",
-            "reference": "754204cb0fc89676c9f513ddac198d51a65cf635",
-            "shasum": ""
-        },
-        "require": {
-            "league/oauth2-client": "~1.0",
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "mockery/mockery": "~0.9",
-            "phpunit/phpunit": "~4.0",
-            "squizlabs/php_codesniffer": "~2.0"
-        },
-        "time": "2015-08-20 14:32:29",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Stevenmaguire\\OAuth2\\Client\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Steven Maguire",
-                "email": "stevenmaguire@gmail.com",
-                "homepage": "https://github.com/stevenmaguire"
-            }
-        ],
-        "description": "Bitbucket OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
-        "keywords": [
-            "authorisation",
-            "authorization",
-            "bitbucket",
-            "client",
-            "oauth",
-            "oauth2"
-        ]
-    },
-    {
-        "name": "league/flysystem",
-        "version": "1.0.15",
-        "version_normalized": "1.0.15.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thephpleague/flysystem.git",
-            "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/31525caf9e8772683672fefd8a1ca0c0736020f4",
-            "reference": "31525caf9e8772683672fefd8a1ca0c0736020f4",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0"
-        },
-        "conflict": {
-            "league/flysystem-sftp": "<1.0.6"
-        },
-        "require-dev": {
-            "ext-fileinfo": "*",
-            "mockery/mockery": "~0.9",
-            "phpspec/phpspec": "^2.2",
-            "phpspec/prophecy-phpunit": "~1.0",
-            "phpunit/phpunit": "~4.1"
-        },
-        "suggest": {
-            "ext-fileinfo": "Required for MimeType",
-            "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
-            "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
-            "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
-            "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
-            "league/flysystem-copy": "Allows you to use Copy.com storage",
-            "league/flysystem-dropbox": "Allows you to use Dropbox storage",
-            "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
-            "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
-            "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
-            "league/flysystem-webdav": "Allows you to use WebDAV storage",
-            "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
-        },
-        "time": "2015-09-30 22:26:59",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.1-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "League\\Flysystem\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Frank de Jonge",
-                "email": "info@frenky.net"
-            }
-        ],
-        "description": "Filesystem abstraction: Many filesystems, one API.",
-        "keywords": [
-            "Cloud Files",
-            "WebDAV",
-            "abstraction",
-            "aws",
-            "cloud",
-            "copy.com",
-            "dropbox",
-            "file systems",
-            "files",
-            "filesystem",
-            "filesystems",
-            "ftp",
-            "rackspace",
-            "remote",
-            "s3",
-            "sftp",
-            "storage"
-        ]
-    },
-    {
-        "name": "composer/installers",
-        "version": "v1.0.22",
-        "version_normalized": "1.0.22.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/composer/installers.git",
-            "reference": "bd9b14f094c89c8b5804a4e41edeb7853bb85046"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/composer/installers/zipball/bd9b14f094c89c8b5804a4e41edeb7853bb85046",
-            "reference": "bd9b14f094c89c8b5804a4e41edeb7853bb85046",
-            "shasum": ""
-        },
-        "require": {
-            "composer-plugin-api": "1.0.0"
-        },
-        "replace": {
-            "roundcube/plugin-installer": "*",
-            "shama/baton": "*"
-        },
-        "require-dev": {
-            "composer/composer": "1.0.*@dev",
-            "phpunit/phpunit": "4.1.*"
-        },
-        "time": "2015-10-29 23:28:48",
-        "type": "composer-plugin",
-        "extra": {
-            "class": "Composer\\Installers\\Plugin",
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "Composer\\Installers\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Kyle Robinson Young",
-                "email": "kyle@dontkry.com",
-                "homepage": "https://github.com/shama"
-            }
-        ],
-        "description": "A multi-framework Composer library installer",
-        "homepage": "http://composer.github.com/installers/",
-        "keywords": [
-            "Craft",
-            "Dolibarr",
-            "Hurad",
-            "MODX Evo",
-            "OXID",
-            "SMF",
-            "Thelia",
-            "WolfCMS",
-            "agl",
-            "aimeos",
-            "annotatecms",
-            "bitrix",
-            "cakephp",
-            "chef",
-            "codeigniter",
-            "concrete5",
-            "croogo",
-            "dokuwiki",
-            "drupal",
-            "elgg",
-            "fuelphp",
-            "grav",
-            "installer",
-            "joomla",
-            "kohana",
-            "laravel",
-            "lithium",
-            "magento",
-            "mako",
-            "mediawiki",
-            "modulework",
-            "moodle",
-            "phpbb",
-            "piwik",
-            "ppi",
-            "puppet",
-            "roundcube",
-            "shopware",
-            "silverstripe",
-            "symfony",
-            "typo3",
-            "wordpress",
-            "zend",
-            "zikula"
-        ]
-    },
-    {
-        "name": "symfony/event-dispatcher",
-        "version": "v2.7.6",
-        "version_normalized": "2.7.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/event-dispatcher.git",
-            "reference": "87a5db5ea887763fa3a31a5471b512ff1596d9b8"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/87a5db5ea887763fa3a31a5471b512ff1596d9b8",
-            "reference": "87a5db5ea887763fa3a31a5471b512ff1596d9b8",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "require-dev": {
-            "psr/log": "~1.0",
-            "symfony/config": "~2.0,>=2.0.5",
-            "symfony/dependency-injection": "~2.6",
-            "symfony/expression-language": "~2.6",
-            "symfony/stopwatch": "~2.3"
-        },
-        "suggest": {
-            "symfony/dependency-injection": "",
-            "symfony/http-kernel": ""
-        },
-        "time": "2015-10-11 09:39:48",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\EventDispatcher\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony EventDispatcher Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "knplabs/github-api",
-        "version": "1.5.1",
-        "version_normalized": "1.5.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/KnpLabs/php-github-api.git",
-            "reference": "832b7be695ed2733741cd5c79166b4a88fb50786"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/832b7be695ed2733741cd5c79166b4a88fb50786",
-            "reference": "832b7be695ed2733741cd5c79166b4a88fb50786",
-            "shasum": ""
-        },
-        "require": {
-            "ext-curl": "*",
-            "guzzle/guzzle": "~3.7",
-            "php": ">=5.3.2"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "suggest": {
-            "knplabs/gaufrette": "Needed for optional Gaufrette cache"
-        },
-        "time": "2015-10-11 02:38:28",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.4.x-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Github\\": "lib/Github/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Thibault Duplessis",
-                "email": "thibault.duplessis@gmail.com",
-                "homepage": "http://ornicar.github.com"
-            },
-            {
-                "name": "KnpLabs Team",
-                "homepage": "http://knplabs.com"
-            }
-        ],
-        "description": "GitHub API v3 client",
-        "homepage": "https://github.com/KnpLabs/php-github-api",
-        "keywords": [
-            "api",
-            "gh",
-            "gist",
-            "github"
-        ]
-    },
-    {
-        "name": "symfony/process",
-        "version": "v2.7.6",
-        "version_normalized": "2.7.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/process.git",
-            "reference": "4a959dd4e19c2c5d7512689413921e0a74386ec7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/process/zipball/4a959dd4e19c2c5d7512689413921e0a74386ec7",
-            "reference": "4a959dd4e19c2c5d7512689413921e0a74386ec7",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2015-10-23 14:47:27",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\Process\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony Process Component",
-        "homepage": "https://symfony.com"
-    },
-    {
-        "name": "symfony/options-resolver",
-        "version": "v2.7.6",
-        "version_normalized": "2.7.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/symfony/options-resolver.git",
-            "reference": "85fd10e551677d3c9a4632def78b8ec4670b247d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/85fd10e551677d3c9a4632def78b8ec4670b247d",
-            "reference": "85fd10e551677d3c9a4632def78b8ec4670b247d",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.9"
-        },
-        "time": "2015-10-11 09:39:48",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "2.7-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "Symfony\\Component\\OptionsResolver\\": ""
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Fabien Potencier",
-                "email": "fabien@symfony.com"
-            },
-            {
-                "name": "Symfony Community",
-                "homepage": "https://symfony.com/contributors"
-            }
-        ],
-        "description": "Symfony OptionsResolver Component",
-        "homepage": "https://symfony.com",
-        "keywords": [
-            "config",
-            "configuration",
-            "options"
-        ]
-    },
-    {
-        "name": "guzzlehttp/promises",
-        "version": "1.0.3",
-        "version_normalized": "1.0.3.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/promises.git",
-            "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/promises/zipball/b1e1c0d55f8083c71eda2c28c12a228d708294ea",
-            "reference": "b1e1c0d55f8083c71eda2c28c12a228d708294ea",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.5.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2015-10-15 22:28:00",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Promise\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "Guzzle promises library",
-        "keywords": [
-            "promise"
-        ]
-    },
-    {
-        "name": "guzzlehttp/psr7",
-        "version": "1.2.1",
-        "version_normalized": "1.2.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/guzzle/psr7.git",
-            "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/guzzle/psr7/zipball/4d0bdbe1206df7440219ce14c972aa57cc5e4982",
-            "reference": "4d0bdbe1206df7440219ce14c972aa57cc5e4982",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.4.0",
-            "psr/http-message": "~1.0"
-        },
-        "provide": {
-            "psr/http-message-implementation": "1.0"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2015-11-03 01:34:55",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "GuzzleHttp\\Psr7\\": "src/"
-            },
-            "files": [
-                "src/functions_include.php"
-            ]
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Michael Dowling",
-                "email": "mtdowling@gmail.com",
-                "homepage": "https://github.com/mtdowling"
-            }
-        ],
-        "description": "PSR-7 message implementation",
-        "keywords": [
-            "http",
-            "message",
-            "stream",
-            "uri"
-        ]
+        "abandoned": "guzzlehttp/guzzle"
     },
     {
         "name": "jacobkiers/oauth",
@@ -1432,7 +335,7 @@
             "phpunit/phpunit": "3.7.*@stable",
             "squizlabs/php_codesniffer": "*"
         },
-        "time": "2015-10-02 13:50:51",
+        "time": "2015-10-02T13:50:51+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1471,62 +374,6 @@
         ]
     },
     {
-        "name": "gentle/bitbucket-api",
-        "version": "dev-develop",
-        "version_normalized": "dev-develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/gentlero/bitbucket-api.git",
-            "reference": "36ae85affd74a46f1fb96d51fc96e6e8490d30cf"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/gentlero/bitbucket-api/zipball/36ae85affd74a46f1fb96d51fc96e6e8490d30cf",
-            "reference": "36ae85affd74a46f1fb96d51fc96e6e8490d30cf",
-            "shasum": ""
-        },
-        "require": {
-            "jacobkiers/oauth": "~1.0.10",
-            "kriswallsmith/buzz": "~0.13",
-            "php": ">=5.3"
-        },
-        "conflict": {
-            "eabay/bitbucket-repo-sync": "*"
-        },
-        "require-dev": {
-            "phpunit/phpunit": "3.7.*"
-        },
-        "suggest": {
-            "ext-curl": "*"
-        },
-        "time": "2015-11-07 13:39:18",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-0": {
-                "Bitbucket\\": "lib/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Alexandru Guzinschi",
-                "email": "alex@gentle.ro",
-                "homepage": "http://www.sebi.me",
-                "role": "Developer"
-            }
-        ],
-        "description": "Bitbucket API wrapper for PHP >= 5.3",
-        "homepage": "https://bitbucket.org/gentlero/bitbucket-api",
-        "keywords": [
-            "api",
-            "bitbucket"
-        ]
-    },
-    {
         "name": "phpseclib/phpseclib",
         "version": "2.0.0",
         "version_normalized": "2.0.0.0",
@@ -1557,7 +404,7 @@
             "ext-openssl": "Install the OpenSSL extension in order to speed up a wide variety of cryptographic operations.",
             "pear-pear/PHP_Compat": "Install PHP_Compat to get phpseclib working on PHP < 5.0.0."
         },
-        "time": "2015-08-04 04:48:03",
+        "time": "2015-08-04T04:48:03+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1617,314 +464,6 @@
         ]
     },
     {
-        "name": "league/flysystem-sftp",
-        "version": "1.0.7",
-        "version_normalized": "1.0.7.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/thephpleague/flysystem-sftp.git",
-            "reference": "5e3f97aa68f4195ebc26ad22687cc9325e5a4978"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/thephpleague/flysystem-sftp/zipball/5e3f97aa68f4195ebc26ad22687cc9325e5a4978",
-            "reference": "5e3f97aa68f4195ebc26ad22687cc9325e5a4978",
-            "shasum": ""
-        },
-        "require": {
-            "league/flysystem": "~1.0",
-            "php": ">=5.4.0",
-            "phpseclib/phpseclib": "~2.0"
-        },
-        "require-dev": {
-            "mockery/mockery": "0.9.*",
-            "phpunit/phpunit": "~4.0"
-        },
-        "time": "2015-10-25 21:59:40",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "1.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "psr-4": {
-                "League\\Flysystem\\Sftp\\": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Frank de Jonge",
-                "email": "info@frenky.net"
-            }
-        ],
-        "description": "Flysystem adapter for SFTP"
-    },
-    {
-        "name": "fuel/core",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/core.git",
-            "reference": "2177ea4448a967dabf14aaece3f96541eee29896"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/core/zipball/0e7422f83f7d9a1930d1a3ac0b118f6ac51e132d",
-            "reference": "2177ea4448a967dabf14aaece3f96541eee29896",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-11-13 12:31:38",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Core",
-        "homepage": "https://github.com/fuel/core",
-        "support": {
-            "source": "https://github.com/fuel/core/tree/1.8/develop",
-            "issues": "https://github.com/fuel/core/issues"
-        }
-    },
-    {
-        "name": "fuel/docs",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/docs.git",
-            "reference": "954d1a87b3427b661a551ec124aa8f739ab303ec"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/docs/zipball/f6cd44453161d70c2c1403018ab697e98230098e",
-            "reference": "954d1a87b3427b661a551ec124aa8f739ab303ec",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-11-12 16:33:32",
-        "type": "fuel-package",
-        "installation-source": "source",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Documenataion",
-        "homepage": "https://github.com/fuel/docs",
-        "support": {
-            "source": "https://github.com/fuel/docs/tree/1.8/develop",
-            "issues": "https://github.com/fuel/docs/issues"
-        }
-    },
-    {
-        "name": "fuel/auth",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/auth.git",
-            "reference": "60a677f09baed9740d7fa60dc21ac8db27350dc7"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/auth/zipball/60a677f09baed9740d7fa60dc21ac8db27350dc7",
-            "reference": "60a677f09baed9740d7fa60dc21ac8db27350dc7",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-11-12 22:53:56",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Auth Package",
-        "homepage": "https://github.com/fuel/auth",
-        "support": {
-            "source": "https://github.com/fuel/auth/tree/1.8/develop",
-            "issues": "https://github.com/fuel/auth/issues"
-        }
-    },
-    {
-        "name": "fuel/email",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/email.git",
-            "reference": "3a716cde8b3380ece33d649a0187794f074e123d"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/email/zipball/3a716cde8b3380ece33d649a0187794f074e123d",
-            "reference": "3a716cde8b3380ece33d649a0187794f074e123d",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-11-07 13:10:14",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Email Package",
-        "homepage": "https://github.com/fuel/email",
-        "support": {
-            "source": "https://github.com/fuel/email/tree/1.8/develop",
-            "issues": "https://github.com/fuel/email/issues"
-        }
-    },
-    {
-        "name": "fuel/oil",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/oil.git",
-            "reference": "a43fbb1ab9d7a7483731fd38083ef38c736ec2e2"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/oil/zipball/a43fbb1ab9d7a7483731fd38083ef38c736ec2e2",
-            "reference": "a43fbb1ab9d7a7483731fd38083ef38c736ec2e2",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-05-26 06:19:20",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Oil Package",
-        "homepage": "https://github.com/fuel/oil",
-        "support": {
-            "source": "https://github.com/fuel/oil/tree/1.8/develop",
-            "issues": "https://github.com/fuel/oil/issues"
-        }
-    },
-    {
-        "name": "fuel/orm",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/orm.git",
-            "reference": "074e31bada311146850546c0d3a3c0f9cb23cdfd"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/orm/zipball/074e31bada311146850546c0d3a3c0f9cb23cdfd",
-            "reference": "074e31bada311146850546c0d3a3c0f9cb23cdfd",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-09-23 11:29:23",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x ORM Package",
-        "homepage": "https://github.com/fuel/orm",
-        "support": {
-            "source": "https://github.com/fuel/orm/tree/1.8/develop",
-            "issues": "https://github.com/fuel/orm/issues"
-        }
-    },
-    {
-        "name": "fuel/parser",
-        "version": "dev-1.8/develop",
-        "version_normalized": "dev-1.8/develop",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/fuel/parser.git",
-            "reference": "40cb0bbf547cc0d20df8492cc84fd96f687251ce"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/fuel/parser/zipball/40cb0bbf547cc0d20df8492cc84fd96f687251ce",
-            "reference": "40cb0bbf547cc0d20df8492cc84fd96f687251ce",
-            "shasum": ""
-        },
-        "require": {
-            "composer/installers": "~1.0"
-        },
-        "time": "2015-10-08 06:13:10",
-        "type": "fuel-package",
-        "installation-source": "dist",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "FuelPHP Development Team",
-                "email": "team@fuelphp.com"
-            }
-        ],
-        "description": "FuelPHP 1.x Parser Package",
-        "homepage": "https://github.com/fuel/parser",
-        "support": {
-            "source": "https://github.com/fuel/parser/tree/1.8/develop",
-            "issues": "https://github.com/fuel/parser/issues"
-        }
-    },
-    {
         "name": "banago/bridge",
         "version": "1.1.1",
         "version_normalized": "1.1.1.0",
@@ -1939,7 +478,7 @@
             "reference": "f2ac67c796850e89f061310562a40169244bfa8b",
             "shasum": ""
         },
-        "time": "2015-10-13 09:05:13",
+        "time": "2015-10-13T09:05:13+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -1968,24 +507,943 @@
         ]
     },
     {
-        "name": "nicolab/php-ftp-client",
+        "name": "composer/installers",
         "version": "v1.2.0",
         "version_normalized": "1.2.0.0",
         "source": {
             "type": "git",
-            "url": "https://github.com/Nicolab/php-ftp-client.git",
-            "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f"
+            "url": "https://github.com/composer/installers.git",
+            "reference": "d78064c68299743e0161004f2de3a0204e33b804"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/Nicolab/php-ftp-client/zipball/ad954c9f221531a4e2e9db6a2d408f2c735c607f",
-            "reference": "ad954c9f221531a4e2e9db6a2d408f2c735c607f",
+            "url": "https://api.github.com/repos/composer/installers/zipball/d78064c68299743e0161004f2de3a0204e33b804",
+            "reference": "d78064c68299743e0161004f2de3a0204e33b804",
+            "shasum": ""
+        },
+        "require": {
+            "composer-plugin-api": "^1.0"
+        },
+        "replace": {
+            "roundcube/plugin-installer": "*",
+            "shama/baton": "*"
+        },
+        "require-dev": {
+            "composer/composer": "1.0.*@dev",
+            "phpunit/phpunit": "4.1.*"
+        },
+        "time": "2016-08-13T20:53:52+00:00",
+        "type": "composer-plugin",
+        "extra": {
+            "class": "Composer\\Installers\\Plugin",
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Composer\\Installers\\": "src/Composer/Installers"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Kyle Robinson Young",
+                "email": "kyle@dontkry.com",
+                "homepage": "https://github.com/shama"
+            }
+        ],
+        "description": "A multi-framework Composer library installer",
+        "homepage": "https://composer.github.io/installers/",
+        "keywords": [
+            "Craft",
+            "Dolibarr",
+            "Hurad",
+            "ImageCMS",
+            "MODX Evo",
+            "Mautic",
+            "OXID",
+            "Plentymarkets",
+            "RadPHP",
+            "SMF",
+            "Thelia",
+            "WolfCMS",
+            "agl",
+            "aimeos",
+            "annotatecms",
+            "attogram",
+            "bitrix",
+            "cakephp",
+            "chef",
+            "cockpit",
+            "codeigniter",
+            "concrete5",
+            "croogo",
+            "dokuwiki",
+            "drupal",
+            "elgg",
+            "expressionengine",
+            "fuelphp",
+            "grav",
+            "installer",
+            "joomla",
+            "kohana",
+            "laravel",
+            "lithium",
+            "magento",
+            "mako",
+            "mediawiki",
+            "modulework",
+            "moodle",
+            "phpbb",
+            "piwik",
+            "ppi",
+            "puppet",
+            "reindex",
+            "roundcube",
+            "shopware",
+            "silverstripe",
+            "symfony",
+            "typo3",
+            "wordpress",
+            "yawik",
+            "zend",
+            "zikula"
+        ]
+    },
+    {
+        "name": "fuelphp/upload",
+        "version": "2.0.6",
+        "version_normalized": "2.0.6.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuelphp/upload.git",
+            "reference": "73b3abfa317c22d6b4d63588e9601c13623ea6f6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuelphp/upload/zipball/73b3abfa317c22d6b4d63588e9601c13623ea6f6",
+            "reference": "73b3abfa317c22d6b4d63588e9601c13623ea6f6",
+            "shasum": ""
+        },
+        "require": {
+            "ext-fileinfo": "*",
+            "php": ">=5.3"
+        },
+        "require-dev": {
+            "codeception/codeception": "~2.0"
+        },
+        "time": "2015-11-04T17:19:56+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Fuel\\Upload\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "Process uploaded files",
+        "homepage": "https://github.com/fuelphp/upload",
+        "keywords": [
+            "file uploads",
+            "upload"
+        ]
+    },
+    {
+        "name": "mustache/mustache",
+        "version": "v2.11.1",
+        "version_normalized": "2.11.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/bobthecow/mustache.php.git",
+            "reference": "a3f6d55996dd28b58f3a909d474189a3c1aa693f"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/bobthecow/mustache.php/zipball/a3f6d55996dd28b58f3a909d474189a3c1aa693f",
+            "reference": "a3f6d55996dd28b58f3a909d474189a3c1aa693f",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.4"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "~1.11",
+            "phpunit/phpunit": "~3.7|~4.0|~5.0"
+        },
+        "time": "2016-07-31T06:18:27+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Mustache": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Justin Hileman",
+                "email": "justin@justinhileman.info",
+                "homepage": "http://justinhileman.com"
+            }
+        ],
+        "description": "A Mustache implementation in PHP.",
+        "homepage": "https://github.com/bobthecow/mustache.php",
+        "keywords": [
+            "mustache",
+            "templating"
+        ]
+    },
+    {
+        "name": "suin/php-rss-writer",
+        "version": "1.5.0",
+        "version_normalized": "1.5.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/suin/php-rss-writer.git",
+            "reference": "938b067ba0f3a4d494edbdb1241d054e7d15b633"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/suin/php-rss-writer/zipball/938b067ba0f3a4d494edbdb1241d054e7d15b633",
+            "reference": "938b067ba0f3a4d494edbdb1241d054e7d15b633",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0"
+        },
+        "require-dev": {
+            "eher/phpunit": ">=1.6",
+            "mockery/mockery": ">=0.7.2",
+            "suin/xoopsunit": ">=1.2"
+        },
+        "time": "2016-07-21T14:05:32+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "Suin\\RSSWriter": "src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Hidehito Nozawa aka Suin",
+                "email": "suinyeze@gmail.com"
+            }
+        ],
+        "description": "Yet another simple RSS writer library for PHP 5.4 or later.",
+        "homepage": "https://github.com/suin/php-rss-writer",
+        "keywords": [
+            "feed",
+            "generator",
+            "php",
+            "rss",
+            "writer"
+        ]
+    },
+    {
+        "name": "symfony/event-dispatcher",
+        "version": "v2.8.14",
+        "version_normalized": "2.8.14.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/event-dispatcher.git",
+            "reference": "25c576abd4e0f212e678fe8b2bd9a9a98c7ea934"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/event-dispatcher/zipball/25c576abd4e0f212e678fe8b2bd9a9a98c7ea934",
+            "reference": "25c576abd4e0f212e678fe8b2bd9a9a98c7ea934",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.9"
+        },
+        "require-dev": {
+            "psr/log": "~1.0",
+            "symfony/config": "~2.0,>=2.0.5|~3.0.0",
+            "symfony/dependency-injection": "~2.6|~3.0.0",
+            "symfony/expression-language": "~2.6|~3.0.0",
+            "symfony/stopwatch": "~2.3|~3.0.0"
+        },
+        "suggest": {
+            "symfony/dependency-injection": "",
+            "symfony/http-kernel": ""
+        },
+        "time": "2016-10-13T01:43:15+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "2.8-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\EventDispatcher\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony EventDispatcher Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "knplabs/github-api",
+        "version": "1.7.1",
+        "version_normalized": "1.7.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/KnpLabs/php-github-api.git",
+            "reference": "98d0bcd2c4c96a40ded9081f8f6289907f73823c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/KnpLabs/php-github-api/zipball/98d0bcd2c4c96a40ded9081f8f6289907f73823c",
+            "reference": "98d0bcd2c4c96a40ded9081f8f6289907f73823c",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "guzzle/guzzle": "~3.7",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "sllh/php-cs-fixer-styleci-bridge": "~1.3"
+        },
+        "suggest": {
+            "knplabs/gaufrette": "Needed for optional Gaufrette cache"
+        },
+        "time": "2016-07-26T08:49:38+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.8.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Github\\": "lib/Github/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Thibault Duplessis",
+                "email": "thibault.duplessis@gmail.com",
+                "homepage": "http://ornicar.github.com"
+            },
+            {
+                "name": "KnpLabs Team",
+                "homepage": "http://knplabs.com"
+            }
+        ],
+        "description": "GitHub API v3 client",
+        "homepage": "https://github.com/KnpLabs/php-github-api",
+        "keywords": [
+            "api",
+            "gh",
+            "gist",
+            "github"
+        ]
+    },
+    {
+        "name": "psr/http-message",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/http-message.git",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-08-06T14:39:51+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Http\\Message\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for HTTP messages",
+        "homepage": "https://github.com/php-fig/http-message",
+        "keywords": [
+            "http",
+            "http-message",
+            "psr",
+            "psr-7",
+            "request",
+            "response"
+        ]
+    },
+    {
+        "name": "guzzlehttp/psr7",
+        "version": "1.3.1",
+        "version_normalized": "1.3.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/psr7.git",
+            "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/psr7/zipball/5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+            "reference": "5c6447c9df362e8f8093bda8f5d8873fe5c7f65b",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.4.0",
+            "psr/http-message": "~1.0"
+        },
+        "provide": {
+            "psr/http-message-implementation": "1.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2016-06-24T23:00:38+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.4-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\Psr7\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "PSR-7 message implementation",
+        "keywords": [
+            "http",
+            "message",
+            "stream",
+            "uri"
+        ]
+    },
+    {
+        "name": "guzzlehttp/promises",
+        "version": "1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/promises.git",
+            "reference": "2693c101803ca78b27972d84081d027fca790a1e"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/promises/zipball/2693c101803ca78b27972d84081d027fca790a1e",
+            "reference": "2693c101803ca78b27972d84081d027fca790a1e",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2016-11-18T17:47:58+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "GuzzleHttp\\Promise\\": "src/"
+            },
+            "files": [
+                "src/functions_include.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle promises library",
+        "keywords": [
+            "promise"
+        ]
+    },
+    {
+        "name": "guzzlehttp/guzzle",
+        "version": "6.2.2",
+        "version_normalized": "6.2.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/guzzle/guzzle.git",
+            "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/guzzle/guzzle/zipball/ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
+            "reference": "ebf29dee597f02f09f4d5bbecc68230ea9b08f60",
+            "shasum": ""
+        },
+        "require": {
+            "guzzlehttp/promises": "^1.0",
+            "guzzlehttp/psr7": "^1.3.1",
+            "php": ">=5.5"
+        },
+        "require-dev": {
+            "ext-curl": "*",
+            "phpunit/phpunit": "^4.0",
+            "psr/log": "^1.0"
+        },
+        "time": "2016-10-08T15:01:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "6.2-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "src/functions_include.php"
+            ],
+            "psr-4": {
+                "GuzzleHttp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Michael Dowling",
+                "email": "mtdowling@gmail.com",
+                "homepage": "https://github.com/mtdowling"
+            }
+        ],
+        "description": "Guzzle is a PHP HTTP client library",
+        "homepage": "http://guzzlephp.org/",
+        "keywords": [
+            "client",
+            "curl",
+            "framework",
+            "http",
+            "http client",
+            "rest",
+            "web service"
+        ]
+    },
+    {
+        "name": "ircmaxell/security-lib",
+        "version": "v1.1.0",
+        "version_normalized": "1.1.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ircmaxell/SecurityLib.git",
+            "reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ircmaxell/SecurityLib/zipball/f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
+            "reference": "f3db6de12c20c9bcd1aa3db4353a1bbe0e44e1b5",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "mikey179/vfsstream": "1.1.*"
+        },
+        "time": "2015-03-20T14:31:23+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "SecurityLib": "lib"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Anthony Ferrara",
+                "email": "ircmaxell@ircmaxell.com",
+                "homepage": "http://blog.ircmaxell.com"
+            }
+        ],
+        "description": "A Base Security Library",
+        "homepage": "https://github.com/ircmaxell/SecurityLib"
+    },
+    {
+        "name": "ircmaxell/random-lib",
+        "version": "v1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ircmaxell/RandomLib.git",
+            "reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ircmaxell/RandomLib/zipball/e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
+            "reference": "e9e0204f40e49fa4419946c677eccd3fa25b8cf4",
+            "shasum": ""
+        },
+        "require": {
+            "ircmaxell/security-lib": "^1.1",
+            "php": ">=5.3.2"
+        },
+        "require-dev": {
+            "friendsofphp/php-cs-fixer": "^1.11",
+            "mikey179/vfsstream": "^1.6",
+            "phpunit/phpunit": "^4.8|^5.0"
+        },
+        "time": "2016-09-07T15:52:06+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "RandomLib": "lib"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Anthony Ferrara",
+                "email": "ircmaxell@ircmaxell.com",
+                "homepage": "http://blog.ircmaxell.com"
+            }
+        ],
+        "description": "A Library For Generating Secure Random Numbers",
+        "homepage": "https://github.com/ircmaxell/RandomLib",
+        "keywords": [
+            "cryptography",
+            "random",
+            "random-numbers",
+            "random-strings"
+        ]
+    },
+    {
+        "name": "league/oauth2-client",
+        "version": "1.4.2",
+        "version_normalized": "1.4.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/oauth2-client.git",
+            "reference": "01f955b85040b41cf48885b078f7fd39a8be5411"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/oauth2-client/zipball/01f955b85040b41cf48885b078f7fd39a8be5411",
+            "reference": "01f955b85040b41cf48885b078f7fd39a8be5411",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "guzzlehttp/guzzle": "~6.0",
+            "ircmaxell/random-lib": "~1.1",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "jakub-onderka/php-parallel-lint": "0.8.*",
+            "mockery/mockery": "~0.9",
+            "phpunit/phpunit": "~4.0",
+            "satooshi/php-coveralls": "0.6.*",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2016-07-28T13:20:43+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\OAuth2\\Client\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alex Bilbie",
+                "email": "hello@alexbilbie.com",
+                "homepage": "http://www.alexbilbie.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "OAuth 2.0 Client Library",
+        "keywords": [
+            "Authentication",
+            "SSO",
+            "authorization",
+            "identity",
+            "idp",
+            "oauth",
+            "oauth2",
+            "single sign on"
+        ]
+    },
+    {
+        "name": "league/flysystem",
+        "version": "1.0.32",
+        "version_normalized": "1.0.32.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem.git",
+            "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
+            "reference": "1b5c4a0031697f46e779a9d1b309c2e1b24daeab",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "conflict": {
+            "league/flysystem-sftp": "<1.0.6"
+        },
+        "require-dev": {
+            "ext-fileinfo": "*",
+            "mockery/mockery": "~0.9",
+            "phpspec/phpspec": "^2.2",
+            "phpunit/phpunit": "~4.8"
+        },
+        "suggest": {
+            "ext-fileinfo": "Required for MimeType",
+            "league/flysystem-aws-s3-v2": "Allows you to use S3 storage with AWS SDK v2",
+            "league/flysystem-aws-s3-v3": "Allows you to use S3 storage with AWS SDK v3",
+            "league/flysystem-azure": "Allows you to use Windows Azure Blob storage",
+            "league/flysystem-cached-adapter": "Flysystem adapter decorator for metadata caching",
+            "league/flysystem-copy": "Allows you to use Copy.com storage",
+            "league/flysystem-dropbox": "Allows you to use Dropbox storage",
+            "league/flysystem-eventable-filesystem": "Allows you to use EventableFilesystem",
+            "league/flysystem-rackspace": "Allows you to use Rackspace Cloud Files",
+            "league/flysystem-sftp": "Allows you to use SFTP server storage via phpseclib",
+            "league/flysystem-webdav": "Allows you to use WebDAV storage",
+            "league/flysystem-ziparchive": "Allows you to use ZipArchive adapter"
+        },
+        "time": "2016-10-19T20:38:46+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Frank de Jonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "Filesystem abstraction: Many filesystems, one API.",
+        "keywords": [
+            "Cloud Files",
+            "WebDAV",
+            "abstraction",
+            "aws",
+            "cloud",
+            "copy.com",
+            "dropbox",
+            "file systems",
+            "files",
+            "filesystem",
+            "filesystems",
+            "ftp",
+            "rackspace",
+            "remote",
+            "s3",
+            "sftp",
+            "storage"
+        ]
+    },
+    {
+        "name": "league/flysystem-sftp",
+        "version": "1.0.12",
+        "version_normalized": "1.0.12.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/flysystem-sftp.git",
+            "reference": "b0af1abf18788610da4f1e8bd64b72f6c686d3b6"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/flysystem-sftp/zipball/b0af1abf18788610da4f1e8bd64b72f6c686d3b6",
+            "reference": "b0af1abf18788610da4f1e8bd64b72f6c686d3b6",
+            "shasum": ""
+        },
+        "require": {
+            "league/flysystem": "~1.0",
+            "php": ">=5.4.0",
+            "phpseclib/phpseclib": "~2.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "0.9.*",
+            "phpunit/phpunit": "~4.0"
+        },
+        "time": "2016-10-17T23:19:19+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\Flysystem\\Sftp\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Frank de Jonge",
+                "email": "info@frenky.net"
+            }
+        ],
+        "description": "Flysystem adapter for SFTP"
+    },
+    {
+        "name": "nicolab/php-ftp-client",
+        "version": "v1.3.0",
+        "version_normalized": "1.3.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/Nicolab/php-ftp-client.git",
+            "reference": "0f62544148dc7dea73ab8457b63d275485af40ed"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/Nicolab/php-ftp-client/zipball/0f62544148dc7dea73ab8457b63d275485af40ed",
+            "reference": "0f62544148dc7dea73ab8457b63d275485af40ed",
             "shasum": ""
         },
         "require": {
             "php": ">=5.4"
         },
-        "time": "2014-12-13 14:27:17",
+        "time": "2016-08-17T14:12:31+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -2015,6 +1473,597 @@
             "sftp",
             "ssl",
             "ssl-ftp"
+        ]
+    },
+    {
+        "name": "psr/log",
+        "version": "1.0.2",
+        "version_normalized": "1.0.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/php-fig/log.git",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0"
+        },
+        "time": "2016-10-10T12:19:37+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Psr\\Log\\": "Psr/Log/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "PHP-FIG",
+                "homepage": "http://www.php-fig.org/"
+            }
+        ],
+        "description": "Common interface for logging libraries",
+        "homepage": "https://github.com/php-fig/log",
+        "keywords": [
+            "log",
+            "psr",
+            "psr-3"
+        ]
+    },
+    {
+        "name": "symfony/process",
+        "version": "v3.1.7",
+        "version_normalized": "3.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/process.git",
+            "reference": "66de154ae86b1a07001da9fbffd620206e4faf94"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/process/zipball/66de154ae86b1a07001da9fbffd620206e4faf94",
+            "reference": "66de154ae86b1a07001da9fbffd620206e4faf94",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "time": "2016-09-29T14:13:09+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\Process\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony Process Component",
+        "homepage": "https://symfony.com"
+    },
+    {
+        "name": "symfony/options-resolver",
+        "version": "v3.1.7",
+        "version_normalized": "3.1.7.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/symfony/options-resolver.git",
+            "reference": "30605874d99af0cde6c41fd39e18546330c38100"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/symfony/options-resolver/zipball/30605874d99af0cde6c41fd39e18546330c38100",
+            "reference": "30605874d99af0cde6c41fd39e18546330c38100",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.5.9"
+        },
+        "time": "2016-05-12T15:59:27+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.1-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Symfony\\Component\\OptionsResolver\\": ""
+            },
+            "exclude-from-classmap": [
+                "/Tests/"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Fabien Potencier",
+                "email": "fabien@symfony.com"
+            },
+            {
+                "name": "Symfony Community",
+                "homepage": "https://symfony.com/contributors"
+            }
+        ],
+        "description": "Symfony OptionsResolver Component",
+        "homepage": "https://symfony.com",
+        "keywords": [
+            "config",
+            "configuration",
+            "options"
+        ]
+    },
+    {
+        "name": "fuel/docs",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/docs.git",
+            "reference": "e03906d02cbd09bddb653e28f92f92056e673a32"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/docs/zipball/e03906d02cbd09bddb653e28f92f92056e673a32",
+            "reference": "e03906d02cbd09bddb653e28f92f92056e673a32",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-04-10T12:59:50+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Documenataion",
+        "homepage": "https://github.com/fuel/docs",
+        "support": {
+            "source": "https://github.com/fuel/docs/tree/1.8.0",
+            "issues": "https://github.com/fuel/docs/issues"
+        }
+    },
+    {
+        "name": "fuel/core",
+        "version": "1.8.0.3",
+        "version_normalized": "1.8.0.3",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/core.git",
+            "reference": "c8e190b22cb9fc1a9acfdde4ed7487e04051bbe7"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/core/zipball/c8e190b22cb9fc1a9acfdde4ed7487e04051bbe7",
+            "reference": "c8e190b22cb9fc1a9acfdde4ed7487e04051bbe7",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-07-21T08:45:05+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Core",
+        "homepage": "https://github.com/fuel/core",
+        "support": {
+            "source": "https://github.com/fuel/core/tree/1.8.0.3",
+            "issues": "https://github.com/fuel/core/issues"
+        }
+    },
+    {
+        "name": "fuel/auth",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/auth.git",
+            "reference": "a645dbe2f80b6b4cecb069b57ea70150b6e53929"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/auth/zipball/a645dbe2f80b6b4cecb069b57ea70150b6e53929",
+            "reference": "a645dbe2f80b6b4cecb069b57ea70150b6e53929",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-01-23T12:30:25+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Auth Package",
+        "homepage": "https://github.com/fuel/auth",
+        "support": {
+            "source": "https://github.com/fuel/auth/tree/1.8/develop",
+            "issues": "https://github.com/fuel/auth/issues"
+        }
+    },
+    {
+        "name": "fuel/email",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/email.git",
+            "reference": "79133b3951068bbcff9a9c7b77f9f27a777ebdbd"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/email/zipball/79133b3951068bbcff9a9c7b77f9f27a777ebdbd",
+            "reference": "79133b3951068bbcff9a9c7b77f9f27a777ebdbd",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-01-23T12:31:34+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Email Package",
+        "homepage": "https://github.com/fuel/email",
+        "support": {
+            "source": "https://github.com/fuel/email/tree/1.8/develop",
+            "issues": "https://github.com/fuel/email/issues"
+        }
+    },
+    {
+        "name": "fuel/oil",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/oil.git",
+            "reference": "b29b80f29f090b9ad12b931da6e979587de6ced1"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/oil/zipball/b29b80f29f090b9ad12b931da6e979587de6ced1",
+            "reference": "b29b80f29f090b9ad12b931da6e979587de6ced1",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-01-23T12:32:54+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Oil Package",
+        "homepage": "https://github.com/fuel/oil",
+        "support": {
+            "source": "https://github.com/fuel/oil/tree/1.8/develop",
+            "issues": "https://github.com/fuel/oil/issues"
+        }
+    },
+    {
+        "name": "fuel/orm",
+        "version": "1.8.0.1",
+        "version_normalized": "1.8.0.1",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/orm.git",
+            "reference": "69cd98cfed4d8e34b176d87b73a35b98703235be"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/orm/zipball/69cd98cfed4d8e34b176d87b73a35b98703235be",
+            "reference": "69cd98cfed4d8e34b176d87b73a35b98703235be",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-05-22T14:52:35+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x ORM Package",
+        "homepage": "https://github.com/fuel/orm",
+        "support": {
+            "source": "https://github.com/fuel/orm/tree/1.9/develop",
+            "issues": "https://github.com/fuel/orm/issues"
+        }
+    },
+    {
+        "name": "fuel/parser",
+        "version": "1.8.0",
+        "version_normalized": "1.8.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fuel/parser.git",
+            "reference": "bec50ec304e696d72dba7f13494828532c6e18df"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fuel/parser/zipball/bec50ec304e696d72dba7f13494828532c6e18df",
+            "reference": "bec50ec304e696d72dba7f13494828532c6e18df",
+            "shasum": ""
+        },
+        "require": {
+            "composer/installers": "~1.0"
+        },
+        "time": "2016-03-12T12:08:41+00:00",
+        "type": "fuel-package",
+        "installation-source": "dist",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "FuelPHP Development Team",
+                "email": "team@fuelphp.com"
+            }
+        ],
+        "description": "FuelPHP 1.x Parser Package",
+        "homepage": "https://github.com/fuel/parser",
+        "support": {
+            "source": "https://github.com/fuel/parser/tree/1.8.0",
+            "issues": "https://github.com/fuel/parser/issues"
+        }
+    },
+    {
+        "name": "league/oauth2-github",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/thephpleague/oauth2-github.git",
+            "reference": "0c8b940e63f04167e60c7c61b67a4c925803afb0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/thephpleague/oauth2-github/zipball/0c8b940e63f04167e60c7c61b67a4c925803afb0",
+            "reference": "0c8b940e63f04167e60c7c61b67a4c925803afb0",
+            "shasum": ""
+        },
+        "require": {
+            "league/oauth2-client": "~1.0",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2016-04-14T01:57:14+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "League\\OAuth2\\Client\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Steven Maguire",
+                "email": "stevenmaguire@gmail.com",
+                "homepage": "https://github.com/stevenmaguire"
+            }
+        ],
+        "description": "Github OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+        "keywords": [
+            "authorisation",
+            "authorization",
+            "client",
+            "github",
+            "oauth",
+            "oauth2"
+        ]
+    },
+    {
+        "name": "stevenmaguire/oauth2-bitbucket",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/stevenmaguire/oauth2-bitbucket.git",
+            "reference": "43401c64e6c2d5e61cfc20ee611e7ee62b155dc5"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/stevenmaguire/oauth2-bitbucket/zipball/43401c64e6c2d5e61cfc20ee611e7ee62b155dc5",
+            "reference": "43401c64e6c2d5e61cfc20ee611e7ee62b155dc5",
+            "shasum": ""
+        },
+        "require": {
+            "league/oauth2-client": "~1.2",
+            "php": ">=5.5.0"
+        },
+        "require-dev": {
+            "mockery/mockery": "~0.9",
+            "phpunit/phpunit": "~4.0",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2016-02-06T17:06:02+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "1.0.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Stevenmaguire\\OAuth2\\Client\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Steven Maguire",
+                "email": "stevenmaguire@gmail.com",
+                "homepage": "https://github.com/stevenmaguire"
+            }
+        ],
+        "description": "Bitbucket OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+        "keywords": [
+            "authorisation",
+            "authorization",
+            "bitbucket",
+            "client",
+            "oauth",
+            "oauth2"
+        ]
+    },
+    {
+        "name": "gentle/bitbucket-api",
+        "version": "dev-develop",
+        "version_normalized": "dev-develop",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gentlero/bitbucket-api.git",
+            "reference": "a9d7c1cef65bc8318f20f791b403907c97a6f329"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gentlero/bitbucket-api/zipball/a9d7c1cef65bc8318f20f791b403907c97a6f329",
+            "reference": "a9d7c1cef65bc8318f20f791b403907c97a6f329",
+            "shasum": ""
+        },
+        "require": {
+            "jacobkiers/oauth": "~1.0",
+            "kriswallsmith/buzz": "~0.15",
+            "php": ">=5.4.0"
+        },
+        "conflict": {
+            "eabay/bitbucket-repo-sync": "*",
+            "rlacerda83/bitbucket-api": "*"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "3.7.*"
+        },
+        "suggest": {
+            "ext-curl": "*"
+        },
+        "time": "2016-10-17T09:38:27+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-0": {
+                "Bitbucket\\": "lib/"
+            },
+            "files": [
+                "polyfill-55.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Alexandru Guzinschi",
+                "email": "alex@gentle.ro",
+                "homepage": "http://www.sebi.me",
+                "role": "Developer"
+            }
+        ],
+        "description": "Bitbucket API wrapper for PHP >= 5.4",
+        "homepage": "https://bitbucket.org/gentlero/bitbucket-api",
+        "keywords": [
+            "api",
+            "bitbucket"
         ]
     }
 ]

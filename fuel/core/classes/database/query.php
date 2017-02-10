@@ -1,12 +1,14 @@
 <?php
 /**
- * Database query wrapper.
+ * Part of the Fuel framework.
  *
- * @package    Fuel/Database
- * @category   Query
- * @author     Kohana Team
- * @copyright  (c) 2008-2009 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @package    Fuel
+ * @version    1.8
+ * @author     Fuel Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2008 - 2009 Kohana Team
+ * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
@@ -268,12 +270,19 @@ class Database_Query
 		// make sure we have a SQL type to work with
 		if (is_null($this->_type))
 		{
-			switch(strtoupper(substr(ltrim($sql, '('), 0, 6)))
+			// get the SQL statement type without having to duplicate the entire statement
+			$stmt = preg_split('/[\s]+/', ltrim(substr($sql, 0, 11), '('), 2);
+			switch(strtoupper(reset($stmt)))
 			{
+				case 'DESCRIBE':
+				case 'EXECUTE':
+				case 'EXPLAIN':
 				case 'SELECT':
+				case 'SHOW':
 					$this->_type = \DB::SELECT;
 					break;
 				case 'INSERT':
+				case 'REPLACE':
 					$this->_type = \DB::INSERT;
 					break;
 				case 'UPDATE':

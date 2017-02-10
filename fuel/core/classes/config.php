@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -25,11 +25,6 @@ class Config
 	 * @var    array    $items           the master config array
 	 */
 	public static $items = array();
-
-	/**
-	 * @var    string    $default_check_value          random value used as a not-found check in get()
-	 */
-	public static $default_check_value;
 
 	/**
 	 * @var    array    $itemcache       the dot-notated item cache
@@ -184,30 +179,27 @@ class Config
 	 */
 	public static function get($item, $default = null)
 	{
-		is_null(static::$default_check_value) and static::$default_check_value = pack('H*', 'DEADBEEFCAFE');
-
-		if (isset(static::$items[$item]))
+		if (array_key_exists($item, static::$items))
 		{
 			return static::$items[$item];
 		}
-		elseif ( ! isset(static::$itemcache[$item]))
+		elseif ( ! array_key_exists($item, static::$itemcache))
 		{
-			$val = \Fuel::value(\Arr::get(static::$items, $item, static::$default_check_value));
+			// cook up something unique
+			$miss = new \stdClass();
 
-			if ($val === static::$default_check_value)
+			$val = \Arr::get(static::$items, $item, $miss);
+
+			// so we can detect a miss here...
+			if ($val === $miss)
 			{
 				return $default;
-			}
-
-			if ( ! is_scalar($val))
-			{
-				return $val;
 			}
 
 			static::$itemcache[$item] = $val;
 		}
 
-		return static::$itemcache[$item];
+		return \Fuel::value(static::$itemcache[$item]);
 	}
 
 	/**
@@ -219,7 +211,7 @@ class Config
 	public static function set($item, $value)
 	{
 		strpos($item, '.') === false or static::$itemcache[$item] = $value;
-		\Arr::set(static::$items, $item, \Fuel::value($value));
+		\Arr::set(static::$items, $item, $value);
 	}
 
 	/**

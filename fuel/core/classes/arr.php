@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -161,11 +161,31 @@ class Arr
 	 */
 	public static function key_exists($array, $key)
 	{
+		if ( ! is_array($array) and ! $array instanceof \ArrayAccess)
+		{
+			throw new \InvalidArgumentException('First parameter must be an array or ArrayAccess object.');
+		}
+
+		is_object($key) and $key = (string) $key;
+
+		if ( ! is_string($key))
+		{
+			return false;
+		}
+
+		if (array_key_exists($key, $array))
+		{
+			return true;
+		}
+
 		foreach (explode('.', $key) as $key_part)
 		{
-			if ( ! is_array($array) or ! array_key_exists($key_part, $array))
+			if (($array instanceof \ArrayAccess and isset($array[$key_part])) === false)
 			{
-				return false;
+				if ( ! is_array($array) or ! array_key_exists($key_part, $array))
+				{
+					return false;
+				}
 			}
 
 			$array = $array[$key_part];

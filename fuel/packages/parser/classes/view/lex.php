@@ -5,10 +5,10 @@
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -52,8 +52,9 @@ class View_Lex extends \View
 
 		try
 		{
+			$data = $this->get_data();
 			static::parser()->scopeGlue(\Config::get('parser.View_Lex.scope_glue', '.'));
-			return static::parser()->parse(file_get_contents($file), $this->get_data(), $this->callback, \Config::get('parser.View_Lex.allow_php', false));
+			$result = static::parser()->parse(file_get_contents($file), $data, $this->callback, \Config::get('parser.View_Lex.allow_php', false));
 		}
 		catch (\Exception $e)
 		{
@@ -61,5 +62,8 @@ class View_Lex extends \View
 			ob_end_clean();
 			throw $e;
 		}
+
+		$this->unsanitize($data);
+		return $result;
 	}
 }

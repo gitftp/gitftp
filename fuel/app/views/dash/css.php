@@ -6,4 +6,5 @@ echo Asset::css(array(
     'jquery-confirm.min.css',
     'font-awesome.min.css',
     'selectivity-full.css',
+    'home/themify-icons.css',
 ));

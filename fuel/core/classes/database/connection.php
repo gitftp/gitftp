@@ -1,15 +1,14 @@
 <?php
 /**
- * Database connection wrapper. All database object instances are referenced
- * by a name. Queries are typically handled by [Database_Query], rather than
- * using the database object directly.
+ * Part of the Fuel framework.
  *
- * @package    Fuel/Database
- * @category   Base
- * @author     Kohana Team
- * @author     Nested transactions - Sergey Ogarkov, sogarkov@gmail.com
- * @copyright  (c) 2008-2010 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @package    Fuel
+ * @version    1.8
+ * @author     Fuel Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2008 - 2009 Kohana Team
+ * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
@@ -122,6 +121,11 @@ abstract class Database_Connection
 	protected $_config;
 
 	/**
+	 * @var  Database_Schema  Instance of the database schema class
+	 */
+	protected $_schema;
+
+	/**
 	 * Stores the database configuration locally and name the instance.
 	 *
 	 * [!!] This method cannot be accessed directly, you must use [static::instance].
@@ -136,6 +140,12 @@ abstract class Database_Connection
 
 		// Store the config locally
 		$this->_config = $config;
+
+		// Set up a generic schema processor if needed
+		if ( ! $this->_schema)
+		{
+			$this->_schema = new \Database_Schema($name, $this);
+		}
 
 		// Store the database instance
 		static::$instances[$name] = $this;
@@ -220,6 +230,86 @@ abstract class Database_Connection
 	abstract public function query($type, $sql, $as_object);
 
 	/**
+	 * Create a new [Database_Query_Builder_Select]. Each argument will be
+	 * treated as a column. To generate a `foo AS bar` alias, use an array.
+	 *
+	 *     // SELECT id, username
+	 *     $query = $db->select('id', 'username');
+	 *
+	 *     // SELECT id AS user_id
+	 *     $query = $db->select(array('id', 'user_id'));
+	 *
+	 * @param   mixed   column name or array($column, $alias) or object
+	 * @param   ...
+	 * @return  Database_Query_Builder_Select
+	 */
+	public function select(array $args = null)
+	{
+		$instance = new \Database_Query_Builder_Select($args);
+		return $instance->set_connection($this);
+	}
+
+	/**
+	 * Create a new [Database_Query_Builder_Insert].
+	 *
+	 *     // INSERT INTO users (id, username)
+	 *     $query = $db->insert('users', array('id', 'username'));
+	 *
+	 * @param   string  table to insert into
+	 * @param   array   list of column names or array($column, $alias) or object
+	 * @return  Database_Query_Builder_Insert
+	 */
+	public function insert($table = null, array $columns = null)
+	{
+		$instance = new \Database_Query_Builder_Insert($table, $columns);
+		return $instance->set_connection($this);
+	}
+
+	/**
+	 * Create a new [Database_Query_Builder_Update].
+	 *
+	 *     // UPDATE users
+	 *     $query = $db->update('users');
+	 *
+	 * @param   string  table to update
+	 * @return  Database_Query_Builder_Update
+	 */
+	public function update($table = null)
+	{
+		$instance = new \Database_Query_Builder_Update($table);
+		return $instance->set_connection($this);
+	}
+
+	/**
+	 * Create a new [Database_Query_Builder_Delete].
+	 *
+	 *     // DELETE FROM users
+	 *     $query = $db->delete('users');
+	 *
+	 * @param   string  table to delete from
+	 * @return  Database_Query_Builder_Delete
+	 */
+	public function delete($table = null)
+	{
+		$instance = new \Database_Query_Builder_Delete($table);
+		return $instance->set_connection($this);
+	}
+
+	/**
+	 * Database schema operations
+	 *
+	 *     // CREATE DATABASE database CHARACTER SET utf-8 DEFAULT utf-8
+	 *     $query = $db->schema('create_database', array('database', 'utf-8'));
+
+	 * @param   string  table to delete from
+	 * @return  Database_Query_Builder_Delete
+	 */
+	public function schema($operation, array $params = array())
+	{
+		return call_user_func_array(array($this->_schema, $operation), $params);
+	}
+
+	/**
 	 * Count the number of records in the last query, without LIMIT or OFFSET applied.
 	 *
 	 *     // Get the total number of records that match the last query
@@ -252,7 +342,7 @@ abstract class Database_Connection
 			if (stripos($sql, 'ORDER BY') !== false)
 			{
 				// Remove ORDER BY clauses from the SQL to improve count query performance
-				$sql = preg_replace('/ ORDER BY [^,\s)]*(?:ASC|DESC)?(?:\s*(?:ASC|DESC)?,\s*(?:ASC|DESC)?[^,\s)]+\s*(?:ASC|DESC)?)*/mi', '', $sql);
+				$sql = preg_replace('/ORDER BY (.+?)(?=LIMIT|GROUP|PROCEDURE|INTO|FOR|LOCK|\)|$)/mi', '', $sql);
 			}
 
 			// Get the total rows from the last query executed

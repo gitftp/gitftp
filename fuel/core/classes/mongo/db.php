@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -154,6 +154,11 @@ class Mongo_Db
 		if ( ! empty($config['replicaset']))
 		{
 			$options['replicaSet'] = $config['replicaset'];
+		}
+		
+		if ( ! empty($config['readPreference']))
+		{
+			$options['readPreference'] = $config['readPreference'];
 		}
 
 		$connection_string = "mongodb://";
@@ -1205,6 +1210,76 @@ class Mongo_Db
 	public function list_collections($system_collections = false)
 	{
 		return ($this->db->listCollections($system_collections));
+	}
+
+	/**
+	 * Dump database or collection
+	 *
+	 * @param mixed  $collection_name  The collection name
+	 * @param string $path             Path to write the dump do
+	 *
+	 * @usage $mongodb->dump();
+	 * @usage $mongodb->dump(test, APPPATH . "tmp");
+	 * @usage $mongodb->dump(["test", "test2"], APPPATH . "tmp");
+	 *
+	 * @return bool
+	 */
+	public function dump($collection_name = null, $path = null)
+	{
+		// set the default dump path if none given
+		if (empty($path))
+		{
+			$path = APPPATH.'tmp'.DS.'mongo-'.date("/Y/m/d");
+		}
+
+		// backup full database
+		if ($collection_name == null)
+		{
+			//get all collection in current database
+			$mongo_collections = $this->list_collections();
+			foreach ($mongo_collections as $mongo_collection)
+			{
+				$this->_write_dump($path, $mongo_collection);
+			}
+		}
+		// Backup given collection`s
+		else
+		{
+			$collection_name = (array) $collection_name;
+			foreach ($collection_name as $name)
+			{
+				$mongo_collection = $this->get_collection($name);
+				$this->_write_dump($path, $mongo_collection);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Collect and write dump
+	 *
+	 * @param  string          $path
+	 * @param  MongoCollection $mongo_collection
+	 */
+	protected function _write_dump($path, $mongo_collection)
+	{
+		if ( ! is_dir($path))
+		{
+			\Config::load('file', true);
+			mkdir($path, \Config::get('file.chmod.folders', 0777), true);
+		}
+
+		$collection_name = $mongo_collection->getName();
+
+		// get all documents in current collection
+		$documents = $mongo_collection->find();
+
+		// collect data
+		$array_data = iterator_to_array($documents);
+		$json_data = \Format::forge($array_data)->to_json();
+
+		return \File::update($path, $collection_name, $json_data);
 	}
 
 	/**

@@ -1,12 +1,14 @@
 <?php
 /**
- * Database query builder for DELETE statements.
+ * Part of the Fuel framework.
  *
- * @package    Fuel/Database
- * @category   Query
- * @author     Kohana Team
- * @copyright  (c) 2008-2009 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @package    Fuel
+ * @version    1.8
+ * @author     Fuel Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2008 - 2009 Kohana Team
+ * @link       http://fuelphp.com
  */
 
 namespace Fuel\Core;
@@ -77,7 +79,7 @@ class Database_Query_Builder_Delete extends \Database_Query_Builder_Where
 			$query .= ' '.$this->_compile_order_by($db, $this->_order_by);
 		}
 
-		if ($this->_limit !== NULL && substr($db->_db_type, 0, 6) !== 'sqlite')
+		if ($this->_limit !== null)
 		{
 			// Add limiting
 			$query .= ' LIMIT '.$this->_limit;

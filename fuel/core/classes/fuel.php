@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -28,7 +28,7 @@ class Fuel
 	/**
 	 * @var  string  The version of Fuel
 	 */
-	const VERSION = '1.8-dev';
+	const VERSION = '1.8';
 
 	/**
 	 * @var  string  constant used for when in testing mode
@@ -170,9 +170,8 @@ class Fuel
 		// Set locale, log warning when it fails
 		if (static::$locale)
 		{
-			setlocale(LC_ALL, static::$locale);
-//			setlocale(LC_ALL, static::$locale) or
-//				logger(\Fuel::L_WARNING, 'The configured locale '.static::$locale.' is not installed on your system.', __METHOD__);
+			setlocale(LC_ALL, static::$locale) or
+				logger(\Fuel::L_WARNING, 'The configured locale '.static::$locale.' is not installed on your system.', __METHOD__);
 		}
 
 		if ( ! static::$is_cli)
@@ -206,7 +205,7 @@ class Fuel
 			class_alias('\Fuel\Core\Errorhandler', '\Fuel\Core\Error');
 
 			// does the app have an overloaded Error class?
-			if (class_exists('Error'))
+			if (class_exists('Error') and is_subclass_of('Error', '\Fuel\Core\Error'))
 			{
 				// then alias that too
 				class_alias('Error', 'Errorhandler');

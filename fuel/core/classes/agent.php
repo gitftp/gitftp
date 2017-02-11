@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -97,6 +97,13 @@ class Agent
 			'enabled' => true,
 			'url' => 'http://browscap.org/stream?q=Lite_PHP_BrowsCapINI',
 			'method' => 'wrapper',
+			 'proxy' => array(
+				'host' => null,
+				'port' => null,
+				'auth' => 'none',
+				'username' => null,
+				'password' => null,
+			 ),
 			'file' => '',
 		),
 		'cache' => array(
@@ -192,7 +199,7 @@ class Agent
 		if (static::$user_agent)
 		{
 			// try the build in get_browser() method
-			if (ini_get('browscap') == '' or false === $browser = get_browser(static::$user_agent, true))
+			if (static::$config['browscap']['method'] == 'local' or ini_get('browscap') == '' or false === $browser = get_browser(static::$user_agent, true))
 			{
 				// if it fails, emulate get_browser()
 				$browser = static::get_from_browscap();
@@ -429,14 +436,15 @@ class Agent
 					throw new \Exception('Agent class: could not open the local browscap.ini file: '.static::$config['browscap']['file']);
 				}
 				$data = @file_get_contents(static::$config['browscap']['file']);
-			break;
+				break;
 
 			// socket connections are not implemented yet!
 			case 'sockets':
 				$data = false;
-			break;
+				break;
 
 			case 'curl':
+				// initialize the proxy request
 				$curl = curl_init();
 				curl_setopt($curl, CURLOPT_BINARYTRANSFER, 1);
 				curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -446,24 +454,111 @@ class Agent
 				curl_setopt($curl, CURLOPT_HEADER, 0);
 				curl_setopt($curl, CURLOPT_USERAGENT, 'Fuel PHP framework - Agent class (http://fuelphp.com)');
 				curl_setopt($curl, CURLOPT_URL, static::$config['browscap']['url']);
+
+				// add a proxy configuration if needed
+				if ( ! empty(static::$config['browscap']['proxy']['host']) and ! empty(static::$config['browscap']['proxy']['port']))
+				{
+					curl_setopt($curl, CURLOPT_PROXY, static::$config['browscap']['proxy']['host']);
+					curl_setopt($curl, CURLOPT_PROXYPORT, static::$config['browscap']['proxy']['port']);
+				}
+
+				// authentication set?
+				switch (static::$config['browscap']['proxy']['auth'])
+				{
+					case 'basic':
+						curl_setopt($curl, CURLOPT_PROXYAUTH, CURLAUTH_BASIC);
+						break;
+
+					case 'ntlm':
+						curl_setopt($curl, CURLOPT_PROXYAUTH, CURLAUTH_NTLM);
+						break;
+
+					default:
+						// no action
+				}
+
+				// do we need to pass credentials?
+				switch (static::$config['browscap']['proxy']['auth'])
+				{
+					case 'basic':
+					case 'ntlm':
+						if (empty(static::$config['browscap']['proxy']['username']) or empty(static::$config['browscap']['proxy']['password']))
+						{
+							logger(\Fuel::L_ERROR, 'Failed to set a proxy for Agent, cURL auth configured but no username or password configured');
+						}
+						else
+						{
+							curl_setopt($curl, CURLOPT_PROXYUSERPWD, static::$config['browscap']['proxy']['username'].':'.static::$config['browscap']['proxy']['password']);
+						}
+						break;
+
+					default:
+						// no action
+				}
+
+				// execute the request
 				$data = curl_exec($curl);
-				curl_close($curl);
-			break;
+
+				// check the response
+				$result = curl_getinfo($curl);
+
+				if ($result['http_code'] !== 200)
+				{
+					logger(\Fuel::L_ERROR, 'Failed to download browscap.ini file. cURL response code was '.$result['http_code'], 'Agent::parse_browscap');
+					logger(\Fuel::L_ERROR, $data);
+					$data = false;
+				}
+				break;
 
 			case 'wrapper':
+				// set our custom user agent
 				ini_set('user_agent', 'Fuel PHP framework - Agent class (http://fuelphp.com)');
+
+				// create a stream context if needed
+				$context = null;
+				if ( ! empty(static::$config['browscap']['proxy']['host']) and ! empty(static::$config['browscap']['proxy']['port']))
+				{
+					$context = array (
+						'http' => array (
+							'proxy' => 'tcp://'.static::$config['browscap']['proxy']['host'].':'.static::$config['browscap']['proxy']['port'],
+							'request_fulluri' => true,
+						),
+					);
+				}
+
+				// add credentials if needed
+				if ( ! empty(static::$config['browscap']['proxy']['auth']) and static::$config['browscap']['proxy']['auth'] == 'basic')
+				{
+					if ( ! empty(static::$config['browscap']['proxy']['username']) and ! empty(static::$config['browscap']['proxy']['password']))
+					{
+						$context['http']['header'] = 'Proxy-Authorization: Basic '.base64_encode(static::$config['browscap']['proxy']['username'].':'.static::$config['browscap']['proxy']['password']);
+					}
+					else
+					{
+						logger(\Fuel::L_ERROR, 'Failed to set a proxy for Agent, "basic" auth configured but no username or password configured');
+						$context = null;
+					}
+				}
+
+				// attempt to download the file
 				try
 				{
-					$data = file_get_contents(static::$config['browscap']['url']);
+					if ($context)
+					{
+						$context = stream_context_create($context);
+					}
+					$data = file_get_contents(static::$config['browscap']['url'], false, $context);
 				}
 				catch (\ErrorException $e)
 				{
 					logger(\Fuel::L_ERROR, 'Failed to download browscap.ini file.', 'Agent::parse_browscap');
+					logger(\Fuel::L_ERROR, $e->getMessage());
 					$data = false;
 				}
-			default:
+				break;
 
-			break;
+			default:
+				break;
 		}
 
 		if ($data === false)

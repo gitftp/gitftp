@@ -19,7 +19,7 @@ use League\OAuth2\Client\Token\AccessToken;
 /**
  * Enables `MAC` header authorization for providers.
  *
- * http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05
+ * @link http://tools.ietf.org/html/draft-ietf-oauth-v2-http-mac-05 Message Authentication Code (MAC) Tokens
  */
 trait MacAuthorizationTrait
 {
@@ -54,7 +54,6 @@ trait MacAuthorizationTrait
      * Returns the authorization headers for the 'mac' grant.
      *
      * @param  AccessToken $token
-     *
      * @return array
      * @codeCoverageIgnore
      *
@@ -62,7 +61,7 @@ trait MacAuthorizationTrait
      * complete the implementation, please create a pull request for
      * https://github.com/thephpleague/oauth2-client
      */
-    protected function getAuthorizationHeaders($token = null)
+    protected function getAuthorizationHeaders($token)
     {
         $ts    = time();
         $id    = $this->getTokenId($token);

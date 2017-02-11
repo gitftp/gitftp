@@ -3,7 +3,7 @@
 /*
  * This file is part of Mustache.php.
  *
- * (c) 2010-2015 Justin Hileman
+ * (c) 2010-2016 Justin Hileman
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -55,7 +55,7 @@ class Mustache_Test_CompilerTest extends PHPUnit_Framework_TestCase
                 'ISO-8859-1',
                 array(
                     "\nclass Monkey extends Mustache_Template",
-                    '$value = $this->resolveValue($context->find(\'name\'), $context, $indent);',
+                    '$value = $this->resolveValue($context->find(\'name\'), $context);',
                     '$buffer .= $indent . call_user_func($this->mustache->getEscape(), $value);',
                     'return $buffer;',
                 ),
@@ -75,7 +75,7 @@ class Mustache_Test_CompilerTest extends PHPUnit_Framework_TestCase
                 'ISO-8859-1',
                 array(
                     "\nclass Monkey extends Mustache_Template",
-                    '$value = $this->resolveValue($context->find(\'name\'), $context, $indent);',
+                    '$value = $this->resolveValue($context->find(\'name\'), $context);',
                     '$buffer .= $indent . htmlspecialchars($value, ' . ENT_COMPAT . ', \'ISO-8859-1\');',
                     'return $buffer;',
                 ),
@@ -95,7 +95,7 @@ class Mustache_Test_CompilerTest extends PHPUnit_Framework_TestCase
                 'ISO-8859-1',
                 array(
                     "\nclass Monkey extends Mustache_Template",
-                    '$value = $this->resolveValue($context->find(\'name\'), $context, $indent);',
+                    '$value = $this->resolveValue($context->find(\'name\'), $context);',
                     '$buffer .= $indent . htmlspecialchars($value, ' . ENT_QUOTES . ', \'ISO-8859-1\');',
                     'return $buffer;',
                 ),
@@ -122,9 +122,9 @@ class Mustache_Test_CompilerTest extends PHPUnit_Framework_TestCase
                 array(
                     "\nclass Monkey extends Mustache_Template",
                     "\$buffer .= \$indent . 'foo\n';",
-                    '$value = $this->resolveValue($context->find(\'name\'), $context, $indent);',
+                    '$value = $this->resolveValue($context->find(\'name\'), $context);',
                     '$buffer .= htmlspecialchars($value, ' . ENT_COMPAT . ', \'UTF-8\');',
-                    '$value = $this->resolveValue($context->last(), $context, $indent);',
+                    '$value = $this->resolveValue($context->last(), $context);',
                     '$buffer .= \'\\\'bar\\\'\';',
                     'return $buffer;',
                 ),

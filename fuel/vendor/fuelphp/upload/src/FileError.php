@@ -4,7 +4,7 @@
  * @version    2.0
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2014 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -16,7 +16,7 @@ namespace Fuel\Upload;
 class FileError
 {
 	/**
-	 * @var  array  Default error messages
+	 * @var array
 	 */
 	protected $messages = array(
 		0 => 'The file uploaded with success',
@@ -39,25 +39,22 @@ class FileError
 		110 => 'A file with the name of the uploaded file already exists',
 		111 => 'Unable to create the file\'s destination directory',
 		112 => 'Unable to upload the file to the destination using FTP',
+		113 => 'The configured destination path does not exist',
 	);
 
 	/**
-	 * @var  int  Current error number
+	 * @var integer
 	 */
 	protected $error = 0;
 
 	/**
-	 * @var  string  Current error message
+	 * @var string
 	 */
 	protected $message = '';
 
 	/**
-	 * Constructor
-	 *
-	 * @param  int          $error  Number of the error message
+	 * @param integer       $error
 	 * @param callable|null $langCallback
-	 *
-	 * @return FileError
 	 */
 	public function __construct($error, $langCallback = null)
 	{
@@ -75,9 +72,9 @@ class FileError
 	}
 
 	/**
-	 * Return the error code
+	 * Returns the error code
 	 *
-	 * @return  int  The error code set
+	 * @return integer
 	 */
 	public function getError()
 	{
@@ -85,9 +82,9 @@ class FileError
 	}
 
 	/**
-	 * Return the error message
+	 * Returns the error message
 	 *
-	 * @return  string  The error message set
+	 * @return string
 	 */
 	public function getMessage()
 	{

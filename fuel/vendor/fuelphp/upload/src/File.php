@@ -4,7 +4,7 @@
  * @version    2.0
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2014 Fuel Development Team
+ * @copyright  2010 - 2015 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -30,24 +30,25 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	const UPLOAD_ERR_DUPLICATE_FILE       = 110;
 	const UPLOAD_ERR_MKDIR_FAILED         = 111;
 	const UPLOAD_ERR_EXTERNAL_MOVE_FAILED = 112;
+	const UPLOAD_ERR_NO_PATH              = 113;
 
 	/**
-	 * @var  array  Container for uploaded file objects
+	 * @var array
 	 */
 	protected $container = array();
 
 	/**
-	 * @var  int  index pointer for Iterator
+	 * @var integer
 	 */
 	protected $index = 0;
 
 	/**
-	 * @var  array  Container for validation errors
+	 * @var array
 	 */
 	protected $errors = array();
 
 	/**
-	 * @var  array  Configuration values
+	 * @var array
 	 */
 	protected $config = array(
 		'langCallback'    => null,
@@ -80,25 +81,23 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	);
 
 	/**
-	 * @var  bool  Flag to indicate if validation has run on this object
+	 * @var boolean
 	 */
 	protected $isValidated = false;
 
 	/**
-	 * @var  bool  Flag to indicate the result of the validation run
+	 * @var boolean
 	 */
 	protected $isValid = false;
 
 	/**
-	 * @var  array  Container for callbacks
+	 * @var array
 	 */
 	protected $callbacks = array();
 
 	/**
-	 * Constructor
-	 *
-	 * @param  array       $file  Array with unified information about the file uploaded
-	 * @param  array|null  $callbacks
+	 * @param array       $file
+	 * @param array|null  $callbacks
 	 */
 	public function __construct(array $file, &$callbacks = array())
 	{
@@ -112,9 +111,9 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	/**
 	 * Magic getter, gives read access to all elements in the file container
 	 *
-	 * @param  string  $name  name of the container item to get
+	 * @param string $name
 	 *
-	 * @return  mixed  value of the item, or null if the item does not exist
+	 * @return mixed
 	 */
 	public function __get($name)
 	{
@@ -125,8 +124,8 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	/**
 	 * Magic setter, gives write access to all elements in the file container
 	 *
-	 * @param  string  $name  name of the container item to set
-	 * @param  mixed  $value  value to set it to
+	 * @param string $name
+	 * @param mixed  $value
 	 */
 	public function __set($name, $value)
 	{
@@ -135,9 +134,9 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Return the validation state of this object
+	 * Returns the validation state of this object
 	 *
-	 * @return  bool
+	 * @return boolean
 	 */
 	public function isValidated()
 	{
@@ -145,9 +144,9 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Return the state of this object
+	 * Returns the state of this object
 	 *
-	 * @return  bool
+	 * @return  boolean
 	 */
 	public function isValid()
 	{
@@ -155,7 +154,7 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Return the error objects collected for this file upload
+	 * Returns the error objects collected for this file upload
 	 *
 	 * @return  FileError[]
 	 */
@@ -165,12 +164,10 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Set the configuration for this file
+	 * Sets the configuration for this file
 	 *
-	 * @param  string|array  $item  name of the configuration item to set, or an array of configuration items
-	 * @param  mixed         $value if $name is an item name, this holds the configuration values for that item
-	 *
-	 * @return  void
+	 * @param string|array  $item
+	 * @param mixed         $value
 	 */
 	public function setConfig($item, $value = null)
 	{
@@ -185,14 +182,15 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Run validation on the uploaded file, based on the config being loaded
+	 * Runs validation on the uploaded file, based on the config being loaded
 	 *
-	 * @return  bool
+	 * @return boolean
 	 */
 	public function validate()
 	{
-		// reset the error container
+		// reset the error container and status
 		$this->errors = array();
+		$this->isValid = true;
 
 		// validation starts, call the pre-validation callback
 		$this->runCallbacks('before_validation');
@@ -229,12 +227,6 @@ class File implements \ArrayAccess, \Iterator, \Countable
 			{
 				$this->container['mimetype'] = false;
 				$this->addError(UPLOAD_ERR_NO_FILE);
-			}
-
-			// always use the more specific of the mime types available
-			if ($this->container['mimetype'] == 'application/octet-stream' and $this->container['type'] != $this->container['mimetype'])
-			{
-				$this->container['mimetype'] = $this->container['type'];
 			}
 
 			// make sure it contains something valid
@@ -276,9 +268,6 @@ class File implements \ArrayAccess, \Iterator, \Countable
 				$this->addError(static::UPLOAD_ERR_MIME_NOT_WHITELISTED);
 			}
 
-			// update the status of this validation
-			$this->isValid = empty($this->errors);
-
 			// validation finished, call the post-validation callback
 			$this->runCallbacks('after_validation');
 		}
@@ -286,9 +275,6 @@ class File implements \ArrayAccess, \Iterator, \Countable
 		{
 			// upload was already a failure, store the corresponding error
 			$this->addError($this->container['error']);
-
-			// and mark this validation a failure
-			$this->isValid = false;
 		}
 
 		// set the flag to indicate we ran the validation
@@ -299,14 +285,16 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Save the uploaded file
+	 * Saves the uploaded file
 	 *
-	 * @throws \DomainException Destination path specified does not exist
+	 * @return boolean
 	 *
-	 * @return  bool
+	 * @throws \DomainException if destination path specified does not exist
 	 */
 	public function save()
 	{
+		$tempfileCreated = false;
+
 		// we can only save files marked as valid
 		if ($this->isValid)
 		{
@@ -316,20 +304,26 @@ class File implements \ArrayAccess, \Iterator, \Countable
 				$this->container['path'] = rtrim($this->config['path'], DIRECTORY_SEPARATOR).DIRECTORY_SEPARATOR;
 			}
 
-			if ( ! is_dir($this->container['path']) and (bool) $this->config['create_path'])
+			// if the path does not exist
+			if ( ! is_dir($this->container['path']))
 			{
-				@mkdir($this->container['path'], $this->config['path_chmod'], true);
-
-				if ( ! is_dir($this->container['path']))
+				// do we need to create it?
+				if ((bool) $this->config['create_path'])
 				{
-					$this->addError(static::UPLOAD_ERR_MKDIR_FAILED);
-				}
+					@mkdir($this->container['path'], $this->config['path_chmod'], true);
 
-				// update the status of this validation
-				$this->isValid = empty($this->errors);
+					if ( ! is_dir($this->container['path']))
+					{
+						$this->addError(static::UPLOAD_ERR_MKDIR_FAILED);
+					}
+				}
+				else
+				{
+					$this->addError(static::UPLOAD_ERR_NO_PATH);
+				}
 			}
 
-			// if the file is still valid, start processing the uploaded file
+			// start processing the uploaded file
 			if ($this->isValid)
 			{
 				$this->container['path'] = realpath($this->container['path']).DIRECTORY_SEPARATOR;
@@ -388,7 +382,6 @@ class File implements \ArrayAccess, \Iterator, \Countable
 				}
 
 				// if we're saving the file locally
-				$createdTempFile = false;
 				if ( ! $this->config['moveCallback'])
 				{
 					// check if the file already exists
@@ -406,7 +399,7 @@ class File implements \ArrayAccess, \Iterator, \Countable
 
 							// claim this generated filename before someone else does
 							touch($this->container['path'].implode('', $filename));
-							$createdTempFile = true;
+							$tempfileCreated = true;
 						}
 						else
 						{
@@ -428,72 +421,61 @@ class File implements \ArrayAccess, \Iterator, \Countable
 					$this->addError(static::UPLOAD_ERR_MAX_FILENAME_LENGTH);
 				}
 
-				// update the status of this validation
-				$this->isValid = empty($this->errors);
-			}
-
-			// if the file is still valid, run the before save callbacks
-			if ($this->isValid)
-			{
-				// validation starts, call the pre-save callbacks
-				$this->runCallbacks('before_save');
-
-				// recheck the path, it might have been altered by a callback
-				if ($this->isValid and ! is_dir($this->container['path']) and (bool) $this->config['create_path'])
+				// if the file is still valid, run the before save callbacks
+				if ($this->isValid)
 				{
-					@mkdir($this->container['path'], $this->config['path_chmod'], true);
+					// validation starts, call the pre-save callbacks
+					$this->runCallbacks('before_save');
 
-					if ( ! is_dir($this->container['path']))
+					// recheck the path, it might have been altered by a callback
+					if ($this->isValid and ! is_dir($this->container['path']) and (bool) $this->config['create_path'])
 					{
-						$this->addError(static::UPLOAD_ERR_MKDIR_FAILED);
+						@mkdir($this->container['path'], $this->config['path_chmod'], true);
+
+						if ( ! is_dir($this->container['path']))
+						{
+							$this->addError(static::UPLOAD_ERR_MKDIR_FAILED);
+						}
 					}
-				}
 
-				// update the status of this validation
-				$this->isValid = empty($this->errors);
-			}
+					// if the file is still valid, move it
+					if ($this->isValid)
+					{
+						// check if file should be moved to an ftp server
+						if ($this->config['moveCallback'])
+						{
+							$moved = call_user_func($this->config['moveCallback'], $this->container['tmp_name'], $this->container['path'].$this->container['filename']);
 
-			// if the file is still valid, move it
-			if ($this->isValid)
-			{
-				// check if file should be moved to an ftp server
-				if ($this->config['moveCallback'])
-				{
-					$moved = call_user_func($this->config['moveCallback'], $this->container['tmp_name'], $this->container['path'].$this->container['filename']);
-
-					if ( ! $moved)
-					{
-						$this->addError(static::UPLOAD_ERR_EXTERNAL_MOVE_FAILED);
-					}
-				}
-				else
-				{
-					if( ! @move_uploaded_file($this->container['tmp_name'], $this->container['path'].$this->container['filename']))
-					{
-						$this->addError(static::UPLOAD_ERR_MOVE_FAILED);
-					}
-					else
-					{
-						@chmod($this->container['path'].$this->container['filename'], $this->config['file_chmod']);
+							if ( ! $moved)
+							{
+								$this->addError(static::UPLOAD_ERR_EXTERNAL_MOVE_FAILED);
+							}
+						}
+						else
+						{
+							if( ! @move_uploaded_file($this->container['tmp_name'], $this->container['path'].$this->container['filename']))
+							{
+								$this->addError(static::UPLOAD_ERR_MOVE_FAILED);
+							}
+							else
+							{
+								@chmod($this->container['path'].$this->container['filename'], $this->config['file_chmod']);
+							}
+						}
 					}
 				}
 			}
-			else
-			{
-				// if we're auto renaming, remove the temporary file we've created, make sure it exists first though!
-				if ($createdTempFile)
-				{
-					unlink($this->container['path'].$this->container['filename']);
-				}
-			}
-
-			// update the status of this validation
-			$this->isValid = empty($this->errors);
 
 			// call the post-save callbacks if the file was succefully saved
-			if ($this->isValid = empty($this->errors))
+			if ($this->isValid)
 			{
 				$this->runCallbacks('after_save');
+			}
+
+			// if there was an error and we've created a temp file, make sure to remove it
+			elseif ($tempfileCreated)
+			{
+				unlink($this->container['path'].$this->container['filename']);
 			}
 		}
 
@@ -502,11 +484,9 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Run callbacks of he defined type
+	 * Runs callbacks of he defined type
 	 *
-	 * @param callable $type Valid callable callback
-	 *
-	 * @return void
+	 * @param callable $type
 	 */
 	protected function runCallbacks($type)
 	{
@@ -539,9 +519,7 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Convert a filename into a normalized name. only outputs 7 bit ASCII characters.
-	 *
-	 * @return void
+	 * Converts a filename into a normalized name. only outputs 7 bit ASCII characters.
 	 */
 	protected function normalize()
 	{
@@ -558,15 +536,14 @@ class File implements \ArrayAccess, \Iterator, \Countable
 	}
 
 	/**
-	 * Add a new error object to the list
+	 * Adds a new error object to the list
 	 *
-	 * @param  int  $error  uploaded file number
-	 *
-	 * @return void
+	 * @param integer $error
 	 */
 	protected function addError($error)
 	{
 		$this->errors[] = new FileError($error, $this->config['langCallback']);
+		$this->isValid = false;
 	}
 
 	//------------------------------------------------------------------------------------------------------------------

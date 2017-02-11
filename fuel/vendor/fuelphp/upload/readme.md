@@ -1,15 +1,19 @@
-# Fuel\\Upload
+# Fuel Upload
 
-[![Build Status](https://travis-ci.org/fuelphp/upload.png?branch=master)](https://travis-ci.org/fuelphp/upload)
+[![Build Status](https://img.shields.io/travis/fuelphp/upload.svg?style=flat-square)](https://travis-ci.org/fuelphp/upload)
+[![Code Coverage](https://img.shields.io/scrutinizer/coverage/g/fuelphp/upload.svg?style=flat-square)](https://scrutinizer-ci.com/g/fuelphp/upload)
+[![Quality Score](https://img.shields.io/scrutinizer/g/fuelphp/upload.svg?style=flat-square)](https://scrutinizer-ci.com/g/fuelphp/upload)
+[![HHVM Status](https://img.shields.io/hhvm/fuelphp/upload.svg?style=flat-square)](http://hhvm.h4cc.de/package/fuelphp/upload)
 
-Package for processing uploaded files.
 
-## Synopsys
+**Process uploaded files.**
 
-This package provides the functionality to process uploaded files at a very granular level.
 
-## Usage
+## Contributing
 
-```php
-// todo
-```
+Thank you for considering contribution to FuelPHP framework. Please see [CONTRIBUTING](https://github.com/fuelphp/fuelphp/blob/master/CONTRIBUTING.md) for details.
+
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.

@@ -11,6 +11,7 @@ use League\Flysystem\Util;
 use LogicException;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
+use phpseclib\System\SSH\Agent;
 use RuntimeException;
 
 class SftpAdapter extends AbstractFtpAdapter
@@ -25,12 +26,27 @@ class SftpAdapter extends AbstractFtpAdapter
     /**
      * @var string
      */
+    protected $hostFingerprint;
+
+    /**
+     * @var string
+     */
     protected $privatekey;
+
+    /**
+     * @var bool
+     */
+    protected $useAgent = false;
+
+    /**
+     * @var Agent
+     */
+    private $agent;
 
     /**
      * @var array
      */
-    protected $configurable = ['host', 'port', 'username', 'password', 'timeout', 'root', 'privateKey', 'permPrivate', 'permPublic', 'directoryPerm', 'NetSftpConnection'];
+    protected $configurable = ['host', 'hostFingerprint', 'port', 'username', 'password', 'useAgent', 'agent', 'timeout', 'root', 'privateKey', 'permPrivate', 'permPublic', 'directoryPerm', 'NetSftpConnection'];
 
     /**
      * @var array
@@ -55,6 +71,23 @@ class SftpAdapter extends AbstractFtpAdapter
     }
 
     /**
+     * Set the finger print of the public key of the host you are connecting to.
+     *
+     * If the key does not match the server identification, the connection will
+     * be aborted.
+     *
+     * @param string $fingerprint Example: '88:76:75:96:c1:26:7c:dd:9f:87:50:db:ac:c4:a8:7c'.
+     *
+     * @return $this
+     */
+    public function setHostFingerprint($fingerprint)
+    {
+        $this->hostFingerprint = $fingerprint;
+
+        return $this;
+    }
+
+    /**
      * Set the private key (string or path to local file).
      *
      * @param string $key
@@ -64,6 +97,30 @@ class SftpAdapter extends AbstractFtpAdapter
     public function setPrivateKey($key)
     {
         $this->privatekey = $key;
+
+        return $this;
+    }
+
+    /**
+     * @param boolean $useAgent
+     *
+     * @return $this
+     */
+    public function setUseAgent($useAgent)
+    {
+        $this->useAgent = (bool) $useAgent;
+
+        return $this;
+    }
+
+    /**
+     * @param Agent $agent
+     *
+     * @return $this
+     */
+    public function setAgent(Agent $agent)
+    {
+        $this->agent = $agent;
 
         return $this;
     }
@@ -123,9 +180,35 @@ class SftpAdapter extends AbstractFtpAdapter
      */
     protected function login()
     {
-        if (! $this->connection->login($this->username, $this->getPassword())) {
-            throw new LogicException('Could not login with username: '.$this->username.', host: '.$this->host);
+        if ($this->hostFingerprint) {
+            $actualFingerprint = $this->getHexFingerprintFromSshPublicKey($this->connection->getServerPublicHostKey());
+
+            if (0 !== strcasecmp($this->hostFingerprint, $actualFingerprint)) {
+                throw new LogicException('The authenticity of host '.$this->host.' can\'t be established.');
+            }
         }
+
+        $authentication = $this->getAuthentication();
+
+        if (! $this->connection->login($this->getUsername(), $authentication)) {
+            throw new LogicException('Could not login with username: '.$this->getUsername().', host: '.$this->host);
+        }
+
+        if ($authentication instanceof Agent) {
+            $authentication->startSSHForwarding($this->connection);
+        }
+    }
+
+    /**
+     * Convert the SSH RSA public key into a hex formatted fingerprint.
+     *
+     * @param string $publickey
+     * @return string Hex formatted fingerprint, e.g. '88:76:75:96:c1:26:7c:dd:9f:87:50:db:ac:c4:a8:7c'.
+     */
+    private function getHexFingerprintFromSshPublicKey ($publickey)
+    {
+        $content = explode(' ', $publickey, 3);
+        return implode(':', str_split(md5(base64_decode($content[1])), 2));
     }
 
     /**
@@ -142,20 +225,25 @@ class SftpAdapter extends AbstractFtpAdapter
         if (! $this->connection->chdir($root)) {
             throw new RuntimeException('Root is invalid or does not exist: '.$root);
         }
+        $this->root = $this->connection->pwd() . $this->separator;
     }
 
     /**
      * Get the password, either the private key or a plain text password.
      *
-     * @return RSA|string
+     * @return Agent|RSA|string
      */
-    public function getPassword()
+    public function getAuthentication()
     {
+        if ($this->useAgent) {
+            return $this->getAgent();
+        }
+
         if ($this->privatekey) {
             return $this->getPrivateKey();
         }
 
-        return $this->password;
+        return $this->getPassword();
     }
 
     /**
@@ -165,19 +253,31 @@ class SftpAdapter extends AbstractFtpAdapter
      */
     public function getPrivateKey()
     {
-        if (is_file($this->privatekey)) {
+        if (@is_file($this->privatekey)) {
             $this->privatekey = file_get_contents($this->privatekey);
         }
 
         $key = new RSA();
 
-        if ($this->password) {
-            $key->setPassword($this->password);
+        if ($password = $this->getPassword()) {
+            $key->setPassword($password);
         }
 
         $key->loadKey($this->privatekey);
 
         return $key;
+    }
+
+    /**
+     * @return Agent|bool
+     */
+    public function getAgent()
+    {
+        if ( ! $this->agent instanceof Agent) {
+            $this->agent = new Agent();
+        }
+
+        return $this->agent;
     }
 
     /**

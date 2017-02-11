@@ -180,9 +180,9 @@ define([
             }).done(function (data) {
                 if (data.status) {
                     $.alert({
-                        title: 'Added',
+                        title: 'Awesome!',
                         icon: 'fa fa-check green',
-                        content: 'Your project has been successfully created.',
+                        content: 'Your project has been successfully linked with Gitftp.',
                         confirmButton: 'close'
                     });
                     Router.navigate('/project', {
@@ -406,8 +406,8 @@ define([
                 backgroundDismiss: false,
                 closeIcon: false,
                 container: that.el,
-                animation: 'scale',
-                animationBounce: 1.5
+                animation: 'bottom',
+                animationBounce: 1
             });
 
             $.when($getftp, $getlimit, $getrepositories).then(function (ftp, limit, repo) {

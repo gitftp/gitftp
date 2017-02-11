@@ -1,12 +1,15 @@
 <?php
 /**
- * PDO database connection.
+ * Part of the Fuel framework.
  *
- * @package    Fuel/Database
- * @category   Drivers
- * @author     Kohana Team
- * @copyright  (c) 2008-2009 Kohana Team
- * @license    http://kohanaphp.com/license
+ * @package    Fuel
+ * @version    1.8
+ * @author     Fuel Development Team
+ * @license    MIT License
+ * @copyright  2010 - 2016 Fuel Development Team
+ * @copyright  2008 - 2009 Kohana Team
+ * @link       http://fuelphp.com
+ *
  */
 
 namespace Fuel\Core;
@@ -24,19 +27,18 @@ class Database_PDO_Connection extends \Database_Connection
 	protected $_identifier = '';
 
 	/**
-	 * @var  string  $_db_type  which kind of DB is used
-	 */
-	public $_db_type = '';
-
-	/**
 	 * @param string $name
 	 * @param array  $config
 	 */
 	protected function __construct($name, array $config)
 	{
+		// construct a custom schema driver
+//		$this->_schema = new \Database_Drivername_Schema($name, $this);
+
+		// call the parent consructor
 		parent::__construct($name, $config);
 
-		if (isset($this->_config['identifier']))
+		if (isset($config['identifier']))
 		{
 			// Allow the identifier to be overloaded per-connection
 			$this->_identifier = (string) $this->_config['identifier'];
@@ -55,44 +57,42 @@ class Database_PDO_Connection extends \Database_Connection
 			return;
 		}
 
-		// Extract the connection parameters, adding required variabels
-		extract($this->_config['connection'] + array(
-			'dsn'        => '',
-			'username'   => null,
-			'password'   => null,
-			'persistent' => false,
-			'compress'   => false,
-		));
-
-		// determine db type
-		$_dsn_find_collon = strpos($dsn, ':');
-		$this->_db_type = $_dsn_find_collon ? substr($dsn, 0, $_dsn_find_collon) : null;
+		// make sure we have all connection parameters
+		$this->_config = array_merge(array(
+			'connection'  => array(
+				'dsn'        => '',
+				'hostname'   => '',
+				'username'   => null,
+				'password'   => null,
+				'database'   => '',
+				'persistent' => false,
+				'compress'   => false,
+			),
+			'identifier'   => '`',
+			'table_prefix' => '',
+			'charset'      => 'utf8',
+			'collation'    => false,
+			'enable_cache' => true,
+			'profiling'    => false,
+			'readonly'     => false,
+			'attrs'        => array(),
+		), $this->_config);
 
 		// Force PDO to use exceptions for all errors
-		$attrs = array(\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION);
+		$this->_config['attrs'] = array(
+			\PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
+		);
 
-		if ( ! empty($persistent))
+		if ( ! empty($this->_config['connection']['persistent']))
 		{
 			// Make the connection persistent
-			$attrs[\PDO::ATTR_PERSISTENT] = true;
-		}
-
-		if (in_array(strtolower($this->_db_type), array('mysql', 'mysqli')) and $compress)
-		{
-			// Use client compression with mysql or mysqli (doesn't work with mysqlnd)
-			$attrs[\PDO::MYSQL_ATTR_COMPRESS] = true;
-		}
-
-		// add the charset to the DSN if needed
-		if ( ! empty($this->_config['charset']) and strpos($dsn, ';charset=') === false and strtolower($this->_db_type) != 'sqlite')
-		{
-			$dsn .= ';charset='.$this->_config['charset'];
+			$this->_config['attrs'][\PDO::ATTR_PERSISTENT] = true;
 		}
 
 		try
 		{
 			// Create a new PDO connection
-			$this->_connection = new \PDO($dsn, $username, $password, $attrs);
+			$this->_connect();
 		}
 		catch (\PDOException $e)
 		{
@@ -109,13 +109,7 @@ class Database_PDO_Connection extends \Database_Connection
 					$error_code = 0;
 				}
 			}
-			throw new \Database_Exception(str_replace($password, str_repeat('*', 10), $e->getMessage()), $error_code, $e);
-		}
-
-		if ( ! empty($this->_config['charset']))
-		{
-			// Set the character set
-			$this->set_charset($this->_config['charset']);
+			throw new \Database_Exception(str_replace($this->_config['connection']['password'], str_repeat('*', 10), $e->getMessage()), $error_code, $e);
 		}
 	}
 
@@ -157,21 +151,8 @@ class Database_PDO_Connection extends \Database_Connection
 		// Make sure the database is connected
 		$this->_connection or $this->connect();
 
-		// Set Charset for SQL Server connection
-		if (strtolower($this->driver_name()) == 'sqlsrv')
+		if ($charset)
 		{
-			$this->_connection->setAttribute(\PDO::SQLSRV_ATTR_ENCODING, \PDO::SQLSRV_ENCODING_SYSTEM);
-		}
-		// Set Charset for SQLite connection
-		elseif (strtolower($this->driver_name()) == 'sqlite')
-		{
-			// Execute a raw PRAGMA encoding query
-			$this->_connection->exec('PRAGMA encoding = ' . $this->quote($charset));
-		}
-		// Set Charset for any connection except ODBC, as it throws exception
-		elseif (strtolower($this->driver_name()) != 'odbc')
-		{
-			// Execute a raw SET NAMES query
 			$this->_connection->exec('SET NAMES '.$this->quote($charset));
 		}
 	}
@@ -348,40 +329,7 @@ class Database_PDO_Connection extends \Database_Connection
 	 */
 	public function list_tables($like = null)
 	{
-		if (strtolower($this->driver_name()) == 'mysql')
-		{
-			return $this->list_tables_mysql($like);
-		}
-
 		throw new \FuelException('Database method '.__METHOD__.' is not supported by '.__CLASS__);
-	}
-
-	/**
-	 * List tables for PDO_MYSQL
-	 *
-	 * @param string $like
-	 * @return array
-	 */
-	protected function list_tables_mysql($like = null)
-	{
-		$query = 'SHOW TABLES';
-
-		if (is_string($like))
-		{
-			$query .= ' LIKE ' . $this->quote($like);
-		}
-
-		$q = $this->_connection->prepare($query);
-		$q->execute();
-		$result = $q->fetchAll();
-
-		$tables = array();
-		foreach ($result as $row)
-		{
-			$tables[] = reset($row);
-		}
-
-		return $tables;
 	}
 
 	/**
@@ -499,10 +447,14 @@ class Database_PDO_Connection extends \Database_Connection
 		$this->_connection or $this->connect();
 
 		$result = $this->_connection->quote($value);
+
 		// poor-mans workaround for the fact that not all drivers implement quote()
 		if (empty($result))
 		{
-			$result = "'".str_replace("'", "''", $value)."'";
+			if ( ! is_numeric($value))
+			{
+				$result = "'".str_replace("'", "''", $value)."'";
+			}
 		}
 		return $result;
 	}
@@ -515,6 +467,24 @@ class Database_PDO_Connection extends \Database_Connection
 	public function error_info()
 	{
 		return $this->_connection->errorInfo();
+	}
+
+	/**
+	 * Create a new PDO instance
+	 *
+	 * @return  PDO
+	 */
+	protected function _connect()
+	{
+		$this->_connection = new \PDO(
+			$this->_config['connection']['dsn'],
+			$this->_config['connection']['username'],
+			$this->_config['connection']['password'],
+			$this->_config['attrs']
+		);
+
+		// set the DB charset if needed
+		$this->set_charset($this->_config['charset']);
 	}
 
 	/**
@@ -555,7 +525,8 @@ class Database_PDO_Connection extends \Database_Connection
 	 *                 false - failed to set savepoint;
 	 *                 null  - RDBMS does not support savepoints
 	 */
-	protected function set_savepoint($name) {
+	protected function set_savepoint($name)
+	{
 		$result = $this->_connection->exec('SAVEPOINT LEVEL'.$name);
 		return $result !== false;
 	}
@@ -568,7 +539,8 @@ class Database_PDO_Connection extends \Database_Connection
 	 *                 false - failed to set savepoint;
 	 *                 null  - RDBMS does not support savepoints
 	 */
-	protected function release_savepoint($name) {
+	protected function release_savepoint($name)
+	{
 		$result = $this->_connection->exec('RELEASE SAVEPOINT LEVEL'.$name);
 		return $result !== false;
 	}
@@ -581,7 +553,8 @@ class Database_PDO_Connection extends \Database_Connection
 	 *                 false - failed to set savepoint;
 	 *                 null  - RDBMS does not support savepoints
 	 */
-	protected function rollback_savepoint($name) {
+	protected function rollback_savepoint($name)
+	{
 		$result = $this->_connection->exec('ROLLBACK TO SAVEPOINT LEVEL'.$name);
 		return $result !== false;
 	}

@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -884,11 +884,22 @@ class Validation
 	 * Validate IP using PHP's filter_var()
 	 *
 	 * @param   string  $val
+	 * @param   string  ipv4|ipv6
 	 * @return  bool
 	 */
-	public function _validation_valid_ip($val)
+	public function _validation_valid_ip($val, $flag = null)
 	{
-		return $this->_empty($val) || filter_var($val, FILTER_VALIDATE_IP);
+		switch (strtolower($flag))
+		{
+			case 'ipv4':
+				$flag = FILTER_FLAG_IPV4;
+				break;
+			case 'ipv6':
+				$flag = FILTER_FLAG_IPV6;
+				break;
+		}
+
+		return $this->_empty($val) || filter_var($val, FILTER_VALIDATE_IP, $flag);
 	}
 
 	/**

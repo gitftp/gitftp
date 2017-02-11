@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -280,14 +280,22 @@ class Request
 				// load and add the module routes
 				$module_routes = \Fuel::load($module_path);
 
+				$reserve_routes = array(
+					'_root_' => $module,
+					'_403_'  => '_403_',
+					'_404_'  => '_404_',
+					'_500_'  => '_500_',
+					$module  => $module,
+				);
+
 				$prepped_routes = array();
 				foreach($module_routes as $name => $_route)
 				{
-					if ($name === '_root_')
+					if (isset($reserve_routes[$name]))
 					{
-						$name = $module;
+						$name = $reserve_routes[$name];
 					}
-					elseif (strpos($name, $module.'/') !== 0 and $name != $module and $name !== '_404_')
+					elseif (strpos($name, $module.'/') !== 0)
 					{
 						$name = $module.'/'.$name;
 					}

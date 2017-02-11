@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -104,7 +104,7 @@ class Image_Imagemagick extends \Image_Driver
 		$this->exec('convert', $image.' '.$arg.' '.$image);
 	}
 
-	protected function _watermark($filename, $position, $padding = 5)
+	protected function _watermark($filename, $position, $padding = array(5,5))
 	{
 		$values = parent::_watermark($filename, $position, $padding);
 		if ($values == false)

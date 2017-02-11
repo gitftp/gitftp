@@ -34,8 +34,8 @@ class DB
 	 * `DB::INSERT` queries will return the insert id and number of rows.
 	 * For all other queries, the number of affected rows is returned.
 	 *
-	 * @param   integer  type: DB::SELECT, DB::UPDATE, etc
 	 * @param   string   SQL statement
+	 * @param   integer  type: DB::SELECT, DB::UPDATE, etc
 	 * @return  Database_Query
 	 */
 	public static function query($sql, $type = null)
@@ -63,6 +63,16 @@ class DB
 		return \Database_Connection::instance($db)->error_info();
 	}
 
+	/*
+	 * Returns a database instance
+	 *
+	 * @return	Database_Connection
+	 */
+	public static function instance($db = null)
+	{
+		return \Database_Connection::instance($db);
+	}
+
 	/**
 	 * Create a new [Database_Query_Builder_Select]. Each argument will be
 	 * treated as a column. To generate a `foo AS bar` alias, use an array.
@@ -77,9 +87,9 @@ class DB
 	 * @param   ...
 	 * @return  Database_Query_Builder_Select
 	 */
-	public static function select($columns = NULL)
+	public static function select($args = null)
 	{
-		return new \Database_Query_Builder_Select(func_get_args());
+		return \Database_Connection::instance()->select(func_get_args());
 	}
 
 	/**
@@ -91,9 +101,9 @@ class DB
 	 * @param   array   columns to select
 	 * @return  Database_Query_Builder_Select
 	 */
-	public static function select_array(array $columns = NULL)
+	public static function select_array(array $columns = null)
 	{
-		return new \Database_Query_Builder_Select($columns);
+		return \Database_Connection::instance()->select($columns);
 	}
 
 	/**
@@ -106,9 +116,9 @@ class DB
 	 * @param   array   list of column names or array($column, $alias) or object
 	 * @return  Database_Query_Builder_Insert
 	 */
-	public static function insert($table = NULL, array $columns = NULL)
+	public static function insert($table = null, array $columns = null)
 	{
-		return new \Database_Query_Builder_Insert($table, $columns);
+		return \Database_Connection::instance()->insert($table, $columns);
 	}
 
 	/**
@@ -120,9 +130,9 @@ class DB
 	 * @param   string  table to update
 	 * @return  Database_Query_Builder_Update
 	 */
-	public static function update($table = NULL)
+	public static function update($table = null)
 	{
-		return new \Database_Query_Builder_Update($table);
+		return \Database_Connection::instance()->update($table);
 	}
 
 	/**
@@ -134,9 +144,9 @@ class DB
 	 * @param   string  table to delete from
 	 * @return  Database_Query_Builder_Delete
 	 */
-	public static function delete($table = NULL)
+	public static function delete($table = null)
 	{
-		return new \Database_Query_Builder_Delete($table);
+		return \Database_Connection::instance()->delete($table);
 	}
 
 	/**

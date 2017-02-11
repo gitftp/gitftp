@@ -26,6 +26,7 @@ class Controller_Administrator_User extends Controller_Administrator_Admincheck 
             $users[$k]['repo'] = count($deploys);
             $users[$k]['verified'] = $user->getAttr('verified');
             $users[$k]['repol'] = $user->getAttr('project_limit');
+//            $users[$k]['repol'] = $user->getAttr('project_limit');
         }
 
         echo \View::forge('admin/base_layout', array(

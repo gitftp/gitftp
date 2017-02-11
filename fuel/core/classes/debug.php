@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -233,7 +233,7 @@ JS;
 			ob_end_clean();
 
 			// process it based on the xdebug presence and configuration
-			if (extension_loaded('xdebug') and ini_get('xdebug.overload_var_dump') === '1')
+			if (extension_loaded('xdebug') and ini_get('xdebug.overload_var_dump'))
 			{
 				if (ini_get('html_errors'))
 				{
@@ -313,8 +313,8 @@ JS;
 	 */
 	public static function file_lines($filepath, $line_num, $highlight = true, $padding = 5)
 	{
-		// deal with eval'd code
-		if (strpos($filepath, 'eval()\'d code') !== false)
+		// deal with eval'd code and runtime-created function
+		if (strpos($filepath, 'eval()\'d code') !== false or strpos($filepath, 'runtime-created function') !== false)
 		{
 			return '';
 		}

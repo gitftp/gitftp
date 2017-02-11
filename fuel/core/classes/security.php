@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -53,7 +53,7 @@ class Security
 		static::$csrf_old_token = \Input::cookie(static::$csrf_token_key, false);
 
 		// if csrf automatic checking is enabled, and it fails validation, bail out!
-		if (\Config::get('security.csrf_autoload', true))
+		if (\Config::get('security.csrf_autoload', false))
 		{
 			$check_token_methods = \Config::get('security.csrf_autoload_methods', array('post', 'put', 'delete'));
 			if (in_array(strtolower(\Input::method()), $check_token_methods) and ! static::check_token())
@@ -95,7 +95,7 @@ class Security
 		$filters = \Config::get('security.uri_filter', array());
 		$filters = is_array($filters) ? $filters : array($filters);
 
-		$strict and $uri = preg_replace(array("/\.+\//", '/\/+/'), '/', $uri);
+		$strict and $uri = str_replace(array('//', '../'), '/', $uri);
 
 		return static::clean($uri, $filters);
 	}
@@ -120,77 +120,50 @@ class Security
 	 */
 	public static function clean($var, $filters = null, $type = 'security.input_filter')
 	{
-		is_null($filters) and $filters = \Config::get($type, array());
-		$filters = is_array($filters) ? $filters : array($filters);
-
-		foreach ($filters as $filter)
+		// deal with objects that can be sanitized
+		if ($var instanceOf \Sanitization)
 		{
-			// is this filter a callable local function?
-			if (is_string($filter) and is_callable('static::'.$filter))
-			{
-				$var = static::$filter($var);
-			}
+			$var->sanitize();
+		}
 
-			// is this filter a callable function?
-			elseif (is_callable($filter))
+		// deal with array's or array emulating objects
+		elseif (is_array($var) or ($var instanceOf \Traversable and $var instanceOf \ArrayAccess))
+		{
+			// recurse on array values
+			foreach($var as $key => $value)
 			{
-				if (is_array($var))
+				$var[$key] = static::clean($value, $filters, $type);
+			}
+		}
+
+		// deal with all other variable types
+		else
+		{
+			is_null($filters) and $filters = \Config::get($type, array());
+			$filters = is_array($filters) ? $filters : array($filters);
+
+			foreach ($filters as $filter)
+			{
+				// is this filter a callable local function?
+				if (is_string($filter) and is_callable('static::'.$filter))
 				{
-					foreach($var as $key => $value)
-					{
-						if ($value instanceOf \Sanitization)
-						{
-							$value->sanitize();
-						}
-						else
-						{
-							$var[$key] = call_user_func($filter, $value);
-						}
-					}
+					$var = static::$filter($var);
 				}
+
+				// is this filter a callable function?
+				elseif (is_callable($filter))
+				{
+					$var = call_user_func($filter, $var);
+				}
+
+				// assume it's a regex of characters to filter
 				else
 				{
-					if ($var instanceOf \Sanitization)
-					{
-						$var->sanitize();
-					}
-					else
-					{
-						$var = call_user_func($filter, $var);
-					}
-				}
-			}
-
-			// assume it's a regex of characters to filter
-			else
-			{
-				if (is_array($var))
-				{
-					foreach($var as $key => $value)
-					{
-						if ($value instanceOf \Sanitization)
-						{
-							$value->sanitize();
-						}
-						else
-						{
-							$var[$key] = preg_replace('#['.$filter.']#ui', '', $value);
-						}
-					}
-				}
-				else
-				{
-					if ($var instanceOf \Sanitization)
-					{
-						$var->sanitize();
-					}
-					else
-					{
-						$var = preg_replace('#['.$filter.']#ui', '', $var);
-					}
+					$var = preg_replace('#['.$filter.']#ui', '', $var);
 				}
 			}
 		}
+
 		return $var;
 	}
 
@@ -346,17 +319,34 @@ class Security
 	 */
 	public static function generate_token()
 	{
-		$token_base = time() . uniqid() . \Config::get('security.token_salt', '') . mt_rand(0, mt_getrandmax());
-		if (function_exists('hash_algos') and in_array('sha512', hash_algos()))
+		// generate a random token base
+		if (function_exists('random_bytes'))
 		{
-			$token = hash('sha512', $token_base);
+			$token_base = \Config::get('security.token_salt', '') .random_bytes(64);
+		}
+		elseif (function_exists('openssl_random_pseudo_bytes'))
+		{
+			$token_base = \Config::get('security.token_salt', '') . openssl_random_pseudo_bytes(64);
 		}
 		else
 		{
-			$token = md5($token_base);
+			$token_base = time() . uniqid() . \Config::get('security.token_salt', '') . mt_rand(0, mt_getrandmax());
 		}
 
-		return $token;
+		// return the hashed token
+		if (function_exists('hash_algos'))
+		{
+			foreach (array('sha512', 'sha384', 'sha256', 'sha224', 'sha1', 'md5') as $hash)
+			{
+				if (in_array($hash, hash_algos()))
+				{
+					return hash($hash, $token_base);
+				}
+			}
+		}
+
+		// if all else fails
+		return md5($token_base);
 	}
 
 	protected static function set_token($reset = false)

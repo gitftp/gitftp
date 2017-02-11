@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -162,12 +162,14 @@ class Router
 			// support the usual route path placeholders
 			$path = str_replace(array(
 				':any',
+				':everything',
 				':alnum',
 				':num',
 				':alpha',
 				':segment',
 			), array(
 				'.+',
+				'.*',
 				'[[:alnum:]]+',
 				'[[:digit:]]+',
 				'[[:alpha:]]+',
@@ -256,6 +258,7 @@ class Router
 		if ($info = static::parse_segments($segments, $namespace, $module))
 		{
 			$match->controller = $info['controller'];
+			$match->controller_path = $info['controller_path'];
 			$match->action = $info['action'];
 			$match->method_params = $info['method_params'];
 			return $match;
@@ -288,9 +291,10 @@ class Router
 				if (static::check_class($class))
 				{
 					return array(
-						'controller'    => $class,
-						'action'        => isset($segments[$key + 1]) ? $segments[$key + 1] : null,
-						'method_params' => array_slice($segments, $key + 2),
+						'controller'       => $class,
+						'controller_path'  => implode('/', array_slice($segments, 0, $key + 1)),
+						'action'           => isset($segments[$key + 1]) ? $segments[$key + 1] : null,
+						'method_params'    => array_slice($segments, $key + 2),
 					);
 				}
 			}
@@ -303,9 +307,10 @@ class Router
 			if (static::check_class($class))
 			{
 				return array(
-					'controller'    => $class,
-					'action'        => isset($segments[0]) ? $segments[0] : null,
-					'method_params' => array_slice($segments, 1),
+					'controller'       => $class,
+					'controller_path'  => isset($key) ? implode('/', array_slice($segments, 0, $key + 1)) : '',
+					'action'           => isset($segments[0]) ? $segments[0] : null,
+					'method_params'    => array_slice($segments, 1),
 				);
 			}
 		}

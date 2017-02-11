@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -1075,6 +1075,59 @@ class Test_Arr extends TestCase
 		);
 
 		$got = \Arr::subset($person, array("name", "location.street", "location.country", "occupation"), "Unknown");
+		$this->assertEquals($expected, $got);
+	}
+
+	/**
+	 * Tests Arr::filter_recursive()
+	 */
+	public function test_filter_recursive()
+	{
+		$arr = array(
+			"user_name" => "John",
+			"user_surname" => "Lastname",
+			"info" => array(
+				0 => array(
+					"data" => "a value",
+				),
+				1 => array(
+					"data" => "",
+				),
+				2 => array(
+					"data" => 0,
+				),
+			),
+		);
+
+		$expected = array(
+			"user_name" => "John",
+			"user_surname" => "Lastname",
+			"info" => array(
+				0 => array(
+					"data" => "a value",
+				),
+			),
+		);
+		$got = \Arr::filter_recursive($arr);
+		$this->assertEquals($expected, $got);
+
+		$expected = array(
+			"user_name" => "John",
+			"user_surname" => "Lastname",
+			"info" => array(
+				0 => array(
+					"data" => "a value",
+				),
+				1 => array(
+				),
+				2 => array(
+					"data" => 0,
+				),
+			),
+		);
+		$got = \Arr::filter_recursive(
+			$arr, function($item){ return $item !== ""; }
+		);
 		$this->assertEquals($expected, $got);
 	}
 }

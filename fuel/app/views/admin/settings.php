@@ -1,6 +1,11 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
+            <div class="form-group">
+                <a class="btn btn-default disabled" href="<?php echo Uri::create('administrator/settings/'); ?>">Variable settings</a>
+                <a class="btn btn-default" href="<?php echo Uri::create('administrator/settings/path'); ?>">Path settings</a>
+            </div>
+
             <div class="panel panel-warning">
                 <div class="panel-heading">
                     Settings

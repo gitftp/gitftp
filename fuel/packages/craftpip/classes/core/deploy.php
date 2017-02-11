@@ -56,8 +56,8 @@ class Deploy extends DeployHelper {
         $this->writeOutputToLog = \Gf\Settings::get('deploy_write_output_to_log');
         $this->debug = \Gf\Settings::get('deploy_debug');
         $old_error_handler = set_error_handler(array( // Handle traditional errors. Instead throw & log exceptions.
-            $this,
-            'error_handler'
+                                                      $this,
+                                                      'error_handler'
         ));
         $this->deploy_id = $deploy_id;
         $this->repo_home = DOCROOT . 'fuel/repository';
@@ -122,7 +122,8 @@ class Deploy extends DeployHelper {
         $this->record_id = $this->record['id'];
         $this->record_type = $this->record['record_type'];
         $this->m_record->set($this->record_id, array(
-            'status' => $this->m_record->in_progress // its in progress now.
+            'status' => $this->m_record->in_progress
+            // its in progress now.
         ));
 
         logger(550, 'Processing record ' . $this->record_id, __METHOD__);
@@ -208,8 +209,7 @@ class Deploy extends DeployHelper {
             $this->output('DAMMIT!, ' . $e->getMessage(), 'white', 'red');
         }
 
-        if ($this->is_cloned)
-            $this->gitCommand('checkout master');
+        if ($this->is_cloned) $this->gitCommand('checkout master');
 
         // Looping here.
         $this->init();
@@ -287,6 +287,11 @@ class Deploy extends DeployHelper {
         return TRUE;
     }
 
+    /**
+     * todo: delete this.
+     *
+     * @return bool
+     */
     public function testFtpConnection() {
         try {
             print_r($this->ftp_data);
@@ -309,23 +314,24 @@ class Deploy extends DeployHelper {
 
         $this->ftp_data = $this->m_ftp->get($this->branch['ftp_id']);
         if (count($this->ftp_data) == 0) {
-            $this->log('ENV: Error 10005: Envionrment does not have a linked FTP account.');
+            $this->log('ENV: Error 10005: Envionrment does not have a linked Server.');
             throw new Exception('No linked ftp account');
         } else {
             $this->ftp_data = $this->ftp_data[0];
         }
 
+        $this->prepareServer();
         // testing connection to ftp server.
         $this->attempt = 1;
-        while (!$this->testFtpConnection()) {
+        $maxAttempts = \Gf\Settings::get('deploy_ftp_connect_attempts');
+        while (!$this->connect()) {
             $this->output('FTP connection attempt: ' . $this->attempt);
             $this->attempt += 1;
-            if ($this->attempt == 5) {
+            if ($this->attempt == $maxAttempts) {
                 $this->log('FTP: Error 10006: Could not connect to FTP server at 5 attempts.');
-                throw new Exception('Could not connect to FTP server');
+                throw new Exception('Could not connect to Server');
             }
         }
-
         $this->log('FTP: Connected to ftp server on ' . $this->attempt . ' attempt(s).');
         $this->log('ENV: enviornment: ' . $this->branch['name']);
         $this->log('ENV: branch name: ' . $this->branch['branch_name']);
@@ -358,17 +364,13 @@ class Deploy extends DeployHelper {
 
         $this->localRevision = $this->gitCommand('rev-parse HEAD'); // where is the HEAD.
 
-        if (count($this->localRevision))
-            $this->localRevision = trim($this->localRevision[0]);
-        else
+        if (count($this->localRevision)) $this->localRevision = trim($this->localRevision[0]); else
             $this->localRevision = '';
 
-        if ($this->localRevision == '')
-            logger(600, 'Local revision is null. Repository is not cloned but ready.', __METHOD__);
+        if ($this->localRevision == '') logger(600, 'Local revision is null. Repository is not cloned but ready.', __METHOD__);
         // this happened once.
 
-        if ($this->localRevision == $this->remoteRevision)
-            $this->log('ENV: Remote server has latest changes');
+        if ($this->localRevision == $this->remoteRevision) $this->log('ENV: Remote server has latest changes');
 
         $this->log('ENV: Updating remote server at: ' . $this->localRevision);
 
@@ -385,9 +387,6 @@ class Deploy extends DeployHelper {
 
     public function deploy() {
         $revision = $this->localRevision;
-        $this->prepareServer();
-        $this->connect();
-        $this->log('FTP: Connected to ftp server.');
         $files = $this->compare();
         $this->push($files);
 
@@ -470,8 +469,7 @@ class Deploy extends DeployHelper {
             foreach ($dirsToDelete as $dirNo => $dir) {
                 $numberOfdirsToDelete = count($dirsToDelete);
                 try {
-                    if (\Str::starts_with($dir, '/'))
-                        $dir = preg_replace('/^(\/+)/', '', $dir);
+                    if (\Str::starts_with($dir, '/')) $dir = preg_replace('/^(\/+)/', '', $dir);
 
                     $this->connection->rmdir($dir);
                 } catch (Exception $e) {
@@ -590,7 +588,6 @@ class Deploy extends DeployHelper {
 
         /**
          * Git Status Codes
-         *
          * A: addition of a file
          * C: copy of a file into a new one
          * D: deletion of a file
@@ -655,6 +652,7 @@ class Deploy extends DeployHelper {
         );
 
         $options = array_merge($defaults, $this->ftp_data);
+        $options['user'] = $options['username'];
         $this->filesToIgnore = $this->globalFilesToIgnore;
         $this->filesToIgnore = array_merge($this->filesToIgnore, $this->branch['skip_path']);
         if (!empty($this->branch['include_path'])) {
@@ -665,40 +663,56 @@ class Deploy extends DeployHelper {
         $this->purgeDirs = $this->branch['purge_path'];
 
         if ($options['pass'] == '') {
-            $this->log('FTP: FTP does not have a password');
+            $this->log('FTP: Server does not have a password');
         }
 
         $bridgeOptions = array();
+        if ($options['scheme'] == 'sftp' && !empty($options['pub']) && !empty($options['priv'])) {
+            $this->log('FTP: Using key for authentication');
+            $pathId = $options['fspath'];
+            $path = \Gf\Path::get($pathId);
+            if (!\Str::ends_with($path, '/')) $path .= '/';
 
-        // here.
-        if ($options['pubkey'] != '' || $options['privkey'] != '') {
-            // in future.
+            $publicKey = $path . $options['user_id'] . '/' . $options['pub'];
+            $privateKey = $path . $options['user_id'] . '/' . $options['priv'];
+
+            if ($this->debug){
+                $this->log('PUBLICKEY: ' . $publicKey);
+                $this->log('PRIVATEKEY: ' . $privateKey);
+            }
+
             $key = array(
-                'pubkeyfile'  => FALSE,
-                'privkeyfile' => FALSE,
+                'pubkeyfile'  => $publicKey,
+                'privkeyfile' => $privateKey,
                 'user'        => $options['user'],
                 'passphrase'  => FALSE
             );
-
-            if ($options['pubkey'] == '' || !is_readable($options['pubkey'])) {
-                throw new \Exception("Cannot read SSH public key file: {$options['pubkey']}");
-            }
-            $key['pubkeyfile'] = $options['pubkey'];
-
-            if ($options['privkey'] == '' || !is_readable($options['privkey'])) {
-                throw new \Exception("Cannot read SSH private key file: {$options['pubkey']}");
-            }
-            $key['privkeyfile'] = $options['privkey'];
-
-            if ($options['keypass'] !== '') {
-                $key['passphrase'] = $options['keypass'];
-            }
-
             $bridgeOptions['pubkey'] = $key;
         }
 
+//          here.
+//        if ($options['pubkey'] != '' || $options['privkey'] != '') {
+//            if ($options['pubkey'] == '' || !is_readable($options['pubkey'])) {
+//                throw new \Exception("Cannot read SSH public key file: {$options['pubkey']}");
+//            }
+//            $key['pubkeyfile'] = $options['pubkey'];
+//
+//            if ($options['privkey'] == '' || !is_readable($options['privkey'])) {
+//                throw new \Exception("Cannot read SSH private key file: {$options['pubkey']}");
+//            }
+//            $key['privkeyfile'] = $options['privkey'];
+//
+//            if ($options['keypass'] !== '') {
+//                $key['passphrase'] = $options['keypass'];
+//            }
+//
+//            $bridgeOptions['pubkey'] = $key;
+//        }
+        if($this->debug)
+            $this->log(http_build_url('', $options));
         $this->server = array(
-            'url'     => http_build_url('', $options), // Turn options into an URL so that Bridge can work with it.
+            'url'     => http_build_url('', $options),
+            // Turn options into an URL so that Bridge can work with it.
             'options' => $bridgeOptions
         );
     }
@@ -707,9 +721,14 @@ class Deploy extends DeployHelper {
         try {
             $connection = new \Banago\Bridge\Bridge($this->server['url'], $this->server['options']);
             $this->connection = $connection;
+
+            return TRUE;
         } catch (Exception $e) {
-            $this->log('FTP: Error: ' . $e->getMessage());
-            throw $e;
+            $m = $e->getMessage();
+            $m = \Str::sub($m, strrpos($m, ':') + 1, strlen($m));
+            $this->log('FTP: Error: ' . $m);
+
+            return FALSE;
         }
     }
 
@@ -731,11 +750,12 @@ class Deploy extends DeployHelper {
 
                 // If submodules are turned off, don't add them to queue
                 if ($this->scanSubmodules) {
-                    $this->submodules[] = array('revision' => $line[0], 'name' => $line[1], 'path' => $repo . '/' . $line[1]);
-                    $this->output(sprintf('   Found submodule %s. %s',
-                        $line[1],
-                        $this->scanSubSubmodules ? PHP_EOL . '      Scanning for sub-submodules...' : NULL
-                    ));
+                    $this->submodules[] = array(
+                        'revision' => $line[0],
+                        'name'     => $line[1],
+                        'path'     => $repo . '/' . $line[1]
+                    );
+                    $this->output(sprintf('   Found submodule %s. %s', $line[1], $this->scanSubSubmodules ? PHP_EOL . '      Scanning for sub-submodules...' : NULL));
                 }
 
                 $this->globalFilesToIgnore[] = $line[1];

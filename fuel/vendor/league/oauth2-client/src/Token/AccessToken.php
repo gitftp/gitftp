@@ -18,6 +18,11 @@ use InvalidArgumentException;
 use JsonSerializable;
 use RuntimeException;
 
+/**
+ * Represents an access token.
+ *
+ * @link http://tools.ietf.org/html/rfc6749#section-1.4 Access Token (RFC 6749, §1.4)
+ */
 class AccessToken implements JsonSerializable
 {
     /**
@@ -41,7 +46,16 @@ class AccessToken implements JsonSerializable
     protected $resourceOwnerId;
 
     /**
-     * @param array $options
+     * @var array
+     */
+    protected $values = [];
+
+    /**
+     * Constructs an access token.
+     *
+     * @param array $options An array of options returned by the service provider
+     *     in the access token request. The `access_token` option is required.
+     * @throws InvalidArgumentException if `access_token` is not provided in `$options`.
      */
     public function __construct(array $options = [])
     {
@@ -68,9 +82,38 @@ class AccessToken implements JsonSerializable
             // Some providers supply the seconds until expiration rather than
             // the exact timestamp. Take a best guess at which we received.
             $expires = $options['expires'];
-            $expiresInFuture = $expires > time();
-            $this->expires = $expiresInFuture ? $expires : time() + ((int) $expires);
+
+            if (!$this->isExpirationTimestamp($expires)) {
+                $expires += time();
+            }
+
+            $this->expires = $expires;
         }
+
+        // Capure any additional values that might exist in the token but are
+        // not part of the standard response. Vendors will sometimes pass
+        // additional user data this way.
+        $this->values = array_diff_key($options, array_flip([
+            'access_token',
+            'resource_owner_id',
+            'refresh_token',
+            'expires_in',
+            'expires',
+        ]));
+    }
+
+    /**
+     * Check if a value is an expiration timestamp or second value.
+     *
+     * @param integer $value
+     * @return bool
+     */
+    protected function isExpirationTimestamp($value)
+    {
+        // If the given value is larger than the original OAuth 2 draft date,
+        // assume that it is meant to be a (possible expired) timestamp.
+        $oauth2InceptionDate = 1349067600; // 2012-10-01
+        return ($value > $oauth2InceptionDate);
     }
 
     /**
@@ -131,6 +174,16 @@ class AccessToken implements JsonSerializable
     }
 
     /**
+     * Returns additional vendor values stored in the token.
+     *
+     * @return array
+     */
+    public function getValues()
+    {
+        return $this->values;
+    }
+
+    /**
      * Returns the token key.
      *
      * @return string
@@ -148,7 +201,7 @@ class AccessToken implements JsonSerializable
      */
     public function jsonSerialize()
     {
-        $parameters = [];
+        $parameters = $this->values;
 
         if ($this->accessToken) {
             $parameters['access_token'] = $this->accessToken;
@@ -159,7 +212,11 @@ class AccessToken implements JsonSerializable
         }
 
         if ($this->expires) {
-            $parameters['expires_in'] = $this->expires - time();
+            $parameters['expires'] = $this->expires;
+        }
+
+        if ($this->resourceOwnerId) {
+            $parameters['resource_owner_id'] = $this->resourceOwnerId;
         }
 
         return $parameters;

@@ -20,6 +20,10 @@ use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Tool\BearerAuthorizationTrait;
 use Psr\Http\Message\ResponseInterface;
 
+/**
+ * Represents a generic service provider that may be used to interact with any
+ * OAuth 2.0 service provider, using Bearer token authentication.
+ */
 class GenericProvider extends AbstractProvider
 {
     use BearerAuthorizationTrait;
@@ -92,7 +96,7 @@ class GenericProvider extends AbstractProvider
         // Remove all options that are only used locally
         $options = array_diff_key($options, $configured);
 
-        return parent::__construct($options, $collaborators);
+        parent::__construct($options, $collaborators);
     }
 
     /**
@@ -137,7 +141,8 @@ class GenericProvider extends AbstractProvider
     private function assertRequiredOptions(array $options)
     {
         $missing = array_diff_key(array_flip($this->getRequiredOptions()), $options);
-        if ($missing) {
+
+        if (!empty($missing)) {
             throw new InvalidArgumentException(
                 'Required options not defined: ' . implode(', ', array_keys($missing))
             );

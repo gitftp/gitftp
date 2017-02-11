@@ -14,23 +14,32 @@
 
 namespace League\OAuth2\Client\Provider;
 
-use Closure;
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\ClientInterface as HttpClientInterface;
 use GuzzleHttp\Exception\BadResponseException;
-use InvalidArgumentException;
 use League\OAuth2\Client\Grant\AbstractGrant;
 use League\OAuth2\Client\Grant\GrantFactory;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Tool\ArrayAccessorTrait;
+use League\OAuth2\Client\Tool\QueryBuilderTrait;
 use League\OAuth2\Client\Tool\RequestFactory;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 use RandomLib\Factory as RandomFactory;
+use RandomLib\Generator as RandomGenerator;
 use UnexpectedValueException;
 
+/**
+ * Represents a service provider (authorization server).
+ *
+ * @link http://tools.ietf.org/html/rfc6749#section-1.1 Roles (RFC 6749, §1.1)
+ */
 abstract class AbstractProvider
 {
+    use ArrayAccessorTrait;
+    use QueryBuilderTrait;
+
     /**
      * @var string Key used in a token response to identify the resource owner.
      */
@@ -77,7 +86,7 @@ abstract class AbstractProvider
     protected $requestFactory;
 
     /**
-     * @var HttpAdapterInterface
+     * @var HttpClientInterface
      */
     protected $httpClient;
 
@@ -87,8 +96,15 @@ abstract class AbstractProvider
     protected $randomFactory;
 
     /**
-     * @param array $options
-     * @param array $collaborators
+     * Constructs an OAuth 2.0 service provider.
+     *
+     * @param array $options An array of options to set on this provider.
+     *     Options include `clientId`, `clientSecret`, `redirectUri`, and `state`.
+     *     Individual providers may introduce more options, as needed.
+     * @param array $collaborators An array of collaborators that may be used to
+     *     override this provider's default behavior. Collaborators include
+     *     `grantFactory`, `requestFactory`, `httpClient`, and `randomFactory`.
+     *     Individual providers may introduce more collaborators, as needed.
      */
     public function __construct(array $options = [], array $collaborators = [])
     {
@@ -109,7 +125,8 @@ abstract class AbstractProvider
         $this->setRequestFactory($collaborators['requestFactory']);
 
         if (empty($collaborators['httpClient'])) {
-            $client_options = ['timeout'];
+            $client_options = $this->getAllowedClientOptions($options);
+
             $collaborators['httpClient'] = new HttpClient(
                 array_intersect_key($options, array_flip($client_options))
             );
@@ -123,10 +140,30 @@ abstract class AbstractProvider
     }
 
     /**
+     * Return the list of options that can be passed to the HttpClient
+     *
+     * @param array $options An array of options to set on this provider.
+     *     Options include `clientId`, `clientSecret`, `redirectUri`, and `state`.
+     *     Individual providers may introduce more options, as needed.
+     * @return array The options to pass to the HttpClient constructor
+     */
+    protected function getAllowedClientOptions(array $options)
+    {
+        $client_options = ['timeout', 'proxy'];
+
+        // Only allow turning off ssl verification is it's for a proxy
+        if (!empty($options['proxy'])) {
+            $client_options[] = 'verify';
+        }
+
+        return $client_options;
+    }
+
+    /**
      * Sets the grant factory instance.
      *
      * @param  GrantFactory $factory
-     * @return $this
+     * @return self
      */
     public function setGrantFactory(GrantFactory $factory)
     {
@@ -149,7 +186,7 @@ abstract class AbstractProvider
      * Sets the request factory instance.
      *
      * @param  RequestFactory $factory
-     * @return $this
+     * @return self
      */
     public function setRequestFactory(RequestFactory $factory)
     {
@@ -172,7 +209,7 @@ abstract class AbstractProvider
      * Sets the HTTP client instance.
      *
      * @param  HttpClientInterface $client
-     * @return $this
+     * @return self
      */
     public function setHttpClient(HttpClientInterface $client)
     {
@@ -195,7 +232,7 @@ abstract class AbstractProvider
      * Sets the instance of the CSPRNG random generator factory.
      *
      * @param  RandomFactory $factory
-     * @return $this
+     * @return self
      */
     public function setRandomFactory(RandomFactory $factory)
     {
@@ -266,7 +303,7 @@ abstract class AbstractProvider
             ->getRandomFactory()
             ->getMediumStrengthGenerator();
 
-        return $generator->generateString($length);
+        return $generator->generateString($length, RandomGenerator::CHAR_ALNUM);
     }
 
     /**
@@ -319,14 +356,11 @@ abstract class AbstractProvider
         // Store the state as it may need to be accessed later on.
         $this->state = $options['state'];
 
-        return [
-            'client_id'       => $this->clientId,
-            'redirect_uri'    => $this->redirectUri,
-            'state'           => $this->state,
-            'scope'           => $options['scope'],
-            'response_type'   => $options['response_type'],
-            'approval_prompt' => $options['approval_prompt'],
-        ];
+        $options['client_id'] = $this->clientId;
+        $options['redirect_uri'] = $this->redirectUri;
+        $options['state'] = $this->state;
+
+        return $options;
     }
 
     /**
@@ -337,7 +371,7 @@ abstract class AbstractProvider
      */
     protected function getAuthorizationQuery(array $params)
     {
-        return http_build_query($params);
+        return $this->buildQueryString($params);
     }
 
     /**
@@ -389,7 +423,7 @@ abstract class AbstractProvider
         $query = trim($query, '?&');
 
         if ($query) {
-            return $url.'?'.$query;
+            return $url . '?' . $query;
         }
 
         return $url;
@@ -408,7 +442,7 @@ abstract class AbstractProvider
     /**
      * Returns the key used in the access token response to identify the resource owner.
      *
-     * @return string Resource owner identifier key
+     * @return string|null Resource owner identifier key
      */
     protected function getAccessTokenResourceOwnerId()
     {
@@ -423,14 +457,14 @@ abstract class AbstractProvider
      */
     protected function getAccessTokenQuery(array $params)
     {
-        return http_build_query($params);
+        return $this->buildQueryString($params);
     }
 
     /**
      * Checks that a provided grant is valid, or attempts to produce one if the
      * provided grant is a string.
      *
-     * @param  mixed $grant
+     * @param  AbstractGrant|string $grant
      * @return AbstractGrant
      */
     protected function verifyGrant($grant)
@@ -447,6 +481,7 @@ abstract class AbstractProvider
      * Returns the full URL to use when requesting an access token.
      *
      * @param array $params Query parameters
+     * @return string
      */
     protected function getAccessTokenUrl(array $params)
     {
@@ -468,7 +503,7 @@ abstract class AbstractProvider
      */
     protected function getAccessTokenBody(array $params)
     {
-        return http_build_query($params);
+        return $this->buildQueryString($params);
     }
 
     /**
@@ -492,6 +527,7 @@ abstract class AbstractProvider
      * Returns a prepared request for requesting an access token.
      *
      * @param array $params Query string parameters
+     * @return RequestInterface
      */
     protected function getAccessTokenRequest(array $params)
     {
@@ -679,7 +715,7 @@ abstract class AbstractProvider
      *
      * @throws IdentityProviderException
      * @param  ResponseInterface $response
-     * @param  string $data Parsed response data
+     * @param  array|string $data Parsed response data
      * @return void
      */
     abstract protected function checkResponse(ResponseInterface $response, $data);
@@ -695,10 +731,10 @@ abstract class AbstractProvider
      */
     protected function prepareAccessTokenResponse(array $result)
     {
-        if ($this->getAccessTokenResourceOwnerId()) {
+        if ($this->getAccessTokenResourceOwnerId() !== null) {
             $result['resource_owner_id'] = $this->getValueByKey(
-                $this->getAccessTokenResourceOwnerId(),
-                $result
+                $result,
+                $this->getAccessTokenResourceOwnerId()
             );
         }
         return $result;
@@ -804,36 +840,5 @@ abstract class AbstractProvider
         }
 
         return $this->getDefaultHeaders();
-    }
-
-    /**
-     * Returns a value by key using dot notation.
-     *
-     * @param  string $key
-     * @param  array $data
-     * @param  mixed|null $default
-     * @return mixed
-     */
-    protected function getValueByKey($key, array $data, $default = null)
-    {
-        if (!is_string($key) || empty($key) || !count($data)) {
-            return $default;
-        }
-
-        if (strpos($key, '.') !== false) {
-            $keys = explode('.', $key);
-
-            foreach ($keys as $innerKey) {
-                if (!array_key_exists($innerKey, $data)) {
-                    return $default;
-                }
-
-                $data = $data[$innerKey];
-            }
-
-            return $data;
-        }
-
-        return array_key_exists($key, $data) ? $data[$key] : $default;
     }
 }

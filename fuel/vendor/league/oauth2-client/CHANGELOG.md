@@ -1,5 +1,60 @@
 # OAuth 2.0 Client Changelog
 
+## 1.4.1
+
+_Released: 2016-04-29_
+
+* Add `QueryBuilderTrait` to standardize query string generation.
+
+## 1.4.0
+
+_Released: 2016-04-19_
+
+* Add `AccessToken::getValues()` to access additional vendor data provided with tokens.
+
+## 1.3.0
+
+_Released: 2016-02-13_
+
+* Enable dynamic parameters being passed into the authorization URL.
+* Minor documentation updates.
+
+## 1.2.0
+
+_Released: 2016-01-23_
+
+* Add `resource_owner_id` to the JSON-serialized representation of the access token.
+* Minor documentation updates and improved test coverage.
+
+## 1.1.0
+
+_Released: 2015-11-13_
+
+* Add `ArrayAccessorTrait`, update `AbstractProvider` to utilize.
+* Use `expires` to serialize access tokens.
+* Documentation updates.
+
+## 1.0.2
+
+_Released: 2015-09-22_
+
+* Allow access tokens to be created from storage (see #431).
+* Minor fixes and documentation updates.
+
+## 1.0.1
+
+_Released: 2015-08-26_
+
+* Allow required parameters checked using the `RequiredParameterTrait` to be set as `false`, `null`, `"0"`, etc.
+
+## 1.0.0
+
+_Released: 2015-08-19_
+
+* We are running code-quality builds through Scrutinizer, and we are running unit test builds on the new Travis CI container-based infrastructure.
+* Cleaned up code, as recommended by Scrutinizer.
+* Documentation updates.
+
 ## 1.0.0-beta2
 
 _Released: 2015-08-12_

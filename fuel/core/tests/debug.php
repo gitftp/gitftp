@@ -3,10 +3,10 @@
  * Part of the Fuel framework.
  *
  * @package    Fuel
- * @version    1.7
+ * @version    1.8
  * @author     Fuel Development Team
  * @license    MIT License
- * @copyright  2010 - 2015 Fuel Development Team
+ * @copyright  2010 - 2016 Fuel Development Team
  * @link       http://fuelphp.com
  */
 
@@ -59,7 +59,7 @@ class Test_Debug extends TestCase
 
   	public function test_debug_dump_by_call_fuel_func_array()
  	{
-		$expected = '<div class="fuelphp-dump" style="font-size: 13px;background: #EEE !important; border:1px solid #666; color: #000 !important; padding:10px;"><h1 style="border-bottom: 1px solid #CCC; padding: 0 0 5px 0; margin: 0 0 5px 0; font: bold 120% sans-serif;">COREPATH/base.php @ line: 485</h1><pre style="overflow:auto;font-size:100%;"><strong>Variable #1:</strong>
+		$expected = '<div class="fuelphp-dump" style="font-size: 13px;background: #EEE !important; border:1px solid #666; color: #000 !important; padding:10px;"><h1 style="border-bottom: 1px solid #CCC; padding: 0 0 5px 0; margin: 0 0 5px 0; font: bold 120% sans-serif;">COREPATH/base.php @ line: %d</h1><pre style="overflow:auto;font-size:100%;"><strong>Variable #1:</strong>
 <i></i> <strong></strong> (Integer): 1
 
 
@@ -73,11 +73,16 @@ class Test_Debug extends TestCase
 
 </pre></div>';
 
+		if (PHP_VERSION_ID >= 50600)
+		{
+			$expected = str_replace('base.php', 'base56.php', $expected);
+		}
+
 		ob_start();
  		call_fuel_func_array('\\Debug::dump', array(1, 2, 3));
  		$output = ob_get_contents();
  		ob_end_clean();
 
-		$this->assertEquals($expected, $output);
+		$this->assertStringMatchesFormat($expected, $output);
  	}
 }

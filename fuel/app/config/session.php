@@ -39,7 +39,7 @@ return array(
     'match_ua'               => FALSE,
 
     // cookie domain  (optional, default = '')
-    'cookie_domain'          => '.gitftp.com',
+    'cookie_domain'          => '',
 
     // cookie path  (optional, default = '/')
     'cookie_path'            => '/',

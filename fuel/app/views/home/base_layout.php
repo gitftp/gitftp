@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <?php echo $meta ?>
-    <?php echo $css ?>
-    <?php echo $js ?>
+    <?php // echo $meta ?>
+    <?php // echo $css ?>
+    <?php // echo $js ?>
     <!--[if lt IE 9]>
     <script src="assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <!--[if lt IE 9]>
@@ -13,9 +13,9 @@
 </head>
 <body class="loaded">
 <div class="layout-wrapper page" id="page">
-    <?php echo $header ?>
-    <?php echo $body ?>
-    <?php echo $footer ?>
+    <?php // echo $header ?>
+    <?php // echo $body ?>
+    <?php // echo $footer ?>
 </div>
 </body>
 </html>

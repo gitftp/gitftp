@@ -4,6 +4,8 @@ class Model_Record extends Model {
     private $table = 'records';
     public $user_id;
 
+
+
     // status states
     public $in_queue = '3';
     public $in_progress = '2';

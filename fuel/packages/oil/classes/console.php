@@ -136,11 +136,11 @@ HELP;
 				}
 				elseif (is_string($ret))
 				{
-					echo addcslashes($ret, "\0..\37\177..\377");
+					echo addcslashes($ret, "\0..\11\13\14\16..\37\177..\377");
 				}
 				elseif ( ! is_null($ret))
 				{
-					var_export($ret);
+					print_r($ret);
 				}
 			}
 

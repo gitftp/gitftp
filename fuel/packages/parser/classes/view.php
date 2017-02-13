@@ -23,7 +23,17 @@ class View extends \Fuel\Core\View
 
 	public static function _init()
 	{
-		\Config::load('parser', true);
+		// get and normalize the config
+		$parser = \Config::load('parser', true);
+		foreach (\Config::get('parser.extensions', array()) as $extension => $config)
+		{
+			if (isset($config['extension']))
+			{
+				unset($parser['extensions'][$extension]);
+				$parser['extensions'][$config['extension']] = $config;
+			}
+		}
+		\Config::set('parser', $parser);
 
 		// Get class name
 		$class = \Inflector::denamespace(get_called_class());
@@ -53,13 +63,11 @@ class View extends \Fuel\Core\View
 	public static function forge($file = null, $data = null, $auto_encode = null)
 	{
 		$class = null;
-
 		$extension = 'php';
 
 		if ($file !== null)
 		{
 			$extension = pathinfo($file, PATHINFO_EXTENSION);
-
 			$class = \Config::get('parser.extensions.'.$extension, null);
 		}
 
@@ -91,8 +99,8 @@ class View extends \Fuel\Core\View
 			$auto_encode = \Config::get('parser.'.$class.'.auto_encode', null);
 		}
 
-		$view = new $class($file, $data, $auto_encode);
+		$view = new $class(null, $data, $auto_encode);
 
-		return $view;
+		return $view->set_filename($file, true);
 	}
 }

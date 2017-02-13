@@ -117,14 +117,14 @@ return array(
         /**
          * A salt to make sure the generated security tokens are not predictable
          */
-        'token_salt'          => 'SOMETHINGREALLYREALLYSTRONG',
+        'token_salt'          => 'werc3rt25c423v5423xc423c5423',
 
         /**
          * Allow the Input class to use X headers when present
          * Examples of these are HTTP_X_FORWARDED_FOR and HTTP_X_FORWARDED_PROTO, which
          * can be faked which could have security implications
          */
-        // 'allow_x_headers'       => false,
+         'allow_x_headers'       => false,
 
         /**
          * This input filter can be any normal PHP function as well as 'xss_clean'
@@ -138,7 +138,7 @@ return array(
          * WARNING: Using xss_clean will cause a performance hit.
          * How much is dependant on how much input data there is.
          */
-        // 'input_filter'  => array(),
+         'input_filter'  => array('xss_clean'),
 
         /**
          * This output filter can be any normal PHP function as well as 'xss_clean'

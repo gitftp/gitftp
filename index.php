@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Fuel is a fast, lightweight, community driven PHP5 framework.
  *
@@ -20,104 +21,102 @@ ini_set('display_errors', 1);
 /**
  * Website document root
  */
-define('DOCROOT', __DIR__.DIRECTORY_SEPARATOR);
+define('DOCROOT', __DIR__ . DIRECTORY_SEPARATOR);
 
 /**
  * Path to the application directory.
  */
-define('APPPATH', realpath(__DIR__.'/fuel/app/').DIRECTORY_SEPARATOR);
+define('APPPATH', realpath(__DIR__ . '/fuel/app/') . DIRECTORY_SEPARATOR);
 
 /**
  * Path to the default packages directory.
  */
-define('PKGPATH', realpath(__DIR__.'/fuel/packages/').DIRECTORY_SEPARATOR);
+define('PKGPATH', realpath(__DIR__ . '/fuel/packages/') . DIRECTORY_SEPARATOR);
 
 /**
  * The path to the framework core.
  */
-define('COREPATH', realpath(__DIR__.'/fuel/core/').DIRECTORY_SEPARATOR);
+define('COREPATH', realpath(__DIR__ . '/fuel/core/') . DIRECTORY_SEPARATOR);
 
 // Get the start time and memory for use later
 defined('FUEL_START_TIME') or define('FUEL_START_TIME', microtime(true));
 defined('FUEL_START_MEM') or define('FUEL_START_MEM', memory_get_usage());
 
+/**
+ * Gitftp loading configs
+ */
+define('GF_CONFIG_FILE', realpath(__DIR__ . '/.config.json'));
+define('GF_CONFIG_FILE_NEW', realpath(__DIR__ . '/.config.new.json'));
+$is_exists = file_exists(GF_CONFIG_FILE);
+if ($is_exists) {
+    //read the file and set the variables.
+//    echo 'The config file exists';
+} else {
+    $config_file_h = fopen(GF_CONFIG_FILE_NEW, 'r');
+    $config_file = fread($config_file_h, filesize(GF_CONFIG_FILE_NEW));
+//    echo 'The config file does not exists';
+}
+define('GF_CONFIG_FILE_EXISTS', $is_exists);
+
 // Load in the Fuel autoloader
-if ( ! file_exists(COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php'))
-{
-	die('No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!');
+if (!file_exists(COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php')) {
+    die('No composer autoloader found. Please run composer to install the FuelPHP framework dependencies first!');
 }
 
 // Activate the framework class autoloader
-require COREPATH.'classes'.DIRECTORY_SEPARATOR.'autoloader.php';
+require COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php';
 class_alias('Fuel\\Core\\Autoloader', 'Autoloader');
 
 // Exception route processing closure
-$routerequest = function($route = null, $e = false)
-{
-	Request::reset_request(true);
+$routerequest = function ($route = null, $e = false) {
+    Request::reset_request(true);
 
-	$route = array_key_exists($route, Router::$routes) ? Router::$routes[$route]->translation : Config::get('routes.'.$route);
+    $route = array_key_exists($route, Router::$routes) ? Router::$routes[$route]->translation : Config::get('routes.' . $route);
 
-	if ($route instanceof Closure)
-	{
-		$response = $route();
+    if ($route instanceof Closure) {
+        $response = $route();
 
-		if( ! $response instanceof Response)
-		{
-			$response = Response::forge($response);
-		}
-	}
-	elseif ($e === false)
-	{
-		$response = Request::forge()->execute()->response();
-	}
-	elseif ($route)
-	{
-		$response = Request::forge($route, false)->execute(array($e))->response();
-	}
-	else
-	{
+        if (!$response instanceof Response) {
+            $response = Response::forge($response);
+        }
+    } elseif ($e === false) {
+        $response = Request::forge()->execute()->response();
+    } elseif ($route) {
+        $response = Request::forge($route, false)->execute([$e])->response();
+    } else {
 //		throw $e;
-	}
+    }
 
-	return $response;
+    return $response;
 };
 
 // Generate the request, execute it and send the output.
-try
-{
-	// Boot the app...
-	require APPPATH.'bootstrap.php';
+try {
+    // Boot the app...
+    require APPPATH . 'bootstrap.php';
 
-	// ... and execute the main request
-	$response = $routerequest();
-}
-catch (HttpNoAccessException $e)
-{
-	$response = $routerequest('_403_', $e);
-}
-catch (HttpNotFoundException $e)
-{
-	$response = $routerequest('_404_', $e);
-}
-catch (HttpServerErrorException $e)
-{
-	$response = $routerequest('_500_', $e);
+    // ... and execute the main request
+    $response = $routerequest();
+} catch (HttpNoAccessException $e) {
+    $response = $routerequest('_403_', $e);
+} catch (HttpNotFoundException $e) {
+    $response = $routerequest('_404_', $e);
+} catch (HttpServerErrorException $e) {
+    $response = $routerequest('_500_', $e);
 }
 
 // This will add the execution time and memory usage to the output.
 // Comment this out if you don't use it.
-$response->body((string) $response);
-if (strpos($response->body(), '{exec_time}') !== false or strpos($response->body(), '{mem_usage}') !== false)
-{
-	$bm = Profiler::app_total();
-	$response->body(
-		str_replace(
-			array('{exec_time}', '{mem_usage}'),
-			array(round($bm[0], 4), round($bm[1] / pow(1024, 2), 3)),
-			$response->body()
-		)
-	);
+$response->body((string)$response);
+if (strpos($response->body(), '{exec_time}') !== false or strpos($response->body(), '{mem_usage}') !== false) {
+    $bm = Profiler::app_total();
+    $response->body(
+        str_replace(
+            ['{exec_time}', '{mem_usage}'],
+            [round($bm[0], 4), round($bm[1] / pow(1024, 2), 3)],
+            $response->body()
+        )
+    );
 }
 
 // Send the output to the client

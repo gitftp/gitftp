@@ -7,8 +7,6 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'Suin\\RSSWriter' => array($vendorDir . '/suin/php-rss-writer/src'),
-    'SecurityLib' => array($vendorDir . '/ircmaxell/security-lib/lib'),
-    'RandomLib' => array($vendorDir . '/ircmaxell/random-lib/lib'),
     'Mustache' => array($vendorDir . '/mustache/mustache/src'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
     'Michelf' => array($vendorDir . '/michelf/php-markdown'),

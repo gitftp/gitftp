@@ -4,29 +4,19 @@ class Controller_Setup_Api extends Controller_Rest {
 
     public function post_dep_test () {
         try {
-
-            $php = 2;
-            if (version_compare(PHP_VERSION, '5.3', '>=')) {
-                $php = 1;
-            }
-
-            $git_version = false;
-            $git = 2;
-            $op = exec('git --version');
-            if (strpos($op, 'git version') !== false) {
-                $git = 1;
-                $git_version = str_replace($op, 'git version', '');
-            }
+            $dependencies = \Gf\Misc::dependenciesCheck();
 
             $r = [
                 'status' => true,
                 'data'   => [
-                    'php' => [$php, PHP_VERSION],
-                    'git' => [$git, $git_version],
+                    'php'   => $dependencies['php'],
+                    'git'   => $dependencies['git'],
+                    'os'    => $dependencies['os'],
+                    'allOk' => $dependencies['ok'],
                 ],
             ];
         } catch (\Exception $e) {
-//            $e = \Nb\Exception\ExceptionInterceptor::intercept($e);
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
             $r = [
                 'status' => false,
                 'reason' => $e->getMessage(),
@@ -42,12 +32,20 @@ class Controller_Setup_Api extends Controller_Rest {
             $password = \Fuel\Core\Input::json('db.password');
             $dbname = \Fuel\Core\Input::json('db.dbname');
 
+            if (!function_exists('mysqli_connect')) {
+                throw new \Gf\Exception\UserException('Mysqli extension was not found, please install the php_mysqli extension');
+            }
+
+            $connection = mysqli_connect($host, $username, $password, $dbname);
+            if ($error_code = mysqli_connect_errno()) {
+                throw new \Gf\Exception\UserException('Error in connecting to MySql Database');
+            }
 
             $r = [
                 'status' => true,
             ];
         } catch (\Exception $e) {
-//            $e = \Nb\Exception\ExceptionInterceptor::intercept($e);
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
             $r = [
                 'status' => false,
                 'reason' => $e->getMessage(),

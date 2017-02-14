@@ -6,12 +6,8 @@ class Controller_Start extends Controller {
 
         if (!GF_CONFIG_FILE_EXISTS) {
             \Fuel\Core\Response::redirect('setup/start');
-        }else{
+        } else {
             echo 'welcome';
         }
-    }
-
-    public function get_one () {
-        echo 'hey';
     }
 }

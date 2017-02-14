@@ -1,7 +1,7 @@
 <?php
 namespace Gf;
 
-class Settings {
+class Settings2 {
     public static $table = 'options';
     public static $db = 'frontend';
     public static $cname = 'settings';

@@ -14,51 +14,59 @@
                 <table class="table">
                     <tr>
                         <td style="width: 50px">
-                            <div ng-if="step1Loading" class="loader" style="width: 19px">
+                            <div ng-if="step1.loading" class="loader" style="width: 19px">
                                 <svg class="circular" viewBox="25 25 50 50">
                                     <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5"
                                             stroke-miterlimit="10"/>
                                 </svg>
                             </div>
-                            <i ng-if="step1Php == 2 && !step1Loading" class="zmdi zmdi-close-circle red"
+                            <i ng-if="step1.dep.php == 2 && !step1.loading" class="zmdi zmdi-close-circle red"
                                style="font-size: 21px;text-align: center;"></i>
-                            <i ng-if="step1Php == 1 && !step1Loading" class="zmdi zmdi-check-circle green"
+                            <i ng-if="step1.dep.php == 1 && !step1.loading" class="zmdi zmdi-check-circle green"
                                style="font-size: 21px;text-align: center;"></i>
                         </td>
                         <td>
                             PHP version
-                            <div ng-if="step1PhpVersion" class="text-muted" style="font-size: 10px">{{step1PhpVersion}}</div>
+                            <div ng-if="step1.dep.phpVersion" class="text-muted" style="font-size: 12px">
+                                {{step1.dep.phpVersion}}
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <div ng-if="step1Loading" class="loader" style="width: 19px">
+                            <div ng-if="step1.loading" class="loader" style="width: 19px">
                                 <svg class="circular" viewBox="25 25 50 50">
                                     <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="5"
                                             stroke-miterlimit="10"/>
                                 </svg>
                             </div>
-                            <i ng-if="step1Git == 2 && !step1Loading" class="zmdi zmdi-close-circle red"
+                            <i ng-if="step1.dep.git == 2 && !step1.loading" class="zmdi zmdi-close-circle red"
                                style="font-size: 21px;text-align: center;"></i>
-                            <i ng-if="step1Git == 1 && !step1Loading" class="zmdi zmdi-check-circle green"
+                            <i ng-if="step1.dep.git == 1 && !step1.loading" class="zmdi zmdi-check-circle green"
                                style="font-size: 21px;text-align: center;"></i>
                         </td>
                         <td>
                             Git
-                            <div ng-if="step1GitVersion" class="text-muted" style="font-size: 10px">{{step1GitVersion}}</div>
+                            <div ng-if="step1.dep.gitVersion" class="text-muted" style="font-size: 12px">
+                                {{step1.dep.gitVersion}}
+                            </div>
                         </td>
                     </tr>
                 </table>
-                <div ng-show="!step1Loading">
+                <div ng-show="!step1.loading && !step1.go">
                     <div class="space20"></div>
                     <div class="text-center">
                         <button type="button" class="md-btn md-raised white blue-bg p-h-md waves-effect"
-                                ng-click="start1()">Start
+                                ng-click="step1.start()">Start
                         </button>
                     </div>
                 </div>
-                <div ng-show="!step1Loading && step1Go">
+                <div ng-show="!step1.loading && step1.go">
                     <div class="space20"></div>
+                    <p ng-if="step1.os_name" class="text-center">
+                        Operating System: {{step1.os_name}} <br>
+                        Everything looks good.
+                    </p>
                     <div class="text-center">
                         <button type="button" class="md-btn md-raised white blue-bg p-h-md waves-effect"
                                 ng-click="step2()">Continue
@@ -68,8 +76,8 @@
             </div>
             <div class="p-lg panel shadow-x2 text-color m" ng-show="step == 2">
                 <div class="m-b text-sm text-center">
-                    Welcome to the Gitftp setup <br>
-                    lets start with setting up the database
+                    <h4 class="no-margin-top">Setup</h4>
+                    <span>2 of 3: Database</span>
                 </div>
                 <form name="form" class="no-margin" ng-submit="test_database()">
                     <div class="md-form-group float-label">
@@ -88,12 +96,22 @@
                         <input type="text" class="md-input" required ng-model="db.dbname">
                         <label>Database name</label>
                     </div>
-                    <button type="button" ng-disabled="form.$invalid"
+                    <button type="submit" ng-disabled="form.$invalid"
                             class="md-btn md-raised white blue-bg p-h-md waves-effect pull-right">
                         next <i class="zmdi zmdi-arrow-right"></i>
                     </button>
                     <div class="clearfix"></div>
                 </form>
+            </div>
+            <div class="p-lg panel shadow-x2 text-color m" ng-show="step == 3">
+                <div class="m-b text-sm text-center">
+                    <h4 class="no-margin-top">Finsihed</h4>
+                    <span>Thanks for installing Gitftp</span>
+                </div>
+                <button type="button" ng-disabled="form.$invalid"
+                        class="md-btn md-raised white blue-bg p-h-md waves-effect btn-block">
+                    Goto dashboartd
+                </button>
             </div>
         </div>
     </div>
@@ -105,40 +123,57 @@
             '$http',
             function ($scope, $http) {
                 $scope.step = 1;
-                $scope.tests = [];
-                $scope.step1Loading = false;
-                $scope.step1Go = false;
                 var current = '<?php echo \Fuel\Core\Uri::base() ?>setup/api';
-                $scope.step1Php = false;
-                $scope.step1PhpVersion = false;
-                $scope.step1Git = false;
-                $scope.step1GitVersion = false;
 
-                $scope.start1 = function () {
-                    $scope.step1Loading = true;
+                // step1
+                var s1 = $scope.step1 = {};
+                s1.loading = false;
+                s1.go = false;
+                s1.dep = {
+                    php: false,
+                    phpVersion: false,
+                    git: false,
+                    gitVersion: false,
+                };
+
+                s1.start = function () {
+                    s1.loading = true;
                     $http.post(current + '/dep_test.json', {}).then(function (res) {
                         if (res.data.status) {
-                            $scope.step1Php = res.data.data.php[0];
-                            $scope.step1PhpVersion = res.data.data.php[1];
-                            $scope.step1Git = res.data.data.git[0];
-                            $scope.step1GitVersion = res.data.data.git[1];
+                            s1.dep.php = res.data.data.php[0];
+                            s1.dep.phpVersion = res.data.data.php[1];
+                            s1.dep.git = res.data.data.git[0];
+                            s1.dep.gitVersion = res.data.data.git[1];
+                            s1.go = res.data.data.allOk;
+                            s1.os_name = res.data.data.os;
                         }
                         else {
-                            n();
+                            n(res.data.reason, 'error');
                         }
-                        $scope.step1Loading = false;
+                        s1.loading = false;
                     }, function () {
-                        $scope.step1Loading = false;
+                        s1.loading = false;
                         n('Could not connect', 'error');
                     })
                 };
+                $scope.step2 = function () {
+                    if (s1.go) {
+                        $scope.step = 2;
+                    }
+                };
 
+
+                // step2
                 $scope.db = {};
                 $scope.test_database = function () {
                     $http.post(current + '/db_test', {
                         db: $scope.db
-                    }).then(function () {
-
+                    }).then(function (res) {
+                        if (res.data.status) {
+                            $scope.step = 3;
+                        } else {
+                            n(res.data.reason);
+                        }
                     }, function () {
                         n('Could not connect', 'error');
                     });

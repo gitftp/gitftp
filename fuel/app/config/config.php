@@ -10,7 +10,7 @@
  * @link       http://fuelphp.com
  */
 
-return array(
+return [
 
     /**
      * base_url - The base URL of the application.
@@ -37,7 +37,7 @@ return array(
      */
     // 'index_file' => false,
 
-    'profiling'         => FALSE,
+    'profiling'         => false,
 
     /**
      * Default location for the file cache
@@ -109,8 +109,8 @@ return array(
     /**
      * Security settings
      */
-    'security'          => array(
-        'csrf_autoload'       => FALSE,
+    'security'          => [
+        'csrf_autoload'       => false,
         'csrf_token_key'      => 'fuel_csrf_token',
         'csrf_expiration'     => 0,
 
@@ -124,28 +124,28 @@ return array(
          * Examples of these are HTTP_X_FORWARDED_FOR and HTTP_X_FORWARDED_PROTO, which
          * can be faked which could have security implications
          */
-         'allow_x_headers'       => false,
+        'allow_x_headers'     => false,
 
         /**
          * This input filter can be any normal PHP function as well as 'xss_clean'
          * WARNING: Using xss_clean will cause a performance hit.
          * How much is dependant on how much input data there is.
          */
-        'uri_filter'          => array('htmlentities'),
+        'uri_filter'          => ['htmlentities'],
 
         /**
          * This input filter can be any normal PHP function as well as 'xss_clean'
          * WARNING: Using xss_clean will cause a performance hit.
          * How much is dependant on how much input data there is.
          */
-         'input_filter'  => array('xss_clean'),
+        'input_filter'        => ['xss_clean'],
 
         /**
          * This output filter can be any normal PHP function as well as 'xss_clean'
          * WARNING: Using xss_clean will cause a performance hit.
          * How much is dependant on how much input data there is.
          */
-        'output_filter'       => array('Security::htmlentities'),
+        'output_filter'       => ['Security::htmlentities'],
 
         /**
          * Encoding mechanism to use on htmlentities()
@@ -166,19 +166,19 @@ return array(
          * With output encoding switched on all objects passed will be converted to strings or
          * throw exceptions unless they are instances of the classes in this array.
          */
-        'whitelisted_classes' => array(
+        'whitelisted_classes' => [
             'Fuel\\Core\\Presenter',
             'Fuel\\Core\\Response',
             'Fuel\\Core\\View',
             'Fuel\\Core\\ViewModel',
             'Closure',
-        ),
-    ),
+        ],
+    ],
 
     /**
      * Cookie settings
      */
-    'cookie'            => array(
+    'cookie'            => [
         // Number of seconds before the cookie expires
         'expiration' => 0,
         // Restrict the path that the cookie is available to
@@ -186,20 +186,20 @@ return array(
         // Restrict the domain that the cookie is available to
         'domain'     => '.gitftp.com',
         // Only transmit cookies over secure connections
-        'secure'     => FALSE,
+        'secure'     => false,
         // Only transmit cookies over HTTP, disabling Javascript access
-        'http_only'  => FALSE,
-    ),
+        'http_only'  => false,
+    ],
 
     /**
      * Validation settings
      */
-    'validation'        => array(
+    'validation'        => [
         /**
          * Wether to fallback to global when a value is not found in the input array.
          */
         // 'global_input_fallback' => true,
-    ),
+    ],
 
     /**
      * Controller class prefix
@@ -209,17 +209,17 @@ return array(
     /**
      * Routing settings
      */
-    'routing'           => array(
+    'routing'           => [
         /**
          * Whether URI routing is case sensitive or not
          */
-        'case_sensitive' => TRUE,
+        'case_sensitive' => true,
 
         /**
          *  Wether to strip the extension
          */
         // 'strip_extension' => true,
-    ),
+    ],
 
     /**
      * To enable you to split up your application into modules which can be
@@ -240,14 +240,14 @@ return array(
      *      array(APPPATH.'modules'.DS)
      * Paths MUST end with a directory separator (the DS constant)!
      */
-    'package_paths'     => array(
+    'package_paths'     => [
         PKGPATH,
-    ),
+    ],
 
     /**************************************************************************/
     /* Always Load                                                            */
     /**************************************************************************/
-    'always_load'       => array(
+    'always_load'       => [
         /**
          * These packages are loaded on Fuel's startup.
          * You can specify them in the following manner:
@@ -257,14 +257,12 @@ return array(
          *     array('auth'    => PKGPATH.'auth/')
          * );
          */
-        'packages' => array(
-//            'bridge',
-'craftpip',
-'auth',
-'email',
-'parser',
-        ),
-    ),
+        'packages' => [
+            'gf',
+            'auth',
+            'email',
+        ],
+    ],
     /**
      * These modules are always loaded on Fuel's startup. You can specify them
      * in the following manner:
@@ -297,4 +295,4 @@ return array(
     // 'language'  => array(),
     // ),
 
-);
+];

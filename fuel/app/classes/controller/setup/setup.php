@@ -1,6 +1,6 @@
 <?php
 
-class Controller_Setup_Start extends Controller_Hybrid {
+class Controller_Setup_Setup extends Controller_Hybrid {
     public $template = 'base_layout';
 
     public function get_index () {
@@ -19,7 +19,7 @@ class Controller_Setup_Start extends Controller_Hybrid {
         $bitbucketCallbackUrl = \Fuel\Core\Uri::create('oauth/authorize/bitbucket');
         $baseUrl = \Fuel\Core\Uri::base();
 
-        $this->template->body = \Fuel\Core\View::forge('setup/start', [
+        $this->template->body = \Fuel\Core\View::forge('setup/setup', [
             'githubCallbackUrl'    => $githubCallbackUrl,
             'bitbucketCallbackUrl' => $bitbucketCallbackUrl,
             'baseUrl'              => $baseUrl,

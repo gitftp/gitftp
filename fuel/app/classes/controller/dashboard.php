@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @deprecated
+ * Class Controller_Dashboard
+ */
 class Controller_Dashboard extends Controller {
     public function action_index() {
         if (!is_dash) {

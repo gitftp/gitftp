@@ -2,11 +2,12 @@
 
 angular.module('App', [
     'ngRoute',
-    // 'AppHome',
-    // 'ngAnimate',
-    // 'Service.utils',
-    // 'cp.ngConfirm',
-    // 'ngStorage',
+    'AppDirectives',
+    'AppHome',
+    'ngAnimate',
+    'ServiceUtils',
+    'cp.ngConfirm',
+    'ngStorage',
 ]).config([
     '$routeProvider',
     '$locationProvider',
@@ -19,12 +20,14 @@ angular.module('App', [
     }
 ]).run([
     '$rootScope',
-    // 'Utils',
-    // '$localStorage',
-    // '$ngConfirmDefaults',
+    'Utils',
+    '$localStorage',
+    '$ngConfirmDefaults',
     function ($rootScope, Utils, $localStorage, $ngConfirmDefaults) {
-        // $ngConfirmDefaults.theme = 'light,gitftp';
-        // $rootScope.utils = Utils;
-        // $rootScope.$storage = $localStorage;
+        $ngConfirmDefaults.theme = 'material,gitftp';
+        $ngConfirmDefaults.animation = 'scale';
+        $ngConfirmDefaults.closeAnimation = 'scale';
+        $rootScope.utils = Utils;
+        $rootScope.$storage = $localStorage;
     }
 ]);

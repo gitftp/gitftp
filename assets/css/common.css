@@ -11,7 +11,7 @@
   font-style: italic;
 }
 .red {
-  color: #FF5A5A;
+  color: #ff5a5a;
 }
 .white-c {
   color: white !important;
@@ -20,7 +20,7 @@
   color: white !important;
 }
 .red-bg {
-  background: #FF5A5A;
+  background: #ff5a5a;
 }
 .gray {
   color: #aaaaaa;
@@ -35,40 +35,40 @@
   background: white;
 }
 .blue {
-  color: #0091EA;
+  color: #0091ea;
 }
 .blue-bg {
-  background: #0091EA;
+  background: #0091ea;
 }
 .base {
-  color: #0091EA;
+  color: #0091ea;
 }
 .base-bg {
-  background: #0091EA;
+  background: #0091ea;
 }
 .green {
-  color: #00C853;
+  color: #00c853;
 }
 .green-bg {
-  background: #00C853;
+  background: #00c853;
 }
 .orange {
-  color: #F7941D;
+  color: #f7941d;
 }
 .orange-bg {
-  background: #F7941D;
+  background: #f7941d;
 }
 .darkblue {
-  color: #4173B9;
+  color: #4173b9;
 }
 .darkblue-bg {
-  background: #4173B9;
+  background: #4173b9;
 }
 .redalt {
-  color: #EF4036;
+  color: #ef4036;
 }
 .redalt-bg {
-  background: #EF4036;
+  background: #ef4036;
 }
 .space5 {
   height: 5px;
@@ -114,7 +114,7 @@
 label.error {
   font-weight: bold;
   font-size: 13px;
-  color: #FF5A5A;
+  color: #ff5a5a;
 }
 .shadow {
   box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.14), 0 2px 2px 0 rgba(0, 0, 0, 0.098), 0 1px 5px 0 rgba(0, 0, 0, 0.084);

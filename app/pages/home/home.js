@@ -2,17 +2,11 @@
 
 angular.module('AppHome', [
     'ngRoute',
-    // 'ngAnimate',
-    // 'ui.bootstrap',
-    // 'Service.utils',
-    // 'ngSanitize',
-    // 'ngStorage',
-    // 'Service.service',
 ]).config([
     '$routeProvider',
     function ($routeProvider) {
         $routeProvider.when('/', {
-            templateUrl: 'app/templates/home.html',
+            templateUrl: 'app/pages/home/home.html',
             controller: 'homeController',
         });
     }
@@ -21,6 +15,6 @@ angular.module('AppHome', [
     '$rootScope',
     '$routeParams',
     function ($scope, $rootScope, $routeParams) {
-        alert('hey');
+        // alert('hey');
     }
 ]);

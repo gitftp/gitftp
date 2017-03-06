@@ -1,5 +1,5 @@
 /*!
- * angular-confirm v1.0.0 (http://craftpip.github.io/angular-confirm/)
+ * angular-confirm v1.0.1 (http://craftpip.github.io/angular-confirm/)
  * Author: Boniface Pereira
  * Website: www.craftpip.com
  * Contact: hey@craftpip.com
@@ -28,15 +28,14 @@ try {
 }
 
 angular.module('cp.ngConfirm', [
-        'ngSanitize',
-    ])
+    'ngSanitize',
+])
     .service('$ngConfirmTemplate', function () {
         var template = '<div class="ng-confirm">' +
             '<div class="ng-confirm-bg ng-confirm-bg-h" data-ng-style="ngc.styleBg"></div>' +
             '<div class="ng-confirm-scrollpane" data-ng-click="ngc._scrollPaneClick()">' +
             '<div class="ng-bs3-container">' +
             '<div class="ng-bs3-row">' +
-            '<div class="ng-confirm-box-container">' +
             '<div class="ng-confirm-box" data-ng-click="ngc._ngBoxClick()" data-ng-class="[{\'ng-confirm-hilight\': ngc.hiLight}]" role="dialog" aria-labelledby="labelled" tabindex="-1">' +
             '<div class="ng-confirm-closeIcon" data-ng-show="ngc.closeIcon" data-ng-click="ngc._closeClick()"><span data-ng-if="!ngc.closeIconClass">&times;</span><i data-ng-class="ngc.closeIconClass" data-ng-if="ngc.closeIconClass"></i></div>' +
             '<div class="ng-confirm-title-c" ng-if="ngc.icon || ngc.title">' +
@@ -50,7 +49,6 @@ angular.module('cp.ngConfirm', [
             '<button type="button" data-ng-repeat="(key, button) in ngc.buttons" data-ng-click="ngc._buttonClick(key)" class="btn" data-ng-class="button.btnClass" ng-show="button.show" ng-disabled="button.disabled">{{button.text}}<span data-ng-show="button.timer"> ({{button.timer}})</span></button>' +
             '</div>' +
             '<div class="ng-confirm-clear">' +
-            '</div>' +
             '</div>' +
             '</div>' +
             '</div>' +
@@ -207,7 +205,6 @@ angular.module('cp.ngConfirm', [
                         that.open();
                     }, 0);
                 },
-                selfScope: false,
                 _prepare: function () {
                     var that = this;
 
@@ -217,10 +214,8 @@ angular.module('cp.ngConfirm', [
                     this._scope.ngc = this;
 
                     // This is the scope that the user provided, the content is to be bind to this scope.
-                    if (!that.scope) {
+                    if (!that.scope)
                         that.scope = $rootScope.$new();
-                        that.selfScope = true;
-                    }
                     that.scope.ngc = this;
 
                     this._parseAnimation(this.animation, 'o');
@@ -245,8 +240,7 @@ angular.module('cp.ngConfirm', [
 
                     if (this.useBootstrap) {
                         this.$el.find('.ng-bs3-row').addClass(this.bootstrapClasses.row);
-                        this.$confirmContainer.addClass(this.columnClassParsed);
-                        // this.$confirmBox.addClass(this.columnClassParsed);
+                        this.$confirmBox.addClass(this.columnClassParsed);
                         if (this.containerFluid)
                             this.$el.find('.ng-bs3-container').addClass(this.bootstrapClasses.containerFluid);
                         else
@@ -273,15 +267,12 @@ angular.module('cp.ngConfirm', [
                     this._contentReady = $q.defer();
                     this._modalReady = $q.defer();
 
-                    $q.all([
-                        this._contentReady.promise,
-                        this._modalReady.promise
-                    ]).then(function () {
+                    $q.all([this._contentReady.promise, this._modalReady.promise]).then(function () {
                         if (that.isAjax) {
                             that.setContent(that.content);
                             that.loading(false);
                         }
-                        if (typeof that.onReady == 'function') {
+                        if(typeof that.onReady == 'function'){
                             that.onReady.apply(that, [that.scope]);
                         }
                     });
@@ -314,6 +305,7 @@ angular.module('cp.ngConfirm', [
                         that._contentReady.resolve();
                     }
 
+
                     this._watchContent();
 
                     if (this.animation == 'none') {
@@ -342,15 +334,7 @@ angular.module('cp.ngConfirm', [
                     var compiledHtml = $compile(contentHtml)(this.scope);
                     this.$content.append(compiledHtml);
                 },
-                _typeList: [
-                    'default',
-                    'blue',
-                    'green',
-                    'red',
-                    'orange',
-                    'purple',
-                    'dark'
-                ],
+                _typeList: ['default', 'blue', 'green', 'red', 'orange', 'purple', 'dark'],
                 _typePrefix: 'ng-confirm-type-',
                 typeParsed: '',
                 _parseType: function (type) {
@@ -536,8 +520,8 @@ angular.module('cp.ngConfirm', [
                             var pCol = that.columnClassParsed;
                             that._parseColumnClass(that.columnClass);
                             if (pCol != null)
-                                that.$confirmContainer.removeClass(pCol);
-                            that.$confirmContainer.addClass(that.columnClassParsed);
+                                that.$confirmBox.removeClass(pCol);
+                            that.$confirmBox.addClass(that.columnClassParsed);
                         });
                     } else {
                         this._scope.$watch('ngc.boxWidth', function () {
@@ -606,9 +590,11 @@ angular.module('cp.ngConfirm', [
                         return false;
                     }
 
+
                     var buttonName = false;
                     var shouldClose = false;
                     var str;
+
 
                     if (typeof this.backgroundDismiss == 'function')
                         str = this.backgroundDismiss();
@@ -625,10 +611,7 @@ angular.module('cp.ngConfirm', [
                     }
 
                     if (buttonName) {
-                        var btnResponse = this.buttons[buttonName].action.apply(this, [
-                            this.scope,
-                            this.buttons[buttonName]
-                        ]);
+                        var btnResponse = this.buttons[buttonName].action.apply(this, [this.scope, this.buttons[buttonName]]);
                         shouldClose = (typeof btnResponse == 'undefined') || !!(btnResponse);
                     }
 
@@ -658,10 +641,7 @@ angular.module('cp.ngConfirm', [
                     }
 
                     if (buttonName) {
-                        var btnResponse = this.buttons[buttonName].action.apply(this, [
-                            this.scope,
-                            this.buttons[buttonName]
-                        ]);
+                        var btnResponse = this.buttons[buttonName].action.apply(this, [this.scope, this.buttons[buttonName]]);
                         shouldClose = (typeof btnResponse == 'undefined' || !!(btnResponse) == true);
                     }
                     if (shouldClose) {
@@ -680,15 +660,9 @@ angular.module('cp.ngConfirm', [
                     }, 800);
                 },
                 _buttonClick: function (buttonKey) {
-                    var res = this.buttons[buttonKey].action.apply(this, [
-                        this.scope,
-                        this.buttons[buttonKey]
-                    ]);
+                    var res = this.buttons[buttonKey].action.apply(this, [this.scope, this.buttons[buttonKey]]);
                     if (typeof this.onAction === 'function')
-                        this.onAction.apply(this, [
-                            this.scope,
-                            buttonKey
-                        ]);
+                        this.onAction.apply(this, [this.scope, buttonKey]);
 
                     if (typeof res === 'undefined' || res)
                         this.close();
@@ -865,16 +839,12 @@ angular.module('cp.ngConfirm', [
                         that._lastFocused.focus();
                         that.closed = true;
                         that.$el.remove();
+                        that._scope.$destroy();
 
                         if (typeof that.onDestroy == 'function')
                             that.onDestroy.apply(that, [that.scope]);
 
                         angular.element('body').removeClass('ng-confirm-no-scroll-' + that._id);
-
-                        that._scope.$destroy();
-                        if (that.selfScope) {
-                            that.scope.$destroy();
-                        }
                     }, closeTimer);
 
                     return true;

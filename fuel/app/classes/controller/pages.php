@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @deprecated
+ * Class Controller_Pages
+ */
 Class Controller_Pages extends Controller {
     public function action_terms() {
         $view = View::forge('home/base_layout');

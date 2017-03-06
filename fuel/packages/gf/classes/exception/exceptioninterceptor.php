@@ -92,14 +92,14 @@ class ExceptionInterceptor {
                 }
             }
 
-            if ($debug) {
-                $message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
+//            if ($debug) {
+            $message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
 
-                return new \Exception($message, $e->getCode(), $e);
-            } else {
-                // $error_message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
-                return new \Exception($error_message, $e->getCode(), $e);
-            }
+            return new \Exception($message, $e->getCode(), $e);
+//            } else {
+            // $error_message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
+//                return new \Exception($error_message, $e->getCode(), $e);
+//            }
         }
     }
 

@@ -2,86 +2,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8"/>
-    <title><?php echo isset($title) ? $title : '' ?></title>
+    <title><?php echo isset($title) ? $title : 'Gitftp' ?></title>
     <meta name="description"
-          content="app, web app, responsive, responsive layout, admin, admin panel, admin dashboard, flat, flat ui, ui kit, AngularJS, ui route, charts, widgets, components"/>
+          content=""/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 
     <?php echo $css ?>
-    <base href="<?php echo \Fuel\Core\Uri::current(); ?>">
+    <base href="<?php echo \Fuel\Core\Uri::base(); ?>">
     <script>
-        var base = '<?php echo \Fuel\Core\Uri::current() ?>';
-        var path = '<?php echo \Fuel\Core\Uri::string(); ?>';
+        var BASE = '<?php echo \Fuel\Core\Uri::base() ?>';
+        var PATH = '<?php echo \Fuel\Core\Uri::string(); ?>';
+        var API_PATH = '<?php echo $apiUrl; ?>'
     </script>
 </head>
 <body ng-init='user = <?php echo json_encode($user); ?>'>
 <div class="app">
-    <!-- content -->
-    <div id="content" class="app-content" role="main">
-        <div class="box">
-            <!-- Content Navbar -->
-            <div class="navbar md-whiteframe-z1 no-radius blue-bg white">
-                <!-- Open side - Naviation on mobile -->
-                <a md-ink-ripple data-toggle="modal" data-target="#aside"
-                   class="navbar-item pull-left visible-xs visible-sm"><i class="mdi-navigation-menu i-24"></i></a>
 
-                <!-- / -->
-                <!-- Page title - Bind to $state's title -->
-                <div class="navbar-item pull-left h4">Dashboard</div>
-                <!-- / -->
-                <!-- Common tools -->
-                <ul class="nav nav-sm navbar-tool pull-right">
-                    <li>
-                        <a md-ink-ripple ui-toggle-class="show" target="#search">
-                            <i class="zmdi zmdi-fw zmdi-search i-24"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a md-ink-ripple data-toggle="modal" data-target="#user">
-                            <i class="zmdi zmdi-fw zmdi-account i-24"></i>
-                        </a>
-                    </li>
-                    <li class="dropdown">
-                        <a md-ink-ripple data-toggle="dropdown">
-                            <i class="zmdi zmdi-fw zmdi-more-vert i-24"></i>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-scale pull-right pull-up text-color">
-                            <li><a href>Single-column view</a></li>
-                            <li><a href>Sort by date</a></li>
-                            <li><a href>Sort by name</a></li>
-                            <li class="divider"></li>
-                            <li><a href>Help &amp; feedback</a></li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="pull-right" ui-view="navbar@"></div>
-                <!-- / -->
-                <!-- Search form -->
-                <div id="search" class="pos-abt w-full h-full blue hide">
-
-                    <div class="box">
-                        <div class="box-col w-56 text-center">
-                            <!-- hide search form -->
-                            <a md-ink-ripple class="navbar-item inline" ui-toggle-class="show" target="#search"><i
-                                        class="mdi-navigation-arrow-back i-24"></i></a>
-                        </div>
-                        <div class="box-col v-m">
-                            <!-- bind to app.search.content -->
-                            <input class="form-control input-lg no-bg no-border" placeholder="Search"
-                                   ng-model="app.search.content">
-                        </div>
-                        <div class="box-col w-56 text-center">
-                            <a md-ink-ripple class="navbar-item inline"><i class="mdi-av-mic i-24"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <!-- / -->
-            </div>
-            <!-- Content -->
-
-        </div>
-    </div>
-    <!-- / content -->
+    <div top-header></div>
+    <div ng-view></div>
 
     <div class="modal fade" id="user" data-backdrop="false">
         <div class="right w-xl bg-white md-whiteframe-z2">
@@ -261,6 +199,7 @@
                                         <div class="text-muted-lt text-xs m-t-xs">Just now</div>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>

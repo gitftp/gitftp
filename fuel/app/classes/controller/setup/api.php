@@ -3,10 +3,19 @@
 use Fuel\Core\Input;
 
 class Controller_Setup_Api extends Controller_Rest {
-
     /**
      * Do a dependency test
      */
+
+
+//    public function before () {
+//        parent::before();
+//        if (\Gf\Config::instance()->get('ready')) {
+//            echo 'The sites is setup.';
+//            die;
+//        }
+//    }
+
     public function post_dep_test () {
         try {
             $dependencies = \Gf\Misc::dependencies_check();

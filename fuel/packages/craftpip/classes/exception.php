@@ -2,6 +2,16 @@
 
 namespace Craftpip;
 
+use Gf\Exception\UserException;
+
+/**
+ * Class Exception
+
+ *
+*@deprecated
+ * @see UserException
+ * @package Craftpip
+ */
 class Exception extends \Exception {
     protected $code;
     protected $message;

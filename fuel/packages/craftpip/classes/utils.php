@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @deprecated
+ * @see \Gf\Utils
+ * Class Utils
+ */
 class Utils {
 
     public static function isDisposableEmail($email) {

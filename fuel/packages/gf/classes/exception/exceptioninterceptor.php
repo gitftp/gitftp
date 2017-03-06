@@ -26,9 +26,10 @@ class ExceptionInterceptor {
      * ExceptionInterceptor constructor.
      *
      * @param \Exception $e
+     *
      * @return \Exception
      */
-    public static function intercept(\Exception $e) {
+    public static function intercept (\Exception $e) {
         // if debug is set to true, all the exceptions will be passed on and not be logged.
         $debug = Settings::get('nb_exception_debug');
         $should_log = Settings::get('nb_exception_logger', false);
@@ -38,8 +39,7 @@ class ExceptionInterceptor {
 
         if ($e instanceof UserException) {
             return $e;
-        }
-        else {
+        } else {
             $file = $e->getFile();
             $file = substr($file, strpos($file, 'fuel'));
 
@@ -50,9 +50,9 @@ class ExceptionInterceptor {
                 $url = \Uri::current();
                 $user = Auth::instance();
                 $env = [
-                    'is_mode'  => is_mode,
-                    'protocol' => protocol,
-                    'is_debug' => is_debug,
+//                    'is_mode'  => is_mode,
+//                    'protocol' => protocol,
+//                    'is_debug' => is_debug,
                 ];
                 $params = [
                     'method'    => \Input::method(),
@@ -67,8 +67,7 @@ class ExceptionInterceptor {
                 if ($e instanceof AppException) {
                     $dump_data = $e->getDumpData();
                     $backtrace = $e->getBacktrace();
-                }
-                else {
+                } else {
                     $backtrace = debug_backtrace();
                 }
 
@@ -97,8 +96,7 @@ class ExceptionInterceptor {
                 $message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
 
                 return new \Exception($message, $e->getCode(), $e);
-            }
-            else {
+            } else {
                 // $error_message = "Exception " . $e->getCode() . ": " . $e->getMessage() . " file: $file @ " . $e->getLine();
                 return new \Exception($error_message, $e->getCode(), $e);
             }

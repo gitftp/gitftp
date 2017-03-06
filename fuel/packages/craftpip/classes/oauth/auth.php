@@ -1,6 +1,12 @@
 <?php
 namespace Craftpip\OAuth;
 
+/**
+ * Class Auth
+ *
+ * @deprecated
+ * @package Craftpip\OAuth
+ */
 class Auth extends Db {
 
     /**

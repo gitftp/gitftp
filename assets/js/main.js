@@ -1,3 +1,7 @@
+/**
+ * No longer needed, this was used in the old installation
+ */
+
 $(function () {
     window.escapeTag = function (arg) {
         var a = arg.replace(/</ig, '&lt;');

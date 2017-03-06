@@ -1,9 +1,15 @@
 <?php
-/**
- * Use this file to override global defaults.
- *
- * See the individual environment DB configs for specific config information.
- */
 
-return array(
-);
+return [
+    'default' => [
+        'type'         => 'mysqli',
+        'connection'   => [
+            'hostname' => GF_DB_HOST,
+            'port'     => '3306',
+            'database' => GF_DB_NAME,
+            'username' => GF_DB_USERNAME,
+            'password' => GF_DB_PASSWORD,
+        ],
+        'table_prefix' => '',
+    ],
+];

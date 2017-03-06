@@ -1,6 +1,12 @@
 <?php
 namespace Craftpip;
 
+/**
+ * Class Mail
+ *
+ * @deprecated
+ * @package Craftpip
+ */
 class Mail {
 
     protected $instance;

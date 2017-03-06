@@ -9,9 +9,9 @@ namespace Gf;
  */
 class Misc {
     /**
-     *
+     * @return array
      */
-    public static function dependenciesCheck () {
+    public static function dependencies_check () {
         $allOk = true;
         // testing php.
         $php = 2;
@@ -27,7 +27,7 @@ class Misc {
         $op = exec('git --version');
         if (strpos($op, 'git version') !== false) {
             $git = 1;
-            $git_version = str_replace('git version', '',$op);
+            $git_version = str_replace('git version', '', $op);
         } else {
             $allOk = false;
         }
@@ -41,6 +41,20 @@ class Misc {
             'os'  => $os_name,
             'ok'  => $allOk,
         ];
+    }
+
+    /**
+     * @param $host
+     * @param $db_name
+     * @param $username
+     * @param $password
+     *
+     * @return bool
+     */
+    public static function test_database ($host, $db_name, $username, $password) {
+        $db = new \PDO("mysql:host=$host;dbname=$db_name", $username, $password);
+
+        return true;
     }
 }
 

@@ -1,11 +1,15 @@
 <?php
 
+use Fuel\Core\Input;
+
 class Controller_Setup_Api extends Controller_Rest {
 
+    /**
+     * Do a dependency test
+     */
     public function post_dep_test () {
         try {
-            $dependencies = \Gf\Misc::dependenciesCheck();
-
+            $dependencies = \Gf\Misc::dependencies_check();
             $r = [
                 'status' => true,
                 'data'   => [
@@ -16,7 +20,6 @@ class Controller_Setup_Api extends Controller_Rest {
                 ],
             ];
         } catch (\Exception $e) {
-            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
             $r = [
                 'status' => false,
                 'reason' => $e->getMessage(),
@@ -25,21 +28,100 @@ class Controller_Setup_Api extends Controller_Rest {
         $this->response($r);
     }
 
-    public function post_db_test () {
+    /**
+     * Test in incoming database config and set it in the configs
+     */
+    public function post_db_setup () {
         try {
-            $host = \Fuel\Core\Input::json('db.host');
-            $username = \Fuel\Core\Input::json('db.username');
-            $password = \Fuel\Core\Input::json('db.password');
-            $dbname = \Fuel\Core\Input::json('db.dbname');
 
-            if (!function_exists('mysqli_connect')) {
-                throw new \Gf\Exception\UserException('Mysqli extension was not found, please install the php_mysqli extension');
+
+            $host = Input::json('db.host');
+            $username = Input::json('db.username');
+            $password = Input::json('db.password');
+            $db_name = Input::json('db.dbname');
+            // ready. install the schema to database here.
+            \Gf\Misc::test_database($host, $db_name, $username, $password);
+
+            \Gf\Config::instance()->set([
+                'mysql.host'     => $host,
+                'mysql.username' => $username,
+                'mysql.password' => $password,
+                'mysql.dbname'   => $db_name,
+            ])->save();
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+    /**
+     * Save the oauth config provided.
+     */
+    public function post_save_oauth_config () {
+        try {
+            $provider = Input::json('provider', false);
+            $clientId = Input::json('config.clientId', false);
+            $clientSecret = Input::json('config.clientSecret', false);
+
+            if (!$provider or !$clientId or !$clientSecret)
+                throw new \Gf\Exception\UserException('The given parameters are wrong');
+
+            if ($provider == 'github' || $provider == 'bitbucket') {
+                $set = [
+                    "$provider.clientId"     => $clientId,
+                    "$provider.clientSecret" => $clientSecret,
+                ];
+            } else {
+                throw new \Gf\Exception\UserException("Don't know about this provider yet.");
             }
 
-            $connection = mysqli_connect($host, $username, $password, $dbname);
-            if ($error_code = mysqli_connect_errno()) {
-                throw new \Gf\Exception\UserException('Error in connecting to MySql Database');
-            }
+            \Gf\Config::instance()->set($set)->save();
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+    /**
+     * After the database is setup, create the administrative account
+     */
+    public function post_create_user () {
+        try {
+            // at this point the database config must be there in the config file.
+            if (!GF_CONFIG_FILE_EXISTS)
+                throw new \Gf\Exception\UserException('The configuration file does not exists');
+
+            $email = Input::json('user.email');
+            $password = Input::json('user.password');
+
+            // user adding stuff
+            $users = \Gf\Auth\Users::instance();
+            $user_id = $users->create_user(null, $email, $password, \Gf\Auth\Users::$administrator, [
+                'account_active' => 1,
+                'email_verified' => 1,
+            ], [
+            ]);
+
+            $session = \Gf\Auth\Auth::instance()->force_login($user_id);
+            \Gf\Auth\SessionManager::instance()->create_snapshot($session, null, null, \Gf\Platform::$web);
+
+            \Gf\Config::instance()->set([
+                'ready' => 1,
+            ])->save();
 
             $r = [
                 'status' => true,

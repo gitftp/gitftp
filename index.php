@@ -42,21 +42,7 @@ define('COREPATH', realpath(__DIR__ . '/fuel/core/') . DIRECTORY_SEPARATOR);
 defined('FUEL_START_TIME') or define('FUEL_START_TIME', microtime(true));
 defined('FUEL_START_MEM') or define('FUEL_START_MEM', memory_get_usage());
 
-/**
- * Gitftp loading configs
- */
-define('GF_CONFIG_FILE', realpath(__DIR__ . '/.config.json'));
-define('GF_CONFIG_FILE_NEW', realpath(__DIR__ . '/.config.new.json'));
-$is_exists = file_exists(GF_CONFIG_FILE);
-if ($is_exists) {
-    //read the file and set the variables.
-//    echo 'The config file exists';
-} else {
-    $config_file_h = fopen(GF_CONFIG_FILE_NEW, 'r');
-    $config_file = fread($config_file_h, filesize(GF_CONFIG_FILE_NEW));
-//    echo 'The config file does not exists';
-}
-define('GF_CONFIG_FILE_EXISTS', $is_exists);
+require_once 'loader.php';
 
 // Load in the Fuel autoloader
 if (!file_exists(COREPATH . 'classes' . DIRECTORY_SEPARATOR . 'autoloader.php')) {

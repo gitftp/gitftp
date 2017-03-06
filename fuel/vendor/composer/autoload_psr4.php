@@ -7,9 +7,12 @@ $baseDir = dirname(dirname($vendorDir));
 
 return array(
     'phpseclib\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Process\\' => array($vendorDir . '/symfony/process'),
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Symfony\\Component\\EventDispatcher\\' => array($vendorDir . '/symfony/event-dispatcher'),
+    'Symfony\\Component\\Debug\\' => array($vendorDir . '/symfony/debug'),
+    'Symfony\\Component\\Console\\' => array($vendorDir . '/symfony/console'),
     'Psr\\Log\\' => array($vendorDir . '/psr/log/Psr/Log'),
     'Psr\\Http\\Message\\' => array($vendorDir . '/psr/http-message/src'),
     'League\\OAuth2\\Client\\' => array($vendorDir . '/league/oauth2-client/src'),
@@ -20,6 +23,7 @@ return array(
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Fuel\\Upload\\' => array($vendorDir . '/fuelphp/upload/src'),
+    'Crossjoin\\Browscap\\' => array($vendorDir . '/crossjoin/browscap/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Banago\\Bridge\\' => array($vendorDir . '/banago/bridge/src'),
 );

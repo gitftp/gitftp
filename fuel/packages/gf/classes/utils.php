@@ -1,6 +1,7 @@
 <?php
 
 namespace Gf;
+
 /**
  * Class Utils
  * Contains small utility functions

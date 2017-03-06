@@ -31,6 +31,8 @@
 
 return $defaults = [
     '_root_'                                         => 'start',
+    'random'                                         => 'start',
+    'setup'                                          => 'start',
     '_404_'                                          => 'start/404',
     'one'                                            => 'start/one',
     'administrator/(:segment)'                       => 'administrator/$1',

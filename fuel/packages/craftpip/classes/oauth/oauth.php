@@ -8,6 +8,7 @@ use Gf\Settings;
 /**
  * Wrapper class to validate Oauth logins.
  *
+ * @deprecated
  * Class Oauth
  * @package Craftpip\Oauth
  */

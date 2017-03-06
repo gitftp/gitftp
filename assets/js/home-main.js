@@ -1,5 +1,9 @@
-$(function () {
+/**
+ * to be removed. this was used for the home page.
+ */
 
+
+$(function () {
     $(document).on('submit', '#home-login-module', function (e) {
         e.preventDefault();
         var $this = $(this);
@@ -68,14 +72,14 @@ $(function () {
                     title: 'Problem here.',
                     content: data.reason
                 });
-                
+
                 var error = '<ul>';
-                $.each(data.fields, function(i, a){
-                    if(a !== null){
-                        error+='<li>'+a+'</li>';
+                $.each(data.fields, function (i, a) {
+                    if (a !== null) {
+                        error += '<li>' + a + '</li>';
                     }
                 });
-                error+='</ul>';
+                error += '</ul>';
                 $('.signup-form-error').html(error);
                 $('.signup-form-error').show();
 
@@ -86,7 +90,6 @@ $(function () {
         });
 
     });
-
 
 
 });

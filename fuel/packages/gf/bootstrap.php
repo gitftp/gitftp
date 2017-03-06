@@ -8,7 +8,13 @@ Autoloader::add_classes([
     'Gf\Exception\Log'                  => __DIR__ . '/classes/exception/log.php',
     'Gf\Exception\Logger'               => __DIR__ . '/classes/exception/logger.php',
     'Gf\Exception\ExceptionInterceptor' => __DIR__ . '/classes/exception/exceptioninterceptor.php',
-    'Gf\Settings'                       => __DIR__ . '/classes/settings',
+    'Gf\Settings'                       => __DIR__ . '/classes/settings.php',
+    'Gf\Auth\Auth'                      => __DIR__ . '/classes/auth/auth.php',
+    'Gf\Auth\SessionManager'            => __DIR__ . '/classes/auth/sessionmanager.php',
+    'Gf\Auth\Users'                     => __DIR__ . '/classes/auth/users.php',
+    'Gf\Platform'                       => __DIR__ . '/classes/platform.php',
+    'Gf\Config'                         => __DIR__ . '/classes/config.php',
+    'Gf\Git'                            => __DIR__ . '/classes/git.php',
 ]);
 
 /* End of file bootstrap.php */

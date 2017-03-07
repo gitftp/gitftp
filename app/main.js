@@ -8,6 +8,7 @@ $script([
     'app/services/auth.js',
     'app/services/service.js',
     'app/pages/home/home.js',
+    'app/pages/settings/settings.js',
     'app/app.js'
 ], function () {
     angular.bootstrap(document, ['App']);

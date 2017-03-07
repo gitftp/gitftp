@@ -3,11 +3,12 @@
 angular.module('App', [
     'ngRoute',
     'AppDirectives',
-    'AppHome',
     'ngAnimate',
     'ServiceUtils',
     'cp.ngConfirm',
     'ngStorage',
+    'AppHome',
+    'AppSettings',
 ]).config([
     '$routeProvider',
     '$locationProvider',

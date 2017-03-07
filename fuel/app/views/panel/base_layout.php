@@ -18,8 +18,18 @@
 <body ng-init='user = <?php echo json_encode($user); ?>'>
 <div class="app">
 
-    <div top-header></div>
-    <div ng-view></div>
+    <div id="content" class="app-content" role="main">
+        <div class="box">
+            <div top-header></div>
+            <div class="box-row">
+                <div class="box-cell">
+                    <div class="box-inner">
+                        <div ng-view></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="modal fade" id="user" data-backdrop="false">
         <div class="right w-xl bg-white md-whiteframe-z2">

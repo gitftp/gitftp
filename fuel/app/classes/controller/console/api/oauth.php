@@ -41,16 +41,20 @@ class Controller_Console_Api_Oauth extends Controller_Console_Authenticate {
             if ($githubClientId and $githubClientSecret) {
                 $set['github.clientId'] = $githubClientId;
                 $set['github.clientSecret'] = $githubClientSecret;
+            } else {
+                Config::instance()->remove('github');
             }
             if ($bitbucketClientId and $bitbucketClientSecret) {
                 $set['bitbucket.clientId'] = $bitbucketClientId;
                 $set['bitbucket.clientSecret'] = $bitbucketClientSecret;
+            } else {
+                Config::instance()->remove('bitbucket');
             }
 
             if (!$githubClientId and !$githubClientSecret and !$bitbucketClientId and !$bitbucketClientSecret)
                 throw new \Gf\Exception\UserException('At least one configuration for oauth application is required');
 
-            Config::instance()->set($set);
+            Config::instance()->set($set)->save();
 
             $r = [
                 'status' => true,

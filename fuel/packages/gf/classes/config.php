@@ -52,6 +52,20 @@ class Config {
         return $this;
     }
 
+    /**
+     * Remove a key from config
+     * use with caution
+     *
+     * @param $key
+     *
+     * @return $this
+     */
+    public function remove ($key) {
+        Arr::delete($this->configs, $key);
+
+        return $this;
+    }
+
     public function save () {
         $file_data = json_encode($this->configs, JSON_PRETTY_PRINT);
         $doc_root = DOCROOT;

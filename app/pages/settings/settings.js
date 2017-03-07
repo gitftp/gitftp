@@ -59,14 +59,26 @@ angular.module('AppSettings', [
         Utils.setTitle('oAuth applications');
 
         $scope.settings = {};
-        $scope.isGithub = true;
-        $scope.isBitbucket = false;
-
+        $scope.oauth = {};
+        $scope.oauth.isGithub = true;
+        $scope.oauth.isBitbucket = true;
 
         $scope.load = function () {
             $scope.loading = true;
             Api.getOAuthApplications().then(function (data) {
-                $scope.settings = data;
+                $scope.settings.github = data.github || {};
+                $scope.settings.bitbucket = data.bitbucket || {};
+                if (data.bitbucket) {
+                    $scope.oauth.isBitbucket = true;
+                } else {
+                    $scope.oauth.isBitbucket = false;
+                }
+                if (data.github) {
+                    $scope.oauth.isGithub = true;
+                } else {
+                    $scope.oauth.isGithub = false;
+                }
+
                 $scope.loading = false;
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.load);
@@ -77,7 +89,13 @@ angular.module('AppSettings', [
         $scope.saving = false;
         $scope.save = function () {
             $scope.saving = true;
-            Api.saveOAuthApplications($scope.settings).then(function () {
+            var settings = {};
+            if ($scope.oauth.isGithub)
+                settings.github = $scope.settings.github;
+            if ($scope.oauth.isBitbucket)
+                settings.bitbucket = $scope.settings.bitbucket;
+
+            Api.saveOAuthApplications(settings).then(function () {
                 $scope.saving = false;
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.save);

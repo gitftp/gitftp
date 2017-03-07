@@ -26,13 +26,13 @@
                         <form ng-submit="save()" name="oauthForm">
                             <div class="p-b-20">
                                 <label class="md-check">
-                                    <input type="checkbox" ng-model="isGithub" class="has-value">
+                                    <input type="checkbox" ng-model="oauth.isGithub" class="has-value">
                                     <i class="indigo"></i>
                                     Github
                                 </label>
                             </div>
 
-                            <div ng-if="isGithub">
+                            <div ng-if="oauth.isGithub">
                                 <div class="md-form-group">
                                     <input class="md-input" ng-model="settings.github.clientId" required="">
                                     <label>Client ID</label>
@@ -45,13 +45,13 @@
 
                             <div class="p-b-20">
                                 <label class="md-check">
-                                    <input type="checkbox" ng-model="isBitbucket">
+                                    <input type="checkbox" ng-model="oauth.isBitbucket">
                                     <i class="indigo"></i>
                                     Bitbucket
                                 </label>
                             </div>
 
-                            <div ng-if="isBitbucket">
+                            <div ng-if="oauth.isBitbucket">
                                 <div class="md-form-group">
                                     <input class="md-input" ng-model="settings.bitbucket.clientId" required="">
                                     <label>Client Key</label>
@@ -62,12 +62,12 @@
                                 </div>
                             </div>
 
-                            <div class="alert alert-info" ng-if="!isGithub && !isBitbucket ">
+                            <div class="alert alert-info" ng-if="!oauth.isGithub && !oauth.isBitbucket ">
                                 You have to setup at least one oauth application
                             </div>
 
                             <button type="submit"
-                                    ng-disabled="!isGithub && !isBitbucket || oauthForm.$invalid || saving"
+                                    ng-disabled="!oauth.isGithub && !oauth.isBitbucket || oauthForm.$invalid || saving"
                                     class="btn btn-rounded btn-stroke btn-primary waves-effect">
                                 {{saving ? 'Saving' : 'Save'}}
                             </button>

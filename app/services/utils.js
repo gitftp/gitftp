@@ -21,11 +21,20 @@ angular.module('ServiceUtils', [
         };
 
         this.previouslyShownError = false;
-        this.error = function (text, type) {
+        this.error = function (text, type, retryCallback) {
             if (this.previouslyShownError && this.previouslyShownError.isOpen())
                 return false;
 
             text = text || false;
+
+            var buttons = {
+                ok: function () {
+
+                },
+            };
+
+            if (retryCallback)
+                buttons['retry'] = retryCallback;
 
             this.previouslyShownError = $ngConfirm({
                 title: 'Heads up',
@@ -34,11 +43,7 @@ angular.module('ServiceUtils', [
                 "<hr>" +
                 "Error: <br>" +
                 "<code>{{errorMessage}}</code></div>",
-                buttons: {
-                    ok: function () {
-
-                    }
-                },
+                buttons: buttons,
                 type: type || 'red',
                 onOpen: function (scope) {
                     scope.errorMessage = text;

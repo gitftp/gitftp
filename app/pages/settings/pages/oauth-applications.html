@@ -1,0 +1,80 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div settings-sidebar></div>
+        </div>
+        <div class="col-md-8">
+            <div class="">
+                <div class="md-whiteframe-z0 bg-white p-35">
+                    <h3 class="no-margin-top">
+                        oAuth applications
+                    </h3>
+                    <p class="p-b-20">
+                        These are your oauth applications, that help you connect to your repositories
+                    </p>
+
+                    <div ng-if="loading">
+                        <div class="loader" style="width: 60px">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                        stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div ng-if="!loading">
+                        <form ng-submit="save()" name="oauthForm">
+                            <div class="p-b-20">
+                                <label class="md-check">
+                                    <input type="checkbox" ng-model="isGithub" class="has-value">
+                                    <i class="indigo"></i>
+                                    Github
+                                </label>
+                            </div>
+
+                            <div ng-if="isGithub">
+                                <div class="md-form-group">
+                                    <input class="md-input" ng-model="settings.github.clientId" required="">
+                                    <label>Client ID</label>
+                                </div>
+                                <div class="md-form-group">
+                                    <input class="md-input" ng-model="settings.github.clientSecret" required="">
+                                    <label>Client Secret</label>
+                                </div>
+                            </div>
+
+                            <div class="p-b-20">
+                                <label class="md-check">
+                                    <input type="checkbox" ng-model="isBitbucket">
+                                    <i class="indigo"></i>
+                                    Bitbucket
+                                </label>
+                            </div>
+
+                            <div ng-if="isBitbucket">
+                                <div class="md-form-group">
+                                    <input class="md-input" ng-model="settings.bitbucket.clientId" required="">
+                                    <label>Client Key</label>
+                                </div>
+                                <div class="md-form-group">
+                                    <input class="md-input" ng-model="settings.bitbucket.clientSecret" required="">
+                                    <label>Client Secret</label>
+                                </div>
+                            </div>
+
+                            <div class="alert alert-info" ng-if="!isGithub && !isBitbucket ">
+                                You have to setup at least one oauth application
+                            </div>
+
+                            <button type="submit"
+                                    ng-disabled="!isGithub && !isBitbucket || oauthForm.$invalid || saving"
+                                    class="btn btn-rounded btn-stroke btn-primary waves-effect">
+                                {{saving ? 'Saving' : 'Save'}}
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

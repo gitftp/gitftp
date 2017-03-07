@@ -5,6 +5,7 @@ angular.module('App', [
     'AppDirectives',
     'ngAnimate',
     'ServiceUtils',
+    'ServiceApi',
     'cp.ngConfirm',
     'ngStorage',
     'AppHome',

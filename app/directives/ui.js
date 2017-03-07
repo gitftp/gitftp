@@ -25,4 +25,4 @@ angular.module('AppDirectives', [
             }
         }
     }
-]);
+])

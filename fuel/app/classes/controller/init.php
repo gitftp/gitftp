@@ -13,7 +13,7 @@ class Controller_Init extends Controller {
         } else {
             $user = Auth::instance()->user;
             $user = \Gf\Auth\Users::instance()->parse($user);
-            $apiUrl = \Fuel\Core\Uri::current() . 'console/api/';
+            $apiUrl = \Fuel\Core\Uri::base() . 'console/api/';
 
             return \Fuel\Core\View::forge('panel/base_layout', [
                 'js'     => \Fuel\Core\View::forge('js'),

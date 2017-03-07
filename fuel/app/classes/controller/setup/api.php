@@ -119,6 +119,11 @@ class Controller_Setup_Api extends Controller_Rest {
 
             // user adding stuff
             $users = \Gf\Auth\Users::instance();
+            // there can be only one superadmin
+            // remove the other ones
+            $users->remove([
+                'group' => \Gf\Auth\Users::$administrator,
+            ]);
             $user_id = $users->create_user(null, $email, $password, \Gf\Auth\Users::$administrator, [
                 'account_active' => 1,
                 'email_verified' => 1,

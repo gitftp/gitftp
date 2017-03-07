@@ -9,37 +9,65 @@
                     <h3 class="no-margin-top">
                         Connected accounts
                     </h3>
-                    <p class="p-b-20">
+                    <p class="no-margin-bottom">
                         Your connected accounts with gitftp
                     </p>
 
-                    <div ng-if="loading">
-                        <div class="loader" style="width: 60px">
+                    <div ng-if="loading" class="m-t-30">
+                        <div class="loader " style="width: 60px">
                             <svg class="circular" viewBox="25 25 50 50">
                                 <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
                                         stroke-miterlimit="10"/>
                             </svg>
                         </div>
                     </div>
-
                     <div ng-if="!loading">
-                        <div class="">
-                            <a href="" class="text-sm btn btn-lg btn-rounded btn-info m-r"
-                               ng-if="availableOauthApplications.github">
+                        <div>
+                            <a ng-click="connect('github')"
+                               class="text-sm btn btn-lg btn-rounded btn-info m-r m-t-20"
+                               ng-disabled="!availableApps.github">
                             <span class="block clear text-left m-v-xs">
-                                Connect with
+                                Connect{{availableApps.github? '': 'ed'}} with
                                 <b class="text-md block font-bold">Github</b>
                               </span>
                             </a>
 
-                            <a href="" class="text-sm btn btn-lg btn-rounded btn-info"
-                               ng-if="availableOauthApplications.bitbucket">
+                            <a ng-click="connect('bitbucket')"
+                               class="text-sm btn btn-lg btn-rounded btn-info m-t-20"
+                               ng-disabled="!availableApps.bitbucket">
                             <span class="block clear text-left m-v-xs">
-                                Connect with
+                                Connect{{availableApps.bitbucket? '': 'ed'}} with
                                 <b class="text-md block font-bold">Bitbucket</b>
                               </span>
                             </a>
                         </div>
+                    </div>
+                </div>
+                <div class="panel panel-card m-t-20">
+                    <table class="table" ng-if="connected.length">
+                        <tr>
+                            <th>
+                                Username
+                            </th>
+                            <th>
+                                Provider
+                            </th>
+                            <th>
+                                Created
+                            </th>
+                            <th>
+                                Updated
+                            </th>
+                        </tr>
+                        <tr ng-repeat="co in connected">
+                            <td>connected as @{{co.username}}</td>
+                            <td>{{co.provider}}</td>
+                            <td>{{co.created_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</td>
+                            <td>{{co.updated_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</td>
+                        </tr>
+                    </table>
+                    <div class="panel-body" ng-if="!connected.length">
+                        You have no connected accounts.
                     </div>
                 </div>
             </div>

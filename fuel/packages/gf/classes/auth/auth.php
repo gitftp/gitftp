@@ -10,7 +10,7 @@ use Gf\Auth\SessionManager;
  * Class Auth
  * A new version of the Auth class
  *
- * @package Nb
+ * @package Gf
  */
 class Auth {
     /**

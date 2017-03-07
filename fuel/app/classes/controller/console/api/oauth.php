@@ -8,20 +8,11 @@ class Controller_Console_Api_Oauth extends Controller_Console_Authenticate {
     public function post_list () {
         try {
             $list = [];
-
-            $namesOnly = Input::json('namesOnly', false);
-
             if ($github = Config::instance()->get('github', false)) {
-                if ($namesOnly)
-                    $list['github'] = true;
-                else
-                    $list['github'] = $github;
+                $list['github'] = $github;
             }
             if ($bitbucket = Config::instance()->get('bitbucket', false)) {
-                if ($namesOnly)
-                    $list['bitbucket'] = true;
-                else
-                    $list['bitbucket'] = $bitbucket;
+                $list['bitbucket'] = $bitbucket;
             }
 
             $r = [
@@ -76,4 +67,5 @@ class Controller_Console_Api_Oauth extends Controller_Console_Authenticate {
         }
         $this->response($r);
     }
+
 }

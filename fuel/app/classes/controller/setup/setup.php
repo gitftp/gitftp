@@ -1,5 +1,7 @@
 <?php
 
+use Gf\Auth\OAuth;
+
 class Controller_Setup_Setup extends Controller_Hybrid {
     public $template = 'base_layout';
 
@@ -15,8 +17,8 @@ class Controller_Setup_Setup extends Controller_Hybrid {
             }
         }
 
-        $githubCallbackUrl = \Fuel\Core\Uri::create('oauth/authorize/github');
-        $bitbucketCallbackUrl = \Fuel\Core\Uri::create('oauth/authorize/bitbucket');
+        $githubCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_github);
+        $bitbucketCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_bitbucket);
         $baseUrl = \Fuel\Core\Uri::base();
 
         $this->template->body = \Fuel\Core\View::forge('setup/setup', [

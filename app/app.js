@@ -7,6 +7,7 @@ angular.module('App', [
     'ServiceUtils',
     'ServiceApi',
     'cp.ngConfirm',
+    'angularMoment',
     'ngStorage',
     'AppHome',
     'AppSettings',

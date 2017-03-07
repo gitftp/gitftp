@@ -13,9 +13,11 @@
         var BASE = '<?php echo \Fuel\Core\Uri::base() ?>';
         var PATH = '<?php echo \Fuel\Core\Uri::string(); ?>';
         var API_PATH = '<?php echo $apiUrl; ?>'
+        var GITHUB_CALLBACK = '<?php echo $githubCallback; ?>';
+        var BITBUCKET_CALLBACK = '<?php echo $bitbucketCallback; ?>';
     </script>
 </head>
-<body ng-init='user = <?php echo json_encode($user); ?>'>
+<body ng-init='user = <?php echo json_encode($user); ?>;'>
 <div class="app">
 
     <div id="content" class="app-content" role="main">

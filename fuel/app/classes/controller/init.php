@@ -1,6 +1,7 @@
 <?php
 
 use Gf\Auth\Auth;
+use Gf\Auth\OAuth;
 
 class Controller_Init extends Controller {
     public function get_index () {
@@ -14,12 +15,16 @@ class Controller_Init extends Controller {
             $user = Auth::instance()->user;
             $user = \Gf\Auth\Users::instance()->parse($user);
             $apiUrl = \Fuel\Core\Uri::base() . 'console/api/';
+            $githubCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_github);
+            $bitbucketCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_bitbucket);
 
             return \Fuel\Core\View::forge('panel/base_layout', [
-                'js'     => \Fuel\Core\View::forge('js'),
-                'css'    => \Fuel\Core\View::forge('css'),
-                'user'   => $user,
-                'apiUrl' => $apiUrl,
+                'js'                => \Fuel\Core\View::forge('js'),
+                'css'               => \Fuel\Core\View::forge('css'),
+                'user'              => $user,
+                'apiUrl'            => $apiUrl,
+                'githubCallback'    => $githubCallbackUrl,
+                'bitbucketCallback' => $bitbucketCallbackUrl,
             ]);
         }
     }

@@ -17,6 +17,7 @@ angular.module('AppSettings', [
         }).when('/settings/connected-accounts', {
             templateUrl: 'app/pages/settings/pages/connected-accounts.html',
             controller: 'connectedAccountsController',
+            reloadOnSearch: false,
         });
     }
 ]).directive('settingsSidebar', [
@@ -113,18 +114,40 @@ angular.module('AppSettings', [
     '$routeParams',
     'Utils',
     'Api',
-    function ($scope, $rootScope, $routeParams, Utils, Api) {
+    '$window',
+    '$location',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
         Utils.setTitle('Connected accounts');
 
-        $scope.availableOauthApplications = {};
+        $scope.availableApps = {};
+        $scope.connected = [];
+
+        if ($routeParams.s) {
+            console.log($routeParams);
+            if ($routeParams.s == 'failure') {
+                var m = $routeParams.e;
+                if (m == 0)
+                    m = 'Could not connect to the provider';
+
+                Utils.error(m, 'red');
+            }
+            $location.search('s', null).search('e', null);
+        }
 
         $scope.load = function () {
             $scope.loading = true;
 
             // get only names of the oauth applications available.
-            Api.getOAuthApplications(true).then(function (data) {
-                $scope.availableOauthApplications.github = data.github || false;
-                $scope.availableOauthApplications.bitbucket = data.bitbucket || false;
+            Api.getConnectedAccounts().then(function (data) {
+                $scope.availableApps.github = data.providers.github || false;
+                $scope.availableApps.bitbucket = data.providers.bitbucket || false;
+                $scope.connected = data.connected;
+                angular.forEach($scope.connected, function (co) {
+                    if (co.provider == 'github')
+                        $scope.availableApps.github = false;
+                    if (co.provider == 'bitbucket')
+                        $scope.availableApps.bitbucket = false;
+                });
 
                 $scope.loading = false;
             }, function (reason) {
@@ -135,24 +158,14 @@ angular.module('AppSettings', [
 
         $scope.load();
 
-        // $scope.saving = false;
-        // $scope.save = function () {
-        //     $scope.saving = true;
-        //     var settings = {};
-        //     if ($scope.oauth.isGithub)
-        //         settings.github = $scope.settings.github;
-        //     if ($scope.oauth.isBitbucket)
-        //         settings.bitbucket = $scope.settings.bitbucket;
-        //
-        //     Api.saveOAuthApplications(settings).then(function () {
-        //         $scope.saving = false;
-        //     }, function (reason) {
-        //         Utils.error(reason, 'red', $scope.save);
-        //         $scope.saving = false;
-        //     });
-        // };
-        // $scope.load();
-
-
+        $scope.connect = function (provider) {
+            if (provider == 'github') {
+                $window.location.href = GITHUB_CALLBACK;
+            } else if (provider == 'bitbucket') {
+                $window.location.href = BITBUCKET_CALLBACK;
+            } else {
+                return false;
+            }
+        }
     }
 ]);

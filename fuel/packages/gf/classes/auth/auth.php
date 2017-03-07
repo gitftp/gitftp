@@ -4,7 +4,7 @@ namespace Gf\Auth;
 
 use Fuel\Core\Session;
 use Gf\Exception;
-use Nb\Auth\SessionManager;
+use Gf\Auth\SessionManager;
 
 /**
  * Class Auth
@@ -13,7 +13,6 @@ use Nb\Auth\SessionManager;
  * @package Nb
  */
 class Auth {
-
     /**
      * Uses multiple instances for respective users.
      *

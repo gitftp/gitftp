@@ -9,11 +9,19 @@ class Controller_Console_Api_Oauth extends Controller_Console_Authenticate {
         try {
             $list = [];
 
+            $namesOnly = Input::json('namesOnly', false);
+
             if ($github = Config::instance()->get('github', false)) {
-                $list['github'] = $github;
+                if ($namesOnly)
+                    $list['github'] = true;
+                else
+                    $list['github'] = $github;
             }
             if ($bitbucket = Config::instance()->get('bitbucket', false)) {
-                $list['bitbucket'] = $bitbucket;
+                if ($namesOnly)
+                    $list['bitbucket'] = true;
+                else
+                    $list['bitbucket'] = $bitbucket;
             }
 
             $r = [

@@ -9,9 +9,9 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
     public static $files = array (
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         'c447a32e617c6770e792a92ce283fa33' => __DIR__ . '/..' . '/gentle/bitbucket-api/polyfill-55.php',
     );
 
@@ -28,6 +28,7 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
+            'Stevenmaguire\\OAuth2\\Client\\' => 28,
         ),
         'P' => 
         array (
@@ -91,6 +92,10 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         array (
             0 => __DIR__ . '/..' . '/symfony/console',
         ),
+        'Stevenmaguire\\OAuth2\\Client\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/stevenmaguire/oauth2-bitbucket/src',
+        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
@@ -102,6 +107,7 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         'League\\OAuth2\\Client\\' => 
         array (
             0 => __DIR__ . '/..' . '/league/oauth2-client/src',
+            1 => __DIR__ . '/..' . '/league/oauth2-github/src',
         ),
         'League\\Flysystem\\Sftp\\' => 
         array (

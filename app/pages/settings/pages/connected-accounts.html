@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <div settings-sidebar></div>
+        </div>
+        <div class="col-md-8">
+            <div class="">
+                <div class="md-whiteframe-z0 bg-white p-35">
+                    <h3 class="no-margin-top">
+                        Connected accounts
+                    </h3>
+                    <p class="p-b-20">
+                        Your connected accounts with gitftp
+                    </p>
+
+                    <div ng-if="loading">
+                        <div class="loader" style="width: 60px">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                        stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div ng-if="!loading">
+                        <div class="">
+                            <a href="" class="text-sm btn btn-lg btn-rounded btn-info m-r"
+                               ng-if="availableOauthApplications.github">
+                            <span class="block clear text-left m-v-xs">
+                                Connect with
+                                <b class="text-md block font-bold">Github</b>
+                              </span>
+                            </a>
+
+                            <a href="" class="text-sm btn btn-lg btn-rounded btn-info"
+                               ng-if="availableOauthApplications.bitbucket">
+                            <span class="block clear text-left m-v-xs">
+                                Connect with
+                                <b class="text-md block font-bold">Bitbucket</b>
+                              </span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

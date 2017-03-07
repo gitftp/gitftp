@@ -9,6 +9,7 @@ Autoloader::add_classes([
     'Gf\Exception\Logger'               => __DIR__ . '/classes/exception/logger.php',
     'Gf\Exception\ExceptionInterceptor' => __DIR__ . '/classes/exception/exceptioninterceptor.php',
     'Gf\Settings'                       => __DIR__ . '/classes/settings.php',
+    'Gf\Auth\OAuth'                      => __DIR__ . '/classes/auth/oauth.php',
     'Gf\Auth\Auth'                      => __DIR__ . '/classes/auth/auth.php',
     'Gf\Auth\SessionManager'            => __DIR__ . '/classes/auth/sessionmanager.php',
     'Gf\Auth\Users'                     => __DIR__ . '/classes/auth/users.php',

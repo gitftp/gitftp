@@ -12,9 +12,11 @@ angular.module('ServiceApi', []).factory('Api', [
              * get oauth applications
              * @returns {IPromise<T>}
              */
-            getOAuthApplications: function () {
+            getOAuthApplications: function (namesOnly) {
                 var defer = $q.defer();
-                $http.post(API_PATH + 'oauth/list').then(function (res) {
+                $http.post(API_PATH + 'oauth/list', {
+                    namesOnly: namesOnly || false,
+                }).then(function (res) {
                     if (res.data.status) {
                         defer.resolve(res.data.data);
                     } else {

@@ -9,28 +9,28 @@ use Gf\Settings;
  * Wrapper class to validate Oauth logins.
  *
  * @deprecated
- * Class Oauth
+ *          Class Oauth
  * @package Craftpip\Oauth
  */
 class OAuth extends Auth {
-    public $config = array();
+    public $config = [];
     public $OAuth_provider;
     public $OAuth_providerConfig;
     public $OAuth_callbackUrl;
-    public $OAuth_scope = array();
+    public $OAuth_scope = [];
     public $OAuth_token;
     public $OAuth_user;
-    public $OAuth_email = NULL;
-    public $OAuth_state = NULL;
-    public $OAuth_is_callback = FALSE;
+    public $OAuth_email = null;
+    public $OAuth_state = null;
+    public $OAuth_is_callback = false;
     protected $client;
 
-    public function __construct($user_id = NULL) {
+    public function __construct ($user_id = null) {
         parent::__construct($user_id);
         $this->client = new \GuzzleHttp\Client();
     }
 
-    public function parseUserData($data) {
+    public function parseUserData ($data) {
         switch ($this->OAuth_provider) {
             case 'GitHub':
                 $data = [
@@ -47,7 +47,7 @@ class OAuth extends Auth {
                     'name'     => $data['display_name'],
                     'uid'      => $data['uuid'],
                     'location' => $data['location'],
-                    'email'    => NULL // bitbucket doesnt return Email.
+                    'email'    => null // bitbucket doesnt return Email.
                 ];
                 break;
         }
@@ -55,31 +55,31 @@ class OAuth extends Auth {
         return $data;
     }
 
-    public function is_error() {
-        $error = FALSE;
+    public function is_error () {
+        $error = false;
         if (isset($_GET['error'])) {
-            $error = TRUE;
+            $error = true;
         }
 
         return $error;
     }
 
-    public function refreshToken($provider) {
+    public function refreshToken ($provider) {
         $this->OAuth_provider = $this->_parseProviderName($provider);
         $driver = $this->getDriver();
         $token = $this->getToken($provider);
         $refresh_token = $token->getRefreshToken(); // refresh token used to retrive the new token.
         $new_token = $driver->getAccessToken('refresh_token', [
-            'refresh_token' => $refresh_token
+            'refresh_token' => $refresh_token,
         ]);
         $this->updateProvider($this->OAuth_provider, [
-            'access_token' => serialize($new_token)
+            'access_token' => serialize($new_token),
         ]);
 
         return $new_token;
     }
 
-    public function init($provider, $refUrl = NULL) {
+    public function init ($provider, $refUrl = null) {
         $provider = $this->_parseProviderName($provider);
         $this->OAuth_provider = $provider;
         $this->OAuth_callbackUrl = \Uri::current();
@@ -97,10 +97,10 @@ class OAuth extends Auth {
         } elseif ($this->is_error()) {
             //todo: error if request is denied.
         } else {
-            $this->OAuth_is_callback = TRUE;
-            $token = $provider->getAccessToken('authorization_code', array(
-                'code' => $_GET['code']
-            ));
+            $this->OAuth_is_callback = true;
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $_GET['code'],
+            ]);
             $this->OAuth_token = $token;
             $resourceOwner = $provider->getResourceOwner($token);
             $this->OAuth_user = $this->parseUserData($resourceOwner->toArray());
@@ -109,13 +109,13 @@ class OAuth extends Auth {
         }
     }
 
-    public function getAdditionalData() {
+    public function getAdditionalData () {
         switch ($this->OAuth_provider) {
             case 'Bitbucket':
                 $res = $this->client->get('https://api.bitbucket.org/2.0/user/emails', [
-                    'headers' => ['Authorization' => 'Bearer ' . $this->OAuth_token->getToken()]
+                    'headers' => ['Authorization' => 'Bearer ' . $this->OAuth_token->getToken()],
                 ]);
-                $data = json_decode($res->getBody(), TRUE)['values'];
+                $data = json_decode($res->getBody(), true)['values'];
                 foreach ($data as $emails) {
                     if ($emails['is_primary'] == 1) {
                         $this->OAuth_email = $emails['email'];
@@ -131,11 +131,11 @@ class OAuth extends Auth {
         }
     }
 
-    public function login_or_register() {
+    public function login_or_register () {
         return $this->OAuth_state;
     }
 
-    public function processCallback() {
+    public function processCallback () {
         if ($this->user_id != 0) {
             // meaning, the user is already logged in.
             $this->OAuth_state = 'logged_in';
@@ -158,7 +158,7 @@ class OAuth extends Auth {
                     \Str::random(),
                     $this->OAuth_email,
                     Settings::get('oauth_default_group'),
-                    array()
+                    []
                 );
                 $this->setId($user_id);
                 $this->OAuth_state = 'registered';
@@ -192,11 +192,11 @@ class OAuth extends Auth {
         $this->force_login($this->user_id);
     }
 
-    public function getDriver() {
+    public function getDriver () {
         switch (strtolower($this->OAuth_provider)) {
             case 'github':
                 $this->OAuth_scope = [
-                    'scope' => explode(',', Settings::get('oauth_provider_github_scope'))
+                    'scope' => explode(',', Settings::get('oauth_provider_github_scope')),
                 ];
                 $driver = new \League\OAuth2\Client\Provider\Github([
                     'clientId'     => Settings::get('oauth_provider_github_client_id'),

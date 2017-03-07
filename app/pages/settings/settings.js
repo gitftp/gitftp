@@ -14,6 +14,9 @@ angular.module('AppSettings', [
         }).when('/settings/oauth-applications', {
             templateUrl: 'app/pages/settings/pages/oauth-applications.html',
             controller: 'oAuthController',
+        }).when('/settings/connected-accounts', {
+            templateUrl: 'app/pages/settings/pages/connected-accounts.html',
+            controller: 'connectedAccountsController',
         });
     }
 ]).directive('settingsSidebar', [
@@ -103,5 +106,53 @@ angular.module('AppSettings', [
             });
         };
         $scope.load();
+    }
+]).controller('connectedAccountsController', [
+    '$scope',
+    '$rootScope',
+    '$routeParams',
+    'Utils',
+    'Api',
+    function ($scope, $rootScope, $routeParams, Utils, Api) {
+        Utils.setTitle('Connected accounts');
+
+        $scope.availableOauthApplications = {};
+
+        $scope.load = function () {
+            $scope.loading = true;
+
+            // get only names of the oauth applications available.
+            Api.getOAuthApplications(true).then(function (data) {
+                $scope.availableOauthApplications.github = data.github || false;
+                $scope.availableOauthApplications.bitbucket = data.bitbucket || false;
+
+                $scope.loading = false;
+            }, function (reason) {
+                Utils.error(reason, 'red', $scope.load);
+                $scope.loading = false;
+            });
+        };
+
+        $scope.load();
+
+        // $scope.saving = false;
+        // $scope.save = function () {
+        //     $scope.saving = true;
+        //     var settings = {};
+        //     if ($scope.oauth.isGithub)
+        //         settings.github = $scope.settings.github;
+        //     if ($scope.oauth.isBitbucket)
+        //         settings.bitbucket = $scope.settings.bitbucket;
+        //
+        //     Api.saveOAuthApplications(settings).then(function () {
+        //         $scope.saving = false;
+        //     }, function (reason) {
+        //         Utils.error(reason, 'red', $scope.save);
+        //         $scope.saving = false;
+        //     });
+        // };
+        // $scope.load();
+
+
     }
 ]);

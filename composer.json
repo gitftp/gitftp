@@ -64,7 +64,9 @@
     "banago/bridge": "^1.1",
     "nicolab/php-ftp-client": "^1.2",
     "league/oauth2-client": "^2.2",
-    "crossjoin/browscap": "^2.0"
+    "crossjoin/browscap": "^2.0",
+    "league/oauth2-github": "^2.0",
+    "stevenmaguire/oauth2-bitbucket": "^2.0"
   },
   "suggest": {
     "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

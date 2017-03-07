@@ -85,6 +85,45 @@ class OAuth {
     }
 
     /**
+     * Providers that are setup
+     *
+     * @return array
+     */
+    public static function getAvailableProviders () {
+        $list = [];
+        if ($github = Config::instance()->get('github', false)) {
+            $list[] = 'github';
+        }
+        if ($bitbucket = Config::instance()->get('bitbucket', false)) {
+            $list[] = 'bitbucket';
+        }
+
+        return $list;
+    }
+
+    /**
+     * Providers that are setup and logged in with
+     *
+     * @param $userId
+     *
+     * @return array
+     */
+    public static function getReadyProviders ($userId) {
+        $list = [];
+        $a = self::getProviders([
+            'parent_id' => $userId,
+        ], [
+            'provider',
+        ]);
+
+        foreach ($a as $item) {
+            $list[] = $item['provider'];
+        }
+
+        return $list;
+    }
+
+    /**
      * Get the callback url for the provider.
      *
      * @param $provider

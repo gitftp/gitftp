@@ -16,7 +16,7 @@ class Auth extends Db {
      * @param null $user_id
      */
 
-    public function __construct($user_id = NULL) {
+    public function __construct ($user_id = null) {
         $this->auth = \Auth::instance();
         if (is_null($user_id)) {
             if ($this->auth->check())
@@ -32,58 +32,64 @@ class Auth extends Db {
     /**
      * Set current logged in user_id.
      */
-    public function setId($user_id) {
+    public function setId ($user_id) {
         $this->user_id = $user_id;
         $this->updateWrapper();
     }
 
     /**
      * Get Attributes of a user,
+     *
      * @param null $key
+     *
      * @return bool
      */
-    public function getAttr($key = NULL) {
+    public function getAttr ($key = null) {
         try {
             if (is_null($key))
                 return $this->user_attr;
             else
-                return (!empty($this->user_attr[$key])) ? $this->user_attr[$key] : FALSE;
+                return (!empty($this->user_attr[$key])) ? $this->user_attr[$key] : false;
         } catch (Exception $e) {
-            return FALSE;
+            return false;
         }
     }
 
     /**
      * Set a new Attribute, update if exist, or create if doesnt exist.
+     *
      * @param $key
      * @param $value
      */
-    public function setAttr($key, $value) {
+    public function setAttr ($key, $value) {
         $this->user_attr[$key] = $value;
         $this->updateAttr();
     }
 
     /**
      * If the Attribute exists.
+     *
      * @param $key
+     *
      * @return bool
      */
-    public function existAttr($key) {
-        return (array_key_exists($key, $this->user_attr)) ? TRUE : FALSE;
+    public function existAttr ($key) {
+        return (array_key_exists($key, $this->user_attr)) ? true : false;
     }
 
     /**
      * remove key from user's attributes. which are stored in Users profile_field property.
      *
      * @param $key
+     *
      * @return bool
      */
-    public function removeAttr($key) {
+    public function removeAttr ($key) {
         if ($this->existAttr($key)) {
             unset($this->user_attr[$key]);
             $this->updateAttr();
         } else {
-            return FALSE;
+            return false;
         }
     }
 
@@ -91,13 +97,14 @@ class Auth extends Db {
      * Get property of THE USER. 'id, username, email, created_at, updated_at, etc'
      *
      * @param $name
+     *
      * @return bool
      */
-    public function getProperty($name) {
+    public function getProperty ($name) {
         try {
             return $this->user[$name];
         } catch (Exception $e) {
-            return FALSE;
+            return false;
         }
     }
 
@@ -105,9 +112,10 @@ class Auth extends Db {
      * Get Token in form of array('toekn', 'secret') of a provider.
      *
      * @param null $name
+     *
      * @return array|bool
      */
-    public function getToken($name) {
+    public function getToken ($name) {
         $a = \DB::select()->from($this->providersTable)->where('parent_id', $this->user_id);
         if (!is_null($name)) {
             $name = $this->_parseProviderName($name);
@@ -117,6 +125,6 @@ class Auth extends Db {
         if (count($b))
             return unserialize($b[0]['access_token']);
         else
-            return FALSE;
+            return false;
     }
 }

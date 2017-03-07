@@ -17,7 +17,9 @@
         var BITBUCKET_CALLBACK = '<?php echo $bitbucketCallback; ?>';
     </script>
 </head>
-<body ng-init='user = <?php echo json_encode($user); ?>;'>
+<body ng-init='user = <?php echo json_encode($user); ?>;
+availableProviders = <?php echo json_encode($availableProviders) ?>;
+readyProviders = <?php echo json_encode($readyProviders) ?>'>
 <div class="app">
 
     <div id="content" class="app-content" role="main">

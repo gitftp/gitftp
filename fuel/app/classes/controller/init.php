@@ -9,7 +9,7 @@ class Controller_Init extends Controller {
         if (!$isReady or !GF_CONFIG_FILE_EXISTS)
             Response::redirect('setup');
 
-        if (!Auth::instance()->user_id) {
+        if (!$user_id = Auth::instance()->user_id) {
             \Fuel\Core\Response::redirect('login');
         } else {
             $user = Auth::instance()->user;
@@ -17,14 +17,18 @@ class Controller_Init extends Controller {
             $apiUrl = \Fuel\Core\Uri::base() . 'console/api/';
             $githubCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_github);
             $bitbucketCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_bitbucket);
+            $availableProviders = OAuth::getAvailableProviders();
+            $readyProviders = OAuth::getReadyProviders($user_id);
 
             return \Fuel\Core\View::forge('panel/base_layout', [
-                'js'                => \Fuel\Core\View::forge('js'),
-                'css'               => \Fuel\Core\View::forge('css'),
-                'user'              => $user,
-                'apiUrl'            => $apiUrl,
-                'githubCallback'    => $githubCallbackUrl,
-                'bitbucketCallback' => $bitbucketCallbackUrl,
+                'js'                 => \Fuel\Core\View::forge('js'),
+                'css'                => \Fuel\Core\View::forge('css'),
+                'user'               => $user,
+                'apiUrl'             => $apiUrl,
+                'githubCallback'     => $githubCallbackUrl,
+                'bitbucketCallback'  => $bitbucketCallbackUrl,
+                'availableProviders' => $availableProviders,
+                'readyProviders'     => $readyProviders,
             ]);
         }
     }

@@ -8,9 +8,11 @@ angular.module('App', [
     'ServiceApi',
     'cp.ngConfirm',
     'angularMoment',
+    'AppFilters',
     'ngStorage',
     'AppHome',
     'AppSettings',
+    'AppProjectNew',
 ]).config([
     '$routeProvider',
     '$locationProvider',

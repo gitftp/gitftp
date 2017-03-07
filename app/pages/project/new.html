@@ -1,0 +1,53 @@
+<div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="m-t-30">
+                    <div class="panel panel-card">
+                        <div class="panel-body" ng-if="loading">
+                            <div class="p-t-20 p-b-20">
+                                <div class="loader" style="width: 60px">
+                                    <svg class="circular" viewBox="25 25 50 50">
+                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                                stroke-miterlimit="10"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-body" ng-if="!loading">
+                            <h3 class="m-b-20 m-t-5">New project</h3>
+
+                            <form name="newProjectForm">
+                                <div class="md-form-group">
+                                    <label>Repository</label>
+                                    <div class="dropdown">
+                                        <button class="btn btn-default btn-block dropdown-toggle button-left"
+                                                type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                            {{selectedRepo ? selectedRepo.name : 'Click to select'}}
+                                            <div class="text-muted" ng-if="selectedRepo">
+                                                {{selectedRepo.repo_url}}
+                                            </div>
+                                        </button>
+                                        <ul class="dropdown-menu dropdown-menu-drop w-full" role="menu"
+                                            aria-labelledby="dropdownMenu1">
+                                            <li role="presentation"
+                                                ng-repeat="repo in available_repos | orderBy: 'full_name'">
+                                                <a role="menuitem" tabindex="-1" ng-click="selectRepo(repo)">
+                                                    <span class="pull-right text-muted">
+                                                        {{repo.provider}}
+                                                    </span>
+
+                                                    {{repo.full_name}} <br>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -123,3 +123,27 @@ Gitftp
     stroke: #ffa700;
   }
 }
+
+.dropdown-menu-drop {
+  display: block;
+  opacity: 0;
+  -webkit-transform: rotateX(90deg);
+  -ms-transform: rotateX(90deg);
+  transform: rotateX(90deg);
+  -webkit-transition: all .25s;
+  transition: all .25s;
+  -webkit-backface-visibility: hidden;
+  -moz-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.open > .dropdown-menu-drop {
+  opacity: 1;
+  -webkit-transform: rotateX(0deg);
+  -ms-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+
+.button-left{
+  text-align: left !important;
+}

@@ -63,11 +63,16 @@
                             <td>connected as @{{co.username}}</td>
                             <td>{{co.provider}}</td>
                             <td>{{co.created_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</td>
-                            <td>{{co.updated_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</td>
+                            <td><span ng-if="co.updated_at != 0">
+                                {{co.updated_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}
+                            </span></td>
                         </tr>
                     </table>
-                    <div class="panel-body" ng-if="!connected.length">
-                        You have no connected accounts.
+                    <div class="panel-body" ng-if="!connected.length && !loading">
+                        <span>You have no connected accounts.</span>
+                    </div>
+                    <div class="panel-body" ng-if="loading">
+                        <span ng-if="loading">Loading...</span>
                     </div>
                 </div>
             </div>

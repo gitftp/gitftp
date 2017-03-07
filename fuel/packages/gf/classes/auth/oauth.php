@@ -116,9 +116,10 @@ class OAuth {
             'provider',
         ]);
 
-        foreach ($a as $item) {
-            $list[] = $item['provider'];
-        }
+        if ($a)
+            foreach ($a as $item) {
+                $list[] = $item['provider'];
+            }
 
         return $list;
     }
@@ -237,20 +238,27 @@ class OAuth {
         }
     }
 
-//    public function refreshToken ($provider) {
-//        $driver = $this->getDriver();
-//        $access_token = $this->getProviders($this->provider, 'access_token');
-//        $token = unserialize($access_token);
-//        $refresh_token = $token->getRefreshToken();
-//        $new_token = $driver->getAccessToken('refresh_token', [
-//            'refresh_token' => $refresh_token,
-//        ]);
-//        $this->updateProvider($this->provider, [
-//            'access_token' => serialize($new_token),
-//        ]);
-//
-//        return $new_token;
-//    }
+    /**
+     * @param AccessToken $token
+     * @param             $providerId
+     *
+     * @return \League\OAuth2\Client\Token\AccessToken
+     */
+    public function refreshToken (AccessToken $token, $providerId) {
+        $driver = $this->getDriver();
+        $refresh_token = $token->getRefreshToken();
+        $new_token = $driver->getAccessToken('refresh_token', [
+            'refresh_token' => $refresh_token,
+        ]);
+        $this->updateProvider([
+            'provider' => $this->provider,
+            'id'       => $providerId,
+        ], [
+            'access_token' => serialize($new_token),
+        ]);
+
+        return $new_token;
+    }
 
     /**
      * Make data consistent from the response.

@@ -17,6 +17,10 @@ Autoloader::add_classes([
     'Gf\Config'                         => __DIR__ . '/classes/config.php',
     'Gf\Git'                            => __DIR__ . '/classes/git.php',
     'Gf\Projects'                       => __DIR__ . '/classes/projects.php',
+    'Gf\Git\Git'                        => __DIR__ . '/classes/git/git.php',
+    'Gf\Git\GitInterface'               => __DIR__ . '/classes/git/gitinterface.php',
+    'Gf\Git\Github'                     => __DIR__ . '/classes/git/github.php',
+    'Gf\Git\Bitbucket'                  => __DIR__ . '/classes/git/bitbucket.php',
 ]);
 
 /* End of file bootstrap.php */

@@ -1,9 +1,37 @@
 <?php
 
 use Fuel\Core\Input;
+use Fuel\Core\Str;
 use Gf\Config;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
+
+    public function post_create () {
+        try {
+
+            $repository_id = Input::json('project.repo.id');
+            $repository_provider = Input::json('project.repo.provider');
+            $repository_full_name = Input::json('project.repo.full_name');
+            $branches = Input::json('project.branches');
+
+            if (!$repository_id or !$repository_provider or !$repository_full_name or !$branches)
+                throw new \Gf\Exception\UserException('Missing parameters');
+
+            $project_id = \Gf\Projects::create($repository_id, $repository_provider, $repository_full_name, $this->user_id);
+
+            $r = [
+                'status' => true,
+                'data'   => $project_id,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
 
     public function post_list_available_repositories () {
         try {

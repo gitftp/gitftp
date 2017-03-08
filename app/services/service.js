@@ -9,7 +9,26 @@ angular.module('ServiceApi', []).factory('Api', [
     function ($http, $q, Utils, $rootScope, $ngConfirm) {
         return {
             /**
-             * get oauth connected accounts
+             * create a project
+             * @returns {IPromise<T>}
+             */
+            createProject: function (set) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/create', {
+                    project: set
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * get available branches for the repository
              * @returns {IPromise<T>}
              */
             getAvailableBranches: function (repository) {

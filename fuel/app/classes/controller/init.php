@@ -20,6 +20,7 @@ class Controller_Init extends Controller {
             $availableProviders = OAuth::getAvailableProviders();
             $readyProviders = OAuth::getReadyProviders($user_id);
 
+
             return \Fuel\Core\View::forge('panel/base_layout', [
                 'js'                 => \Fuel\Core\View::forge('js'),
                 'css'                => \Fuel\Core\View::forge('css'),

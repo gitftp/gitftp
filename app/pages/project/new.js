@@ -51,8 +51,27 @@ angular.module('AppProjectNew', [
 
         $scope.selectRepo = function (repo) {
             $scope.selectedRepo = repo;
+            $scope.availableBranches = [];
 
             $scope.getBranches();
-        }
+        };
+
+        $scope.creating = false;
+        $scope.createProject = function () {
+            if (!$scope.selectedRepo || $scope.availableBranches.length == 0)
+                return false;
+
+            $scope.creating = true;
+            Api.createProject({
+                repo: $scope.selectedRepo,
+                branches: $scope.availableBranches
+            }).then(function (project_id) {
+                $scope.creating = false;
+                console.log(project_id);
+            }, function (reason) {
+                Utils.error(reason, 'red', $scope.createProject);
+                $scope.creating = false;
+            })
+        };
     }
 ]);

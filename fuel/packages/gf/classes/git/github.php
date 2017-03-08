@@ -2,6 +2,7 @@
 
 namespace Gf\Git;
 
+use Gf\Auth\OAuth;
 use Github\Client;
 
 /**
@@ -22,6 +23,22 @@ class Github implements GitInterface {
         $this->instance->authenticate($token, '', Client::AUTH_HTTP_TOKEN);
     }
 
+    public function getRepository ($username, $repoName) {
+        $data = $this->instance->api('repo')->show($username, $repoName);
+        $repository = [];
+        $repository['id'] = $data['id'];
+        $repository['name'] = $data['name'];
+        $repository['full_name'] = $data['full_name'];
+        $repository['repo_url'] = $data['html_url'];
+        $repository['api_url'] = $data['url'];
+        $repository['clone_url'] = $data['clone_url'];
+        $repository['private'] = $data['private'];
+        $repository['size'] = $data['size'] * 1000;
+        $repository['provider'] = OAuth::provider_github;
+
+        return $repository;
+    }
+
     public function getRepositories () {
         $a = $this->instance->api('me')->repositories('all');
 
@@ -33,8 +50,9 @@ class Github implements GitInterface {
                 'repo_url'  => $repo['html_url'],
                 'api_url'   => $repo['url'],
                 'clone_url' => $repo['clone_url'],
-                'size'      => $repo['size'],
-                'provider'  => 'github',
+                'private'   => $repo['private'],
+                'size'      => $repo['size'] * 1000, // size is given in KB, convert to bytes.
+                'provider'  => OAuth::provider_github,
             ];
             $response[] = $b;
         }
@@ -51,7 +69,7 @@ class Github implements GitInterface {
      * @return array
      */
     public function getBranches ($repoName, $username = null) {
-        if(is_null($username))
+        if (is_null($username))
             $username = $this->username;
 
         $a = $this->instance->api('repo')->branches($username, $repoName);
@@ -96,7 +114,7 @@ class Github implements GitInterface {
         return $response;
     }
 
-    public function setHook ($repoName, $url) {
+    public function setHook ($repoName, $username, $url) {
         $options = [
             'name'   => 'web',
             'config' => [

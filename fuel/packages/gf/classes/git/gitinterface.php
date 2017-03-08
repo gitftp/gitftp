@@ -5,6 +5,8 @@ namespace Gf\Git;
 interface GitInterface {
     function __construct ($username);
 
+    function getRepository ($username, $repoName);
+
     function getRepositories ();
 
     function authenticate ($token);
@@ -13,7 +15,7 @@ interface GitInterface {
 
     function getHook ($repoName, $id);
 
-    function setHook ($repoName, $url);
+    function setHook ($repoName, $username, $url);
 
     function removeHook ($repoName, $id);
 

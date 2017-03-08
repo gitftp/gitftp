@@ -2,6 +2,7 @@
 
 namespace Gf\Git;
 
+use Fuel\Core\Uri;
 use Gf\Auth\Auth;
 use Gf\Auth\OAuth;
 use Gf\Exception\UserException;
@@ -32,9 +33,13 @@ class Git {
     /**
      * If the Class was initialized with only one provider.
      * it will be stored here
-
      */
     public $provider = false;
+
+    /**
+     * @var
+     */
+    public $user_id;
 
 
     /**
@@ -44,7 +49,8 @@ class Git {
      * @param null $provider -> initialize only this provider.
      *                       Saves resources.
      */
-    public function __construct ($user_id = null, $provider = null) {
+    public function __construct ($user_id, $provider = null) {
+        $this->user_id = $user_id;
         $where = [
             'parent_id' => $user_id,
         ];
@@ -77,37 +83,29 @@ class Git {
     }
 
     /**
-     * @param      $deploy_id
+     * @param      $project_id
      * @param      $key
      * @param null $user_id
      *
-     * @deprecated
      * @return string
      */
-    public function buildHookUrl ($deploy_id, $key, $user_id = null) {
+    public function createHookUrl ($project_id, $key, $user_id = null) {
         if (is_null($user_id))
-            $user_id = $this->auth->user_id;
+            $user_id = $this->user_id;
 
-        return dash_url . "hook/i/$user_id/$deploy_id/$key";
+        return Uri::base() . "hook/i/$user_id/$project_id/$key";
     }
 
     /**
-     * @deprecated
+     * creates url that is used for clone,
+     * this clone url uses token for authentication
      *
-     * @param $id
-     */
-    public function setDeployId ($id) {
-
-    }
-
-    /**
      * @param $data
      * @param $provider
      *
-     * @deprecated
      * @return string
      */
-    public function parseRepositoryCloneUrl ($data, $provider) {
+    public function createCloneUrl ($data, $provider) {
         // here data is database record array.
         $url = $data['repository'];
         if ($data['git_name'] !== '') {

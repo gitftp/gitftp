@@ -2,7 +2,13 @@
 
 namespace Gf\Git;
 
+use Bitbucket\API\Api;
+use Bitbucket\API\Http\ClientInterface;
+use Bitbucket\API\Http\Listener\OAuth2Listener;
+use Bitbucket\API\User;
 use Bitbucket\API\User\Repositories;
+use Fuel\Core\Uri;
+use Gf\Auth\OAuth;
 use GuzzleHttp\Client;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -14,53 +20,122 @@ use League\OAuth2\Client\Token\AccessToken;
 class Bitbucket implements GitInterface {
     private $username;
     private $options = [];
+
+    /**
+     * @var ClientInterface
+     */
     private $client;
     private $api_url = "https://api.bitbucket.org/2.0/";
     private $instance;
+    private $api;
 
     /**
      * @param $username
      */
     public function __construct ($username) {
         $this->username = $username;
-        $this->client = new Client([
-            'base_uri' => $this->api_url,
+//        $this->client = new Client([
+//            'base_uri' => $this->api_url,
+//        ]);
+        $this->api = new Api([
+            'api_version' => '2.0',
         ]);
     }
 
     public function authenticate ($token) {
-        $this->options['headers']['Authorization'] = "Bearer $token";
+        $this->api->getClient()->addListener(
+            new OAuth2Listener([
+                'access_token' => $token,
+            ])
+        );
+        $this->client = $this->api->getClient();
+
+//        $this->options['headers']['Authorization'] = "Bearer $token";
     }
 
-    private function getAll ($list) {
-        global $lists;
+    function getRepository ($username, $repoName) {
+        $repository = $this->client->setApiVersion('2.0')
+            ->get("repositories/$username/$repoName");
+        $repository_data = $repository->getContent();
+        $repository_data = json_decode($repository_data, true);
 
-        if (isset($list['next']) && count($list['values']) == 10) {
-            $nextList = $this->client->get($list['next'], [
-                'headers' => $this->options['headers'],
-            ]);
-            $nextList = json_decode($nextList->getBody(), true);
-            $listMerge = $this->getAll($nextList, $lists);
-
-            return array_merge($listMerge, $list['values']);
+        $cloneUrl = '';
+        foreach ($repository_data['links']['clone'] as $link) {
+            if ($link['name'] == 'https') {
+                $cloneUrl = $link['href'];
+                break;
+            }
         }
 
-        return $list['values'];
+        $repository_parsed = [
+            'id'        => $repository_data['uuid'],
+            'name'      => $repository_data['name'],
+            'full_name' => $repository_data['full_name'],
+            'repo_url'  => $repository_data['links']['html']['href'],
+            'api_url'   => $repository_data['links']['self']['href'],
+            'clone_url' => $cloneUrl,
+            'size'      => $repository_data['size'],
+            'private'   => $repository_data['is_private'],
+            'provider'  => OAuth::provider_bitbucket,
+        ];
+
+        return $repository_parsed;
+    }
+
+    private $repositoriesPaginated = [];
+
+    private function getRepositoriesPaginateAll ($page, $after = null) {
+        $query = [
+            'role' => 'admin',
+            'page' => $page,
+        ];
+
+        if (!is_null($after))
+            $query['after'] = $after;
+
+        $repositories = $this->client->setApiVersion('2.0')->get('repositories', $query);
+        $data = $repositories->getContent();
+        $data = json_decode($data, true);
+        $this->repositoriesPaginated = array_merge($this->repositoriesPaginated, $data['values']);
+        if (!empty($data['next'])) {
+            $parts = parse_url($data['next']);
+            parse_str($parts['query'], $query);
+
+            return $this->getRepositoriesPaginateAll($query['page'], $query['after']);
+        } else {
+            $repo = $this->repositoriesPaginated;
+            $this->repositoriesPaginated = [];
+
+            return $repo;
+        }
     }
 
     public function getRepositories () {
-        $repo = new Repositories();
-        $repo->
+        $repositories = $this->getRepositoriesPaginateAll(1);
 
-        $data = $this->client->get('repositories/' . $this->username, [
-            'headers' => $this->options['headers'],
-        ]);
+        //scm = "git"
+        //website = ""
+        //has_wiki = false
+        //name = "Global3"
+        //links = {array} [12]
+        //fork_policy = "no_public_forks"
+        //uuid = "{39498ad5-fc0c-4e69-be59-95ce2537707e}"
+        //language = ""
+        //created_on = "2015-01-05T13:23:49.485463+00:00"
+        //mainbranch = {array} [0]
+        //full_name = "gaurish_rane/global3"
+        //has_issues = false
+        //owner = {array} [5]
+        //updated_on = "2015-04-16T15:13:32.224238+00:00"
+        //size = 147420877
+        //type = "repository"
+        //slug = "global3"
+        //is_private = true
+        //description = ""
 
-        $a = json_decode($data->getBody(), true);
-        $a = $this->getAll($a);
 
         $response = [];
-        foreach ($a as $repo) {
+        foreach ($repositories as $repo) {
             if ($repo['scm'] !== 'git')
                 continue;
 
@@ -79,7 +154,8 @@ class Bitbucket implements GitInterface {
                 'api_url'   => $repo['links']['self']['href'],
                 'clone_url' => $cloneUrl,
                 'size'      => $repo['size'],
-                'provider'  => 'bitbucket',
+                'private'   => $repo['is_private'],
+                'provider'  => OAuth::provider_bitbucket,
             ];
 
             $response[] = $b;
@@ -88,17 +164,45 @@ class Bitbucket implements GitInterface {
         return $response;
     }
 
+    private $branchesPaginated = [];
+
+    private function getBranchesPaginateAll ($username, $repoName, $page, $after = null) {
+        $query = [
+            'page' => $page,
+        ];
+
+        if (!is_null($after))
+            $query['after'] = $after;
+
+        $branchesList = $this->client->setApiVersion('2.0')->get("repositories/$username/$repoName/refs/branches", $query);
+        $data = $branchesList->getContent();
+        $data = json_decode($data, true);
+        $this->branchesPaginated = array_merge($this->branchesPaginated, $data['values']);
+        if (!empty($data['next'])) {
+            $parts = parse_url($data['next']);
+            parse_str($parts['query'], $query);
+
+            return $this->getBranchesPaginateAll($username, $repoName, $query['page'], $query['after']);
+        } else {
+            $branches = $this->branchesPaginated;
+            $this->branchesPaginated = [];
+
+            return $branches;
+        }
+    }
+
     public function getBranches ($repoName, $username = null) {
+        if (is_null($username))
+            $username = $this->username;
+
         $repoName = $this->cleanRepoName($repoName);
-        $data = $this->client->get(sprintf('repositories/%s/%s/refs/branches', $this->username, $repoName), [
-            'headers' => $this->options['headers'],
-        ]);
-        $a = json_decode($data->getBody(), true);
-        $a = $this->getAll($a);
+
+        $branchesList = $this->getBranchesPaginateAll($username, $repoName, 1);
 
         $branches = [];
-        foreach ($a as $branch) {
-            $branches[] = $branch['name'];
+        foreach ($branchesList as $branch) {
+            if ($branch['type'] == 'branch')
+                $branches[] = $branch['name'];
         }
 
         return $branches;
@@ -154,32 +258,27 @@ class Bitbucket implements GitInterface {
         return $id;
     }
 
-    public function setHook ($repoName, $url) {
+    public function setHook ($repoName, $username, $url) {
         $repoName = $this->cleanRepoName($repoName);
 
         $config = [
-            'description' => 'Gitftp Webhook - ' . \Str::random(),
-            'url'         => $url,
+            'description' => 'Gitftp hook - ' . \Str::random('alnum', 6),
+            'url'         => 'http://craftpip.org/rest/bitbucket',
             'active'      => true,
             'events'      => ['repo:push'],
         ];
 
-        $data = $this->client->post(sprintf('repositories/%s/%s/hooks', $this->username, $repoName), [
-            'headers' => $this->options['headers'],
-            'body'    => json_encode($config),
+        $response = $this->client->post("repositories/$username/$repoName/hooks", json_encode($config), [
+            'Content-Type' => 'application/json',
         ]);
-
-        $data = json_decode($data->getBody(), true);
-
-        if (isset($data['error'])) {
-            throw new Exception($data['error']['message']);
-        }
+        $content = $response->getContent();
+        $content = json_decode($content, true);
 
         $response = [
-            'id'          => $data['uuid'],
-            'name'        => $data['description'],
-            'events'      => $data['events'],
-            'url'         => $data['url'],
+            'id'          => $content['uuid'],
+            'name'        => $content['description'],
+            'events'      => $content['events'],
+            'url'         => $content['url'],
             'contenttype' => 'json',
         ];
 

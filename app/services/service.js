@@ -12,6 +12,25 @@ angular.module('ServiceApi', []).factory('Api', [
              * get oauth connected accounts
              * @returns {IPromise<T>}
              */
+            getAvailableBranches: function (repository) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/list_available_branches', {
+                    repository: repository
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * get oauth connected accounts
+             * @returns {IPromise<T>}
+             */
             getAvailableRepositories: function () {
                 var defer = $q.defer();
                 $http.post(API_PATH + 'projects/list_available_repositories', {}).then(function (res) {

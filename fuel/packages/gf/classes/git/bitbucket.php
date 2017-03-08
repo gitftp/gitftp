@@ -2,7 +2,9 @@
 
 namespace Gf\Git;
 
+use Bitbucket\API\User\Repositories;
 use GuzzleHttp\Client;
+use League\OAuth2\Client\Token\AccessToken;
 
 /**
  * Class Bitbucket
@@ -14,6 +16,7 @@ class Bitbucket implements GitInterface {
     private $options = [];
     private $client;
     private $api_url = "https://api.bitbucket.org/2.0/";
+    private $instance;
 
     /**
      * @param $username
@@ -46,9 +49,13 @@ class Bitbucket implements GitInterface {
     }
 
     public function getRepositories () {
+        $repo = new Repositories();
+        $repo->
+
         $data = $this->client->get('repositories/' . $this->username, [
             'headers' => $this->options['headers'],
         ]);
+
         $a = json_decode($data->getBody(), true);
         $a = $this->getAll($a);
 
@@ -81,7 +88,7 @@ class Bitbucket implements GitInterface {
         return $response;
     }
 
-    public function getBranches ($repoName) {
+    public function getBranches ($repoName, $username = null) {
         $repoName = $this->cleanRepoName($repoName);
         $data = $this->client->get(sprintf('repositories/%s/%s/refs/branches', $this->username, $repoName), [
             'headers' => $this->options['headers'],

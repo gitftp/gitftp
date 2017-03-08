@@ -9,7 +9,7 @@ interface GitInterface {
 
     function authenticate ($token);
 
-    function getBranches ($repoName);
+    function getBranches ($repoName, $username);
 
     function getHook ($repoName, $id);
 

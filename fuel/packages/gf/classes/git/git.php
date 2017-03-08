@@ -4,8 +4,17 @@ namespace Gf\Git;
 
 use Gf\Auth\Auth;
 use Gf\Auth\OAuth;
+use Gf\Exception\UserException;
 use League\OAuth2\Client\Token\AccessToken;
 
+/**
+ * Class Git
+ * This class wraps the api classes for github and bitbucket
+ * methods here do not relate to github and bitbucket individually.
+ * To get the individual api for github or bitbucket use the @see api method
+ *
+ * @package Gf\Git
+ */
 class Git {
 
     /**
@@ -20,10 +29,31 @@ class Git {
      */
     public $providers = [];
 
-    public function __construct ($user_id = null) {
-        $providers = OAuth::getProviders([
+    /**
+     * If the Class was initialized with only one provider.
+     * it will be stored here
+
+     */
+    public $provider = false;
+
+
+    /**
+     * Git constructor.
+     *
+     * @param null $user_id
+     * @param null $provider -> initialize only this provider.
+     *                       Saves resources.
+     */
+    public function __construct ($user_id = null, $provider = null) {
+        $where = [
             'parent_id' => $user_id,
-        ]);
+        ];
+        if (!is_null($provider)) {
+            $this->provider = $provider;
+            $where['provider'] = $provider;
+        }
+
+        $providers = OAuth::getProviders($where);
 
         foreach ($providers as $provider) {
             if ($provider['provider'] == OAuth::provider_github) {
@@ -42,10 +72,18 @@ class Git {
                     $token = OAuth::instance($provider['provider'])->refreshToken($token, $provider['id']);
                 }
             }
-            $this->providers[$provider['provider']]->authenticate($token);
+            $this->providers[$provider['provider']]->authenticate($token->getToken());
         }
     }
 
+    /**
+     * @param      $deploy_id
+     * @param      $key
+     * @param null $user_id
+     *
+     * @deprecated
+     * @return string
+     */
     public function buildHookUrl ($deploy_id, $key, $user_id = null) {
         if (is_null($user_id))
             $user_id = $this->auth->user_id;
@@ -53,10 +91,22 @@ class Git {
         return dash_url . "hook/i/$user_id/$deploy_id/$key";
     }
 
+    /**
+     * @deprecated
+     *
+     * @param $id
+     */
     public function setDeployId ($id) {
 
     }
 
+    /**
+     * @param $data
+     * @param $provider
+     *
+     * @deprecated
+     * @return string
+     */
     public function parseRepositoryCloneUrl ($data, $provider) {
         // here data is database record array.
         $url = $data['repository'];
@@ -100,7 +150,12 @@ class Git {
         return $url;
     }
 
-    public function getRepositories () {
+    /**
+     * Get combined repositories of all providers available
+     *
+     * @return array
+     */
+    public function getCombinedRepositories () {
         $r = [];
         foreach ($this->providers as $provider) {
             $repositories = $provider->getRepositories();
@@ -110,13 +165,22 @@ class Git {
         return $r;
     }
 
-    public function loadApi ($name) {
+    /**
+     * @param $provider -> if this is null and the class has only one provider with it
+     *                  the method will return the first one
+     *
+     * @return \Gf\Git\GitInterface
+     * @throws \Gf\Exception\UserException
+     */
+    public function api ($provider = null) {
         try {
-            $api = $this->api = $this->providers[strtolower($name)];
+            if (is_null($provider) and count($this->providers) == 1) {
+                return $this->providers[$this->provider];
+            } else {
+                return $this->providers[$provider];
+            }
         } catch (\Exception $e) {
-            throw new Exception('Provider not found: ' . $name);
+            throw new UserException("The provider $provider is not initialized");
         }
-
-        return $api;
     }
 }

@@ -42,8 +42,19 @@ class Github implements GitInterface {
         return $response;
     }
 
-    public function getBranches ($repoName) {
-        $a = $this->instance->api('repo')->branches($this->username, $repoName);
+    /**
+     * @param      $repoName
+     * @param null $username -> this will default to the current user,
+     *                       but if an organization repository is to be accessed
+     *                       pass in the username of the organization
+     *
+     * @return array
+     */
+    public function getBranches ($repoName, $username = null) {
+        if(is_null($username))
+            $username = $this->username;
+
+        $a = $this->instance->api('repo')->branches($username, $repoName);
 
         $branches = [];
         foreach ($a as $k) {

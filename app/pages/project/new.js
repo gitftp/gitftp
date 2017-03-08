@@ -22,6 +22,10 @@ angular.module('AppProjectNew', [
 
         $scope.available_repos = [];
         $scope.loading = false;
+        $scope.selectedRepo = false;
+        $scope.availableBranches = [];
+        $scope.loadingBranches = false;
+
         $scope.load = function () {
             $scope.loading = true;
             Api.getAvailableRepositories().then(function (data) {
@@ -34,10 +38,21 @@ angular.module('AppProjectNew', [
         };
         $scope.load();
 
+        $scope.getBranches = function () {
+            $scope.loadingBranches = true;
+            Api.getAvailableBranches(angular.copy($scope.selectedRepo)).then(function (branches) {
+                $scope.loadingBranches = false;
+                $scope.availableBranches = branches;
+            }, function (reason) {
+                $scope.loadingBranches = false;
+                Utils.error(reason, 'red', $scope.getBranches);
+            })
+        };
 
-        $scope.selectedRepo = false;
         $scope.selectRepo = function (repo) {
             $scope.selectedRepo = repo;
+
+            $scope.getBranches();
         }
     }
 ]);

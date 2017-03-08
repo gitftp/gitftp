@@ -43,6 +43,18 @@
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="md-form-group">
+                                    <select ng-model="selectedBranch" class="md-input" ng-disabled="">
+                                        <option value="{{null}}">{{loadingBranches ? 'Loading...' : 'Select branch'}}</option>
+                                        <option value="{{b}}" ng-repeat="b in availableBranches">{{b}}</option>
+                                    </select>
+
+                                    <label>City</label>
+                                    <span class="md-input-msg right">30/30</span>
+                                </div>
+                                {{selectedBranch}}
+                                {{availableBranches}} <br>
+                                {{loadingBranches}}
                             </form>
                         </div>
                     </div>

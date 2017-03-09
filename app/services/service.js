@@ -11,6 +11,74 @@ angular.module('ServiceApi', []).factory('Api', [
             /**
              * create a project
              * @returns {IPromise<T>}
+             *
+             * Returns object of {
+             *  list: <>records
+             *  total: int
+             * }
+             */
+            startProjectCloning: function (project_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/clone', {
+                    project_id: project_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * create a project
+             * @returns {IPromise<T>}
+             *
+             * Returns object of {
+             *  list: <>records
+             *  total: int
+             * }
+             */
+            getRecords: function (project_id, server_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/records', {
+                    project_id: project_id,
+                    server_id: server_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * create a project
+             * @returns {IPromise<T>}
+             */
+            getSingleProject: function (id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/view', {
+                    project_id: id
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * create a project
+             * @returns {IPromise<T>}
              */
             createProject: function (set) {
                 var defer = $q.defer();

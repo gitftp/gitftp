@@ -3,8 +3,101 @@
 use Fuel\Core\Input;
 use Fuel\Core\Str;
 use Gf\Config;
+use Gf\Project;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
+
+    public function post_clone () {
+        try {
+            $project_id = Input::json('project_id', false);
+            if (!$project_id)
+                throw new \Gf\Exception\UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+
+            if (!$project)
+                throw new \Gf\Exception\UserException('Project not found');
+
+            if ($project['clone_state'] != Project::clone_state_not_cloned)
+                throw new \Gf\Exception\UserException('This project has been cloned or is in the process of cloning');
+
+
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+
+    }
+
+    public function post_records () {
+        try {
+            $server_id = Input::json('server_id', false);
+            $project_id = Input::json('project_id', false);
+
+            if (!$project_id)
+                throw new \Gf\Exception\UserException('Missing parameters');
+
+            $where = [
+                'project_id' => $project_id,
+            ];
+
+            if ($server_id)
+                $where['server_id'] = $server_id;
+
+            $records = \Gf\Record::get($where);
+
+            if (!$records)
+                $records = [];
+
+            $r = [
+                'status' => true,
+                'data'   => [
+                    'list'  => $records,
+                    'total' => count($records),
+                ],
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+    public function post_view () {
+        try {
+            $id = Input::json('project_id', false);
+
+            $project = Project::get_one([
+                'id'       => $id,
+                'owner_id' => $this->user_id,
+            ]);
+
+            $r = [
+                'status' => true,
+                'data'   => $project,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
 
     public function post_create () {
         try {
@@ -17,7 +110,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if (!$repository_id or !$repository_provider or !$repository_full_name or !$branches)
                 throw new \Gf\Exception\UserException('Missing parameters');
 
-            $project_id = \Gf\Projects::create($repository_id, $repository_provider, $repository_full_name, $this->user_id);
+            $project_id = Project::create($repository_id, $repository_provider, $repository_full_name, $this->user_id);
 
             $r = [
                 'status' => true,

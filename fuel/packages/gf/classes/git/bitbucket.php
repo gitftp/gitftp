@@ -9,6 +9,8 @@ use Bitbucket\API\User;
 use Bitbucket\API\User\Repositories;
 use Fuel\Core\Uri;
 use Gf\Auth\OAuth;
+use Gf\Exception\AppException;
+use Gf\Exception\UserException;
 use GuzzleHttp\Client;
 use League\OAuth2\Client\Token\AccessToken;
 
@@ -258,21 +260,31 @@ class Bitbucket implements GitInterface {
         return $id;
     }
 
+
+    private function postRequest ($apiPath, $payload) {
+        $response = $this->client->post($apiPath, json_encode($payload), [
+            'Content-Type' => 'application/json',
+        ]);
+        $content = $response->getContent();
+        $content = json_decode($content, true);
+        if (isset($content['type']) and $content['type'] == 'error')
+            throw new AppException($content['error']['message']);
+
+        return $content;
+    }
+
     public function setHook ($repoName, $username, $url) {
         $repoName = $this->cleanRepoName($repoName);
 
         $config = [
             'description' => 'Gitftp hook - ' . \Str::random('alnum', 6),
-            'url'         => 'http://craftpip.org/rest/bitbucket',
+            'url'         => $url,
             'active'      => true,
             'events'      => ['repo:push'],
         ];
 
-        $response = $this->client->post("repositories/$username/$repoName/hooks", json_encode($config), [
-            'Content-Type' => 'application/json',
-        ]);
-        $content = $response->getContent();
-        $content = json_decode($content, true);
+        $apiPath = "repositories/$username/$repoName/hooks";
+        $content = $this->postRequest($apiPath, $config);
 
         $response = [
             'id'          => $content['uuid'],

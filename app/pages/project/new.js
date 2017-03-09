@@ -67,7 +67,7 @@ angular.module('AppProjectNew', [
                 branches: $scope.availableBranches
             }).then(function (project_id) {
                 $scope.creating = false;
-                console.log(project_id);
+                $window.location.href = BASE;
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.createProject);
                 $scope.creating = false;

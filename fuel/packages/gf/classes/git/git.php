@@ -93,7 +93,7 @@ class Git {
         if (is_null($user_id))
             $user_id = $this->user_id;
 
-        return Uri::base() . "hook/i/$user_id/$project_id/$key";
+        return Uri::base() . "hook/link/$user_id/$project_id/$key";
     }
 
     /**

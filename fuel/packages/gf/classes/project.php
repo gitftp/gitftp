@@ -2,15 +2,18 @@
 
 namespace Gf;
 
-use Fuel\Core\Input;
 use Fuel\Core\Str;
 use Gf\Exception\AppException;
 use Gf\Exception\UserException;
 use Gf\Git\Git;
 
-class Projects {
+class Project {
     const db = 'default';
     const table = 'projects';
+
+    const clone_state_not_cloned = 1;
+    const clone_state_cloning = 2;
+    const clone_state_cloned = 3;
 
     /**
      * Creates a project in database
@@ -36,6 +39,14 @@ class Projects {
             $git = new Git($user_id, $repository_provider);
             $repository = $git->api()->getRepository($username, $repoName);
 
+            $exists = self::get_one([
+                'uri' => $repository['repo_url'],
+            ]);
+
+            if ($exists) {
+                throw new UserException('A project with the same repository already exists');
+            }
+
             $project_id = self::insert([
                 'name'     => $repository['name'],
                 'uri'      => $repository['repo_url'],
@@ -45,6 +56,7 @@ class Projects {
                 'hook_id'  => null,
                 'hook_key' => null,
                 'owner_id' => $user_id,
+                'provider' => $repository_provider,
             ]);
 
             if (!$project_id)

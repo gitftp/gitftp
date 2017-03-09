@@ -13,6 +13,7 @@ angular.module('App', [
     'AppHome',
     'AppSettings',
     'AppProjectNew',
+    'AppProjectView',
 ]).config([
     '$routeProvider',
     '$locationProvider',
@@ -35,4 +36,8 @@ angular.module('App', [
         $rootScope.utils = Utils;
         $rootScope.$storage = $localStorage;
     }
-]);
+]).constant('Const', {
+    'clone_state_not_cloned': 1,
+    'clone_state_cloning': 2,
+    'clone_state_cloned': 3,
+});

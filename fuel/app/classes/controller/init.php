@@ -20,6 +20,19 @@ class Controller_Init extends Controller {
             $availableProviders = OAuth::getAvailableProviders();
             $readyProviders = OAuth::getReadyProviders($user_id);
 
+            $projects = \Gf\Project::get([
+                'owner_id' => $user_id,
+            ], [
+                'id',
+                'name',
+                'uri',
+                'git_name',
+                'created_at',
+                'provider',
+                'clone_state',
+            ]);
+            if (!$projects)
+                $projects = [];
 
             return \Fuel\Core\View::forge('panel/base_layout', [
                 'js'                 => \Fuel\Core\View::forge('js'),
@@ -30,6 +43,7 @@ class Controller_Init extends Controller {
                 'bitbucketCallback'  => $bitbucketCallbackUrl,
                 'availableProviders' => $availableProviders,
                 'readyProviders'     => $readyProviders,
+                'projects'           => $projects,
             ]);
         }
     }

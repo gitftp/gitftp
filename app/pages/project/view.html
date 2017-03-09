@@ -1,0 +1,72 @@
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="">
+                    <div class="panel panel-card p-20">
+                        <h3 class="no-m-t">{{project.name}}</h3>
+                        <span>{{project.uri}}</span>
+
+                        <div>
+                            Cloned : {{isCloned}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="col-md-9">
+
+                    <div class="panel panel-card">
+                        <div class="panel-body">
+                            <h3 class="m-b-20 m-t-5">Activity</h3>
+                            <div class="" ng-if="loadingRecords">
+                                <div class="p-t-20 p-b-20">
+                                    <div class="loader" style="width: 60px">
+                                        <svg class="circular" viewBox="25 25 50 50">
+                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                                    stroke-miterlimit="10"/>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="!loadingRecords">
+                                <div class="streamline b-l b-accent m-b" ng-if="records.length">
+
+                                    <div class="sl-item b-primary b-l" ng-repeat="r in records">
+                                        <div class="sl-content">
+                                            <div class="text-muted-dk">asdas</div>
+                                            <p>
+                                                {{r}}
+                                            </p>
+                                        </div>
+                                    </div>
+
+
+                                    <!--<div class="sl-item sl-item-md">-->
+                                    <!--<div class="sl-icon">-->
+                                    <!--<i class="fa fa-check text-muted-dk"></i>-->
+                                    <!--</div>-->
+                                    <!--<div class="sl-content">-->
+                                    <!--<div class="text-muted-dk">Just now</div>-->
+                                    <!--<p>Finished task <a href="" class="text-info">#features 4</a>.</p>-->
+                                    <!--</div>-->
+                                    <!--</div>-->
+
+                                </div>
+
+                                <div class="text-center p-t-60 p-b-70" ng-if="!isCloned && records.length == 0">
+                                    <div class="m-b-10">Great!, the project is setup, lets clone the repository</div>
+                                    <button class="btn btn-rounded btn-stroke btn-info waves-effect btn-lg"
+                                            ng-click="startCloning()"
+                                            type="button">
+                                        Start cloning
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

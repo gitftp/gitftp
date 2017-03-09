@@ -16,7 +16,6 @@ class Record {
     const type_update = 2;
     const type_re_upload = 3;
 
-
     public static function get ($where = [], $select = [], $limit = false, $offset = 0, $count_total = true) {
         $q = \DB::select_array($select)
             ->from(self::table)->where($where);

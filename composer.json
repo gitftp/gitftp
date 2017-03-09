@@ -56,7 +56,6 @@
     "phpseclib/phpseclib": "2.0.0",
     "michelf/php-markdown": "1.4.0",
     "suin/php-rss-writer": ">=1.0",
-    "kzykhys/git": "dev-master",
     "knplabs/github-api": "~1.4",
     "gentle/bitbucket-api": "dev-develop",
     "league/flysystem": "^1.0",
@@ -66,7 +65,8 @@
     "league/oauth2-client": "^2.2",
     "crossjoin/browscap": "^2.0",
     "league/oauth2-github": "^2.0",
-    "stevenmaguire/oauth2-bitbucket": "^2.0"
+    "stevenmaguire/oauth2-bitbucket": "^2.0",
+    "cpliakas/git-wrapper": "^1.7"
   },
   "suggest": {
     "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

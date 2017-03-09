@@ -3,7 +3,9 @@
 use Fuel\Core\Input;
 use Fuel\Core\Str;
 use Gf\Config;
+use Gf\Exception\UserException;
 use Gf\Project;
+use Gf\Record;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
@@ -11,7 +13,22 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
         try {
             $project_id = Input::json('project_id', false);
             if (!$project_id)
-                throw new \Gf\Exception\UserException('Missing parameters');
+                throw new UserException('Missing parameters');
+
+            $projectExists = Project::get_one([
+                'id' => $project_id,
+            ], [
+                'id',
+            ]);
+
+            if (!$projectExists)
+                throw new UserException('Project not found');
+
+            $id = Record::insert([
+                'type'       => Record::type_clone,
+                'server_id'  => null,
+                'project_id' => $project_id,
+            ]);
 
             \Gf\Deploy\Deploy::instance()->clone($project_id);
 
@@ -35,7 +52,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             $project_id = Input::json('project_id', false);
 
             if (!$project_id)
-                throw new \Gf\Exception\UserException('Missing parameters');
+                throw new UserException('Missing parameters');
 
             $where = [
                 'project_id' => $project_id,
@@ -44,7 +61,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if ($server_id)
                 $where['server_id'] = $server_id;
 
-            $records = \Gf\Record::get($where);
+            $records = Record::get($where);
 
             if (!$records)
                 $records = [];
@@ -98,7 +115,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             $branches = Input::json('project.branches');
 
             if (!$repository_id or !$repository_provider or !$repository_full_name or !$branches)
-                throw new \Gf\Exception\UserException('Missing parameters');
+                throw new UserException('Missing parameters');
 
             $project_id = Project::create($repository_id, $repository_provider, $repository_full_name, $this->user_id);
 
@@ -139,7 +156,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             $provider = Input::json('repository.provider', false);
             $full_name = Input::json('repository.full_name', false);
             if (!$provider or !$full_name)
-                throw new \Gf\Exception\UserException('Missing parameters');
+                throw new UserException('Missing parameters');
 
             list($username, $repository_name) = explode('/', $full_name);
 

@@ -6,7 +6,11 @@ use Gf\Exception\UserException;
 use Gf\Git\GitApi;
 use Gf\Project;
 use Gf\Utils;
-use PHPGit\Git;
+use GitWrapper\Event\GitLoggerListener;
+use GitWrapper\Event\GitOutputStreamListener;
+use GitWrapper\GitWrapper;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
 
 class Deploy {
 
@@ -22,13 +26,13 @@ class Deploy {
      *
      * @var Git
      */
-    public static $git;
+    public $git;
 
     /**
      * Gitftp constructor.
      */
     protected function __construct () {
-        self::$git = new Git();
+//        $this->git = new Git();
     }
 
     public static function instance () {
@@ -57,8 +61,31 @@ class Deploy {
         $base = DOCROOT;
         $path = Utils::systemDS($base . $repoPath);
 
-//        $this->git->clone()
+
+        $log = new Logger('git');
+        $log->pushHandler(new StreamHandler('git.log', Logger::DEBUG));
+        $listener = new GitOutputStreamListener($log);
+        $wrapper = new GitWrapper();
+        $wrapper->addOutputListener($listener);
+
+        $git = $wrapper->cloneRepository($clone_url, $path);
+        $op = $git->getOutput();
+        $ic = $git->isCloned();
+
+//        $git = $wrapper->workingCopy($path);
+//        $branches = $git->isCloned();
+//        $op = $git->cloneRepository($clone_url);
+//        $op2 = $git->getOutput();
+//        $isClonedNow = $git->isCloned();
+
+//        $a = $this->git->clone($clone_url, $path);
+//
+//        if (!$a)
+//            throw new UserException('Failed to clone the repository');
     }
 
+    public function processQueue () {
+
+    }
 
 }

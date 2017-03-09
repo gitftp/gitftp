@@ -19,10 +19,11 @@ Autoloader::add_classes([
     'Gf\Project'                        => __DIR__ . '/classes/project.php',
     'Gf\Server'                         => __DIR__ . '/classes/server.php',
     'Gf\Record'                         => __DIR__ . '/classes/record.php',
-    'Gf\Git\Git'                        => __DIR__ . '/classes/git/git.php',
-    'Gf\Git\GitInterface'               => __DIR__ . '/classes/git/gitinterface.php',
+    'Gf\Git\GitApi'                     => __DIR__ . '/classes/git/gitApi.php',
+    'Gf\Git\GitInterface'               => __DIR__ . '/classes/git/gitInterface.php',
     'Gf\Git\Github'                     => __DIR__ . '/classes/git/github.php',
     'Gf\Git\Bitbucket'                  => __DIR__ . '/classes/git/bitbucket.php',
+    'Gf\Deploy\Deploy'                  => __DIR__ . '/classes/deploy/deploy.php',
 ]);
 
 /* End of file bootstrap.php */

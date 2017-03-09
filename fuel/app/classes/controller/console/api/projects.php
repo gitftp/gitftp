@@ -13,17 +13,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if (!$project_id)
                 throw new \Gf\Exception\UserException('Missing parameters');
 
-            $project = Project::get_one([
-                'id' => $project_id,
-            ]);
-
-            if (!$project)
-                throw new \Gf\Exception\UserException('Project not found');
-
-            if ($project['clone_state'] != Project::clone_state_not_cloned)
-                throw new \Gf\Exception\UserException('This project has been cloned or is in the process of cloning');
-
-
+            \Gf\Deploy\Deploy::instance()->clone($project_id);
 
             $r = [
                 'status' => true,
@@ -128,7 +118,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
     public function post_list_available_repositories () {
         try {
-            $git = new \Gf\Git\Git($this->user_id);
+            $git = new \Gf\Git\GitApi($this->user_id);
             $list = $git->getCombinedRepositories();
             $r = [
                 'status' => true,
@@ -153,7 +143,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
             list($username, $repository_name) = explode('/', $full_name);
 
-            $git = new \Gf\Git\Git($this->user_id, $provider);
+            $git = new \Gf\Git\GitApi($this->user_id, $provider);
             $list = $git->api()->getBranches($repository_name, $username);
 
             $r = [

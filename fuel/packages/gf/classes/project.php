@@ -3,9 +3,10 @@
 namespace Gf;
 
 use Fuel\Core\Str;
+use Fuel\Core\Uri;
 use Gf\Exception\AppException;
 use Gf\Exception\UserException;
-use Gf\Git\Git;
+use Gf\Git\GitApi;
 
 class Project {
     const db = 'default';
@@ -36,7 +37,7 @@ class Project {
 
             list($username, $repoName) = explode('/', $repository_full_name);
 
-            $git = new Git($user_id, $repository_provider);
+            $git = new GitApi($user_id, $repository_provider);
             $repository = $git->api()->getRepository($username, $repoName);
 
             $exists = self::get_one([
@@ -48,15 +49,17 @@ class Project {
             }
 
             $project_id = self::insert([
-                'name'     => $repository['name'],
-                'uri'      => $repository['repo_url'],
-                'git_name' => $repository['name'],
-                'sh_name'  => null,
-                'git_id'   => $repository['id'],
-                'hook_id'  => null,
-                'hook_key' => null,
-                'owner_id' => $user_id,
-                'provider' => $repository_provider,
+                'name'         => $repository['name'],
+                'uri'          => $repository['repo_url'],
+                'git_name'     => $repository['name'],
+                'sh_name'      => null,
+                'git_id'       => $repository['id'],
+                'hook_id'      => null,
+                'hook_key'     => null,
+                'owner_id'     => $user_id,
+                'provider'     => $repository_provider,
+                'clone_uri'    => $repository['clone_url'],
+                'git_username' => $username,
             ]);
 
             if (!$project_id)
@@ -68,12 +71,14 @@ class Project {
             $hookUrl = $git->createHookUrl($project_id, $key, $user_id);
             $hook = $git->api()->setHook($repoName, $username, $hookUrl);
             $hook_id = $hook['id'];
+            $clonePath = self::getClonePath($project_id);
 
             $af = self::update([
                 'id' => $project_id,
             ], [
                 'hook_id'  => $hook_id,
                 'hook_key' => $key,
+                'path'     => $clonePath,
             ]);
             if (!$af)
                 throw new UserException('Could not update project record.');
@@ -87,6 +92,16 @@ class Project {
         }
     }
 
+    /**
+     * Gets a clone path, that is relative to the gitftp installation location
+     *
+     * @param $project_id
+     *
+     * @return string
+     */
+    public static function getClonePath ($project_id) {
+        return "repositories/$project_id/";
+    }
 
     public static function get ($where = [], $select = [], $limit = false, $offset = 0, $count_total = true) {
         $q = \DB::select_array($select)

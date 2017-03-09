@@ -9,21 +9,37 @@ namespace Gf;
  */
 class Utils {
 
-    public static function sqlGetFoundRows($db = null) {
+    /**
+     * System directory separator.
+     * will change the DS to the one that the OS understands
+     *
+     * @param $path
+     *
+     * @return mixed
+     */
+    public static function systemDS ($path) {
+        $replace = "\\";
+        if (DS == "\\")
+            $replace = "/";
+
+        return str_replace($replace, DS, $path);
+    }
+
+    public static function sqlGetFoundRows ($db = null) {
         $a = \DB::query("SELECT FOUND_ROWS() as c;")
-                ->execute($db)
-                ->as_array();
+            ->execute($db)
+            ->as_array();
 
         return $a[0]['c'];
     }
 
-    public static function sqlCalcRowInsert($query) {
+    public static function sqlCalcRowInsert ($query) {
         $query = str_replace('SELECT', 'SELECT SQL_CALC_FOUND_ROWS', $query);
 
         return $query;
     }
 
-    public static function asyncCall($method, $data) {
+    public static function asyncCall ($method, $data) {
         $url = home_url . 'api/async/' . $method . '/' . $data;
         $parts = parse_url($url);
 
@@ -47,7 +63,7 @@ class Utils {
      *
      * @return string
      */
-    public static function phpVersion() {
+    public static function phpVersion () {
         $a = (float)phpversion();
 
         return number_format($a, 1);
@@ -57,18 +73,19 @@ class Utils {
      * Executes a task in shell non-blocking
      *
      * @deprecated see asyncCall
+     *
      * @param $task
+     *
      * @return string
      */
-    public static function executeTaskInBackground($task, $param = '') {
+    public static function executeTaskInBackground ($task, $param = '') {
         if (\Fuel::$env == 'development') {
             /*
              * When in the development environment,
              * we have a windows machine. on which setting env variables wont work.
              */
             $a = 'php ' . DOCROOT . 'oil r ' . $task . ' ' . $param;
-        }
-        else {
+        } else {
             $a = 'FUEL_ENV=' . \Fuel::$env . ' php ' . DOCROOT . 'oil r ' . $task . ' ' . $param . ' > /dev/null 2>/dev/null &';
         }
 
@@ -82,33 +99,32 @@ class Utils {
      * @param $code
      * @param $operator_id
      * @param $circle_id
+     *
      * @return bool
      */
-    public static function validateUPC($code, $operator_id, $circle_id) {
+    public static function validateUPC ($code, $operator_id, $circle_id) {
         if (strlen($code) != 8)
             return false;
     }
 
-    public static function templateParser($pageName, $data) {
+    public static function templateParser ($pageName, $data) {
         $m = new Mustache_Engine();
 
         return $m->render(\Nb\Page::getContent($pageName), $data);
     }
 
 
-    public static function mustacheParser($template, $data = [], $option = []) {
+    public static function mustacheParser ($template, $data = [], $option = []) {
         $m = new Mustache_Engine();
 
         if (empty($option)) {
             $rendered_data = $m->render($template, $data);
-        }
-        elseif (isset($option['pageset'])) {
+        } elseif (isset($option['pageset'])) {
             $page_details = \Nb\Page::getBySlug($template);
 
             if ($option['pageset'] == 'content') {
                 $rendered_data = $m->render($page_details['content'], $data);
-            }
-            elseif ($option['pageset'] == 'title') {
+            } elseif ($option['pageset'] == 'title') {
                 $rendered_data = $m->render($page_details['title'], $data);
             }
         }
@@ -122,9 +138,10 @@ class Utils {
      *
      * @param      $email
      * @param bool $appendRandomNumber
+     *
      * @return string
      */
-    public static function parseUsernameFromEmail($email, $appendRandomNumber = true) {
+    public static function parseUsernameFromEmail ($email, $appendRandomNumber = true) {
         $a = substr($email, 0, strpos($email, '@'));
         if ($appendRandomNumber)
             $a .= \Str::random('numeric', 6);
@@ -137,7 +154,7 @@ class Utils {
      * Check in string because their length is 10+
      * todo: this gotta be removed. use the validation class instead.
      */
-    public static function isStrNumber($string) {
+    public static function isStrNumber ($string) {
         return (preg_match('/^\d+$/', $string));
     }
 
@@ -146,9 +163,10 @@ class Utils {
      * converts arrays to -1-2-3-4-
      *
      * @param array $ar
+     *
      * @return string
      */
-    public static function _implodeAr($ar = []) {
+    public static function _implodeAr ($ar = []) {
         if (gettype($ar) != 'array')
             $ar = '';
         if (count($ar) == 0)
@@ -161,9 +179,10 @@ class Utils {
      * Converts string -1-2-3-4- to array.
      *
      * @param string $ar
+     *
      * @return array|string
      */
-    public static function _explodeAr($ar = '') {
+    public static function _explodeAr ($ar = '') {
         if (gettype($ar) != 'string')
             return [];
         $ar = explode('-', $ar);
@@ -181,14 +200,14 @@ class Utils {
      *
      * @param $currentLineage
      * @param $next_id
+     *
      * @return string
      */
-    public static function createLineageToFindChildren($currentLineage, $next_id) {
+    public static function createLineageToFindChildren ($currentLineage, $next_id) {
         if (gettype($currentLineage) == 'string') {
             $lineage = \Utils::_explodeAr($currentLineage);
-        }
-        else {
-             $lineage = $currentLineage;
+        } else {
+            $lineage = $currentLineage;
         }
         $lineage[] = $next_id;
 
@@ -201,9 +220,10 @@ class Utils {
      *
      * @param array $parr
      * @param array $carr
+     *
      * @return string
      */
-    public static function importArCoupon($parr = [], $carr = []) {
+    public static function importArCoupon ($parr = [], $carr = []) {
         $tarr = [];
         foreach ($parr as $pk => $pv) {
             foreach ($carr as $ck => $cv) {
@@ -218,9 +238,10 @@ class Utils {
      * Category  Type Coupon
      *
      * @param $str
+     *
      * @return array
      */
-    public static function exportCategoryTypeCoupon($str) {
+    public static function exportCategoryTypeCoupon ($str) {
         $ex1 = \Utils::_explodeAr($str);
         $temp = [];
         foreach ($ex1 as $pk => $pv) {
@@ -236,14 +257,14 @@ class Utils {
      *
      * @return int
      */
-    public static function timeNow() {
+    public static function timeNow () {
         return time();
     }
 
     /**
      * Get timestamp for today morning 00:00
      */
-    public static function timeToday() {
+    public static function timeToday () {
         $a = self::timeNow();
         $b = self::timestampToDate($a);
         $c = self::dateToTimestamp($b);
@@ -258,9 +279,10 @@ class Utils {
      * @param $string > string to add padding
      * @param $length > what should be the length of the string after adding padding
      * @param $char   > what char do you wanna add as padding
+     *
      * @return string
      */
-    public static function addPadding($string, $length, $char) {
+    public static function addPadding ($string, $length, $char) {
         $string = (String)$string;
         $curlen = strlen($string);
         if ($curlen > $length)
@@ -278,9 +300,10 @@ class Utils {
      * Date in format 2015-12-07
      *
      * @param $date
+     *
      * @return int
      */
-    public static function dateToTimestamp($date) {
+    public static function dateToTimestamp ($date) {
         $date = date_create($date);
 
         return date_timestamp_get($date);
@@ -292,9 +315,10 @@ class Utils {
      *
      * @param      $key
      * @param null $time -> relative to this time.
+     *
      * @return int
      */
-    public static function timeAlter($key, $time = null) {
+    public static function timeAlter ($key, $time = null) {
         if (is_null($time))
             $time = self::timeNow();
 
@@ -306,9 +330,10 @@ class Utils {
      *
      * @param      $end
      * @param null $start
+     *
      * @return float
      */
-    public static function daysBetween($end, $start = null) {
+    public static function daysBetween ($end, $start = null) {
         if (is_null($start))
             $start = self::timeToday();
         $date_diff = $end - $start;
@@ -320,16 +345,17 @@ class Utils {
      * Converts timestamp to fix date, without time.
      *
      * @param $timestamp
+     *
      * @return string
      */
-    public static function timestampToDate($timestamp, $format = 'Y-m-d') {
+    public static function timestampToDate ($timestamp, $format = 'Y-m-d') {
         $date = new DateTime();
         $date->setTimestamp($timestamp);
 
         return $date->format($format);
     }
 
-    public static function isDisposableEmail($email) {
+    public static function isDisposableEmail ($email) {
         $e = [
             '0-mail.com',
             '0815.ru',
@@ -1107,9 +1133,10 @@ class Utils {
      * @param string|type $r
      * @param bool|type   $img
      * @param array       $attributes
+     *
      * @return string
      */
-    public static function get_gravatar($email, $size = 80, $default = 'mm', $r = 'g', $img = false, $attributes = []) {
+    public static function get_gravatar ($email, $size = 80, $default = 'mm', $r = 'g', $img = false, $attributes = []) {
         $url = protocol . '://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email))) . '?';
         $url .= \Fuel\Core\Uri::build_query_string([

@@ -16,9 +16,9 @@ angular.module('AppProjectNew', [
     '$routeParams',
     'Utils',
     'Api',
-    function ($scope, $rootScope, $routeParams, Utils, Api) {
+    '$window',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window) {
         Utils.setTitle('Create new project');
-
 
         $scope.available_repos = [];
         $scope.loading = false;

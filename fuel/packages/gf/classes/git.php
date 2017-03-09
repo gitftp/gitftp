@@ -1,6 +1,12 @@
 <?php
 namespace Gf;
 
+/**
+ * Class Git
+ * wait!!
+ *
+ * @package Gf
+ */
 class Git extends \PHPGit\Git {
 
     public function __construct() {

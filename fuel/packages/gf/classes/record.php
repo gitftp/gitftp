@@ -6,7 +6,7 @@ use Fuel\Core\Input;
 use Fuel\Core\Str;
 use Gf\Exception\AppException;
 use Gf\Exception\UserException;
-use Gf\Git\Git;
+use Gf\Git\GitApi;
 
 class Record {
     const db = 'default';

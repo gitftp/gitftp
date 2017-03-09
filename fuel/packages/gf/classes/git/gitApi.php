@@ -5,7 +5,10 @@ namespace Gf\Git;
 use Fuel\Core\Uri;
 use Gf\Auth\Auth;
 use Gf\Auth\OAuth;
+use Gf\Exception\AppException;
 use Gf\Exception\UserException;
+use Gf\Project;
+use JacobKiers\OAuth\Token\TokenInterface;
 use League\OAuth2\Client\Token\AccessToken;
 
 /**
@@ -16,7 +19,7 @@ use League\OAuth2\Client\Token\AccessToken;
  *
  * @package Gf\Git
  */
-class Git {
+class GitApi {
 
     /**
      * @var GitInterface
@@ -41,6 +44,11 @@ class Git {
      */
     public $user_id;
 
+    /**
+     * @var AccessToken[]
+     */
+    public $tokens = [];
+
 
     /**
      * Git constructor.
@@ -61,7 +69,7 @@ class Git {
 
         $providers = OAuth::getProviders($where);
 
-        foreach ($providers as $provider) {
+        foreach ($providers as $k => $provider) {
             if ($provider['provider'] == OAuth::provider_github) {
                 $this->providers[OAuth::provider_github] = new Github($provider['username']);
             } elseif ($provider['provider'] == OAuth::provider_bitbucket) {
@@ -72,10 +80,12 @@ class Git {
              * @var AccessToken $token
              */
             $token = unserialize($provider['access_token']);
+            $this->tokens[$provider['provider']] = $token;
             $expires = $token->getExpires();
             if (!empty($expires)) {
                 if ($token->hasExpired()) {
                     $token = OAuth::instance($provider['provider'])->refreshToken($token, $provider['id']);
+                    $this->tokens[$provider['provider']] = $token;
                 }
             }
             $this->providers[$provider['provider']]->authenticate($token->getToken());
@@ -100,50 +110,42 @@ class Git {
      * creates url that is used for clone,
      * this clone url uses token for authentication
      *
-     * @param $data
+     * @param $clone_url
      * @param $provider
      *
      * @return string
+     * @throws \Gf\Exception\AppException
      */
-    public function createCloneUrl ($data, $provider) {
+    public function createAuthCloneUrl ($clone_url, $provider = null) {
         // here data is database record array.
-        $url = $data['repository'];
-        if ($data['git_name'] !== '') {
-            if ($provider == 'github') {
-                if ($username = $this->auth->getToken('github')) {
-                    $username = $username->getToken();
-                } else {
-                    throw new Exception('Github account is not accessible');
-                }
-            }
-            if ($provider == 'bitbucket') {
-                // check for expired token.
-                $token = $this->auth->getToken('bitbucket');
-                if ($token) {
-                    if ($token->hasExpired()) {
-                        $token = $this->auth->refreshToken($provider['provider']);
-                    }
-                    $username = 'x - token - auth';
-                    $password = $token->getToken();
-                } else {
-                    throw new Exception('Bitbucket account is not accessible');
-                }
-            }
+
+        if (is_null($provider)) {
+            if ($this->provider)
+                $provider = $this->provider;
+            else
+                throw new AppException('Provider is required');
+        }
+
+        $username = false;
+        $password = false;
+
+        $token = $this->getToken($provider);
+        if ($provider == OAuth::provider_bitbucket) {
+            $username = "x - token - auth";
+            $password = $token->getToken();
+        } elseif ($provider == OAuth::provider_github) {
+            $username = $token->getToken();
         } else {
-            // manual
-            $username = $data['username'];
-            $password = $data['password'];
+            throw new AppException('Invalid provider.');
         }
 
-        if (!empty($username)) {
-            $repo_url = parse_url($url);
-            $repo_url['user'] = $username;
+        $repo_url = parse_url($clone_url);
+        $repo_url['user'] = $username;
 
-            if (!empty($password)) {
-                $repo_url['pass'] = $password;
-            }
-            $url = http_build_url($repo_url);
+        if ($password) {
+            $repo_url['pass'] = $password;
         }
+        $url = http_build_url($repo_url);
 
         return $url;
     }
@@ -179,6 +181,21 @@ class Git {
             }
         } catch (\Exception $e) {
             throw new UserException("The provider $provider is not initialized");
+        }
+    }
+
+    /**
+     * Get the token for the given providers
+     *
+     * @param null $provider -> if null, and initialized with one provider, will return that provider.
+     *
+     * @return AccessToken
+     */
+    public function getToken ($provider = null) {
+        if (is_null($provider) and $this->provider) {
+            return $this->tokens[$this->provider];
+        } else {
+            return $this->tokens[$provider];
         }
     }
 }

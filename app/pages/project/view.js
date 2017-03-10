@@ -17,33 +17,24 @@ angular.module('AppProjectView', [
     'Utils',
     'Api',
     'Const',
-    function ($scope, $rootScope, $routeParams, Utils, Api, Const) {
-        Utils.setTitle($routeParams.name);
+    '$timeout',
+    '$ngConfirm',
+    function ($scope, $rootScope, $routeParams, Utils, Api, Const, $timeout, $ngConfirm) {
         $scope.id = $routeParams.id;
-        $scope.project = {};
+        $scope.project = $rootScope.projects[$scope.id];
+        Utils.setTitle($scope.project.name);
+
         $scope.records = [];
         $scope.loadingRecords = false;
         $scope.totalRecords = 0;
         $scope.loading = false;
 
-        angular.forEach($rootScope.projects, function (v) {
-            if (v.id == $scope.id) {
-                $scope.project = v;
-            }
+        $scope.page = 'view-project';
+
+        $scope.$on('projectsUpdated', function () {
+            console.log('projectsUpdated');
+            $scope.project = $rootScope.projects[$scope.id];
         });
-
-        $scope.isCloned = $scope.project.clone_state == Const.clone_state_cloned;
-
-        $scope.load = function () {
-            $scope.loading = true;
-            Api.getSingleProject($scope.id).then(function (data) {
-                $scope.project = data;
-                $scope.loading = false;
-            }, function (reason) {
-                Utils.error(reason, 'red', $scope.load);
-                $scope.loading = false;
-            });
-        };
 
         $scope.loadRecords = function () {
             $scope.loadingRecords = true;
@@ -57,15 +48,26 @@ angular.module('AppProjectView', [
             })
         };
 
+        $scope.startingCloning = false;
         $scope.startCloning = function () {
+            $scope.startingCloning = true;
             Api.startProjectCloning($scope.id).then(function () {
-                $scope.loadRecords();
             }, function (reason) {
-                Utils.error(reason, 'red');
-            })
+            });
+            $timeout(function () {
+                $scope.startingCloning = false;
+                $scope.loadRecords();
+            }, 1000);
         };
 
-        $scope.load();
         $scope.loadRecords();
+
+        $scope.errorMessage = function (text) {
+            $ngConfirm({
+                title: 'Failure reason',
+                content: "<pre>" + text + "</pre>",
+                type: 'red',
+            });
+        }
     }
 ]);

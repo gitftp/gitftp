@@ -21,5 +21,14 @@ angular.module('AppHome', [
     function ($scope, $rootScope, $routeParams, Utils) {
         Utils.setTitle('Home');
 
+        $scope.projects_array = [];
+        $scope.parseProjects = function () {
+            $scope.projects_array = [];
+            angular.forEach($rootScope.projects, function (a) {
+                $scope.projects_array.push(a);
+            });
+        };
+        $scope.parseProjects();
+        $scope.$on('projectsUpdated', $scope.parseProjects);
     }
 ]);

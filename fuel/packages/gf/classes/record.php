@@ -16,7 +16,12 @@ class Record {
     const type_update = 2;
     const type_re_upload = 3;
 
-    public static function get ($where = [], $select = [], $limit = false, $offset = 0, $count_total = true) {
+    const status_new = 1;
+    const status_processing = 2;
+    const status_failed = 3;
+    const status_success = 4;
+
+    public static function get ($where = [], $select = null, $limit = false, $offset = 0, $order_by = 'id', $direction = 'desc', $count_total = true) {
         $q = \DB::select_array($select)
             ->from(self::table)->where($where);
 
@@ -25,6 +30,9 @@ class Record {
             if ($offset)
                 $q->offset($offset);
         }
+
+        if ($order_by)
+            $q->order_by($order_by, $direction);
 
         $compiled_query = $q->compile();
         if ($count_total)
@@ -35,8 +43,8 @@ class Record {
         return count($result) ? $result : false;
     }
 
-    public static function get_one (Array $where = [], $select = null) {
-        $a = self::get($where, $select);
+    public static function get_one (Array $where = [], $select = null, $limit = false, $offset = 0, $order_by = 'id', $direction = 'desc', $count_total = true) {
+        $a = self::get($where, $select, $limit, $offset, $order_by, $direction, $count_total);
 
         return ($a) ? $a[0] : false;
     }

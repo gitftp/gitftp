@@ -126,15 +126,14 @@ class GitApi {
                 throw new AppException('Provider is required');
         }
 
-        $username = false;
-        $password = false;
 
         $token = $this->getToken($provider);
         if ($provider == OAuth::provider_bitbucket) {
-            $username = "x - token - auth";
+            $username = "x-token-auth";
             $password = $token->getToken();
         } elseif ($provider == OAuth::provider_github) {
             $username = $token->getToken();
+            $password = false;
         } else {
             throw new AppException('Invalid provider.');
         }

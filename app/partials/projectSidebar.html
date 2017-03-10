@@ -1,0 +1,32 @@
+<div class="">
+    <div class="panel panel-card p-20">
+        <h3 class="no-m-t">{{project.name}}</h3>
+        <span>{{project.uri}}</span>
+    </div>
+    <div class="panel panel-card m-5-20" ng-if="page != 'new-server'">
+        <div class="p-t-20 p-l-20 p-r-20">
+            <div ng-if="project.servers.length" class="pull-right" style="margin-top: -2px;">
+                <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary btn-xs">Add server</a>
+            </div>
+            <h4 class="no-m-t">Servers</h4>
+        </div>
+
+        <div class="md-list">
+            <a href="view/{{project.id}}/{{project.name}}/server/{{s.id}}" class="servers-list" ng-repeat="s in project.servers">
+                <div class="md-list-item p-l-20">
+                    <div class="md-list-item-content">
+                        <h3 class="text-md">{{s.name}}</h3>
+                        <small class="font-thin"><i class="zmdi zmdi-leak"></i> {{s.branch}} {{s.type}}</small>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div ng-if="!project.servers.length" class="text-center p-20 p-b-40">
+            <p class="text-center">
+                Start deployin'
+            </p>
+            <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary">Add server</a>
+        </div>
+    </div>
+</div>

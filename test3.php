@@ -3,17 +3,19 @@
 class Job extends Thread {
     public $val;
 
-    public function __construct($val) {
+    public function __construct ($val) {
         $this->val = $val;
+        $this->done = false;
     }
 
-    public function run() {
-        if(!$this->worker->ready)
+    public function run () {
+        if (!$this->worker->ready)
             return false;
 
-        usleep(50000);
-        $list = ftp_nlist($this->worker->res, '/');
-        var_dump($list);
+        sleep(1);
+//        $list = ftp_nlist($this->worker->res, '/');
+        $this->done = true;
+        var_dump('Its me' . $this->val);
     }
 }
 
@@ -21,30 +23,30 @@ class MyWorker extends Worker {
     public $say = null;
     public $ready = false;
 
-    public function __construct() {
+    public function __construct () {
         $res = ftp_connect('localhost', 21, 90);
-        if($res) echo "connected \n";
+        if ($res) echo "connected \n";
         else echo "not connected \n";
 
         $l = ftp_login($res, 'r', 'r');
-        if($l) echo "login! \n";
+        if ($l) echo "login! \n";
         else echo "not login! \n";
 
         $this->ready = ($res and $l);
         $this->res = $res;
     }
 
-    public function run() {
-        echo "This is run just once for each worker. $this->say \n ";
+    public function run () {
+        echo "This is run just once for each worker. " . $this->getSomething() . " \n ";
     }
 
-    public function getSomething() {
+    public function getSomething () {
         return $this->say;
     }
 }
 
 // At most 3 threads will work at once
-$p = new Pool(4, \MyWorker::class);
+$p = new Pool(2, \MyWorker::class);
 
 $tasks = [
     new Job('0'),
@@ -69,6 +71,7 @@ foreach ($tasks as $task) {
 $p->shutdown();
 // garbage collection check / read results
 $p->collect(function ($checkingTask) {
-    echo $checkingTask->val;
+    var_dump($checkingTask);
+    echo $checkingTask->val . "\n";
 //    return $checkingTask->isGarbage();
 });

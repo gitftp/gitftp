@@ -14,6 +14,7 @@ angular.module('App', [
     'AppSettings',
     'AppProjectNew',
     'AppProjectView',
+    'AppProjectServerAdd',
 ]).config([
     '$routeProvider',
     '$locationProvider',
@@ -29,15 +30,24 @@ angular.module('App', [
     'Utils',
     '$localStorage',
     '$ngConfirmDefaults',
-    function ($rootScope, Utils, $localStorage, $ngConfirmDefaults) {
+    'ProjectApi',
+    function ($rootScope, Utils, $localStorage, $ngConfirmDefaults, ProjectApi) {
         $ngConfirmDefaults.theme = 'material,gitftp';
         $ngConfirmDefaults.animation = 'scale';
         $ngConfirmDefaults.closeAnimation = 'scale';
         $rootScope.utils = Utils;
         $rootScope.$storage = $localStorage;
+        ProjectApi.registerListeners();
     }
 ]).constant('Const', {
     'clone_state_not_cloned': 1,
     'clone_state_cloning': 2,
     'clone_state_cloned': 3,
+    'record_status_success': 4,
+    'record_status_failed': 3,
+    'record_status_in_progress': 2,
+    'record_status_new': 1,
+    'record_type_clone': 1,
+    'record_type_update': 2,
+    'record_type_re_upload': 3,
 });

@@ -28,9 +28,10 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'type'       => Record::type_clone,
                 'server_id'  => null,
                 'project_id' => $project_id,
+                'status'     => Record::status_new,
             ]);
 
-            \Gf\Deploy\Deploy::instance()->clone($project_id);
+            \Gf\Deploy\Deploy::instance($project_id)->processRecord($id);
 
             $r = [
                 'status' => true,
@@ -87,10 +88,44 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
         try {
             $id = Input::json('project_id', false);
 
-            $project = Project::get_one([
-                'id'       => $id,
+            $where = [
                 'owner_id' => $this->user_id,
-            ]);
+            ];
+
+            $select = [
+                'id',
+                'name',
+                'uri',
+                'git_name',
+                'created_at',
+                'provider',
+                'clone_state',
+                'status',
+            ];
+
+            if ($id) {
+                $where['id'] = $id;
+                $project = Project::get_one($where, $select);
+            } else {
+                $project = Project::get($where, $select);
+
+                foreach ($project as $k => $p) {
+                    $servers = \Gf\Server::get([
+                        'project_id' => $p['id'],
+                    ], [
+                        'id',
+                        'name',
+                        'branch',
+                        'type',
+                        'auto_deploy',
+                    ]);
+                    if (!$servers)
+                        $servers = [];
+
+                    $p['servers'] = $servers;
+                    $project[$k] = $p;
+                }
+            }
 
             $r = [
                 'status' => true,
@@ -153,12 +188,23 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
     public function post_list_available_branches () {
         try {
+            $project_id = Input::json('project_id', false);
             $provider = Input::json('repository.provider', false);
             $full_name = Input::json('repository.full_name', false);
-            if (!$provider or !$full_name)
-                throw new UserException('Missing parameters');
 
-            list($username, $repository_name) = explode('/', $full_name);
+            if ($project_id) {
+                $project = Project::get_one([
+                    'id' => $project_id,
+                ]);
+                $username = $project['git_username'];
+                $repository_name = $project['git_name'];
+                $provider = $project['provider'];
+            } else {
+                if (!$provider or !$full_name)
+                    throw new UserException('Missing parameters');
+
+                list($username, $repository_name) = explode('/', $full_name);
+            }
 
             $git = new \Gf\Git\GitApi($this->user_id, $provider);
             $list = $git->api()->getBranches($repository_name, $username);

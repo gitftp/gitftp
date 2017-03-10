@@ -30,9 +30,29 @@ class Controller_Init extends Controller {
                 'created_at',
                 'provider',
                 'clone_state',
+                'status',
             ]);
             if (!$projects)
                 $projects = [];
+
+            $projects_object = [];
+            foreach ($projects as $project) {
+                $servers = \Gf\Server::get([
+                    'project_id' => $project['id'],
+                ], [
+                    'id',
+                    'name',
+                    'branch',
+                    'type',
+                    'auto_deploy',
+                ]);
+                if (!$servers)
+                    $servers = [];
+
+                $project['servers'] = $servers;
+                $projects_object[$project['id']] = $project;
+            }
+
 
             return \Fuel\Core\View::forge('panel/base_layout', [
                 'js'                 => \Fuel\Core\View::forge('js'),
@@ -43,7 +63,7 @@ class Controller_Init extends Controller {
                 'bitbucketCallback'  => $bitbucketCallbackUrl,
                 'availableProviders' => $availableProviders,
                 'readyProviders'     => $readyProviders,
-                'projects'           => $projects,
+                'projects'           => $projects_object,
             ]);
         }
     }

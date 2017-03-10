@@ -50,4 +50,7 @@ angular.module('App', [
     'record_type_clone': 1,
     'record_type_update': 2,
     'record_type_re_upload': 3,
+    'server_type_ftp': 1,
+    'server_type_sftp': 2,
+    'server_type_local': 3,
 });

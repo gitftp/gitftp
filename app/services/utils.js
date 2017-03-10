@@ -88,6 +88,7 @@ angular.module('ServiceUtils', [
         };
 
         this.cloneState = function (state) {
+            state = parseInt(state);
             if (state == Const.clone_state_cloned)
                 return 'Cloned';
             else if (state == Const.clone_state_cloning)
@@ -99,6 +100,7 @@ angular.module('ServiceUtils', [
         };
 
         this.recordStatus = function (state) {
+            state = parseInt(state);
             switch (state) {
                 case Const.record_status_failed:
                     return 'Failed';
@@ -114,6 +116,7 @@ angular.module('ServiceUtils', [
         };
 
         this.recordType = function (state) {
+            state = parseInt(state);
             switch (state) {
                 case Const.record_type_clone:
                     return 'Clone';
@@ -121,6 +124,20 @@ angular.module('ServiceUtils', [
                     return 'Update';
                 case Const.record_type_re_upload:
                     return 'Re-upload';
+                default:
+                    return state;
+            }
+        };
+
+        this.serverType = function (state) {
+            state = parseInt(state);
+            switch (state) {
+                case Const.server_type_ftp:
+                    return 'FTP';
+                case Const.server_type_sftp:
+                    return 'SFTP';
+                case Const.server_type_local:
+                    return 'LOCAL';
                 default:
                     return state;
             }

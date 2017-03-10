@@ -47,6 +47,10 @@ angular.module('AppDirectives', [
                     console.log('Directive project update.');
                     scope.project = $rootScope.projects[scope.id];
                 });
+
+                scope.serverType = function (state) {
+                    return Utils.serverType(state);
+                }
             }
         }
     }

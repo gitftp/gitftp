@@ -15,6 +15,7 @@ angular.module('App', [
     'AppProjectNew',
     'AppProjectView',
     'AppProjectServerAdd',
+    'AppProjectServerView',
 ]).config([
     '$routeProvider',
     '$locationProvider',

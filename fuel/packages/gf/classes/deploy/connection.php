@@ -6,6 +6,7 @@ use Gf\Exception\AppException;
 use Gf\Server;
 use League\Flysystem\Adapter\Ftp;
 use League\Flysystem\Filesystem;
+use League\Flysystem\Sftp\SftpAdapter;
 
 class Connection {
 
@@ -41,6 +42,9 @@ class Connection {
 
         if ($this->server_data['type'] == Server::type_ftp) {
             $this->connectFtp();
+        }
+        if ($this->server_data['type'] == Server::type_sftp) {
+            $this->connectSftp();
         }
     }
 
@@ -84,11 +88,19 @@ class Connection {
         $this->connection = $filesystem;
     }
 
+
+//    private function connectSftp () {
+//        $filesystem = new Filesystem(new SftpAdapter([
+//            ''
+//        ]))
+//    }
+
     /**
      * @return \League\Flysystem\Filesystem
      */
     public function connection () {
         return $this->connection;
     }
+
 
 }

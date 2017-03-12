@@ -54,6 +54,46 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Get server but without password.
+             * @param server_id
+             * @returns {IPromise<T>}
+             */
+            getServer: function (server_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/view', {
+                    server_id: server_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * Get server but without password.
+             * @returns {IPromise<T>}
+             * @param project_id
+             */
+            getServers: function (project_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/view', {
+                    project_id: project_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * get records for project.
              * server_id is optional
              * project_id is required

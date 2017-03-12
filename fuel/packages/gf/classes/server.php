@@ -43,6 +43,8 @@ class Server {
     }
 
     public static function update (Array $where, Array $set) {
+        $set['updated_at'] = Utils::timeNow();
+
         return \DB::update(self::table)->where($where)->set($set)->execute(self::db);
     }
 

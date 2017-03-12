@@ -7,8 +7,20 @@
             <div>
                 <div class="col-md-9">
                     <div class="panel panel-card">
-                        <div class="panel-body">
-                            <h3 class="m-b-20 m-t-5">Add server</h3>
+
+                        <div class="panel-body p-70" ng-if="loading">
+                            <div class="loader" style="width: 60px">
+                                <svg class="circular" viewBox="25 25 50 50">
+                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                            stroke-miterlimit="10"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <div class="panel-body" ng-if="!loading">
+                            <h3 class="m-b-20 m-t-5">
+                                {{server_name ? server_name : 'Add server'}}
+                            </h3>
                             <p>
                                 The place where your deployment will happen. <br>
                                 You can define multiple servers for test, prod etc.
@@ -118,8 +130,20 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="md-form-group">
-                                                        <input class="md-input" ng-model="server.password" required>
-                                                        <label>Password</label>
+                                                        <div ng-if="!server.edit_password">
+                                                            <input class="md-input" ng-model="server.password" disabled placeholder="*****">
+                                                            <label>Password</label>
+                                                            <a ng-click="server.edit_password = true" class="m-t-5 pull-right">
+                                                                <small>Edit password</small>
+                                                            </a>
+                                                        </div>
+                                                        <div ng-if="server.edit_password">
+                                                            <input class="md-input" ng-model="server.password" required>
+                                                            <label>Password</label>
+                                                            <a ng-click="server.edit_password = false" ng-if="server.id" class="m-t-5 pull-right">
+                                                                <small>Cancel edit password</small>
+                                                            </a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

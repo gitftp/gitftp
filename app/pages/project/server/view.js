@@ -1,19 +1,16 @@
 "use strict";
 
-angular.module('AppProjectServerAdd', [
+angular.module('AppProjectServerView', [
     'ngRoute',
 ]).config([
     '$routeProvider',
     function ($routeProvider) {
-        $routeProvider.when('/view/:id/:name/server/add', {
+        $routeProvider.when('/view/:id/:name/serveasdasdasr/:server_id', {
             templateUrl: 'app/pages/project/server/add.html',
-            controller: 'createServerController',
-        }).when('/view/:id/:name/server/:server_id', {
-            templateUrl: 'app/pages/project/server/add.html',
-            controller: 'createServerController',
+            controller: 'viewServerController',
         });
     }
-]).controller('createServerController', [
+]).controller('viewServerController', [
     '$scope',
     '$rootScope',
     '$routeParams',
@@ -22,17 +19,10 @@ angular.module('AppProjectServerAdd', [
     '$window',
     '$q',
     function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q) {
+        Utils.setTitle('Server');
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
-
-        if ($scope.server_id) {
-            $scope.page = 'view-server';
-            Utils.setTitle('View server');
-        }
-        else {
-            $scope.page = 'new-server';
-            Utils.setTitle('Add new server');
-        }
+        $scope.page = 'view-server';
 
         $scope.server = {
             type: 1,
@@ -62,14 +52,12 @@ angular.module('AppProjectServerAdd', [
                 server['branch'] = s.branch;
                 server['auto_deploy'] = s.auto_deploy;
                 server['type'] = s.type;
-                server['id'] = s.id;
 
                 if (s.type == 1 || s.type == 2) {
                     server['host'] = s.host;
                     server['port'] = s.port;
                     server['username'] = s.username;
                     server['password'] = s.password;
-                    server['edit_password'] = s.edit_password;
                     server['path'] = s.path;
                     if (s.type == 1) {
                         server['secure'] = s.secure;
@@ -94,13 +82,11 @@ angular.module('AppProjectServerAdd', [
             var server = {};
             var s = angular.copy($scope.server);
             server['type'] = s.type;
-            server['id'] = s.id;
             if (s.type == 1 || s.type == 2) {
                 server['host'] = s.host;
                 server['port'] = s.port;
                 server['username'] = s.username;
                 server['password'] = s.password;
-                server['edit_password'] = s.edit_password;
                 server['path'] = s.path;
                 if (s.type == 1) {
                     server['secure'] = s.secure;
@@ -143,29 +129,5 @@ angular.module('AppProjectServerAdd', [
             });
         };
         $scope.loadBranches();
-
-
-        $scope.loading = false;
-        $scope.server_name = false;
-        $scope.server.edit_password = true;
-
-        $scope.load = function () {
-            $scope.loading = true;
-            Api.getServer($scope.server_id).then(function (data) {
-                $scope.server = data;
-                $scope.server_name = $scope.server.name;
-                $scope.server.auto_deploy = data.auto_deploy == '1';
-                $scope.server.secure = data.secure == '1';
-                $scope.loading = false;
-                $scope.server.edit_password = false;
-            }, function (reason) {
-                $scope.loading = false;
-                Utils.error(reason, 'red', $scope.load);
-            });
-        };
-        if ($scope.server_id) {
-            $scope.load();
-        }
-
     }
 ]);

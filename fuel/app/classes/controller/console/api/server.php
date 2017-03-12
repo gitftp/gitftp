@@ -9,6 +9,53 @@ use Gf\Record;
 
 class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
+    public function post_view () {
+        try {
+            $server_id = Input::json('server_id', false);
+            $project_id = Input::json('project_id', false);
+
+            $select = [
+                'id',
+                'name',
+                'project_id',
+                'branch',
+                'type',
+                'secure',
+                'host',
+                'port',
+                'username',
+                'path',
+                'auto_deploy',
+                'created_at',
+                'updated_at',
+            ];
+
+            if ($server_id) {
+                $servers = \Gf\Server::get_one([
+                    'id' => $server_id,
+                ], $select);
+            } elseif ($project_id) {
+                $servers = \Gf\Server::get([
+                    'project_id' => $project_id,
+                ], $select);
+            } else {
+                throw new UserException('Missing parameters');
+            }
+
+            $r = [
+                'status' => true,
+                'data'   => $servers,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_create () {
         try {
             $name = Input::json('server.name', false);
@@ -22,13 +69,15 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $path = Input::json('server.path', false);
             $secure = Input::json('server.secure', false);
             $project_id = Input::json('project_id', false);
+            $edit_password = Input::json('edit_password', false);
+            $id = Input::json('server.id', false);
 
             if (!$name or !$branch or !$type or !$host or !$port or !$username
                 or !$password or !$path or !$project_id
             )
                 throw new UserException('Missing parameters');
 
-            $server_id = \Gf\Server::insert([
+            $set = [
                 'name'        => $name,
                 'project_id'  => $project_id,
                 'branch'      => $branch,
@@ -37,11 +86,22 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'host'        => $host,
                 'port'        => $port,
                 'username'    => $username,
-                'password'    => $password,
                 'path'        => $path,
                 'added_by'    => $this->user_id,
                 'auto_deploy' => !!$auto_deploy,
-            ]);
+            ];
+
+            if ($edit_password)
+                $set['password'] = $password;
+
+            if ($id) {
+                $server_id = \Gf\Server::update([
+                    'id' => $id,
+                ], $set);
+            } else {
+                $server_id = \Gf\Server::insert($set);
+            }
+
 
             $r = [
                 'status' => true,
@@ -61,6 +121,14 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
     public function post_test () {
         try {
             $server = Input::json('server');
+            if (!$server['edit_password'] and $server['id']) {
+                $ser = \Gf\Server::get_one([
+                    'id' => $server['id'],
+                ], ['password']);
+                if (!$ser)
+                    throw new UserException('The server does not exists');
+                $server['password'] = $ser['password'];
+            }
             $connection = \Gf\Deploy\Connection::instance($server)->connection();
 
             try {

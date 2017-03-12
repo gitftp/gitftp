@@ -158,7 +158,7 @@ angular.module('AppProjectServerAdd', [
                         that.close();
                     };
                     scope.fetchPath = function () {
-                        if (scope.path.charAt(scope.path.length - 1) != '/')
+                        if (scope.path && scope.path.charAt(scope.path.length - 1) != '/')
                             return false;
 
                         scope.loading = true;

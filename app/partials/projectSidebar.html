@@ -22,7 +22,7 @@
 
                             {{s.name}}
                         </h3>
-                        <small class="font-thin">{{s.auto_deploy ? 'Auto deploy' : ''}} branch {{s.branch}}</small>
+                        <small class="font-thin">{{s.auto_deploy == '1' ? 'Auto deploy' : ''}} - Branch <code>{{s.branch}}</code></small>
                     </div>
                 </div>
             </a>

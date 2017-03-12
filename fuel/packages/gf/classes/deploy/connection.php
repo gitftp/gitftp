@@ -5,6 +5,7 @@ namespace Gf\Deploy;
 use Gf\Exception\AppException;
 use Gf\Server;
 use League\Flysystem\Adapter\Ftp;
+use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 
@@ -42,9 +43,10 @@ class Connection {
 
         if ($this->server_data['type'] == Server::type_ftp) {
             $this->connectFtp();
-        }
-        if ($this->server_data['type'] == Server::type_sftp) {
+        } elseif ($this->server_data['type'] == Server::type_sftp) {
             $this->connectSftp();
+        } elseif ($this->server_data['type'] == Server::type_local) {
+            $this->connectLocal();
         }
     }
 
@@ -89,11 +91,24 @@ class Connection {
     }
 
 
-//    private function connectSftp () {
-//        $filesystem = new Filesystem(new SftpAdapter([
-//            ''
-//        ]))
-//    }
+    private function connectSftp () {
+        $filesystem = new Filesystem(new SftpAdapter([
+            'host'     => $this->server_data['host'],
+            'username' => $this->server_data['username'],
+            'password' => $this->server_data['password'],
+            'port'     => $this->server_data['port'],
+//            'privateKey' => $this->server_data['path'],
+            'root'     => $this->server_data['path'],
+            'timeout'  => 10,
+        ]));
+
+        $this->connection = $filesystem;
+    }
+
+    private function connectLocal () {
+        $filesystem = new Filesystem(new Local($this->server_data['path']));
+        $this->connection = $filesystem;
+    }
 
     /**
      * @return \League\Flysystem\Filesystem

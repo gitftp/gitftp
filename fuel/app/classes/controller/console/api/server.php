@@ -66,14 +66,14 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $port = Input::json('server.port', false);
             $username = Input::json('server.username', false);
             $password = Input::json('server.password', false);
-            $path = Input::json('server.path', false);
+            $path = Input::json('server.path', '');
             $secure = Input::json('server.secure', false);
             $project_id = Input::json('project_id', false);
             $edit_password = Input::json('edit_password', false);
             $id = Input::json('server.id', false);
 
             if (!$name or !$branch or !$type or !$host or !$port or !$username
-                or !$password or !$path or !$project_id
+                or !$password or !$project_id
             )
                 throw new UserException('Missing parameters');
 
@@ -129,10 +129,20 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                     throw new UserException('The server does not exists');
                 $server['password'] = $ser['password'];
             }
+            if (!isset($server['path']) or !$server['path'])
+                $server['path'] = '';
+
             $connection = \Gf\Deploy\Connection::instance($server)->connection();
+
+            $directories = [];
 
             try {
                 $contents = $connection->listContents();
+                foreach ($contents as $content) {
+                    if ($content['type'] == 'dir')
+                        $directories[] = $content['path'];
+                }
+
                 $empty = true;
                 if (count($contents))
                     $empty = false;
@@ -151,7 +161,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $r = [
                 'status' => true,
                 'data'   => [
-                    'empty' => $empty,
+                    'empty'       => $empty,
+                    'directories' => $directories,
                 ],
             ];
         } catch (\Exception $e) {

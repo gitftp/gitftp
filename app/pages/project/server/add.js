@@ -21,7 +21,8 @@ angular.module('AppProjectServerAdd', [
     'Api',
     '$window',
     '$q',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q) {
+    '$ngConfirm',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
 
@@ -56,25 +57,7 @@ angular.module('AppProjectServerAdd', [
             $scope.saving = true;
             $scope.testConnection().then(function () {
                 // ok tested.
-                var s = angular.copy($scope.server);
-                var server = {};
-                server['name'] = s.name;
-                server['branch'] = s.branch;
-                server['auto_deploy'] = s.auto_deploy;
-                server['type'] = s.type;
-                server['id'] = s.id;
-
-                if (s.type == 1 || s.type == 2) {
-                    server['host'] = s.host;
-                    server['port'] = s.port;
-                    server['username'] = s.username;
-                    server['password'] = s.password;
-                    server['edit_password'] = s.edit_password;
-                    server['path'] = s.path;
-                    if (s.type == 1) {
-                        server['secure'] = s.secure;
-                    }
-                }
+                var server = $scope.parseServerData();
 
                 Api.createServer($scope.project_id, server).then(function () {
                     $scope.saving = false;
@@ -89,11 +72,14 @@ angular.module('AppProjectServerAdd', [
         $scope.testingConnection = false;
         $scope.testingErrorMessage = false;
         $scope.testingMessage = false;
-        $scope.testConnection = function () {
-            var defer = $q.defer();
+
+        $scope.parseServerData = function () {
             var server = {};
             var s = angular.copy($scope.server);
             server['type'] = s.type;
+            server['name'] = s.name;
+            server['branch'] = s.branch;
+            server['auto_deploy'] = s.auto_deploy;
             server['id'] = s.id;
             if (s.type == 1 || s.type == 2) {
                 server['host'] = s.host;
@@ -106,6 +92,12 @@ angular.module('AppProjectServerAdd', [
                     server['secure'] = s.secure;
                 }
             }
+            return server;
+        };
+
+        $scope.testConnection = function () {
+            var defer = $q.defer();
+            var server = $scope.parseServerData();
 
             $scope.testingMessage = '';
             $scope.testingErrorMessage = '';
@@ -127,6 +119,51 @@ angular.module('AppProjectServerAdd', [
             });
 
             return defer.promise;
+        };
+
+        $scope.explorePath = function () {
+            $ngConfirm({
+                title: 'Type the path',
+                content: '' +
+                '<input type="text" ng-model="path" ng-change="fetchPath()" class="md-input"/>' +
+                '<div class="m-t-10" ng-if="error">Error: {{error}}</div>' +
+                '<div class="m-t-10" ng-if="loading">Loading...</div>' +
+                '<div class="list-group md-whiteframe-z0" style="max-height: 400px; overflow-y: scroll">' +
+                '<a ng-click="clicked(d)" class="list-group-item p-5" ng-repeat="d in dir">{{apath}}{{d}}</a>' +
+                '</div>' +
+                '',
+                alignMiddle: false,
+                onOpen: function (scope) {
+                    scope.path = $scope.server.path;
+                    scope.loading = false;
+                    scope.error = false;
+                    scope.dir = [];
+                    scope.apath = '';
+                    scope.clicked = function (path) {
+                        scope.path = scope.apath + path + '/';
+                        scope.fetchPath();
+                    };
+                    scope.fetchPath = function () {
+                        if (scope.path.charAt(scope.path.length - 1) != '/')
+                            return false;
+
+                        scope.loading = true;
+                        scope.error = false;
+                        scope.dir = [];
+                        scope.apath = scope.path;
+                        var server = $scope.parseServerData();
+                        server['path'] = scope.path;
+                        Api.testServerConnectionByData(server).then(function (data) {
+                            scope.dir = data.directories;
+                            scope.loading = false;
+                        }, function (reason) {
+                            scope.error = reason;
+                            scope.loading = false;
+                        });
+                    };
+                    scope.fetchPath();
+                }
+            });
         };
 
         $scope.loadingBranches = false;

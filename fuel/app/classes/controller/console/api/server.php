@@ -69,30 +69,54 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $path = Input::json('server.path', '');
             $secure = Input::json('server.secure', false);
             $project_id = Input::json('project_id', false);
-            $edit_password = Input::json('edit_password', false);
+            $edit_password = Input::json('server.edit_password', false);
             $id = Input::json('server.id', false);
 
-            if (!$name or !$branch or !$type or !$host or !$port or !$username
-                or !$password or !$project_id
-            )
+            if (!$name or !$branch or !$type or !$project_id)
                 throw new UserException('Missing parameters');
+
+            if ($type == \Gf\Server::type_ftp or $type == \Gf\Server::type_sftp) {
+                if (!$host or !$port or !$username or !$project_id)
+                    throw new UserException('Missing parameters');
+                if (!$id and !$password)
+                    throw new UserException('Missing parameters');
+            }
 
             $set = [
                 'name'        => $name,
                 'project_id'  => $project_id,
                 'branch'      => $branch,
                 'type'        => $type,
-                'secure'      => !!$secure,
-                'host'        => $host,
-                'port'        => $port,
-                'username'    => $username,
                 'path'        => $path,
                 'added_by'    => $this->user_id,
                 'auto_deploy' => !!$auto_deploy,
             ];
+            if ($type == \Gf\Server::type_ftp) {
+                $set['secure'] = !!$secure;
+                $set['host'] = $host;
+                $set['port'] = $port;
+                $set['username'] = $username;
 
-            if ($edit_password)
-                $set['password'] = $password;
+                if ($edit_password)
+                    $set['password'] = $password;
+            }
+            if ($type == \Gf\Server::type_sftp) {
+                $set['secure'] = 0;
+                $set['host'] = $host;
+                $set['port'] = $port;
+                $set['username'] = $username;
+
+                if ($edit_password)
+                    $set['password'] = $password;
+            }
+            if ($type == \Gf\Server::type_local) {
+                $set['password'] = null;
+                $set['secure'] = 0;
+                $set['host'] = null;
+                $set['port'] = null;
+                $set['username'] = null;
+            }
+
 
             if ($id) {
                 $server_id = \Gf\Server::update([
@@ -121,39 +145,39 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
     public function post_test () {
         try {
             $server = Input::json('server');
-            if (!$server['edit_password'] and $server['id']) {
-                $ser = \Gf\Server::get_one([
-                    'id' => $server['id'],
-                ], ['password']);
-                if (!$ser)
-                    throw new UserException('The server does not exists');
-                $server['password'] = $ser['password'];
+            $writeTest = Input::json('writeTest', true);
+
+            if ($server['type'] == \Gf\Server::type_ftp or $server['type'] == \Gf\Server::type_sftp) {
+                if (!$server['edit_password'] and $server['id']) {
+                    $ser = \Gf\Server::get_one([
+                        'id' => $server['id'],
+                    ], ['password']);
+                    if (!$ser)
+                        throw new UserException('The server does not exists');
+                    $server['password'] = $ser['password'];
+                }
             }
             if (!isset($server['path']) or !$server['path'])
                 $server['path'] = '';
 
             $connection = \Gf\Deploy\Connection::instance($server)->connection();
 
-            $directories = [];
-
             try {
                 $contents = $connection->listContents();
-                foreach ($contents as $content) {
-                    if ($content['type'] == 'dir')
-                        $directories[] = $content['path'];
-                }
 
                 $empty = true;
                 if (count($contents))
                     $empty = false;
 
-                $s = $connection->put('gitftp_test_file.txt', 'This is a test file, its safe to delete it.');
-                if (!$s)
-                    throw new UserException('Could not write to Deploy path, please grant permissions');
+                if ($writeTest) {
+                    $s = $connection->put('gitftp_test_file.txt', 'This is a test file, its safe to delete it.');
+                    if (!$s)
+                        throw new UserException('Could not write to Deploy path, please grant permissions');
 
-                $s = $connection->delete('gitftp_test_file.txt');
-                if (!$s)
-                    throw new UserException('Could not delete test file from deploy path, please grant permissions');
+                    $s = $connection->delete('gitftp_test_file.txt');
+                    if (!$s)
+                        throw new UserException('Could not delete test file from deploy path, please grant permissions');
+                }
             } catch (Exception $e) {
                 throw new UserException($e->getMessage());
             }
@@ -162,7 +186,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'status' => true,
                 'data'   => [
                     'empty'       => $empty,
-                    'directories' => $directories,
+                    'directories' => $contents,
                 ],
             ];
         } catch (\Exception $e) {

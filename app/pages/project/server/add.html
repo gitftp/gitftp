@@ -94,10 +94,9 @@
                                     </div>
                                 </div>
 
-                                <div ng-if="server.type == 1 || server.type == 2">
-
+                                <div>
                                     <div class="row">
-                                        <div class="col-md-8">
+                                        <div class="col-md-8" ng-if="server.type == 1 || server.type == 2">
                                             <div class="row" ng-if="server.type == 1">
                                                 <div class="col-md-12">
                                                     <label class="md-check p-b-15">
@@ -147,11 +146,16 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                        <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <div class="md-form-group">
-                                                        <input class="md-input" ng-change="testConnection()" ng-model="server.path" ng-blur="showDirectories = false;">
-                                                        <label>Deploy path <a ng-click="explorePath()">Explore path</a></label>
+                                                        <input class="md-input" ng-model="server.path">
+                                                        <label>Deploy path </label>
+                                                        <a ng-click="explorePath()" class="m-t-5 pull-right">
+                                                            <small>Explore path</small>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>

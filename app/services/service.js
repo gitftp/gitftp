@@ -12,10 +12,11 @@ angular.module('ServiceApi', []).factory('Api', [
             /**
              * Test connection to server
              */
-            testServerConnectionByData: function (server_data) {
+            testServerConnectionByData: function (server_data, writeTest) {
                 var defer = $q.defer();
                 $http.post(API_PATH + 'server/test', {
                     server: server_data,
+                    writeTest: writeTest,
                 }).then(function (res) {
                     if (res.data.status) {
                         defer.resolve(res.data.data);

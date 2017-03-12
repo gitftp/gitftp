@@ -42,7 +42,7 @@ angular.module('AppProjectServerAdd', [
         };
 
         $scope.typeChange = function () {
-            if (angular.isDefined($scope.form.port)) {
+            if (angular.isDefined($scope.form) && angular.isDefined($scope.form.port)) {
                 if ($scope.form.port.$pristine) {
                     if ($scope.server.type == 1)
                         $scope.server.port = 21;
@@ -61,8 +61,9 @@ angular.module('AppProjectServerAdd', [
 
                 Api.createServer($scope.project_id, server).then(function () {
                     $scope.saving = false;
-                }, function () {
+                }, function (reason) {
                     $scope.saving = false;
+                    Utils.error(reason, 'red', $scope.newServer);
                 });
             }, function () {
                 $scope.saving = false;
@@ -81,13 +82,13 @@ angular.module('AppProjectServerAdd', [
             server['branch'] = s.branch;
             server['auto_deploy'] = s.auto_deploy;
             server['id'] = s.id;
+            server['path'] = s.path;
             if (s.type == 1 || s.type == 2) {
                 server['host'] = s.host;
                 server['port'] = s.port;
                 server['username'] = s.username;
                 server['password'] = s.password;
                 server['edit_password'] = s.edit_password;
-                server['path'] = s.path;
                 if (s.type == 1) {
                     server['secure'] = s.secure;
                 }
@@ -103,7 +104,7 @@ angular.module('AppProjectServerAdd', [
             $scope.testingErrorMessage = '';
 
             $scope.testingConnection = true;
-            Api.testServerConnectionByData(server).then(function (data) {
+            Api.testServerConnectionByData(server, true).then(function (data) {
                 $scope.testingConnection = false;
                 $scope.testingMessage = 'Successfully connected. ';
                 if (!data.empty) {
@@ -128,20 +129,33 @@ angular.module('AppProjectServerAdd', [
                 '<input type="text" ng-model="path" ng-change="fetchPath()" class="md-input"/>' +
                 '<div class="m-t-10" ng-if="error">Error: {{error}}</div>' +
                 '<div class="m-t-10" ng-if="loading">Loading...</div>' +
-                '<div class="list-group md-whiteframe-z0" style="max-height: 400px; overflow-y: scroll">' +
-                '<a ng-click="clicked(d)" class="list-group-item p-5" ng-repeat="d in dir">{{apath}}{{d}}</a>' +
+                '<button type="button" ng-if="!error && !loading" class="btn btn-stroke btn-primary m-t-5 m-b-5 pull-right" ng-click="setPath()">Set as deploy path</button>' +
+                '<div class="clearfix"></div>' +
+                '<div class="list-group md-whiteframe-z0" style="max-height: 400px; overflow-y: auto">' +
+                '<a ng-click="clicked(d)" class="list-group-item p-5" ng-repeat="d in dir">' +
+                '{{apath}}{{d.path}} <span class="pull-right">{{d.type}}</span>' +
+                '</a>' +
+                '<span ng-if="!loading && dir.length == 0 && !error">This directory is empty</span>' +
                 '</div>' +
                 '',
+                columnClass: 'm',
                 alignMiddle: false,
                 onOpen: function (scope) {
+                    var that = this;
                     scope.path = $scope.server.path;
                     scope.loading = false;
                     scope.error = false;
                     scope.dir = [];
                     scope.apath = '';
                     scope.clicked = function (path) {
-                        scope.path = scope.apath + path + '/';
+                        if (path.type != 'dir')
+                            return;
+                        scope.path = scope.apath + path.path + '/';
                         scope.fetchPath();
+                    };
+                    scope.setPath = function () {
+                        $scope.server['path'] = scope.path;
+                        that.close();
                     };
                     scope.fetchPath = function () {
                         if (scope.path.charAt(scope.path.length - 1) != '/')
@@ -153,7 +167,7 @@ angular.module('AppProjectServerAdd', [
                         scope.apath = scope.path;
                         var server = $scope.parseServerData();
                         server['path'] = scope.path;
-                        Api.testServerConnectionByData(server).then(function (data) {
+                        Api.testServerConnectionByData(server, false).then(function (data) {
                             scope.dir = data.directories;
                             scope.loading = false;
                         }, function (reason) {

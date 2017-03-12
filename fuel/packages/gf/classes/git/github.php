@@ -176,4 +176,15 @@ class Github implements GitInterface {
 
         return $response;
     }
+
+    public function commits ($repoName, $branch, $username = null) {
+        if (is_null($username))
+            $username = $this->username;
+
+        $commits = $this->instance->repository()->commits()->all($username, $repoName, [
+            'sha' => $branch,
+        ]);
+
+        return $commits;
+    }
 }

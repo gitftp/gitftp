@@ -51,6 +51,13 @@
                                                 <a ng-click="loadBranches()">(Refresh branches)</a>
                                             </label>
                                         </div>
+                                        <div class="md-form-group">
+                                            <input class="md-input" ng-model="server.revision" placeholder="SHA revision">
+                                            <label>Current revision on server (leave empty if fresh install)</label>
+                                            <a ng-click="selectRevision()" class="m-t-5 pull-right">
+                                                <small>Select revision</small>
+                                            </a>
+                                        </div>
                                     </div>
                                     <div class="col-md-8">
                                         <label class="md-check p-b-5">

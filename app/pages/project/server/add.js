@@ -218,5 +218,9 @@ angular.module('AppProjectServerAdd', [
             $scope.load();
         }
 
+
+        // $scope.showRevisions = function () {
+        //     $ngConfirm
+        // }
     }
 ]);

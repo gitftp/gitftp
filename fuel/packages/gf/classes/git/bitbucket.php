@@ -348,4 +348,7 @@ class Bitbucket implements GitInterface {
         return $response;
     }
 
+    function commits ($repoName, $branch, $username = null) {
+        // TODO: Implement commits() method.
+    }
 }

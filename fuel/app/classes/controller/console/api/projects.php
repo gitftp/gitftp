@@ -9,6 +9,35 @@ use Gf\Record;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
+    public function post_revisions () {
+        try {
+            $project_id = Input::json('project_id', false);
+            $branch = Input::json('branch', false);
+            if (!$project_id or !$branch)
+                throw new UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+            if (!$project)
+                throw new UserException('The project does not exists');
+
+            $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
+            $gitApi->api()->commits($project['git_name'], $project['git_username'], 'master');
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_clone () {
         try {
             $project_id = Input::json('project_id', false);

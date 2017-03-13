@@ -1,20 +1,20 @@
 <?php
 
-class FileTask extends Thread {
-    public $val;
+namespace Gf\Deploy\Tasker;
 
-    public function __construct ($val) {
-        $this->val = $val;
-        $this->done = false;
+class FileTask extends \Thread {
+
+    public $fileName;
+
+    public $actionType;
+
+    public function __construct ($fileAction) {
+        $this->fileName = $fileAction['path'];
+        $this->actionType = $fileAction['type'];
     }
 
     public function run () {
-        if (!$this->worker->ready)
-            return false;
-
+        echo 'hey';
         sleep(1);
-
-        $this->done = true;
-        var_dump('Its me' . $this->val);
     }
 }

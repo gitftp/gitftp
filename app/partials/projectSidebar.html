@@ -1,6 +1,9 @@
 <div class="">
-    <div class="panel panel-card p-20">
-        <h3 class="no-m-t">{{project.name}}</h3>
+    <div class="panel panel-card p-20 project-hero">
+        <img src="assets/img/{{project.provider}}.svg" alt="" class="project-hero-image">
+        <h3 class="no-m-t">
+            {{project.name}}
+        </h3>
         <span>{{project.uri}}</span>
     </div>
     <div class="panel panel-card m-5-20" ng-if="page != 'new-server'">
@@ -27,7 +30,7 @@
                         </div>
                     </div>
                 </a>
-                <div style="position:absolute;top: 15px;right: 15px;">
+                <div style="position:absolute;top: 20px;right: 20px;">
                     <a href="view/{{project.id}}/{{project.name}}/server/{{s.id}}/deploy" class="btn btn-xs btn-primary btn-stroke">DEPLOY</a>
                 </div>
             </div>

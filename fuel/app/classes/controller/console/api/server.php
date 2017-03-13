@@ -9,6 +9,57 @@ use Gf\Record;
 
 class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
+
+    public function post_deploy () {
+        try {
+            $project_id = Input::json('project_id', false);
+            $server_id = Input::json('server_id', false);
+            $deploy_type = Input::json('deploy.type', false);
+            $target_revision = Input::json('deploy.target_revision', false);
+
+            if (!$project_id or !$server_id or !$deploy_type or !$target_revision)
+                throw new UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+            if (!$project)
+                throw new UserException('Project not found');
+
+            $server = \Gf\Server::get_one([
+                'id' => $server_id,
+            ]);
+            if (!$server)
+                throw new UserException('Server not found');
+
+            if ($deploy_type != Record::type_re_upload and $deploy_type != Record::type_revert and $deploy_type != Record::type_update)
+                throw new UserException('Invalid record type');
+
+            Record::insert([
+                'server_id'       => $server_id,
+                'project_id'      => $project_id,
+                'type'            => $deploy_type,
+                'target_revision' => $target_revision,
+                'status'          => Record::status_new,
+            ]);
+
+            $deploy = \Gf\Deploy\Deploy::instance($project_id);
+            $deploy->processProjectQueue($project_id, true);
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+
     public function post_compare () {
         try {
             $project_id = Input::json('project_id', false);

@@ -23,7 +23,9 @@ class MyWorker extends Worker {
     public $say = null;
     public $ready = false;
 
-    public function __construct () {
+    public function __construct ($param1, $param2) {
+        echo $param1;
+        echo $param2;
         $res = ftp_connect('localhost', 21, 90);
         if ($res) echo "connected \n";
         else echo "not connected \n";
@@ -46,20 +48,9 @@ class MyWorker extends Worker {
 }
 
 // At most 3 threads will work at once
-$p = new Pool(2, \MyWorker::class);
-
+$p = new Pool(4, \MyWorker::class, ['hey', 'there']);
 $tasks = [
     new Job('0'),
-    new Job('1'),
-    new Job('2'),
-    new Job('3'),
-    new Job('4'),
-    new Job('5'),
-    new Job('6'),
-    new Job('7'),
-    new Job('8'),
-    new Job('9'),
-    new Job('10'),
 ];
 
 // Add tasks to pool queue

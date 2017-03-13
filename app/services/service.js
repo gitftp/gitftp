@@ -233,6 +233,27 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * add a new record and start deploy
+             * @returns {IPromise<T>}
+             */
+            applyDeploy: function (project_id, server_id, deploy) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/deploy', {
+                    project_id: project_id,
+                    server_id: server_id,
+                    deploy: deploy,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * get available branches for the repository by project id
              * @returns {IPromise<T>}
              */

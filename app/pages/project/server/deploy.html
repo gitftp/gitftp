@@ -24,10 +24,10 @@
                             <div class="m-b-20">
                                 from <img src="assets/img/branch.svg" style="height: 12px" alt=""> {{server.branch}}
                             </div>
-                            <form name="form" ng-submit="newServer()">
+                            <form name="form" ng-submit="startDeploy()">
                                 <hr>
-                                
-                                <div class="alert alert-info alert-dismissible" role="alert"  ng-if="!server.revision">
+
+                                <div class="alert alert-info alert-dismissible" role="alert" ng-if="!server.revision">
                                     <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                                     This server is not deployed yet.
                                     Therefore update to latest and revert to revision options are disabled. <br>
@@ -62,71 +62,30 @@
                                     </div>
                                 </div>
                                 <p ng-if="deploy.type == 3">
-                                   <i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> All files will be uploaded to the server. Files will be updated if it already exists.
+                                    <i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> All files will be uploaded to the server. Files will be updated if they already exists.
                                 </p>
 
                                 <div>
                                     <div class="row">
-                                        <div class="col-md-8" ng-if="server.type == 1 || server.type == 2">
-                                            <div class="row" ng-if="server.type == 1">
-                                                <div class="col-md-12">
-                                                    <label class="md-check p-b-15">
-                                                        <input type="checkbox" ng-model="server.secure">
-                                                        <i class="bg-success white"></i>
-                                                        Use FTP over TLS (FTPS) (recommended)
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="md-form-group">
-                                                        <input class="md-input" ng-model="server.host" required>
-                                                        <label>Host</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="md-form-group">
-                                                        <input class="md-input" name="port" ng-model="server.port" required>
-                                                        <label>Port</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <div class="md-form-group">
-                                                        <input class="md-input" ng-model="server.username" required>
-                                                        <label>Username</label>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div class="md-form-group">
-                                                        <div ng-if="!server.edit_password">
-                                                            <input class="md-input" ng-model="server.password" disabled placeholder="*****">
-                                                            <label>Password</label>
-                                                            <a ng-click="server.edit_password = true" class="m-t-5 pull-right">
-                                                                <small>Edit password</small>
-                                                            </a>
-                                                        </div>
-                                                        <div ng-if="server.edit_password">
-                                                            <input class="md-input" ng-model="server.password" required>
-                                                            <label>Password</label>
-                                                            <a ng-click="server.edit_password = false" ng-if="server.id" class="m-t-5 pull-right">
-                                                                <small>Cancel edit password</small>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <div class="md-form-group">
-                                                        <input class="md-input" ng-model="server.path">
-                                                        <label>Deploy path </label>
-                                                        <a ng-click="explorePath()" class="m-t-5 pull-right">
-                                                            <small>Explore path</small>
-                                                        </a>
+                                                    <p class="text-muted">
+                                                        Revision to be deployed
+                                                    </p>
+                                                    <div class="p-30" ng-if="gettingLatest">
+                                                        <div class="loader" style="width: 60px">
+                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                    <div class="list-group" ng-if="!gettingLatest">
+                                                        <div class="list-group-item">
+                                                            <span class="pull-right"><code>{{latestCommit.sha | sha}}</code></span>
+                                                            <strong>{{latestCommit.message}}</strong> <br>
+                                                            {{latestCommit.author}} committed on {{latestCommit.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -136,22 +95,10 @@
 
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <div ng-if="testingErrorMessage">
-                                            Exception on connecting
-                                            <pre>{{testingErrorMessage}}</pre>
-                                        </div>
-
                                         <button type="submit" class="btn btn-primary btn-rounded m-r-10"
-                                                ng-disabled="saving || form.$invalid">Save server
+                                                ng-disabled="gettingLatest || processing || form.$invalid">
+                                            {{processing ? 'Applying for deploy' : 'Deploy'}}
                                         </button>
-
-                                        <button type="button" class="btn btn-default btn-rounded"
-                                                ng-click="testConnection()"
-                                                ng-disabled="testingConnection">{{testingConnection ? 'Connecting' : 'Test connection'}}
-                                        </button>
-                                        <span class="green m-l-10" ng-if="testingMessage">
-                                            {{testingMessage}}
-                                        </span>
                                         <div class="space10"></div>
                                     </div>
                                 </div>

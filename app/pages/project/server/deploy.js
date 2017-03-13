@@ -35,6 +35,21 @@ angular.module('AppProjectServerDeploy', [
         });
         $scope.server = server;
 
+        $scope.processing = false;
+        $scope.startDeploy = function () {
+            var deploy = {};
+            deploy.type = $scope.deploy.type;
+            if (deploy.type == Const.record_type_re_upload) {
+                deploy.target_revision = $scope.latestCommit.sha;
+            }
+            $scope.processing = true;
+            Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
+                $scope.processing = false;
+            }, function (reason) {
+                Utils.error(reason, 'red', $scope.startDeploy);
+                $scope.processing = false;
+            })
+        };
 
         $scope.gettingLatest = false;
         $scope.latestCommit = {};
@@ -50,8 +65,8 @@ angular.module('AppProjectServerDeploy', [
                 Utils.error(reason, 'red', $scope.showRevisions);
             });
         };
+        $scope.getLatestRevision();
         if ($scope.server.revision) {
-            $scope.getLatestRevision();
             $scope.deploy.type = Const.record_type_update;
         } else {
             $scope.deploy.type = Const.record_type_re_upload;

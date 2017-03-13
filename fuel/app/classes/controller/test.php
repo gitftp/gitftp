@@ -5,6 +5,11 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_b () {
+        $deploy = \Gf\Deploy\Deploy::instance(23);
+        $deploy->processProjectQueue(23, false);
+    }
+
     public function get_la () {
 
         $gitApi = new \Gf\Git\GitApi(55266, \Gf\Auth\OAuth::provider_github);

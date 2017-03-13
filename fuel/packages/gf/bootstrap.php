@@ -25,6 +25,8 @@ Autoloader::add_classes([
     'Gf\Git\Bitbucket'                  => __DIR__ . '/classes/git/bitbucket.php',
     'Gf\Deploy\Deploy'                  => __DIR__ . '/classes/deploy/deploy.php',
     'Gf\Deploy\Connection'              => __DIR__ . '/classes/deploy/connection.php',
+    'Gf\Deploy\Tasker\ConnectionWorker' => __DIR__ . '/classes/deploy/tasker/connectionWorker.php',
+    'Gf\Deploy\Tasker\FileTask'         => __DIR__ . '/classes/deploy/tasker/fileTask.php',
 ]);
 
 /* End of file bootstrap.php */

@@ -9,6 +9,43 @@ use Gf\Record;
 
 class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
+    public function post_compare () {
+        try {
+            $project_id = Input::json('project_id', false);
+            $server_id = Input::json('server_id', false);
+            $source_revision = Input::json('source_revision', false);
+            $target_revision = Input::json('target_revision', false);
+            if (!$target_revision)
+                $target_revision = 'HEAD';
+
+            if (!$project_id or !$source_revision)
+                throw new UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ], [
+                'provider',
+            ]);
+            if (!$project)
+                throw new UserException('project not found');
+
+            $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
+            $compare = $gitApi->api()->compareCommits($project['git_name'], $project['git_username'], $source_revision, $target_revision);
+
+            $r = [
+                'status' => true,
+                'data'   => $compare,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_view () {
         try {
             $server_id = Input::json('server_id', false);

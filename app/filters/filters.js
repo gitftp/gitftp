@@ -1,6 +1,11 @@
 "use strict";
 
 angular.module('AppFilters', [])
+    .filter('sha', function () {
+        return function (n) {
+            return n.substring(0, 6);
+        }
+    })
     .filter('searchFilter', function () {
         return function (n, h) {
             h = h || '';

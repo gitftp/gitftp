@@ -31,7 +31,8 @@ angular.module('AppDirectives', [
     'Utils',
     '$window',
     '$routeParams',
-    function ($rootScope, Auth, Utils, $window, $routeParams) {
+    '$ngConfirm',
+    function ($rootScope, Auth, Utils, $window, $routeParams, $ngConfirm) {
         return {
             restrict: 'A',
             replace: true,
@@ -50,7 +51,26 @@ angular.module('AppDirectives', [
 
                 scope.serverType = function (state) {
                     return Utils.serverType(state);
-                }
+                };
+
+                /**
+                 * @todo remove this. not in use.
+                 * @param server_id
+                 */
+                scope.deploy = function (server_id) {
+                    $ngConfirm({
+                        title: 'Deploy',
+                        content: '' +
+                        '' +
+                        '<div class="row">' +
+                        '<div class="col-md-4"><a ng-click="deploy(1)">Update</a></div>' +
+                        '<div class="col-md-4"><a ng-click="deploy(2)">Reupload</a></div>' +
+                        '<div class="col-md-4"><a ng-click="deploy(3)">Revert</a></div>' +
+                        '</div>' +
+                        '' +
+                        ''
+                    })
+                };
             }
         }
     }

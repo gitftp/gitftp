@@ -15,6 +15,7 @@ class Record {
     const type_clone = 1;
     const type_update = 2;
     const type_re_upload = 3;
+    const type_revert = 4;
 
     const status_new = 1;
     const status_processing = 2;

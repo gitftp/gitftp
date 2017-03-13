@@ -45,6 +45,7 @@ class Controller_Init extends Controller {
                     'branch',
                     'type',
                     'auto_deploy',
+                    'revision'
                 ]);
                 if (!$servers)
                     $servers = [];

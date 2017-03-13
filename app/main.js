@@ -12,7 +12,7 @@ $script([
     'app/pages/project/new.js',
     'app/pages/project/view.js',
     'app/pages/project/server/add.js',
-    'app/pages/project/server/view.js',
+    'app/pages/project/server/deploy.js',
     'app/pages/settings/settings.js',
     'app/app.js'
 ], function () {

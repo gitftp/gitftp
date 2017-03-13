@@ -30,6 +30,25 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Get commits from project
+             */
+            getRevisions: function (project_id, branch) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/revisions', {
+                    project_id: project_id,
+                    branch: branch,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * start cloning a project
              */
             startProjectCloning: function (project_id) {
@@ -180,6 +199,28 @@ angular.module('ServiceApi', []).factory('Api', [
                 var defer = $q.defer();
                 $http.post(API_PATH + 'projects/create', {
                     project: set
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * compare commits
+             * @returns {IPromise<T>}
+             */
+            compareCommits: function (project_id, server_id, source, target) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/compare', {
+                    project_id: project_id,
+                    server_id: server_id,
+                    source_revision: source,
+                    target_revision: target,
                 }).then(function (res) {
                     if (res.data.status) {
                         defer.resolve(res.data.data);

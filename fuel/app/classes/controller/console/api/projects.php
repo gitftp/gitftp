@@ -23,10 +23,11 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 throw new UserException('The project does not exists');
 
             $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
-            $gitApi->api()->commits($project['git_name'], $project['git_username'], 'master');
+            $revisions = $gitApi->api()->commits($project['git_name'], 'master', $project['git_username']);
 
             $r = [
                 'status' => true,
+                'data'   => $revisions,
             ];
         } catch (\Exception $e) {
             $e = \Gf\Exception\ExceptionInterceptor::intercept($e);

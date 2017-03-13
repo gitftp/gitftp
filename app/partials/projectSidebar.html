@@ -4,7 +4,7 @@
         <span>{{project.uri}}</span>
     </div>
     <div class="panel panel-card m-5-20" ng-if="page != 'new-server'">
-        <div class="p-t-20 p-l-20 p-r-20">
+        <div class="p-t-20 p-l-20 p-r-20 p-b-10">
             <div ng-if="project.servers.length" class="pull-right" style="margin-top: -2px;">
                 <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary btn-xs">Add server</a>
             </div>
@@ -12,20 +12,25 @@
         </div>
 
         <div class="md-list">
-            <a href="view/{{project.id}}/{{project.name}}/server/{{s.id}}" class="servers-list" ng-repeat="s in project.servers">
-                <div class="md-list-item p-l-20 p-r-20">
-                    <div class="md-list-item-content">
-                        <h3 class="text-md">
-                            <span class="pull-right label bg-accent label-sm">
-                                {{ serverType(s.type) }}
-                            </span>
-
-                            {{s.name}}
-                        </h3>
-                        <small class="font-thin">{{s.auto_deploy == '1' ? 'Auto deploy' : ''}} - Branch <code>{{s.branch}}</code></small>
+            <div ng-repeat="s in project.servers" style="position:relative;">
+                <a href="view/{{project.id}}/{{project.name}}/server/{{s.id}}" class="servers-list">
+                    <div class="md-list-item p-l-20 p-r-20 b-t">
+                        <div class="md-list-item-content">
+                            <div>
+                                <h3 class="text-md">
+                                    {{s.name}}
+                                </h3>
+                            </div>
+                            <small class="font-thin">
+                                <img src="assets/img/branch.svg" alt="branch" style="height: 13px"><code>{{s.branch}}</code> {{s.auto_deploy == '1' ? '- Auto deploy' : ''}}
+                            </small>
+                        </div>
                     </div>
+                </a>
+                <div style="position:absolute;top: 15px;right: 15px;">
+                    <a href="view/{{project.id}}/{{project.name}}/server/{{s.id}}/deploy" class="btn btn-xs btn-primary btn-stroke">DEPLOY</a>
                 </div>
-            </a>
+            </div>
         </div>
 
         <div ng-if="!project.servers.length" class="text-center p-20 p-b-40">

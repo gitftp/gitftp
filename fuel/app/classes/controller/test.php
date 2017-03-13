@@ -1,16 +1,19 @@
 <?php
 
 class Controller_Test extends Controller {
-    public function before() {
+    public function before () {
         echo '<pre>';
     }
 
-    public function get_la(){
-        Lang::save('en', 'foo', 'asdasd');
-//        echo \Lang::get_lang();
+    public function get_la () {
+
+        $gitApi = new \Gf\Git\GitApi(55266, \Gf\Auth\OAuth::provider_github);
+        $response = $gitApi->api()->compareCommits('testrepo', 'craftpip', 'aasd', 'HEAD');
+
+        print_r($response);
     }
 
-    public function get_ss() {
+    public function get_ss () {
 //        \Session::set('hey', 'what');
 //        $a = \Session::get($id);
 //        print_r(unserialize($a));
@@ -21,8 +24,8 @@ class Controller_Test extends Controller {
 //        echo \Gf\Path::get(4);
         echo \Session::get('58974400');
     }
-    
-    public function get_co() {
+
+    public function get_co () {
 //        $url = 'sftp://ubuntu@52.28.221.93/var/www/html';
         $url = 'sftp://ubuntu@192.168.1.9/var/www/html';
 
@@ -31,8 +34,8 @@ class Controller_Test extends Controller {
                 'pubkeyfile'  => '/var/www/html/pub',
                 'privkeyfile' => '/var/www/html/priv',
                 'user'        => 'ubuntu',
-                'passphrase'  => FALSE
-            ]
+                'passphrase'  => false,
+            ],
         ];
 
         $conn = new \Banago\Bridge\Bridge($url, $options);
@@ -42,7 +45,7 @@ class Controller_Test extends Controller {
         die;
     }
 
-    public function get_gk(){
+    public function get_gk () {
 
         print_r(Utils::get_new_openssh_public_private_pair());
 
@@ -56,12 +59,12 @@ class Controller_Test extends Controller {
         echo "$publickey\r\n\r\n$privatekey";
     }
 
-    public function get_getKey() {
-        $config = array(
+    public function get_getKey () {
+        $config = [
             "digest_alg"       => "sha512",
             "private_key_bits" => 4096,
             "private_key_type" => OPENSSL_KEYTYPE_RSA,
-        );
+        ];
         $res = openssl_pkey_new($config);
         // Extract the private key from $res to $privKey
         openssl_pkey_export($res, $privKey);
@@ -75,7 +78,7 @@ class Controller_Test extends Controller {
         echo $privKey;
     }
 
-    public function get_eve() {
+    public function get_eve () {
 //        echo '<pre>';
 //        print_r(\Fuel\Core\Cache::get('p'));
 //        die;
@@ -87,24 +90,24 @@ class Controller_Test extends Controller {
 //        asdasdas
     }
 
-    public function get_eva() {
+    public function get_eva () {
         $process = new \Symfony\Component\Process\Process('ls -la');
         $process->start();
         try {
-            $processes = \Fuel\Core\Cache::get('p', FALSE);
+            $processes = \Fuel\Core\Cache::get('p', false);
         } catch (Exception $e) {
             $processes = [];
         }
         $process->isRunning();
         $processes[] = [
             'pid' => $process->getPid(),
-            'did' => 12
+            'did' => 12,
         ];
-        \Fuel\Core\Cache::set('p.asd.sa.da', $processes, FALSE);
+        \Fuel\Core\Cache::set('p.asd.sa.da', $processes, false);
     }
 
     public
-    function get_r() {
+    function get_r () {
         $id = '18';
         $path = '/var/www/html/fuel/repository/228/test';
         if (file_exists($path)) {
@@ -121,7 +124,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_p() {
+    function get_p () {
 //        $gitapi = new \Craftpip\GitApi();
 //        $a = $gitapi->auth->getToken('bitbucket');
 //
@@ -141,7 +144,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_o() {
+    function get_o () {
         $gitapi = new \Craftpip\GitApi();
 //        $repo = $gitapi->loadApi('bitbucket')->getHook('testrepo');
         $repo = $gitapi->loadApi('bitbucket')->updateHook('testrepo', '{3bf36961-ba9d-41b2-8655-3c4c0119f78c}', 'http://craftpip.com');
@@ -153,7 +156,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_q() {
+    function get_q () {
         $a = 'https://ab44005618fb9022aa617cd65e02bb1f754217a6@github.com/craftpip/testrepo.git';
         $b = \Utils::gitGetBranches2($a);
         print_r($b);
@@ -161,14 +164,14 @@ class Controller_Test extends Controller {
     }
 
     public
-    function action_authtest($provider) {
+    function action_authtest ($provider) {
         $auth = new \Craftpip\Oauth\Oauth();
         $a = $auth->init($provider);
         print_r($a);
     }
 
     public
-    function action_gtest() {
+    function action_gtest () {
 //        $instance = new \Bitbucket\API\Users();
 //        $instance->getClient()->addListener(
 //            new \Bitbucket\API\Http\Listener\OAuthListener(array(
@@ -185,7 +188,7 @@ class Controller_Test extends Controller {
 //        $client->
         $res = $client->get('https://api.bitbucket.org/2.0/user/emails', [
 //            'query' => ['access_token' => 'ST0gyfNOoDpQhSLrSe_tzrbVoVG825x_FUvylTt9sYO-H7PmtX2_AeT7ZmXU78LyLzJEabEDdqouJCCq']
-            'headers' => ['Authorization' => 'Bearer iNdx_7fgV_FcyKJW1zhI0Iy7OzozWnEupS0gieLeafhy6b6bjbNb3AZH_cM6FigOPejFlh8MTBf4GSRUXQ==']
+            'headers' => ['Authorization' => 'Bearer iNdx_7fgV_FcyKJW1zhI0Iy7OzozWnEupS0gieLeafhy6b6bjbNb3AZH_cM6FigOPejFlh8MTBf4GSRUXQ=='],
         ]);
 
 //        $res = $client->get('https://api.bitbucket.org/2.0/repositories/craftpip', [
@@ -201,11 +204,11 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_bb() {
+    function get_bb () {
         $provider = new \Stevenmaguire\OAuth2\Client\Provider\Bitbucket([
             'clientId'     => 'ZHqyDjdsukYXpu5DJD',
             'clientSecret' => 'mvGtbMXbJPkesfVJ7Xfg5hzE9uRw32gG',
-            'redirectUri'  => 'http://stg.gitftp.com/test/bb'
+            'redirectUri'  => 'http://stg.gitftp.com/test/bb',
         ]);
 
         if (!isset($_GET['code'])) {
@@ -229,7 +232,7 @@ class Controller_Test extends Controller {
 
             // Try to get an access token (using the authorization code grant)
             $token = $provider->getAccessToken('authorization_code', [
-                'code' => $_GET['code']
+                'code' => $_GET['code'],
             ]);
 
             // Optional: Now you have a token you can look up a users profile data
@@ -252,9 +255,9 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_ab() {
+    function get_ab () {
         $record = new Model_Record();
-        $record->insert(array(
+        $record->insert([
             'deploy_id' => '30',
 //            'record_type' => $record->type_service,
 //            'branch_id'   => '57',
@@ -262,27 +265,27 @@ class Controller_Test extends Controller {
             'status'    => $record->in_queue,
             'triggerby' => 'Boniface',
             'hash'      => '',
-        ));
+        ]);
 
         Gfcore::deploy_in_bg('30');
     }
 
     public
-    function get_test() {
+    function get_test () {
         $a = DB::select()->from('deploy')->execute()->as_array();
         print_r($a);
     }
 
     public
-    function get_test2() {
-        $files = array(
+    function get_test2 () {
+        $files = [
             'folder/folder2/',
             'folder/folder2/',
             'asda/asdsada/',
             'asda/',
-        );
+        ];
 
-        $merged = array();
+        $merged = [];
         foreach ($files as $v) {
             foreach ($merged as $m) {
 
@@ -306,14 +309,14 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_a() {
+    function get_a () {
         $a = 'ftp_chdir(): CWD failed. "/asdsad": directory not found';
         $b = explode(': ', $a);
         print_r($b[count($b) - 1]);
     }
 
     public
-    function get_purge() {
+    function get_purge () {
         $ftp = new Model_Ftp();
         $d = $ftp->get(130);
         $d = $d[0];
@@ -329,7 +332,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function delete($dir, $conn, $o) {
+    function delete ($dir, $conn, $o) {
         $list = $conn->ls($o . '/' . $dir);
         foreach ($list as $item) {
             echo $item;
@@ -337,13 +340,13 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_e() {
+    function get_e () {
 //        echo strtotime('Tue, 21 Aug 2012 19:50:37 +0900');
         echo strtotime('2015-07-23 20:46:36');
     }
 
     public
-    function get_c() {
+    function get_c () {
 //        echo Fuel::$env;
 //        echo Crypt::encode('asda', 'randomcode');
 //        $response = new Response();
@@ -353,14 +356,14 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_dbspeed() {
+    function get_dbspeed () {
         $deploy = new Model_Deploy();
-        $a = $deploy->get(47, NULL, TRUE);
+        $a = $deploy->get(47, null, true);
         print_r($a);
     }
 
     public
-    function get_d() {
+    function get_d () {
 
 //        $a = '{"actor": {"display_name": "boniface pereira", "username": "craftpip", "links": {"self": {"href": "https://api.bitbucket.org/2.0/users/craftpip"}, "avatar": {"href": "https:/' ;
 //        echo substr($a, 0, 1);
@@ -374,13 +377,13 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_logs() {
+    function get_logs () {
         $a = DB::select()->from('log')->order_by('id', 'desc')->execute()->as_array();
         print_r($a);
     }
 
     public
-    function get_f() {
+    function get_f () {
         $p = 'zombieismyname191993bit';
         echo $nhash = \Crypt::instance()->encode($p);
         echo '<br>';
@@ -388,7 +391,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_email() {
+    function get_email () {
         $email = new \Craftpip\Mail();
         $email = $email->template_signup();
         try {
@@ -399,12 +402,12 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_g() {
+    function get_g () {
         $a = new \Craftpip\Gitapi();
     }
 
     public
-    function get_h() {
+    function get_h () {
         $b = "\Craftpip\OAuth\OAuth";
         $o = new $b();
         $a = $o->getToken('github');
@@ -412,7 +415,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_i() {
+    function get_i () {
 
         $user = new \Craftpip\OAuth\Auth();
         $providers = $user->getProviders();
@@ -423,21 +426,21 @@ class Controller_Test extends Controller {
 
         $hooks = $client->api('repo')->hooks()->all($user->getAttr('github'), 'testrepo');
 
-        $hooks = $client->api('repo')->hooks()->create($user->getAttr('github'), 'testrepo', array(
+        $hooks = $client->api('repo')->hooks()->create($user->getAttr('github'), 'testrepo', [
             'name'   => 'web',
-            'config' => array(
+            'config' => [
                 "url"          => dash_url . 'hook/i/' . $user->user_id . '/60/1180ff37e8eb3bee',
-                "content_type" => "json"
-            ),
-            'events' => array('push'),
+                "content_type" => "json",
+            ],
+            'events' => ['push'],
             'active' => 1,
-        ));
+        ]);
 
         print_r($hooks);
     }
 
     public
-    function get_j() {
+    function get_j () {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->getAllRepositories();
 
@@ -445,7 +448,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_k() {
+    function get_k () {
         $path = Utils::get_repo_dir(48);
         $git = new \Craftpip\Git();
         $git->setRepository($path);
@@ -453,7 +456,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_login() {
+    function get_login () {
         if (\Auth::instance()->login('boniface', 'asdasd')) {
             echo 'yes';
         } else {
@@ -462,7 +465,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_checklogin() {
+    function get_checklogin () {
         if (\Auth::instance()->check()) {
             echo 'yes';
         } else {
@@ -471,7 +474,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_l() {
+    function get_l () {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->getRepositories();
 //        $a = $gitapi->loadApi('bitbucket')->getRepositories();
@@ -479,7 +482,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_m() {
+    function get_m () {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->loadApi('bitbucket');
 //        print_r($a);
@@ -495,7 +498,7 @@ class Controller_Test extends Controller {
     }
 
     public
-    function get_n() {
+    function get_n () {
         $gitapi = new \Craftpip\GitApi();
         $a = $gitapi->loadApi('bitbucket')->getRepositories();
         print_r($a);

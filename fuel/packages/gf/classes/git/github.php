@@ -3,6 +3,7 @@
 namespace Gf\Git;
 
 use Gf\Auth\OAuth;
+use Gf\Exception\AppException;
 use Github\Client;
 
 /**
@@ -163,7 +164,7 @@ class Github implements GitInterface {
         try {
             $data = $this->instance->repositories()->hooks()->update($this->username, $repoName, $id, $options);
         } catch (\Exception $e) {
-            throw new Exception($id . ' is not a valid hook');
+            throw new AppException($id . ' is not a valid hook');
         }
 
         $response = [
@@ -177,6 +178,21 @@ class Github implements GitInterface {
         return $response;
     }
 
+    private function parseCommits ($commits) {
+        $revisions = [];
+        foreach ($commits as $item) {
+            $revisions[] = [
+                'sha'           => $item['sha'],
+                'message'       => $item['commit']['message'],
+                'author_avatar' => $item['author']['avatar_url'],
+                'author'        => $item['author']['login'],
+                'time'          => strtotime($item['commit']['author']['date']),
+            ];
+        }
+
+        return $revisions;
+    }
+
     public function commits ($repoName, $branch, $username = null) {
         if (is_null($username))
             $username = $this->username;
@@ -185,6 +201,60 @@ class Github implements GitInterface {
             'sha' => $branch,
         ]);
 
-        return $commits;
+        $revisions = $this->parseCommits($commits);
+
+        return $revisions;
+    }
+
+
+    /**
+     * Response if same
+     * Array
+     * (
+     * [files] => Array
+     * (
+     * )
+     * [status] => identical
+     * [ahead_by] => 0
+     * [behind_by] => 0
+     * [commits] => Array
+     * (
+     * )
+     * )
+     *
+     *
+     *
+     *
+     * @param      $repoName
+     * @param null $username
+     * @param      $base
+     * @param      $head
+     *
+     * @return array
+     */
+    public function compareCommits ($repoName, $username = null, $base, $head) {
+        if (is_null($username))
+            $username = $this->username;
+
+        $compare = $this->instance->repository()->commits()->compare($username, $repoName, $base, $head);
+        $parsedCommit = [];
+        $parsedFiles = [];
+        foreach ($compare['files'] as $file) {
+            $newFile = [
+                'filename'  => $file['filename'],
+                'status'    => $file['status'],
+                'additions' => $file['additions'],
+                'deletions' => $file['deletions'],
+                'changes'   => $file['changes'],
+            ];
+            $parsedFiles[] = $newFile;
+        }
+        $parsedCommit['files'] = $parsedFiles;
+        $parsedCommit['status'] = $compare['status']; // ahead or behind
+        $parsedCommit['ahead_by'] = $compare['ahead_by'];
+        $parsedCommit['behind_by'] = $compare['behind_by'];
+        $parsedCommit['commits'] = $this->parseCommits($compare['commits']); // list of commits during that duration
+
+        return $parsedCommit;
     }
 }

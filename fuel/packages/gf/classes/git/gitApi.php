@@ -69,6 +69,9 @@ class GitApi {
 
         $providers = OAuth::getProviders($where);
 
+        if (!$providers)
+            $providers = [];
+
         foreach ($providers as $k => $provider) {
             if ($provider['provider'] == OAuth::provider_github) {
                 $this->providers[OAuth::provider_github] = new Github($provider['username']);

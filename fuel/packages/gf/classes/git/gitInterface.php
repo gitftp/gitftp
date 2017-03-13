@@ -22,4 +22,6 @@ interface GitInterface {
     function updateHook ($repoName, $id, $url);
 
     function commits ($repoName, $branch, $username = null);
+
+    function compareCommits ($repoName, $username = null, $base, $head);
 }

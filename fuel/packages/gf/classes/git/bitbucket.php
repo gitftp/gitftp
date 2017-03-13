@@ -351,4 +351,8 @@ class Bitbucket implements GitInterface {
     function commits ($repoName, $branch, $username = null) {
         // TODO: Implement commits() method.
     }
+
+    function compareCommits ($repoName, $username = null, $base, $head) {
+        // TODO: Implement compareCommits() method.
+    }
 }

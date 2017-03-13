@@ -42,14 +42,7 @@
                                             <label class="ui-checks">
                                                 <input type="radio" ng-disabled="!server.revision" ng-model="deploy.type" name="deploy_type" value="2" ng-change="typeChange()">
                                                 <i></i>
-                                                update to latest
-                                            </label>
-                                        </div>
-                                        <div class="radio inline radio-buttons m-r-10" ng-class="{disabled: !server.revision}">
-                                            <label class="ui-checks">
-                                                <input type="radio" ng-disabled="!server.revision" ng-model="deploy.type" name="deploy_type" value="4" ng-change="typeChange()">
-                                                <i></i>
-                                                Revert to revision
+                                                Deploy
                                             </label>
                                         </div>
                                         <div class="radio inline radio-buttons m-r-10">
@@ -61,15 +54,31 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p ng-if="deploy.type == 3">
-                                    <i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> All files will be uploaded to the server. Files will be updated if they already exists.
-                                </p>
 
                                 <div>
                                     <div class="row">
                                         <div class="col-md-8">
-                                            <div class="row">
+                                            <div class="row" ng-if="deploy.type == 2">
                                                 <div class="col-md-12">
+                                                    <p>
+                                                        Current revision on server <code>{{server.revision | sha}}</code>
+                                                    </p>
+
+                                                    <div class="p-30">
+                                                        <div class="loader" style="width: 60px">
+                                                            <svg class="circular" viewBox="25 25 50 50">
+                                                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                            </svg>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="row" ng-if="deploy.type == 3">
+                                                <div class="col-md-12">
+                                                    <p>
+                                                        <i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> All files will be uploaded to the server. Files will be updated if they already exists.
+                                                    </p>
                                                     <p class="text-muted">
                                                         Revision to be deployed
                                                     </p>

@@ -76,6 +76,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'id' => $project_id,
             ], [
                 'provider',
+                'git_name',
+                'git_username',
             ]);
             if (!$project)
                 throw new UserException('project not found');
@@ -116,6 +118,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'auto_deploy',
                 'created_at',
                 'updated_at',
+                'revision',
             ];
 
             if ($server_id) {

@@ -148,6 +148,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                         'branch',
                         'type',
                         'auto_deploy',
+                        'revision',
                     ]);
                     if (!$servers)
                         $servers = [];

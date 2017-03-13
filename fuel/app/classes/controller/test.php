@@ -7,7 +7,7 @@ class Controller_Test extends Controller {
 
     public function get_b () {
         $deploy = \Gf\Deploy\Deploy::instance(23);
-        $deploy->processProjectQueue(23, false);
+        $deploy->processProjectQueue(false);
     }
 
     public function get_la () {

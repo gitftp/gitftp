@@ -3,6 +3,7 @@
 namespace Gf\Deploy;
 
 use Gf\Deploy\Tasker\ConnectionWorker;
+use Gf\Deploy\Tasker\Deployer;
 use Gf\Deploy\Tasker\FileTask;
 use Gf\Exception\UserException;
 use Gf\Git\GitApi;
@@ -85,6 +86,13 @@ class Deploy {
      * Those files that are to be deleted
      */
     const file_action_delete = 2;
+
+    /**
+     * Logs
+     *
+     * @var string
+     */
+    private $messages = '';
 
     /**
      * Gitftp constructor.
@@ -290,78 +298,50 @@ class Deploy {
             $record_id = $record['id'];
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
-//            Record::update([
-//                'id' => $record_id,
-//            ], [
-//                'status' => Record::status_processing,
-//            ]);
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'status' => Record::status_processing,
+            ]);
 
             if (!$this->git->isCloned())
                 $this->clone();
+            else
+                $this->pull();
+
 
             $this->git->checkout($this->currentServer['branch']);
             $this->git->checkout($this->currentRecord['target_revision']);
             $allFiles = $this->getAllFilesForRevision($this->currentRecord['target_revision']);
             $totalFiles = count($allFiles);
 
-            $connection = Connection::instance($this->currentServer);
-
-            $workPool = new \Pool(2, ConnectionWorker::class, [
-                $this->currentServer,
-                $this->currentRecord,
-                $this->git,
-                $connection->connection(),
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'total_files' => $totalFiles,
             ]);
 
-            foreach ($allFiles as $fileAction) {
-                $workPool->submit(new FileTask($fileAction));
-            }
+            $connection = Connection::instance($this->currentServer);
 
-            $workPool->shutdown();
-
-            $workPool->collect(function ($checkingTask) {
-                var_dump($checkingTask);
-            });
-
-            $filesToUpload = [];
-            $filesToDelete = [];
-
-
-            /*
-             *
-             *
-             * git ls-tree --full-tree -r 9e51ab390806c36467af9ae464846c6d0e984327
-            100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    file - Copy (2).txt
-            100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    file - Copy - Copy.txt
-            100644 blob e69de29bb2d1d6434b8b29ae775ad8c2e48c5391    file - Copy.txt
-
-             *
-             *
-             *
-             *git show 4d972d09c517f0524c0fe32eb5c7454ca0cafc96:file.txt
-             *
-             *
-             *
-             * */
-//            $this->git->diff('');
-//            $this->git->show('');
-
-
-//            $this->git->run([
-//                'submodule',
-//                'foreach',
-//                'git',
-//                'submodules',
-//                'status',
-//            ]);
-
-
-            // do deploy here.
+            $deployer = Deployer::instance(Deployer::method_pthreads, $this->git);
+            $deployer
+                ->clearFiles()
+                ->setRecord($this->currentRecord)
+                ->setServer($this->currentServer)
+                ->setConnection($connection->connection())
+                ->addFiles($allFiles)
+                ->start();
 
             Record::update([
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
+            ]);
+
+            Server::update([
+                'id' => $record['server_id'],
+            ], [
+                'revision' => $record['target_revision'],
             ]);
 
             return true;
@@ -413,6 +393,23 @@ class Deploy {
         return true;
     }
 
+    private function pull () {
+        $gitApi = new GitApi($this->project['owner_id'], $this->project['provider']);
+        $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $this->project['provider']);
+
+        $this->git->run([
+            'remote',
+            'set-url',
+            'origin',
+            $clone_url,
+        ]);
+        $this->git->clearOutput();
+        $this->git->checkout('master');
+        $this->git->pull();
+
+
+    }
+
     /**
      * Gets all the files that were on the revision
      * returns the files type array
@@ -447,5 +444,21 @@ class Deploy {
         }
 
         return $filesParsed;
+    }
+
+    /**
+     * Log details about the deployment
+     *
+     * @param $messages
+     */
+    private function log ($messages) {
+        $this->messages .= $messages . "\n";
+    }
+
+    /**
+     * @return string
+     */
+    public function getMessages () {
+        return $this->messages;
     }
 }

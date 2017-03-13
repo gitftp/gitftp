@@ -3,7 +3,7 @@
 angular.module('AppFilters', [])
     .filter('sha', function () {
         return function (n) {
-            return n.substring(0, 8);
+            return n.toString().substring(0, 8);
         }
     })
     .filter('searchFilter', function () {

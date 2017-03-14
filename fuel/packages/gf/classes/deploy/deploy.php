@@ -221,7 +221,7 @@ class Deploy {
 
             if ($record['type'] == Record::type_clone) {
                 $status = $this->cloneRepo($record);
-            } elseif ($record['type'] == Record::type_re_upload) {
+            } elseif ($record['type'] == Record::type_fresh_upload) {
                 $status = $this->freshUpload($record);
             } elseif ($record['type'] == Record::type_update) {
 

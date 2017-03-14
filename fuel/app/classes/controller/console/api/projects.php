@@ -23,7 +23,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 throw new UserException('The project does not exists');
 
             $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
-            $revisions = $gitApi->api()->commits($project['git_name'], 'master', $project['git_username']);
+            $revisions = $gitApi->api()->commits($project['git_name'], $branch, $project['git_username']);
 
             $r = [
                 'status' => true,

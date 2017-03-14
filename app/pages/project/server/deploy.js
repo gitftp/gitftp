@@ -20,7 +20,8 @@ angular.module('AppProjectServerDeploy', [
     '$q',
     '$ngConfirm',
     'Const',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const) {
+    'Components',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const, Components) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
 
@@ -37,8 +38,58 @@ angular.module('AppProjectServerDeploy', [
         if ($scope.server.revision) {
             $scope.deploy.type = Const.record_type_update;
         } else {
-            $scope.deploy.type = Const.record_type_re_upload;
+            $scope.deploy.type = Const.record_type_fresh_upload;
         }
+
+        // deploy to revision
+
+        $scope.fetchingComparision = false;
+        $scope.targetCommit = $scope.server.branch;
+        $scope.targetChanges = {};
+        $scope.fetchComparision = function () {
+            $scope.fetchingComparision = true;
+            Api.compareCommits($scope.project_id, $scope.server_id, $scope.server.revision, $scope.targetCommit)
+                .then(function (comparison) {
+                    $scope.fetchingComparision = false;
+                    $scope.targetChanges = comparison;
+                }, function (reason) {
+                    $scope.fetchingComparision = false;
+                    Utils.error(reason, 'red', $scope.fetchComparision);
+                });
+        };
+
+        $scope.deploySpecific = function () {
+            Components.showLatestRevisions({
+                title: 'Deploy to revision'
+            }, $scope.project_id, $scope.server.branch).then(function (commit) {
+                if (!commit)
+                    return;
+                $scope.targetCommit = commit.sha;
+                $scope.fetchComparision();
+            }, function (reason) {
+                Utils.error(reason, 'red');
+            });
+        };
+
+        // END deploy to revision
+
+        // fresh upload
+
+        $scope.freshDeployProcessing = false;
+        $scope.freshDeploy = function () {
+            var deploy = {};
+            deploy.type = $scope.deploy.type;
+            if (deploy.type == Const.record_type_fresh_upload) {
+                deploy.target_revision = $scope.latestCommit.sha;
+            }
+            $scope.freshDeployProcessing = true;
+            Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
+                $scope.freshDeployProcessing = false;
+            }, function (reason) {
+                Utils.error(reason, 'red', $scope.startDeploy);
+                $scope.freshDeployProcessing = false;
+            })
+        };
 
         $scope.gettingLatest = false;
         $scope.latestCommit = {};
@@ -58,46 +109,30 @@ angular.module('AppProjectServerDeploy', [
             });
         };
 
+        $scope.selectRevision = function () {
+            Components.showLatestRevisions({
+                title: 'Upload revision'
+            }, $scope.project_id, $scope.server.branch).then(function (commit) {
+                if (!commit)
+                    return;
 
-        $scope.fetchingComparision = false;
-        $scope.targetCommit = "HEAD";
-        $scope.fetchComparision = function () {
-            $scope.fetchingComparision = true;
-            Api.compareCommits($scope.project_id, $scope.server_id, $scope.server.revision, $scope.targetCommit)
-                .then(function (comparison) {
-                    $scope.fetchingComparision = false;
-                    console.log(comparison);
-                }, function (reason) {
-                    $scope.fetchingComparision = false;
-                    Utils.error(reason, 'red', $scope.fetchComparision);
-                })
+                $scope.latestCommit = commit;
+            }, function (reason) {
+                Utils.error(reason, 'red');
+            });
         };
 
+        // END fresh upload
 
-        $scope.$watch('deploy.type', function () {
+        $scope.typeChange = function () {
             console.log($scope.deploy.type);
             if ($scope.deploy.type == Const.record_type_update) {
                 $scope.fetchComparision();
             } else {
                 $scope.getLatestRevision();
             }
-        });
-
-
-        $scope.processing = false;
-        $scope.startDeploy = function () {
-            var deploy = {};
-            deploy.type = $scope.deploy.type;
-            if (deploy.type == Const.record_type_re_upload) {
-                deploy.target_revision = $scope.latestCommit.sha;
-            }
-            $scope.processing = true;
-            Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
-                $scope.processing = false;
-            }, function (reason) {
-                Utils.error(reason, 'red', $scope.startDeploy);
-                $scope.processing = false;
-            })
         };
+        $scope.typeChange();
+
     }
 ]);

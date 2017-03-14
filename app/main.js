@@ -8,6 +8,7 @@ $script([
     'app/services/utils.js',
     'app/services/auth.js',
     'app/services/service.js',
+    'app/services/components.js',
     'app/pages/home/home.js',
     'app/pages/project/new.js',
     'app/pages/project/view.js',

@@ -223,8 +223,6 @@ class Github implements GitInterface {
      * )
      *
      *
-     *
-     *
      * @param      $repoName
      * @param null $username
      * @param      $base

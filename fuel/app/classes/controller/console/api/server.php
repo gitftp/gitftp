@@ -32,7 +32,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             if (!$server)
                 throw new UserException('Server not found');
 
-            if ($deploy_type != Record::type_re_upload and $deploy_type != Record::type_revert and $deploy_type != Record::type_update)
+            if ($deploy_type != Record::type_fresh_upload and $deploy_type != Record::type_revert and $deploy_type != Record::type_update)
                 throw new UserException('Invalid record type');
 
             Record::insert([
@@ -84,6 +84,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
             $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
             $compare = $gitApi->api()->compareCommits($project['git_name'], $project['git_username'], $source_revision, $target_revision);
+
 
             $r = [
                 'status' => true,

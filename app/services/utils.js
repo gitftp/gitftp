@@ -122,8 +122,8 @@ angular.module('ServiceUtils', [
                     return 'Clone';
                 case Const.record_type_update:
                     return 'Update';
-                case Const.record_type_re_upload:
-                    return 'Re-upload';
+                case Const.record_type_fresh_upload:
+                    return 'Fresh upload';
                 default:
                     return state;
             }

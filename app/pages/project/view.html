@@ -54,9 +54,7 @@
                                                     <span class="label bg-default" ng-if="r.status == 1">NEW</span>
 
                                                     <span class="">
-                                                        <span class="label bg-default" ng-if="r.type == 1">CLONE</span>
-                                                        <span class="label bg-default" ng-if="r.type == 2">UPDATE</span>
-                                                        <span class="label bg-default" ng-if="r.type == 3">RE-UPLOAD</span>
+                                                        <span class="label bg-default">{{utils.recordType(r.type) | uppercase}}</span>
                                                     </span>
                                                 </p>
                                             </div>
@@ -64,18 +62,6 @@
                                             <div class="space5"></div>
                                         </div>
                                     </div>
-
-
-                                    <!--<div class="sl-item sl-item-md">-->
-                                    <!--<div class="sl-icon">-->
-                                    <!--<i class="fa fa-check text-muted-dk"></i>-->
-                                    <!--</div>-->
-                                    <!--<div class="sl-content">-->
-                                    <!--<div class="text-muted-dk">Just now</div>-->
-                                    <!--<p>Finished task <a href="" class="text-info">#features 4</a>.</p>-->
-                                    <!--</div>-->
-                                    <!--</div>-->
-
                                 </div>
 
                                 <div class="text-center p-t-60 p-b-70" ng-if="!isCloned && records.length == 0">

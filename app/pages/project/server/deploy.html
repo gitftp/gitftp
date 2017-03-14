@@ -91,14 +91,18 @@
                                                     <small>The latest revision and server revision are identical.</small>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
 
-                                            <div class="m-b-10" ng-if="targetChanges.files.length">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="m-b-10" ng-if="targetChanges.files && targetChanges.files.length">
                                                 <p>
                                                     <strong>Changed files</strong>
                                                 </p>
                                                 <div class="row">
                                                     <div class="col-md-3" ng-repeat="f in targetChanges.files">
-                                                        <div class="m-b-5">
+                                                        <div class="m-b-5 changedFile">
                                                             <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.status == 'modified'"></i>
                                                             <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.status == 'added'"></i>
                                                             <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.status == 'removed'"></i>
@@ -107,8 +111,12 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                        </div>
+                                    </div>
 
-                                            <div ng-if="targetChanges.commits.length">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <div ng-if="targetChanges.commits && targetChanges.commits.length">
                                                 <p>
                                                     <strong>Commits</strong>
                                                 </p>

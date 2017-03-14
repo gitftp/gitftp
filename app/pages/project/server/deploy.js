@@ -48,6 +48,7 @@ angular.module('AppProjectServerDeploy', [
         $scope.targetChanges = {};
         $scope.fetchComparision = function () {
             $scope.fetchingComparision = true;
+            $scope.targetChanges = {};
             Api.compareCommits($scope.project_id, $scope.server_id, $scope.server.revision, $scope.targetCommit)
                 .then(function (comparison) {
                     $scope.fetchingComparision = false;

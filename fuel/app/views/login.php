@@ -2,18 +2,14 @@
     <div class="container" ng-app="loginApp" ng-controller="mainController" ng-cloak>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div class="navbar">
-                    <div class="navbar-brand m-t-lg text-center">
-                        <?php echo Asset::img('logo.png', ['width' => '100px']); ?>
+                <div class="p-lg no-padding-top panel shadow-x3 text-color m m-t-40">
+                    <div class="text-center p-30 b-b">
+                        <img style="width:120px;" src="<?php echo Asset::get_file('logo.png', 'img'); ?>" alt="">
                     </div>
-                </div>
-            </div>
-            <div class="col-md-4 col-md-offset-4">
-                <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
-                        <h4 class="no-margin-top text-center">
+                        <h3 class="m-b-25">
                             Login
-                        </h4>
+                        </h3>
                     </div>
 
                     <div class="row">
@@ -39,7 +35,7 @@
                                 <div class="text-center">
                                     <button type="submit" ng-disabled="form.$invalid"
                                             ng-if="!loading"
-                                            class="md-btn md-raised white blue-bg p-h-md waves-effect btn-block">
+                                            class="btn btn-primary btn-rounded btn-stroke btn-block">
                                         Login
                                     </button>
                                 </div>

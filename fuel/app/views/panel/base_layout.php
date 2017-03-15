@@ -16,6 +16,8 @@
         var GITHUB_CALLBACK = '<?php echo $githubCallback; ?>';
         var BITBUCKET_CALLBACK = '<?php echo $bitbucketCallback; ?>';
     </script>
+
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body ng-init='
 user = <?php echo json_encode($user); ?>;

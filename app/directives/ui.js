@@ -57,8 +57,6 @@ angular.module('AppDirectives', [
                         } else {
                             scope.server_name = false;
                         }
-
-
                     }, 200);
                 });
 

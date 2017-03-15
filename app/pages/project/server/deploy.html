@@ -62,7 +62,7 @@
                                             <form name="deployDeployForm"></form>
                                             <p>
                                                 <span ng-if="!fetchingComparision" class="pull-right">
-                                                    <u><a ng-click="deploySpecific()">Deploy a specific revision</a></u>
+                                                    <u><a ng-click="deploySpecific()" uib-tooltip="Select the revision you want to deploy">Select specific revision</a></u>
                                                 </span>
                                                 Deploy changes between <code>{{server.revision | sha}}</code>
                                                 <i class="zmdi zmdi-arrow-right"></i>
@@ -171,8 +171,8 @@
 
                                             <p class="m-t-5">
                                                 <a ng-click="selectRevision()" class="pull-right">Select revision</a>
+                                                <div class="clearfix"></div>
                                             </p>
-                                            <div class="clearfix"></div>
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-rounded m-r-10"

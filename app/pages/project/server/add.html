@@ -53,10 +53,11 @@
                                         </div>
                                         <div class="md-form-group">
                                             <input class="md-input" ng-model="server.revision" placeholder="SHA revision" ng-disabled="server.id">
-                                            <label>Current revision on server <span ng-if="!server.id">(leave empty if fresh install)</span></label>
-                                            <a ng-click="showRevisions()" ng-if="!server.id" class="m-t-5 pull-right">
+                                            <label>Current revision on server <span ng-if="!server.id && server.branch">(leave empty if fresh install)</span></label>
+                                            <a ng-click="showRevisions()" ng-if="!server.id && server.branch" class="m-t-5 pull-right">
                                                 <small>Select revision</small>
                                             </a>
+                                            <div class="clearfix"></div>
                                         </div>
                                     </div>
                                     <div class="col-md-8">
@@ -163,6 +164,7 @@
                                                         <a ng-click="explorePath()" class="m-t-5 pull-right">
                                                             <small>Explore path</small>
                                                         </a>
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                 </div>
                                             </div>

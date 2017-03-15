@@ -22,7 +22,8 @@ angular.module('AppProjectServerAdd', [
     '$window',
     '$q',
     '$ngConfirm',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm) {
+    'Components',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Components) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
 
@@ -195,7 +196,6 @@ angular.module('AppProjectServerAdd', [
         };
         $scope.loadBranches();
 
-
         $scope.loading = false;
         $scope.server_name = false;
         $scope.server.edit_password = true;
@@ -218,40 +218,13 @@ angular.module('AppProjectServerAdd', [
             $scope.load();
         }
 
-
         $scope.showRevisions = function () {
-            $ngConfirm({
-                title: 'Recent commits',
-                content: '' +
-                '<div class="loader p-25 p-t-70" ng-if="loading" style="width: 60px"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/></svg></div>' +
-                '' +
-                '<div class="list-group">' +
-                '<a class="list-group-item p-10" ng-click="select(r.sha)" ng-repeat="r in revisions">' +
-                '<strong>{{r.message}}</strong> <code class="pull-right"><small class="">{{r.sha | sha}}</small></code>' +
-                '<br><small class="text-muted">{{r.author}} committed on {{r.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}</small>' +
-                '</a>' +
-                '</div>',
-                animation: 'top',
-                closeAnimation: 'top',
-                onOpen: function (scope) {
-                    var that = this;
-                    scope.loading = true;
-                    scope.revisions = [];
-
-                    Api.getRevisions($scope.project_id, $scope.server.branch).then(function (revisions) {
-                        console.log(revisions);
-                        scope.revisions = revisions;
-                        scope.loading = false;
-                    }, function (reason) {
-                        scope.loading = false;
-                        Utils.error(reason, 'red', $scope.showRevisions);
-                    });
-
-                    scope.select = function (sha) {
-                        $scope.server.revision = sha;
-                        that.close();
-                    }
-                }
+            Components.showLatestRevisions({
+                'title': 'Recent commits',
+            }, $scope.project_id, $scope.server.branch).then(function (commit) {
+                $scope.server.revision = commit.sha;
+            }, function (reason) {
+                Utils.notification(reason, 'red');
             });
         }
     }

@@ -46,7 +46,9 @@ angular.module('AppProjectServerDeploy', [
         $scope.fetchingComparision = false;
         $scope.targetCommit = $scope.server.branch;
         $scope.targetChanges = {};
+        $scope.compareError = false;
         $scope.fetchComparision = function () {
+            $scope.compareError = false;
             $scope.fetchingComparision = true;
             $scope.targetChanges = {};
             Api.compareCommits($scope.project_id, $scope.server_id, $scope.server.revision, $scope.targetCommit)
@@ -55,7 +57,7 @@ angular.module('AppProjectServerDeploy', [
                     $scope.targetChanges = comparison;
                 }, function (reason) {
                     $scope.fetchingComparision = false;
-                    Utils.error(reason, 'red', $scope.fetchComparision);
+                    $scope.compareError = reason;
                 });
         };
 
@@ -72,6 +74,20 @@ angular.module('AppProjectServerDeploy', [
             });
         };
 
+        $scope.revisionDeployProcessing = false;
+        $scope.revisionDeploy = function () {
+            var deploy = {};
+            deploy.type = Const.record_type_update;
+            deploy.target_revision = $scope.targetCommit;
+            $scope.revisionDeployProcessing = true;
+            Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
+                $scope.revisionDeployProcessing = false;
+            }, function (reason) {
+                Utils.error(reason, 'red', $scope.startDeploy);
+                $scope.revisionDeployProcessing = false;
+            });
+        };
+
         // END deploy to revision
 
         // fresh upload
@@ -79,10 +95,8 @@ angular.module('AppProjectServerDeploy', [
         $scope.freshDeployProcessing = false;
         $scope.freshDeploy = function () {
             var deploy = {};
-            deploy.type = $scope.deploy.type;
-            if (deploy.type == Const.record_type_fresh_upload) {
-                deploy.target_revision = $scope.latestCommit.sha;
-            }
+            deploy.type = Const.record_type_fresh_upload;
+            deploy.target_revision = $scope.latestCommit.sha;
             $scope.freshDeployProcessing = true;
             Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
                 $scope.freshDeployProcessing = false;
@@ -93,20 +107,18 @@ angular.module('AppProjectServerDeploy', [
         };
 
         $scope.gettingLatest = false;
-        $scope.latestCommit = {};
-        $scope.last30Commits = [];
+        $scope.selectedCommit = {};
         $scope.getLatestRevision = function () {
-            if ($scope.last30Commits.length)
+            if (Object.keys($scope.selectedCommit).length)
                 return false;
 
             $scope.gettingLatest = true;
             Api.getRevisions($scope.project_id, $scope.server.branch).then(function (revisions) {
-                $scope.last30Commits = revisions;
-                $scope.latestCommit = $scope.last30Commits[0];
+                $scope.selectedCommit = revisions[0];
                 $scope.gettingLatest = false;
             }, function (reason) {
                 $scope.gettingLatest = false;
-                Utils.error(reason, 'red', $scope.showRevisions);
+                Utils.notification(reason, 'red');
             });
         };
 
@@ -117,7 +129,7 @@ angular.module('AppProjectServerDeploy', [
                 if (!commit)
                     return;
 
-                $scope.latestCommit = commit;
+                $scope.selectedCommit = commit;
             }, function (reason) {
                 Utils.error(reason, 'red');
             });

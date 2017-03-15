@@ -84,23 +84,22 @@ class GitLocal {
 
 
     /**
-     * @todo: work required
-     *
      * @param $hash
      *
      * @return mixed
      */
-    public function verifyhash ($hash) {
+    public function verifyHash ($hash) {
+        try {
+            $op = $this->git->run([
+                'rev-parse',
+                '--verify',
+                $hash,
+            ]);
 
-        $process = $this->getProcessBuilder()
-            ->add('rev-parse')
-            ->add('--verify')
-            ->add($hash)
-            ->getProcess();
-
-        $a = $this->run($process);
-
-        return $a;
+            return trim($op->getOutput());
+        } catch (\Exception $e) {
+            return false;
+        }
     }
 
     /**
@@ -204,26 +203,23 @@ class GitLocal {
     }
 
     /**
-     * @todo: needs work
      * returns true if the hash is child of a branch.
      *
      * @param $hash
      * @param $branch
      *
      * @return bool
-     * @throws \PHPGit\Exception\GitException
      */
-    public function commitExistInBranch ($hash, $branch) {
-        $process = $this->getProcessBuilder()
-            ->add('branch')
-            ->add('-a')
-            ->add('--contains')
-            ->add($hash)
-            ->getProcess();
+    public function hashExistsInBranch ($hash, $branch) {
 
-        $a = $this->run($process);
-        $b = strpos($a, $branch);
-        if (empty($b)) {
+        $op = $this->git->run([
+            'branch',
+            '-a',
+            '--contains',
+            $hash,
+        ]);
+
+        if (strpos($op->getOutput(), $branch)) {
             return false;
         } else {
             return true;

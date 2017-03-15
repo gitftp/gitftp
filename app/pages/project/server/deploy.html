@@ -57,89 +57,92 @@
                         <div>
                             <div class="row" ng-if="deploy.type == 2">
                                 <div class="col-md-12">
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <form name="deployDeployForm"></form>
-                                            <p>
+                                    <form name="deployDeployForm" ng-submit="revisionDeploy()">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <p>
                                                 <span ng-if="!fetchingComparision" class="pull-right">
-                                                    <u><a ng-click="deploySpecific()" uib-tooltip="Select the revision you want to deploy">Select specific revision</a></u>
+                                                    <u><a ng-click="deploySpecific()" uib-tooltip="Select the revision you want to deploy">Change target revision</a></u>
                                                 </span>
-                                                Deploy changes between <code>{{server.revision | sha}}</code>
-                                                <i class="zmdi zmdi-arrow-right"></i>
-                                                <code>{{targetCommit | sha}}</code> <br>
-                                                <span class="text-muted" ng-if="targetChanges.status != 'identical' && (targetChanges.ahead_by || targetChanges.behind_by)">
-                                                    Status {{targetChanges.status}}
-                                                    <span ng-if="targetChanges.ahead_by != 0">- Ahead by {{targetChanges.ahead_by}} commits</span>
-                                                    <span ng-if="targetChanges.behind_by != 0">- Behind by {{targetChanges.behind_by}} commits</span>
-                                                </span>
-                                            </p>
-
-
-                                            <div class="p-30" ng-if="fetchingComparision">
-                                                <div class="loader" style="width: 60px">
-                                                    <svg class="circular" viewBox="25 25 50 50">
-                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
-                                                    </svg>
-                                                </div>
-                                                <p class="text-center m-t-10">
-                                                    fetching changes
+                                                    Deploy changes between <code>{{server.revision | sha}}</code>
+                                                    <i class="zmdi zmdi-arrow-right"></i>
+                                                    <code>{{targetCommit | sha}}</code>
+                                                    </span>
                                                 </p>
-                                            </div>
-                                            <div class="" ng-if="!fetchingComparision">
-                                                <div class="alert alert-info" ng-if="targetChanges.files && targetChanges.files.length == 0">
-                                                    The <strong>server is up-to-date</strong>, nothing to deploy <br>
-                                                    <small>The latest revision and server revision are identical.</small>
+
+
+                                                <div class="p-30" ng-if="fetchingComparision">
+                                                    <div class="loader" style="width: 60px">
+                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                        </svg>
+                                                    </div>
+                                                    <p class="text-center m-t-10">
+                                                        fetching changes
+                                                    </p>
+                                                </div>
+                                                <div class="" ng-if="!fetchingComparision">
+                                                    <div class="alert alert-info" ng-if="targetChanges.files && targetChanges.files.length == 0">
+                                                        The <strong>server is up-to-date</strong>, nothing to deploy <br>
+                                                        <small>The latest revision and server revision are identical.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="" ng-if="compareError">
+                                                    <div class="alert alert-danger">
+                                                        <i class="zmdi zmdi-alert-circle-o"></i>
+                                                        {{compareError}}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <div class="m-b-10" ng-if="targetChanges.files && targetChanges.files.length">
-                                                <p>
-                                                    <strong>Changed files</strong>
-                                                </p>
-                                                <div class="row">
-                                                    <div class="col-md-3" ng-repeat="f in targetChanges.files">
-                                                        <div class="m-b-5 changedFile">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="m-b-10" ng-if="targetChanges.files && targetChanges.files.length">
+                                                    <p>
+                                                        <strong>Changed files</strong>
+                                                    </p>
+                                                    <div class="row">
+                                                        <div class="col-md-3" ng-repeat="f in targetChanges.files">
+                                                            <div class="m-b-5 changedFile">
                                                             <span uib-tooltip="{{f.a == 'D' ? 'Delete': 'Upload'}} {{f.f}}">
                                                             <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.a == 'M'"></i>
                                                             <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.a == 'A'"></i>
                                                             <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.a == 'D'"></i>
                                                             {{f.f | fileName}}
                                                             </span>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <div ng-if="targetChanges.commits && targetChanges.commits.length">
-                                                <p>
-                                                    <strong>Commits</strong>
-                                                </p>
-                                                <ul class="list-group">
-                                                    <li class="list-group-item" ng-repeat="r in targetChanges.commits">
-                                                        <strong>{{r.message}}</strong>
-                                                        <code class="pull-right">
-                                                            <small class="">{{r.sha | sha}}</small>
-                                                        </code>
-                                                        <br>
-                                                        <small class="text-muted">{{r.author}} committed on {{r.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}</small>
-                                                    </li>
-                                                </ul>
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div ng-if="targetChanges.commits && targetChanges.commits.length">
+                                                    <p>
+                                                        <strong>Commits</strong>
+                                                    </p>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item" ng-repeat="r in targetChanges.commits">
+                                                            <strong>{{r.message}}</strong>
+                                                            <code class="pull-right">
+                                                                <small class="">{{r.sha | sha}}</small>
+                                                            </code>
+                                                            <br>
+                                                            <small class="text-muted">{{r.author}} committed on {{r.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}</small>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary btn-rounded m-r-10"
+                                                        ng-disabled="gettingLatest || revisionDeployProcessing || deployDeployForm.$invalid">
+                                                    {{deployProcessing ? 'Applying for deploy' : 'Deploy'}}
+                                                </button>
                                             </div>
-
-                                            <button type="submit" class="btn btn-primary btn-rounded m-r-10"
-                                                    ng-disabled="gettingLatest || deployProcessing || deployDeployForm.$invalid">
-                                                {{deployProcessing ? 'Applying for deploy' : 'Deploy'}}
-                                            </button>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
 
@@ -160,18 +163,18 @@
                                             </div>
                                         </div>
                                         <div class="list-group" ng-if="!gettingLatest">
-                                            <div class="list-group-item" ng-if="latestCommit && latestCommit.author">
-                                                <span class="pull-right"><code>{{latestCommit.sha | sha}}</code></span>
-                                                <strong>{{latestCommit.message}}</strong> <br>
-                                                {{latestCommit.author}} committed on {{latestCommit.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}
+                                            <div class="list-group-item" ng-if="selectedCommit && selectedCommit.author">
+                                                <span class="pull-right"><code>{{selectedCommit.sha | sha}}</code></span>
+                                                <strong>{{selectedCommit.message}}</strong> <br>
+                                                {{selectedCommit.author}} committed on {{selectedCommit.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}
                                             </div>
-                                            <div class="list-group-item" ng-if="latestCommit && !latestCommit.author">
-                                                <code>{{latestCommit.sha | sha}}</code>
+                                            <div class="list-group-item" ng-if="selectedCommit && !selectedCommit.author">
+                                                <code>{{selectedCommit.sha | sha}}</code>
                                             </div>
 
                                             <p class="m-t-5">
                                                 <a ng-click="selectRevision()" class="pull-right">Select revision</a>
-                                                <div class="clearfix"></div>
+                                            <div class="clearfix"></div>
                                             </p>
                                         </div>
 

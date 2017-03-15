@@ -28,6 +28,7 @@ angular.module('ServiceComponents', [
                 '<button type="button" ng-click="okCustom(custom_revision)" class="pull-right btn btn-stroke btn-primary btn-rounded m-b-10">Set revision</button>' +
                 '<div class="clearfix"></div>' +
                 '<div class="loader p-25 p-t-70" ng-if="loading" style="width: 60px"><svg class="circular" viewBox="25 25 50 50"><circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/></svg></div>' +
+                '<p class="text-center" ng-if="loading">Loading recent commits</p>' +
                 '<div ng-if="error && !loading" class="alert alert-danger">{{error}}</div>' +
                 '<div ng-if="!loading && !error">' +
                 '<p class="text-muted">or select from latest</p>' +

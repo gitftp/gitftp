@@ -9,7 +9,6 @@ use Gf\Record;
 
 class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
-
     public function post_deploy () {
         try {
             $project_id = Input::json('project_id', false);
@@ -32,8 +31,15 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             if (!$server)
                 throw new UserException('Server not found');
 
-            if ($deploy_type != Record::type_fresh_upload and $deploy_type != Record::type_revert and $deploy_type != Record::type_update)
+            if ($deploy_type != Record::type_fresh_upload and
+                $deploy_type != Record::type_revert and
+                $deploy_type != Record::type_update
+            )
                 throw new UserException('Invalid record type');
+
+
+            $gitLocal = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
+            $gitLocal->verifyHash($target_revision);
 
             Record::insert([
                 'server_id'       => $server_id,
@@ -44,7 +50,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             ]);
 
             $deploy = \Gf\Deploy\Deploy::instance($project_id);
-            $deploy->processProjectQueue($project_id, true);
+            $deploy->processProjectQueue(true);
 
             $r = [
                 'status' => true,
@@ -64,12 +70,10 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
         try {
             $project_id = Input::json('project_id', false);
             $server_id = Input::json('server_id', false);
-            $source_revision = Input::json('source_revision', false);
+            // $source_revision = Input::json('source_revision', false);
             $target_revision = Input::json('target_revision', false);
-            if (!$target_revision)
-                $target_revision = 'HEAD';
 
-            if (!$project_id or !$source_revision)
+            if (!$project_id)
                 throw new UserException('Missing parameters');
 
             $project = Project::get_one([
@@ -82,9 +86,34 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             if (!$project)
                 throw new UserException('project not found');
 
-            $gitHelper = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
-            $files = $gitHelper->diff($source_revision, $target_revision);
-            $commits = $gitHelper->commitsBetween($source_revision, $target_revision);
+            $server = \Gf\Server::get_one([
+                'id' => $server_id,
+            ], [
+                'revision',
+                'branch',
+            ]);
+            if (!$server)
+                throw new UserException('Server not found');
+            if (!$target_revision)
+                $target_revision = $server['branch'];
+
+            if (strtolower($target_revision) == "head")
+                throw new UserException("HEAD is ambiguous, please provide a specific revision, branch or tag");
+
+            $source_revision = $server['revision'];
+
+            $gitLocal = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
+
+            $revision = $gitLocal->verifyHash($target_revision);
+            if (!$revision)
+                throw new UserException("The revision '$target_revision'' was not found in the current repository, if this is was not the expected output please click on the Sync button on the top right corner");
+
+            $hashExists = $gitLocal->hashExistsInBranch($revision, $server['branch']);
+            if ($hashExists)
+                throw new UserException("The revision '$target_revision' does not exists in '{$server['branch']}', cannot deploy to another branch");
+
+            $files = $gitLocal->diff($source_revision, $target_revision);
+            $commits = $gitLocal->commitsBetween($source_revision, $target_revision);
 
             $r = [
                 'status' => true,

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gf\Git;
+namespace Gf\Git\Providers;
 
 use Bitbucket\API\Api;
 use Bitbucket\API\Http\ClientInterface;
@@ -260,11 +260,21 @@ class Bitbucket implements GitInterface {
         return $id;
     }
 
-
     private function postRequest ($apiPath, $payload) {
         $response = $this->client->post($apiPath, json_encode($payload), [
             'Content-Type' => 'application/json',
         ]);
+        $content = $response->getContent();
+        $content = json_decode($content, true);
+        if (isset($content['type']) and $content['type'] == 'error')
+            throw new AppException($content['error']['message']);
+
+        return $content;
+    }
+
+    private function getRequest ($apiPath) {
+        $apiPath = strtolower($apiPath);
+        $response = $this->client->get($apiPath);
         $content = $response->getContent();
         $content = json_decode($content, true);
         if (isset($content['type']) and $content['type'] == 'error')
@@ -297,6 +307,21 @@ class Bitbucket implements GitInterface {
         return $response;
     }
 
+    /**
+     * @todo: Needs work
+     *
+     * @param $repoName
+     * @param $id
+     *
+     * @return bool
+     */
+
+
+
+
+
+
+
     public function removeHook ($repoName, $id) {
         $repoName = $this->cleanRepoName($repoName);
         $id = $this->parseUUID($id);
@@ -314,6 +339,15 @@ class Bitbucket implements GitInterface {
         }
     }
 
+    /**
+     * @todo needs work
+     *
+     * @param $repoName
+     * @param $id
+     * @param $url
+     *
+     * @return array
+     */
     public function updateHook ($repoName, $id, $url) {
 
         $id = $this->parseUUID($id);
@@ -349,10 +383,24 @@ class Bitbucket implements GitInterface {
     }
 
     function commits ($repoName, $branch, $username = null) {
-        // TODO: Implement commits() method.
+        $response = $this->getRequest("repositories/$username/$repoName/commits/$branch");
+
+        $revisions = [];
+        foreach ($response['values'] as $value) {
+            $revisions[] = [
+                'sha'           => $value['hash'],
+                'message'       => $value['message'],
+                'author_avatar' => $value['author']['user']['links']['avatar']['href'],
+                'author'        => $value['author']['user']['username'],
+                'time'          => strtotime($value['date']),
+            ];
+        }
+
+        return $revisions;
     }
 
     function compareCommits ($repoName, $username = null, $base, $head) {
         // TODO: Implement compareCommits() method.
+        $response = $this->getRequest("repositories/$username/$repoName/diff/$base..$head");
     }
 }

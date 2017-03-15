@@ -22,7 +22,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if (!$project)
                 throw new UserException('The project does not exists');
 
-            $gitApi = new \Gf\Git\GitApi($this->user_id, $project['provider']);
+            $gitApi = \Gf\Git\GitApi::instance($this->user_id, $project['provider']);
             $revisions = $gitApi->api()->commits($project['git_name'], $branch, $project['git_username']);
 
             $r = [
@@ -201,7 +201,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
     public function post_list_available_repositories () {
         try {
-            $git = new \Gf\Git\GitApi($this->user_id);
+            $git = \Gf\Git\GitApi::instance($this->user_id);
             $list = $git->getCombinedRepositories();
             $r = [
                 'status' => true,
@@ -237,7 +237,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 list($username, $repository_name) = explode('/', $full_name);
             }
 
-            $git = new \Gf\Git\GitApi($this->user_id, $provider);
+            $git = \Gf\Git\GitApi::instance($this->user_id, $provider);
             $list = $git->api()->getBranches($repository_name, $username);
 
             $r = [

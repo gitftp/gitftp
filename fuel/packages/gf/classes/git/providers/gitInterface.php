@@ -1,6 +1,6 @@
 <?php
 
-namespace Gf\Git;
+namespace Gf\Git\Providers;
 
 interface GitInterface {
     function __construct ($username);

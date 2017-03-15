@@ -1,6 +1,6 @@
 <?php
 
-namespace Gf\Git;
+namespace Gf\Git\Providers;
 
 use Gf\Auth\OAuth;
 use Gf\Exception\AppException;

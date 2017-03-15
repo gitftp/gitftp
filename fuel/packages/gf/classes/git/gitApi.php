@@ -3,12 +3,12 @@
 namespace Gf\Git;
 
 use Fuel\Core\Uri;
-use Gf\Auth\Auth;
 use Gf\Auth\OAuth;
 use Gf\Exception\AppException;
 use Gf\Exception\UserException;
-use Gf\Project;
-use JacobKiers\OAuth\Token\TokenInterface;
+use Gf\Git\Providers\Bitbucket;
+use Gf\Git\Providers\Github;
+use Gf\Git\Providers\GitInterface;
 use League\OAuth2\Client\Token\AccessToken;
 
 /**
@@ -22,9 +22,9 @@ use League\OAuth2\Client\Token\AccessToken;
 class GitApi {
 
     /**
-     * @var GitInterface
+     * @var GitApi
      */
-    public $instance;
+    public static $instance;
 
     /**
      * List of provider instances
@@ -49,6 +49,20 @@ class GitApi {
      */
     public $tokens = [];
 
+    /**
+     * @param        $user_id
+     * @param string $provider
+     *
+     * @return GitApi
+     */
+    public static function instance ($user_id, $provider = 'all') {
+        if (!isset(static::$instance[$provider]) or null == static::$instance[$provider]) {
+            $provider_const = ($provider == 'all') ? null : $provider;
+            static::$instance[$provider] = new static($user_id, $provider_const);
+        }
+
+        return self::$instance[$provider];
+    }
 
     /**
      * Git constructor.
@@ -91,6 +105,10 @@ class GitApi {
                     $this->tokens[$provider['provider']] = $token;
                 }
             }
+
+            /**
+             * @var GitInterface
+             */
             $this->providers[$provider['provider']]->authenticate($token->getToken());
         }
     }
@@ -171,7 +189,7 @@ class GitApi {
      * @param $provider -> if this is null and the class has only one provider with it
      *                  the method will return the first one
      *
-     * @return \Gf\Git\GitInterface
+     * @return \Gf\Git\Providers\GitInterface
      * @throws \Gf\Exception\UserException
      */
     public function api ($provider = null) {

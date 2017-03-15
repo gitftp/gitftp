@@ -37,7 +37,7 @@ class Project {
 
             list($username, $repoName) = explode('/', $repository_full_name);
 
-            $git = new GitApi($user_id, $repository_provider);
+            $git = GitApi::instance($user_id, $repository_provider);
             $repository = $git->api()->getRepository($username, $repoName);
 
             $exists = self::get_one([

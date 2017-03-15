@@ -5,9 +5,8 @@ namespace Gf\Deploy\Tasker;
 use Fuel\Core\File;
 use Gf\Deploy\Deploy;
 use Gf\Exception\AppException;
+use Gf\Git\GitLocal;
 use Gf\Record;
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\GitWrapper;
 use League\Flysystem\Filesystem;
 
 class Deployer {
@@ -56,18 +55,19 @@ class Deployer {
     private $record;
 
     /**
-     * @var GitWorkingCopy
+     * @var GitLocal
      */
-    private $git;
+    private $gitLocal;
 
     /**
-     * @param null $method
+     * @param null             $method
+     * @param \Gf\Git\GitLocal $gitLocal
      *
-     * @return Deployer
+     * @return \Gf\Deploy\Tasker\Deployer
      */
-    public static function instance ($method = null, $gitWrapper) {
+    public static function instance ($method = null, GitLocal $gitLocal) {
         if (!isset(static::$instance) or null == static::$instance) {
-            static::$instance = new static($method, $gitWrapper);
+            static::$instance = new static($method, $gitLocal);
         }
 
         return self::$instance;
@@ -100,9 +100,10 @@ class Deployer {
      * Deployer constructor.
      *
      * @param null $method
+     * @param      $gitLocal
      */
-    public function __construct ($method = null, $gitWrapper) {
-        $this->git = $gitWrapper;
+    public function __construct ($method = null, GitLocal $gitLocal) {
+        $this->git = $gitLocal;
         $this->method = $method;
 
         if (is_null($this->method))
@@ -202,11 +203,13 @@ class Deployer {
             return $this->pThreads();
         elseif ($this->method == self::method_regular)
             return $this->regular();
+        else
+            return false;
     }
 
     private function regular () {
         $r = $this->record['target_revision'];
-        $dir = $this->git->getDirectory();
+        $dir = $this->gitLocal->git->getDirectory();
 
         foreach ($this->files as $file) {
             if ($file['action'] == Deploy::file_action_upload) {

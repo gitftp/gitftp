@@ -2,11 +2,10 @@
 
 namespace Gf\Deploy;
 
-use Gf\Deploy\Tasker\ConnectionWorker;
 use Gf\Deploy\Tasker\Deployer;
-use Gf\Deploy\Tasker\FileTask;
 use Gf\Exception\UserException;
 use Gf\Git\GitApi;
+use Gf\Git\GitLocal;
 use Gf\Project;
 use Gf\Record;
 use Gf\Server;
@@ -14,6 +13,15 @@ use Gf\Utils;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 
+
+/**
+ * This class is responsible for deploying the files to the server.
+ * Brings together all the resources to Deploy.
+ * Loops over the deploy queue
+ * Class Deploy
+ *
+ * @package Gf\Deploy
+ */
 class Deploy {
 
     /**
@@ -24,16 +32,21 @@ class Deploy {
     public static $instances;
 
     /**
+     * @var GitLocal
+     */
+    public $gitLocal;
+
+    /**
      * Instance for the Git wrapper
      *
      * @var GitWorkingCopy
      */
-    public $git;
+//    public $git;
 
     /**
      * @var GitWrapper
      */
-    public $gitWrapper;
+//    public $gitWrapper;
 
     /**
      * The project details
@@ -114,8 +127,9 @@ class Deploy {
         $base = DOCROOT;
         $this->repoPath = Utils::systemDS($base . $repoPath);
 
-        $wrapper = new GitWrapper();
-        $this->git = $wrapper->workingCopy($this->repoPath);
+//        $wrapper = new GitWrapper();
+//        $this->git = $wrapper->workingCopy($this->repoPath);
+        $this->gitLocal = GitLocal::instance($this->repoPath);
     }
 
     /**
@@ -220,9 +234,9 @@ class Deploy {
             }
 
             if ($record['type'] == Record::type_clone) {
-                $status = $this->cloneRepo($record);
+                $this->cloneRepo($record);
             } elseif ($record['type'] == Record::type_fresh_upload) {
-                $status = $this->freshUpload($record);
+                $this->freshUpload($record);
             } elseif ($record['type'] == Record::type_update) {
 
             } else {
@@ -255,7 +269,7 @@ class Deploy {
                 'status' => Record::status_processing,
             ]);
 
-            if (!$this->git->isCloned()) {
+            if (!$this->gitLocal->git->isCloned()) {
                 Project::update([
                     'id' => $this->project_id,
                 ], [
@@ -304,14 +318,14 @@ class Deploy {
                 'status' => Record::status_processing,
             ]);
 
-            if (!$this->git->isCloned())
+            if (!$this->gitLocal->git->isCloned())
                 $this->clone();
             else
                 $this->pull();
 
 
-            $this->git->checkout($this->currentServer['branch']);
-            $this->git->checkout($this->currentRecord['target_revision']);
+            $this->gitLocal->git->checkout($this->currentServer['branch']);
+            $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
             $allFiles = $this->getAllFilesForRevision($this->currentRecord['target_revision']);
             $totalFiles = count($allFiles);
 
@@ -323,7 +337,7 @@ class Deploy {
 
             $connection = Connection::instance($this->currentServer);
 
-            $deployer = Deployer::instance(Deployer::method_pthreads, $this->git);
+            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal);
             $deployer
                 ->clearFiles()
                 ->setRecord($this->currentRecord)
@@ -381,33 +395,18 @@ class Deploy {
      * @return bool
      */
     private function clone () {
-        if (!$this->git->isCloned()) {
+        if (!$this->gitLocal->git->isCloned()) {
             $provider = $this->project['provider'];
-            $gitApi = new GitApi($this->project['owner_id'], $provider);
+            $gitApi = GitApi::instance($this->project['owner_id'], $provider);
             $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $provider);
-            $this->git = $this->git->cloneRepository($clone_url);
-            $this->git->getOutput();
-            $this->git->setCloned(true);
+            $this->gitLocal->clone($clone_url);
         }
 
         return true;
     }
 
     private function pull () {
-        $gitApi = new GitApi($this->project['owner_id'], $this->project['provider']);
-        $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $this->project['provider']);
-
-        $this->git->run([
-            'remote',
-            'set-url',
-            'origin',
-            $clone_url,
-        ]);
-        $this->git->clearOutput();
-        $this->git->checkout('master');
-        $this->git->pull();
-
-
+        return $this->gitLocal->pull($this->project['id'], $this->project['provider'], $this->project['clone_uri']);
     }
 
     /**
@@ -423,14 +422,14 @@ class Deploy {
      * @return array
      */
     private function getAllFilesForRevision ($revision) {
-        $this->git->clearOutput();
-        $this->git->run([
+        $this->gitLocal->git->clearOutput();
+        $this->gitLocal->git->run([
             'ls-tree',
             '--full-tree',
             '-r',
             $revision,
         ]);
-        $files = $this->git->getOutput();
+        $files = $this->gitLocal->git->getOutput();
         $files = explode("\n", $files);
         $filesParsed = [];
         foreach ($files as $file) {

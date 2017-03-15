@@ -9,18 +9,13 @@ class Controller_Test extends Controller {
         $base = 'c1e8eb8';
 //        $t = '28920ff';
         $t = 'master';
-//        $id = 24;
-//        $wrapper = new \GitWrapper\GitWrapper();
-//        $git = $wrapper->workingCopy(DOCROOT . 'repositories/24/');
-
-//        $gitApi = new \Gf\Git\GitApi(55266, \Gf\Auth\OAuth::provider_bitbucket);
-//        $compare = $gitApi->api()->compareCommits('testrepo', 'craftpip', $base , $t);
-
         $gitHelper = \Gf\Git\GitLocal::instance('repositories/24');
+
 //        $gitHelper->pull(55266, \Gf\Auth\OAuth::provider_bitbucket, 'https://craftpip@bitbucket.org/craftpip/testrepo.git');
-//        $a = $gitHelper->diff($base, $t);
-        $a = $gitHelper->diff($t, $base);
-        print_r($a);
+//        $gitHelper->commitsBetween($base, $t);
+//        $gitHelper->diff($base, $t);
+        print_r($gitHelper->commitsBetween($t, $base));
+        print_r($gitHelper->diff($t, $base));
     }
 
     public function get_b () {

@@ -5,10 +5,39 @@
 
     <!-- / -->
     <!-- Page title - Bind to $state's title -->
-    <div class="navbar-item pull-left h4"><a href="home">Dashboard</a></div>
+    <div class="navbar-item pull-left h4">
+        <img src="assets/img/logo-w.png" alt="" style="height: 37px;" class="m-r-20">
+
+        <a href="home">Dashboard</a>
+
+        <span class="m-l-5 " ng-if="project">
+            <i class="zmdi zmdi-chevron-right m-r-5"></i>
+            <a href="view/{{project.id}}/{{project.name}}">{{project.name}}</a>
+        </span>
+        <span class="m-l-5 " ng-if="server_name">
+            <i class="zmdi zmdi-chevron-right m-r-5"></i>
+            {{server_name}}
+        </span>
+    </div>
     <!-- / -->
     <!-- Common tools -->
     <ul class="nav nav-sm navbar-tool pull-right">
+        <li class="dropdown">
+            <a md-ink-ripple data-toggle="dropdown">
+                <i class="zmdi zmdi-hc-fw zmdi-plus i-24"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-scale pull-right pull-up text-color"
+                style="top: 10px; right: 10px;">
+                <li><a href="project/new">New project</a></li>
+            </ul>
+        </li>
+        <li ng-if="showSyncButton">
+            <a ng-click="syncProject()"
+               tooltip-placement="bottom"
+               uib-tooltip="Sync project">
+                <i class="zmdi zmdi-hc-fw zmdi-refresh-sync i-24"></i>
+            </a>
+        </li>
         <li>
             <a md-ink-ripple data-toggle="modal" data-target="#user">
                 <i class="zmdi zmdi-hc-fw zmdi-account i-24"></i>

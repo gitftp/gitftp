@@ -30,6 +30,8 @@ class Controller_Init extends Controller {
                 'created_at',
                 'provider',
                 'clone_state',
+                'pull_state',
+                'last_updated',
                 'status',
             ]);
             if (!$projects)

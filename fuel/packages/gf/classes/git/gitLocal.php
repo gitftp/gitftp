@@ -104,21 +104,22 @@ class GitLocal {
     }
 
     /**
-     * @todo: work required
-     * Get commits between to hash
+     * Get commits between two hashs
      *
      * @param $from
      * @param $to
+     *
+     * @return array
      */
-    public function logBetween ($from, $to) {
-        $process = $this->getProcessBuilder()
-            ->add('log')
-            ->add($from . '...')
-            ->add('' . $to)
-            ->add('--format=%H||%aN||%aE||%aD||%s')
-            ->getProcess();
+    public function commitsBetween ($from, $to) {
 
-        $a = $this->run($process);
+        $a = $this->git->run([
+            'log',
+            "$from...$to",
+            '--format=%H||%aN||%aE||%aD||%s',
+        ]);
+        $a = $a->getOutput();
+
         $lines = $this->split($a);
 
         $commits = [];
@@ -126,21 +127,18 @@ class GitLocal {
         foreach ($lines as $line) {
             list($hash, $name, $email, $date, $title) = preg_split('/\|\|/', $line, -1, PREG_SPLIT_NO_EMPTY);
             $commits[] = [
-                'hash'  => $hash,
-                'name'  => $name,
-                'email' => $email,
-                'date'  => $date,
-                'title' => $title,
+                'sha'          => $hash,
+                'message'      => $title,
+                'author_email' => $email,
+                'author'       => $name,
+                'time'         => strtotime($date),
             ];
         }
 
-        $b = $this->log($from, null, ['limit' => 1]);
-        $commits = array_merge($commits, $b);
-        print_r($commits);
+        return $commits;
     }
 
     /**
-     * @todo: work required
      * Split string by new line or null(\0)
      *
      * @param string $input   The string to split
@@ -163,35 +161,50 @@ class GitLocal {
      *
      * @param $from
      * @param $to
+     *
+     * @return array
      */
     public function diff ($from, $to) {
-        $op = $this->git->diff($from, $to);
-        print_r($op->getOutput());
+        $op = $this->git->run([
+            'diff',
+            $from,
+            $to,
+            '--name-status',
+        ]);
+        $op = $op->getOutput();
+
+        $files = [];
+
+        $a = explode("\n", $op);
 
 
-//        $result = [
-//            'added'    => [],
-//            'deleted'  => [],
-//            'modified' => [],
-//        ];
-//
-//        $a = explode("\n", $a);
-//
-//        foreach ($a as $line) {
-//            $mod = substr($line, 0, 1);
-//            if ($mod === 'A' or $mod === 'C') {
-//                $result['added'][] = trim(substr($line, 1));
-//            } elseif ($mod === 'M' or $mod === 'T') {
-//                $result['modified'][] = trim(substr($line, 1));
-//            } elseif ($mod == 'D' or $mod === 'T') {
-//                $result['deleted'][] = trim(substr($line, 1));
-//            } else {
-//            }
-//        }
-//        print_r($result);
+        foreach ($a as $line) {
+            $mod = substr($line, 0, 1);
+            if ($mod === 'A' or $mod === 'C') {
+                $files[] = [
+                    'f' => trim(substr($line, 1)),
+                    'a' => 'A',
+                ];
+            } elseif ($mod === 'M' or $mod === 'T') {
+                $files[] = [
+                    'f' => trim(substr($line, 1)),
+                    'a' => 'M',
+                ];
+            } elseif ($mod == 'D' or $mod === 'T') {
+                $files[] = [
+                    'f' => trim(substr($line, 1)),
+                    'a' => 'D',
+                ];
+            } else {
+                // ignore this
+            }
+        }
+
+        return $files;
     }
 
     /**
+     * @todo: needs work
      * returns true if the hash is child of a branch.
      *
      * @param $hash

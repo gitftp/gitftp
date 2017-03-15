@@ -1,10 +1,18 @@
 <div class="">
-    <div class="panel panel-card p-20 project-hero">
+
+    <div class="panel panel-card project-hero">
+        <div class="header-notification" ng-class="{'show':project.pull_state == 2}">
+            <div>
+                Pulling changes...
+            </div>
+        </div>
         <img src="assets/img/{{project.provider}}.svg" alt="" class="project-hero-image">
-        <h3 class="no-m-t">
-            {{project.name}}
-        </h3>
-        <span>{{project.uri}}</span>
+        <div class="p-20">
+            <h3 class="no-m-t">
+                {{project.name}}
+            </h3>
+            <span>{{project.uri}}</span>
+        </div>
     </div>
     <div class="panel panel-card m-5-20" ng-if="page != 'new-server'">
         <div class="p-t-20 p-l-20 p-r-20 p-b-10">

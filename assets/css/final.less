@@ -186,9 +186,29 @@ Gitftp
     position: absolute;
     opacity: .2;
     right: -25px;
+    bottom: -14px;
+  }
+  .header-notification {
+    height: 0px;
+    transition: all .4s;
+    overflow: hidden;
+    background: #3f51b5;
+
+    div {
+      padding: 0px 20px;
+      color: white;
+      line-height: 40px;
+    }
+
+    &.show {
+      height: 40px;
+
+      div {
+      }
+    }
   }
 }
 
-.changedFile{
+.changedFile {
   font-size: 13px;
 }

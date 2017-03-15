@@ -9,6 +9,54 @@ use Gf\Record;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
+    public function post_pull_changes () {
+        $project_id = Input::json('project_id');
+        if (!$project_id)
+            throw new UserException('Missing parameters');
+
+        try {
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+            if (!$project)
+                throw new UserException('The project was not found');
+
+            $af = Project::update([
+                'id' => $project_id,
+            ], [
+                'pull_state' => Project::pull_state_pulling,
+            ]);
+
+            $repoPath = Project::getRepoPath($project_id);
+            $gitLocal = \Gf\Git\GitLocal::instance($repoPath);
+            $gitLocal->pull($project['owner_id'], $project['provider'], $project['clone_uri']);
+
+            $af = Project::update([
+                'id' => $project_id,
+            ], [
+                'pull_state' => Project::pull_state_pulled,
+            ]);
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+
+            $af = Project::update([
+                'id' => $project_id,
+            ], [
+                'pull_state' => Project::pull_state_pulled,
+            ]);
+
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_revisions () {
         try {
             $project_id = Input::json('project_id', false);
@@ -130,6 +178,8 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'created_at',
                 'provider',
                 'clone_state',
+                'pull_state',
+                'last_updated',
                 'status',
             ];
 

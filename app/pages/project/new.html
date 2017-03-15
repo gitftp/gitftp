@@ -5,7 +5,7 @@
                 <div class="m-t-30">
                     <div class="panel panel-card">
                         <div class="panel-body">
-                            <h3 class="m-b-20 m-t-5 text-center">New project</h3>
+                            <h3 class="m-b-20 m-t-5">New project</h3>
 
                             <div class="" ng-if="loading">
                                 <div class="p-t-20 p-b-20">
@@ -15,8 +15,8 @@
                                                     stroke-miterlimit="10"/>
                                         </svg>
                                     </div>
-                                    <p class="text-center m-t-10">
-                                        Please wait, getting repositories..
+                                    <p class="text-center m-t-30">
+                                        Please wait, fetching list of repositories
                                     </p>
                                 </div>
                             </div>
@@ -63,12 +63,13 @@
                                         <small>Web hooks will be created for this project</small>
                                     </div>
 
-                                    <div class="text-center p-20">
-                                        <button class="btn btn-rounded btn-stroke btn-info waves-effect btn-lg"
+                                    <div class="p-b-10">
+                                        <button class="btn btn-rounded btn-stroke btn-info waves-effect btn-lg pull-right"
                                                 type="submit"
                                                 ng-disabled="availableBranches.length == 0 || !selectedRepo || creating">
                                             Creat{{creating ? 'ing project...': 'e'}}
                                         </button>
+                                        <div class="clearfix"></div>
                                     </div>
                                 </form>
                             </div>

@@ -54,6 +54,40 @@ angular.module('ServiceUtils', [
             return this.previouslyShownError;
         };
 
+        this.notification = function (text, type) {
+            var t = 'alert';
+            switch (type) {
+                case 'red':
+                    t = 'error';
+                    break;
+                case 'green':
+                    t = 'success';
+                    break;
+                case 'orange':
+                    t = 'warning';
+                    break;
+                case 'blue':
+                    t = 'information';
+                    break;
+            }
+
+
+            window.noty({
+                text: text,
+                type: t,
+                theme: 'relax',
+                layout: 'bottomRight',
+                timeout: 5000,
+                progressBar: false,
+                animation: {
+                    open: {height: 'toggle'},
+                    close: {height: 'toggle'},
+                    easing: 'swing',
+                    speed: 350
+                },
+            });
+        };
+
         this.setTitle = function (title, full) {
             full = full || false;
             that.title = title;

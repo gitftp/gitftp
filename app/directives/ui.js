@@ -9,7 +9,11 @@ angular.module('AppDirectives', [
     'Auth',
     'Utils',
     '$window',
-    function ($rootScope, Auth, Utils, $window) {
+    '$routeParams',
+    '$location',
+    '$timeout',
+    'Api',
+    function ($rootScope, Auth, Utils, $window, $routeParams, $location, $timeout, Api) {
         return {
             restrict: 'A',
             replace: true,
@@ -21,7 +25,54 @@ angular.module('AppDirectives', [
                     }, function (message) {
                         Utils.error(message, 'red');
                     });
-                }
+                };
+
+                scope.$location = $location;
+
+                scope.showSyncButton = false;
+                scope.project = false;
+                scope.server_name = false;
+
+                scope.$watch('$location.path()', function () {
+                    $timeout(function () {
+                        console.log('location changed ');
+                        if ($routeParams.id) {
+                            scope.showSyncButton = true;
+                        } else {
+                            scope.showSyncButton = false;
+                        }
+
+                        if ($routeParams.id && $rootScope.projects[$routeParams.id]) {
+                            scope.project = $rootScope.projects[$routeParams.id];
+                        } else {
+                            scope.project = false;
+                        }
+
+                        if (scope.project && $routeParams.server_id) {
+                            angular.forEach(scope.project.servers, function (a) {
+                                if (a.id == $routeParams.server_id) {
+                                    scope.server_name = a.name;
+                                }
+                            });
+                        } else {
+                            scope.server_name = false;
+                        }
+
+
+                    }, 200);
+                });
+
+                scope.syncProject = function () {
+                    if (!$routeParams.id)
+                        return false;
+
+                    Utils.notification('Pulling changes from repository');
+                    Api.syncProject($routeParams.id).then(function () {
+                        Utils.notification('Successfully pulled changes from repository', 'green');
+                    }, function (reason) {
+                        Utils.notification('Failed to pull changes: ' + reason, 'red');
+                    });
+                };
             }
         }
     }
@@ -32,7 +83,9 @@ angular.module('AppDirectives', [
     '$window',
     '$routeParams',
     '$ngConfirm',
-    function ($rootScope, Auth, Utils, $window, $routeParams, $ngConfirm) {
+    'Const',
+    'Api',
+    function ($rootScope, Auth, Utils, $window, $routeParams, $ngConfirm, Const, Api) {
         return {
             restrict: 'A',
             replace: true,
@@ -51,25 +104,6 @@ angular.module('AppDirectives', [
 
                 scope.serverType = function (state) {
                     return Utils.serverType(state);
-                };
-
-                /**
-                 * @todo remove this. not in use.
-                 * @param server_id
-                 */
-                scope.deploy = function (server_id) {
-                    $ngConfirm({
-                        title: 'Deploy',
-                        content: '' +
-                        '' +
-                        '<div class="row">' +
-                        '<div class="col-md-4"><a ng-click="deploy(1)">Update</a></div>' +
-                        '<div class="col-md-4"><a ng-click="deploy(2)">Reupload</a></div>' +
-                        '<div class="col-md-4"><a ng-click="deploy(3)">Revert</a></div>' +
-                        '</div>' +
-                        '' +
-                        ''
-                    })
                 };
             }
         }

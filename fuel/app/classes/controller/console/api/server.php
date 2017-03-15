@@ -82,13 +82,16 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             if (!$project)
                 throw new UserException('project not found');
 
-            $gitApi = \Gf\Git\GitApi::instance($this->user_id, $project['provider']);
-            $compare = $gitApi->api()->compareCommits($project['git_name'], $project['git_username'], $source_revision, $target_revision);
-
+            $gitHelper = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
+            $files = $gitHelper->diff($source_revision, $target_revision);
+            $commits = $gitHelper->commitsBetween($source_revision, $target_revision);
 
             $r = [
                 'status' => true,
-                'data'   => $compare,
+                'data'   => [
+                    'files'   => $files,
+                    'commits' => $commits,
+                ],
             ];
         } catch (\Exception $e) {
             $e = \Gf\Exception\ExceptionInterceptor::intercept($e);

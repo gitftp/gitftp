@@ -2,15 +2,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3" ng-if="projects_array.length">
-                <div class="bg-white md-whiteframe-z0 m-b-lg m-t-30 p-t-10 p-b-10">
-                    <ul class="nav scroll-y" ui-nav="">
-                        <li class="" ng-repeat="p in projects_array">
-                            <a href="view/{{p.id}}/{{p.name}}">
-                                {{p.name}} <br>
-                                <small><span class="text-muted">{{p.uri}}</span></small>
-                            </a>
-                        </li>
-                    </ul>
+                <div class="bg-white md-whiteframe-z0 list-group">
+                    <a class="list-group-item p-20" href="view/{{p.id}}/{{p.name}}" ng-repeat="p in projects_array">
+                        <h4 class="no-m">{{p.name}}</h4>
+                        <small><span class="text-muted">{{p.uri}}</span></small>
+                    </a>
                 </div>
             </div>
 

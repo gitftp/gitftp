@@ -16,6 +16,9 @@ class Project {
     const clone_state_cloning = 2;
     const clone_state_cloned = 3;
 
+    const pull_state_pulled = 1;
+    const pull_state_pulling = 2;
+
     /**
      * Creates a project in database
      * + adds web hooks
@@ -71,7 +74,7 @@ class Project {
             $hookUrl = $git->createHookUrl($project_id, $key, $user_id);
             $hook = $git->api()->setHook($repoName, $username, $hookUrl);
             $hook_id = $hook['id'];
-            $clonePath = self::getClonePath($project_id);
+            $clonePath = self::getRepoPath($project_id);
 
             $af = self::update([
                 'id' => $project_id,
@@ -93,13 +96,13 @@ class Project {
     }
 
     /**
-     * Gets a clone path, that is relative to the gitftp installation location
+     * Gets a repo path, that is relative to the gitftp installation location
      *
      * @param $project_id
      *
      * @return string
      */
-    public static function getClonePath ($project_id) {
+    public static function getRepoPath ($project_id) {
         return "repositories/$project_id/";
     }
 

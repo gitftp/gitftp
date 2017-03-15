@@ -127,8 +127,6 @@ class Deploy {
         $base = DOCROOT;
         $this->repoPath = Utils::systemDS($base . $repoPath);
 
-//        $wrapper = new GitWrapper();
-//        $this->git = $wrapper->workingCopy($this->repoPath);
         $this->gitLocal = GitLocal::instance($this->repoPath);
     }
 

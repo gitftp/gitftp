@@ -233,6 +233,26 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Pull changes from remote
+             * @returns {IPromise<T>}
+             */
+            syncProject: function (project_id) {
+                var defer = $q.defer();
+
+                $http.post(API_PATH + 'projects/pull_changes', {
+                    project_id: project_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * add a new record and start deploy
              * @returns {IPromise<T>}
              */

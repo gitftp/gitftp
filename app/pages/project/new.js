@@ -17,7 +17,8 @@ angular.module('AppProjectNew', [
     'Utils',
     'Api',
     '$window',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window) {
+    '$location',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
         Utils.setTitle('Create new project');
 
         $scope.available_repos = [];
@@ -67,7 +68,8 @@ angular.module('AppProjectNew', [
                 branches: $scope.availableBranches
             }).then(function (project_id) {
                 $scope.creating = false;
-                $window.location.href = BASE;
+                // $location.path('view/' + project_id + '/loading');
+                $window.location.href = BASE + 'view/' + project_id + '/loading';
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.createProject);
                 $scope.creating = false;

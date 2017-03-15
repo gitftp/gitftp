@@ -82,11 +82,11 @@
                                                     </svg>
                                                 </div>
                                                 <p class="text-center m-t-10">
-                                                    Fetching newest changes
+                                                    fetching changes
                                                 </p>
                                             </div>
                                             <div class="" ng-if="!fetchingComparision">
-                                                <div class="alert alert-info" ng-if="targetChanges.status == 'identical'">
+                                                <div class="alert alert-info" ng-if="targetChanges.files && targetChanges.files.length == 0">
                                                     The <strong>server is up-to-date</strong>, nothing to deploy <br>
                                                     <small>The latest revision and server revision are identical.</small>
                                                 </div>
@@ -103,10 +103,12 @@
                                                 <div class="row">
                                                     <div class="col-md-3" ng-repeat="f in targetChanges.files">
                                                         <div class="m-b-5 changedFile">
-                                                            <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.status == 'modified'"></i>
-                                                            <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.status == 'added'"></i>
-                                                            <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.status == 'removed'"></i>
-                                                            {{f.filename}}
+                                                            <span uib-tooltip="{{f.a == 'D' ? 'Delete': 'Upload'}} {{f.f}}">
+                                                            <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.a == 'M'"></i>
+                                                            <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.a == 'A'"></i>
+                                                            <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.a == 'D'"></i>
+                                                            {{f.f | fileName}}
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>

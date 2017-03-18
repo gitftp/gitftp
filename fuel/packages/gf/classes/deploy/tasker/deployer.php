@@ -2,6 +2,7 @@
 
 namespace Gf\Deploy\Tasker;
 
+use Fuel\Core\Cli;
 use Fuel\Core\File;
 use Gf\Deploy\Connection;
 use Gf\Deploy\Deploy;
@@ -164,6 +165,8 @@ class Deployer {
     }
 
     public function log ($a) {
+        if (\Fuel::$is_cli)
+            Cli::write('DEPLOYER:' . $a);
         $this->messages .= "$a\n";
     }
 
@@ -230,7 +233,7 @@ class Deployer {
      * Start the deployment process
      */
     public function start () {
-        // hey boo
+        $this->log('Starting' . $this->method);
         if ($this->method == self::method_pthreads)
             return $this->pThreads();
         elseif ($this->method == self::method_regular)

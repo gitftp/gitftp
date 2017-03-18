@@ -198,14 +198,23 @@ class Deploy {
             'status'     => Record::status_new,
         ], null, 1, 0, 'id', 'asc', false);
 
-        if (!$record)
+        if (!$record) {
+            if ($this->isCli) {
+                $this->log('The queue is over');
+            }
+
             return 'The queue is over';
+        }
 
         $this->currentRecord = $record;
         $this->processRecord();
 
         if ($loop)
             return $this->processProjectQueue($loop);
+
+
+        if ($this->isCli)
+            $this->log('The queue is over without looping');
 
         return 'The queue is over without looping';
     }
@@ -218,6 +227,7 @@ class Deploy {
      * @param null $record
      *
      * @return bool
+     * @throws \Exception
      */
     public function processRecord ($record_id = null, $record = null) {
         try {
@@ -250,6 +260,7 @@ class Deploy {
 
             return true;
         } catch (\Exception $e) {
+            throw $e;
             return false;
         }
     }
@@ -447,7 +458,6 @@ class Deploy {
                 ->clearFiles()
                 ->setRecord($this->currentRecord)
                 ->setServer($this->currentServer)
-//                ->setConnection($connection->connection())
                 ->addFiles($files)
                 ->start();
 
@@ -477,6 +487,7 @@ class Deploy {
                 'failed_reason' => $e->getMessage(),
                 'log'           => $this->getMessages(),
             ]);
+
             throw $e;
         }
     }
@@ -510,7 +521,7 @@ class Deploy {
             $provider = $this->project['provider'];
             $gitApi = GitApi::instance($this->project['owner_id'], $provider);
             $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $provider);
-            $this->gitLocal->clone($clone_url);
+            $this->gitLocal->cloneMe($clone_url);
         }
 
         return true;
@@ -564,7 +575,7 @@ class Deploy {
      */
     private function log ($messages, $type = null) {
         $m = (!is_null($type) ? "$type:" : "") . "$messages";
-        if ($this->isCli)
+        if (Fuel::$is_cli)
             Cli::write($m);
 
         $this->messages .= $m . (!is_null($type) ? "\n" : "");

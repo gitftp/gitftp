@@ -22,6 +22,5 @@ class Deploy {
         $deploy->processProjectQueue(true);
 
         Cli::write('RAM USED: ' . Utils::humanize_data(memory_get_usage(true)));
-        Cli::beep();
     }
 }

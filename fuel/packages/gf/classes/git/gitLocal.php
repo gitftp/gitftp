@@ -71,7 +71,7 @@ class GitLocal {
      *
      * @return bool|string
      */
-    public function clone ($clone_url) {
+    public function cloneMe ($clone_url) {
         if (!$this->git->isCloned()) {
             $this->git = $this->git->cloneRepository($clone_url);
             $this->git->setCloned(true);

@@ -5,6 +5,18 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_qwe () {
+        echo 'hey';
+        $server = \Gf\Server::get_one([
+            'id' => 5,
+        ]);
+        $connection = \Gf\Deploy\Connection::instance($server);
+        $c = $connection->connection();
+        print_r($c->getAdapter()->isConnected());
+        print_r($c->listContents('asdad'));
+        print_r($c->getAdapter()->isConnected());
+    }
+
     public function get_asd () {
         $base = 'c1e8eb8';
 //        $t = '28920ff';
@@ -14,8 +26,9 @@ class Controller_Test extends Controller {
 //        $gitHelper->pull(55266, \Gf\Auth\OAuth::provider_bitbucket, 'https://craftpip@bitbucket.org/craftpip/testrepo.git');
 //        $gitHelper->commitsBetween($base, $t);
 //        $gitHelper->diff($base, $t);
-        print_r($gitHelper->commitsBetween($t, $base));
-        print_r($gitHelper->diff($t, $base));
+        $gitHelper->log($base);
+//        print_r($gitHelper->commitsBetween($t, $base));
+//        print_r($gitHelper->diff($t, $base));
     }
 
     public function get_b () {

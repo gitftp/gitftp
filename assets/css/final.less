@@ -212,3 +212,35 @@ Gitftp
 .changedFile {
   font-size: 13px;
 }
+
+.record-commit {
+  border-radius: 3px;
+  position: relative;
+  margin-bottom: 10px;
+
+  .record-commit-progress {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 100px;
+    background: rgba(0, 145, 234, 0.1);
+    z-index: 0;
+    transition: width .4s;
+    animation: fadeInOut 1.5s infinite;
+
+    + div{
+      z-index: 2;
+      position: relative;
+    }
+  }
+}
+
+@keyframes fadeInOut {
+  1%, 100% {
+    background: rgba(0, 145, 234, 0.1);
+  }
+  50% {
+    background: rgba(0, 145, 234, 0.05);
+  }
+}

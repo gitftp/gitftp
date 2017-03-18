@@ -24,7 +24,6 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         array (
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Component\\Process\\' => 26,
-            'Symfony\\Component\\OptionsResolver\\' => 34,
             'Symfony\\Component\\EventDispatcher\\' => 34,
             'Symfony\\Component\\Debug\\' => 24,
             'Symfony\\Component\\Console\\' => 26,
@@ -75,10 +74,6 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         'Symfony\\Component\\Process\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/process',
-        ),
-        'Symfony\\Component\\OptionsResolver\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/options-resolver',
         ),
         'Symfony\\Component\\EventDispatcher\\' => 
         array (
@@ -191,6 +186,10 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
             array (
                 0 => __DIR__ . '/..' . '/guzzle/guzzle/src',
             ),
+            'GitWrapper' => 
+            array (
+                0 => __DIR__ . '/..' . '/cpliakas/git-wrapper/src',
+            ),
         ),
         'F' => 
         array (
@@ -212,17 +211,12 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         ),
     );
 
-    public static $fallbackDirsPsr0 = array (
-        0 => __DIR__ . '/..' . '/kzykhys/git/src',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e::$prefixDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e::$prefixesPsr0;
-            $loader->fallbackDirsPsr0 = ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e::$fallbackDirsPsr0;
 
         }, null, ClassLoader::class);
     }

@@ -38,6 +38,7 @@ angular.module('App', [
         $ngConfirmDefaults.theme = 'material,gitftp';
         $ngConfirmDefaults.animation = 'scale';
         $ngConfirmDefaults.closeAnimation = 'scale';
+        $ngConfirmDefaults.animationSpeed = 300;
         $rootScope.utils = Utils;
         $rootScope.$storage = $localStorage;
         ProjectApi.registerListeners();

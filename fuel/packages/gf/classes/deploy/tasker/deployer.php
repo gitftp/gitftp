@@ -22,6 +22,12 @@ class Deployer {
     public $method;
 
     /**
+     * Holds the server data
+     * @var array
+     */
+    public $connectionParams;
+
+    /**
      * @var
      */
     private $files;
@@ -62,12 +68,13 @@ class Deployer {
     /**
      * @param null             $method
      * @param \Gf\Git\GitLocal $gitLocal
+     * @param array            $connectionParams
      *
      * @return \Gf\Deploy\Tasker\Deployer
      */
-    public static function instance ($method = null, GitLocal $gitLocal) {
+    public static function instance ($method = null, GitLocal $gitLocal, Array $connectionParams) {
         if (!isset(static::$instance) or null == static::$instance) {
-            static::$instance = new static($method, $gitLocal);
+            static::$instance = new static($method, $gitLocal, $connectionParams);
         }
 
         return self::$instance;
@@ -102,9 +109,10 @@ class Deployer {
      * @param null $method
      * @param      $gitLocal
      */
-    public function __construct ($method = null, GitLocal $gitLocal) {
-        $this->git = $gitLocal;
+    public function __construct ($method = null, GitLocal $gitLocal, Array $connectionParams) {
+        $this->gitLocal = $gitLocal;
         $this->method = $method;
+        $this->connectionParams = $connectionParams;
 
         if (is_null($this->method))
             $this->method = self::method_pthreads;
@@ -135,6 +143,7 @@ class Deployer {
         return $this;
     }
 
+
     /**
      * The files should be in format
      * ['path' => 'full/path/to/file', 'action' => upload|delete]
@@ -150,11 +159,22 @@ class Deployer {
         return $this;
     }
 
+    public function log ($a) {
+        $this->messages .= "$a\n";
+    }
+
     /**
      * @return string
      */
     public function getMessages () {
-        return $this->messages;
+        $a = $this->messages;
+        $this->messages = '';
+
+        return $a;
+    }
+
+    public function clearMessages () {
+        $this->messages = '';
     }
 
     /**
@@ -211,24 +231,24 @@ class Deployer {
         $r = $this->record['target_revision'];
         $dir = $this->gitLocal->git->getDirectory();
 
+        $this->log('Upload method: regular');
         foreach ($this->files as $file) {
-            if ($file['action'] == Deploy::file_action_upload) {
-
-                /* $s = "$r:{$file['file']}";
-                $this->git->clearOutput();
-                $this->git->run([
-                    'show',
-                    $s,
-                ]);
-                $contents = $this->git->getOutput();*/
-
-                $s = $dir . $file['file'];
+            if ($file['a'] == Deploy::file_added or $file['a'] == Deploy::file_modified) {
+                $s = $dir . $file['f'];
                 $contents = File::read($s, true);
-
-                $this->connection->put($file['file'], $contents);
+                try {
+//                    $a = $this->connection->isConnected();
+                    $this->connection->put($file['f'], $contents);
+                } catch (\Exception $e) {
+                    $this->log("WARN: {$e->getMessage()} {$file['f']}");
+                }
                 $this->incrementProgress(1);
-            } elseif ($file['action'] == Deploy::file_action_delete) {
-                $this->connection->delete($file['file']);
+            } elseif ($file['a'] == Deploy::file_deleted) {
+                try {
+                    $this->connection->delete($file['f']);
+                } catch (\Exception $e) {
+                    $this->log("WARN: {$e->getMessage()} {$file['f']}");
+                }
                 $this->incrementProgress(1);
             } else {
                 throw new AppException('Invalid file action type');
@@ -239,8 +259,6 @@ class Deployer {
     }
 
     private function pThreads () {
-
-
 //        $workPool = new \Pool(2, ConnectionWorker::class, [
 //            $this->currentServer,
 //            $this->currentRecord,

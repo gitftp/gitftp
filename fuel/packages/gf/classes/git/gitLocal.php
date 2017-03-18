@@ -82,6 +82,17 @@ class GitLocal {
         return false;
     }
 
+    public function log ($commitHash) {
+        $o = $this->git->run([
+            'log',
+            '-1',
+            '--format=%H||%aN||%aE||%aD||%s',
+            $commitHash,
+        ]);
+        $commits = $this->parseCommits($o->getOutput());
+
+        return count($commits) ? $commits[0] : false;
+    }
 
     /**
      * @param $hash
@@ -102,6 +113,7 @@ class GitLocal {
         }
     }
 
+
     /**
      * Get commits between two hashs
      *
@@ -119,10 +131,14 @@ class GitLocal {
         ]);
         $a = $a->getOutput();
 
-        $lines = $this->split($a);
+        $commits = $this->parseCommits($a);
 
+        return $commits;
+    }
+
+    private function parseCommits ($commitsString) {
+        $lines = $this->split($commitsString);
         $commits = [];
-
         foreach ($lines as $line) {
             list($hash, $name, $email, $date, $title) = preg_split('/\|\|/', $line, -1, PREG_SPLIT_NO_EMPTY);
             $commits[] = [
@@ -161,7 +177,7 @@ class GitLocal {
      * @param $from
      * @param $to
      *
-     * @return array
+     * @return array [$files, $editedCount, $addedCount, $deletedCount]
      */
     public function diff ($from, $to) {
         $op = $this->git->run([
@@ -173,9 +189,11 @@ class GitLocal {
         $op = $op->getOutput();
 
         $files = [];
+        $edited = 0;
+        $added = 0;
+        $deleted = 0;
 
         $a = explode("\n", $op);
-
 
         foreach ($a as $line) {
             $mod = substr($line, 0, 1);
@@ -184,22 +202,25 @@ class GitLocal {
                     'f' => trim(substr($line, 1)),
                     'a' => 'A',
                 ];
+                $added += 1;
             } elseif ($mod === 'M' or $mod === 'T') {
                 $files[] = [
                     'f' => trim(substr($line, 1)),
                     'a' => 'M',
                 ];
+                $edited += 1;
             } elseif ($mod == 'D' or $mod === 'T') {
                 $files[] = [
                     'f' => trim(substr($line, 1)),
                     'a' => 'D',
                 ];
+                $deleted += 1;
             } else {
                 // ignore this
             }
         }
 
-        return $files;
+        return [$files, $edited, $added, $deleted];
     }
 
     /**

@@ -76,7 +76,6 @@ angular.module('ServiceApi', []).factory('Api', [
             /**
              * Get server but without password.
              * @param server_id
-             * @returns {IPromise<T>}
              */
             getServer: function (server_id) {
                 var defer = $q.defer();
@@ -95,7 +94,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * Get server but without password.
-             * @returns {IPromise<T>}
              * @param project_id
              */
             getServers: function (project_id) {
@@ -117,7 +115,26 @@ angular.module('ServiceApi', []).factory('Api', [
              * get records for project.
              * server_id is optional
              * project_id is required
-             * @returns {IPromise<T>}
+             */
+            getRecordStatus: function (record_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/record_status', {
+                    record_id: record_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * get records for project.
+             * server_id is optional
+             * project_id is required
              */
             getRecords: function (project_id, server_id) {
                 var defer = $q.defer();
@@ -137,7 +154,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * Get all projects
-             * @returns {IPromise<T>}
              */
             getProjects: function () {
                 var defer = $q.defer();
@@ -154,7 +170,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * Get project by id
-             * @returns {IPromise<T>}
              */
             getSingleProject: function (id) {
                 var defer = $q.defer();
@@ -173,7 +188,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * create a server for a project
-             * @returns {IPromise<T>}
              */
             createServer: function (project_id, set) {
                 var defer = $q.defer();
@@ -193,7 +207,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * create a project
-             * @returns {IPromise<T>}
              */
             createProject: function (set) {
                 var defer = $q.defer();
@@ -212,7 +225,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * compare commits
-             * @returns {IPromise<T>}
              */
             compareCommits: function (project_id, server_id, source, target) {
                 var defer = $q.defer();
@@ -234,7 +246,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * Pull changes from remote
-             * @returns {IPromise<T>}
              */
             syncProject: function (project_id) {
                 var defer = $q.defer();
@@ -254,7 +265,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * add a new record and start deploy
-             * @returns {IPromise<T>}
              */
             applyDeploy: function (project_id, server_id, deploy) {
                 var defer = $q.defer();
@@ -275,7 +285,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * get available branches for the repository by project id
-             * @returns {IPromise<T>}
              */
             getAvailableBranchesByProject: function (project_id) {
                 var defer = $q.defer();
@@ -294,7 +303,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * get available branches for the repository
-             * @returns {IPromise<T>}
              */
             getAvailableBranches: function (repository) {
                 var defer = $q.defer();
@@ -313,7 +321,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * get oauth connected accounts
-             * @returns {IPromise<T>}
              */
             getAvailableRepositories: function () {
                 var defer = $q.defer();
@@ -330,7 +337,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * get oauth connected accounts
-             * @returns {IPromise<T>}
              */
             getConnectedAccounts: function () {
                 var defer = $q.defer();
@@ -347,7 +353,6 @@ angular.module('ServiceApi', []).factory('Api', [
             },
             /**
              * get oauth applications
-             * @returns {IPromise<T>}
              */
             getOAuthApplications: function () {
                 var defer = $q.defer();
@@ -365,7 +370,6 @@ angular.module('ServiceApi', []).factory('Api', [
             /**
              * set oauth applications
              * @param applications
-             * @returns {IPromise<T>}
              */
             saveOAuthApplications: function (applications) {
                 var defer = $q.defer();
@@ -400,13 +404,15 @@ angular.module('ServiceApi', []).factory('Api', [
                     return false;
 
                 var that = this;
-                $rootScope.$on('refreshProjects', function (id) {
+                $rootScope.$on('refreshProjects', function () {
                     that.refreshProjects();
                 });
 
                 var refreshProjectsLoop = function () {
                     $timeout(function () {
-                        that.refreshProjects().then(refreshProjectsLoop);
+                        that.refreshProjects().then(function () {
+                            refreshProjectsLoop();
+                        });
                     }, 5000);
                 };
 
@@ -414,21 +420,44 @@ angular.module('ServiceApi', []).factory('Api', [
 
                 this.isListenerActive = true;
             },
-            current: false,
+            // current: false,
+            // refreshProjects: function () {
+            //     var that = this;
+            //     var defer = $q.defer();
+            //     Api.getProjects().then(function (data) {
+            //         var object = {};
+            //         angular.forEach(data, function (a) {
+            //             object[a.id] = a;
+            //         });
+            //
+            //         var n = Utils.hash(JSON.stringify(object));
+            //
+            //         if (!that.current || n != that.current) {
+            //             $rootScope.projects = object;
+            //             $rootScope.$broadcast('projectsUpdated');
+            //             that.current = n;
+            //         }
+            //         object = undefined;
+            //         defer.resolve();
+            //     }, function (reason) {
+            //         console.error(reason);
+            //         defer.resolve();
+            //     });
+            //
+            //     return defer.promise;
+            // },
+            // current: false,
             refreshProjects: function () {
-                var that = this;
                 var defer = $q.defer();
                 Api.getProjects().then(function (data) {
                     var object = {};
                     angular.forEach(data, function (a) {
                         object[a.id] = a;
                     });
-
-                    var n = Utils.hash(JSON.stringify(object));
-                    if (!that.current || n != that.current) {
+                    data = undefined;
+                    if (!angular.equals($rootScope.projects, object)) {
                         $rootScope.projects = object;
                         $rootScope.$broadcast('projectsUpdated');
-                        that.current = n;
                     }
                     object = undefined;
                     defer.resolve();

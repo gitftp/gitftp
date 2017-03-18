@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef5e7c74534c751d6eae8e4aa8fa4db1",
     "content-hash": "22dd377d5a8284313350dc4b1d731aed",
     "packages": [
         {
@@ -46,7 +45,7 @@
                 "sftp",
                 "ssh"
             ],
-            "time": "2015-10-13 09:05:13"
+            "time": "2015-10-13T09:05:13+00:00"
         },
         {
             "name": "composer/installers",
@@ -153,7 +152,7 @@
                 "zend",
                 "zikula"
             ],
-            "time": "2016-08-13 20:53:52"
+            "time": "2016-08-13T20:53:52+00:00"
         },
         {
             "name": "cpliakas/git-wrapper",
@@ -208,7 +207,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2016-04-19 16:12:33"
+            "time": "2016-04-19T16:12:33+00:00"
         },
         {
             "name": "crossjoin/browscap",
@@ -276,7 +275,7 @@
                 "user agent sniffing",
                 "user agent spoofing"
             ],
-            "time": "2017-02-01 19:25:26"
+            "time": "2017-02-01T19:25:26+00:00"
         },
         {
             "name": "fuel/auth",
@@ -311,7 +310,7 @@
                 "source": "https://github.com/fuel/auth/tree/1.9/develop",
                 "issues": "https://github.com/fuel/auth/issues"
             },
-            "time": "2016-10-20 18:12:06"
+            "time": "2016-10-20T18:12:06+00:00"
         },
         {
             "name": "fuel/core",
@@ -346,7 +345,7 @@
                 "source": "https://github.com/fuel/core/tree/1.8.0.3",
                 "issues": "https://github.com/fuel/core/issues"
             },
-            "time": "2016-07-21 08:45:05"
+            "time": "2016-07-21T08:45:05+00:00"
         },
         {
             "name": "fuel/docs",
@@ -381,7 +380,7 @@
                 "source": "https://github.com/fuel/docs/tree/1.8.0.4",
                 "issues": "https://github.com/fuel/docs/issues"
             },
-            "time": "2017-01-15 17:46:37"
+            "time": "2017-01-15T17:46:37+00:00"
         },
         {
             "name": "fuel/email",
@@ -416,7 +415,7 @@
                 "source": "https://github.com/fuel/email/tree/1.9/develop",
                 "issues": "https://github.com/fuel/email/issues"
             },
-            "time": "2016-10-04 15:21:48"
+            "time": "2016-10-04T15:21:48+00:00"
         },
         {
             "name": "fuel/oil",
@@ -451,7 +450,7 @@
                 "source": "https://github.com/fuel/oil/tree/1.9/develop",
                 "issues": "https://github.com/fuel/oil/issues"
             },
-            "time": "2016-10-05 13:32:41"
+            "time": "2016-10-05T13:32:41+00:00"
         },
         {
             "name": "fuel/orm",
@@ -486,7 +485,7 @@
                 "source": "https://github.com/fuel/orm/tree/1.9/develop",
                 "issues": "https://github.com/fuel/orm/issues"
             },
-            "time": "2016-05-22 14:52:35"
+            "time": "2016-05-22T14:52:35+00:00"
         },
         {
             "name": "fuel/parser",
@@ -521,7 +520,7 @@
                 "source": "https://github.com/fuel/parser/tree/1.8.0.4",
                 "issues": "https://github.com/fuel/parser/issues"
             },
-            "time": "2017-01-12 17:26:53"
+            "time": "2017-01-12T17:26:53+00:00"
         },
         {
             "name": "fuelphp/upload",
@@ -571,7 +570,7 @@
                 "file uploads",
                 "upload"
             ],
-            "time": "2015-11-04 17:19:56"
+            "time": "2015-11-04T17:19:56+00:00"
         },
         {
             "name": "gentle/bitbucket-api",
@@ -630,7 +629,7 @@
                 "api",
                 "bitbucket"
             ],
-            "time": "2017-01-10 12:23:36"
+            "time": "2017-01-10T12:23:36+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -726,7 +725,7 @@
                 "web service"
             ],
             "abandoned": "guzzlehttp/guzzle",
-            "time": "2015-03-18 18:23:50"
+            "time": "2015-03-18T18:23:50+00:00"
         },
         {
             "name": "guzzlehttp/guzzle",
@@ -788,7 +787,7 @@
                 "rest",
                 "web service"
             ],
-            "time": "2017-02-28 22:50:30"
+            "time": "2017-02-28T22:50:30+00:00"
         },
         {
             "name": "guzzlehttp/promises",
@@ -839,7 +838,7 @@
             "keywords": [
                 "promise"
             ],
-            "time": "2016-12-20 10:07:11"
+            "time": "2016-12-20T10:07:11+00:00"
         },
         {
             "name": "guzzlehttp/psr7",
@@ -904,7 +903,7 @@
                 "uri",
                 "url"
             ],
-            "time": "2017-02-27 10:51:17"
+            "time": "2017-02-27T10:51:17+00:00"
         },
         {
             "name": "jacobkiers/oauth",
@@ -963,7 +962,7 @@
             "keywords": [
                 "oauth"
             ],
-            "time": "2015-10-02 13:50:51"
+            "time": "2015-10-02T13:50:51+00:00"
         },
         {
             "name": "knplabs/github-api",
@@ -1025,7 +1024,7 @@
                 "gist",
                 "github"
             ],
-            "time": "2016-07-26 08:49:38"
+            "time": "2016-07-26T08:49:38+00:00"
         },
         {
             "name": "kriswallsmith/buzz",
@@ -1073,20 +1072,20 @@
                 "curl",
                 "http client"
             ],
-            "time": "2015-06-25 17:26:56"
+            "time": "2015-06-25T17:26:56+00:00"
         },
         {
             "name": "league/flysystem",
-            "version": "1.0.35",
+            "version": "1.0.36",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/flysystem.git",
-                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062"
+                "reference": "d9c1698582dfbfbd092ec9c5c3325f862cdb3297"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/dda7f3ab94158a002d9846a97dc18ebfb7acc062",
-                "reference": "dda7f3ab94158a002d9846a97dc18ebfb7acc062",
+                "url": "https://api.github.com/repos/thephpleague/flysystem/zipball/d9c1698582dfbfbd092ec9c5c3325f862cdb3297",
+                "reference": "d9c1698582dfbfbd092ec9c5c3325f862cdb3297",
                 "shasum": ""
             },
             "require": {
@@ -1156,7 +1155,7 @@
                 "sftp",
                 "storage"
             ],
-            "time": "2017-02-09 11:33:58"
+            "time": "2017-03-18T16:02:30+00:00"
         },
         {
             "name": "league/flysystem-sftp",
@@ -1203,7 +1202,7 @@
                 }
             ],
             "description": "Flysystem adapter for SFTP",
-            "time": "2016-12-08 21:28:01"
+            "time": "2016-12-08T21:28:01+00:00"
         },
         {
             "name": "league/oauth2-client",
@@ -1270,7 +1269,7 @@
                 "oauth2",
                 "single sign on"
             ],
-            "time": "2017-02-02 04:08:45"
+            "time": "2017-02-02T04:08:45+00:00"
         },
         {
             "name": "league/oauth2-github",
@@ -1325,7 +1324,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2017-01-26 01:14:51"
+            "time": "2017-01-26T01:14:51+00:00"
         },
         {
             "name": "michelf/php-markdown",
@@ -1376,7 +1375,7 @@
             "keywords": [
                 "markdown"
             ],
-            "time": "2013-11-29 17:09:24"
+            "time": "2013-11-29T17:09:24+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1438,7 +1437,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2013-04-23 10:09:48"
+            "time": "2013-04-23T10:09:48+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -1484,7 +1483,7 @@
                 "mustache",
                 "templating"
             ],
-            "time": "2016-07-31 06:18:27"
+            "time": "2016-07-31T06:18:27+00:00"
         },
         {
             "name": "nicolab/php-ftp-client",
@@ -1532,20 +1531,20 @@
                 "ssl",
                 "ssl-ftp"
             ],
-            "time": "2017-01-20 06:44:54"
+            "time": "2017-01-20T06:44:54+00:00"
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.9",
+            "version": "v2.0.10",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "6968531206671f94377b01dc7888d5d1b858a01b"
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/6968531206671f94377b01dc7888d5d1b858a01b",
-                "reference": "6968531206671f94377b01dc7888d5d1b858a01b",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/634bae8e911eefa89c1abfbf1b66da679ac8f54d",
+                "reference": "634bae8e911eefa89c1abfbf1b66da679ac8f54d",
                 "shasum": ""
             },
             "require": {
@@ -1580,7 +1579,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-03-03 20:43:42"
+            "time": "2017-03-13T16:27:32+00:00"
         },
         {
             "name": "phpseclib/phpseclib",
@@ -1668,7 +1667,7 @@
                 "x.509",
                 "x509"
             ],
-            "time": "2015-08-04 04:48:03"
+            "time": "2015-08-04T04:48:03+00:00"
         },
         {
             "name": "psr/http-message",
@@ -1718,7 +1717,7 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06 14:39:51"
+            "time": "2016-08-06T14:39:51+00:00"
         },
         {
             "name": "psr/log",
@@ -1765,7 +1764,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10 12:19:37"
+            "time": "2016-10-10T12:19:37+00:00"
         },
         {
             "name": "stevenmaguire/oauth2-bitbucket",
@@ -1820,7 +1819,7 @@
                 "oauth",
                 "oauth2"
             ],
-            "time": "2017-01-26 02:11:19"
+            "time": "2017-01-26T02:11:19+00:00"
         },
         {
             "name": "suin/php-rss-writer",
@@ -1869,11 +1868,11 @@
                 "rss",
                 "writer"
             ],
-            "time": "2016-07-21 14:05:32"
+            "time": "2016-07-21T14:05:32+00:00"
         },
         {
             "name": "symfony/console",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/console.git",
@@ -1932,11 +1931,11 @@
             ],
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-06 19:30:27"
+            "time": "2017-03-06T19:30:27+00:00"
         },
         {
             "name": "symfony/debug",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/debug.git",
@@ -1989,7 +1988,7 @@
             ],
             "description": "Symfony Debug Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-18 17:28:00"
+            "time": "2017-02-18T17:28:00+00:00"
         },
         {
             "name": "symfony/event-dispatcher",
@@ -2049,7 +2048,7 @@
             ],
             "description": "Symfony EventDispatcher Component",
             "homepage": "https://symfony.com",
-            "time": "2017-02-21 08:33:48"
+            "time": "2017-02-21T08:33:48+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
@@ -2108,11 +2107,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2016-11-14 01:06:16"
+            "time": "2016-11-14T01:06:16+00:00"
         },
         {
             "name": "symfony/process",
-            "version": "v3.2.5",
+            "version": "v3.2.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/process.git",
@@ -2157,7 +2156,7 @@
             ],
             "description": "Symfony Process Component",
             "homepage": "https://symfony.com",
-            "time": "2017-03-04 12:23:14"
+            "time": "2017-03-04T12:23:14+00:00"
         }
     ],
     "packages-dev": [],

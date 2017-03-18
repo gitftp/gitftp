@@ -22,45 +22,8 @@
                             <div ng-if="!loadingRecords">
                                 <div class="streamline b-l" ng-if="records.length">
 
-                                    <div class="sl-item"
-                                         ng-class="{
-                                         'b-success': r.status == 4,
-                                         'b-info': r.status == 2,
-                                         'b-danger': r.status == 3,
-                                         }"
-                                         ng-repeat="r in records">
-                                        <div class="sl-content">
-                                            <div class="text-muted-dk">
-                                                <small>{{r.created_at | amFromUnix | amDateFormat : 'DD MMM\'YY hh:mm a'}}</small>
-                                                <small>({{r.created_at | amFromUnix | amTimeAgo}})</small>
-                                            </div>
-                                            <div class="m-t-5">
-                                                <div class="pull-right">
-                                                    <span>
-                                                        <button class="btn btn-rounded btn-xs btn-danger btn-stroke m-l-5"
-                                                                ng-click="errorMessage(r.failed_reason)"
-                                                                ng-if="r.failed_reason"
-                                                                ng-disabled="startingCloning">SHOW ERROR MESSAGE</button>
-                                                        <button class="btn btn-rounded btn-xs btn-danger btn-stroke m-l-5"
-                                                                ng-click="startCloning()"
-                                                                ng-if="r.status == 3"
-                                                                ng-disabled="startingCloning">RETRY</button>
-                                                    </span>
-                                                </div>
-                                                <p>
-                                                    <span class="label bg-success" ng-if="r.status == 4">COMPLETE</span>
-                                                    <span class="label bg-info" ng-if="r.status == 2">PROCESSING</span>
-                                                    <span class="label bg-danger" ng-if="r.status == 3">FAILED</span>
-                                                    <span class="label bg-default" ng-if="r.status == 1">NEW</span>
-
-                                                    <span class="">
-                                                        <span class="label bg-default">{{utils.recordType(r.type) | uppercase}}</span>
-                                                    </span>
-                                                </p>
-                                            </div>
-                                            <pre>{{r}}</pre>
-                                            <div class="space5"></div>
-                                        </div>
+                                    <div ng-repeat="record in records">
+                                        <div record-item record="record"></div>
                                     </div>
                                 </div>
 

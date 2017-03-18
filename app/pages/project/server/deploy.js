@@ -36,9 +36,9 @@ angular.module('AppProjectServerDeploy', [
         });
         $scope.server = server;
         if ($scope.server.revision) {
-            $scope.deploy.type = Const.record_type_update;
+            $scope.deploy.type = Const.record_type_update.toString();
         } else {
-            $scope.deploy.type = Const.record_type_fresh_upload;
+            $scope.deploy.type = Const.record_type_fresh_upload.toString();
         }
 
         // deploy to revision
@@ -96,7 +96,7 @@ angular.module('AppProjectServerDeploy', [
         $scope.freshDeploy = function () {
             var deploy = {};
             deploy.type = Const.record_type_fresh_upload;
-            deploy.target_revision = $scope.latestCommit.sha;
+            deploy.target_revision = $scope.selectedCommit.sha;
             $scope.freshDeployProcessing = true;
             Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
                 $scope.freshDeployProcessing = false;

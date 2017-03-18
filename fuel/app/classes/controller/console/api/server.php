@@ -39,14 +39,26 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
 
             $gitLocal = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
-            $gitLocal->verifyHash($target_revision);
+            $revision = $gitLocal->verifyHash($target_revision);
+            if (!$revision)
+                throw new UserException("The revision '$target_revision'' was not found in the current repository, if this is was not the expected output please click on the Sync button on the top right corner");
+
+            $hashExists = $gitLocal->hashExistsInBranch($revision, $server['branch']);
+            if ($hashExists)
+                throw new UserException("The revision '$target_revision' does not exists in '{$server['branch']}', cannot deploy to another branch");
+
+            $commit = $gitLocal->log($revision);
+            if (!$commit)
+                $commit = [];
 
             Record::insert([
                 'server_id'       => $server_id,
                 'project_id'      => $project_id,
                 'type'            => $deploy_type,
-                'target_revision' => $target_revision,
+                'revision'        => $server['revision'],
+                'target_revision' => $revision,
                 'status'          => Record::status_new,
+                'commit'          => json_encode($commit),
             ]);
 
             $deploy = \Gf\Deploy\Deploy::instance($project_id);
@@ -112,7 +124,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             if ($hashExists)
                 throw new UserException("The revision '$target_revision' does not exists in '{$server['branch']}', cannot deploy to another branch");
 
-            $files = $gitLocal->diff($source_revision, $target_revision);
+            list($files) = $gitLocal->diff($source_revision, $target_revision);
             $commits = $gitLocal->commitsBetween($source_revision, $target_revision);
 
             $r = [

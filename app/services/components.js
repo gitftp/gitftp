@@ -42,7 +42,8 @@ angular.module('ServiceComponents', [
                 '</div>',
                 animation: 'top',
                 closeAnimation: 'top',
-                onOpen: function (scope) {
+                columnClass: 'm',
+                onScopeReady: function (scope) {
                     var that = this;
                     that.commit = false;
                     scope.loading = true;

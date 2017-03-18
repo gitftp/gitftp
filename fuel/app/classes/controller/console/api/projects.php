@@ -125,25 +125,68 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
     }
 
+    public function post_record_status () {
+        try {
+            $record_id = Input::json('record_id', false);
+            $r = Record::get_one([
+                'id' => $record_id,
+            ], [
+                'edited_files',
+                'added_files',
+                'deleted_files',
+                'total_files',
+                'processed_files',
+                'status',
+            ]);
+
+            $r = [
+                'status' => true,
+                'data'   => $r,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_records () {
         try {
             $server_id = Input::json('server_id', false);
             $project_id = Input::json('project_id', false);
+            $offset = Input::json('offset', false);
 
             if (!$project_id)
                 throw new UserException('Missing parameters');
 
-            $where = [
-                'project_id' => $project_id,
-            ];
+            $record_table = Record::table;
+            $server_table = \Gf\Server::table;
 
+            $offset_query = 0;
+            if ($offset)
+                $offset_query = $offset;
+
+            $server_id_query = '';
             if ($server_id)
-                $where['server_id'] = $server_id;
+                $server_id_query = " and records.server_id = $server_id";
 
-            $records = Record::get($where);
+            $query = "
+            SELECT records.*, 
+            servers.name
+            FROM records
+            LEFT JOIN servers
+            ON servers.id = records.server_id
+            WHERE records.project_id = $project_id
+            $server_id_query
+            ORDER BY records.id desc
+            LIMIT 30
+            OFFSET $offset_query
+            ";
 
-            if (!$records)
-                $records = [];
+            $records = \DB::query($query)->execute(Project::db)->as_array();
 
             $r = [
                 'status' => true,

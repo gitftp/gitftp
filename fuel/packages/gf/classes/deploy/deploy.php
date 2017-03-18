@@ -2,6 +2,7 @@
 
 namespace Gf\Deploy;
 
+use Fuel\Core\Arr;
 use Gf\Deploy\Tasker\Deployer;
 use Gf\Exception\UserException;
 use Gf\Git\GitApi;
@@ -35,18 +36,6 @@ class Deploy {
      * @var GitLocal
      */
     public $gitLocal;
-
-    /**
-     * Instance for the Git wrapper
-     *
-     * @var GitWorkingCopy
-     */
-//    public $git;
-
-    /**
-     * @var GitWrapper
-     */
-//    public $gitWrapper;
 
     /**
      * The project details
@@ -93,12 +82,17 @@ class Deploy {
     /**
      * Those files that are to be uploaded
      */
-    const file_action_upload = 1;
+    const file_added = 'A';
 
     /**
      * Those files that are to be deleted
      */
-    const file_action_delete = 2;
+    const file_deleted = 'D';
+
+    /**
+     * Those files that are modified
+     */
+    const file_modified = 'M';
 
     /**
      * Logs
@@ -115,6 +109,10 @@ class Deploy {
      * @throws \Gf\Exception\UserException
      */
     protected function __construct ($project_id) {
+        $af = set_time_limit(0);
+//        if(!$af)
+//            throw new UserException('set_time_limit was not possible, please set time limit to 0');
+
         $project = Project::get_one([
             'id' => $project_id,
         ]);
@@ -126,7 +124,6 @@ class Deploy {
         $repoPath = $project['path'];
         $base = DOCROOT;
         $this->repoPath = Utils::systemDS($base . $repoPath);
-
         $this->gitLocal = GitLocal::instance($this->repoPath);
     }
 
@@ -236,7 +233,7 @@ class Deploy {
             } elseif ($record['type'] == Record::type_fresh_upload) {
                 $this->freshUpload($record);
             } elseif ($record['type'] == Record::type_update) {
-
+                $this->revisionDeploy($record);
             } else {
                 throw new UserException('Record type is invalid');
             }
@@ -258,6 +255,8 @@ class Deploy {
      * @throws \Exception
      */
     public function cloneRepo ($record) {
+        $this->clearMessages();
+
         try {
             $record_id = $record['id'];
 
@@ -267,6 +266,8 @@ class Deploy {
                 'status' => Record::status_processing,
             ]);
 
+            $this->log('Starting..', 'LOG');
+
             if (!$this->gitLocal->git->isCloned()) {
                 Project::update([
                     'id' => $this->project_id,
@@ -274,6 +275,7 @@ class Deploy {
                     'clone_state' => Project::clone_state_cloning,
                 ]);
 
+                $this->log('Cloning project', 'CLONE');
                 $this->clone();
             }
 
@@ -282,14 +284,18 @@ class Deploy {
             ], [
                 'clone_state' => Project::clone_state_cloned,
             ]);
+            $this->log('Project cloned', 'CLONE');
             Record::update([
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
+                'log'    => $this->getMessages(),
             ]);
 
             return true;
         } catch (\Exception $e) {
+            $this->log($e->getMessage(), '>ERR');
+
             Project::update([
                 'id' => $this->project_id,
             ], [
@@ -299,6 +305,7 @@ class Deploy {
                 'id' => $record_id,
             ], [
                 'status'        => Record::status_failed,
+                'log'           => $this->getMessages(),
                 'failed_reason' => $e->getMessage(),
             ]);
             throw $e;
@@ -306,6 +313,8 @@ class Deploy {
     }
 
     public function freshUpload ($record) {
+        $this->clearMessages();
+
         try {
             $record_id = $record['id'];
             $this->currentServer = $this->getCacheServerData($record['server_id']);
@@ -316,26 +325,32 @@ class Deploy {
                 'status' => Record::status_processing,
             ]);
 
-            if (!$this->gitLocal->git->isCloned())
+            if (!$this->gitLocal->git->isCloned()) {
+                $this->log('Cloning project..', 'CLONE');
                 $this->clone();
-            else
+            } else {
+                $this->log('Pulling changes', 'PULL');
                 $this->pull();
-
+            }
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
+            $this->log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", "DEP");
             $allFiles = $this->getAllFilesForRevision($this->currentRecord['target_revision']);
             $totalFiles = count($allFiles);
+            $this->log("$totalFiles changed files", "DEP");
 
             Record::update([
                 'id' => $record_id,
             ], [
                 'total_files' => $totalFiles,
+                'added_files' => $totalFiles,
             ]);
 
             $connection = Connection::instance($this->currentServer);
+            $this->log("Starting deploying..", "DEP");
 
-            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal);
+            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal, $this->currentServer);
             $deployer
                 ->clearFiles()
                 ->setRecord($this->currentRecord)
@@ -344,10 +359,13 @@ class Deploy {
                 ->addFiles($allFiles)
                 ->start();
 
+            $this->log($deployer->getMessages());
+
             Record::update([
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
+                'log'    => $this->getMessages(),
             ]);
 
             Server::update([
@@ -358,11 +376,96 @@ class Deploy {
 
             return true;
         } catch (\Exception $e) {
+            $this->log($e->getMessage(), ">ERR");
+
             Record::update([
                 'id' => $record_id,
             ], [
                 'status'        => Record::status_failed,
                 'failed_reason' => $e->getMessage(),
+                'log'           => $this->getMessages(),
+            ]);
+            throw $e;
+        }
+    }
+
+    public function revisionDeploy ($record) {
+        $this->clearMessages();
+
+        try {
+            $record_id = $record['id'];
+            $this->currentServer = $this->getCacheServerData($record['server_id']);
+
+            $this->log('Starting..', 'LOG');
+
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'status' => Record::status_processing,
+            ]);
+
+            if (!$this->gitLocal->git->isCloned()) {
+                $this->log('Cloning project', 'CLONE');
+                $this->clone();
+            } else {
+                $this->log('Pulling changes', 'CLONE');
+                $this->pull();
+            }
+
+            $this->gitLocal->git->checkout($this->currentServer['branch']);
+            $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
+            $this->log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", "DEP");
+            list($files, $edited, $added, $deleted) = $this->gitLocal->diff($record['revision'], $record['target_revision']);
+            $totalFiles = count($files);
+            $this->log("$totalFiles changed files", "DEP");
+
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'total_files'   => $totalFiles,
+                'edited_files'  => $edited,
+                'added_files'   => $added,
+                'deleted_files' => $deleted,
+            ]);
+
+            $connection = Connection::instance($this->currentServer);
+
+            $this->log("Starting deploying..", "DEP");
+
+            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal);
+            $deployer
+                ->clearFiles()
+                ->setRecord($this->currentRecord)
+                ->setServer($this->currentServer)
+                ->setConnection($connection->connection())
+                ->addFiles($files)
+                ->start();
+
+            $this->log($deployer->getMessages());
+
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'status' => Record::status_success,
+                'log'    => $this->getMessages(),
+            ]);
+
+            Server::update([
+                'id' => $record['server_id'],
+            ], [
+                'revision' => $record['target_revision'],
+            ]);
+
+            return true;
+        } catch (\Exception $e) {
+            $this->log($e->getMessage(), '>ERR');
+
+            Record::update([
+                'id' => $record_id,
+            ], [
+                'status'        => Record::status_failed,
+                'failed_reason' => $e->getMessage(),
+                'log'           => $this->getMessages(),
             ]);
             throw $e;
         }
@@ -404,7 +507,7 @@ class Deploy {
     }
 
     private function pull () {
-        return $this->gitLocal->pull($this->project['id'], $this->project['provider'], $this->project['clone_uri']);
+        return $this->gitLocal->pull($this->project['owner_id'], $this->project['provider'], $this->project['clone_uri']);
     }
 
     /**
@@ -435,8 +538,8 @@ class Deploy {
                 continue;
             $f = explode("\t", $file);
             $filesParsed[] = [
-                'file'   => $f[1], // full path
-                'action' => self::file_action_upload,
+                'f' => $f[1], // full path
+                'a' => self::file_added,
             ];
         }
 
@@ -447,15 +550,27 @@ class Deploy {
      * Log details about the deployment
      *
      * @param $messages
+     * @param $type
      */
-    private function log ($messages) {
-        $this->messages .= $messages . "\n";
+    private function log ($messages, $type = null) {
+        $this->messages .= (!is_null($type) ? "$type:" : "") . "$messages" . (!is_null($type) ? "\n" : "");
     }
 
     /**
      * @return string
      */
     public function getMessages () {
-        return $this->messages;
+        $a = $this->messages;
+        $this->messages = '';
+
+        return $a;
     }
+
+    /**
+     * Clear the messages
+     */
+    public function clearMessages () {
+        $this->messages = '';
+    }
+
 }

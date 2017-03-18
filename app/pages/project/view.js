@@ -62,12 +62,5 @@ angular.module('AppProjectView', [
 
         $scope.loadRecords();
 
-        $scope.errorMessage = function (text) {
-            $ngConfirm({
-                title: 'Failure reason',
-                content: "<pre>" + text + "</pre>",
-                type: 'red',
-            });
-        }
     }
 ]);

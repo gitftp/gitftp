@@ -36,11 +36,7 @@ angular.module('AppDirectives', [
                 scope.$watch('$location.path()', function () {
                     $timeout(function () {
                         console.log('location changed ');
-                        if ($routeParams.id) {
-                            scope.showSyncButton = true;
-                        } else {
-                            scope.showSyncButton = false;
-                        }
+                        scope.showSyncButton = !!$routeParams.id;
 
                         if ($routeParams.id && $rootScope.projects[$routeParams.id]) {
                             scope.project = $rootScope.projects[$routeParams.id];
@@ -103,6 +99,98 @@ angular.module('AppDirectives', [
                 scope.serverType = function (state) {
                     return Utils.serverType(state);
                 };
+            }
+        }
+    }
+]).directive('recordItem', [
+    '$rootScope',
+    'Utils',
+    '$ngConfirm',
+    'Const',
+    'Api',
+    '$timeout',
+    function ($rootScope, Utils, $ngConfirm, Const, Api, $timeout) {
+        return {
+            restrict: 'A',
+            replace: true,
+            templateUrl: 'app/partials/recordItem.html',
+            scope: {
+                record: '=record'
+            },
+            link: function (scope, element) {
+                scope.recordType = Utils.recordType;
+
+                if (scope.record.commit)
+                    scope.record.commit = JSON.parse(scope.record.commit);
+                else
+                    scope.record.commit = false;
+
+                scope.errorMessage = function (text) {
+                    $ngConfirm({
+                        title: 'Failure reason',
+                        content: "<pre>" + text + "</pre>",
+                        type: 'red',
+                    });
+                };
+
+                scope.logMessages = function (text) {
+                    $ngConfirm({
+                        title: 'Logs',
+                        theme: 'light',
+                        columnClass: 'm',
+                        content: "<pre>" + text + "</pre>",
+                    });
+                };
+
+                scope.progressStyle = {
+                    'width': '0%',
+                };
+
+                var run = true;
+                scope.getUpdate = function () {
+                    if (!run)
+                        return false;
+
+                    var timer = false;
+                    var status = parseInt(scope.record.status);
+                    switch (status) {
+                        case Const.record_status_new:
+                            timer = 10000;
+                            break;
+                        case Const.record_status_in_progress:
+                            timer = 5000;
+                            break;
+                        default:
+                            timer = 0;
+                    }
+                    if (!timer) {
+                        return false;
+                    }
+                    Api.getRecordStatus(scope.record.id).then(function (data) {
+                        scope.record.total_files = data.total_files;
+                        scope.record.processed_files = data.processed_files;
+                        scope.record.edited_files = data.edited_files;
+                        scope.record.added_files = data.added_files;
+                        scope.record.deleted_files = data.deleted_files;
+                        scope.record.status = data.status;
+                        var s = ((scope.record.processed_files * 100) / scope.record.total_files);
+                        if (s == 0)
+                            s = 30;
+                        scope.progressStyle = {
+                            'width': s + '%',
+                        };
+                        $timeout(function () {
+                            scope.getUpdate();
+                        }, timer);
+                    }, function (reason) {
+                        console.warn(reason);
+                    });
+                };
+
+                scope.$on('destroy', function () {
+                    run = false;
+                });
+                scope.getUpdate();
             }
         }
     }

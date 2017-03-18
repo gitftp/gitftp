@@ -5,6 +5,7 @@ namespace Gf\Deploy;
 use Gf\Exception\AppException;
 use Gf\Server;
 use League\Flysystem\Adapter\Ftp;
+use League\Flysystem\Adapter\Ftpd;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
@@ -88,6 +89,8 @@ class Connection {
         ]));
 
         $this->connection = $filesystem;
+
+
     }
 
 

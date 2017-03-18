@@ -1,10 +1,10 @@
 /*!
- * angular-confirm v1.0.1 (http://craftpip.github.io/angular-confirm/)
+ * angular-confirm v1.1.0 (http://craftpip.github.io/angular-confirm/)
  * Author: boniface pereira
  * Website: www.craftpip.com
  * Contact: hey@craftpip.com
  *
- * Copyright 2016-2016 angular-confirm
+ * Copyright 2016-2017 angular-confirm
  * Licensed under MIT (https://github.com/craftpip/angular-confirm/blob/master/LICENSE)
  */
 @-webkit-keyframes ng-confirm-spin {
@@ -75,6 +75,8 @@ body[class*=ng-confirm-no-scroll-] {
     outline: none;
     padding: 15px 15px 0;
     overflow: hidden;
+    margin-left: auto;
+    margin-right: auto;
 }
 .ng-confirm .ng-confirm-box.ng-confirm-loading {
     min-height: 120px;
@@ -144,7 +146,6 @@ body[class*=ng-confirm-no-scroll-] {
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c .ng-confirm-icon-c {
     font-size: inherit;
     display: inline-block;
-    margin-right: 8px;
     vertical-align: top;
 }
 .ng-confirm .ng-confirm-box div.ng-confirm-title-c .ng-confirm-icon-c i {
@@ -637,6 +638,10 @@ body[class*=ng-confirm-no-scroll-] {
     background-color: #444;
     opacity: .2;
 }
+.ng-confirm.ng-confirm-light .ng-confirm-icon-c,
+.ng-confirm.ng-confirm-white .ng-confirm-icon-c {
+    margin-right: 8px;
+}
 .ng-confirm.ng-confirm-light.ng-confirm-rtl .ng-confirm-closeIcon,
 .ng-confirm.ng-confirm-white.ng-confirm-rtl .ng-confirm-closeIcon {
     left: 5px !important;
@@ -685,6 +690,10 @@ body[class*=ng-confirm-no-scroll-] {
 .ng-confirm.ng-confirm-black .ng-confirm-bg {
     background-color: darkslategray;
     opacity: .4;
+}
+.ng-confirm.ng-confirm-dark .ng-confirm-icon-c,
+.ng-confirm.ng-confirm-black .ng-confirm-icon-c {
+    margin-right: 8px;
 }
 .ng-confirm.ng-confirm-dark.ng-confirm-rtl .ng-confirm-closeIcon,
 .ng-confirm.ng-confirm-black.ng-confirm-rtl .ng-confirm-closeIcon {
@@ -867,6 +876,9 @@ body[class*=ng-confirm-no-scroll-] {
     background: dimgray;
     opacity: .6;
 }
+.ng-confirm.ng-confirm-material .ng-confirm-icon-c {
+    margin-right: 8px;
+}
 .ng-confirm.ng-confirm-material .ng-confirm-box {
     background-color: white;
     box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
@@ -904,6 +916,9 @@ body[class*=ng-confirm-no-scroll-] {
 }
 .ng-confirm.ng-confirm-bootstrap .ng-confirm-bg {
     background-color: rgba(0, 0, 0, 0.21);
+}
+.ng-confirm.ng-confirm-bootstrap .ng-confirm-icon-c {
+    margin-right: 8px;
 }
 .ng-confirm.ng-confirm-bootstrap .ng-confirm-box {
     background-color: white;
@@ -959,6 +974,9 @@ body[class*=ng-confirm-no-scroll-] {
     background-color: slategray;
     opacity: .6;
 }
+.ng-confirm.ng-confirm-modern .ng-confirm-icon-c {
+    margin-right: 8px;
+}
 .ng-confirm.ng-confirm-modern .ng-confirm-box {
     background-color: white;
     box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
@@ -1012,6 +1030,9 @@ body[class*=ng-confirm-no-scroll-] {
 .ng-confirm.ng-confirm-seamless .ng-confirm-bg:before {
     border-bottom-color: dodgerblue;
 }
+.ng-confirm.ng-confirm-seamless .ng-confirm-icon-c {
+    margin-right: 8px;
+}
 .ng-confirm.ng-confirm-seamless .ng-confirm-box {
     background-color: white;
     box-shadow: 0 7px 8px -4px rgba(0, 0, 0, 0.2), 0 13px 19px 2px rgba(0, 0, 0, 0.14), 0 5px 24px 4px rgba(0, 0, 0, 0.12);
@@ -1053,4 +1074,7 @@ body[class*=ng-confirm-no-scroll-] {
 }
 .ng-confirm.ng-confirm-seamless .ng-confirm-box .ng-confirm-buttons button + button {
     margin-left: 4px;
+}
+.ng-confirm-el-hide {
+    display: none !important;
 }

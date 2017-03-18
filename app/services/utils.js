@@ -13,7 +13,7 @@ angular.module('ServiceUtils', [
         var that = this;
 
         this.defaultTitle = 'Gitftp';
-        $rootScope.$storage = $localStorage;
+
         this.en = function (s) {
             return encodeURIComponent(btoa(btoa(s << 100)))
         };
@@ -46,7 +46,7 @@ angular.module('ServiceUtils', [
                 "<code>{{errorMessage}}</code></div>",
                 buttons: buttons,
                 type: type || 'red',
-                onOpen: function (scope) {
+                onScopeReady: function (scope) {
                     scope.errorMessage = text;
                 }
             });

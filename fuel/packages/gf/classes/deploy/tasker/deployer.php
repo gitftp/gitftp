@@ -3,6 +3,7 @@
 namespace Gf\Deploy\Tasker;
 
 use Fuel\Core\File;
+use Gf\Deploy\Connection;
 use Gf\Deploy\Deploy;
 use Gf\Exception\AppException;
 use Gf\Git\GitLocal;
@@ -23,6 +24,7 @@ class Deployer {
 
     /**
      * Holds the server data
+     *
      * @var array
      */
     public $connectionParams;
@@ -106,13 +108,15 @@ class Deployer {
     /**
      * Deployer constructor.
      *
-     * @param null $method
-     * @param      $gitLocal
+     * @param null             $method
+     * @param \Gf\Git\GitLocal $gitLocal
+     * @param array            $connectionParams
      */
     public function __construct ($method = null, GitLocal $gitLocal, Array $connectionParams) {
         $this->gitLocal = $gitLocal;
         $this->method = $method;
         $this->connectionParams = $connectionParams;
+        $this->connect();
 
         if (is_null($this->method))
             $this->method = self::method_pthreads;
@@ -198,6 +202,14 @@ class Deployer {
         return $this;
     }
 
+    public function connect () {
+        if (!$this->connectionParams or !count($this->connectionParams))
+            throw new AppException('Connection params not found');
+
+        $connection = Connection::instance($this->connectionParams);
+        $this->setConnection($connection->connection());
+    }
+
     /**
      * inserts the progress in the database
      *
@@ -237,7 +249,6 @@ class Deployer {
                 $s = $dir . $file['f'];
                 $contents = File::read($s, true);
                 try {
-//                    $a = $this->connection->isConnected();
                     $this->connection->put($file['f'], $contents);
                 } catch (\Exception $e) {
                     $this->log("WARN: {$e->getMessage()} {$file['f']}");

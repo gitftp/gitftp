@@ -3,6 +3,8 @@
 namespace Gf\Deploy;
 
 use Fuel\Core\Arr;
+use Fuel\Core\Cli;
+use Fuel\Core\Fuel;
 use Gf\Deploy\Tasker\Deployer;
 use Gf\Exception\UserException;
 use Gf\Git\GitApi;
@@ -102,6 +104,13 @@ class Deploy {
     private $messages = '';
 
     /**
+     * Is this being run from CLI ?
+     *
+     * @var bool
+     */
+    private $isCli = false;
+
+    /**
      * Gitftp constructor.
      *
      * @param $project_id
@@ -110,9 +119,10 @@ class Deploy {
      */
     protected function __construct ($project_id) {
         $af = set_time_limit(0);
-//        if(!$af)
-//            throw new UserException('set_time_limit was not possible, please set time limit to 0');
+        /*       if(!$af)
+                       throw new UserException('set_time_limit was not possible, please set time limit to 0');*/
 
+        $this->isCli = Fuel::$is_cli;
         $project = Project::get_one([
             'id' => $project_id,
         ]);
@@ -276,7 +286,7 @@ class Deploy {
                 ]);
 
                 $this->log('Cloning project', 'CLONE');
-                $this->clone();
+                $this->cloneMe();
             }
 
             Project::update([
@@ -327,7 +337,7 @@ class Deploy {
 
             if (!$this->gitLocal->git->isCloned()) {
                 $this->log('Cloning project..', 'CLONE');
-                $this->clone();
+                $this->cloneMe();
             } else {
                 $this->log('Pulling changes', 'PULL');
                 $this->pull();
@@ -347,7 +357,7 @@ class Deploy {
                 'added_files' => $totalFiles,
             ]);
 
-            $connection = Connection::instance($this->currentServer);
+//            $connection = Connection::instance($this->currentServer);
             $this->log("Starting deploying..", "DEP");
 
             $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal, $this->currentServer);
@@ -355,7 +365,7 @@ class Deploy {
                 ->clearFiles()
                 ->setRecord($this->currentRecord)
                 ->setServer($this->currentServer)
-                ->setConnection($connection->connection())
+//                ->setConnection($connection->connection())
                 ->addFiles($allFiles)
                 ->start();
 
@@ -406,7 +416,7 @@ class Deploy {
 
             if (!$this->gitLocal->git->isCloned()) {
                 $this->log('Cloning project', 'CLONE');
-                $this->clone();
+                $this->cloneMe();
             } else {
                 $this->log('Pulling changes', 'CLONE');
                 $this->pull();
@@ -428,16 +438,16 @@ class Deploy {
                 'deleted_files' => $deleted,
             ]);
 
-            $connection = Connection::instance($this->currentServer);
+//            $connection = Connection::instance($this->currentServer);
 
             $this->log("Starting deploying..", "DEP");
 
-            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal);
+            $deployer = Deployer::instance(Deployer::method_pthreads, $this->gitLocal, $this->currentServer);
             $deployer
                 ->clearFiles()
                 ->setRecord($this->currentRecord)
                 ->setServer($this->currentServer)
-                ->setConnection($connection->connection())
+//                ->setConnection($connection->connection())
                 ->addFiles($files)
                 ->start();
 
@@ -495,7 +505,7 @@ class Deploy {
      *
      * @return bool
      */
-    private function clone () {
+    private function cloneMe () {
         if (!$this->gitLocal->git->isCloned()) {
             $provider = $this->project['provider'];
             $gitApi = GitApi::instance($this->project['owner_id'], $provider);
@@ -553,7 +563,11 @@ class Deploy {
      * @param $type
      */
     private function log ($messages, $type = null) {
-        $this->messages .= (!is_null($type) ? "$type:" : "") . "$messages" . (!is_null($type) ? "\n" : "");
+        $m = (!is_null($type) ? "$type:" : "") . "$messages";
+        if ($this->isCli)
+            Cli::write($m);
+
+        $this->messages .= $m . (!is_null($type) ? "\n" : "");
     }
 
     /**

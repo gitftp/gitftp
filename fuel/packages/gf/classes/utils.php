@@ -72,24 +72,29 @@ class Utils {
     /**
      * Executes a task in shell non-blocking
      *
-     * @deprecated see asyncCall
-     *
-     * @param $task
+     * @param        $task
+     * @param string $param
+     * @param string $output
      *
      * @return string
      */
-    public static function executeTaskInBackground ($task, $param = '') {
-        if (\Fuel::$env == 'development') {
-            /*
-             * When in the development environment,
-             * we have a windows machine. on which setting env variables wont work.
-             */
-            $a = 'php ' . DOCROOT . 'oil r ' . $task . ' ' . $param;
-        } else {
-            $a = 'FUEL_ENV=' . \Fuel::$env . ' php ' . DOCROOT . 'oil r ' . $task . ' ' . $param . ' > /dev/null 2>/dev/null &';
-        }
+    public static function executeTaskInBackground ($task, $param = '', $output = '/dev/null') {
+        $a = "php " . DOCROOT . "oil r $task $param > $output &";
 
         return shell_exec($a);
+    }
+
+    /**
+     * @param $bytes
+     *
+     * @return string
+     */
+    public static function humanize_data ($bytes) {
+        $decimals = 2;
+        $sz = 'BKMGTP';
+        $factor = floor((strlen($bytes) - 1) / 3);
+
+        return sprintf("%.{$decimals}f", $bytes / pow(1024, $factor)) . @$sz[$factor];
     }
 
     /**
@@ -105,31 +110,6 @@ class Utils {
     public static function validateUPC ($code, $operator_id, $circle_id) {
         if (strlen($code) != 8)
             return false;
-    }
-
-    public static function templateParser ($pageName, $data) {
-        $m = new Mustache_Engine();
-
-        return $m->render(\Nb\Page::getContent($pageName), $data);
-    }
-
-
-    public static function mustacheParser ($template, $data = [], $option = []) {
-        $m = new Mustache_Engine();
-
-        if (empty($option)) {
-            $rendered_data = $m->render($template, $data);
-        } elseif (isset($option['pageset'])) {
-            $page_details = \Nb\Page::getBySlug($template);
-
-            if ($option['pageset'] == 'content') {
-                $rendered_data = $m->render($page_details['content'], $data);
-            } elseif ($option['pageset'] == 'title') {
-                $rendered_data = $m->render($page_details['title'], $data);
-            }
-        }
-
-        return $rendered_data;
     }
 
     /**

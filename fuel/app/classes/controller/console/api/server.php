@@ -61,8 +61,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'commit'          => json_encode($commit),
             ]);
 
-            $deploy = \Gf\Deploy\Deploy::instance($project_id);
-            $deploy->processProjectQueue(true);
+//            $timestamp = \Gf\Utils::timeNow() . Str::random('alnum', 4);
+//            \Gf\Utils::executeTaskInBackground('deploy:project', $project_id, 'logs/' . $timestamp);
 
             $r = [
                 'status' => true,

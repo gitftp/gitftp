@@ -8,6 +8,7 @@ use Gf\Deploy\Connection;
 use Gf\Deploy\Deploy;
 use Gf\Deploy\DeployLog;
 use Gf\Exception\AppException;
+use Gf\Exception\UserException;
 use Gf\Git\GitLocal;
 use Gf\Record;
 use League\Flysystem\Filesystem;
@@ -208,14 +209,14 @@ class Deployer {
      * Start the deployment process
      */
     public function start () {
-        DeployLog::log('Starting' . $this->method);
+        DeployLog::log('Starting deployer');
 
         if ($this->method == self::method_pthreads)
             return $this->pThreads();
         elseif ($this->method == self::method_regular)
             return $this->regular();
         else
-            return false;
+            throw new AppException("Invalid method {$this->method}");
     }
 
     private function regular () {
@@ -223,30 +224,76 @@ class Deployer {
         $dir = $this->gitLocal->git->getDirectory();
 
         DeployLog::log('Upload method: regular');
-        foreach ($this->files as $file) {
+
+        $totalFiles = count($this->files);
+
+        /*
+         * Goes on until all the files are done
+         * If errors come up on delete, ignore them, they were to be deleted anyway.
+         * If errors come up on update, retry 3 times, then abort
+         * */
+        while (($this->progress) != $totalFiles) {
+            $file = $this->files[$this->progress];
+
             if ($file['a'] == Deploy::file_added or $file['a'] == Deploy::file_modified) {
                 $s = $dir . $file['f'];
                 $contents = File::read($s, true);
                 try {
                     DeployLog::log('Uploading.. ' . $file['f']);
                     $this->connection->put($file['f'], $contents);
+                    $this->incrementProgress(1);
                 } catch (\Exception $e) {
-                    DeployLog::log("WARN: {$e->getMessage()} {$file['f']}");
+                    if (!isset($this->files[$this->progress]['retry']))
+                        $this->files[$this->progress]['retry'] = 0;
+
+                    $this->files[$this->progress]['retry'] += 1;
+                    if ($this->files[$this->progress]['retry'] >= 4) {
+                        DeployLog::log("UPLOAD ERR: {$e->getMessage()} {$file['f']}");
+                        throw new AppException("Upload failed {$this->files[$this->progress]['retry']} times: {$e->getMessage()}, file: {$file['f']}");
+                    } else {
+                        DeployLog::log("UPLOAD RETRY: {$e->getMessage()} {$file['f']}");
+                    }
                 }
-                $this->incrementProgress(1);
             } elseif ($file['a'] == Deploy::file_deleted) {
                 try {
                     DeployLog::log('Deleting ' . $file['f']);
                     $this->connection->delete($file['f']);
                 } catch (\Exception $e) {
-                    DeployLog::log("WARN: {$e->getMessage()} {$file['f']}");
+                    DeployLog::log("DELETE ERR: Ignored {$e->getMessage()} {$file['f']}");
+                    // error on delete. ignored.
                 }
                 $this->incrementProgress(1);
             } else {
-                throw new AppException('Invalid file action type');
+                throw new AppException("Invalid file action: {$file['a']} {$file['f']}");
             }
             DeployLog::log("Progress {$this->progress} - {$this->total_progress}");
         }
+
+//
+//        foreach ($this->files as $file) {
+//            if ($file['a'] == Deploy::file_added or $file['a'] == Deploy::file_modified) {
+//                $s = $dir . $file['f'];
+//                $contents = File::read($s, true);
+//                try {
+//                    DeployLog::log('Uploading.. ' . $file['f']);
+//                    $this->connection->put($file['f'], $contents);
+//                } catch (\Exception $e) {
+//                    DeployLog::log("WARN: {$e->getMessage()} {$file['f']}");
+//                }
+//                $this->incrementProgress(1);
+//            } elseif ($file['a'] == Deploy::file_deleted) {
+//                try {
+//                    DeployLog::log('Deleting ' . $file['f']);
+//                    $this->connection->delete($file['f']);
+//                } catch (\Exception $e) {
+//                    DeployLog::log("WARN: Ignored {$e->getMessage()} {$file['f']}");
+//                }
+//                $this->incrementProgress(1);
+//            } else {
+//                throw new AppException('Invalid file action type');
+//            }
+//            DeployLog::log("Progress {$this->progress} - {$this->total_progress}");
+//        }
 
         return true;
     }

@@ -12,6 +12,9 @@
         <div class="m-t-5">
             <div class="pull-right">
                 <span class="text-muted">
+                <span ng-if="record.status == 2 && record.total_files != '0'">
+                    {{record.processed_files}} of {{record.total_files}} done
+                </span>
                 <span class="m-l-10" ng-if="record.added_files != 0" uib-tooltip="Added files" tooltip-placement="left">
                     <i class="zmdi m-r-5 zmdi-plus-circle-o"></i>{{record.added_files}}
                 </span>
@@ -65,7 +68,7 @@
                 <small class="text-muted">{{record.commit.author}} committed on {{record.commit.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}</small>
             </div>
         </div>
-        <pre>{{record}}</pre>
+        <pre class="hide">{{record}}</pre>
         <div class="space5"></div>
     </div>
 </div>

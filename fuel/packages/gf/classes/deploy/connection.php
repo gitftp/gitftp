@@ -72,6 +72,8 @@ class Connection {
                 throw new AppException('The server does not exists');
         }
 
+        if (!isset($server_data['id']))
+            $server_data['id'] = '0';
 
         if (!isset(static::$instances[$server_data['id']]) or null == static::$instances[$server_data['id']]) {
             static::$instances[$server_data['id']] = new static($server_data);

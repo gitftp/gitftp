@@ -193,9 +193,7 @@ class Deploy {
         ], null, 1, 0, 'id', 'asc', false);
 
         if (!$record) {
-            if ($this->isCli) {
-                Log::info('The queue is over');
-            }
+            Log::info('The queue is over');
 
             return 'The queue is over';
         }
@@ -207,8 +205,7 @@ class Deploy {
             return $this->processProjectQueue($loop);
 
 
-        if ($this->isCli)
-            Log::info('The queue is over without looping');
+        Log::info('The queue is over without looping');
 
         return 'The queue is over without looping';
     }
@@ -406,6 +403,7 @@ class Deploy {
 
     public function revisionDeploy ($record) {
         $file = DeployLog::logToFile();
+        DeployLog::log('Gitftp v' . GF_VERSION);
 
         try {
             $record_id = $record['id'];
@@ -469,7 +467,7 @@ class Deploy {
 
             return true;
         } catch (\Exception $e) {
-            DeployLog::log($e->getMessage(), '>ERR');
+            DeployLog::log("{$e->getCode()}: {$e->getMessage()} @ {$e->getFile()}:{$e->getLine()}", '>ERR');
 
             Record::update([
                 'id' => $record_id,

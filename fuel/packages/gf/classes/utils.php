@@ -40,7 +40,7 @@ class Utils {
     }
 
     public static function asyncCall ($method, $data) {
-        $url = \Uri::base() . 'async/' . $method . '/' . $data;
+        $url = \Uri::base() . 'async/' . $method . '/' . $data . '?XDEBUG_SESSION_START=PHPSTORM';
         $parts = parse_url($url);
 
         $port = 80;
@@ -53,6 +53,7 @@ class Utils {
         $fp = fsockopen($protocol . $parts['host'], $port, $errno, $errstr, 30);
         $out = "GET " . $parts['path'] . " HTTP/1.1\r\n";
         $out .= "Host: " . $parts['host'] . "\r\n";
+        $out .= "Cookie: XDEBUG_SESSION=PHPSTORM\r\n\r\n";
         $out .= "Connection: Close\r\n\r\n";
         fwrite($fp, $out);
         fclose($fp);

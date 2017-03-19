@@ -141,7 +141,7 @@ angular.module('AppDirectives', [
                         content: "" +
                         "<a ng-click='load()' class='pull-right'>" +
                         "<i class='zmdi zmdi-refresh'></i> Refresh</a>" +
-                        "<p>Showing logs from logfile:" +
+                        "<p>Showing logs from logfile: " +
                         "<code>{{logFile}}</code>" +
                         "</p>" +
                         "<pre>{{msg ? msg: ''}}{{contents}}</pre>" +
@@ -157,6 +157,7 @@ angular.module('AppDirectives', [
                             scope.load = function () {
                                 scope.msg = 'Loading...';
                                 Api.getRecordLog(logFile).then(function (contents) {
+                                    scope.msg = '';
                                     scope.contents = contents;
                                 }, function (reason) {
                                     scope.msg = 'ERROR: ' + reason;

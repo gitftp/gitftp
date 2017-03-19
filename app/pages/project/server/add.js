@@ -151,7 +151,8 @@ angular.module('AppProjectServerAdd', [
                     scope.clicked = function (path) {
                         if (path.type != 'dir')
                             return;
-                        scope.path = scope.apath + path.path + '/';
+
+                        scope.path = (scope.apath || '/') + path.path + '/';
                         scope.fetchPath();
                     };
                     scope.setPath = function () {

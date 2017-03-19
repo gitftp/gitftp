@@ -21,7 +21,8 @@ angular.module('AppProjectServerDeploy', [
     '$ngConfirm',
     'Const',
     'Components',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const, Components) {
+    '$location',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const, Components, $location) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
 
@@ -82,8 +83,9 @@ angular.module('AppProjectServerDeploy', [
             $scope.revisionDeployProcessing = true;
             Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
                 $scope.revisionDeployProcessing = false;
+                $location.path('view/' + $scope.project_id + '/' + $scope.projects[$scope.project_id].name);
             }, function (reason) {
-                Utils.error(reason, 'red', $scope.startDeploy);
+                Utils.error(reason, 'red', $scope.revisionDeploy);
                 $scope.revisionDeployProcessing = false;
             });
         };
@@ -100,8 +102,9 @@ angular.module('AppProjectServerDeploy', [
             $scope.freshDeployProcessing = true;
             Api.applyDeploy($scope.project_id, $scope.server_id, deploy).then(function (res) {
                 $scope.freshDeployProcessing = false;
+                $location.path('view/' + $scope.project_id + '/' + $scope.projects[$scope.project_id].name);
             }, function (reason) {
-                Utils.error(reason, 'red', $scope.startDeploy);
+                Utils.error(reason, 'red', $scope.freshDeploy);
                 $scope.freshDeployProcessing = false;
             })
         };

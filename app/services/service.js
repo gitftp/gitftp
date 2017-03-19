@@ -132,6 +132,25 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Get log file
+             * @param filename
+             */
+            getRecordLog: function (filename) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/log_file', {
+                    filename: filename,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * get records for project.
              * server_id is optional
              * project_id is required

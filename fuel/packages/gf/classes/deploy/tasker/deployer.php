@@ -6,6 +6,7 @@ use Fuel\Core\Cli;
 use Fuel\Core\File;
 use Gf\Deploy\Connection;
 use Gf\Deploy\Deploy;
+use Gf\Deploy\DeployLog;
 use Gf\Exception\AppException;
 use Gf\Git\GitLocal;
 use Gf\Record;
@@ -50,14 +51,7 @@ class Deployer {
     public $total_progress = 0;
 
     /**
-     * Messages that come up during the uploading
-     *
-     * @var string
-     */
-    public $messages = '';
-
-    /**
-     * @var Filesystem
+     * @var Connection
      */
     private $connection;
     private $server;
@@ -144,6 +138,7 @@ class Deployer {
     public function clearFiles () {
         $this->files = [];
         $this->total_progress = 0;
+        $this->progress = 0;
 
         return $this;
     }
@@ -164,26 +159,6 @@ class Deployer {
         return $this;
     }
 
-    public function log ($a) {
-        if (\Fuel::$is_cli)
-            Cli::write('DEPLOYER:' . $a);
-        $this->messages .= "$a\n";
-    }
-
-    /**
-     * @return string
-     */
-    public function getMessages () {
-        $a = $this->messages;
-        $this->messages = '';
-
-        return $a;
-    }
-
-    public function clearMessages () {
-        $this->messages = '';
-    }
-
     /**
      * @return int
      */
@@ -199,7 +174,7 @@ class Deployer {
      *
      * @return $this
      */
-    public function setConnection ($connection) {
+    public function setConnection (Connection $connection) {
         $this->connection = $connection;
 
         return $this;
@@ -210,7 +185,7 @@ class Deployer {
             throw new AppException('Connection params not found');
 
         $connection = Connection::instance($this->connectionParams);
-        $this->setConnection($connection->connection());
+        $this->setConnection($connection);
     }
 
     /**
@@ -233,7 +208,8 @@ class Deployer {
      * Start the deployment process
      */
     public function start () {
-        $this->log('Starting' . $this->method);
+        DeployLog::log('Starting' . $this->method);
+
         if ($this->method == self::method_pthreads)
             return $this->pThreads();
         elseif ($this->method == self::method_regular)
@@ -246,27 +222,30 @@ class Deployer {
         $r = $this->record['target_revision'];
         $dir = $this->gitLocal->git->getDirectory();
 
-        $this->log('Upload method: regular');
+        DeployLog::log('Upload method: regular');
         foreach ($this->files as $file) {
             if ($file['a'] == Deploy::file_added or $file['a'] == Deploy::file_modified) {
                 $s = $dir . $file['f'];
                 $contents = File::read($s, true);
                 try {
+                    DeployLog::log('Uploading.. ' . $file['f']);
                     $this->connection->put($file['f'], $contents);
                 } catch (\Exception $e) {
-                    $this->log("WARN: {$e->getMessage()} {$file['f']}");
+                    DeployLog::log("WARN: {$e->getMessage()} {$file['f']}");
                 }
                 $this->incrementProgress(1);
             } elseif ($file['a'] == Deploy::file_deleted) {
                 try {
+                    DeployLog::log('Deleting ' . $file['f']);
                     $this->connection->delete($file['f']);
                 } catch (\Exception $e) {
-                    $this->log("WARN: {$e->getMessage()} {$file['f']}");
+                    DeployLog::log("WARN: {$e->getMessage()} {$file['f']}");
                 }
                 $this->incrementProgress(1);
             } else {
                 throw new AppException('Invalid file action type');
             }
+            DeployLog::log("Progress {$this->progress} - {$this->total_progress}");
         }
 
         return true;

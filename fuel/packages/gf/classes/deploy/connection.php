@@ -10,15 +10,19 @@ use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\Sftp\SftpAdapter;
 
+/**
+ * Wrapper class for flysystem filesystem
+ * Class Connection
+ *
+ * @package Gf\Deploy
+ */
 class Connection {
-
-
     /**
      * Instance for the connection class
      *
-     * @var Connection
+     * @var Connection[]
      */
-    private static $instance;
+    private static $instances;
 
     /**
      * Server configuration details.
@@ -33,6 +37,13 @@ class Connection {
     private $connection;
 
     /**
+     * Server type
+     *
+     * @var
+     */
+    private $type;
+
+    /**
      * Connection constructor.
      *
      * @param $server_data
@@ -41,14 +52,9 @@ class Connection {
      */
     protected function __construct ($server_data) {
         $this->server_data = $server_data;
+        $this->type = $this->server_data['type'];
 
-        if ($this->server_data['type'] == Server::type_ftp) {
-            $this->connectFtp();
-        } elseif ($this->server_data['type'] == Server::type_sftp) {
-            $this->connectSftp();
-        } elseif ($this->server_data['type'] == Server::type_local) {
-            $this->connectLocal();
-        }
+        $this->connect();
     }
 
     /**
@@ -67,11 +73,11 @@ class Connection {
         }
 
 
-        if (!isset(static::$instance) or null == static::$instance) {
-            static::$instance = new static($server_data);
+        if (!isset(static::$instances[$server_data['id']]) or null == static::$instances[$server_data['id']]) {
+            static::$instances[$server_data['id']] = new static($server_data);
         }
 
-        return self::$instance;
+        return self::$instances[$server_data['id']];
     }
 
     private function connectFtp () {
@@ -89,8 +95,6 @@ class Connection {
         ]));
 
         $this->connection = $filesystem;
-
-
     }
 
 
@@ -120,5 +124,225 @@ class Connection {
         return $this->connection;
     }
 
+    public function connect () {
+        if ($this->type == Server::type_ftp) {
+            $this->connectFtp();
+            $this->connection->getAdapter()->connect();
+        } elseif ($this->type == Server::type_sftp) {
+            $this->connectSftp();
+            $this->connection->getAdapter()->connect();
+        } elseif ($this->type == Server::type_local) {
+            $this->connectLocal();
+        }
+    }
 
+    public function isConnected () {
+        if ($this->type == Server::type_ftp) {
+            return $this->connection->getAdapter()->isConnected();
+        } elseif ($this->type == Server::type_sftp) {
+            return $this->connection->getAdapter()->isConnected();
+        } elseif ($this->type == Server::type_local) {
+            return true;
+        }
+    }
+
+    public function reconnectIfNotConnected () {
+        if (!$this->isConnected()) {
+            $this->connect();
+        }
+    }
+
+    /**
+     * @param       $path
+     * @param       $contents
+     * @param array $config
+     *
+     * @return bool
+     */
+    public function write ($path, $contents, $config = []) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->write($path, $contents, $config);
+    }
+
+    /**
+     * @param       $path
+     * @param       $contents
+     * @param array $config
+     *
+     * @return bool
+     */
+    public function put ($path, $contents, $config = []) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->put($path, $contents, $config);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
+    public function delete ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->delete($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
+    public function deleteDir ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->deleteDir($path);
+    }
+
+    /**
+     * @param $path
+     * @param $newPath
+     *
+     * @return bool
+     */
+    public function rename ($path, $newPath) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->rename($path, $newPath);
+    }
+
+    /**
+     * @param $path
+     * @param $newPath
+     *
+     * @return bool
+     */
+    public function copy ($path, $newPath) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->copy($path, $newPath);
+    }
+
+    /**
+     * @param       $path
+     * @param array $config
+     *
+     * @return bool
+     */
+    public function createDir ($path, $config = []) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->createDir($path, $config);
+    }
+
+    /**
+     * @return \League\Flysystem\AdapterInterface
+     */
+    public function getAdapter () {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->getAdapter();
+    }
+
+    /**
+     * @param $path
+     *
+     * @return array|false
+     */
+    public function getMetadata ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->getMetadata($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool|false|string
+     */
+    public function getMimetype ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->getMimetype($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool|false|int
+     */
+    public function getSize ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->getSize($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool|false|string
+     */
+    public function getTimestamp ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->getTimestamp($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool
+     */
+    public function has ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->has($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return array
+     */
+    public function listContents ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->listContents($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool|false|string
+     */
+    public function read ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->read($path);
+    }
+
+    /**
+     * @param $path
+     *
+     * @return bool|false|string
+     */
+    public function readAndDelete ($path) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->readAndDelete($path);
+    }
+
+    /**
+     * @param       $path
+     * @param       $content
+     * @param array $config
+     *
+     * @return bool
+     */
+    public function update ($path, $content, $config = []) {
+        $this->reconnectIfNotConnected();
+
+        return $this->connection->update($path, $content, $config);
+    }
 }

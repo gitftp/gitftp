@@ -6,19 +6,17 @@ class Controller_Test extends Controller {
     }
 
     public function get_qwe () {
-        echo 'hey';
-
-        \Gf\Utils::executeTaskInBackground('deploy:project', '123', 'logs/123');
-
-        die;
+//        \Gf\Utils::executeTaskInBackground('deploy:project', '123', 'logs/123');
+//
+//        die;
         $server = \Gf\Server::get_one([
             'id' => 5,
         ]);
         $connection = \Gf\Deploy\Connection::instance($server);
-        $c = $connection->connection();
-        print_r($c->getAdapter()->isConnected());
-        print_r($c->listContents('asdad'));
-        print_r($c->getAdapter()->isConnected());
+
+        print_r($connection->isConnected());
+        print_r($connection->listContents('/'));
+//        print_r($connection->connection()->listContents('/'));
     }
 
     public function get_asd () {

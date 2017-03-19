@@ -40,7 +40,7 @@ class Utils {
     }
 
     public static function asyncCall ($method, $data) {
-        $url = home_url . 'api/async/' . $method . '/' . $data;
+        $url = \Uri::base() . 'async/' . $method . '/' . $data;
         $parts = parse_url($url);
 
         $port = 80;
@@ -79,7 +79,15 @@ class Utils {
      * @return string
      */
     public static function executeTaskInBackground ($task, $param = '', $output = '/dev/null') {
-        $a = "php " . DOCROOT . "oil r $task $param > $output &";
+        $os = strtolower(PHP_OS);
+        if (strpos($os, 'win')) {
+            // windows
+//            $WshShell = new COM("WScript.Shell");
+//            $oExec = $WshShell->Run("C:\wamp\bin\php\phpVERSIONNUMBER\php-win.exe -f C:/wamp/www/path/to/backgroundProcess.php", 0, false);
+        } else {
+            // linux
+            $a = "php " . DOCROOT . "oil r $task $param > $output &";
+        }
 
         return shell_exec($a);
     }

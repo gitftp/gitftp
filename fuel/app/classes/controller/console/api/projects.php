@@ -137,6 +137,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'total_files',
                 'processed_files',
                 'status',
+                'log_file',
             ]);
 
             $r = [

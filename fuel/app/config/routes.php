@@ -3,6 +3,7 @@
 return $defaults = [
     '_root_'                 => 'init',
     'test/(:any)'            => 'test/$1',
+    'async/(:any)'           => 'async/$1',
     'setup'                  => 'setup/setup/index',
     'setup/api/(:any)'       => 'setup/api/$1',
     'console/api/(:any)'     => 'console/api/$1',

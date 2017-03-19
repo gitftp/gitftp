@@ -24,6 +24,7 @@ Autoloader::add_classes([
     'Gf\Git\Providers\Github'           => __DIR__ . '/classes/git/providers/github.php',
     'Gf\Git\Providers\Bitbucket'        => __DIR__ . '/classes/git/providers/bitbucket.php',
     'Gf\Deploy\Deploy'                  => __DIR__ . '/classes/deploy/deploy.php',
+    'Gf\Deploy\DeployLog'               => __DIR__ . '/classes/deploy/deployLog.php',
     'Gf\Deploy\Connection'              => __DIR__ . '/classes/deploy/connection.php',
     'Gf\Deploy\Tasker\ConnectionWorker' => __DIR__ . '/classes/deploy/tasker/connectionWorker.php',
     'Gf\Deploy\Tasker\FileTask'         => __DIR__ . '/classes/deploy/tasker/fileTask.php',

@@ -37,7 +37,7 @@ return [
      */
     // 'index_file' => false,
 
-    'profiling'         => false,
+    'profiling'         => true,
 
     /**
      * Default location for the file cache
@@ -75,7 +75,7 @@ return [
     // Default language
     'language_fallback' => 'en',
     // Fallback language when file isn't available for default language
-    'locale'            => 'en_IN',
+    'locale'            => 'en',
     // PHP set_locale() setting, null to not set
 
     /**

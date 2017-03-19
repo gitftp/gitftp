@@ -133,12 +133,37 @@ angular.module('AppDirectives', [
                     });
                 };
 
-                scope.logMessages = function (text) {
+                scope.logMessages = function (logFile) {
                     $ngConfirm({
                         title: 'Logs',
                         theme: 'light',
                         columnClass: 'm',
-                        content: "<pre>" + text + "</pre>",
+                        content: "" +
+                        "<a ng-click='load()' class='pull-right'>" +
+                        "<i class='zmdi zmdi-refresh'></i> Refresh</a>" +
+                        "<p>Showing logs from logfile:" +
+                        "<code>{{logFile}}</code>" +
+                        "</p>" +
+                        "<pre>{{msg ? msg: ''}}{{contents}}</pre>" +
+                        "<a class='pull-right' ng-click='load()'><i class='zmdi zmdi-refresh'></i> Refresh</a>" +
+                        "<div class='clearfix'></div>" +
+                        "",
+                        alignMiddle: false,
+                        animation: 'top',
+                        closeAnimation: 'top',
+                        onScopeReady: function (scope) {
+                            scope.logFile = logFile;
+                            scope.contents = '';
+                            scope.load = function () {
+                                scope.msg = 'Loading...';
+                                Api.getRecordLog(logFile).then(function (contents) {
+                                    scope.contents = contents;
+                                }, function (reason) {
+                                    scope.msg = 'ERROR: ' + reason;
+                                });
+                            }
+                            scope.load();
+                        }
                     });
                 };
 
@@ -173,6 +198,7 @@ angular.module('AppDirectives', [
                         scope.record.added_files = data.added_files;
                         scope.record.deleted_files = data.deleted_files;
                         scope.record.status = data.status;
+                        scope.record.log_file = data.log_file;
                         var s = ((scope.record.processed_files * 100) / scope.record.total_files);
                         if (s == 0)
                             s = 30;

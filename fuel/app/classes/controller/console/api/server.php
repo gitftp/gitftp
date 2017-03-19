@@ -6,8 +6,35 @@ use Gf\Config;
 use Gf\Exception\UserException;
 use Gf\Project;
 use Gf\Record;
+use Gf\Utils;
 
 class Controller_Console_Api_Server extends Controller_Console_Authenticate {
+
+    public function post_log_file () {
+        try {
+            $file = Input::json('filename', false);
+            if (!$file)
+                throw new UserException('Missing parameters');
+
+            try {
+                $contents = \Fuel\Core\File::read(DOCROOT . 'logs/' . $file, true);
+            } catch (Exception $e) {
+                throw new UserException('The log file does not exists');
+            }
+
+            $r = [
+                'status' => true,
+                'data'   => $contents,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
 
     public function post_deploy () {
         try {
@@ -61,8 +88,9 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'commit'          => json_encode($commit),
             ]);
 
-//            $timestamp = \Gf\Utils::timeNow() . Str::random('alnum', 4);
-//            \Gf\Utils::executeTaskInBackground('deploy:project', $project_id, 'logs/' . $timestamp);
+            Utils::asyncCall('project', $project_id);
+//            $timestamp = Utils::timeNow() . Str::random('alnum', 4);
+//            Utils::executeTaskInBackground('deploy:project', $project_id, 'logs/' . $timestamp);
 
             $r = [
                 'status' => true,

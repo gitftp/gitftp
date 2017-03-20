@@ -14,7 +14,7 @@
             <span>{{project.uri}}</span>
         </div>
     </div>
-    <div class="panel panel-card m-5-20" ng-if="page != 'new-server'">
+    <div class="panel panel-card" ng-if="page != 'new-server'">
         <div class="p-t-20 p-l-20 p-r-20 p-b-10">
             <div ng-if="project.servers.length" class="pull-right" style="margin-top: -2px;">
                 <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary btn-xs">Add server</a>
@@ -51,4 +51,18 @@
             <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary">Add server</a>
         </div>
     </div>
+
+    <div class="panel panel-card">
+        <div class="md-list">
+            <a href="view/{{project.id}}/{{project.name}}/settings">
+                <div class="md-list-item p-t-15 p-b-15">
+                    <div class="md-list-item-content">
+                        <i class="zmdi zmdi-settings zmdi-hc-fw"></i>
+                        Settings
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
 </div>

@@ -2,20 +2,16 @@
 
 namespace Gf\Deploy\Tasker;
 
-use Fuel\Core\Cli;
 use Fuel\Core\File;
 use Gf\Deploy\Connection;
 use Gf\Deploy\Deploy;
-use Gf\Deploy\DeployLog;
+use Gf\Deploy\Helper\DeployLife;
+use Gf\Deploy\Helper\DeployLog;
 use Gf\Exception\AppException;
-use Gf\Exception\UserException;
-use Gf\Git\GitApi;
 use Gf\Git\GitLocal;
-use Gf\Misc;
 use Gf\Project;
 use Gf\Record;
 use Gf\Utils;
-use League\Flysystem\Filesystem;
 
 class Deployer {
     const method_pthreads = 'pt';
@@ -201,12 +197,14 @@ class Deployer {
     private function incrementProgress ($number = 1) {
         $this->progress += $number;
 
-        if ($this->progress % 2 == 0 || $this->progress == $this->total_progress)
+        if ($this->progress % 2 == 0 || $this->progress == $this->total_progress) {
+            DeployLife::working($this->server['project_id']);
             Record::update([
                 'id' => $this->record['id'],
             ], [
                 'processed_files' => $this->progress,
             ]);
+        }
     }
 
     /**
@@ -337,6 +335,9 @@ class Deployer {
 
         if (count($dirsToDelete))
             DeployLog::log('Cleaning empty dirs', __FUNCTION__);
+        else
+            DeployLog::log('No deleted dirs', __FUNCTION__);
+
         foreach ($dirsToDelete as $dir) {
             $af = $this->connection->deleteDir($dir);
             if (!$af)

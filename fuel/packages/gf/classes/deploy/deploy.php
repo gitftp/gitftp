@@ -8,6 +8,7 @@ use Fuel\Core\Cli;
 use Fuel\Core\Cookie;
 use Fuel\Core\Fuel;
 use Fuel\Core\Log;
+use Gf\Deploy\Helper\DeployLife;
 use Gf\Deploy\Helper\DeployLog;
 use Gf\Deploy\Tasker\Deployer;
 use Gf\Exception\UserException;
@@ -190,10 +191,6 @@ class Deploy {
      * @internal param $server_id
      */
     public function processProjectQueue ($loop = false) {
-        Cache::set('project.' . $this->project_id, [
-            'started'   => Utils::timeNow(),
-            'last_seen' => Utils::timeNow(),
-        ]);
 
         $record = Record::get_one([
             'project_id' => $this->project_id,
@@ -215,20 +212,20 @@ class Deploy {
 
         Log::info('The queue is over without looping');
 
-        Cache::delete('project.' . $this->project_id);
-
         return 'The queue is over without looping';
     }
 
 
     /**
-     * Process a single record.
+     * Process a single record
+     * This should never throw a exception
      *
-     * @param      $record_id
+     * Please do all the fail checks
+     *
+     * @param null $record_id
      * @param null $record
      *
      * @return bool
-     * @throws \Exception
      */
     public function processRecord ($record_id = null, $record = null) {
         try {
@@ -249,6 +246,8 @@ class Deploy {
                 }
             }
 
+            DeployLife::working($this->project_id);
+
             if ($record['type'] == Record::type_clone) {
                 $this->cloneRepo($record);
             } elseif ($record['type'] == Record::type_fresh_upload) {
@@ -259,9 +258,11 @@ class Deploy {
                 throw new UserException('Record type is invalid');
             }
 
+            DeployLife::working($this->project_id);
+
             return true;
         } catch (\Exception $e) {
-            throw $e;
+            Log::error($e->getMessage(), __METHOD__);
 
             return false;
         }
@@ -301,6 +302,7 @@ class Deploy {
 
                 DeployLog::log('Cloning project', 'CLONE');
                 $this->cloneMe();
+                DeployLife::working($this->project_id);
             }
 
             Project::update([
@@ -358,6 +360,7 @@ class Deploy {
                 DeployLog::log('Pulling changes', 'PULL');
                 $this->pull();
             }
+            DeployLife::working($this->project_id);
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);

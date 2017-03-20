@@ -1,6 +1,6 @@
 <?php
 
-namespace Gf\Deploy;
+namespace Gf\Deploy\Helper;
 
 use Fuel\Core\Arr;
 use Fuel\Core\Cli;
@@ -19,13 +19,11 @@ use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 
 /**
- * Class DeployLog
+ * Class DeployPersistence
  *
  * @package Gf\Deploy
  */
-class DeployLog {
-    public static $logs = '';
-    public static $logFile = false;
+class DeployPersistence {
 
     public static function logToFile ($file = null) {
         if (is_null($file))

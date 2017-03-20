@@ -137,14 +137,15 @@ angular.module('AppDirectives', [
                     $ngConfirm({
                         title: 'Logs',
                         theme: 'light',
-                        columnClass: 'm',
+                        columnClass: 'l',
                         content: "" +
                         "<a ng-click='load()' class='pull-right'>" +
                         "<i class='zmdi zmdi-refresh'></i> Refresh</a>" +
                         "<p>Showing logs from logfile: " +
                         "<code>{{logFile}}</code>" +
                         "</p>" +
-                        "<pre>{{msg ? msg: ''}}{{contents}}</pre>" +
+                        "<pre style='background: #f9f2f4;" +
+                        "color: #d55c7a;border: none;'>{{msg ? msg: ''}}{{contents}}</pre>" +
                         "<a class='pull-right' ng-click='load()'><i class='zmdi zmdi-refresh'></i> Refresh</a>" +
                         "<div class='clearfix'></div>" +
                         "",

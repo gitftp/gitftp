@@ -3,9 +3,12 @@
 namespace Gf\Deploy;
 
 use Fuel\Core\Arr;
+use Fuel\Core\Cache;
 use Fuel\Core\Cli;
+use Fuel\Core\Cookie;
 use Fuel\Core\Fuel;
 use Fuel\Core\Log;
+use Gf\Deploy\Helper\DeployLog;
 use Gf\Deploy\Tasker\Deployer;
 use Gf\Exception\UserException;
 use Gf\Git\GitApi;
@@ -187,6 +190,11 @@ class Deploy {
      * @internal param $server_id
      */
     public function processProjectQueue ($loop = false) {
+        Cache::set('project.' . $this->project_id, [
+            'started'   => Utils::timeNow(),
+            'last_seen' => Utils::timeNow(),
+        ]);
+
         $record = Record::get_one([
             'project_id' => $this->project_id,
             'status'     => Record::status_new,
@@ -198,14 +206,16 @@ class Deploy {
             return 'The queue is over';
         }
 
+
         $this->currentRecord = $record;
         $this->processRecord();
 
         if ($loop)
             return $this->processProjectQueue($loop);
 
-
         Log::info('The queue is over without looping');
+
+        Cache::delete('project.' . $this->project_id);
 
         return 'The queue is over without looping';
     }
@@ -403,13 +413,13 @@ class Deploy {
 
     public function revisionDeploy ($record) {
         $file = DeployLog::logToFile();
-        DeployLog::log('Gitftp v' . GF_VERSION);
+        DeployLog::log('Gitftp v' . GF_VERSION, __FUNCTION__);
 
         try {
             $record_id = $record['id'];
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
-            DeployLog::log('Starting..', 'LOG');
+            DeployLog::log('Starting..', __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
@@ -419,19 +429,19 @@ class Deploy {
             ]);
 
             if (!$this->gitLocal->git->isCloned()) {
-                DeployLog::log('Cloning project', 'CLONE');
+                DeployLog::log('Cloning project', __FUNCTION__);
                 $this->cloneMe();
             } else {
-                DeployLog::log('Pulling changes', 'CLONE');
+                DeployLog::log('Pulling changes', __FUNCTION__);
                 $this->pull();
             }
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
-            DeployLog::log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", "DEP");
+            DeployLog::log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", __FUNCTION__);
             list($files, $edited, $added, $deleted) = $this->gitLocal->diff($record['revision'], $record['target_revision']);
             $totalFiles = count($files);
-            DeployLog::log("$totalFiles changed files", "DEP");
+            DeployLog::log("$totalFiles changed files", __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
@@ -442,7 +452,7 @@ class Deploy {
                 'deleted_files' => $deleted,
             ]);
 
-            DeployLog::log("Starting deploying..", "DEP");
+            DeployLog::log("Starting deploying..", __FUNCTION__);
 
             $deployer = Deployer::instance(Deployer::method_regular, $this->gitLocal, $this->currentServer);
             $deployer
@@ -465,9 +475,11 @@ class Deploy {
                 'revision' => $record['target_revision'],
             ]);
 
+            DeployLog::log('Completed', __FUNCTION__);
+
             return true;
         } catch (\Exception $e) {
-            DeployLog::log("{$e->getCode()}: {$e->getMessage()} @ {$e->getFile()}:{$e->getLine()}", '>ERR');
+            DeployLog::log("{$e->getCode()}: {$e->getMessage()} @ {$e->getFile()}:{$e->getLine()}", '>ERR', __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,

@@ -103,7 +103,7 @@ class Project {
      * @return string
      */
     public static function getRepoPath ($project_id) {
-        return "repositories/$project_id/";
+        return "repositories" . DS . "$project_id" . DS;
     }
 
     public static function get ($where = [], $select = [], $limit = false, $offset = 0, $count_total = true) {

@@ -32,6 +32,7 @@ class Controller_Init extends Controller {
                 'clone_state',
                 'pull_state',
                 'last_updated',
+                'git_username',
                 'status',
             ]);
             if (!$projects)

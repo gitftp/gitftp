@@ -4,6 +4,7 @@ namespace Gf\Git\Providers;
 
 use Gf\Auth\OAuth;
 use Gf\Exception\AppException;
+use Gf\Exception\UserException;
 use Github\Client;
 
 /**
@@ -108,7 +109,7 @@ class Github implements GitInterface {
                     'contenttype' => $data['config']['content_type'],
                 ];
             } catch (\Exception $e) {
-                return [];
+                return false;
             }
         }
 
@@ -127,7 +128,7 @@ class Github implements GitInterface {
             $data = $this->instance->api('repo')->hooks()->create($this->username, $repoName, $options);
         } catch (\Exception $e) {
             if ($e->getCode() == 422) {
-                throw new Exception('Hook already exist on this repository');
+                throw new UserException('Hook already exist on this repository');
             }
         }
 
@@ -148,7 +149,7 @@ class Github implements GitInterface {
 
             return true;
         } catch (\Exception $e) {
-            throw new Exception($id . ' is not a valid hook');
+            throw new AppException($id . ' is not a valid hook');
         }
     }
 
@@ -162,7 +163,7 @@ class Github implements GitInterface {
         ];
 
         try {
-            $data = $this->instance->repositories()->hooks()->update($this->username, $repoName, $id, $options);
+            $data = $this->instance->api('repo')->hooks()->update($this->username, $repoName, $id, $options);
         } catch (\Exception $e) {
             throw new AppException($id . ' is not a valid hook');
         }

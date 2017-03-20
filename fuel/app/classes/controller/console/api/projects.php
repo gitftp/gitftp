@@ -9,6 +9,94 @@ use Gf\Record;
 
 class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
+    public function post_create_hook () {
+        try {
+            $project_id = Input::json('project_id');
+            if (!$project_id)
+                throw new UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+            if (!$project)
+                throw new UserException('Project not found');
+
+            $gitApi = \Gf\Git\GitApi::instance($this->user_id, $project['provider']);
+
+            $existing_hook = $gitApi->api()->getHook($project['git_name'], $project['hook_id']);
+            if ($existing_hook)
+                throw new UserException('Hook already exists');
+
+            if (!$project) {
+                $project['hook_key'] = Str::random('alnum', 6);
+                Project::update([
+                    'id' => $project_id,
+                ], [
+                    'hook_key' => $project['hook_key'],
+                ]);
+            }
+
+            $hook_url = $gitApi->createHookUrl($project_id, $project['hook_key'], $this->user_id);
+
+            $response = $gitApi->api()->setHook($project['git_name'], $project['git_username'], $hook_url);
+
+            if ($response) {
+                $hook_id = $response['id'];
+                Project::update([
+                    'id' => $project_id,
+                ], [
+                    'hook_id' => $hook_id,
+                ]);
+            }
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+    public function post_check_hook () {
+        try {
+            $project_id = Input::json('project_id');
+            if (!$project_id)
+                throw new UserException('Missing parameters');
+
+            $project = Project::get_one([
+                'id' => $project_id,
+            ]);
+            if (!$project)
+                throw new UserException('Project not found');
+
+            $gitApi = \Gf\Git\GitApi::instance($this->user_id, $project['provider']);
+            $hook = $gitApi->api()->getHook($project['git_name'], $project['hook_id']);
+
+            if (!$hook) {
+                $hookExists = false;
+            } else {
+                $hookExists = true;
+            }
+
+            $r = [
+                'status' => true,
+                'data'   => $hookExists,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_pull_changes () {
         $project_id = Input::json('project_id');
         if (!$project_id)
@@ -224,6 +312,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'clone_state',
                 'pull_state',
                 'last_updated',
+                'git_username',
                 'status',
             ];
 

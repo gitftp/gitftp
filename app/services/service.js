@@ -168,6 +168,24 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Delete the project
+             */
+            deleteProject: function (project_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/delete', {
+                    project_id: project_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * Get log file
              * @param filename
              */
@@ -475,33 +493,6 @@ angular.module('ServiceApi', []).factory('Api', [
 
                 this.isListenerActive = true;
             },
-            // current: false,
-            // refreshProjects: function () {
-            //     var that = this;
-            //     var defer = $q.defer();
-            //     Api.getProjects().then(function (data) {
-            //         var object = {};
-            //         angular.forEach(data, function (a) {
-            //             object[a.id] = a;
-            //         });
-            //
-            //         var n = Utils.hash(JSON.stringify(object));
-            //
-            //         if (!that.current || n != that.current) {
-            //             $rootScope.projects = object;
-            //             $rootScope.$broadcast('projectsUpdated');
-            //             that.current = n;
-            //         }
-            //         object = undefined;
-            //         defer.resolve();
-            //     }, function (reason) {
-            //         console.error(reason);
-            //         defer.resolve();
-            //     });
-            //
-            //     return defer.promise;
-            // },
-            // current: false,
             refreshProjects: function () {
                 var defer = $q.defer();
                 Api.getProjects().then(function (data) {

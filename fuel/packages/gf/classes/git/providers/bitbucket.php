@@ -56,6 +56,8 @@ class Bitbucket implements GitInterface {
     }
 
     function getRepository ($username, $repoName) {
+        $repoName = strtolower($repoName);
+
         $repository = $this->client->setApiVersion('2.0')
             ->get("repositories/$username/$repoName");
         $repository_data = $repository->getContent();
@@ -211,16 +213,11 @@ class Bitbucket implements GitInterface {
     }
 
     public function getHook ($repoName, $id = null) {
-        $repoName = $this->cleanRepoName($repoName);
         if (is_null($id)) {
-            $data = $this->client->get(sprintf('repositories/%s/%s/hooks', $this->username, $repoName), [
-                'headers' => $this->options['headers'],
-            ]);
-            $data = json_decode($data->getBody(), true);
-            $data = $this->getAll($data);
+            // not tested
+            $response = $this->getRequest("repositories/{$this->username}/$repoName/hooks");
 
-            $response = [];
-            foreach ($data as $k) {
+            foreach ($response as $k) {
                 $response[] = [
                     'id'          => $k['uuid'],
                     'name'        => $k['description'],
@@ -231,16 +228,17 @@ class Bitbucket implements GitInterface {
             }
         } else {
             $id = $this->parseUUID($id);
-            $data = $this->client->get(sprintf('repositories/%s/%s/hooks/%s', $this->username, $repoName, $id), [
-                'headers' => $this->options['headers'],
-            ]);
-            $data = json_decode($data->getBody(), true);
+            try {
+                $response = $this->getRequest("repositories/{$this->username}/$repoName/hooks/$id");
+            } catch (\Exception $e) {
+                return false;
+            }
 
             $response = [
-                'id'          => $data['uuid'],
-                'name'        => $data['description'],
-                'events'      => $data['events'],
-                'url'         => $data['url'],
+                'id'          => $response['uuid'],
+                'name'        => $response['description'],
+                'events'      => $response['events'],
+                'url'         => $response['url'],
                 'contenttype' => 'json',
             ];
         }
@@ -262,6 +260,18 @@ class Bitbucket implements GitInterface {
 
     private function postRequest ($apiPath, $payload) {
         $response = $this->client->post($apiPath, json_encode($payload), [
+            'Content-Type' => 'application/json',
+        ]);
+        $content = $response->getContent();
+        $content = json_decode($content, true);
+        if (isset($content['type']) and $content['type'] == 'error')
+            throw new AppException($content['error']['message']);
+
+        return $content;
+    }
+
+    private function deleteRequest ($apiPath) {
+        $response = $this->client->delete($apiPath, [
             'Content-Type' => 'application/json',
         ]);
         $content = $response->getContent();
@@ -315,28 +325,17 @@ class Bitbucket implements GitInterface {
      *
      * @return bool
      */
-
-
-
-
-
-
-
     public function removeHook ($repoName, $id) {
         $repoName = $this->cleanRepoName($repoName);
         $id = $this->parseUUID($id);
 
-        $data = $this->client->delete(sprintf('repositories/%s/%s/hooks/%s', $this->username, $repoName, $id), [
-            'headers' => $this->options['headers'],
-        ]);
+        try {
+            $response = $this->deleteRequest("repositories/{$this->username}/$repoName/hooks/$id");
+        } catch (\Exception $e) {
 
-        $data = json_decode($data->getBody(), true);
-
-        if (isset($data['error']['message'])) {
-            throw new Exception($data['error']['message']);
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**

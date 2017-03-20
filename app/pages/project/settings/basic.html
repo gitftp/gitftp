@@ -63,7 +63,8 @@
                                             Webhook exists on the repository at {{project.uri}} <br>
                                             <u>
                                                 <a ng-if="project.provider == 'github'" href="https://github.com/{{project.git_username}}/{{project.git_name}}/settings/hooks" target="_blank">View webhook on github</a>
-                                                <a ng-if="project.provider == 'bitbucket'" href="https://github.com/{{project.git_username}}/{{project.git_name}}/settings/hooks" target="_blank">View webhook on github</a>
+                                                <a ng-if="project.provider == 'bitbucket'" href="https://bitbucket.org/{{project.git_username}}/{{project.git_name}}/admin/addon/admin/bitbucket-webhooks/bb-webhooks-repo-admin" target="_blank">View
+                                                    webhook on bitbucket</a>
                                             </u>
                                         </div>
                                         <div ng-if="!hookExists">
@@ -89,8 +90,9 @@
                                 Delete project
                             </h4>
                             <p>
-                                This will erase the projects
+                                deleting the project will delete the records, and servers created under it.
                             </p>
+                            <button class="btn btn-danger btn-stroke btn-rounded" type="button" ng-click="deleteProject()">Delete</button>
                         </div>
                     </div>
                 </div>

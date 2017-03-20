@@ -141,4 +141,10 @@ class Project {
 
         return $id;
     }
+
+    public static function delete (Array $where) {
+        $af = \DB::delete(self::table)->where($where)->execute(self::db);
+
+        return $af;
+    }
 }

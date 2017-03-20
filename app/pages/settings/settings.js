@@ -29,7 +29,7 @@ angular.module('AppSettings', [
             replace: true,
             templateUrl: 'app/pages/settings/sidebar.html',
             scope: {
-                page: '='
+                page: '=',
             },
             link: function (scope, element) {
                 scope.currentPage = $location.path();

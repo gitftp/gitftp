@@ -16,6 +16,7 @@ angular.module('App', [
     'AppSettings',
     'AppProjectNew',
     'AppProjectView',
+    'AppProjectSettings',
     'AppProjectServerAdd',
     'AppProjectServerDeploy',
 ]).config([

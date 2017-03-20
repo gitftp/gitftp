@@ -1,24 +1,25 @@
-<div class="bg-white md-whiteframe-z0 m-b-lg m-t-30 p-t-10 p-b-10">
+<div class="bg-white md-whiteframe-z0 m-b-lg p-t-10 p-b-10">
+    <h3 class="p-l-15 p-r-15">Settings</h3>
     <ul class="nav scroll-y" ui-nav="">
-        <li class="" ng-class="{'font-bold': currentPage == '/settings'}">
+        <li class="" ng-class="{'nav-active': currentPage == '/settings'}">
             <a href="settings">
                 Account settings
             </a>
         </li>
-        <li ng-class="{'font-bold': currentPage == '/settings/users'}">
+        <li ng-class="{'nav-active': currentPage == '/settings/users'}">
             <a href="settings/users">Users</a>
         </li>
-        <li ng-class="{'font-bold': currentPage == '/settings/oauth-applications'}">
+        <li ng-class="{'nav-active': currentPage == '/settings/oauth-applications'}">
             <a href="settings/oauth-applications" class="auto">
                 OAuth applications
             </a>
         </li>
-        <li ng-class="{'font-bold': currentPage == '/settings/connected-accounts'}">
+        <li ng-class="{'nav-active': currentPage == '/settings/connected-accounts'}">
             <a href="settings/connected-accounts" class="auto">
                 Connected accounts
             </a>
         </li>
-        <li ng-class="{'font-bold': currentPage == '/settings'}">
+        <li ng-class="{'nav-active': currentPage == '/settings'}">
             <a href="">
                 Change password
             </a>

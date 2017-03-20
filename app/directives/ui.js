@@ -85,11 +85,13 @@ angular.module('AppDirectives', [
             replace: true,
             templateUrl: 'app/partials/projectSidebar.html',
             scope: {
-                page: '=page'
+                page: '=page',
+                current: '=current',
             },
             link: function (scope, element) {
                 scope.id = $routeParams.id;
                 scope.project = $rootScope.projects[scope.id];
+                console.log(scope.current)
 
                 scope.$on('projectsUpdated', function () {
                     console.log('Directive project update.');

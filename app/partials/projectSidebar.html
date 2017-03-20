@@ -14,7 +14,7 @@
             <span>{{project.uri}}</span>
         </div>
     </div>
-    <div class="panel panel-card" ng-if="page != 'new-server'">
+    <div class="panel panel-card" ng-if="page != 'new-server' && page != 'project-settings'">
         <div class="p-t-20 p-l-20 p-r-20 p-b-10">
             <div ng-if="project.servers.length" class="pull-right" style="margin-top: -2px;">
                 <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary btn-xs">Add server</a>
@@ -52,7 +52,35 @@
         </div>
     </div>
 
-    <div class="panel panel-card">
+    <div class="panel panel-card p-t-10 p-b-10" ng-if="page == 'project-settings'">
+        <ul class="nav scroll-y" ui-nav="">
+            <li class="" ng-class="{'nav-active': current == 'project-settings-basic'}">
+                <a href="view/{{project.id}}/{{project.name}}/settings">
+                    Basic
+                </a>
+            </li>
+            <li ng-class="{'nav-active': current == 'project-settings-users'}">
+                <a href="view/{{project.id}}/{{project.name}}/settings/users">
+                    Users
+                </a>
+            </li>
+            <li ng-class="{'nav-active': current == 'project-settings-delete'}">
+                <a href="view/{{project.id}}/{{project.name}}/settings/delete" class="auto">
+                    Delete project
+                </a>
+            </li>
+        </ul>
+
+
+        <div ng-if="!project.servers.length" class="text-center p-20 p-b-40">
+            <p class="text-center">
+                Start deployin'
+            </p>
+            <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary">Add server</a>
+        </div>
+    </div>
+
+    <div class="panel panel-card" ng-if="page != 'project-settings'">
         <div class="md-list">
             <a href="view/{{project.id}}/{{project.name}}/settings">
                 <div class="md-list-item p-t-15 p-b-15">

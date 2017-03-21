@@ -152,7 +152,7 @@ class Bitbucket implements GitInterface {
             }
             $b = [
                 'id'        => $repo['uuid'],
-                'name'      => $repo['name'],
+                'name'      => $repo['slug'],
                 'full_name' => $repo['full_name'],
                 'repo_url'  => $repo['links']['html']['href'],
                 'api_url'   => $repo['links']['self']['href'],

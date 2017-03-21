@@ -203,14 +203,19 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if (!$project_id)
                 throw new UserException('Missing parameters');
 
-            $projectExists = Project::get_one([
+            $project = Project::get_one([
                 'id' => $project_id,
             ], [
                 'id',
+                'clone_state',
             ]);
 
-            if (!$projectExists)
+            if (!$project)
                 throw new UserException('Project not found');
+
+            if ($project['clone_state'] != Project::clone_state_not_cloned) {
+                throw new UserException('The clone is running or has been cloned');
+            }
 
             $id = Record::insert([
                 'type'       => Record::type_clone,
@@ -219,7 +224,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'status'     => Record::status_new,
             ]);
 
-            \Gf\Deploy\Deploy::instance($project_id)->processRecord($id);
+            \Gf\Utils::asyncCall('project', $project_id);
 
             $r = [
                 'status' => true,

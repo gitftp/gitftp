@@ -55,8 +55,6 @@ angular.module('ServiceApi', []).factory('Api', [
                 var defer = $q.defer();
                 $http.post(API_PATH + 'projects/clone', {
                     project_id: project_id,
-                }, {
-                    timeout: defer.promise,
                 }).then(function (res) {
                     if (res.data.status) {
                         defer.resolve(res.data.data);
@@ -66,10 +64,6 @@ angular.module('ServiceApi', []).factory('Api', [
                 }, function () {
                     defer.reject(API_CONNECTION_ERROR);
                 });
-
-                $timeout(function () {
-                    defer.resolve();
-                }, 200);
 
                 return defer.promise;
             },

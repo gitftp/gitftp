@@ -52,12 +52,12 @@ angular.module('AppProjectView', [
         $scope.startCloning = function () {
             $scope.startingCloning = true;
             Api.startProjectCloning($scope.id).then(function () {
-            }, function (reason) {
-            });
-            $timeout(function () {
                 $scope.startingCloning = false;
                 $scope.loadRecords();
-            }, 1000);
+            }, function (reason) {
+                $scope.startingCloning = false;
+                Utils.notification(reason, 'red');
+            });
         };
 
         $scope.loadRecords();

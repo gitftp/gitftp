@@ -135,7 +135,7 @@ angular.module('AppDirectives', [
                     });
                 };
 
-                scope.logMessages = function (logFile) {
+                scope.logMessages = function (logFile, errorMessage) {
                     $ngConfirm({
                         title: 'Logs',
                         theme: 'light',
@@ -146,6 +146,10 @@ angular.module('AppDirectives', [
                         "<p>Showing logs from logfile: " +
                         "<code>{{logFile}}</code>" +
                         "</p>" +
+                        "<div ng-if='error'>" +
+                        "<p>Error:</p>" +
+                        "<pre class='red'>{{error}}</pre>" +
+                        "</div>" +
                         "<pre style='background: #f9f2f4;" +
                         "color: #d55c7a;border: none;'>{{msg ? msg: ''}}{{contents}}</pre>" +
                         "<a class='pull-right' ng-click='load()'><i class='zmdi zmdi-refresh'></i> Refresh</a>" +
@@ -157,6 +161,7 @@ angular.module('AppDirectives', [
                         onScopeReady: function (scope) {
                             scope.logFile = logFile;
                             scope.contents = '';
+                            scope.error = errorMessage;
                             scope.load = function () {
                                 scope.msg = 'Loading...';
                                 Api.getRecordLog(logFile).then(function (contents) {
@@ -221,6 +226,19 @@ angular.module('AppDirectives', [
                     run = false;
                 });
                 scope.getUpdate();
+
+                scope.startingCloning = false;
+                scope.startCloning = function () {
+                    scope.startingCloning = true;
+                    Api.startProjectCloning(scope.record.project_id).then(function () {
+                        scope.startingCloning = false;
+                        window.location.reload();
+                    }, function (reason) {
+                        Utils.notification(reason, 'red');
+                        scope.startingCloning = false;
+                    });
+                };
+
             }
         }
     }

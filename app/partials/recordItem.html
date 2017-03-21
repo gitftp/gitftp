@@ -26,13 +26,8 @@
                 </span>
                 </span>
                 <span>
-                    <button class="btn btn-rounded btn-xs btn-danger btn-stroke m-l-5"
-                            ng-click="errorMessage(record.failed_reason)"
-                            ng-if="record.failed_reason"
-                            ng-disabled="startingCloning">SHOW ERROR MESSAGE</button>
-
                     <button class="btn btn-rounded btn-xs btn-info btn-stroke m-l-5"
-                            ng-click="logMessages(record.log_file)"
+                            ng-click="logMessages(record.log_file, record.failed_reason)"
                             ng-if="record.log_file">LOGS</button>
 
                     <button class="btn btn-rounded btn-xs btn-danger btn-stroke m-l-5"

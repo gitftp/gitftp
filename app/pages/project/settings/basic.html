@@ -38,7 +38,8 @@
                                         <a class="pull-right" href="view/{{project.id}}/{{project.name}}/server/{{server.id}}">View</a>
                                         <strong>{{server.name}}</strong> <br>
                                         <img src="assets/img/branch.svg" alt="branch" style="height: 14px"> {{server.branch}} <br>
-                                        <small>@ <code>{{server.revision | sha}}</code></small>
+                                        <small ng-if="server.revision">@ <code>{{server.revision | sha}}</code></small>
+                                        <small ng-if="!server.revision">Not deployed yet</small>
                                     </div>
                                 </div>
                             </div>

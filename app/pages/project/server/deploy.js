@@ -25,6 +25,7 @@ angular.module('AppProjectServerDeploy', [
     function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const, Components, $location) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
+        $scope.project = $scope.projects[$scope.project_id];
 
         $scope.deploy = {};
         $scope.page = 'server-deploy';

@@ -16,37 +16,12 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if (!$project_id)
                 throw new UserException('Missing parameters');
 
-            $project = Project::get_one([
-                'id' => $project_id,
-            ]);
-            if (!$project)
-                throw new UserException('Project not found');
-
-            $gitApi = \Gf\Git\GitApi::instance($this->user_id, $project['provider']);
-            $gitApi->api()->removeHook($project['git_name'], $project['hook_id']);
-
-            \DB::start_transaction();
-            $af = Record::delete([
-                'project_id' => $project_id,
-            ]);
-
-            $af = Server::delete([
-                'project_id' => $project_id,
-            ]);
-
-            $af = Project::delete([
-                'id' => $project_id,
-            ]);
-            if (!$af)
-                throw new UserException('Could not delete project');
-
-            \DB::commit_transaction();
+            Project::delete($project_id);
 
             $r = [
                 'status' => true,
             ];
         } catch (\Exception $e) {
-            \DB::rollback_transaction();
             $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
             $r = [
                 'status' => false,

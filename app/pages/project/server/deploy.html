@@ -26,6 +26,15 @@
                         </div>
                         <hr>
 
+                        <div class="alert alert-danger" role="alert" ng-if="project.clone_state != 3">
+                            The project cloning has not been completed.
+                            <div ng-if="project.clone_state == 1">
+                                Please start the project cloning process from the project page.
+                            </div>
+                            <div ng-if="project.clone_state == 2">
+                                Cloning is in process, please standby until the cloning is done.
+                            </div>
+                        </div>
                         <div class="alert alert-info alert-dismissible" role="alert" ng-if="!server.revision">
                             <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
                             This server is not deployed yet.
@@ -138,7 +147,7 @@
                                                 </div>
 
                                                 <button type="submit" class="btn btn-primary btn-rounded m-r-10"
-                                                        ng-disabled="!targetChanges.files.length || fetchingComparision || revisionDeployProcessing || revisionDeployProcessing || deployDeployForm.$invalid">
+                                                        ng-disabled="project.clone_state != 3 || !targetChanges.files.length || fetchingComparision || revisionDeployProcessing || revisionDeployProcessing || deployDeployForm.$invalid">
                                                     {{deployProcessing ? 'Applying for deploy' : 'Deploy'}}
                                                 </button>
                                             </div>
@@ -180,7 +189,7 @@
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-rounded m-r-10"
-                                                ng-disabled="gettingLatest || freshDeployProcessing || freshUploadForm.$invalid">
+                                                ng-disabled="project.clone_state != 3 || gettingLatest || freshDeployProcessing || freshUploadForm.$invalid">
                                             {{freshDeployProcessing ? 'Applying for deploy' : 'Deploy'}}
                                         </button>
                                     </form>

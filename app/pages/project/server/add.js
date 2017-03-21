@@ -37,7 +37,7 @@ angular.module('AppProjectServerAdd', [
         }
 
         $scope.server = {
-            type: 1,
+            type: "1",
             port: 21,
             secure: true,
         };

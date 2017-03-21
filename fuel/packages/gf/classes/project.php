@@ -2,6 +2,7 @@
 
 namespace Gf;
 
+use Fuel\Core\File;
 use Fuel\Core\Str;
 use Fuel\Core\Uri;
 use Gf\Exception\AppException;
@@ -95,6 +96,48 @@ class Project {
         }
     }
 
+    public static function delete ($project_id) {
+        $project = Project::get_one([
+            'id' => $project_id,
+        ]);
+        if (!$project)
+            throw new UserException('Project not found');
+
+        $gitApi = GitApi::instance($project['owner_id'], $project['provider']);
+
+        try {
+            \DB::start_transaction();
+
+            $af = Record::delete([
+                'project_id' => $project_id,
+            ]);
+
+            $af = Server::delete([
+                'project_id' => $project_id,
+            ]);
+
+            $af = self::remove([
+                'id' => $project_id,
+            ]);
+            if (!$af)
+                throw new UserException('Could not delete project');
+
+            $project_dir = self::getRepoPath($project_id);
+            try {
+                $af = File::delete_dir($project_dir, true, true);
+            } catch (\Exception $e) {
+            }
+
+            $gitApi->api()->removeHook($project['git_name'], $project['hook_id']);
+
+            \DB::commit_transaction();
+        } catch (\Exception $e) {
+            \DB::rollback_transaction();
+            throw $e;
+        }
+    }
+
+
     /**
      * Gets a repo path, that is relative to the gitftp installation location
      *
@@ -142,7 +185,7 @@ class Project {
         return $id;
     }
 
-    public static function delete (Array $where) {
+    public static function remove (Array $where) {
         $af = \DB::delete(self::table)->where($where)->execute(self::db);
 
         return $af;

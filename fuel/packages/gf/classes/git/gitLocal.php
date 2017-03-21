@@ -43,6 +43,7 @@ class GitLocal {
 
     public function __construct ($pathToRepo) {
         $this->wrapper = new GitWrapper();
+        $this->wrapper->setTimeout(3600); // an hour
         $this->git = $this->wrapper->workingCopy($pathToRepo);
     }
 

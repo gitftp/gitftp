@@ -73,7 +73,7 @@ class Bitbucket implements GitInterface {
 
         $repository_parsed = [
             'id'        => $repository_data['uuid'],
-            'name'      => $repository_data['name'],
+            'name'      => $repository_data['slug'],
             'full_name' => $repository_data['full_name'],
             'repo_url'  => $repository_data['links']['html']['href'],
             'api_url'   => $repository_data['links']['self']['href'],

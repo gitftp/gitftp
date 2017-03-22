@@ -23,9 +23,11 @@ angular.module('AppProjectServerAdd', [
     '$q',
     '$ngConfirm',
     'Components',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Components) {
+    '$location',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Components, $location) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
+        $scope.project = $scope.projects[$scope.project_id];
 
         if ($scope.server_id) {
             $scope.page = 'view-server';
@@ -62,6 +64,7 @@ angular.module('AppProjectServerAdd', [
 
                 Api.createServer($scope.project_id, server).then(function () {
                     $scope.saving = false;
+                    $location.path('view/' + $scope.project_id + '/' + $scope.project.name);
                 }, function (reason) {
                     $scope.saving = false;
                     Utils.error(reason, 'red', $scope.newServer);

@@ -307,7 +307,7 @@ class Connection {
      *
      * @return array
      */
-    public function listContents ($path) {
+    public function listContents ($path = '') {
         $this->reconnectIfNotConnected();
 
         return $this->connection->listContents($path);

@@ -493,7 +493,7 @@ class Deploy {
 
             return true;
         } catch (\Exception $e) {
-            DeployLog::log("{$e->getCode()}: {$e->getMessage()} @ {$e->getFile()}:{$e->getLine()}", '>ERR', __FUNCTION__);
+            DeployLog::log("{$e->getCode()}: {$e->getMessage()} @ {$e->getFile()}:{$e->getLine()}", '>ERR');
 
             Record::update([
                 'id' => $record_id,

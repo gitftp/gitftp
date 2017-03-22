@@ -10,19 +10,24 @@ class Controller_Test extends Controller {
 //
 //        die;
         $server = \Gf\Server::get_one([
-            'id' => 5,
+            'id' => 10,
         ]);
-        $connection = \Gf\Deploy\Connection::instance($server);
+        $server['secure'] = true;
+        $connection = \Gf\Deploy\Connection::instance($server)->connection();
 
-        print_r($connection->isConnected());
-        print_r($connection->listContents('/'));
-//        print_r($connection->connection()->listContents('/'));
+        print_r($connection->read('a.txt'));
+        echo '<br>';
+        print_r($connection->read('/b b.txt'));
+        echo '<br>';
+//        print_r($connection->isConnected());
+        print_r($connection->listContents());
+//        print_r($connection->read('testfile - Copy.txt'));
     }
 
     public function get_asd () {
         $base = 'c1e8eb8';
 //        $t = '28920ff';
-        $t = 'master';
+//        $t = 'master';
         $gitHelper = \Gf\Git\GitLocal::instance('repositories/24');
 
 //        $gitHelper->pull(55266, \Gf\Auth\OAuth::provider_bitbucket, 'https://craftpip@bitbucket.org/craftpip/testrepo.git');

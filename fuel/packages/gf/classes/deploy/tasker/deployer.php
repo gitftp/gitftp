@@ -71,11 +71,11 @@ class Deployer {
      * @return \Gf\Deploy\Tasker\Deployer
      */
     public static function instance ($method = null, GitLocal $gitLocal, Array $connectionParams) {
-        if (!isset(static::$instance) or null == static::$instance) {
-            static::$instance = new static($method, $gitLocal, $connectionParams);
+        if (!isset(static::$instance[$connectionParams['id']]) or null == static::$instance[$connectionParams['id']]) {
+            static::$instance[$connectionParams['id']] = new static($method, $gitLocal, $connectionParams);
         }
 
-        return self::$instance;
+        return self::$instance[$connectionParams['id']];
     }
 
     /**
@@ -339,11 +339,15 @@ class Deployer {
             DeployLog::log('No deleted dirs', __FUNCTION__);
 
         foreach ($dirsToDelete as $dir) {
-            $af = $this->connection->deleteDir($dir);
-            if (!$af)
-                DeployLog::log("Failed to delete dir $dir", __FUNCTION__);
-            else
-                DeployLog::log("Deleted $dir", __FUNCTION__);
+            try {
+                $af = $this->connection->deleteDir($dir);
+                if (!$af)
+                    DeployLog::log("Failed to delete dir $dir", __FUNCTION__);
+                else
+                    DeployLog::log("Deleted $dir", __FUNCTION__);
+            } catch (\Exception $e) {
+                DeployLog::log("Failed to delete dir $dir {$e->getMessage()}", __FUNCTION__);
+            }
         }
     }
 }

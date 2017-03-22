@@ -58,13 +58,18 @@ angular.module('AppProjectServerAdd', [
         $scope.saving = false;
         $scope.newServer = function () {
             $scope.saving = true;
+            Utils.notification('Testing connection before saving', 'blue');
             $scope.testConnection().then(function () {
                 // ok tested.
                 var server = $scope.parseServerData();
-
-                Api.createServer($scope.project_id, server).then(function () {
+                Utils.notification('Saving server, please wait..', 'blue');
+                Api.createServer($scope.project_id, server).then(function (server_id) {
                     $scope.saving = false;
-                    $location.path('view/' + $scope.project_id + '/' + $scope.project.name);
+                    if (!$scope.server_id) {
+                        $location.path('view/' + $scope.project_id + '/' + $scope.project.name + '/server/' + server_id + '/deploy');
+                    } else {
+                        Utils.notification('Server saved successfully', 'green');
+                    }
                 }, function (reason) {
                     $scope.saving = false;
                     Utils.error(reason, 'red', $scope.newServer);

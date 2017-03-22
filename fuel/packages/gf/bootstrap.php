@@ -30,6 +30,7 @@ Autoloader::add_classes([
     'Gf\Deploy\Tasker\ConnectionWorker' => __DIR__ . '/classes/deploy/tasker/connectionWorker.php',
     'Gf\Deploy\Tasker\FileTask'         => __DIR__ . '/classes/deploy/tasker/fileTask.php',
     'Gf\Deploy\Tasker\Deployer'         => __DIR__ . '/classes/deploy/tasker/deployer.php',
+    'Gf\WebHook'                        => __DIR__ . '/classes/webHook.php',
 ]);
 
 /* End of file bootstrap.php */

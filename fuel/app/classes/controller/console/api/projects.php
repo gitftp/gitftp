@@ -273,6 +273,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
         try {
             $server_id = Input::json('server_id', false);
             $project_id = Input::json('project_id', false);
+            $latest_id = Input::json('latest_id', false);
             $offset = Input::json('offset', false);
 
             if (!$project_id)
@@ -285,9 +286,13 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             if ($offset)
                 $offset_query = $offset;
 
+            $latest_id_query = '';
+            if ($latest_id)
+                $latest_id_query = " and records.id > $latest_id ";
+
             $server_id_query = '';
             if ($server_id)
-                $server_id_query = " and records.server_id = $server_id";
+                $server_id_query = " and records.server_id = $server_id ";
 
             $query = "
             SELECT records.*, 
@@ -297,6 +302,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
             ON servers.id = records.server_id
             WHERE records.project_id = $project_id
             $server_id_query
+            $latest_id_query
             ORDER BY records.id desc
             LIMIT 30
             OFFSET $offset_query

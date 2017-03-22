@@ -219,7 +219,6 @@ class Deploy {
     /**
      * Process a single record
      * This should never throw a exception
-     *
      * Please do all the fail checks
      *
      * @param null $record_id
@@ -354,20 +353,20 @@ class Deploy {
             ]);
 
             if (!$this->gitLocal->git->isCloned()) {
-                DeployLog::log('Cloning project..', 'CLONE');
+                DeployLog::log('Cloning project..', __FUNCTION__);
                 $this->cloneMe();
             } else {
-                DeployLog::log('Pulling changes', 'PULL');
+                DeployLog::log('Pulling changes', __FUNCTION__);
                 $this->pull();
             }
             DeployLife::working($this->project_id);
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
-            DeployLog::log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", "DEP");
+            DeployLog::log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", __FUNCTION__);
             $allFiles = $this->getAllFilesForRevision($this->currentRecord['target_revision']);
             $totalFiles = count($allFiles);
-            DeployLog::log("$totalFiles changed files", "DEP");
+            DeployLog::log("$totalFiles changed files", __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
@@ -376,7 +375,7 @@ class Deploy {
                 'added_files' => $totalFiles,
             ]);
 
-            DeployLog::log("Starting deploying..", "DEP");
+            DeployLog::log("Starting deploying..", __FUNCTION__);
 
             $deployer = Deployer::instance(Deployer::method_regular, $this->gitLocal, $this->currentServer);
             $deployer
@@ -441,14 +440,26 @@ class Deploy {
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);
+
             DeployLog::log("Checkout {$this->currentRecord['target_revision']} - {$this->currentServer['branch']}", __FUNCTION__);
-            list($files, $edited, $added, $deleted) = $this->gitLocal->diff($record['revision'], $record['target_revision']);
+
+            /*
+             * set the latest revision on the server.
+             */
+            $currentRevisionOnServer = Server::get_one([
+                'id' => $this->currentServer['id'],
+            ], [
+                'revision',
+            ]);
+
+            list($files, $edited, $added, $deleted) = $this->gitLocal->diff($currentRevisionOnServer['revision'], $record['target_revision']);
             $totalFiles = count($files);
             DeployLog::log("$totalFiles changed files", __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
             ], [
+                'revision'      => $currentRevisionOnServer['revision'],
                 'total_files'   => $totalFiles,
                 'edited_files'  => $edited,
                 'added_files'   => $added,

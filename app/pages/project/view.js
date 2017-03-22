@@ -60,6 +60,45 @@ angular.module('AppProjectView', [
             });
         };
 
+        var loaded = true;
+
+        $scope.checkForNewRecords = function () {
+            if (!loaded)
+                return false;
+
+            console.log('checkForNewRecords');
+            if (!$scope.records.length) {
+                $timeout(function () {
+                    $scope.checkForNewRecords();
+                }, 4000);
+                return false;
+            }
+
+            Api.getLatestRecords($scope.id, $scope.records[0].id).then(function (data) {
+                if (data.list.length) {
+                    $scope.records = data.list.concat($scope.records);
+                    // angular.forEach(data.list, function (rec) {
+                    //     $scope.records.unshift(rec);
+                    // });
+                }
+
+
+                $timeout(function () {
+                    $scope.checkForNewRecords();
+                }, 4000);
+            }, function (reason) {
+                $timeout(function () {
+                    $scope.checkForNewRecords();
+                }, 4000);
+            });
+        };
+
+        $scope.checkForNewRecords();
+
+        $scope.$on('$destroy', function () {
+            loaded = false;
+        });
+
         $scope.loadRecords();
 
     }

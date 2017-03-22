@@ -199,6 +199,27 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * start cloning a project
+             */
+            getLatestRecords: function (project_id, latest_id, server_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/records', {
+                    project_id: project_id,
+                    latest_id: latest_id,
+                    server_id: server_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+
+                return defer.promise;
+            },
+            /**
              * get records for project.
              * server_id is optional
              * project_id is required

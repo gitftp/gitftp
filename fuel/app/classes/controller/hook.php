@@ -1,5 +1,8 @@
 <?php
 
+use Gf\Record;
+use Gf\Utils;
+
 class Controller_Hook extends Controller {
 
     public function get_link ($user_id = null, $project_id = null, $key = null) {
@@ -9,17 +12,28 @@ class Controller_Hook extends Controller {
     public function post_link ($user_id = null, $project_id = null, $key = null) {
         try {
             $data = \Fuel\Core\Input::json();
-            if (!$user_id or !$project_id or !$key)
-                throw new \Gf\Exception\UserException('Missing parameters');
 
-            $project = \Gf\Project::get_one([
-                'id'       => $project_id,
-                'owner_id' => $user_id,
-                'hook_key' => $key,
+            $response = \Gf\WebHook::parse($user_id, $project_id, $key);
+
+            $servers = \Gf\Server::get([
+                'project_id'  => $project_id,
+                'branch'      => $response['branch'],
+                'auto_deploy' => true,
             ]);
-            if (!$project)
-                throw new \Gf\Exception\UserException("The project was not found");
 
+            foreach ($servers as $server) {
+                Record::insert([
+                    'server_id'       => $server['id'],
+                    'project_id'      => $project_id,
+                    'type'            => Record::type_update,
+                    'target_revision' => $response['hash'],
+                    'status'          => Record::status_new,
+                    'commit'          => json_encode($response['commit']),
+                ]);
+            }
+
+            if (count($servers))
+                Utils::asyncCall('project', $project_id);
 
             $r = [
                 'status' => true,

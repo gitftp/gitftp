@@ -2,6 +2,7 @@
 
 return $defaults = [
     '_root_'                 => 'init',
+    'hook/(:any)'            => 'hook/$1',
     'test/(:any)'            => 'test/$1',
     'async/(:any)'           => 'async/$1',
     'setup'                  => 'setup/setup/index',

@@ -54,6 +54,20 @@ angular.module('AppProjectSettings', [
             });
         };
 
+        $scope.savingSettings = false;
+        $scope.saveSettings = function () {
+            $scope.savingSettings = true;
+            Api.updateProject($scope.id, {
+                name: $scope.project.name
+            }).then(function (data) {
+                $scope.savingSettings = false;
+                Utils.notification('Successfully applied changes', 'green');
+            }, function (reason) {
+                $scope.savingSettings = false;
+                Utils.notification(reason, 'red');
+            })
+        };
+
         $scope.deleteProject = function () {
             $ngConfirm({
                 title: 'Delete project',

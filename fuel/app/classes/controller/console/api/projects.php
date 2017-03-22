@@ -327,6 +327,33 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    public function post_update () {
+        try {
+            $id = Input::json('project_id', false);
+            $name = Input::json('project.name', false);
+
+            $af = Project::update([
+                'id' => $id,
+            ], [
+                'name' => $name,
+            ]);
+
+            if (!$af)
+                throw new UserException('No changes were made.');
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_view () {
         try {
             $id = Input::json('project_id', false);

@@ -21,12 +21,15 @@
                                 <div class="row">
                                     <div class="col-md-8">
                                         <div class="md-form-group">
-                                            <input class="md-input" ng-model="project.name" placeholder="" required>
+                                            <input class="md-input" ng-model="project.name" placeholder="" required
+                                                   ng-disabled="savingSettings">
                                             <label>Name</label>
                                         </div>
                                     </div>
                                 </div>
-                                <button ng-disabled="editForm.$invalid" class="btn btn-stroke btn-rounded btn-primary" type="submit">Save</button>
+                                <button ng-disabled="savingSettings || editForm.$invalid" class="btn btn-stroke btn-rounded btn-primary" type="submit">
+                                    Sav{{savingSettings ? 'ing changes' : 'e'}}
+                                </button>
                             </form>
                             <hr>
                             <h4>

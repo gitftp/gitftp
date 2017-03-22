@@ -2,6 +2,7 @@
 
 namespace Gf;
 
+use Fuel\Core\Arr;
 use Fuel\Core\Input;
 use Fuel\Core\Request;
 use Gf\Auth\OAuth;
@@ -86,6 +87,35 @@ class WebHook {
     }
 
     private static function parseBitBucket () {
+        $header = Input::headers('X-Event-Key', false);
+        if (!$header or $header != 'repo:push')
+            throw new AppException('Unexpected payload');
 
+        $changes = Input::json('push.changes', false);
+        if (!$changes or !count($changes))
+            throw new AppException('Invalid payload');
+
+        $change = $changes[0];
+
+        $branch = Arr::get($change, 'new.name', false);
+        $hash = Arr::get($change, 'new.target.hash', false);
+        if (!$branch or !$hash)
+            throw new AppException('Invalid payload');
+
+        $commit = [
+            'sha'          => Arr::get($change, 'new.target.hash'),
+            'message'      => Arr::get($change, 'new.target.message'),
+            'author_email' => false,
+            'author'       => Arr::get($change, 'new.target.author.user.username'),
+            'time'         => strtotime(Arr::get($change, 'new.target.date')),
+        ];
+
+        $response = [
+            'branch' => $branch,
+            'commit' => $commit,
+            'hash'   => $hash,
+        ];
+
+        return $response;
     }
 }

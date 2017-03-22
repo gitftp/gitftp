@@ -21,6 +21,9 @@ class Controller_Hook extends Controller {
                 'auto_deploy' => true,
             ]);
 
+            if (!$servers)
+                throw new \Gf\Exception\UserException('No auto-deployable servers in the project');
+
             foreach ($servers as $server) {
                 Record::insert([
                     'server_id'       => $server['id'],

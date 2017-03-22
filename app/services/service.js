@@ -183,6 +183,26 @@ angular.module('ServiceApi', []).factory('Api', [
              * Get log file
              * @param filename
              */
+            updateProject: function (project_id, set) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'projects/update', {
+                    project_id: project_id,
+                    project: set,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * Get log file
+             * @param filename
+             */
             getRecordLog: function (filename) {
                 var defer = $q.defer();
                 $http.post(API_PATH + 'server/log_file', {

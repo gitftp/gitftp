@@ -164,6 +164,25 @@
                                                     Use public key for authentication
                                                 </label>
                                             </div>
+                                            <div ng-if="generatingKey && server.usePubKey">
+                                                <div class="loader" style="width: 60px">
+                                                    <svg class="circular" viewBox="25 25 50 50">
+                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                    </svg>
+                                                </div>
+                                            </div>
+                                            <div ng-if="keyPubKey && server.usePubKey">
+                                                <p>
+                                                    <small>
+                                                        Add the public key to your server, <br>
+                                                        execute these commands on your server as the user you're going to log in with, ie. {{server.username || 'username'}}
+                                                    </small>
+                                                </p>
+                                                <pre>echo -e '{{keyPubKey}}' >> ~/.ssh/authorized_keys
+chmod 0600 ~/.ssh/authorized_keys</pre>
+                                                <a class="pull-right" target="_blank" ng-href="{{api_path}}server/download_key/{{keyCacheId}}">Download as .pub</a>
+                                                <div class="clearfix"></div>
+                                            </div>
                                         </div>
 
                                         <div class="col-md-8">

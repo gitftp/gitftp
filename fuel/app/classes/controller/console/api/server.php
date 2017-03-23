@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\File;
 use Fuel\Core\Input;
 use Fuel\Core\Str;
 use Gf\Config;
@@ -17,7 +18,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 throw new UserException('Missing parameters');
 
             try {
-                $contents = \Fuel\Core\File::read(DOCROOT . 'logs/' . $file, true);
+                $contents = File::read(DOCROOT . 'logs/' . $file, true);
             } catch (Exception $e) {
                 throw new UserException('The log file does not exists');
             }
@@ -220,6 +221,39 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    /**
+     * Downloads the key by cache id
+     *
+     * @param $id
+     */
+    public function get_download_key ($id) {
+        try {
+            try {
+                $data = \Fuel\Core\Cache::get('keys.' . $id);
+                $pu = $data['pu'];
+            } catch (Exception $e) {
+                throw new UserException('The key cache does not exists, please refresh the page and try again');
+            }
+
+            $fileName = Str::random();
+            $dir = Utils::systemDS(DOCROOT . 'repositories/keys/temp');
+
+            File::create($dir, $fileName, $pu);
+            File::download("$dir/$fileName", 'rsa-public-key.pub');
+            File::delete("$dir/$fileName");
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+
+    }
+
     public function post_generate_key () {
         try {
             $id = Input::json('id', false);
@@ -307,6 +341,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $project_id = Input::json('project_id', false);
             $edit_password = Input::json('server.edit_password', false);
             $id = Input::json('server.id', false);
+            $pubKeyId = Input::json('server.pubKeyId', false);
 
             if (!$name or !$branch or !$type or !$project_id)
                 throw new UserException('Missing parameters');
@@ -327,6 +362,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'added_by'    => $this->user_id,
                 'auto_deploy' => !!$auto_deploy,
             ];
+
             if ($type == \Gf\Server::type_ftp) {
                 $set['secure'] = !!$secure;
                 $set['host'] = $host;

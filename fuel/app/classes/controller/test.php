@@ -5,6 +5,14 @@ class Controller_Test extends Controller {
         echo '<pre>';
     }
 
+    public function get_qwe2 () {
+        echo DOCROOT;
+        print_r(\Fuel\Core\File::read_dir(DOCROOT));
+        die;
+        $file = DOCROOT . 'repositories/keys/temp';
+        \Fuel\Core\File::download($file, '25');
+    }
+
     public function get_qwe () {
 //        \Gf\Utils::executeTaskInBackground('deploy:project', '123', 'logs/123');
 //

@@ -36,6 +36,10 @@ class Server {
         return count($result) ? $result : false;
     }
 
+    public static function keyPath ($server_id) {
+        return Utils::systemDS(DOCROOT . "repositories/keys/$server_id");
+    }
+
     public static function get_one (Array $where = [], $select = null) {
         $a = self::get($where, $select);
 

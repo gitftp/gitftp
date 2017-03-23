@@ -29,7 +29,7 @@ angular.module('AppProjectServerAdd', [
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
         $scope.project = $scope.projects[$scope.project_id];
-
+        $scope.api_path = API_PATH;
         if ($scope.server_id) {
             $scope.page = 'view-server';
             Utils.setTitle('View server');
@@ -89,7 +89,7 @@ angular.module('AppProjectServerAdd', [
         $scope.keyPubKey = false;
         $scope.generatingKey = false;
         $scope.useKey = function () {
-            if ($scope.server.usePubKey && !$scope.keyCacheId) {
+            if ($scope.server.usePubKey && !$scope.keyPubKey) {
                 // load once.
                 $scope.generatingKey = true;
                 Api.serverGenerateKey($scope.keyCacheId).then(function (data) {
@@ -103,6 +103,10 @@ angular.module('AppProjectServerAdd', [
             } else {
 
             }
+        };
+
+        $scope.downloadPub = function () {
+            Api.serverDownloadKey($scope.keyCacheId);
         };
 
         $scope.deletingServer = false;
@@ -176,6 +180,9 @@ angular.module('AppProjectServerAdd', [
                 if (s.type == 1) {
                     server['secure'] = s.secure;
                 }
+            }
+            if (s.type == 2 && s.usePubKey) {
+                s.pubKeyId = $scope.keyCacheId;
             }
             return server;
         };

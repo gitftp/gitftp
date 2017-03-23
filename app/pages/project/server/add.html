@@ -190,6 +190,9 @@
                                         <span class="green m-l-10" ng-if="testingMessage">
                                             {{testingMessage}}
                                         </span>
+
+                                        <button ng-if="server_name" ng-click="deleteServer()" type="button" class="pull-right btn btn-rounded btn-danger btn-stroke">Delete</button>
+                                        <div class="clearfix"></div>
                                         <div class="space10"></div>
                                     </div>
                                 </div>

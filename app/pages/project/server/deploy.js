@@ -142,7 +142,6 @@ angular.module('AppProjectServerDeploy', [
         // END fresh upload
 
         $scope.typeChange = function () {
-            console.log($scope.deploy.type);
             if ($scope.deploy.type == Const.record_type_update) {
                 $scope.fetchComparision();
             } else {

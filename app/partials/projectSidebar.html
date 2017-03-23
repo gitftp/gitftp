@@ -64,20 +64,7 @@
                     Users
                 </a>
             </li>
-            <li ng-class="{'nav-active': current == 'project-settings-delete'}">
-                <a href="view/{{project.id}}/{{project.name}}/settings/delete" class="auto">
-                    Delete project
-                </a>
-            </li>
         </ul>
-
-
-        <div ng-if="!project.servers.length" class="text-center p-20 p-b-40">
-            <p class="text-center">
-                Start deployin'
-            </p>
-            <a href="view/{{project.id}}/{{project.name}}/server/add" class="btn btn-stroke btn-rounded btn-primary">Add server</a>
-        </div>
     </div>
 
     <div class="panel panel-card" ng-if="page != 'project-settings'">

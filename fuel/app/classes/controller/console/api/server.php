@@ -220,6 +220,40 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    public function post_delete () {
+        try {
+            $project_id = Input::json('project_id', false);
+            $server_id = Input::json('server_id', false);
+            if (!$project_id or !$server_id)
+                throw new UserException('Missing parameters');
+
+            Record::remove([
+                'server_id'  => $server_id,
+                'project_id' => $project_id,
+            ]);
+
+            $af = \Gf\Server::remove([
+                'id'         => $server_id,
+                'project_id' => $project_id,
+            ]);
+
+            if (!$af)
+                throw new UserException('The server was not found');
+
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_create () {
         try {
             $name = Input::json('server.name', false);

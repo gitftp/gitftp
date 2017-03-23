@@ -24,7 +24,8 @@ angular.module('AppProjectServerAdd', [
     '$ngConfirm',
     'Components',
     '$location',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Components, $location) {
+    'ProjectApi',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Components, $location, ProjectApi) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
         $scope.project = $scope.projects[$scope.project_id];
@@ -64,11 +65,16 @@ angular.module('AppProjectServerAdd', [
                 var server = $scope.parseServerData();
                 Utils.notification('Saving server, please wait..', 'blue');
                 Api.createServer($scope.project_id, server).then(function (server_id) {
-                    $scope.saving = false;
+                    Utils.notification('Server saved successfully', 'green');
                     if (!$scope.server_id) {
-                        $location.path('view/' + $scope.project_id + '/' + $scope.project.name + '/server/' + server_id + '/deploy');
+                        ProjectApi.refreshProjects().then(function () {
+                            $location.path('view/' + $scope.project_id + '/' + $scope.project.name + '/server/' + server_id + '/deploy');
+                            $scope.saving = false;
+                        }, function () {
+                            $scope.saving = false;
+                        });
                     } else {
-                        Utils.notification('Server saved successfully', 'green');
+                        $scope.saving = false;
                     }
                 }, function (reason) {
                     $scope.saving = false;
@@ -76,6 +82,55 @@ angular.module('AppProjectServerAdd', [
                 });
             }, function () {
                 $scope.saving = false;
+            });
+        };
+
+        $scope.deletingServer = false;
+        $scope.deleteServer = function () {
+            $ngConfirm({
+                title: 'Delete server',
+                content: '' +
+                'deleting the server will delete its records, no files will be changed on server<br>' +
+                '<div class="md-form-group">' +
+                '<label>Type the server name</label>' +
+                '<input type="text" class="md-input" ng-change="oChange()" ng-model="server_name">' +
+                '</div>',
+                buttons: {
+                    delete: {
+                        btnClass: 'btn-red',
+                        disabled: true,
+                        action: function (scope, button) {
+                            var self = this;
+                            button.setDisabled(true);
+                            button.setText('Deleting please wait..');
+
+                            $scope.deletingServer = true;
+                            Api.deleteServer($scope.server_id, $scope.project_id).then(function (data) {
+                                $rootScope.$broadcast('refreshProjects');
+                                $scope.deletingServer = false;
+                                Utils.notification('Successfully deleted server', 'green');
+                                self.close();
+                                $location.path('view/' + $scope.project_id + '/' + $scope.project.name);
+                            }, function (reason) {
+                                $scope.deletingServer = false;
+                                button.setDisabled(false);
+                                button.setText('delete');
+                                Utils.error(reason, 'red');
+                            });
+                            return false;
+                        }
+                    },
+                    close: function () {
+
+                    }
+                },
+                onScopeReady: function (scope) {
+                    var self = this;
+                    scope.server_name = '';
+                    scope.oChange = function () {
+                        self.buttons.delete.setDisabled((scope.server_name.toLowerCase() != $scope.server_name.toLowerCase()));
+                    }
+                }
             });
         };
 
@@ -212,6 +267,10 @@ angular.module('AppProjectServerAdd', [
         $scope.load = function () {
             $scope.loading = true;
             Api.getServer($scope.server_id).then(function (data) {
+                if (!data) {
+                    $location.path('view/' + $scope.project_id + '/' + $scope.project.name);
+                    return false;
+                }
                 $scope.server = data;
                 $scope.server_name = $scope.server.name;
                 $scope.server.auto_deploy = data.auto_deploy == '1';

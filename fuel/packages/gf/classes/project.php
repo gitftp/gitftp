@@ -108,11 +108,11 @@ class Project {
         try {
             \DB::start_transaction();
 
-            $af = Record::delete([
+            $af = Record::remove([
                 'project_id' => $project_id,
             ]);
 
-            $af = Server::delete([
+            $af = Server::remove([
                 'project_id' => $project_id,
             ]);
 

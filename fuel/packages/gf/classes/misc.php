@@ -2,16 +2,35 @@
 
 namespace Gf;
 
+use phpseclib\Crypt\RSA;
 
 /**
  * Class Misc
  * contains large functions that are used over the application that have to specific classes.
  */
 class Misc {
+
+    /**
+     * @param null   $comment
+     * @param string $postComment
+     *
+     * @return mixed
+     */
+    public static function generateNewRsaKey ($comment = null, $postComment = '-deploy@gitftp') {
+        $rsa = new RSA();
+        $rsa->setPublicKeyFormat(6); // CRYPT_RSA_PUBLIC_FORMAT_OPENSSH is int 6
+        if (is_null($comment)) $comment = \Str::random('alum', 6);
+
+        $rsa->comment = $comment . $postComment;
+        $keys = $rsa->createKey();
+
+        return $keys;
+    }
+
     /**
      * @return array
      */
-    public static function dependencies_check () {
+    public static function dependenciesCheck () {
         $allOk = true;
         // testing php.
         $php = 2;
@@ -51,7 +70,7 @@ class Misc {
      *
      * @return bool
      */
-    public static function test_database ($host, $db_name, $username, $password) {
+    public static function testDatabase ($host, $db_name, $username, $password) {
         $db = new \PDO("mysql:host=$host;dbname=$db_name", $username, $password);
 
         return true;

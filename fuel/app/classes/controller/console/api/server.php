@@ -220,6 +220,44 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    public function post_generate_key () {
+        try {
+            $id = Input::json('id', false);
+
+            if ($id) {
+                try {
+                    $data = \Fuel\Core\Cache::get('keys.' . $id);
+                    $pu = $data['pu'];
+                } catch (Exception $e) {
+                    throw new UserException('The key cache does not exists, please refresh the page and try again');
+                }
+            } else {
+                $keys = \Gf\Misc::generateNewRsaKey();
+                $id = Str::random();
+                $pu = $keys['publickey'];
+                \Fuel\Core\Cache::set('keys.' . $id, [
+                    'pr' => $keys['privatekey'],
+                    'pu' => $keys['publickey'],
+                ]);
+            }
+
+            $r = [
+                'status' => true,
+                'data'   => [
+                    'id' => $id,
+                    'pu' => $pu,
+                ],
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_delete () {
         try {
             $project_id = Input::json('project_id', false);

@@ -18,7 +18,7 @@ class Controller_Setup_Api extends Controller_Rest {
 
     public function post_dep_test () {
         try {
-            $dependencies = \Gf\Misc::dependencies_check();
+            $dependencies = \Gf\Misc::dependenciesCheck();
             $r = [
                 'status' => true,
                 'data'   => [
@@ -49,7 +49,7 @@ class Controller_Setup_Api extends Controller_Rest {
             $password = Input::json('db.password');
             $db_name = Input::json('db.dbname');
             // ready. install the schema to database here.
-            \Gf\Misc::test_database($host, $db_name, $username, $password);
+            \Gf\Misc::testDatabase($host, $db_name, $username, $password);
 
             \Gf\Config::instance()->set([
                 'mysql.host'     => $host,

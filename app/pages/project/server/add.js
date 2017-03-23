@@ -85,6 +85,26 @@ angular.module('AppProjectServerAdd', [
             });
         };
 
+        $scope.keyCacheId = false;
+        $scope.keyPubKey = false;
+        $scope.generatingKey = false;
+        $scope.useKey = function () {
+            if ($scope.server.usePubKey && !$scope.keyCacheId) {
+                // load once.
+                $scope.generatingKey = true;
+                Api.serverGenerateKey($scope.keyCacheId).then(function (data) {
+                    $scope.keyCacheId = data.id;
+                    $scope.keyPubKey = data.pu;
+                    $scope.generatingKey = false;
+                }, function (reason) {
+                    Utils.notification(reason, 'red');
+                    $scope.generatingKey = false;
+                });
+            } else {
+
+            }
+        };
+
         $scope.deletingServer = false;
         $scope.deleteServer = function () {
             $ngConfirm({

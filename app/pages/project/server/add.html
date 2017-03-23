@@ -136,7 +136,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="md-form-group">
+                                                    <div class="md-form-group" ng-if="!(server.type == 2 && server.usePubKey)">
                                                         <div ng-if="!server.edit_password">
                                                             <input class="md-input" ng-model="server.password" disabled placeholder="*****">
                                                             <label>Password</label>
@@ -155,6 +155,17 @@
                                                 </div>
                                             </div>
                                         </div>
+
+                                        <div class="col-md-8" ng-if="server.type == 2">
+                                            <div class="md-form-group no-p-t">
+                                                <label class="md-switch">
+                                                    <input type="checkbox" ng-model="server.usePubKey" ng-change="useKey()">
+                                                    <i class="blue-bg"></i>
+                                                    Use public key for authentication
+                                                </label>
+                                            </div>
+                                        </div>
+
                                         <div class="col-md-8">
                                             <div class="row">
                                                 <div class="col-md-12">

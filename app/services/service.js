@@ -333,6 +333,24 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * create a server for a project
+             */
+            serverGenerateKey: function (cacheId) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'server/generate_key', {
+                    id: cacheId
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * create a project
              */
             createProject: function (set) {

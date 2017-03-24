@@ -11,23 +11,6 @@ use phpseclib\Crypt\RSA;
 class Misc {
 
     /**
-     * @param null   $comment
-     * @param string $postComment
-     *
-     * @return mixed
-     */
-    public static function generateNewRsaKey ($comment = null, $postComment = '-deploy@gitftp') {
-        $rsa = new RSA();
-        $rsa->setPublicKeyFormat(6); // CRYPT_RSA_PUBLIC_FORMAT_OPENSSH is int 6
-        if (is_null($comment)) $comment = \Str::random('alum', 6);
-
-        $rsa->comment = $comment . $postComment;
-        $keys = $rsa->createKey();
-
-        return $keys;
-    }
-
-    /**
      * @return array
      */
     public static function dependenciesCheck () {

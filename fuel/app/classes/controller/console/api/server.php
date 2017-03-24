@@ -254,8 +254,15 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
     }
 
+    /**
+     * Generate a key pair
+     * and send back the cache id of the pair.
+     */
     public function post_generate_key () {
         try {
+            /**
+             * Cache id for retrieving the same key pair
+             */
             $id = Input::json('id', false);
 
             if ($id) {
@@ -266,7 +273,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                     throw new UserException('The key cache does not exists, please refresh the page and try again');
                 }
             } else {
-                $keys = \Gf\Misc::generateNewRsaKey();
+                // @todo: rework
+                // $keys = \Gf\Server::generateNewRsaKey();
                 $id = Str::random();
                 $pu = $keys['publickey'];
                 \Fuel\Core\Cache::set('keys.' . $id, [
@@ -341,7 +349,10 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $project_id = Input::json('project_id', false);
             $edit_password = Input::json('server.edit_password', false);
             $id = Input::json('server.id', false);
-            $pubKeyId = Input::json('server.pubKeyId', false);
+            /**
+             * The generated key cache id
+             */
+            $keyCacheId = Input::json('server.keyCacheId', false);
 
             if (!$name or !$branch or !$type or !$project_id)
                 throw new UserException('Missing parameters');
@@ -378,8 +389,33 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 $set['port'] = $port;
                 $set['username'] = $username;
 
-                if ($edit_password)
+                if ($keyCacheId) {
+                    $prPath = '';
+                    $pubPath = '';
+
+                    if ($id) {
+                        $paths = \Gf\Server::get_one([
+                            'id' => $id,
+                        ], [
+                            'private_key_path',
+                            'public_key_path',
+                        ]);
+                        $prPath = $paths['private_key_path'];
+                        $pubPath = $paths['public_key_path'];
+                    }
+
+                    if (!$prPath or !$pubPath) {
+                        list($hash, $path) = \Gf\Server::generateKeyPairPath();
+                        $prPath = $path . 'pr';
+                        $pubPath = $path . 'pu';
+                    }
+                    // @todo: im here
+
+                    $set['password'] = '';
+                } elseif ($edit_password) {
                     $set['password'] = $password;
+                }
+
             }
             if ($type == \Gf\Server::type_local) {
                 $set['password'] = null;
@@ -429,6 +465,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                     $server['password'] = $ser['password'];
                 }
             }
+
             if (!isset($server['path']) or !$server['path'])
                 $server['path'] = '';
 

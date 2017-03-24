@@ -181,7 +181,7 @@ angular.module('AppProjectServerAdd', [
                     server['secure'] = s.secure;
                 }
             }
-            if (s.type == 2 && s.usePubKey && $scope.server.key_id) {
+            if (s.type == 2 && $scope.server.useKey && $scope.server.key_id) {
                 server['key_id'] = $scope.server.key_id;
             }
             return server;

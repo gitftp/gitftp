@@ -193,6 +193,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'created_at',
                 'updated_at',
                 'revision',
+                'key_id',
             ];
 
             if ($server_id) {
@@ -258,15 +259,14 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
      * Generate a key pair
      * and send back the cache id of the pair.
      */
-    public function post_generate_key () {
+    public function post_key () {
         try {
             /**
              * Cache id for retrieving the same key pair
              */
             $id = Input::json('id', false);
 
-            list($id, $pub, $pri) = \Gf\Server::getPublicPrivateKeyPair($id);
-            $pu = File::read($pub, true);
+            list($id, $pu) = \Gf\Keys::getPair($id);
 
             $r = [
                 'status' => true,
@@ -334,10 +334,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             $project_id = Input::json('project_id', false);
             $edit_password = Input::json('server.edit_password', false);
             $id = Input::json('server.id', false);
-            /**
-             * The generated key cache id
-             */
-            $keyCacheId = Input::json('server.keyCacheId', false);
+            $key_id = Input::json('server.key_id', false);
 
             if (!$name or !$branch or !$type or !$project_id)
                 throw new UserException('Missing parameters');
@@ -373,35 +370,20 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 $set['host'] = $host;
                 $set['port'] = $port;
                 $set['username'] = $username;
-
-                if ($keyCacheId) {
-                    $prPath = '';
-                    $pubPath = '';
-
-                    if ($id) {
-                        $paths = \Gf\Server::get_one([
-                            'id' => $id,
-                        ], [
-                            'private_key_path',
-                            'public_key_path',
-                        ]);
-                        $prPath = $paths['private_key_path'];
-                        $pubPath = $paths['public_key_path'];
-                    }
-
-                    if (!$prPath or !$pubPath) {
-                        list($hash, $path) = \Gf\Server::generateKeyPairPath();
-                        $prPath = $path . 'pr';
-                        $pubPath = $path . 'pu';
-                    }
-                    // @todo: im here
-
-                    $set['password'] = '';
-                } elseif ($edit_password) {
+                if ($edit_password) {
                     $set['password'] = $password;
                 }
+                if ($key_id) {
+                    $key = \Gf\Keys::getById($key_id);
+                    if (!$key)
+                        throw new UserException('The key id is not valid');
 
+                    $set['key_id'] = $key_id;
+                } else {
+                    $set['key_id'] = null;
+                }
             }
+
             if ($type == \Gf\Server::type_local) {
                 $set['password'] = null;
                 $set['secure'] = 0;
@@ -451,10 +433,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 }
             }
 
-            if ($server['type'] == \Gf\Server::type_sftp and isset($server['keyId']) and $server['keyId']) {
+            if ($server['type'] == \Gf\Server::type_sftp and isset($server['key_id']) and $server['key_id']) {
                 $server['password'] = '';
-                list($id, $pubKeyPath, $privateKey) = \Gf\Server::getPublicPrivateKeyPair($server['keyId']);
-                $server['privateKey'] = $privateKey;
             }
 
             if (!isset($server['path']) or !$server['path'])

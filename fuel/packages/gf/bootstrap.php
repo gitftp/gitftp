@@ -31,6 +31,7 @@ Autoloader::add_classes([
     'Gf\Deploy\Tasker\FileTask'         => __DIR__ . '/classes/deploy/tasker/fileTask.php',
     'Gf\Deploy\Tasker\Deployer'         => __DIR__ . '/classes/deploy/tasker/deployer.php',
     'Gf\WebHook'                        => __DIR__ . '/classes/webHook.php',
+    'Gf\Keys'                           => __DIR__ . '/classes/keys.php',
 ]);
 
 /* End of file bootstrap.php */

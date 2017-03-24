@@ -2,21 +2,21 @@
 
 class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
 
-    public function get_unused() {
+    public function get_unused () {
         try {
             $ftp = new \Model_Ftp();
             $unusedftp = $ftp->getUnused();
 
-            $response = array(
-                'status' => TRUE,
-                'data'   => $unusedftp
-            );
+            $response = [
+                'status' => true,
+                'data'   => $unusedftp,
+            ];
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
-            $response = array(
-                'status' => FALSE,
+            $response = [
+                'status' => false,
                 'reason' => $e->getMessage(),
-            );
+            ];
         }
         $this->response($response);
     }
@@ -25,9 +25,10 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      * List one or more FTP.
      *
      * @param type $id
+     *
      * @return type
      */
-    public function action_get($id = NULL) {
+    public function action_get ($id = null) {
         try {
             $ftp = new \Model_Ftp();
             $data = $ftp->get($id);
@@ -42,22 +43,22 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 }
             }
 
-            $response = array(
-                'status' => TRUE,
-                'data'   => $data
-            );
+            $response = [
+                'status' => true,
+                'data'   => $data,
+            ];
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
-            $response = array(
-                'status' => FALSE,
-                'reason' => $e->getMessage()
-            );
+            $response = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
         }
 
         $this->response($response);
     }
 
-    public function get_authkey($id = NULL) {
+    public function get_authkey ($id = null) {
         try {
             if (is_null($id)) {
                 $id = \Str::random('numeric', 8);
@@ -72,18 +73,18 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             }
             $command = "echo -e '$public' >> ~/.ssh/authorized_keys <br>chmod 0600 ~/.ssh/authorized_keys";
             $response = [
-                'status' => TRUE,
+                'status' => true,
                 'data'   => [
                     'id'      => $id,
-                    'command' => $command
-                ]
+                    'command' => $command,
+                ],
             ];
 
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             $response = [
-                'status' => FALSE,
-                'reason' => $e->getMessage()
+                'status' => false,
+                'reason' => $e->getMessage(),
             ];
         }
         $this->response($response);
@@ -92,11 +93,12 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
     /**
      * test connection to a ftp server.
      * todo: delete this
+     *
      * @param null $a
      * @param bool $return
      */
-    public function post_testwasted($a = NULL, $return = FALSE) {
-        return FALSE;
+    public function post_testwasted ($a = null, $return = false) {
+        return false;
         $i = Input::post();
 
         try {
@@ -106,12 +108,12 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 throw new \Craftpip\Exception('Please enter necessary details to connect to your Server.');
             }
 
-            function error_handler($errno, $errstr, $errfile, $errline) {
+            function error_handler ($errno, $errstr, $errfile, $errline) {
 //                echo $errstr;
-                $response = array(
-                    'status' => FALSE,
+                $response = [
+                    'status' => false,
                     'reason' => $errstr,
-                );
+                ];
             }
 
 //            $old_error_handler = set_error_handler('error_handler');
@@ -140,12 +142,12 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             ];
 
             if ($i['scheme'] == 'ftp') {
-                $options['ssl'] = FALSE;
-                $options['passive'] = TRUE;
+                $options['ssl'] = false;
+                $options['passive'] = true;
                 $adapter = new \League\Flysystem\Adapter\Ftp($options);
             } elseif ($i['scheme'] == 'ftps') {
-                $options['ssl'] = TRUE;
-                $options['passive'] = TRUE;
+                $options['ssl'] = true;
+                $options['passive'] = true;
                 $adapter = new \League\Flysystem\Adapter\Ftp($options);
             } elseif ($i['scheme'] == 'sftp') {
 //                $options['privateKey'] = 'path/to/privatekey';
@@ -157,21 +159,21 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             if (!$fs->has($i['path'])) {
                 $fs->createDir($i['path']);
             } else {
-                $files = $fs->listContents($i['path'], TRUE);
+                $files = $fs->listContents($i['path'], true);
                 print_r($files);
             }
 
-            $response = array(
-                'status'  => TRUE,
+            $response = [
+                'status'  => true,
                 'message' => $message,
-            );
+            ];
         } catch (\Fuel\Core\PhpErrorException $e) {
             echo $e;
             throw $e;
-            $response = array(
-                'status' => FALSE,
+            $response = [
+                'status' => false,
                 'reason' => $e->getMessage(),
-            );
+            ];
         }
 
         $this->response($response);
@@ -183,34 +185,34 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      * @param null $a
      * @param bool $return
      */
-    public function post_test($a = NULL, $return = FALSE) {
+    public function post_test ($a = null, $return = false) {
         $i = Input::post();
 
         try {
             $message = '';
-            $scheme = \Input::post('scheme', FALSE);
-            $host = \Input::post('host', FALSE);
-            $key_id = \Input::post('ssh-k', FALSE);
-            $id = \Input::post('id', FALSE);
+            $scheme = \Input::post('scheme', false);
+            $host = \Input::post('host', false);
+            $key_id = \Input::post('ssh-k', false);
+            $id = \Input::post('id', false);
             $username = \Input::post('username', '');
             $is_pass = isset($i['pass']);
             $pass = \Input::post('pass', '');
             $port = \Input::post('port', 21); // default to 21.
-            $is_key = \Input::post('publickey', FALSE);
-            $path = \Input::post('path', FALSE);
-            $to_removeTempKey = FALSE;
+            $is_key = \Input::post('publickey', false);
+            $path = \Input::post('path', false);
+            $to_removeTempKey = false;
             $ftp = new \Model_Ftp();
 
-            $options = array(
+            $options = [
                 'user'   => $username,
                 'host'   => $host,
                 'pass'   => $pass,
                 'scheme' => $scheme,
                 'port'   => $port,
-            );
+            ];
 
             $configs = [
-                'timeout' => 20
+                'timeout' => 20,
             ];
 
             if ($id) {
@@ -234,7 +236,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             if ($is_key && $scheme == 'sftp') {
                 // add key authentication to configuration.
                 $auth = new \Craftpip\OAuth\Auth();
-                $options['pass'] = NULL;
+                $options['pass'] = null;
 
                 if (empty($key_id) && $id) {
                     // key file not avail coz its already saved.
@@ -258,7 +260,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                     $privKey = \Str::random('num');
 
                     try {
-                        $keys = \Cache::get("key.$key_id", NULL);
+                        $keys = \Cache::get("key.$key_id", null);
                     } catch (\Exception $e) {
                         throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
                     }
@@ -276,7 +278,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 $configs['pubkey']['privkeyfile'] = $privateKey;
                 $configs['pubkey']['pubkeyfile'] = $publicKey;
                 $configs['pubkey']['user'] = $username;
-                $configs['pubkey']['passphrase'] = FALSE;
+                $configs['pubkey']['passphrase'] = false;
             }
 
             $ftp_url = http_build_url($options);
@@ -329,20 +331,20 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             }
 
 
-            $response = array(
-                'status'  => TRUE,
-                'message' => $message
-            );
+            $response = [
+                'status'  => true,
+                'message' => $message,
+            ];
         } catch (\Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
             if ($message != '') $message .= '<br>';
             $message .= '<i class="fa ti-alert red fa-fw"></i> ' . $e->getMessage();
-            $response = array(
-                'status'  => FALSE,
+            $response = [
+                'status'  => false,
                 'message' => $message,
-            );
+            ];
         }
-        if($to_removeTempKey){
+        if ($to_removeTempKey) {
             \File::delete($privateKey);
             \File::delete($publicKey);
         }
@@ -354,7 +356,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      *
      * @return boolean
      */
-    public function post_add() {
+    public function post_add () {
         /**
          * test ftp before adding,
          */
@@ -367,9 +369,9 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             $path .= '/'; //append to path.
             $pubKey = '';
             $privKey = '';
-            $key_id = FALSE;
+            $key_id = false;
 
-            if (\Input::post('scheme') == 'sftp' && \Input::post('publickey', FALSE)) {
+            if (\Input::post('scheme') == 'sftp' && \Input::post('publickey', false)) {
                 $data['pass'] = '';
                 $auth = new \Craftpip\OAuth\Auth();
                 $pubKey = \Str::random('num');
@@ -382,7 +384,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                     throw new \Craftpip\Exception('Something is not right, please reload your browser & try again.');
                 }
                 try {
-                    $keys = \Cache::get("key.$key_id", NULL);
+                    $keys = \Cache::get("key.$key_id", null);
                 } catch (\Exception $e) {
                     throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
                 }
@@ -402,7 +404,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 'pass'     => $data['pass'],
                 'fspath'   => $pathId,
                 'pub'      => $pubKey,
-                'priv'     => $privKey
+                'priv'     => $privKey,
             ];
 
             $a = $ftp->insert($set);
@@ -413,18 +415,18 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 } catch (Exception $e) {
                 }
 
-                $response = array(
-                    'status'  => TRUE,
-                    'request' => Input::post()
-                );
+                $response = [
+                    'status'  => true,
+                    'request' => Input::post(),
+                ];
             }
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
-            $response = array(
-                'status'  => FALSE,
+            $response = [
+                'status'  => false,
                 'reason'  => $e->getMessage(),
-                'request' => (Input::method() == 'POST') ? Input::post() : ''
-            );
+                'request' => (Input::method() == 'POST') ? Input::post() : '',
+            ];
         }
         $this->response($response);
     }
@@ -434,7 +436,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      *
      * @return boolean
      */
-    public function post_edit($id) {
+    public function post_edit ($id) {
 
         try {
             $ftp = new \Model_Ftp();
@@ -461,8 +463,8 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 $privKey = '';
                 $pubKey = '';
                 $toDeleteKey = 1;
-            } elseif (\Input::post('scheme') == 'sftp' && \Input::post('publickey', FALSE)) {
-                $data['pass'] = NULL;
+            } elseif (\Input::post('scheme') == 'sftp' && \Input::post('publickey', false)) {
+                $data['pass'] = null;
 
                 $key_id = \Input::post('ssh-k', '');
                 if (empty($key_id)) {
@@ -475,7 +477,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                         \File::create_dir($path, $auth->user_id, 0777);
                     }
                     try {
-                        $keys = \Cache::get("key.$key_id", NULL);
+                        $keys = \Cache::get("key.$key_id", null);
                     } catch (\Exception $e) {
                         throw new \Craftpip\Exception('The SSH key pair has expired, please reload your browser & try again.');
                     }
@@ -485,7 +487,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                     \File::create($path . $auth->user_id, $privKey, $keys['privatekey']);
                     $toClearCache = 1;
                 }
-            } elseif (!\Input::post('publickey', FALSE) && !empty($pubKey) && !empty($privKey)) {
+            } elseif (!\Input::post('publickey', false) && !empty($pubKey) && !empty($privKey)) {
                 $pubKey = '';
                 $privKey = '';
                 $toDeleteKey = 1;
@@ -500,7 +502,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                 'host'     => $data['host'],
                 'fspath'   => $pathId,
                 'pub'      => $pubKey,
-                'priv'     => $privKey
+                'priv'     => $privKey,
             ];
 
             if (isset($data['pass'])) $set['pass'] = $data['pass'];
@@ -516,18 +518,18 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             } catch (Exception $e) {
             }
 
-            $response = array(
-                'status'  => TRUE,
+            $response = [
+                'status'  => true,
                 'request' => Input::post(),
-            );
+            ];
 
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
-            $response = array(
-                'status'  => FALSE,
+            $response = [
+                'status'  => false,
                 'reason'  => $e->getMessage(),
-                'request' => $id
-            );
+                'request' => $id,
+            ];
         }
         $this->response($response);
     }
@@ -537,7 +539,7 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
      * returns YES or no,
      * if the FTP is used in any of the projects.
      */
-    public function get_isftpinuse() {
+    public function get_isftpinuse () {
         $id = Input::get('id');
         $branch = new Model_Branch();
         $deploy = new Model_Deploy();
@@ -549,19 +551,20 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
             $branches[0]['project_name'] = $deploy_name;
         }
 
-        $this->response(array(
-            'status'  => (count($branches) == 0) ? FALSE : TRUE,
-            'used_in' => (count($branches) == 0) ? FALSE : $branches,
-        ));
+        $this->response([
+            'status'  => (count($branches) == 0) ? false : true,
+            'used_in' => (count($branches) == 0) ? false : $branches,
+        ]);
     }
 
     /**
      * Delete a FTP server by ID
      *
      * @param type $id
+     *
      * @return type
      */
-    public function action_delftp($id) {
+    public function action_delftp ($id) {
 
         try {
             $ftp = new Model_Ftp();
@@ -578,19 +581,19 @@ class Controller_Api_Ftp extends Controller_Api_Apilogincheck {
                     $path .= '/';
                     if (!empty($ftp_data['pub'])) \File::delete($path . $auth->user_id . '/' . $ftp_data['pub']);
                     if (!empty($ftp_data['priv'])) \File::delete($path . $auth->user_id . '/' . $ftp_data['priv']);
-                    $response = array(
-                        'status'  => TRUE,
-                        'request' => Input::post()
-                    );
+                    $response = [
+                        'status'  => true,
+                        'request' => Input::post(),
+                    ];
                 }
             }
         } catch (Exception $e) {
             $e = new \Craftpip\Exception($e->getMessage(), $e->getCode());
-            $response = array(
-                'status'  => FALSE,
-                'request' => (Input::method() == 'POST') ? Input::post() : FALSE,
+            $response = [
+                'status'  => false,
+                'request' => (Input::method() == 'POST') ? Input::post() : false,
                 'reason'  => $e->getMessage(),
-            );
+            ];
         }
 
         $this->response($response);

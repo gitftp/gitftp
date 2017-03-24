@@ -333,11 +333,11 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
-             * serverGenerateKey
+             * getServerKey
              */
-            serverGenerateKey: function (cacheId) {
+            getServerKey: function (cacheId) {
                 var defer = $q.defer();
-                $http.post(API_PATH + 'server/generate_key', {
+                $http.post(API_PATH + 'server/key', {
                     id: cacheId
                 }).then(function (res) {
                     if (res.data.status) {

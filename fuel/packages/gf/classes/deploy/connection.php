@@ -4,6 +4,7 @@ namespace Gf\Deploy;
 
 use Fuel\Core\File;
 use Gf\Exception\AppException;
+use Gf\Keys;
 use Gf\Server;
 use League\Flysystem\Adapter\Ftp;
 use League\Flysystem\Adapter\Ftpd;
@@ -107,17 +108,14 @@ class Connection {
             'username' => $this->server_data['username'],
             'port'     => $this->server_data['port'],
             'root'     => $this->server_data['path'],
-            'timeout'  => 10,
+            'timeout'  => 30,
         ];
 
-        if (isset($this->server_data['privateKey'])) {
-            $content = File::read($this->server_data['privateKey'], true);
-            $options['privateKey'] = $content;
-//            $options['privateKey'] = $this->server_data['privateKey'];
+        if (isset($this->server_data['key_id'])) {
+            $options['privateKey'] = Keys::getById($this->server_data['key_id'], Keys::privateKey);
         } else {
             $options['password'] = $this->server_data['password'];
         }
-
 
         $filesystem = new Filesystem(new SftpAdapter($options));
 

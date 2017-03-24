@@ -136,13 +136,13 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6">
-                                                    <div class="md-form-group" ng-if="!(server.type == 2 && server.usePubKey)">
+                                                    <div class="md-form-group" ng-if="!(server.type == 2 && server.useKey)">
                                                         <div ng-if="!server.edit_password">
-                                                            <input class="md-input" ng-model="server.password" disabled placeholder="*****">
+                                                            <div class="md-input" style="line-height: 33px;">
+                                                                <span class="text-muted">Saved password</span>
+                                                                <u class="pull-right"><a ng-click="server.edit_password = true; server.password = ''" href="">change</a></u>
+                                                            </div>
                                                             <label>Password</label>
-                                                            <a ng-click="server.edit_password = true" class="m-t-5 pull-right">
-                                                                <small>Edit password</small>
-                                                            </a>
                                                         </div>
                                                         <div ng-if="server.edit_password">
                                                             <input class="md-input" ng-model="server.password" required>
@@ -159,19 +159,22 @@
                                         <div class="col-md-8" ng-if="server.type == 2">
                                             <div class="md-form-group no-p-t">
                                                 <label class="md-switch">
-                                                    <input type="checkbox" ng-model="server.usePubKey" ng-change="useKey()">
+                                                    <input type="checkbox" ng-model="server.useKey" ng-change="getKey()">
                                                     <i class="blue-bg"></i>
                                                     Use public key for authentication
                                                 </label>
                                             </div>
-                                            <div ng-if="generatingKey && server.usePubKey">
-                                                <div class="loader" style="width: 60px">
-                                                    <svg class="circular" viewBox="25 25 50 50">
-                                                        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
-                                                    </svg>
+                                            <div ng-if="gettingKey && server.useKey">
+                                                <div class="p-10">
+
+                                                    <div class="loader" style="width: 40px">
+                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
+                                                        </svg>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div ng-if="keyPubKey && server.usePubKey">
+                                            <div ng-if="keyPubKey && server.useKey">
                                                 <p>
                                                     <small>
                                                         Add the public key to your server, <br>
@@ -180,7 +183,7 @@
                                                 </p>
                                                 <pre>echo -e '{{keyPubKey}}' >> ~/.ssh/authorized_keys
 chmod 0600 ~/.ssh/authorized_keys</pre>
-                                                <a class="pull-right" target="_blank" ng-href="{{api_path}}server/download_key/{{keyCacheId}}">Download as .pub</a>
+                                                <a class="pull-right" target="_blank" ng-href="{{api_path}}server/download_key/{{server.key_id}}">Download as .pub</a>
                                                 <div class="clearfix"></div>
                                             </div>
                                         </div>
@@ -204,9 +207,14 @@ chmod 0600 ~/.ssh/authorized_keys</pre>
 
                                 <div class="row">
                                     <div class="col-md-8">
-                                        <div ng-if="testingErrorMessage">
-                                            Exception on connecting
-                                            <pre>{{testingErrorMessage}}</pre>
+                                        <div class="alert alert-danger" ng-if="testingErrorMessage">
+                                            <div class="m-b-5">
+                                                Error on connect
+                                            </div>
+                                            <code>{{testingErrorMessage}}</code>
+                                        </div>
+                                        <div class="alert alert-success" ng-if="testingMessage">
+                                            {{testingMessage}}
                                         </div>
 
                                         <button type="submit" class="btn btn-primary btn-rounded m-r-10"
@@ -217,9 +225,7 @@ chmod 0600 ~/.ssh/authorized_keys</pre>
                                                 ng-click="testConnection()"
                                                 ng-disabled="testingConnection">{{testingConnection ? 'Connecting' : 'Test connection'}}
                                         </button>
-                                        <span class="green m-l-10" ng-if="testingMessage">
-                                            {{testingMessage}}
-                                        </span>
+
 
                                         <button ng-if="server_name" ng-click="deleteServer()" type="button" class="pull-right btn btn-rounded btn-danger btn-stroke">Delete</button>
                                         <div class="clearfix"></div>

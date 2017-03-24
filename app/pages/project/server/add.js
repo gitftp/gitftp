@@ -85,20 +85,20 @@ angular.module('AppProjectServerAdd', [
             });
         };
 
-        $scope.keyId = false;
         $scope.keyPubKey = false;
-        $scope.generatingKey = false;
-        $scope.useKey = function () {
-            if ($scope.server.usePubKey && !$scope.keyPubKey) {
+        $scope.gettingKey = false;
+
+        $scope.getKey = function () {
+            if ($scope.server.useKey && !$scope.keyPubKey) {
                 // load once.
-                $scope.generatingKey = true;
-                Api.serverGenerateKey($scope.keyId).then(function (data) {
-                    $scope.keyId = data.id;
+                $scope.gettingKey = true;
+                Api.getServerKey($scope.server.key_id).then(function (data) {
+                    $scope.server.key_id = data.id;
                     $scope.keyPubKey = data.pu;
-                    $scope.generatingKey = false;
+                    $scope.gettingKey = false;
                 }, function (reason) {
                     Utils.notification(reason, 'red');
-                    $scope.generatingKey = false;
+                    $scope.gettingKey = false;
                 });
             } else {
 
@@ -106,7 +106,7 @@ angular.module('AppProjectServerAdd', [
         };
 
         $scope.downloadPub = function () {
-            Api.serverDownloadKey($scope.keyId);
+            Api.serverDownloadKey($scope.server.key_id);
         };
 
         $scope.deletingServer = false;
@@ -181,9 +181,8 @@ angular.module('AppProjectServerAdd', [
                     server['secure'] = s.secure;
                 }
             }
-
-            if (s.type == 2 && s.usePubKey && $scope.keyId) {
-                server['keyId'] = $scope.keyId;
+            if (s.type == 2 && s.usePubKey && $scope.server.key_id) {
+                server['key_id'] = $scope.server.key_id;
             }
             return server;
         };
@@ -305,6 +304,13 @@ angular.module('AppProjectServerAdd', [
                 $scope.server.secure = data.secure == '1';
                 $scope.loading = false;
                 $scope.server.edit_password = false;
+
+                if ($scope.server.key_id) {
+                    $scope.server.useKey = true;
+                    $scope.getKey();
+                } else {
+                    $scope.server.useKey = false;
+                }
             }, function (reason) {
                 $scope.loading = false;
                 Utils.error(reason, 'red', $scope.load);

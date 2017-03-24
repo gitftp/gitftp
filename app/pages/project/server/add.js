@@ -85,15 +85,15 @@ angular.module('AppProjectServerAdd', [
             });
         };
 
-        $scope.keyCacheId = false;
+        $scope.keyId = false;
         $scope.keyPubKey = false;
         $scope.generatingKey = false;
         $scope.useKey = function () {
             if ($scope.server.usePubKey && !$scope.keyPubKey) {
                 // load once.
                 $scope.generatingKey = true;
-                Api.serverGenerateKey($scope.keyCacheId).then(function (data) {
-                    $scope.keyCacheId = data.id;
+                Api.serverGenerateKey($scope.keyId).then(function (data) {
+                    $scope.keyId = data.id;
                     $scope.keyPubKey = data.pu;
                     $scope.generatingKey = false;
                 }, function (reason) {
@@ -106,7 +106,7 @@ angular.module('AppProjectServerAdd', [
         };
 
         $scope.downloadPub = function () {
-            Api.serverDownloadKey($scope.keyCacheId);
+            Api.serverDownloadKey($scope.keyId);
         };
 
         $scope.deletingServer = false;
@@ -181,8 +181,9 @@ angular.module('AppProjectServerAdd', [
                     server['secure'] = s.secure;
                 }
             }
-            if (s.type == 2 && s.usePubKey && $scope.keyCacheId) {
-                server['keyCacheId'] = $scope.keyCacheId;
+
+            if (s.type == 2 && s.usePubKey && $scope.keyId) {
+                server['keyId'] = $scope.keyId;
             }
             return server;
         };

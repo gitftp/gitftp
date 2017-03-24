@@ -45,21 +45,24 @@ class Server {
      *
      * @param null $hash
      *
+     * @deprecated Error at creating the directory mkdir @ classes/file.php:206
      * @return mixed
+     * @throws \Exception
      */
     private static function getPublicPrivateKeyPairDir ($hash = null) {
         if (!$hash)
             $hash = Str::random('alnum', 8) . Utils::timeNow();
         // then length goes to 8 + 10 = 18
-
+        $path = Utils::systemDS(DOCROOT . self::key_path);
+        File::create_dir($path, $hash);
         try {
-            File::create_dir(DOCROOT . self::key_path, $hash);
         } catch (\Exception $e) {
+            throw $e;
         }
 
         return [
             $hash,
-            Utils::systemDS(DOCROOT . self::key_path . "$hash/"),
+            Utils::systemDS($path . "$hash/"),
         ];
     }
 
@@ -84,19 +87,27 @@ class Server {
      * @param null $id
      *
      * @return array [$id, public key path, private key path]
+     * @throws \Gf\Exception\AppException
      */
     public static function getPublicPrivateKeyPair ($id = null) {
-        if (is_null($id)) {
+        $dir = DOCROOT . self::key_path;
+        if (!$id or is_null($id)) {
             $keys = self::generateNewRsaKey();
             $publicKey = $keys['publickey'];
             $privateKey = $keys['privatekey'];
-            list($id, $path) = self::getPublicPrivateKeyPairDir();
-            File::create($path, 'pu', $publicKey);
-            File::create($path, 'pr', $privateKey);
+
+            $id = Str::random('alnum', 8) . Utils::timeNow();
+            File::create($dir, $id . 'pu', $publicKey);
+            File::create($dir, $id . "pr", $privateKey);
         }
 
-        $pub = DOCROOT . self::key_path . "$id/pu";
-        $pri = DOCROOT . self::key_path . "$id/pr";
+        $pub = Utils::systemDS($dir . $id . "pu");
+        $pri = Utils::systemDS($dir . $id . "pr");
+
+        if (!is_file($pub))
+            throw new AppException("Could not write public key to $pub");
+        if (!is_file($pri))
+            throw new AppException("Could not write private key to $pri");
 
         return [
             $id,

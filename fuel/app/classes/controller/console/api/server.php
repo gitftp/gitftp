@@ -265,23 +265,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
              */
             $id = Input::json('id', false);
 
-            if ($id) {
-                try {
-                    $data = \Fuel\Core\Cache::get('keys.' . $id);
-                    $pu = $data['pu'];
-                } catch (Exception $e) {
-                    throw new UserException('The key cache does not exists, please refresh the page and try again');
-                }
-            } else {
-                // @todo: rework
-                // $keys = \Gf\Server::generateNewRsaKey();
-                $id = Str::random();
-                $pu = $keys['publickey'];
-                \Fuel\Core\Cache::set('keys.' . $id, [
-                    'pr' => $keys['privatekey'],
-                    'pu' => $keys['publickey'],
-                ]);
-            }
+            list($id, $pub, $pri) = \Gf\Server::getPublicPrivateKeyPair($id);
+            $pu = File::read($pub, true);
 
             $r = [
                 'status' => true,
@@ -464,6 +449,12 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                         throw new UserException('The server does not exists');
                     $server['password'] = $ser['password'];
                 }
+            }
+
+            if ($server['type'] == \Gf\Server::type_sftp and isset($server['keyId']) and $server['keyId']) {
+                $server['password'] = '';
+                list($id, $pubKeyPath, $privateKey) = \Gf\Server::getPublicPrivateKeyPair($server['keyId']);
+                $server['privateKey'] = $privateKey;
             }
 
             if (!isset($server['path']) or !$server['path'])

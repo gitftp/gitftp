@@ -2,6 +2,7 @@
 
 namespace Gf\Deploy;
 
+use Fuel\Core\File;
 use Gf\Exception\AppException;
 use Gf\Server;
 use League\Flysystem\Adapter\Ftp;
@@ -101,15 +102,24 @@ class Connection {
 
 
     private function connectSftp () {
-        $filesystem = new Filesystem(new SftpAdapter([
+        $options = [
             'host'     => $this->server_data['host'],
             'username' => $this->server_data['username'],
-            'password' => $this->server_data['password'],
             'port'     => $this->server_data['port'],
-//            'privateKey' => $this->server_data['path'],
             'root'     => $this->server_data['path'],
             'timeout'  => 10,
-        ]));
+        ];
+
+        if (isset($this->server_data['privateKey'])) {
+            $content = File::read($this->server_data['privateKey'], true);
+            $options['privateKey'] = $content;
+//            $options['privateKey'] = $this->server_data['privateKey'];
+        } else {
+            $options['password'] = $this->server_data['password'];
+        }
+
+
+        $filesystem = new Filesystem(new SftpAdapter($options));
 
         $this->connection = $filesystem;
     }

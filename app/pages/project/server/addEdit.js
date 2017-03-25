@@ -8,7 +8,7 @@ angular.module('AppProjectServerAdd', [
         $routeProvider.when('/view/:id/:name/server/add', {
             templateUrl: 'app/pages/project/server/addEdit.html',
             controller: 'createServerController',
-        }).when('/view/:id/:name/server/:server_id', {
+        }).when('/view/:id/:name/server/:server_id/settings', {
             templateUrl: 'app/pages/project/server/addEdit.html',
             controller: 'createServerController',
         });

@@ -1,16 +1,16 @@
 "use strict";
 
-angular.module('AppProjectView', [
+angular.module('AppProjectServerView', [
     'ngRoute',
 ]).config([
     '$routeProvider',
     function ($routeProvider) {
-        $routeProvider.when('/view/:id/:name', {
-            templateUrl: 'app/pages/project/view.html',
-            controller: 'viewProjectController',
+        $routeProvider.when('/view/:id/:name/server/:server_id', {
+            templateUrl: 'app/pages/project/server/view.html',
+            controller: 'viewProjectServerController',
         });
     }
-]).controller('viewProjectController', [
+]).controller('viewProjectServerController', [
     '$scope',
     '$rootScope',
     '$routeParams',
@@ -22,12 +22,24 @@ angular.module('AppProjectView', [
     function ($scope, $rootScope, $routeParams, Utils, Api, Const, $timeout, $ngConfirm) {
         $scope.id = $routeParams.id;
         $scope.project = $rootScope.projects[$scope.id];
-        Utils.setTitle($scope.project.name);
+        $scope.server_id = $routeParams.server_id;
+        var server = {};
+        angular.forEach($scope.projects[$scope.id].servers, function (s) {
+            if (s.id == $scope.server_id)
+                server = s;
+        });
+        $scope.server = server;
+
+        Utils.setTitle($scope.server.name);
 
         $rootScope.$broadcast('setBreadcrumb', [
             {
                 link: "view/" + $scope.project.id + "/" + $scope.project.name,
                 name: $scope.project.name
+            },
+            {
+                link: "",
+                name: $scope.server.name
             },
             {
                 link: "",
@@ -49,7 +61,7 @@ angular.module('AppProjectView', [
 
         $scope.loadRecords = function () {
             $scope.loadingRecords = true;
-            Api.getRecords($scope.id).then(function (records) {
+            Api.getRecords($scope.id, $scope.server_id).then(function (records) {
                 $scope.records = records.list;
                 $scope.totalRecords = records.total;
                 $scope.loadingRecords = false;
@@ -59,20 +71,7 @@ angular.module('AppProjectView', [
             })
         };
 
-        $scope.startingCloning = false;
-        $scope.startCloning = function () {
-            $scope.startingCloning = true;
-            Api.startProjectCloning($scope.id).then(function () {
-                $scope.startingCloning = false;
-                $scope.loadRecords();
-            }, function (reason) {
-                $scope.startingCloning = false;
-                Utils.notification(reason, 'red');
-            });
-        };
-
         var loaded = true;
-
         $scope.checkForNewRecords = function () {
             if (!loaded)
                 return false;
@@ -85,14 +84,10 @@ angular.module('AppProjectView', [
                 return false;
             }
 
-            Api.getLatestRecords($scope.id, $scope.records[0].id).then(function (data) {
+            Api.getLatestRecords($scope.id, $scope.records[0].id, $scope.server_id).then(function (data) {
                 if (data.list.length) {
                     $scope.records = data.list.concat($scope.records);
-                    // angular.forEach(data.list, function (rec) {
-                    //     $scope.records.unshift(rec);
-                    // });
                 }
-
 
                 $timeout(function () {
                     $scope.checkForNewRecords();

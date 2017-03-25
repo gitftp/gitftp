@@ -24,6 +24,13 @@ angular.module('AppProjectView', [
         $scope.project = $rootScope.projects[$scope.id];
         Utils.setTitle($scope.project.name);
 
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "view/" + $scope.project.id + "/" + $scope.project.name,
+                name: $scope.project.name
+            }
+        ]);
+
         $scope.records = [];
         $scope.loadingRecords = false;
         $scope.totalRecords = 0;

@@ -43,15 +43,39 @@ angular.module('AppSettings', [
     '$scope',
     '$rootScope',
     '$routeParams',
-    function ($scope, $rootScope, $routeParams) {
+    'Utils',
+    function ($scope, $rootScope, $routeParams, Utils) {
+        Utils.setTitle('Account settings');
 
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'Settings'
+            },
+            {
+                link: "",
+                name: 'Account'
+            }
+        ]);
     }
 ]).controller('usersController', [
     '$scope',
     '$rootScope',
     '$routeParams',
-    function ($scope, $rootScope, $routeParams) {
+    'Utils',
+    function ($scope, $rootScope, $routeParams, Utils) {
+        Utils.setTitle('Users');
 
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'Settings'
+            },
+            {
+                link: "",
+                name: 'Users'
+            }
+        ]);
     }
 ]).controller('oAuthController', [
     '$scope',
@@ -61,6 +85,17 @@ angular.module('AppSettings', [
     'Api',
     function ($scope, $rootScope, $routeParams, Utils, Api) {
         Utils.setTitle('oAuth applications');
+
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'Settings'
+            },
+            {
+                link: "",
+                name: 'OAuth applications'
+            }
+        ]);
 
         $scope.settings = {};
         $scope.oauth = {};
@@ -118,6 +153,17 @@ angular.module('AppSettings', [
     '$location',
     function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
         Utils.setTitle('Connected accounts');
+
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'Settings'
+            },
+            {
+                link: "",
+                name: 'Connected accounts'
+            }
+        ]);
 
         $scope.availableApps = {};
         $scope.connected = [];

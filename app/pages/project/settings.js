@@ -24,6 +24,16 @@ angular.module('AppProjectSettings', [
         $scope.id = $routeParams.id;
         $scope.project = angular.copy($rootScope.projects[$scope.id]);
         Utils.setTitle($scope.project.name);
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "view/" + $scope.id + "/" + $scope.project.name,
+                name: $scope.project.name,
+            },
+            {
+                link: "",
+                name: 'Settings'
+            }
+        ]);
 
         $scope.page = 'project-settings';
         $scope.current = 'project-settings-basic';

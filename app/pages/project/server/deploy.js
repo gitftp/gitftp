@@ -43,6 +43,22 @@ angular.module('AppProjectServerDeploy', [
             $scope.deploy.type = Const.record_type_fresh_upload.toString();
         }
 
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "view/" + $scope.project.id + "/" + $scope.project.name,
+                name: $scope.project.name
+            },
+            {
+                link: "view/" + $scope.project.id + "/" + $scope.project.name + "/server/" + $scope.server_id,
+                name: $scope.server.name
+            },
+            {
+                link: "",
+                name: "Deploy"
+            }
+        ]);
+
+
         // deploy to revision
 
         $scope.fetchingComparision = false;

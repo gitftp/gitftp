@@ -20,6 +20,7 @@ angular.module('AppHome', [
     'Utils',
     function ($scope, $rootScope, $routeParams, Utils) {
         Utils.setTitle('Home');
+        $rootScope.$broadcast('setBreadcrumb', []);
 
         $scope.projects_array = [];
         $scope.parseProjects = function () {

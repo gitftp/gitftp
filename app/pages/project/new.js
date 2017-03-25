@@ -20,6 +20,12 @@ angular.module('AppProjectNew', [
     '$location',
     function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
         Utils.setTitle('Create new project');
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'New project'
+            }
+        ]);
 
         $scope.available_repos = [];
         $scope.loading = false;

@@ -29,31 +29,10 @@ angular.module('AppDirectives', [
 
                 scope.$location = $location;
 
-                scope.showSyncButton = false;
-                scope.project = false;
-                scope.server_name = false;
+                scope.breadcumb = [];
 
-                scope.$watch('$location.path()', function () {
-                    $timeout(function () {
-                        console.log('location changed ');
-                        scope.showSyncButton = !!$routeParams.id;
-
-                        if ($routeParams.id && $rootScope.projects[$routeParams.id]) {
-                            scope.project = $rootScope.projects[$routeParams.id];
-                        } else {
-                            scope.project = false;
-                        }
-
-                        if (scope.project && $routeParams.server_id) {
-                            angular.forEach(scope.project.servers, function (a) {
-                                if (a.id == $routeParams.server_id) {
-                                    scope.server_name = a.name;
-                                }
-                            });
-                        } else {
-                            scope.server_name = false;
-                        }
-                    }, 200);
+                scope.$on('setBreadcrumb', function (event, params) {
+                    scope.breadcumb = params;
                 });
 
                 scope.syncProject = function () {

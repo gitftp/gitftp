@@ -6,10 +6,10 @@ angular.module('AppProjectServerAdd', [
     '$routeProvider',
     function ($routeProvider) {
         $routeProvider.when('/view/:id/:name/server/add', {
-            templateUrl: 'app/pages/project/server/add.html',
+            templateUrl: 'app/pages/project/server/addEdit.html',
             controller: 'createServerController',
         }).when('/view/:id/:name/server/:server_id', {
-            templateUrl: 'app/pages/project/server/add.html',
+            templateUrl: 'app/pages/project/server/addEdit.html',
             controller: 'createServerController',
         });
     }
@@ -37,7 +37,19 @@ angular.module('AppProjectServerAdd', [
         else {
             $scope.page = 'new-server';
             Utils.setTitle('Add new server');
+
+            $rootScope.$broadcast('setBreadcrumb', [
+                {
+                    link: "view/" + $scope.project.id + "/" + $scope.project.name,
+                    name: $scope.project.name
+                },
+                {
+                    link: "",
+                    name: 'New server'
+                }
+            ]);
         }
+
 
         $scope.server = {
             type: "1",
@@ -311,6 +323,17 @@ angular.module('AppProjectServerAdd', [
                 } else {
                     $scope.server.useKey = false;
                 }
+
+                $rootScope.$broadcast('setBreadcrumb', [
+                    {
+                        link: "view/" + $scope.project.id + "/" + $scope.project.name,
+                        name: $scope.project.name
+                    },
+                    {
+                        link: "",
+                        name: $scope.server_name
+                    }
+                ]);
             }, function (reason) {
                 $scope.loading = false;
                 Utils.error(reason, 'red', $scope.load);

@@ -31,7 +31,7 @@ class Controller_Setup_Api extends Controller_Rest {
     /**
      * Test in incoming database config and set it in the configs
      */
-    public function post_db_setup () {
+    public function post_db_save () {
         try {
             $host = Input::json('db.host');
             $username = Input::json('db.username');
@@ -46,6 +46,36 @@ class Controller_Setup_Api extends Controller_Rest {
                 'mysql.password' => $password,
                 'mysql.dbname'   => $db_name,
             ])->save();
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
+    /**
+     * Test in incoming database config and set it in the configs
+     */
+    public function post_db_install () {
+        try {
+            if (!GF_CONFIG_FILE_EXISTS)
+                throw new \Gf\Exception\UserException('Please refresh and try again');
+
+            $host = \Gf\Config::instance()->get('mysql.host', false);
+            if (!$host)
+                throw new \Gf\Exception\UserException('This was not suppose to happen, please delete the .config.json file and try again.');
+
+            Migrate::latest('default', 'app', true);
+
+            \Gf\Config::instance()->set([
+                'dbInstalled' => true,
+            ]);
 
             $r = [
                 'status' => true,

@@ -2,17 +2,22 @@
     <div class="container" ng-app="setupApp" ng-controller="mainController" ng-cloak>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div class="navbar">
+                <div class="navbar m-t-40">
                     <div class="navbar-brand m-t-lg text-center">
-                        <?php echo Asset::img('logo.png', ['width' => '100px']); ?>
+                        <?php echo Asset::img('logo.png', ['width' => '150px']); ?>
                     </div>
                 </div>
+                <h3 class="text-center">
+                    Setup
+                </h3>
             </div>
             <div class="col-md-6 col-md-offset-3" ng-show="step == 1">
                 <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
-                        <h4 class="no-margin-top">1 of {{tSteps}}: Basic dependency check</h4>
-                        <span>Do a system check if all dependencies are available</span>
+                        <h4 class="no-margin-top">Dependency check</h4>
+                        <span>
+                            Welcome to Gitftp, lets check if all the required dependencies are installed.
+                        </span>
                     </div>
                     <table class="table">
                         <tr>
@@ -67,14 +72,14 @@
                             Looks good.
                         </p>
                         <div class="text-right">
-                            <button type="button" class="md-btn md-raised white blue-bg p-h-md waves-effect"
+                            <button type="button" class="btn btn-primary btn-stroke btn-rounded white blue-bg p-h-md waves-effect"
                                     ng-if="!step1.go"
                                     ng-disabled="step1.loading"
-                                    ng-click="step1.start()">{{step1.loading ? 'Checking' : 'Start'}}
+                                    ng-click="step1.start()">{{step1.loading ? 'CHECKING' : 'START'}}
                             </button>
-                            <button type="button" class="md-btn md-raised white blue-bg p-h-md waves-effect"
+                            <button type="button" class="btn btn-primary btn-stroke btn-rounded white blue-bg p-h-md waves-effect"
                                     ng-if="step1.go && !step1.loading"
-                                    ng-click="gotoStep(2)">Next <i class="zmdi zmdi-arrow-right"></i>
+                                    ng-click="gotoStep(2)">NEXT <i class="zmdi zmdi-arrow-right"></i>
                             </button>
                         </div>
                     </div>
@@ -84,40 +89,51 @@
                 <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
                         <h4 class="no-margin-top">
-                            <a ng-click="gotoStep(1)" ng-if="!step2.loading" class="">
-                                <i class="zmdi zmdi-arrow-left zmdi-hc-fw" style="font-size: 19px;"></i>
-                            </a>
-                            2 of {{tSteps}}: Set MySql database</h4>
-                        <span>Gitftp's data will be maintained in this database</span>
+                            Your mysql database</h4>
+                        <span>
+                            We need information on your database, where Gitftp will be installed. <br>
+                            Pfff, developers know what this is.
+                        </span>
                     </div>
                     <form name="form" class="no-margin" ng-submit="test_database()">
                         <div class="row">
-                            <div class="col-md-6">
-                                <div class="md-form-group float-label">
-                                    <input type="text" class="md-input" ng-model="db.host" required>
-                                    <label>Host (localhost)</label>
-                                </div>
-                                <div class="md-form-group float-label">
-                                    <input type="text" class="md-input" required ng-model="db.username">
-                                    <label>Username</label>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="md-form-group float-label">
+                                            <input type="text" class="md-input" required ng-model="db.dbname">
+                                            <label>Database Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="md-form-group float-label">
+                                            <input type="text" class="md-input" ng-model="db.host" required>
+                                            <label>Database host</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="md-form-group float-label">
-                                    <input type="text" class="md-input" required ng-model="db.password">
-                                    <label>Password</label>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="md-form-group float-label">
+                                            <input type="text" class="md-input" required ng-model="db.password">
+                                            <label>Password</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="md-form-group float-label">
+                                            <input type="text" class="md-input" required ng-model="db.username">
+                                            <label>User Name</label>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="md-form-group float-label">
-                                    <input type="text" class="md-input" required ng-model="db.dbname">
-                                    <label>Database name</label>
-                                </div>
-
                             </div>
                         </div>
-                        <p class="red" ng-if="step2.error">
+                        <div class="alert alert-danger" ng-if="step2.error">
                             Could not connect: <br>
-                            <code>{{step2.error}}</code>
-                        </p>
+                            {{step2.error}}
+                        </div>
                         <span ng-if="step2.loading">
                             <div class="loader" style="width: 32px;display: inline-block">
                                 <svg class="circular" viewBox="25 25 50 50">
@@ -127,9 +143,9 @@
                             </div>
                         </span>
                         <button type="submit" ng-disabled="form.$invalid || step2.loading"
-                                class="md-btn md-raised white blue-bg p-h-md waves-effect pull-right">
-                            <span ng-if="!step2.loading">next <i class="zmdi zmdi-arrow-right"></i></span>
-                            <span ng-if="step2.loading">Testing connection</span>
+                                class="btn btn-primary btn-stroke btn-rounded pull-right">
+                            <span ng-if="!step2.loading">INSTALL</span>
+                            <span ng-if="step2.loading">{{step2.status}}</span>
                         </button>
                         <div class="clearfix"></div>
                     </form>
@@ -312,21 +328,39 @@
                 var s2 = $scope.step2 = {};
                 s2.loading = false;
                 s2.error = '';
+                s2.status = '';
                 $scope.test_database = function () {
                     s2.loading = true;
                     s2.error = '';
-                    $http.post(current + '/db_setup', {
+                    s2.status = 'CONNECTING';
+                    $http.post(current + '/db_save', {
                         db: $scope.db
                     }).then(function (res) {
-                        s2.loading = false;
                         if (res.data.status) {
-                            $scope.step = 3;
+                            s2.status = 'INSTALLING SCHEMA';
+                            $http.post(current + '/db_install', {
+                                db: $scope.db
+                            }).then(function (res) {
+                                s2.loading = false;
+                                if (res.data.status) {
+                                    $scope.step = 3;
+                                } else {
+                                    s2.error = res.data.reason;
+                                }
+                            }, function (reason) {
+                                s2.loading = false;
+                                s2.error = 'Could not connect';
+                                s2.status = '';
+                            })
                         } else {
+                            s2.loading = false;
                             s2.error = res.data.reason;
+                            s2.status = '';
                         }
-                    }, function () {
+                    }, function (reason) {
                         s2.loading = false;
                         s2.error = 'Could not connect';
+                        s2.status = '';
                     });
                 };
 

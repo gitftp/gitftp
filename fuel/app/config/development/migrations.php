@@ -6,7 +6,7 @@ return array (
     array (
       'default' => 
       array (
-        0 => '002_v3',
+        0 => '001_install',
       ),
       1 => 
       array (

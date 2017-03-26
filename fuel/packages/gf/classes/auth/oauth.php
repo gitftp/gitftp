@@ -68,7 +68,7 @@ class OAuth {
     const provider_github = 'github';
     const provider_bitbucket = 'bitbucket';
 
-    public static $table = 'users_providers';
+    public static $table = 'users_git_providers';
     public static $db = 'default';
 
     /**

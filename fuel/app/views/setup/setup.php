@@ -12,7 +12,7 @@
                 <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
                         <h4 class="no-margin-top">1 of {{tSteps}}: Basic dependency check</h4>
-                        <span>Do a system check if all dependencies are installed</span>
+                        <span>Do a system check if all dependencies are available</span>
                     </div>
                     <table class="table">
                         <tr>

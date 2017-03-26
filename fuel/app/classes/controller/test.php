@@ -16,10 +16,11 @@ class Controller_Test extends Controller {
 
     public function get_qwe2 () {
         echo DOCROOT;
-        print_r(\Fuel\Core\File::read_dir(DOCROOT));
-        die;
-        $file = DOCROOT . 'repositories/keys/temp';
-        \Fuel\Core\File::download($file, '25');
+//        print_r(\Fuel\Core\File::read_dir(DOCROOT));
+        \Fuel\Core\File::create_dir(DOCROOT , 'dude');
+//        die;
+//        $file = DOCROOT . 'repositories/keys/temp';
+//        \Fuel\Core\File::download($file, '25');
     }
 
     public function get_qwe () {

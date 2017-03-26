@@ -6,18 +6,9 @@ class Controller_Setup_Api extends Controller_Rest {
     /**
      * Do a dependency test
      */
-
-
-//    public function before () {
-//        parent::before();
-//        if (\Gf\Config::instance()->get('ready')) {
-//            echo 'The sites is setup.';
-//            die;
-//        }
-//    }
-
     public function post_dep_test () {
         try {
+            // @todo: check for ftp_secure and pthreads (optional)
             $dependencies = \Gf\Misc::dependenciesCheck();
             $r = [
                 'status' => true,
@@ -42,8 +33,6 @@ class Controller_Setup_Api extends Controller_Rest {
      */
     public function post_db_setup () {
         try {
-
-
             $host = Input::json('db.host');
             $username = Input::json('db.username');
             $password = Input::json('db.password');

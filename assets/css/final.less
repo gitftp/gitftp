@@ -165,14 +165,6 @@ Gitftp
   border-color: #0c82df;
 }
 
-.servers-list {
-  display: block;
-
-  &:hover {
-    background: whitesmoke;
-  }
-}
-
 .radio.radio-buttons.disabled {
   opacity: .4;
 }
@@ -248,4 +240,28 @@ Gitftp
 .nav-active {
   font-weight: bold;
   border-left: solid 2px #0091ea;
+}
+
+.servers-list {
+  display: table;
+  width: 100%;
+
+  &:hover {
+    background: whitesmoke;
+  }
+
+  > div {
+    display: table-cell;
+    width: 100%;
+
+    > a {
+      padding: 15px 5px 15px 20px;
+      display: block;
+    }
+
+    > div {
+      padding: 15px 15px 0 0;
+      display: block;
+    }
+  }
 }

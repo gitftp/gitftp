@@ -1,8 +1,17 @@
 <?php
 
+use Fuel\Core\DBUtil;
+
 class Controller_Test extends Controller {
     public function before () {
         echo '<pre>';
+    }
+
+    public function get_ert () {
+        \Fuel\Core\Migrate::version(1);
+//        \Fuel\Core\Migrate::latest();
+
+//        \Oil\Refine::run('install');
     }
 
     public function get_qwe2 () {

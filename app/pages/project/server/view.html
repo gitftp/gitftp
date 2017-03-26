@@ -8,7 +8,7 @@
                 <div class="col-md-9">
                     <div class="panel panel-card">
                         <div class="panel-body">
-                            <h3 class="m-b-20 m-t-5">Deploy activity</h3>
+                            <h3 class="m-b-20 m-t-5">{{server.name}} deploy activity</h3>
                             <div class="" ng-if="loadingRecords">
                                 <div class="p-t-20 p-b-20">
                                     <div class="loader" style="width: 60px">
@@ -21,20 +21,16 @@
                             </div>
                             <div ng-if="!loadingRecords">
                                 <div class="streamline m-l-5 b-l" ng-if="records.length">
-
                                     <div ng-repeat="record in records">
                                         <div record-item record="record"></div>
                                     </div>
                                 </div>
 
-                                <div class="text-center p-t-60 p-b-70" ng-if="!isCloned && records.length == 0">
-                                    <div class="m-b-10">Great!, the project is setup, lets clone the repository</div>
-                                    <button class="btn btn-rounded btn-stroke btn-info waves-effect btn-lg"
-                                            ng-click="startCloning()"
-                                            ng-disabled="startingCloning"
-                                            type="button">
-                                        {{startingCloning ? "Please wait..":"Start cloning"}}
-                                    </button>
+                                <div class="text-center p-t-60 p-b-70" ng-if="records.length == 0">
+                                    <div>
+                                        <img style="opacity: .4" src="assets/img/generic/empty-white-box.svg" alt="">
+                                    </div>
+                                    <div class="m-b-10">No deploys yet</div>
                                 </div>
                             </div>
                         </div>

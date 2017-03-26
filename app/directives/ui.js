@@ -70,12 +70,24 @@ angular.module('AppDirectives', [
             link: function (scope, element) {
                 scope.id = $routeParams.id;
                 scope.project = $rootScope.projects[scope.id];
-                console.log(scope.current)
+                scope.server = {};
+                scope.server_id = $routeParams.server_id || false;
 
                 scope.$on('projectsUpdated', function () {
                     console.log('Directive project update.');
                     scope.project = $rootScope.projects[scope.id];
+                    scope.getServer();
                 });
+
+                scope.getServer = function () {
+                    if (scope.server_id) {
+                        angular.forEach(scope.project.servers, function (a) {
+                            if (a.id == scope.server_id)
+                                scope.server = a;
+                        });
+                    }
+                };
+                scope.getServer();
 
                 scope.serverType = function (state) {
                     return Utils.serverType(state);

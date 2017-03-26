@@ -38,7 +38,10 @@
                             <div class="row">
                                 <div class="col-md-4" ng-repeat="server in project.servers">
                                     <div class="b-a border-radius p-20 m-b-10">
-                                        <a class="pull-right" href="view/{{project.id}}/{{project.name}}/server/{{server.id}}">View</a>
+                                        <div class="pull-right">
+                                            <a href="view/{{project.id}}/{{project.name}}/server/{{server.id}}/settings">Setup</a> —
+                                            <a href="view/{{project.id}}/{{project.name}}/server/{{server.id}}">View</a>
+                                        </div>
                                         <strong>{{server.name}}</strong> <br>
                                         <img src="assets/img/branch.svg" alt="branch" style="height: 14px"> {{server.branch}} <br>
                                         <small ng-if="server.revision">@ <code>{{server.revision | sha}}</code></small>

@@ -52,7 +52,7 @@ angular.module('AppProjectServerView', [
         $scope.totalRecords = 0;
         $scope.loading = false;
 
-        $scope.page = 'view-project';
+        $scope.page = 'view-server';
 
         $scope.$on('projectsUpdated', function () {
             console.log('projectsUpdated');

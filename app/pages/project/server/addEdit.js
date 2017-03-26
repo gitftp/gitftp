@@ -31,7 +31,7 @@ angular.module('AppProjectServerAdd', [
         $scope.project = $scope.projects[$scope.project_id];
         $scope.api_path = API_PATH;
         if ($scope.server_id) {
-            $scope.page = 'view-server';
+            $scope.page = 'server-settings';
             Utils.setTitle('View server');
         }
         else {
@@ -45,7 +45,7 @@ angular.module('AppProjectServerAdd', [
                 },
                 {
                     link: "",
-                    name: 'New server'
+                    name: 'Add server'
                 }
             ]);
         }
@@ -330,8 +330,12 @@ angular.module('AppProjectServerAdd', [
                         name: $scope.project.name
                     },
                     {
-                        link: "",
+                        link: "view/" + $scope.project.id + "/" + $scope.project.name + "/server/" + $scope.server_id,
                         name: $scope.server_name
+                    },
+                    {
+                        link: "",
+                        name: "Setup"
                     }
                 ]);
             }, function (reason) {

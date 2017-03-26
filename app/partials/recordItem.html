@@ -15,6 +15,9 @@
                 <span ng-if="record.status == 2 && record.total_files != '0'">
                     {{record.processed_files}} of {{record.total_files}} done
                 </span>
+                <span ng-if="record.status == 2 && record.total_files == '0'">
+                    Computing changes
+                </span>
                 <span class="m-l-10" ng-if="record.added_files != 0" uib-tooltip="Added files" tooltip-placement="left">
                     <i class="zmdi m-r-5 zmdi-plus-circle-o"></i>{{record.added_files}}
                 </span>

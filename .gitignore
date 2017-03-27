@@ -8,3 +8,4 @@ repositories/*
 !repositories/.htaccess
 logs/*
 !logs/.gitkeep
+.config.json

@@ -1,7 +1,7 @@
 # Gitftp
-self hosted git to ftp/sftp/local deployment made easy
+Self hosted git to ftp/sftp/local deployment made easy
 
-*This project is under development*
+Version: 0.1-beta
 
 ## Features
 * self hosted Git deployment

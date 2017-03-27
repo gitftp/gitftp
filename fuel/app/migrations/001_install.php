@@ -83,17 +83,21 @@ class Install {
                 'constraint' => 255,
             ],
             'secret'        => [
+                'null'       => true,
                 'type'       => 'varchar',
                 'constraint' => 255,
             ],
             'access_token'  => [
+                'null' => true,
                 'type' => 'longtext',
             ],
             'expires'       => [
+                'null'       => true,
                 'type'       => 'int',
                 'constraint' => 12,
             ],
             'refresh_token' => [
+                'null'       => true,
                 'type'       => 'varchar',
                 'constraint' => 255,
             ],

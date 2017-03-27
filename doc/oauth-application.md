@@ -38,6 +38,6 @@ Please note: http://example.com/dir/ is the root directory.
 **Name:** _Anything you like_  
 **Callback URL:** http://example.com/dir/oauth/authorize/bitbucket  
 **URL:** http://example.com/dir  
-**Permissions:** Account: Read, Projects: Read, Webhooks: Read and Write, Repositories: Read
+**Permissions:** Account: Read, Projects: Read, Webhooks: Read and Write, Repositories: Read  
 Please note: http://example.com/dir/ is the root directory.
 

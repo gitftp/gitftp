@@ -156,44 +156,39 @@
                     <div class="m-b text-sm">
                         <h4 class="no-margin-top">
                             Create OAuth application</h4>
-                        <span>As a standalone software, gitftp will require an app to connect to your repositories</span>
+                        <span>
+                            As a standalone software, gitftp will require an app to connect to your repositories
+                        <u>
+                            <a href="https://github.com/gitftp/gitftp/blob/master/doc/oauth-application.md" target="_blank">Learn more</a>
+                        </u>
+                        </span>
                     </div>
                     <p>
                         Please select the provider you want to setup, <br>you can add/edit providers in your site
                         settings later.
                     </p>
                     <form name="form3" class="no-margin" ng-submit="save_oauth_config()">
-                        <label class="md-check">
-                            <input type="checkbox">
-                            <i class="blue-bg white"></i>
-                            Github
-                        </label>
-                        <div class="radio">
-                            <label class="ui-checks ui-checks-md">
-                                <input type="radio" name="step3provider" value="github" ng-model="step3.provider">
-                                <i></i>
+                        <div class="m-b-10">
+                            <label class="md-check">
+                                <input type="checkbox" ng-model="step3.useGithub">
+                                <i class="blue-bg white"></i>
                                 Github
                             </label>
                         </div>
-                        <div class="radio">
-                            <label class="ui-checks ui-checks-md">
-                                <input type="radio" name="step3provider" value="bitbucket" ng-model="step3.provider">
-                                <i></i>
-                                Bitbucket
-                            </label>
-                        </div>
 
-                        <div class="row" ng-if="step3.provider == 'github'">
+                        <div class="row" ng-if="step3.useGithub">
                             <div class="col-md-12">
-                                <p>
-                                    <strong>Github:</strong> Register a new OAuth provider. <br>
-                                    Goto settings > OAuth applications > Register a new application
-
-                                    <br>
-                                    <strong>Application name: </strong> Anything you like <br>
-                                    <strong>Homepage URL: </strong> {{base}} <br>
-                                    <strong>Authorization callback URL: </strong> {{githubCallback}}
-                                </p>
+                                <div class="alert alert-info text-sm">
+                                    1. Goto settings <br>
+                                    2. OAuth applications <br>
+                                    3. Register a new application
+                                    <p>
+                                        Details
+                                    </p>
+                                    <span>Application name: </span> <em>Anything you like</em> <br>
+                                    <span>Homepage URL: </span> {{base}} <br>
+                                    <span>Authorization URL: </span> {{githubCallback}}
+                                </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="md-form-group float-label">
@@ -206,10 +201,48 @@
                                 </div>
                             </div>
                         </div>
-                        <p class="red" ng-if="step3.error">
-                            Could not connect: <br>
-                            <code>{{step3.error}}</code>
-                        </p>
+
+                        <div class="m-b-10">
+                            <label class="md-check">
+                                <input type="checkbox" ng-model="step3.useBitbucket">
+                                <i class="blue-bg white"></i>
+                                Bitbucket
+                            </label>
+                        </div>
+
+                        <div class="row" ng-if="step3.useBitbucket">
+                            <div class="col-md-12">
+                                <div class="alert alert-info">
+                                    1. Goto settings <br>
+                                    2. Under Access Management click OAuth <br>
+                                    3. Add consumer
+
+                                    <p>
+                                        Details
+                                    </p>
+                                    <span>Name: </span> <em>Anything you like</em> <br>
+                                    <span>URL: </span> {{base}} <br>
+                                    <span>Callback URL: </span> {{githubCallback}} <br>
+                                    <span>Permissions:</span> Account: Read, Projects: Read, Webhooks: Read and Write, Repositories: Read
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="md-form-group float-label">
+                                    <input type="text" class="md-input" required ng-model="step3.bitbucket.clientId">
+                                    <label>Client ID</label>
+                                </div>
+                                <div class="md-form-group float-label">
+                                    <input type="text" class="md-input" required ng-model="step3.bitbucket.clientSecret">
+                                    <label>Client Secret</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="alert alert-danger" ng-if="step3.error">
+                            Error: <br>
+                            {{step3.error}}
+                        </div>
+
                         <span ng-if="step3.loading">
                             <div class="loader" style="width: 32px;display: inline-block">
                                 <svg class="circular" viewBox="25 25 50 50">
@@ -219,24 +252,21 @@
                             </div>
                         </span>
                         <button type="submit" ng-disabled="form3.$invalid || step3.loading"
-                                class="md-btn md-raised white blue-bg p-h-md waves-effect pull-right">
-                            <span ng-if="!step3.loading">next <i class="zmdi zmdi-arrow-right"></i></span>
-                            <span ng-if="step3.loading">Saving credentials</span>
+                                class="btn btn-primary btn-rounded btn-stroke pull-right">
+                            <span ng-if="!step3.loading">NEXT <i class="zmdi zmdi-arrow-right"></i></span>
+                            <span ng-if="step3.loading">SAVING CREDENTIALS</span>
                         </button>
                         <div class="clearfix"></div>
                     </form>
                 </div>
             </div>
-            <div class="col-md-6 col-md-offset-3">
-                <div class="p-lg panel shadow-x2 text-color m" ng-show="step == 4">
+            <div class="col-md-6 col-md-offset-3" ng-show="step == 4">
+                <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
                         <h4 class="no-margin-top">
-                            <a ng-click="gotoStep(3)" ng-if="!step4.loading" class="">
-                                <i class="zmdi zmdi-arrow-left zmdi-hc-fw" style="font-size: 19px;"></i>
-                            </a>
-                            4 of {{tSteps}}: Your admin account
+                            Your admin account
                         </h4>
-                        <span>Primary account for the site.</span>
+                        <span>Administrator account for this site.</span>
                     </div>
 
                     <div class="row">
@@ -262,8 +292,8 @@
                                 <div class="text-center">
                                     <button type="submit" ng-disabled="form4.$invalid"
                                             ng-if="!step4.loading"
-                                            class="md-btn md-raised white blue-bg p-h-md waves-effect btn-block">
-                                        Create &amp; Goto dashboard
+                                            class="btn btn-primary btn-rounded btn-stroke btn-block">
+                                        CREATE &AMP; GOTO DASHBOARD
                                     </button>
                                 </div>
                                 <div class="clearfix"></div>
@@ -373,19 +403,14 @@
                 s3.error = '';
 
                 $scope.save_oauth_config = function () {
-                    s3.loading = true;
                     s3.error = '';
-                    var provider = {};
-                    if (s3.provider == 'github') {
-                        provider = s3.github;
-                    } else if (s3.provider == 'bitbucket') {
-                        provider = s3.bitbucket;
-                    } else {
-                        return;
-                    }
+                    var providers = {
+                        github: s3.github || null,
+                        bitbucket: s3.bitbucket || null,
+                    };
+                    s3.loading = true;
                     $http.post(current + '/save_oauth_config', {
-                        provider: s3.provider,
-                        config: provider,
+                        providers: providers,
                     }).then(function (res) {
                         if (res.data.status) {
                             $scope.gotoStep(4);
@@ -412,9 +437,9 @@
                         if (res.data.status) {
                             location.href = $scope.base;
                         } else {
+                            s4.loading = false;
                             s4.error = res.data.reason;
                         }
-                        s4.loading = false;
                     }, function () {
                         s4.loading = false;
                         s4.error = 'Could not connect';

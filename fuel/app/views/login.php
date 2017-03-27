@@ -4,7 +4,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="p-lg no-padding-top panel shadow-x3 text-color m m-t-40">
                     <div class="text-center p-30 b-b">
-                        <img style="width:120px;" src="<?php echo Asset::get_file('logo.png', 'img'); ?>" alt="">
+                        <img style="width:150px;" src="<?php echo Asset::get_file('logo.png', 'img'); ?>" alt="">
                     </div>
                     <div class="m-b text-sm">
                         <h3 class="m-b-25">

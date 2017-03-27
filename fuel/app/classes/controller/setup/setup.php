@@ -1,12 +1,13 @@
 <?php
 
 use Gf\Auth\OAuth;
+use Gf\Config;
 
 class Controller_Setup_Setup extends Controller_Hybrid {
     public $template = 'base_layout';
 
     public function get_index () {
-        if (GF_CONFIG_FILE_EXISTS and \Gf\Config::instance()->get('ready', false)) {
+        if (GF_CONFIG_FILE_EXISTS and Config::instance()->get('ready', false)) {
             try {
                 $administratorUser = \Gf\Auth\Users::instance()->get_one([
                     'group' => \Gf\Auth\Users::$administrator,
@@ -22,10 +23,11 @@ class Controller_Setup_Setup extends Controller_Hybrid {
         $baseUrl = \Fuel\Core\Uri::base();
         $page = 1;
 
-
-        if (GF_CONFIG_FILE_EXISTS and \Gf\Config::instance()->get('mysql.host', false)) {
+        if (GF_CONFIG_FILE_EXISTS and Config::instance()->get('mysql.host', false))
             $page = 3;
-        }
+
+        if (GF_CONFIG_FILE_EXISTS and (Config::instance()->get('github', false) or Config::instance()->get('bitbucket', false)))
+            $page = 4;
 
         $this->template->body = \Fuel\Core\View::forge('setup/setup', [
             'githubCallbackUrl'    => $githubCallbackUrl,

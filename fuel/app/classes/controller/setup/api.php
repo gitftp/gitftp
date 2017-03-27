@@ -94,20 +94,29 @@ class Controller_Setup_Api extends Controller_Rest {
      */
     public function post_save_oauth_config () {
         try {
-            $provider = Input::json('provider', false);
-            $clientId = Input::json('config.clientId', false);
-            $clientSecret = Input::json('config.clientSecret', false);
+            $github = Input::json('providers.github', false);
+            $bitbucket = Input::json('providers.bitbucket', false);
 
-            if (!$provider or !$clientId or !$clientSecret)
-                throw new \Gf\Exception\UserException('The given parameters are wrong');
+            if (!$github and !$bitbucket)
+                throw new \Gf\Exception\UserException('Please configure at least one provider');
 
-            if ($provider == 'github' || $provider == 'bitbucket') {
-                $set = [
-                    "$provider.clientId"     => $clientId,
-                    "$provider.clientSecret" => $clientSecret,
-                ];
-            } else {
-                throw new \Gf\Exception\UserException("Don't know about this provider yet.");
+            if ($github and (!$github['clientId'] or !$github['clientSecret'])) {
+                throw new \Gf\Exception\UserException('Incomplete github configuration');
+            }
+
+            if ($bitbucket and (!$bitbucket['clientId'] or !$bitbucket['clientSecret'])) {
+                throw new \Gf\Exception\UserException('Incomplete bitbucket configuration');
+            }
+
+            $set = [];
+
+            if ($github) {
+                $set['github.clientId'] = $github['clientId'];
+                $set['github.clientSecret'] = $github['clientSecret'];
+            }
+            if ($bitbucket) {
+                $set['bitbucket.clientId'] = $bitbucket['clientId'];
+                $set['bitbucket.clientSecret'] = $bitbucket['clientSecret'];
             }
 
             \Gf\Config::instance()->set($set)->save();
@@ -145,7 +154,6 @@ class Controller_Setup_Api extends Controller_Rest {
             ]);
             $user_id = $users->create_user(null, $email, $password, \Gf\Auth\Users::$administrator, [
                 'account_active' => 1,
-                'email_verified' => 1,
             ], [
             ]);
 

@@ -17,6 +17,9 @@ class Controller_Console_Api_Accounts extends Controller_Console_Authenticate {
                 'updated_at',
             ]);
 
+            if (!$connected)
+                $connected = [];
+
             foreach ($list as $k => $item) {
                 $list[$item] = $k;
             }

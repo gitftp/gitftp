@@ -4,5 +4,14 @@
         "username": "asd",
         "password": "asd",
         "dbname": "gitftp"
-    }
+    },
+    "github": {
+        "clientId": "7d936e80431b4d605c7f",
+        "clientSecret": "8db2a8dcbeb6c72e6f0487f05f3827531d50d63e"
+    },
+    "bitbucket": {
+        "clientId": "mVjq4uHZzXpQrEggG3",
+        "clientSecret": "3SuqwYwTPURaGsx54cZeCXxxxvvfLvTQ"
+    },
+    "ready": 1
 }

@@ -4,6 +4,7 @@ namespace Gf;
 
 use Fuel\Core\Arr;
 use Fuel\Core\File;
+use Gf\Exception\UserException;
 
 class Config {
 
@@ -39,9 +40,14 @@ class Config {
      * @param null $default
      *
      * @return mixed
+     * @throws \Gf\Exception\UserException
      */
     public function get ($key, $default = null) {
-        return Arr::get($this->configs, $key, $default);
+        try {
+            return Arr::get($this->configs, $key, $default);
+        } catch (\Exception $e) {
+            throw new UserException('Problem in config file: ' . $e->getMessage());
+        }
     }
 
     public function set (Array $dataSet) {

@@ -208,8 +208,6 @@ class Users {
         $insert['password'] = Fuel_Auth::instance()
             ->hash_password($password);
 
-        if (isset($properties['email_verified'])) $insert['email_verified'] = $properties['email_verified'];
-
         if (isset($properties['account_active'])) $insert['account_active'] = $properties['account_active'];
 
         $insert['created_at'] = Utils::timeNow();

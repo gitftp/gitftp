@@ -9,3 +9,4 @@ repositories/*
 logs/*
 !logs/.gitkeep
 .config.json
+docs/

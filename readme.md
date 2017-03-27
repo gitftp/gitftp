@@ -1,10 +1,13 @@
+
 # Gitftp
+![Gitftp](assets/img/logo-sm-2-name.png)  
+
 Self hosted git to ftp/sftp/local deployment made easy
 
 Version: 0.1-beta
 
 ## Features
-* self hosted Git deployment
+* Self hosted Git deployment
 * Use your own OAuth application to login
 * Github and Bitbucket support
 * Deploy to multiple servers
@@ -16,3 +19,8 @@ Version: 0.1-beta
 * pre and post deploy commands
 * Creates webhooks  
 and more
+
+## Roadmap
+A lot of features are to be added
+* Users -  
+Add users that can access and look at deployments.

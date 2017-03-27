@@ -22,24 +22,31 @@
                         </div>
                     </div>
                     <div ng-if="!loading">
-                        {{availableApps}}
                         <div>
                             <a ng-click="connect('github')"
                                class="text-sm btn btn-lg btn-rounded btn-info m-r m-t-20"
-                               ng-disabled="!availableApps.github">
-                            <span class="block clear text-left m-v-xs">
-                                Connect{{availableApps.github? '': 'ed'}} with
-                                <b class="text-md block font-bold">Github</b>
-                              </span>
+                               ng-disabled="availableApps.github.connected || !availableApps.github.available">
+                                <span class="block clear text-left m-v-xs" ng-if="availableApps.github.available">
+                                    Connect{{availableApps.github.connected ? 'ed': ''}} with
+                                    <b class="text-md block font-bold">Github</b>
+                                </span>
+                                <span class="block clear text-left m-v-xs" ng-if="!availableApps.github.available">
+                                    OAuth application not set
+                                    <b class="text-md block font-bold">Github</b>
+                                </span>
                             </a>
 
                             <a ng-click="connect('bitbucket')"
                                class="text-sm btn btn-lg btn-rounded btn-info m-t-20"
-                               ng-disabled="!availableApps.bitbucket">
-                            <span class="block clear text-left m-v-xs">
-                                Connect{{availableApps.bitbucket? '': 'ed'}} with
-                                <b class="text-md block font-bold">Bitbucket</b>
-                              </span>
+                               ng-disabled="availableApps.bitbucket.connected || !availableApps.bitbucket.available">
+                                <span class="block clear text-left m-v-xs" ng-if="availableApps.bitbucket.available">
+                                    Connect{{availableApps.bitbucket.connected ? 'ed': ''}} with
+                                    <b class="text-md block font-bold">Bitbucket</b>
+                                </span>
+                                <span class="block clear text-left m-v-xs" ng-if="!availableApps.bitbucket.available">
+                                    OAuth application not set
+                                    <b class="text-md block font-bold">Bitbucket</b>
+                                </span>
                             </a>
                         </div>
                     </div>
@@ -48,25 +55,33 @@
                     <table class="table" ng-if="connected.length">
                         <tr>
                             <th>
-                                Username
+                                Provider / Username
                             </th>
                             <th>
-                                Provider
-                            </th>
-                            <th>
-                                Created
-                            </th>
-                            <th>
+                                Created /
                                 Updated
                             </th>
+                            <th></th>
                         </tr>
                         <tr ng-repeat="co in connected">
-                            <td>connected as @{{co.username}}</td>
-                            <td>{{co.provider}}</td>
-                            <td>{{co.created_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</td>
-                            <td><span ng-if="co.updated_at != 0">
-                                {{co.updated_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}
-                            </span></td>
+                            <td>
+                                <strong>{{co.provider}}</strong> <br>
+                                connected as @{{co.username}}
+                            </td>
+                            <td>
+                                {{co.created_at | amFromUnix | amDateFormat: 'MMM DD YYYY HH:mm a'}}
+                                <span ng-if="co.updated_at != 0"> -
+                                {{co.updated_at | amFromUnix | amDateFormat: 'MMM DD YYYY HH:mm a'}}
+                                </span>
+                                <div class="red" ng-if="!availableApps[co.provider].available">
+                                    <i class="zmdi zmdi-alert-triangle"></i> OAuth application not available
+                                </div>
+                            </td>
+                            <td>
+                                <a ng-click="disconnect(co.id, co.provider)" uib-tooltip="Disconnect">
+                                    <i class="zmdi zmdi-delete"></i>
+                                </a>
+                            </td>
                         </tr>
                     </table>
                     <div class="panel-body" ng-if="!connected.length && !loading">

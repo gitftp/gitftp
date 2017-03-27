@@ -44,7 +44,9 @@ angular.module('AppSettings', [
     '$rootScope',
     '$routeParams',
     'Utils',
-    function ($scope, $rootScope, $routeParams, Utils) {
+    'Api',
+    '$timeout',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $timeout) {
         Utils.setTitle('Account settings');
 
         $rootScope.$broadcast('setBreadcrumb', [
@@ -57,6 +59,29 @@ angular.module('AppSettings', [
                 name: 'Account'
             }
         ]);
+
+        $scope.passChange = {};
+        $scope.passError = false;
+        $scope.passLoading = false;
+        $scope.passSuccess = false;
+        $scope.changePassword = function () {
+            $scope.passError = false;
+            $scope.passLoading = true;
+            $scope.passSuccess = false;
+            Api.updatePassword($scope.passChange.oldPass, $scope.passChange.newPass).then(function (data) {
+                $scope.passLoading = false;
+                $scope.passSuccess = true;
+                $scope.passChange.oldPass = '';
+                $scope.passChange.newPass = '';
+                $timeout(function () {
+                    $scope.passSuccess = false;
+                }, 3000);
+            }, function (reason) {
+                $scope.passLoading = false;
+                $scope.passError = reason;
+                $scope.passSuccess = false;
+            })
+        };
     }
 ]).controller('usersController', [
     '$scope',
@@ -134,8 +159,10 @@ angular.module('AppSettings', [
             if ($scope.oauth.isBitbucket)
                 settings.bitbucket = $scope.settings.bitbucket;
 
+            Utils.notification('Loading...');
             Api.saveOAuthApplications(settings).then(function () {
                 $scope.saving = false;
+                Utils.notification('Saved', 'green');
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.save);
                 $scope.saving = false;
@@ -151,7 +178,8 @@ angular.module('AppSettings', [
     'Api',
     '$window',
     '$location',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
+    '$ngConfirm',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location, $ngConfirm) {
         Utils.setTitle('Connected accounts');
 
         $rootScope.$broadcast('setBreadcrumb', [
@@ -165,7 +193,17 @@ angular.module('AppSettings', [
             }
         ]);
 
-        $scope.availableApps = {};
+        $scope.availableApps = {
+            github: {
+                available: false,
+                connected: false,
+            },
+            bitbucket: {
+                available: false,
+                connected: false,
+            },
+        };
+
         $scope.connected = [];
 
         if ($routeParams.s) {
@@ -185,15 +223,16 @@ angular.module('AppSettings', [
 
             // get only names of the oauth applications available.
             Api.getConnectedAccounts().then(function (data) {
-                $scope.availableApps.github = data.providers.github || false;
-                $scope.availableApps.bitbucket = data.providers.bitbucket || false;
                 $scope.connected = data.connected;
                 angular.forEach($scope.connected, function (co) {
                     if (co.provider == 'github')
-                        $scope.availableApps.github = false;
+                        $scope.availableApps.github.connected = true;
                     if (co.provider == 'bitbucket')
-                        $scope.availableApps.bitbucket = false;
+                        $scope.availableApps.bitbucket.connected = true;
                 });
+
+                $scope.availableApps.github.available = angular.isDefined(data.providers.github);
+                $scope.availableApps.bitbucket.available = angular.isDefined(data.providers.bitbucket);
 
                 $scope.loading = false;
             }, function (reason) {
@@ -205,6 +244,10 @@ angular.module('AppSettings', [
         $scope.load();
 
         $scope.connect = function (provider) {
+            if (!$scope.availableApps[provider].available || $scope.availableApps[provider].connected) {
+                return false;
+            }
+
             if (provider == 'github') {
                 $window.location.href = GITHUB_CALLBACK;
             } else if (provider == 'bitbucket') {
@@ -212,6 +255,54 @@ angular.module('AppSettings', [
             } else {
                 return false;
             }
-        }
+        };
+
+        $scope.disconnect = function (id, provider) {
+            $ngConfirm({
+                title: 'Disconnect from ' + provider + '?',
+                content: '<p>' +
+                'Are you sure to disconnect from the provider {{provider}}? <br>' +
+                '</p>' +
+                '<p>The following projects will stop working:</p>' +
+                '<div ng-if="affectedProjects.length">' +
+                '<div ng-repeat="a in affectedProjects">' +
+                '{{a}}' +
+                '</div>' +
+                '</div>' +
+                '<div ng-if="!affectedProjects.length" class="text-muted">' +
+                'Found no projects from {{provider}}' +
+                '</div>',
+                onScopeReady: function (scope) {
+                    scope.provider = provider;
+                    scope.affectedProjects = [];
+                    angular.forEach($scope.projects, function (a) {
+                        if (a.provider == provider)
+                            scope.affectedProjects.push(a.name);
+                    });
+                },
+                buttons: {
+                    disconnect: {
+                        btnClass: 'btn-red',
+                        action: function (scope, button) {
+                            var self = this;
+                            button.setText('please wait');
+                            button.setDisabled(true);
+                            Api.disconnectConnectedAccounts(id).then(function () {
+                                Utils.notification('Successfully removed provider ' + provider, 'green');
+                                self.close();
+                                $scope.load();
+                            }, function () {
+                                button.setText('disconnect');
+                                button.setDisabled(false);
+                            });
+                            return false;
+                        }
+                    },
+                    close: function () {
+
+                    }
+                }
+            });
+        };
     }
 ]);

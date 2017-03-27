@@ -76,7 +76,7 @@ angular.module('ServiceUtils', [
                 text: text,
                 type: t,
                 theme: 'relax',
-                layout: 'bottomRight',
+                layout: 'bottomLeft',
                 timeout: 5000,
                 progressBar: false,
                 animation: {

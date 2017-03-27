@@ -515,11 +515,48 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * get oauth connected accounts
+             */
+            disconnectConnectedAccounts: function (provider_id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'accounts/disconnect', {
+                    id: provider_id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
              * get oauth applications
              */
             getOAuthApplications: function () {
                 var defer = $q.defer();
                 $http.post(API_PATH + 'oauth/list', {}).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+                return defer.promise;
+            },
+            /**
+             * get oauth applications
+             */
+            updatePassword: function (oldPass, newPass) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'auth/update_password', {
+                    'old_password': oldPass,
+                    'new_password': newPass
+                }).then(function (res) {
                     if (res.data.status) {
                         defer.resolve(res.data.data);
                     } else {

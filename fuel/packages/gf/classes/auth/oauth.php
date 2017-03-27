@@ -345,6 +345,12 @@ class OAuth {
             ->execute(self::$db);
     }
 
+    public static function removeProvider (Array $where) {
+        return \DB::delete(self::$table)
+            ->where($where)
+            ->execute(self::$db);
+    }
+
     public static function insertProvider ($parent_id, $provider, Array $set) {
         $set['parent_id'] = $parent_id;
         $set['provider'] = $provider;

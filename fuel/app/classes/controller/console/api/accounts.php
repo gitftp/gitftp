@@ -5,6 +5,30 @@ use Gf\Config;
 
 class Controller_Console_Api_Accounts extends Controller_Console_Authenticate {
 
+
+    public function post_disconnect () {
+        try {
+            $provider_id = Input::json('id', false);
+            if (!$provider_id)
+                throw new \Gf\Exception\UserException('Missing parameters');
+
+            $af = \Gf\Auth\OAuth::removeProvider([
+                'id' => $provider_id,
+            ]);
+
+            $r = [
+                'status' => true,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_list () {
         try {
             $list = \Gf\Auth\OAuth::getAvailableProviders();

@@ -381,6 +381,8 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 $project = Project::get_one($where, $select);
             } else {
                 $project = Project::get($where, $select);
+                if (!$project)
+                    $project = [];
 
                 foreach ($project as $k => $p) {
                     $servers = Server::get([

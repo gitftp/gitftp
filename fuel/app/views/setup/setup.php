@@ -444,7 +444,8 @@
                         s4.loading = false;
                         s4.error = 'Could not connect';
                     })
-                }
+                };
+
             }
         ])
 </script>

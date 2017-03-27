@@ -6,22 +6,19 @@
                 Account settings
             </a>
         </li>
-        <li ng-class="{'nav-active': currentPage == '/settings/users'}">
-            <a href="settings/users">Users</a>
-        </li>
-        <li ng-class="{'nav-active': currentPage == '/settings/oauth-applications'}">
-            <a href="settings/oauth-applications" class="auto">
-                OAuth applications
-            </a>
-        </li>
         <li ng-class="{'nav-active': currentPage == '/settings/connected-accounts'}">
             <a href="settings/connected-accounts" class="auto">
                 Connected accounts
             </a>
         </li>
-        <li ng-class="{'nav-active': currentPage == '/settings'}">
-            <a href="">
-                Change password
+    </ul>
+    <p class="text-muted p-t-10 p-l-20 text-sm">
+        SITE
+    </p>
+    <ul class="nav scroll-y" ui-nav="">
+        <li ng-class="{'nav-active': currentPage == '/settings/oauth-applications'}">
+            <a href="settings/oauth-applications" class="auto">
+                OAuth applications
             </a>
         </li>
     </ul>

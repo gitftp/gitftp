@@ -20,11 +20,18 @@ class Controller_Setup_Setup extends Controller_Hybrid {
         $githubCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_github);
         $bitbucketCallbackUrl = OAuth::getCallbackUrl(OAuth::provider_bitbucket);
         $baseUrl = \Fuel\Core\Uri::base();
+        $page = 1;
+
+
+        if (GF_CONFIG_FILE_EXISTS and \Gf\Config::instance()->get('mysql.host', false)) {
+            $page = 3;
+        }
 
         $this->template->body = \Fuel\Core\View::forge('setup/setup', [
             'githubCallbackUrl'    => $githubCallbackUrl,
             'bitbucketCallbackUrl' => $bitbucketCallbackUrl,
             'baseUrl'              => $baseUrl,
+            'page'                 => $page,
         ]);
         $this->template->title = "Gitftp setup";
         $this->template->js = \Fuel\Core\View::forge('js');

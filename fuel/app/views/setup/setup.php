@@ -155,18 +155,19 @@
                 <div class="p-lg panel shadow-x2 text-color m">
                     <div class="m-b text-sm">
                         <h4 class="no-margin-top">
-                            <a ng-click="gotoStep(2)" ng-if="!step3.loading" class="">
-                                <i class="zmdi zmdi-arrow-left zmdi-hc-fw" style="font-size: 19px;"></i>
-                            </a>
-                            3 of {{tSteps}}: create OAuth application</h4>
+                            Create OAuth application</h4>
                         <span>As a standalone software, gitftp will require an app to connect to your repositories</span>
                     </div>
                     <p>
                         Please select the provider you want to setup, <br>you can add/edit providers in your site
-                        settings
-                        later.
+                        settings later.
                     </p>
                     <form name="form3" class="no-margin" ng-submit="save_oauth_config()">
+                        <label class="md-check">
+                            <input type="checkbox">
+                            <i class="blue-bg white"></i>
+                            Github
+                        </label>
                         <div class="radio">
                             <label class="ui-checks ui-checks-md">
                                 <input type="radio" name="step3provider" value="github" ng-model="step3.provider">
@@ -280,7 +281,7 @@
             '$scope',
             '$http',
             function ($scope, $http) {
-                $scope.step = 1;
+                $scope.step = <?php echo $page; ?>;
                 $scope.tSteps = 4;
                 var current = '<?php echo \Fuel\Core\Uri::base() ?>setup/api';
 

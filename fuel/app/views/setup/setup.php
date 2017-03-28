@@ -101,14 +101,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="md-form-group float-label">
-                                            <input type="text" class="md-input" required ng-model="db.dbname">
-                                            <label>Database Name</label>
+                                            <input type="text" class="md-input" ng-model="db.host" required>
+                                            <label>Database host</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="md-form-group float-label">
-                                            <input type="text" class="md-input" ng-model="db.host" required>
-                                            <label>Database host</label>
+                                            <input type="text" class="md-input" required ng-model="db.dbname">
+                                            <label>Database Name</label>
                                         </div>
                                     </div>
                                 </div>
@@ -117,14 +117,14 @@
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="md-form-group float-label">
-                                            <input type="text" class="md-input" required ng-model="db.password">
-                                            <label>Password</label>
+                                            <input type="text" class="md-input" required ng-model="db.username">
+                                            <label>User Name</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="md-form-group float-label">
-                                            <input type="text" class="md-input" required ng-model="db.username">
-                                            <label>User Name</label>
+                                            <input type="text" class="md-input" required ng-model="db.password">
+                                            <label>Password</label>
                                         </div>
                                     </div>
                                 </div>

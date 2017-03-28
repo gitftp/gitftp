@@ -38,5 +38,5 @@ define('GF_DB_PASSWORD', $db_password);
 define('GF_DB_NAME', $db_name);
 define('GF_GITHUB_CLIENT_ID', $githubClientId);
 define('GF_GITHUB_CLIENT_SECRET', $githubClientSecret);
-define('GF_VERSION', '1.0.0');
+define('GF_VERSION', 'v0.0.1-beta');
 

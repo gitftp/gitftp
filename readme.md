@@ -3,7 +3,7 @@
 
 Self hosted git to ftp/sftp/local deployment made easy
 
-Version: 0.1-beta
+Version: v0.0.1-beta
 
 ## Current features
 * Use your own OAuth application to login

@@ -3,23 +3,16 @@
  * The development database settings. These get merged with the global settings.
  */
 
-return array(
-    'default'  => array(
-        'connection' => array(
-            'dsn'      => 'mysql:host=127.0.0.1;dbname=craftrzt_gitftp',
-            'username' => 'root',
-            'password' => '',
-        ),
-    ),
-    'frontend' => array(
+return [
+    'default' => [
         'type'         => 'mysqli',
-        'connection'   => array(
-            'hostname' => '127.0.0.1',
+        'connection'   => [
+            'hostname' => GF_DB_HOST,
             'port'     => '3306',
-            'database' => 'craftrzt_gitftp_frontend',
-            'username' => 'root',
-            'password' => '',
-        ),
+            'database' => GF_DB_NAME,
+            'username' => GF_DB_USERNAME,
+            'password' => GF_DB_PASSWORD,
+        ],
         'table_prefix' => '',
-    ),
-);
+    ],
+];

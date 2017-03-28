@@ -1,5 +1,6 @@
 <?php
 
+use Fuel\Core\Controller_Rest;
 use Fuel\Core\Input;
 
 class Controller_Setup_Api extends Controller_Rest {
@@ -71,7 +72,7 @@ class Controller_Setup_Api extends Controller_Rest {
             if (!$host)
                 throw new \Gf\Exception\UserException('This was not suppose to happen, please delete the .config.json file and try again.');
 
-            Migrate::latest('default', 'app', true);
+            \Fuel\Core\Migrate::latest('default', 'app', true);
 
             \Gf\Config::instance()->set([
                 'dbInstalled' => true,

@@ -76,7 +76,7 @@ class Controller_Setup_Api extends Controller_Rest {
 
             \Gf\Config::instance()->set([
                 'dbInstalled' => true,
-            ]);
+            ])->save();
 
             $r = [
                 'status' => true,

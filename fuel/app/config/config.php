@@ -91,7 +91,7 @@ return [
     // 'server_gmt_offset'  => 0,
     // 'default_timezone'   => null,
     'server_gmt_offset' => 0,
-    'default_timezone'  => null,
+    'default_timezone'  => 'UTC',
 
     /**
      * Logging Threshold.  Can be set to any of the following:

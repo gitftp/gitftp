@@ -3,6 +3,7 @@
 namespace Gf\Auth;
 
 //use Crossjoin\Browscap\Browscap;
+use Fuel\Core\Session;
 use Gf\Exception\AppException;
 use Gf\Platform;
 use Gf\Utils;
@@ -53,26 +54,15 @@ class SessionManager {
     public function create_snapshot (Array $session, $medium = null, $medium_os = null, $platform = null) {
         list($user_id, $user, $session_id) = $session;
 
-//        if (is_api) {
-//        when using the external api .
-//            if (is_null($medium) or is_null($medium_os) or is_null($platform))
-//                throw new AppException('Create snapshot medium, medium os and platform arguments are needed for api platform');
-//        } else {
         $platform = Platform::$web;
         if (Utils::phpVersion() >= 5.6) {
-//                $browser_detect = new Browscap();
-//                $browser = $browser_detect->getBrowser();
-//                $medium = $browser->browser;
-//                $medium_os = $browser->platform;
             $medium_os = 'Unknown';
             $medium = 'Unknown';
         } else {
             $medium_os = 'Unknown';
             $medium = 'Unknown';
         }
-//        }
 
-        // already made snapshot?
         $exists = $this->get([
             'user_id'    => $user_id,
             'session_id' => $session_id,
@@ -108,16 +98,6 @@ class SessionManager {
         return count($data) ? $data[0] : false;
     }
 
-    public function get_session ($session_id) {
-        $data = \DB::select()
-            ->from($this->sessionTable)
-            ->where('session_id', $session_id)
-            ->execute($this->db)
-            ->as_array();
-
-        return count($data) ? $data : false;
-    }
-
     public function logout_from_everywhere ($user_id) {
         $active_sessions = $this->get([
             'user_id' => $user_id,
@@ -125,12 +105,6 @@ class SessionManager {
         ]);
         if (!$active_sessions)
             return true;
-
-        foreach ($active_sessions as $session) {
-            $this->remove_session([
-                'session_id' => $session['session_id'],
-            ]);
-        }
 
         return $this->update([
             'user_id' => $user_id,
@@ -155,17 +129,7 @@ class SessionManager {
      * @throws \Exception
      */
     public function discard_session ($session_id = null, $user_id = null) {
-//        if (is_api and is_null($session_id))
-//            throw new AppException("Session id is required");
-
-//        if (!is_api)
-        $session_id = \Session::key();
-
-        $exists = $this->get_session($session_id);
-        if ($exists)
-            $this->remove_session([
-                'session_id' => $session_id,
-            ]);
+        $session_id = Session::key();
 
         $where = [
             'session_id' => $session_id,
@@ -176,12 +140,6 @@ class SessionManager {
         return $this->update($where, [
             'active' => false,
         ]);
-    }
-
-    private function remove_session ($where) {
-        return \DB::delete($this->sessionTable)
-            ->where($where)
-            ->execute($this->db);
     }
 
     private function remove ($where) {

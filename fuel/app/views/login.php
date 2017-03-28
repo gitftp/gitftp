@@ -2,7 +2,7 @@
     <div class="container" ng-app="loginApp" ng-controller="mainController" ng-cloak>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div class="p-lg no-padding-top panel shadow-x3 text-color m m-t-40">
+                <div class="p-lg no-padding-top panel shadow text-color m m-t-40">
                     <div class="text-center p-30 b-b">
                         <img style="width:150px;" src="<?php echo Asset::get_file('logo.png', 'img'); ?>" alt="">
                     </div>

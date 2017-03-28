@@ -23,7 +23,7 @@ class Controller_Setup_Setup extends Controller_Hybrid {
         $baseUrl = \Fuel\Core\Uri::base();
         $page = 1;
 
-        if (GF_CONFIG_FILE_EXISTS and Config::instance()->get('mysql.host', false))
+        if (GF_CONFIG_FILE_EXISTS and Config::instance()->get('dbInstalled', false))
             $page = 3;
 
         if (GF_CONFIG_FILE_EXISTS and (Config::instance()->get('github', false) or Config::instance()->get('bitbucket', false)))

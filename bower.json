@@ -1,0 +1,38 @@
+{
+  "name": "gitftp",
+  "description": "![Gitftp](assets/img/logo-sm-2-name.png)",
+  "main": "index.js",
+  "authors": [
+    "Boniface Pereira"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "git",
+    "ftp",
+    "gitftp"
+  ],
+  "homepage": "https://github.com/gitftp/gitftp",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.2.1",
+    "moment": "^2.18.1",
+    "angular-moment": "^1.0.1",
+    "angular": "^1.6.3",
+    "angular-animate": "^1.6.3",
+    "angular-route": "^1.6.3",
+    "angular-sanitize": "^1.6.3",
+    "ngstorage": "^0.3.11",
+    "angular-confirm": "angular-confirm1#^1.1.0",
+    "Waves": "waves#^0.7.5",
+    "script.js": "^2.5.8",
+    "noty": "^2.4.1"
+  }
+}

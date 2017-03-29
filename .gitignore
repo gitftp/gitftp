@@ -11,3 +11,5 @@ logs/*
 .config.json
 docs/
 nbproject/
+bower_components/
+node_modules/

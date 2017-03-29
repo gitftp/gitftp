@@ -1,5 +1,17 @@
 module.exports = function (grunt) {
     grunt.initConfig({
+        uglify: {
+            app: {
+                files: {
+                    'app/build.js': ['app/build.js']
+                }
+            },
+            vendor: {
+                files: {
+                    'assets/js/vendors.min.js': ['assets/js/vendors.js']
+                }
+            },
+        },
         concat: {
             vendor: {
                 src: [
@@ -20,9 +32,47 @@ module.exports = function (grunt) {
                 ],
                 dest: 'assets/js/vendors.js',
             },
+            app: {
+                src: [
+                    'app/directives/ui.js',
+                    'app/filters/filters.js',
+                    'app/services/utils.js',
+                    'app/services/auth.js',
+                    'app/services/service.js',
+                    'app/services/components.js',
+                    'app/pages/home/home.js',
+                    'app/pages/project/new.js',
+                    'app/pages/project/view.js',
+                    'app/pages/project/server/addEdit.js',
+                    'app/pages/project/server/deploy.js',
+                    'app/pages/project/server/view.js',
+                    'app/pages/project/settings/settings.js',
+                    'app/pages/settings/settings.js',
+                    'app/app.js',
+                    'app/main.js'
+                ],
+                dest: 'app/build.js',
+            },
+        },
+        watch: {
+            app: {
+                files: ['app/**/*.js', '!app/build.js'],
+                tasks: ['concat:app'],
+            },
         },
     });
 
+    grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
-    grunt.registerTask('build-vendors', ['concat:vendor']);
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+
+    grunt.registerTask('build', ['concat:app']);
+    grunt.registerTask('build-release', [
+        'concat:vendor',
+        'concat:app',
+        'uglify:app',
+        'uglify:vendor'
+    ]);
+
+    grunt.registerTask('default', ['watch:app']);
 };

@@ -241,6 +241,6 @@ projects = <?php echo json_encode($projects) ?>
 
 </div>
 <?php echo $js ?>
-<script type="text/javascript" src="<?php echo \Fuel\Core\Uri::base(); ?>app/main.js"></script>
+<script type="text/javascript" src="<?php echo \Fuel\Core\Uri::base(); ?>app/build.js"></script>
 </body>
 </html>

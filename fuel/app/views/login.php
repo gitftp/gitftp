@@ -2,9 +2,9 @@
     <div class="container" ng-app="loginApp" ng-controller="mainController" ng-cloak>
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
-                <div class="p-lg no-padding-top panel shadow text-color m m-t-40">
+                <div class="p-lg no-padding-top panel shadow text-color m" style="margin-top: 140px;">
                     <div class="text-center p-30 b-b">
-                        <img style="width:150px;" src="<?php echo Asset::get_file('logo.png', 'img'); ?>" alt="">
+                        <img style="width:48px;" src="<?php echo \Fuel\Core\Asset::get_file('logo-s.png', 'img'); ?>" alt="">
                     </div>
                     <div class="m-b text-sm">
                         <h3 class="m-b-25">

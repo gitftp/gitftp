@@ -5,7 +5,8 @@
                 <div class="m-t-30">
                     <div class="panel panel-card">
                         <div class="panel-body">
-                            <h3 class="m-b-20 m-t-5">New project</h3>
+                            <h3 class="m-b-20 m-t-5">
+                                New project</h3>
 
                             <div class="" ng-if="loading">
                                 <div class="p-t-20 p-b-20">
@@ -16,14 +17,14 @@
                                         </svg>
                                     </div>
                                     <p class="text-center m-t-30">
-                                        Please wait, fetching list of repositories
+                                        Please wait, getting your repositories
                                     </p>
                                 </div>
                             </div>
-                            <div ng-if="!loading">
+                            <div ng-if="!loading && available_repos.length">
                                 <form name="newProjectForm" ng-submit="createProject()">
                                     <div class="form-group">
-                                        <label>Repository</label>
+                                        <label>Select your repository</label>
                                         <div class="dropdown">
                                             <button class="btn btn-default btn-block dropdown-toggle button-left"
                                                     type="button" id="dropdownMenu1" data-toggle="dropdown">
@@ -63,15 +64,27 @@
                                         <small>Web hooks will be created for this project</small>
                                     </div>
 
-                                    <div class="p-b-10">
-                                        <button class="btn btn-rounded btn-stroke btn-info waves-effect btn-lg pull-right"
+                                    <div class="p-b-10 m-t-20 text-center">
+                                        <button class="btn btn-rounded btn-stroke btn-info waves-effect"
                                                 type="submit"
                                                 ng-disabled="availableBranches.length == 0 || !selectedRepo || creating">
                                             Creat{{creating ? 'ing project...': 'e'}}
                                         </button>
-                                        <div class="clearfix"></div>
                                     </div>
                                 </form>
+                            </div>
+
+                            <div ng-if="!loading && !available_repos.length" class="p-t-20 p-b-20">
+                                <div class="text-center">
+                                    <img src="assets/img/generic/rotated-right-arrow-with-broken-line.svg" alt="" style="width: 100px; opacity: .5">
+                                </div>
+                                <h4 class="text-center">
+                                    Repositories not found
+                                </h4>
+                                <p class="text-center">
+                                    Make sure you are logged in with at least one provider <br>
+                                    <a href="settings/connected-accounts"><u>Connect to git account now</u></a>
+                                </p>
                             </div>
                         </div>
                     </div>

@@ -10,27 +10,18 @@
                 </div>
             </div>
 
-
             <div class="col-md-4 col-md-offset-4" ng-if="!projects_array.length">
-                <div class="text-center" style="margin-top: 40%">
-                    <h3 class="m-b-20">Its lonely in here</h3>
-                    <a href="project/new" class="text-sm btn btn-lg btn-rounded btn-info">
-                        <i class="fa fa-apple fa-3x pull-left"></i>
-                        <span class="block clear text-left m-v-xs">
-                            <b class="text-md block font-bold">Create project</b>
-                      </span>
+                <div class="text-center" style="margin-top: 30%">
+                    <img src="assets/img/generic/empty-white-box.svg" style="width: 100px;opacity: .5" alt="">
+                    <h3 class="m-b-20">No projects yet</h3>
+                    <a href="project/new" class="btn btn-lg btn-rounded btn-info btn-stroke">
+                        <b>Create project</b>
                     </a>
 
                     <div class="m-t-20">
                         <p class="text-muted"><span>OR</span></p>
                         <p>
-                            <a href="settings/oauth-applications"><u>Create oAuth application</u> for other git
-                                providers</a>
-                        </p>
-                        <p class="text-muted"><span>AND</span></p>
-                        <p>
-                            <a href="settings/connected-accounts"><u>Login to Github or Bitbucket</u> to connect more
-                                projects_array</a>
+                            <a href="settings/oauth-applications"><u>Create oAuth application</u></a> or <a href="settings/connected-accounts"><u>Login to Github or Bitbucket</u></a>
                         </p>
                     </div>
                 </div>

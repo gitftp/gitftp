@@ -24,4 +24,10 @@ interface GitInterface {
     function commits ($repoName, $branch, $username = null);
 
     function compareCommits ($repoName, $username = null, $base, $head);
+
+    function getKey ($username, $repoName, $id);
+
+    function deleteKey ($username, $repoName, $id);
+
+    function createKey ($username, $repoName, $publicKey);
 }

@@ -2,13 +2,22 @@
 
 use Fuel\Core\DBUtil;
 
-class Controller_Test extends Controller {
+class Controller_Test extends \Fuel\Core\Controller {
     public function before () {
         echo '<pre>';
     }
 
     public function get_ert () {
-        \Fuel\Core\Migrate::version(1);
+
+        $gitApi = \Gf\Git\GitApi::instance(1, \Gf\Auth\OAuth::provider_github);
+
+        list($id, $pu) = \Gf\Keys::getPair();
+
+        print_r($gitApi->api()->deleteKey('craftpip', 'testrepo', 22617162));
+//        print_r($gitApi->api()->getKey('craftpip', 'testrepo', 22617162));
+//        print_r($gitApi->api()->createKey('craftpip', 'testrepo', $pu));
+//        print_r($gitApi->api()->getKeys('craftpip'));
+//        \Fuel\Core\Migrate::version(1);
 //        \Fuel\Core\Migrate::latest();
 
 //        \Oil\Refine::run('install');
@@ -17,7 +26,7 @@ class Controller_Test extends Controller {
     public function get_qwe2 () {
         echo DOCROOT;
 //        print_r(\Fuel\Core\File::read_dir(DOCROOT));
-        \Fuel\Core\File::create_dir(DOCROOT , 'dude');
+        \Fuel\Core\File::create_dir(DOCROOT, 'dude');
 //        die;
 //        $file = DOCROOT . 'repositories/keys/temp';
 //        \Fuel\Core\File::download($file, '25');

@@ -6,6 +6,7 @@ use Gf\Auth\OAuth;
 use Gf\Exception\AppException;
 use Gf\Exception\UserException;
 use Github\Client;
+use Github\HttpClient\Message\ResponseMediator;
 
 /**
  * Class Github
@@ -255,4 +256,44 @@ class Github implements GitInterface {
 
         return $parsedCommit;
     }
+
+    public function getKeys ($username, $repoName) {
+        $response = $this->instance->getHttpClient()->get('user/keys');
+
+        return ResponseMediator::getContent($response);
+    }
+
+    private function createJsonBody (array $parameters) {
+        return (count($parameters) === 0) ? null : json_encode($parameters, empty($parameters) ? JSON_FORCE_OBJECT : 0);
+    }
+
+    public function getKey ($username, $repoName, $id) {
+        $response = $this->instance->getHttpClient()->get("user/keys/$id");
+        $response = ResponseMediator::getContent($response);
+
+        return [
+            'id' => $response['id'],
+        ];
+    }
+
+    public function deleteKey ($username, $repoName, $id) {
+        $response = $this->instance->getHttpClient()->delete("user/keys/$id");
+        $response = ResponseMediator::getContent($response);
+
+        return true;
+    }
+
+    public function createKey ($username, $repoName, $publicKey) {
+        $keyName = "$repoName@gitftp";
+        $response = $this->instance->getHttpClient()->post('user/keys', $this->createJsonBody([
+            'title' => $keyName,
+            'key'   => $publicKey,
+        ]));
+        $response = ResponseMediator::getContent($response);
+
+        return [
+            'id' => $response['id'],
+        ];
+    }
+
 }

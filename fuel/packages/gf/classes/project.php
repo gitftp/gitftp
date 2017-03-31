@@ -2,6 +2,7 @@
 
 namespace Gf;
 
+use Fuel\Core\DB;
 use Fuel\Core\File;
 use Fuel\Core\Str;
 use Fuel\Core\Uri;
@@ -34,7 +35,7 @@ class Project {
      */
     public static function create ($repository_id, $repository_provider, $repository_full_name, $user_id) {
         try {
-            \DB::start_transaction();
+            DB::start_transaction();
 
             if (!$repository_id or !$repository_provider or !$repository_full_name or !$user_id)
                 throw new AppException('Missing parameters');
@@ -73,8 +74,14 @@ class Project {
             $key = strtolower($key);
 
             $hookUrl = $git->createHookUrl($project_id, $key, $user_id);
+
             $hook = $git->api()->setHook($repoName, $username, $hookUrl);
             $hook_id = $hook['id'];
+
+            list($keyId, $public, $private) = Keys::getPair();
+            $response = $git->api()->createKey($username, $repoName, $public);
+            $id = $response['id'];
+
             $clonePath = self::getRepoPath($project_id);
 
             $af = self::update([
@@ -82,16 +89,18 @@ class Project {
             ], [
                 'hook_id'  => $hook_id,
                 'hook_key' => $key,
+                'ssh_id'   => $id,
+                'key_id'   => $keyId,
                 'path'     => $clonePath,
             ]);
             if (!$af)
                 throw new UserException('Could not update project record.');
 
-            \DB::commit_transaction();
+            DB::commit_transaction();
 
             return $project_id;
         } catch (\Exception $e) {
-            \DB::rollback_transaction();
+            DB::rollback_transaction();
             throw $e;
         }
     }
@@ -106,7 +115,7 @@ class Project {
         $gitApi = GitApi::instance($project['owner_id'], $project['provider']);
 
         try {
-            \DB::start_transaction();
+            DB::start_transaction();
 
             $af = Record::remove([
                 'project_id' => $project_id,
@@ -130,9 +139,9 @@ class Project {
 
             $gitApi->api()->removeHook($project['git_name'], $project['hook_id']);
 
-            \DB::commit_transaction();
+            DB::commit_transaction();
         } catch (\Exception $e) {
-            \DB::rollback_transaction();
+            DB::rollback_transaction();
             throw $e;
         }
     }
@@ -150,7 +159,7 @@ class Project {
     }
 
     public static function get ($where = [], $select = [], $limit = false, $offset = 0, $count_total = true) {
-        $q = \DB::select_array($select)
+        $q = DB::select_array($select)
             ->from(self::table)->where($where);
 
         if ($limit) {
@@ -163,7 +172,7 @@ class Project {
         if ($count_total)
             $compiled_query = Utils::sqlCalcRowInsert($compiled_query);
 
-        $result = \DB::query($compiled_query)->execute(self::db)->as_array();
+        $result = DB::query($compiled_query)->execute(self::db)->as_array();
 
         return count($result) ? $result : false;
     }
@@ -175,18 +184,18 @@ class Project {
     }
 
     public static function update (Array $where, Array $set) {
-        return \DB::update(self::table)->where($where)->set($set)->execute(self::db);
+        return DB::update(self::table)->where($where)->set($set)->execute(self::db);
     }
 
     public static function insert (Array $set) {
         $set['created_at'] = Utils::timeNow();
-        list($id) = \DB::insert(self::table)->set($set)->execute(self::db);
+        list($id) = DB::insert(self::table)->set($set)->execute(self::db);
 
         return $id;
     }
 
     public static function remove (Array $where) {
-        $af = \DB::delete(self::table)->where($where)->execute(self::db);
+        $af = DB::delete(self::table)->where($where)->execute(self::db);
 
         return $af;
     }

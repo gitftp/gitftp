@@ -2,7 +2,7 @@
 
 use Gf\Auth\Auth;
 
-class Controller_Console_Authenticate extends Controller_Rest {
+class Controller_Console_Authenticate extends \Fuel\Core\Controller_Rest {
     public $user_id = false;
 
     public function before () {

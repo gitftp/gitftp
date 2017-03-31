@@ -31,6 +31,9 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    /**
+     * Creates a hook only when its missing.
+     */
     public function post_create_hook () {
         try {
             $project_id = Input::json('project_id');
@@ -224,7 +227,7 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'status'     => Record::status_new,
             ]);
 
-            \Gf\Utils::asyncCall('project', $project_id);
+//            \Gf\Utils::asyncCall('project', $project_id);
 
             $r = [
                 'status' => true,
@@ -419,7 +422,6 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
 
     public function post_create () {
         try {
-
             $repository_id = Input::json('project.repo.id');
             $repository_provider = Input::json('project.repo.provider');
             $repository_full_name = Input::json('project.repo.full_name');

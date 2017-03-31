@@ -2421,6 +2421,17 @@ angular.module('AppSettings', [
         $scope.load = function () {
             $scope.loading = true;
 
+            $scope.connected = [];
+            $scope.availableApps = {
+                github: {
+                    available: false,
+                    connected: false,
+                },
+                bitbucket: {
+                    available: false,
+                    connected: false,
+                },
+            };
             // get only names of the oauth applications available.
             Api.getConnectedAccounts().then(function (data) {
                 $scope.connected = data.connected;

@@ -26,8 +26,6 @@ class Deploy {
         $deploy = \Gf\Deploy\Deploy::instance($project_id);
         $deploy->processProjectQueue(true);
         DeployLife::doneWorking($project_id);
-        $deploy = \Gf\Deploy\Deploy::instance($project_id);
-        $deploy->processProjectQueue(true);
 
         Cli::write('RAM USED: ' . Utils::humanize_data(memory_get_usage(true)));
     }

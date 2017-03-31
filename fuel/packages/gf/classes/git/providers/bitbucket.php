@@ -7,6 +7,7 @@ use Bitbucket\API\Http\ClientInterface;
 use Bitbucket\API\Http\Listener\OAuth2Listener;
 use Bitbucket\API\User;
 use Bitbucket\API\User\Repositories;
+use Fuel\Core\Str;
 use Fuel\Core\Uri;
 use Gf\Auth\OAuth;
 use Gf\Exception\AppException;
@@ -258,19 +259,25 @@ class Bitbucket implements GitInterface {
         return $id;
     }
 
-    private function postRequest ($apiPath, $payload) {
+    private function postRequest ($apiPath, $payload, $apiVersion = '2.0') {
+        $this->client->setApiVersion($apiVersion);
         $response = $this->client->post($apiPath, json_encode($payload), [
             'Content-Type' => 'application/json',
         ]);
         $content = $response->getContent();
-        $content = json_decode($content, true);
+        if (Str::is_json($content)) {
+            $content = json_decode($content, true);
+        } else {
+            throw new AppException("The content is not json " . $content);
+        }
         if (isset($content['type']) and $content['type'] == 'error')
             throw new AppException($content['error']['message']);
 
         return $content;
     }
 
-    private function deleteRequest ($apiPath) {
+    private function deleteRequest ($apiPath, $apiVersion = '2.0') {
+        $this->client->setApiVersion($apiVersion);
         $response = $this->client->delete($apiPath, [
             'Content-Type' => 'application/json',
         ]);
@@ -282,8 +289,9 @@ class Bitbucket implements GitInterface {
         return $content;
     }
 
-    private function getRequest ($apiPath) {
+    private function getRequest ($apiPath, $apiVersion = '2.0') {
         $apiPath = strtolower($apiPath);
+        $this->client->setApiVersion($apiVersion);
         $response = $this->client->get($apiPath);
         $content = $response->getContent();
         $content = json_decode($content, true);
@@ -401,5 +409,35 @@ class Bitbucket implements GitInterface {
     function compareCommits ($repoName, $username = null, $base, $head) {
         // TODO: Implement compareCommits() method.
         $response = $this->getRequest("repositories/$username/$repoName/diff/$base..$head");
+    }
+
+    public function getKey ($username, $repoName, $id) {
+        $response = $this->getRequest("repositories/$username/$repoName/deploy-keys/$id", '1.0');
+
+        return [
+            'id' => $response['pk'],
+        ];
+    }
+
+    public function deleteKey ($username, $repoName, $id) {
+        $response = $this->deleteRequest("repositories/$username/$repoName/deploy-keys/$id", '1.0');
+
+        return true;
+    }
+
+    public function createKey ($username, $repoName, $publicKey) {
+        $keyName = "$repoName@gitftp";
+        $response = $this->postRequest("repositories/$username/$repoName/deploy-keys", [
+            'accountname' => $username,
+            'repo_slug'   => $repoName,
+            'label'       => $keyName,
+            'key'         => $publicKey,
+        ], '1.0');
+
+        $r = [
+            'id' => $response['pk'],
+        ];
+
+        return $r;
     }
 }

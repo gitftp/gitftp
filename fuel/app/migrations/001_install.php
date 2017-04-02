@@ -324,6 +324,10 @@ class Install {
                 'type'       => 'varchar',
                 'constraint' => 300,
             ],
+            'git_uri'      => [
+                'type'       => 'varchar',
+                'constraint' => 300,
+            ],
             'git_username' => [
                 'type'       => 'varchar',
                 'constraint' => 300,

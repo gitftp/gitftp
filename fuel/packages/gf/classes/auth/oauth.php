@@ -307,7 +307,7 @@ class OAuth {
     private function getDriver () {
         switch ($this->provider) {
             case self::provider_github:
-                $this->oauthApplicationOptions['scope'] = 'repo,user:email,admin:repo_hook,admin:org_hook,read:public_key,write:public_key,admin:public_key';
+                $this->oauthApplicationOptions['scope'] = 'repo,user:email,admin:repo_hook,admin:org_hook';
                 $driver = new Github([
                     'clientId'     => $this->oauthApplicationConfig['clientId'],
                     'clientSecret' => $this->oauthApplicationConfig['clientSecret'],

@@ -21,6 +21,5 @@ Version: v0.0.1-beta
 * Use templates to compile and deploy
 * pre and post deploy commands
 
-
 #### Credits
 Made using FuelPHP framework

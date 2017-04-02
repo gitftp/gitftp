@@ -21,7 +21,7 @@ use League\OAuth2\Client\Token\AccessToken;
  * @package Craftpip\GitApi
  */
 class Bitbucket implements GitInterface {
-    private $username;
+    public $username;
     private $options = [];
 
     /**

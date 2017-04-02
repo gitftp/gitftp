@@ -153,7 +153,7 @@ class GitApi {
             $username = "x-token-auth";
             $password = $token->getToken();
         } elseif ($provider == OAuth::provider_github) {
-            $username = $this->providers[$provider]['username'];
+            $username = $this->providers[$provider]->username;
             $password = $token->getToken();
         } else {
             throw new AppException("Invalid provider, $provider given.");

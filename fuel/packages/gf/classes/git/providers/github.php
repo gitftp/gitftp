@@ -15,7 +15,7 @@ use Github\HttpClient\Message\ResponseMediator;
  */
 class Github implements GitInterface {
     private $instance;
-    private $username;
+    public $username;
 
     public function __construct ($username) {
         $this->instance = new Client();

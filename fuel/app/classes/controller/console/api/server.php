@@ -65,8 +65,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
             )
                 throw new UserException('Invalid record type');
 
-
-            $gitLocal = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
+            $repo_path = Utils::systemDS(DOCROOT . Project::getRepoPath($project_id));
+            $gitLocal = \Gf\Git\GitLocal::instance($repo_path);
             $revision = $gitLocal->verifyHash($target_revision);
             if (!$revision)
                 throw new UserException("The revision '$target_revision'' was not found in the current repository, if this is was not the expected output please click on the Sync button on the top right corner");
@@ -123,6 +123,7 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'provider',
                 'git_name',
                 'git_username',
+                'key_path',
             ]);
             if (!$project)
                 throw new UserException('project not found');
@@ -143,7 +144,8 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
 
             $source_revision = $server['revision'];
 
-            $gitLocal = \Gf\Git\GitLocal::instance(Project::getRepoPath($project_id));
+            $repo_path = Utils::systemDS(DOCROOT . Project::getRepoPath($project_id));
+            $gitLocal = \Gf\Git\GitLocal::instance($repo_path);
 
             $revision = $gitLocal->verifyHash($target_revision);
             if (!$revision)

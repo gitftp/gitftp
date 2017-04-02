@@ -31,7 +31,7 @@ class GitLocal {
     /**
      * @param $pathToRepo
      *
-     * @return GitLocal
+     * @return \Gf\Git\GitLocal
      */
     public static function instance ($pathToRepo) {
         if (!isset(static::$instance[$pathToRepo]) or null == static::$instance[$pathToRepo]) {
@@ -43,7 +43,7 @@ class GitLocal {
 
     public function __construct ($pathToRepo) {
         $this->wrapper = new GitWrapper();
-        $this->wrapper->setTimeout(3600); // an hour
+        $this->wrapper->setTimeout(3600);
         $this->git = $this->wrapper->workingCopy($pathToRepo);
     }
 

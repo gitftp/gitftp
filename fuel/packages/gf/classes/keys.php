@@ -2,6 +2,8 @@
 
 namespace Gf;
 
+use Fuel\Core\DB;
+use Fuel\Core\Str;
 use phpseclib\Crypt\RSA;
 
 class Keys {
@@ -10,6 +12,8 @@ class Keys {
 
     const privateKey = 'private';
     const publicKey = 'public';
+
+    const path = 'repositories/keys/';
 
     /**
      * @param null   $comment
@@ -20,7 +24,7 @@ class Keys {
     private static function generateNewRsaKey ($comment = null, $postComment = '-deploy@gitftp') {
         $rsa = new RSA();
         $rsa->setPublicKeyFormat(6); // CRYPT_RSA_PUBLIC_FORMAT_OPENSSH is int 6
-        if (is_null($comment)) $comment = \Str::random('alum', 6);
+        if (is_null($comment)) $comment = Str::random('alum', 6);
 
         $rsa->comment = $comment . $postComment;
         $keys = $rsa->createKey();
@@ -66,7 +70,7 @@ class Keys {
     }
 
     public static function get ($where = [], $select = null, $limit = false, $offset = 0, $order_by = 'id', $direction = 'desc', $count_total = true) {
-        $q = \DB::select_array($select)
+        $q = DB::select_array($select)
             ->from(self::table)->where($where);
 
         if ($limit) {
@@ -82,7 +86,7 @@ class Keys {
         if ($count_total)
             $compiled_query = Utils::sqlCalcRowInsert($compiled_query);
 
-        $result = \DB::query($compiled_query)->execute(self::db)->as_array();
+        $result = DB::query($compiled_query)->execute(self::db)->as_array();
 
         return count($result) ? $result : false;
     }
@@ -94,18 +98,18 @@ class Keys {
     }
 
     public static function update (Array $where, Array $set) {
-        return \DB::update(self::table)->where($where)->set($set)->execute(self::db);
+        return DB::update(self::table)->where($where)->set($set)->execute(self::db);
     }
 
     public static function insert (Array $set) {
         $set['created_at'] = Utils::timeNow();
-        list($id) = \DB::insert(self::table)->set($set)->execute(self::db);
+        list($id) = DB::insert(self::table)->set($set)->execute(self::db);
 
         return $id;
     }
 
     public static function remove (Array $where) {
-        $af = \DB::delete(self::table)->where($where)->execute(self::db);
+        $af = DB::delete(self::table)->where($where)->execute(self::db);
 
         return $af;
     }

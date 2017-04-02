@@ -13,8 +13,8 @@ class Controller_Async extends \Fuel\Core\Controller {
             $deploy = \Gf\Deploy\Deploy::instance($project_id);
             $deploy->processProjectQueue(true);
             DeployLife::doneWorking($project_id);
-
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
+            DeployLife::doneWorking($project_id);
             \Fuel\Core\Log::error($e->getMessage());
             \Gf\Exception\ExceptionInterceptor::intercept($e);
         }

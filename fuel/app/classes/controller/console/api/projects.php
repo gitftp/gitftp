@@ -140,7 +140,10 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'pull_state' => Project::pull_state_pulling,
             ]);
 
-            $repoPath = Project::getRepoPath($project_id);
+            /**
+             * @todo: relative path. prepend DOCROOT to it.
+             */
+            $repoPath = \Gf\Utils::systemDS(DOCROOT . Project::getRepoPath($project_id));
             $gitLocal = \Gf\Git\GitLocal::instance($repoPath);
             $gitLocal->pull($project['owner_id'], $project['provider'], $project['clone_uri']);
 

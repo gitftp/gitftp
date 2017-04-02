@@ -34,6 +34,7 @@ class Github implements GitInterface {
         $repository['full_name'] = $data['full_name'];
         $repository['repo_url'] = $data['html_url'];
         $repository['api_url'] = $data['url'];
+        $repository['git_url'] = $data['git_url'];
         $repository['clone_url'] = $data['clone_url'];
         $repository['private'] = $data['private'];
         $repository['size'] = $data['size'] * 1000;
@@ -52,6 +53,7 @@ class Github implements GitInterface {
                 'full_name' => $repo['full_name'],
                 'repo_url'  => $repo['html_url'],
                 'api_url'   => $repo['url'],
+                'git_url'   => $repo['git_url'],
                 'clone_url' => $repo['clone_url'],
                 'private'   => $repo['private'],
                 'size'      => $repo['size'] * 1000, // size is given in KB, convert to bytes.

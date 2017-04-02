@@ -351,16 +351,6 @@ class Install {
                 'constraint' => 10,
                 'null'       => true,
             ],
-            'ssh_id'       => [
-                'type'       => 'varchar',
-                'constraint' => 10,
-                'null'       => true,
-            ],
-            'key_id'       => [
-                'type'       => 'int',
-                'constraint' => 11,
-                'null'       => true,
-            ],
             'owner_id'     => [
                 'type'       => 'int',
                 'constraint' => 11,

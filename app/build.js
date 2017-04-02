@@ -1249,7 +1249,8 @@ angular.module('AppProjectNew', [
     'Api',
     '$window',
     '$location',
-    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location) {
+    'ProjectApi',
+    function ($scope, $rootScope, $routeParams, Utils, Api, $window, $location, ProjectApi) {
         Utils.setTitle('Create new project');
         $rootScope.$broadcast('setBreadcrumb', [
             {
@@ -1304,9 +1305,14 @@ angular.module('AppProjectNew', [
                 repo: $scope.selectedRepo,
                 branches: $scope.availableBranches
             }).then(function (project_id) {
-                $scope.creating = false;
-                // $location.path('view/' + project_id + '/loading');
-                $window.location.href = BASE + 'view/' + project_id + '/loading';
+                ProjectApi.refreshProjects().then(function () {
+                    var project = $rootScope.projects[project_id];
+                    $location.path('view/' + project.id + '/' + project.name);
+                    $scope.creating = false;
+                }, function () {
+                    $window.location.href = BASE + 'view/' + project_id + '/loading';
+                    $scope.creating = false;
+                });
             }, function (reason) {
                 Utils.error(reason, 'red', $scope.createProject);
                 $scope.creating = false;
@@ -2421,17 +2427,6 @@ angular.module('AppSettings', [
         $scope.load = function () {
             $scope.loading = true;
 
-            $scope.connected = [];
-            $scope.availableApps = {
-                github: {
-                    available: false,
-                    connected: false,
-                },
-                bitbucket: {
-                    available: false,
-                    connected: false,
-                },
-            };
             // get only names of the oauth applications available.
             Api.getConnectedAccounts().then(function (data) {
                 $scope.connected = data.connected;

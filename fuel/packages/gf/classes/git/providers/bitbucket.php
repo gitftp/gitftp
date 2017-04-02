@@ -65,11 +65,12 @@ class Bitbucket implements GitInterface {
         $repository_data = json_decode($repository_data, true);
 
         $cloneUrl = '';
+        $gitUrl = '';
         foreach ($repository_data['links']['clone'] as $link) {
-            if ($link['name'] == 'https') {
+            if ($link['name'] == 'https')
                 $cloneUrl = $link['href'];
-                break;
-            }
+            if ($link['name'] == 'ssh')
+                $gitUrl = $link['href'];
         }
 
         $repository_parsed = [
@@ -78,6 +79,7 @@ class Bitbucket implements GitInterface {
             'full_name' => $repository_data['full_name'],
             'repo_url'  => $repository_data['links']['html']['href'],
             'api_url'   => $repository_data['links']['self']['href'],
+            'git_url'   => $gitUrl,
             'clone_url' => $cloneUrl,
             'size'      => $repository_data['size'],
             'private'   => $repository_data['is_private'],
@@ -138,18 +140,18 @@ class Bitbucket implements GitInterface {
         //is_private = true
         //description = ""
 
-
         $response = [];
         foreach ($repositories as $repo) {
             if ($repo['scm'] !== 'git')
                 continue;
 
             $cloneUrl = '';
+            $sshUrl = '';
             foreach ($repo['links']['clone'] as $c) {
-                if ($c['name'] == 'https') {
+                if ($c['name'] == 'https')
                     $cloneUrl = $c['href'];
-                    break;
-                }
+                if ($c['name'] == 'ssh')
+                    $sshUrl = $c['href'];
             }
             $b = [
                 'id'        => $repo['uuid'],
@@ -158,6 +160,7 @@ class Bitbucket implements GitInterface {
                 'repo_url'  => $repo['links']['html']['href'],
                 'api_url'   => $repo['links']['self']['href'],
                 'clone_url' => $cloneUrl,
+                'git_url'   => $sshUrl,
                 'size'      => $repo['size'],
                 'private'   => $repo['is_private'],
                 'provider'  => OAuth::provider_bitbucket,

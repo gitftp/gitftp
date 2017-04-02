@@ -56,6 +56,8 @@ class Project {
             $project_id = self::insert([
                 'name'         => $repository['name'],
                 'uri'          => $repository['repo_url'],
+                'clone_uri'    => $repository['clone_url'],
+                'git_uri'      => $repository['git_url'],
                 'git_name'     => $repository['name'],
                 'sh_name'      => null,
                 'git_id'       => $repository['id'],
@@ -63,7 +65,6 @@ class Project {
                 'hook_key'     => null,
                 'owner_id'     => $user_id,
                 'provider'     => $repository_provider,
-                'clone_uri'    => $repository['clone_url'],
                 'git_username' => $username,
             ]);
 
@@ -78,9 +79,12 @@ class Project {
             $hook = $git->api()->setHook($repoName, $username, $hookUrl);
             $hook_id = $hook['id'];
 
-            list($keyId, $public, $private) = Keys::getPair();
-            $response = $git->api()->createKey($username, $repoName, $public);
-            $id = $response['id'];
+//            list($keyId, $public, $private) = Keys::getPair();
+//            $response = $git->api()->createKey($username, $repoName, $public);
+//            $id = $response['id'];
+//            $privateFileName = Str::random('numeric', 4) . $keyId;
+//            $privateFilePath = Keys::path . $privateFileName;
+//            File::create(DOCROOT . Keys::path, $privateFileName, $private);
 
             $clonePath = self::getRepoPath($project_id);
 
@@ -89,10 +93,12 @@ class Project {
             ], [
                 'hook_id'  => $hook_id,
                 'hook_key' => $key,
-                'ssh_id'   => $id,
-                'key_id'   => $keyId,
+//                'ssh_id'   => $id,
+//                'key_id'   => $keyId,
+//                'key_path' => $privateFilePath,
                 'path'     => $clonePath,
             ]);
+
             if (!$af)
                 throw new UserException('Could not update project record.');
 

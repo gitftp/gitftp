@@ -132,6 +132,7 @@ class GitApi {
      * this clone url uses token for authentication
      *
      * @param $clone_url
+     * @param $provider_username
      * @param $provider
      *
      * @return string
@@ -153,10 +154,10 @@ class GitApi {
             $username = "x-token-auth";
             $password = $token->getToken();
         } elseif ($provider == OAuth::provider_github) {
-            $username = $token->getToken();
-            $password = false;
+            $username = $this->providers[$provider]['username'];
+            $password = $token->getToken();
         } else {
-            throw new AppException('Invalid provider.');
+            throw new AppException("Invalid provider, $provider given.");
         }
 
         $repo_url = parse_url($clone_url);

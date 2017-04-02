@@ -117,8 +117,10 @@ class Deploy {
      */
     protected function __construct ($project_id) {
         $af = set_time_limit(0);
-        /*       if(!$af)
-                       throw new UserException('set_time_limit was not possible, please set time limit to 0');*/
+        /*
+        if(!$af)
+            throw new UserException('set_time_limit was not possible, please set time limit to 0');
+        */
 
         $this->isCli = Fuel::$is_cli;
         $project = Project::get_one([
@@ -290,7 +292,7 @@ class Deploy {
                 'log_file' => $file,
             ]);
 
-            DeployLog::log('Starting..', 'LOG');
+            DeployLog::log('Starting..', __FUNCTION__);
 
             if (!$this->gitLocal->git->isCloned()) {
                 Project::update([
@@ -299,7 +301,7 @@ class Deploy {
                     'clone_state' => Project::clone_state_cloning,
                 ]);
 
-                DeployLog::log('Cloning project', 'CLONE');
+                DeployLog::log('Cloning project', __FUNCTION__);
                 $this->cloneMe();
                 DeployLife::working($this->project_id);
             }
@@ -309,7 +311,7 @@ class Deploy {
             ], [
                 'clone_state' => Project::clone_state_cloned,
             ]);
-            DeployLog::log('Project cloned', 'CLONE');
+            DeployLog::log('Project cloned', __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
@@ -536,6 +538,7 @@ class Deploy {
             $provider = $this->project['provider'];
             $gitApi = GitApi::instance($this->project['owner_id'], $provider);
             $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $provider);
+//            $clone_url = $this->project['git_uri'];
             DeployLog::log($clone_url, __FUNCTION__);
             $this->gitLocal->cloneMe($clone_url);
         }

@@ -78,14 +78,6 @@ class Project {
 
             $hook = $git->api()->setHook($repoName, $username, $hookUrl);
             $hook_id = $hook['id'];
-
-//            list($keyId, $public, $private) = Keys::getPair();
-//            $response = $git->api()->createKey($username, $repoName, $public);
-//            $id = $response['id'];
-//            $privateFileName = Str::random('numeric', 4) . $keyId;
-//            $privateFilePath = Keys::path . $privateFileName;
-//            File::create(DOCROOT . Keys::path, $privateFileName, $private);
-
             $clonePath = self::getRepoPath($project_id);
 
             $af = self::update([
@@ -93,9 +85,6 @@ class Project {
             ], [
                 'hook_id'  => $hook_id,
                 'hook_key' => $key,
-//                'ssh_id'   => $id,
-//                'key_id'   => $keyId,
-//                'key_path' => $privateFilePath,
                 'path'     => $clonePath,
             ]);
 

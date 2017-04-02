@@ -538,7 +538,6 @@ class Deploy {
             $provider = $this->project['provider'];
             $gitApi = GitApi::instance($this->project['owner_id'], $provider);
             $clone_url = $gitApi->createAuthCloneUrl($this->project['clone_uri'], $provider);
-//            $clone_url = $this->project['git_uri'];
             DeployLog::log($clone_url, __FUNCTION__);
             $this->gitLocal->cloneMe($clone_url);
         }

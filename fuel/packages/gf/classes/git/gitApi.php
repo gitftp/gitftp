@@ -132,7 +132,6 @@ class GitApi {
      * this clone url uses token for authentication
      *
      * @param $clone_url
-     * @param $provider_username
      * @param $provider
      *
      * @return string

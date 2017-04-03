@@ -1,12 +1,26 @@
 <div>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3" ng-if="projects_array.length">
+            <div class="col-md-8 col-md-offset-2" ng-if="projects_array.length">
+
+
+                <div class="m-b-20 m-t-30">
+                    <div class="md-form-group pull-right no-p" style="display: inline-block; width: 200px;">
+                        <input class="form-control" ng-model="filter" placeholder="Filter">
+                    </div>
+                    <span style="font-size: 20px;line-height: 33px;">Projects</span>
+                </div>
                 <div class="bg-white md-whiteframe-z0 list-group">
-                    <a class="list-group-item p-20" href="view/{{p.id}}/{{p.name}}" ng-repeat="p in projects_array">
+                    <a class="list-group-item p-20" href="view/{{p.id}}/{{p.name}}" ng-repeat="p in filteredProjects = (projects_array | filter:filter)">
                         <h4 class="no-m">{{p.name}}</h4>
                         <small><span class="text-muted">{{p.uri}}</span></small>
                     </a>
+
+                </div>
+                <div ng-show="!filteredProjects.length">
+                    <h4 class="text-center m-t-70">
+                        No results
+                    </h4>
                 </div>
             </div>
 

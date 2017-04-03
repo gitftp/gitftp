@@ -55,24 +55,37 @@ module.exports = function (grunt) {
             },
         },
         watch: {
-            app: {
+            js: {
                 files: ['app/**/*.js', '!app/build.js'],
                 tasks: ['concat:app'],
             },
+            css: {
+                files: ['assets/css/final.less'],
+                tasks: ['less:app'],
+            },
         },
+        less: {
+            app: {
+                files: {
+                    'assets/css/final.css': 'assets/css/final.less'
+                }
+            },
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-less');
 
-    grunt.registerTask('build', ['concat:vendor','concat:app']);
+    grunt.registerTask('build', ['less:app', 'concat:vendor', 'concat:app']);
     grunt.registerTask('build-release', [
         'concat:vendor',
+        'less:app',
         'concat:app',
         'uglify:app',
         'uglify:vendor'
     ]);
 
-    grunt.registerTask('default', ['watch:app']);
+    grunt.registerTask('default', ['watch']);
 };

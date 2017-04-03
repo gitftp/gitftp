@@ -1,7 +1,7 @@
 ## ![Gitftp](assets/img/logo-sm-2-name.png)
 
 Automated deployments  
-Self hosted git to ftp/sftp/local deployment made easy,  
+Self hosted git to ftp/sftp/local deployment made in PHP,  
 download and install just like wordpress and get deploying.  
 **v0.0.1-beta**
 

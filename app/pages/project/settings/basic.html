@@ -14,7 +14,7 @@
                             <div class="m-b-20">
                                 <span class="pull-right">Created @ {{project.created_at | amFromUnix | amDateFormat: 'DD MMM\'YY HH:mm a'}}</span>
                                 settings for {{project.git_name}} <br>
-                                <a uib-tooltip="open in {{project.provider}}" href="{{project.uri}}" target="_empty">{{project.uri}}</a>
+                                <a title="open in {{project.provider}}" href="{{project.uri}}" target="_empty">{{project.uri}}</a>
                             </div>
                             <hr>
                             <form name="editForm" ng-submit="saveSettings()">

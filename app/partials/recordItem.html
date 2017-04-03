@@ -12,21 +12,21 @@
         <div class="m-t-5">
             <div class="pull-right">
                 <span class="text-muted">
-                <span ng-if="record.status == 2 && record.total_files != '0'">
-                    {{record.processed_files}} of {{record.total_files}} done
-                </span>
-                <span ng-if="record.status == 2 && record.total_files == '0' && record.type != 1">
-                    Computing changes
-                </span>
-                <span class="m-l-10" ng-if="record.added_files != 0" uib-tooltip="Added files" tooltip-placement="left">
-                    <i class="zmdi m-r-5 zmdi-plus-circle-o"></i>{{record.added_files}}
-                </span>
-                    <span class="m-l-10" ng-if="record.deleted_files != 0" uib-tooltip="Deleted files" tooltip-placement="left">
-                    <i class="zmdi m-r-5 zmdi-minus-circle-outline"></i>{{record.deleted_files}}
-                </span>
-                    <span class="m-l-10" ng-if="record.edited_files != 0" uib-tooltip="Edited files" tooltip-placement="left">
-                    <i class="zmdi m-r-5 zmdi-edit"></i>{{record.edited_files}}
-                </span>
+                    <span ng-if="record.status == 2 && record.total_files != '0'">
+                        {{record.processed_files}} of {{record.total_files}} done
+                    </span>
+                    <span ng-if="record.status == 2 && record.total_files == '0' && record.type != 1">
+                        Computing changes
+                    </span>
+                    <span class="m-l-10" ng-if="record.added_files != 0" title="Added files" tooltip-placement="left">
+                        <i class="zmdi m-r-5 zmdi-plus-circle-o"></i>{{record.added_files}}
+                    </span>
+                        <span class="m-l-10" ng-if="record.deleted_files != 0" title="Deleted files" tooltip-placement="left">
+                        <i class="zmdi m-r-5 zmdi-minus-circle-outline"></i>{{record.deleted_files}}
+                    </span>
+                        <span class="m-l-10" ng-if="record.edited_files != 0" title="Edited files" tooltip-placement="left">
+                        <i class="zmdi m-r-5 zmdi-edit"></i>{{record.edited_files}}
+                    </span>
                 </span>
                 <span>
                     <button class="btn btn-rounded btn-xs btn-info btn-stroke m-l-5"

@@ -115,7 +115,7 @@
 
                                                         <div class="col-md-3" ng-repeat="f in targetChanges.files">
                                                             <div class="m-b-5 changedFile text-ellipsis">
-                                                            <span uib-tooltip="{{f.a == 'D' ? 'Delete': 'Upload'}} {{f.f}}">
+                                                            <span title="{{f.a == 'D' ? 'Delete': 'Upload'}} {{f.f}}">
                                                             <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.a == 'M'"></i>
                                                             <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.a == 'A'"></i>
                                                             <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.a == 'D'"></i>

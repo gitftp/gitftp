@@ -1,4 +1,4 @@
-<div class="navbar md-whiteframe-z1 no-radius white-bg">
+<div class="navbar md-whiteframe-z1 no-radius blue-bg">
     <!-- Open side - Naviation on mobile -->
     <a md-ink-ripple data-toggle="modal" data-target="#aside"
        class="navbar-item pull-left visible-xs visible-sm"><i class="mdi-navigation-menu i-24"></i></a>
@@ -6,11 +6,13 @@
     <!-- / -->
     <!-- Page title - Bind to $state's title -->
     <div class="navbar-item pull-left h4">
-        <img src="assets/img/logo.png" alt="" style="height: 37px;" class="m-r-20">
-        <a href="home">Dashboard</a>
+        <a href="home">
+            <img src="assets/img/logo-sm-2w.png" alt="" style="height: 37px;" class="m-r-15">
+            <span ng-if="!breadcumb.length">Gitftp</span>
+        </a>
 
-        <span class="m-l-5" ng-repeat="b in breadcumb">
-            <i class="zmdi zmdi-chevron-right m-r-5"></i>
+        <span class="m-r-5" ng-repeat="b in breadcumb">
+            <i ng-if="$index" class="zmdi zmdi-chevron-right m-r-5"></i>
 
             <span ng-if="!b.link">{{b.name}}</span>
             <a ng-if="b.link" href="{{b.link}}">{{b.name}}</a>

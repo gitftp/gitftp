@@ -123,7 +123,6 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 'provider',
                 'git_name',
                 'git_username',
-                'key_path',
             ]);
             if (!$project)
                 throw new UserException('project not found');

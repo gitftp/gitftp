@@ -1,3 +1,3 @@
 <?php
 
-echo \Fuel\Core\Asset::js('vendors.min.js');
+echo \Fuel\Core\Asset::js('vendors.js');

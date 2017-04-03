@@ -25,14 +25,14 @@ angular.module('AppProjectServerDeploy', [
     function ($scope, $rootScope, $routeParams, Utils, Api, $window, $q, $ngConfirm, Const, Components, $location) {
         $scope.project_id = $routeParams.id;
         $scope.server_id = $routeParams.server_id;
-        $scope.project = $scope.projects[$scope.project_id];
+        $scope.project = $rootScope.projects[$scope.project_id];
 
         $scope.deploy = {};
         $scope.page = 'server-deploy';
         Utils.setTitle('Deploy');
 
         var server = {};
-        angular.forEach($scope.projects[$scope.project_id].servers, function (s) {
+        angular.forEach($scope.project.servers, function (s) {
             if (s.id == $scope.server_id)
                 server = s;
         });

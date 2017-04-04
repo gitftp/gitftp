@@ -22,9 +22,14 @@ class Deploy {
         if ($isWorking)
             throw new UserException('The deploy is working');
 
-        DeployLife::working($project_id);
-        $deploy = \Gf\Deploy\Deploy::instance($project_id);
-        $deploy->processProjectQueue(true);
+        try {
+            DeployLife::working($project_id);
+            $deploy = \Gf\Deploy\Deploy::instance($project_id);
+            $deploy->processProjectQueue(true);
+        } catch (\Exception $e) {
+            Cli::write($e->getMessage());
+        }
+
         DeployLife::doneWorking($project_id);
 
         Cli::write('RAM USED: ' . Utils::humanize_data(memory_get_usage(true)));

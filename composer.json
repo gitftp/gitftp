@@ -65,7 +65,7 @@
     "crossjoin/browscap": "^2.0",
     "league/oauth2-github": "^2.0",
     "stevenmaguire/oauth2-bitbucket": "^2.0",
-    "cpliakas/git-wrapper": "^1.7"
+    "craftpip/git-wrapper": "^1.7"
   },
   "suggest": {
     "dwoo/dwoo": "Allow Dwoo templating with the Parser package",

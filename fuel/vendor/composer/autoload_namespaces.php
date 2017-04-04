@@ -13,7 +13,7 @@ return array(
     'JacobKiers\\OAuth' => array($vendorDir . '/jacobkiers/oauth/src'),
     'Guzzle\\Tests' => array($vendorDir . '/guzzle/guzzle/tests'),
     'Guzzle' => array($vendorDir . '/guzzle/guzzle/src'),
-    'GitWrapper' => array($vendorDir . '/cpliakas/git-wrapper/src'),
+    'GitWrapper' => array($vendorDir . '/craftpip/git-wrapper/src'),
     'FtpClient' => array($vendorDir . '/nicolab/php-ftp-client/src'),
     'Buzz' => array($vendorDir . '/kriswallsmith/buzz/lib'),
     'Bitbucket\\' => array($vendorDir . '/gentle/bitbucket-api/lib'),

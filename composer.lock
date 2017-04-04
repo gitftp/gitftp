@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "22dd377d5a8284313350dc4b1d731aed",
+    "content-hash": "108fefd2c7bf699922647252fb1d093b",
     "packages": [
         {
             "name": "banago/bridge",
@@ -155,17 +155,17 @@
             "time": "2016-08-13T20:53:52+00:00"
         },
         {
-            "name": "cpliakas/git-wrapper",
-            "version": "1.7.0",
+            "name": "craftpip/git-wrapper",
+            "version": "1.7.1",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cpliakas/git-wrapper.git",
-                "reference": "1a2f1131ec9ebe04a0b729b141396fa55f992d44"
+                "url": "https://github.com/craftpip/git-wrapper.git",
+                "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cpliakas/git-wrapper/zipball/1a2f1131ec9ebe04a0b729b141396fa55f992d44",
-                "reference": "1a2f1131ec9ebe04a0b729b141396fa55f992d44",
+                "url": "https://api.github.com/repos/craftpip/git-wrapper/zipball/45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
+                "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
                 "shasum": ""
             },
             "require": {
@@ -177,7 +177,7 @@
                 "pdepend/pdepend": "~1.0",
                 "phploc/phploc": "~2.0",
                 "phpmd/phpmd": "~1.0",
-                "phpunit/phpunit": "~3.0",
+                "phpunit/phpunit": "~4.0|~5.0",
                 "psr/log": "~1.0",
                 "scrutinizer/ocular": "~1.0",
                 "sebastian/phpcpd": "~2.0",
@@ -203,11 +203,11 @@
                 }
             ],
             "description": "A PHP wrapper around the Git command line utility.",
-            "homepage": "https://github.com/cpliakas/git-wrapper",
+            "homepage": "https://github.com/craftpip/git-wrapper",
             "keywords": [
                 "git"
             ],
-            "time": "2016-04-19T16:12:33+00:00"
+            "time": "2017-04-04T19:02:32+00:00"
         },
         {
             "name": "crossjoin/browscap",
@@ -346,41 +346,6 @@
                 "issues": "https://github.com/fuel/core/issues"
             },
             "time": "2016-07-21T08:45:05+00:00"
-        },
-        {
-            "name": "fuel/docs",
-            "version": "1.8.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/fuel/docs.git",
-                "reference": "4e9d8448fed580ab8e7d59206e99c340387f7dd9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/fuel/docs/zipball/4e9d8448fed580ab8e7d59206e99c340387f7dd9",
-                "reference": "4e9d8448fed580ab8e7d59206e99c340387f7dd9",
-                "shasum": ""
-            },
-            "require": {
-                "composer/installers": "~1.0"
-            },
-            "type": "fuel-package",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "FuelPHP Development Team",
-                    "email": "team@fuelphp.com"
-                }
-            ],
-            "description": "FuelPHP 1.x Documenataion",
-            "homepage": "https://github.com/fuel/docs",
-            "support": {
-                "source": "https://github.com/fuel/docs/tree/1.8.0.4",
-                "issues": "https://github.com/fuel/docs/issues"
-            },
-            "time": "2017-01-15T17:46:37+00:00"
         },
         {
             "name": "fuel/email",

@@ -188,7 +188,7 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
             ),
             'GitWrapper' => 
             array (
-                0 => __DIR__ . '/..' . '/cpliakas/git-wrapper/src',
+                0 => __DIR__ . '/..' . '/craftpip/git-wrapper/src',
             ),
         ),
         'F' => 

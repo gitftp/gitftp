@@ -51,7 +51,8 @@ class GitLocal {
             define('STDERR', fopen('php://stderr', 'w'));
 
         $this->wrapper = new GitWrapper();
-        $this->wrapper->setTimeout(60);
+        $this->wrapper->setTimeout(300);
+        $this->wrapper->setIdleTimeout(60);
         $this->git = $this->wrapper->workingCopy($pathToRepo);
     }
 

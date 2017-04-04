@@ -117,6 +117,8 @@ class Deploy {
      */
     protected function __construct ($project_id) {
         $af = set_time_limit(0);
+        $max = ini_get('max_execution_time');
+
         /*
         if(!$af)
             throw new UserException('set_time_limit was not possible, please set time limit to 0');
@@ -134,7 +136,6 @@ class Deploy {
         $repoPath = $project['path'];
         $base = DOCROOT;
         $this->repoPath = Utils::systemDS($base . $repoPath);
-        $this->gitLocal = GitLocal::instance($this->repoPath);
     }
 
     /**
@@ -280,10 +281,12 @@ class Deploy {
      * @throws \Exception
      */
     public function cloneRepo ($record) {
-        $file = DeployLog::logToFile();
-
+        $record_id = $record['id'];
         try {
-            $record_id = $record['id'];
+            $this->gitLocal = GitLocal::instance($this->repoPath);
+            list($listener, $file) = DeployLog::createListener();
+            $this->gitLocal->setListener($listener);
+
 
             Record::update([
                 'id' => $record_id,
@@ -317,7 +320,6 @@ class Deploy {
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
-                'log'    => DeployLog::getLog(),
             ]);
 
             return true;
@@ -333,7 +335,6 @@ class Deploy {
                 'id' => $record_id,
             ], [
                 'status'        => Record::status_failed,
-                'log'           => DeployLog::getLog(),
                 'failed_reason' => $e->getMessage(),
             ]);
             throw $e;
@@ -341,10 +342,13 @@ class Deploy {
     }
 
     public function freshUpload ($record) {
-        $file = DeployLog::logToFile();
+        $record_id = $record['id'];
 
         try {
-            $record_id = $record['id'];
+            $this->gitLocal = GitLocal::instance($this->repoPath);
+            list($listener, $file) = DeployLog::createListener();
+            $this->gitLocal->setListener($listener);
+
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
             Record::update([
@@ -391,7 +395,6 @@ class Deploy {
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
-                'log'    => DeployLog::getLog(),
             ]);
 
             Server::update([
@@ -409,18 +412,18 @@ class Deploy {
             ], [
                 'status'        => Record::status_failed,
                 'failed_reason' => $e->getMessage(),
-                'log'           => DeployLog::getLog(),
             ]);
             throw $e;
         }
     }
 
     public function revisionDeploy ($record) {
-        $file = DeployLog::logToFile();
-        DeployLog::log('Gitftp v' . GF_VERSION, __FUNCTION__);
+        $record_id = $record['id'];
 
         try {
-            $record_id = $record['id'];
+            $this->gitLocal = GitLocal::instance($this->repoPath);
+            list($listener, $file) = DeployLog::createListener();
+            $this->gitLocal->setListener($listener);
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
             DeployLog::log('Starting..', __FUNCTION__);
@@ -482,7 +485,6 @@ class Deploy {
                 'id' => $record_id,
             ], [
                 'status' => Record::status_success,
-                'log'    => DeployLog::getLog(),
             ]);
 
             Server::update([
@@ -502,7 +504,6 @@ class Deploy {
             ], [
                 'status'        => Record::status_failed,
                 'failed_reason' => $e->getMessage(),
-                'log'           => DeployLog::getLog(),
             ]);
 
             throw $e;

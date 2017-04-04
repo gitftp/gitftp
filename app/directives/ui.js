@@ -102,7 +102,8 @@ angular.module('AppDirectives', [
     'Const',
     'Api',
     '$timeout',
-    function ($rootScope, Utils, $ngConfirm, Const, Api, $timeout) {
+    '$q',
+    function ($rootScope, Utils, $ngConfirm, Const, Api, $timeout, $q) {
         return {
             restrict: 'A',
             replace: true,
@@ -127,13 +128,13 @@ angular.module('AppDirectives', [
                 };
 
                 scope.logMessages = function (logFile, errorMessage) {
-                    $ngConfirm({
-                        title: 'Logs',
+                    scope.jc = $ngConfirm({
+                        title: 'Deploy output',
                         theme: 'light',
-                        columnClass: 'l',
+                        columnClass: 'col-md-12',
                         content: "" +
                         "<a ng-click='load()' class='pull-right'>" +
-                        "<i class='zmdi zmdi-refresh'></i> Refresh</a>" +
+                        "<i class='zmdi zmdi-refresh'></i> {{loading? 'Loading..' : 'Refresh'}}</a>" +
                         "<p>Showing logs from logfile: " +
                         "<code>{{logFile}}</code>" +
                         "</p>" +
@@ -141,29 +142,61 @@ angular.module('AppDirectives', [
                         "<p>Error:</p>" +
                         "<pre class='red'>{{error}}</pre>" +
                         "</div>" +
-                        "<pre style='background: #f9f2f4;" +
-                        "color: #d55c7a;border: none;'>{{msg ? msg: ''}}{{contents}}</pre>" +
-                        "<a class='pull-right' ng-click='load()'><i class='zmdi zmdi-refresh'></i> Refresh</a>" +
+                        "<pre class='lscroll' style='background: #004556;overflow: auto; max-height: 500px;" +
+                        "color: white;border: none;'>{{contents}}</pre>" +
+                        "<a class='pull-right' ng-click='load()'><i class='zmdi zmdi-refresh'></i> {{loading? 'Loading..' : 'Refresh'}}</a>" +
                         "<div class='clearfix'></div>" +
                         "",
                         alignMiddle: false,
-                        animation: 'top',
-                        closeAnimation: 'top',
-                        onScopeReady: function (scope) {
-                            scope.logFile = logFile;
-                            scope.contents = '';
-                            scope.error = errorMessage;
-                            scope.load = function () {
-                                scope.msg = 'Loading...';
-                                Api.getRecordLog(logFile).then(function (contents) {
-                                    scope.msg = '';
-                                    scope.contents = contents;
-                                }, function (reason) {
-                                    scope.msg = 'ERROR: ' + reason;
-                                });
+                        buttons: {
+                            close: function () {
+
                             }
-                            scope.load();
-                        }
+                        },
+                        closeIcon: true,
+                        animation: 'opacity',
+                        closeAnimation: 'opacity',
+                        onScopeReady: function (scope2) {
+                            var that = this;
+                            scope2.logFile = logFile;
+                            scope2.contents = '';
+                            scope2.error = errorMessage;
+                            scope2.loading = false;
+                            scope2.load = function () {
+                                var defer = $q.defer();
+                                scope2.msg = 'Loading...';
+                                scope2.loading = true;
+                                Api.getRecordLog(logFile).then(function (contents) {
+                                    scope2.msg = '';
+                                    scope2.contents = contents;
+                                    scope2.loading = false;
+                                    // angular.element(lscroll)
+                                    $timeout(function () {
+                                        $('.lscroll').scrollTop($('.lscroll').get(0).scrollHeight)
+                                    }, 500);
+                                    defer.resolve();
+                                }, function (reason) {
+                                    scope2.loading = false;
+                                    scope2.msg = 'ERROR: ' + reason;
+                                    defer.reject();
+                                });
+
+                                return defer.promise;
+                            };
+
+                            scope2.load();
+
+                            var loadAgain = function () {
+                                if ((scope.record.status == Const.record_status_new || scope.record.status == Const.record_status_in_progress) && that.isOpen()) {
+                                    $timeout(function () {
+                                        scope2.load().then(function () {
+                                            loadAgain();
+                                        });
+                                    }, 3000);
+                                }
+                            };
+                            loadAgain();
+                        },
                     });
                 };
 

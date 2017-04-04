@@ -7,6 +7,15 @@ class Controller_Test extends \Fuel\Core\Controller {
         echo '<pre>';
     }
 
+    public function get_qa(){
+        $max1 = ini_get('max_execution_time');
+        $af = set_time_limit(10);
+        $max = ini_get('max_execution_time');
+        $usage = memory_get_usage();
+        phpinfo();
+//        $listener = \Gf\Deploy\Helper\DeployLog::getListener();
+    }
+
     public function get_ert () {
 
         $gitApi = \Gf\Git\GitApi::instance(1, \Gf\Auth\OAuth::provider_github);

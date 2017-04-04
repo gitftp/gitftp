@@ -23,6 +23,9 @@ class Controller_Console_Api_Server extends Controller_Console_Authenticate {
                 throw new UserException('The log file does not exists');
             }
 
+            $contents = preg_replace("/x-token-auth:(.*?)@bit/i", '***************', $contents);
+            $contents = preg_replace("/https:\/\/(.*?)@git/i", '***************', $contents);
+
             $r = [
                 'status' => true,
                 'data'   => $contents,

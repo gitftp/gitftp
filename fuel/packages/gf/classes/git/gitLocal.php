@@ -1,6 +1,7 @@
 <?php
 namespace Gf\Git;
 
+use Gf\Deploy\Helper\DeployLog;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
 
@@ -34,17 +35,28 @@ class GitLocal {
      * @return \Gf\Git\GitLocal
      */
     public static function instance ($pathToRepo) {
-        if (!isset(static::$instance[$pathToRepo]) or null == static::$instance[$pathToRepo]) {
-            static::$instance[$pathToRepo] = new static($pathToRepo);
-        }
+//        if (!isset(static::$instance[$pathToRepo]) or null == static::$instance[$pathToRepo]) {
+//            static::$instance[$pathToRepo] = new static($pathToRepo);
+//        }
 
-        return self::$instance[$pathToRepo];
+        return new static($pathToRepo);
     }
 
     public function __construct ($pathToRepo) {
+        if (!defined('STDIN'))
+            define('STDIN', fopen('php://stdin', 'r'));
+        if (!defined('STDOUT'))
+            define('STDOUT', fopen('php://stdout', 'w'));
+        if (!defined('STDERR'))
+            define('STDERR', fopen('php://stderr', 'w'));
+
         $this->wrapper = new GitWrapper();
-        $this->wrapper->setTimeout(3600);
+        $this->wrapper->setTimeout(60);
         $this->git = $this->wrapper->workingCopy($pathToRepo);
+    }
+
+    public function setListener ($listener) {
+        $this->git->getWrapper()->addLoggerListener($listener);
     }
 
     public function pull ($owner_id, $provider, $clone_uri) {
@@ -74,10 +86,12 @@ class GitLocal {
      */
     public function cloneMe ($clone_url) {
         if (!$this->git->isCloned()) {
-            $this->git = $this->git->cloneRepository($clone_url);
+            $this->git = $this->git->cloneRepository($clone_url, [
+                'progress' => true,
+            ]);
             $this->git->setCloned(true);
 
-            return $this->git->getOutput();
+            return true;
         }
 
         return false;

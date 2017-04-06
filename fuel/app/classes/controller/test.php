@@ -7,7 +7,20 @@ class Controller_Test extends \Fuel\Core\Controller {
         echo '<pre>';
     }
 
-    public function get_qa(){
+    public function get_qa () {
+
+        $d = DOCROOT;
+        $process = new \Symfony\Component\Process\Process("php ${d}oil r deploy:project 12");
+        $a = \Symfony\Component\Process\PhpProcess::$exitCodes;
+        $a = $process->start();
+        echo $process->isRunning();
+        echo '<br>';
+        echo $pid = $process->getPid();
+        echo '<br>';
+        print_r($op = \Gf\ProcessExists::getProcess($pid));
+//
+        die;
+
         $max1 = ini_get('max_execution_time');
         $af = set_time_limit(10);
         $max = ini_get('max_execution_time');

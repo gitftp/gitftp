@@ -35,8 +35,6 @@ class ProcessHandler {
     }
 
     private function isWindows () {
-        echo PHP_OS;
-
         return !(strpos(PHP_OS, 'WIN') === false);
     }
 

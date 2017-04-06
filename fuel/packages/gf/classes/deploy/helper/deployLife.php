@@ -12,30 +12,10 @@ use Gf\Utils;
  */
 class DeployLife {
 
-    public static $key = 'project.';
+    public static $key = 'projectLocks.';
     public static $timeout = '-10 minutes';
 
-    /**
-     * sets that the
-     */
-    public static function working ($project_id) {
-        Cache::set(self::$key . $project_id, [
-            'activity' => Utils::timeNow(),
-        ]);
-    }
-
-    /**
-     * Done with it ?
-     */
-    public static function doneWorking ($project_id) {
-        try {
-            Cache::delete(self::$key . $project_id);
-        } catch (\Exception $e) {
-            // cache not found.
-        }
-    }
-
-    public static function isWorking ($project_id) {
+    public static function isLocked ($project_id) {
         try {
             $data = Cache::get(self::$key . $project_id);
             $last_activity = $data['activity'];
@@ -49,6 +29,30 @@ class DeployLife {
         } catch (\Exception $e) {
             // no.
             return false;
+        }
+    }
+
+    /**
+     * sets that the
+     *
+     * @param $project_id
+     */
+    public static function lock ($project_id) {
+        Cache::set(self::$key . $project_id, [
+            'activity' => Utils::timeNow(),
+        ]);
+    }
+
+    /**
+     * Done with it ?
+     *
+     * @param $project_id
+     */
+    public static function unlock ($project_id) {
+        try {
+            Cache::delete(self::$key . $project_id);
+        } catch (\Exception $e) {
+            // cache not found.
         }
     }
 }

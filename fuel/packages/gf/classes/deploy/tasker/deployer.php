@@ -198,7 +198,7 @@ class Deployer {
         $this->progress += $number;
 
         if ($this->progress % 2 == 0 || $this->progress == $this->total_progress) {
-            DeployLife::working($this->server['project_id']);
+            DeployLife::lock($this->server['project_id']);
             Record::update([
                 'id' => $this->record['id'],
             ], [

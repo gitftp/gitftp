@@ -194,6 +194,7 @@ class Deploy {
      * @internal param $server_id
      */
     public function processProjectQueue ($loop = false) {
+        sleep(3);
 
         $record = Record::get_one([
             'project_id' => $this->project_id,
@@ -248,7 +249,7 @@ class Deploy {
                 }
             }
 
-            DeployLife::working($this->project_id);
+            DeployLife::lock($this->project_id);
 
             if ($record['type'] == Record::type_clone) {
                 $this->cloneRepo($record);
@@ -260,7 +261,7 @@ class Deploy {
                 throw new UserException('Record type is invalid');
             }
 
-            DeployLife::working($this->project_id);
+            DeployLife::lock($this->project_id);
 
             return true;
         } catch (\Exception $e) {
@@ -306,7 +307,7 @@ class Deploy {
 
                 DeployLog::log('Cloning project', __FUNCTION__);
                 $this->cloneMe();
-                DeployLife::working($this->project_id);
+                DeployLife::lock($this->project_id);
             }
 
             Project::update([
@@ -365,7 +366,7 @@ class Deploy {
                 DeployLog::log('Pulling changes', __FUNCTION__);
                 $this->pull();
             }
-            DeployLife::working($this->project_id);
+            DeployLife::lock($this->project_id);
 
             $this->gitLocal->git->checkout($this->currentServer['branch']);
             $this->gitLocal->git->checkout($this->currentRecord['target_revision']);

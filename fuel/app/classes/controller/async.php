@@ -1,35 +1,37 @@
 <?php
 
+use Craftpip\ProcessHandler\ProcessHandler;
 use Gf\Deploy\Helper\DeployLife;
 
 class Controller_Async extends \Fuel\Core\Controller {
 
-    public function get_project2 ($project_id) {
-        $d = DOCROOT;
-        $process = new \Symfony\Component\Process\Process("php ${d}oil r deploy:project 12");
-        $a = \Symfony\Component\Process\PhpProcess::$exitCodes;
-        $a = $process->start();
-        echo $process->isRunning();
-        echo '<br>';
-        echo $process->getPid();
-        echo '<br>';
-        echo $process->getOutput();
+    public function get_project ($project_id) {
+        $this->project_using_process_lock($project_id);
     }
 
-    public function get_project ($project_id) {
-        try {
-            $isWorking = DeployLife::isWorking($project_id);
-            if ($isWorking)
-                throw new \Gf\Exception\UserException('The deploy is working');
+    private function project_using_file_lock ($project_id) {
+        $isWorking = DeployLife::isLocked($project_id);
+        if ($isWorking)
+            die('Deploy is working, project is locked');
 
-            DeployLife::working($project_id);
+        echo "Starting deploy for project $project_id";
+        try {
+            DeployLife::lock($project_id);
             $deploy = \Gf\Deploy\Deploy::instance($project_id);
             $deploy->processProjectQueue(true);
-            DeployLife::doneWorking($project_id);
+            DeployLife::unlock($project_id);
         } catch (\Exception $e) {
-            DeployLife::doneWorking($project_id);
+            DeployLife::unlock($project_id);
             \Fuel\Core\Log::error($e->getMessage());
             \Gf\Exception\ExceptionInterceptor::intercept($e);
         }
     }
+
+    private function project_using_process_lock ($project_id) {
+        $d = DOCROOT;
+        $process = new \Symfony\Component\Process\Process("php ${d}oil r deploy:project_using_process_lock $project_id");
+        $process->run();
+        echo $process->getOutput();
+    }
+
 }

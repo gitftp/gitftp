@@ -156,16 +156,16 @@
         },
         {
             "name": "craftpip/git-wrapper",
-            "version": "1.7.1",
+            "version": "1.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/craftpip/git-wrapper.git",
-                "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed"
+                "reference": "c4b955f299a8829bfad13c57d0daee8032b21e73"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/craftpip/git-wrapper/zipball/45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
-                "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
+                "url": "https://api.github.com/repos/craftpip/git-wrapper/zipball/c4b955f299a8829bfad13c57d0daee8032b21e73",
+                "reference": "c4b955f299a8829bfad13c57d0daee8032b21e73",
                 "shasum": ""
             },
             "require": {
@@ -207,7 +207,7 @@
             "keywords": [
                 "git"
             ],
-            "time": "2017-04-04T19:02:32+00:00"
+            "time": "2017-04-06T17:43:02+00:00"
         },
         {
             "name": "craftpip/process-handler",

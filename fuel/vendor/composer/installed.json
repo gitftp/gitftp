@@ -1899,63 +1899,6 @@
         }
     },
     {
-        "name": "craftpip/git-wrapper",
-        "version": "1.7.1",
-        "version_normalized": "1.7.1.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/craftpip/git-wrapper.git",
-            "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/craftpip/git-wrapper/zipball/45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
-            "reference": "45d1e7f0ddab85bb04e0a03e1c2e57381a8be2ed",
-            "shasum": ""
-        },
-        "require": {
-            "php": ">=5.3.0",
-            "symfony/event-dispatcher": "~2.3|~3.0",
-            "symfony/process": "~2.3|~3.0"
-        },
-        "require-dev": {
-            "pdepend/pdepend": "~1.0",
-            "phploc/phploc": "~2.0",
-            "phpmd/phpmd": "~1.0",
-            "phpunit/phpunit": "~4.0|~5.0",
-            "psr/log": "~1.0",
-            "scrutinizer/ocular": "~1.0",
-            "sebastian/phpcpd": "~2.0",
-            "symfony/filesystem": "~2.0"
-        },
-        "suggest": {
-            "monolog/monolog": "Enables logging of executed git commands"
-        },
-        "time": "2017-04-04T19:02:32+00:00",
-        "type": "library",
-        "installation-source": "dist",
-        "autoload": {
-            "psr-0": {
-                "GitWrapper": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Chris Pliakas",
-                "email": "opensource@chrispliakas.com"
-            }
-        ],
-        "description": "A PHP wrapper around the Git command line utility.",
-        "homepage": "https://github.com/craftpip/git-wrapper",
-        "keywords": [
-            "git"
-        ]
-    },
-    {
         "name": "symfony/process",
         "version": "v3.2.7",
         "version_normalized": "3.2.7.0",
@@ -2240,5 +2183,62 @@
         ],
         "description": "Symfony Console Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "craftpip/git-wrapper",
+        "version": "1.7.2",
+        "version_normalized": "1.7.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/craftpip/git-wrapper.git",
+            "reference": "c4b955f299a8829bfad13c57d0daee8032b21e73"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/craftpip/git-wrapper/zipball/c4b955f299a8829bfad13c57d0daee8032b21e73",
+            "reference": "c4b955f299a8829bfad13c57d0daee8032b21e73",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.3.0",
+            "symfony/event-dispatcher": "~2.3|~3.0",
+            "symfony/process": "~2.3|~3.0"
+        },
+        "require-dev": {
+            "pdepend/pdepend": "~1.0",
+            "phploc/phploc": "~2.0",
+            "phpmd/phpmd": "~1.0",
+            "phpunit/phpunit": "~4.0|~5.0",
+            "psr/log": "~1.0",
+            "scrutinizer/ocular": "~1.0",
+            "sebastian/phpcpd": "~2.0",
+            "symfony/filesystem": "~2.0"
+        },
+        "suggest": {
+            "monolog/monolog": "Enables logging of executed git commands"
+        },
+        "time": "2017-04-06T17:43:02+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "GitWrapper": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Chris Pliakas",
+                "email": "opensource@chrispliakas.com"
+            }
+        ],
+        "description": "A PHP wrapper around the Git command line utility.",
+        "homepage": "https://github.com/craftpip/git-wrapper",
+        "keywords": [
+            "git"
+        ]
     }
 ]

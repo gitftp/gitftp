@@ -20,6 +20,7 @@ use Gf\Server;
 use Gf\Utils;
 use GitWrapper\GitWorkingCopy;
 use GitWrapper\GitWrapper;
+use Symfony\Component\Process\Process;
 
 
 /**
@@ -194,7 +195,7 @@ class Deploy {
      * @internal param $server_id
      */
     public function processProjectQueue ($loop = false) {
-        sleep(3);
+        sleep(1);
 
         $record = Record::get_one([
             'project_id' => $this->project_id,
@@ -288,6 +289,15 @@ class Deploy {
             list($listener, $file) = DeployLog::createListener();
             $this->gitLocal->setListener($listener);
 
+            $p = new Process('git --version');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ git --version \n$o");
+
+            $p = new Process('php -v');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ php -v \n$o");
 
             Record::update([
                 'id' => $record_id,
@@ -315,7 +325,7 @@ class Deploy {
             ], [
                 'clone_state' => Project::clone_state_cloned,
             ]);
-            DeployLog::log('Project cloned', __FUNCTION__);
+            DeployLog::log('DONE. project cloned', __FUNCTION__);
 
             Record::update([
                 'id' => $record_id,
@@ -349,6 +359,16 @@ class Deploy {
             $this->gitLocal = GitLocal::instance($this->repoPath);
             list($listener, $file) = DeployLog::createListener();
             $this->gitLocal->setListener($listener);
+
+            $p = new Process('git --version');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ git --version \n$o");
+
+            $p = new Process('php -v');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ php -v \n$o");
 
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
@@ -404,6 +424,7 @@ class Deploy {
                 'revision' => $record['target_revision'],
             ]);
 
+            DeployLog::log('DONE.', __FUNCTION__);
             return true;
         } catch (\Exception $e) {
             DeployLog::log($e->getMessage(), ">ERR");
@@ -426,6 +447,16 @@ class Deploy {
             list($listener, $file) = DeployLog::createListener();
             $this->gitLocal->setListener($listener);
             $this->currentServer = $this->getCacheServerData($record['server_id']);
+
+            $p = new Process('git --version');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ git --version \n$o");
+
+            $p = new Process('php -v');
+            $p->run();
+            $o = $p->getOutput();
+            DeployLog::log("\$ php -v \n$o");
 
             DeployLog::log('Starting..', __FUNCTION__);
 
@@ -494,7 +525,7 @@ class Deploy {
                 'revision' => $record['target_revision'],
             ]);
 
-            DeployLog::log('Completed', __FUNCTION__);
+            DeployLog::log('DONE.', __FUNCTION__);
 
             return true;
         } catch (\Exception $e) {

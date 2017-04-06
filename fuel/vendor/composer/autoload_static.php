@@ -54,6 +54,7 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         'C' => 
         array (
             'Crossjoin\\Browscap\\' => 19,
+            'Craftpip\\' => 9,
             'Composer\\Installers\\' => 20,
         ),
         'B' => 
@@ -135,6 +136,10 @@ class ComposerStaticInit41dc4c7623915e0fb45a58a63ebc8b2e
         'Crossjoin\\Browscap\\' => 
         array (
             0 => __DIR__ . '/..' . '/crossjoin/browscap/src',
+        ),
+        'Craftpip\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/craftpip/process-handler/src',
         ),
         'Composer\\Installers\\' => 
         array (

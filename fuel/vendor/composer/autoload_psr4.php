@@ -24,6 +24,7 @@ return array(
     'Github\\' => array($vendorDir . '/knplabs/github-api/lib/Github'),
     'Fuel\\Upload\\' => array($vendorDir . '/fuelphp/upload/src'),
     'Crossjoin\\Browscap\\' => array($vendorDir . '/crossjoin/browscap/src'),
+    'Craftpip\\' => array($vendorDir . '/craftpip/process-handler/src'),
     'Composer\\Installers\\' => array($vendorDir . '/composer/installers/src/Composer/Installers'),
     'Banago\\Bridge\\' => array($vendorDir . '/banago/bridge/src'),
 );

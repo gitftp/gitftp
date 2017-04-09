@@ -7,6 +7,11 @@ class Controller_Test extends \Fuel\Core\Controller {
         echo '<pre>';
     }
 
+    public function get_mailtest () {
+        $mail = \Email\Email::forge();
+        $mail->subject('Test email')->body('This is the body')->to('bonifacepereira@gmail.com', 'boniface pereira')->send();
+    }
+
     public function get_qa () {
 
         $d = DOCROOT;

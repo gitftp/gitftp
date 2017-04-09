@@ -1,25 +1,26 @@
 <?php
 
-return array(
+return [
 
     /**
      * Default settings
      */
-    'defaults'      => array(
+    'defaults'      => [
 
         /**
          * Mail useragent string
          */
-        'useragent'      => 'Gitftp - the deployment tool',
+        'useragent'      => 'Gitftp, the deployment tool ' . GF_VERSION,
+
         /**
          * Mail driver (mail, smtp, sendmail, noop)
          */
-        'driver'         => 'smtp',
+        'driver'         => 'mail',
 
         /**
          * Whether to send as html, set to null for autodetection.
          */
-        'is_html'        => TRUE,
+        'is_html'        => true,
 
         /**
          * Email charset
@@ -30,7 +31,7 @@ return array(
          * Wether to encode subject and recipient names.
          * Requires the mbstring extension: http://www.php.net/manual/en/ref.mbstring.php
          */
-        'encode_headers' => TRUE,
+        'encode_headers' => true,
 
         /**
          * Ecoding (8bit, base64 or quoted-printable)
@@ -40,40 +41,40 @@ return array(
         /**
          * Email priority
          */
-        'priority'       => \Email::P_NORMAL,
+        'priority'       => \Email\Email::P_NORMAL,
 
         /**
          * Default sender details
          */
-        'from'           => array(
+        'from'           => [
             'email' => 'no-reply@gitftp.com',
-            'name'  => 'Gitftp - You push we deploy',
-        ),
+            'name'  => 'Gitftp, deployments',
+        ],
 
         /**
          * Default return path
          */
-        'return_path'    => FALSE,
+        'return_path'    => false,
 
         /**
          * Whether to validate email addresses
          */
-        'validate'       => TRUE,
+        'validate'       => true,
 
         /**
          * Auto attach inline files
          */
-        'auto_attach'    => TRUE,
+        'auto_attach'    => true,
 
         /**
          * Auto generate alt body from html body
          */
-        'generate_alt'   => TRUE,
+        'generate_alt'   => true,
 
         /**
          * Forces content type multipart/related to be set as multipart/mixed.
          */
-        'force_mixed'    => FALSE,
+        'force_mixed'    => false,
 
         /**
          * Wordwrap size, set to null, 0 or false to disable wordwrapping
@@ -88,13 +89,13 @@ return array(
         /**
          * SMTP settings
          */
-        'smtp'           => array(
+        'smtp'           => [
             'host'     => 'mail.gitftp.com',
             'port'     => 587,
             'username' => 'no-reply@gitftp.com',
             'password' => '-SVr*KLhT$b&',
             'timeout'  => 5,
-        ),
+        ],
 
         /**
          * Newline
@@ -104,13 +105,13 @@ return array(
         /**
          * Attachment paths
          */
-        'attach_paths'   => array(
+        'attach_paths'   => [
             // absolute path
             '',
             // relative to docroot.
             DOCROOT,
-        ),
-    ),
+        ],
+    ],
 
     /**
      * Default setup group
@@ -120,8 +121,8 @@ return array(
     /**
      * Setup groups
      */
-    'setups'        => array(
-        'default' => array(),
-    ),
+    'setups'        => [
+        'default' => [],
+    ],
 
-);
+];

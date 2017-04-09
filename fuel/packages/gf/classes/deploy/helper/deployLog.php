@@ -2,24 +2,9 @@
 
 namespace Gf\Deploy\Helper;
 
-use Fuel\Core\Arr;
-use Fuel\Core\Cli;
-use Fuel\Core\File;
-use Fuel\Core\Format;
-use Fuel\Core\Fuel;
-use Fuel\Core\Num;
 use Fuel\Core\Str;
-use Gf\Deploy\Tasker\Deployer;
-use Gf\Exception\UserException;
-use Gf\Git\GitApi;
-use Gf\Git\GitLocal;
-use Gf\Project;
-use Gf\Record;
-use Gf\Server;
 use Gf\Utils;
 use GitWrapper\Event\GitLoggerListener;
-use GitWrapper\GitWorkingCopy;
-use GitWrapper\GitWrapper;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

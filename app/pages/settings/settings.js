@@ -14,6 +14,9 @@ angular.module('AppSettings', [
         }).when('/settings/users/add', {
             templateUrl: 'app/pages/settings/pages/userAdd.html',
             controller: 'userAddController',
+        }).when('/settings/users/edit/:id', {
+            templateUrl: 'app/pages/settings/pages/userAdd.html',
+            controller: 'userAddController',
         }).when('/settings/oauth-applications', {
             templateUrl: 'app/pages/settings/pages/oauth-applications.html',
             controller: 'oAuthController',
@@ -126,6 +129,13 @@ angular.module('AppSettings', [
             });
         };
 
+        $scope.remove = function (user) {
+            if (user.group == UserConst.administrator) {
+                Utils.notification('Administrator account cannot be deleted', 'red');
+                return;
+            }
+        };
+
         $scope.load();
     }
 ]).controller('userAddController', [
@@ -137,11 +147,14 @@ angular.module('AppSettings', [
     'UserConst',
     '$location',
     function ($scope, $rootScope, $routeParams, Utils, Api, UserConst, $location) {
-        Utils.setTitle('Add User');
+        var user_id = $scope.id = $routeParams.id;
+
+        if (user_id)
+            Utils.setTitle('Edit User');
+        else
+            Utils.setTitle('Add User');
 
         $scope.userGroup = UserConst;
-        // $scope.permissionDisabled = $scope.user.group == UserConst.administrator;
-        // $scope.user.profile_fields
         $scope.userEdit = {};
 
         $rootScope.$broadcast('setBreadcrumb', [
@@ -155,7 +168,7 @@ angular.module('AppSettings', [
             },
             {
                 link: "",
-                name: 'Add new'
+                name: user_id ? 'Edit user' : 'Add new'
             }
         ]);
 
@@ -176,6 +189,29 @@ angular.module('AppSettings', [
             });
         };
 
+        $scope.gettingUser = false;
+        $scope.loadUser = function () {
+            $scope.gettingUser = true;
+            Api.getUser(user_id).then(function (data) {
+                $scope.userEdit = angular.copy(data);
+                $scope.userEdit.profile_fields.create_projects = $scope.userEdit.profile_fields.create_projects == 1;
+                $scope.userEdit.profile_fields.administrator = $scope.userEdit.profile_fields.administrator == 1;
+                if ($scope.userEdit.group == UserConst.administrator) {
+                    $scope.permissionDisabled = true;
+                    $scope.userEdit.profile_fields.create_projects = true;
+                    $scope.userEdit.profile_fields.administrator = true;
+                }
+                $scope.gettingUser = false;
+            }, function (reason) {
+                Utils.error(reason, 'red');
+                $location.path('settings/users');
+                $scope.gettingUser = false;
+            });
+        };
+
+        if (user_id) {
+            $scope.loadUser();
+        }
     }
 ]).controller('oAuthController', [
     '$scope',

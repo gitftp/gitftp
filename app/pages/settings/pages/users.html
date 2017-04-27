@@ -41,11 +41,11 @@
 
                         <tr ng-repeat="user in users">
                             <td style="width: 50px;">
-                                <img style="margin-left: 14px; width: 50px; height: 50px;" class="img-rounded" src="{{user.gravatar}}&s=50"></img>
+                                <img style="width: 50px; height: 50px;" class="img-rounded" src="{{user.gravatar}}&s=50"></img>
                             </td>
                             <td style="width: 30%">
-                                <div class="blue" style="font-size: 16px;">{{user.username}}</div>
-                                <div class="text-muted">ID: #{{user.id}}</div>
+                                <div><span class="blue" style="font-size: 16px;">{{user.username}}</span> <span class="text-muted">#{{user.id}}</span></div>
+                                <div class="text-muted">{{user.email}}</div>
                             </td>
                             <td>
                                 <div class="">
@@ -73,7 +73,7 @@
                                     <ul class="dropdown-menu dropdown-menu-scale pull-right pull-up text-color"
                                         style="top: -10px; right: -10px;">
                                         <li><a href="settings/users/edit/{{user.id}}">Edit user</a></li>
-                                        <li><a class="red" ng-click="remove()" ng-disabled="user.group == 100">Remove</a></li>
+                                        <li><a class="red" ng-click="remove(user)" ng-if="user.group != userGroup.administrator">Remove</a></li>
                                     </ul>
                                 </div>
                             </td>

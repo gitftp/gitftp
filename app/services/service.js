@@ -48,6 +48,25 @@ angular.module('ServiceApi', []).factory('Api', [
                 return defer.promise;
             },
             /**
+             * Get user by user id
+             */
+            getUser: function (id) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'users/user', {
+                    id: id,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+
+                return defer.promise;
+            },
+            /**
              * Test connection to server
              */
             testServerConnectionByData: function (server_data, writeTest) {

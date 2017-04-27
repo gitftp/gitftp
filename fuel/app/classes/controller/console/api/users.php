@@ -73,6 +73,39 @@ class Controller_Console_Api_Users extends Controller_Console_Authenticate {
         $this->response($r);
     }
 
+    public function post_user () {
+        try {
+            $id = Input::json('id');
+            $user = \Gf\Auth\Users::instance()->get_one([
+                'id' => $id,
+            ], [
+                'created_at',
+                'email',
+                'group',
+                'id',
+                'username',
+                'profile_fields',
+            ]);
+
+            if (!$user)
+                throw new \Gf\Exception\UserException('The user does not exists');
+
+            $user = \Gf\Auth\Users::instance()->parse($user);
+
+            $r = [
+                'status' => true,
+                'data'   => $user,
+            ];
+        } catch (\Exception $e) {
+            $e = \Gf\Exception\ExceptionInterceptor::intercept($e);
+            $r = [
+                'status' => false,
+                'reason' => $e->getMessage(),
+            ];
+        }
+        $this->response($r);
+    }
+
     public function post_list () {
         try {
             $offset = Input::json('offset');

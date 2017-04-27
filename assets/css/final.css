@@ -18308,9 +18308,11 @@ Gitftp
     background: rgba(0, 145, 234, 0.05);
   }
 }
+.nav > li > a {
+  padding-left: 0px;
+}
 .nav-active {
   font-weight: bold;
-  border-left: solid 2px #0091ea;
 }
 .servers-list {
   display: table;

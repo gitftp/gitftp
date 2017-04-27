@@ -12,6 +12,7 @@ $db_password = false;
 $db_name = false;
 $githubClientId = false;
 $githubClientSecret = false;
+$baseUrl = false;
 
 if ($is_exists) {
     $config_file_h = fopen(DOCROOT . GF_CONFIG_FILE, 'r');
@@ -27,10 +28,14 @@ if ($is_exists) {
         $githubClientId = $config['github']['clientId'];
         $githubClientSecret = $config['github']['clientSecret'];
     }
+    if (isset($config['base_url']))
+        $baseUrl = $config['base_url'];
+
 } else {
     $config_file_h = fopen(DOCROOT . GF_CONFIG_FILE_NEW, 'r');
     $config_file = fread($config_file_h, filesize(DOCROOT . GF_CONFIG_FILE_NEW));
 }
+
 define('GF_CONFIG_FILE_EXISTS', $is_exists);
 define('GF_DB_HOST', $db_host);
 define('GF_DB_USERNAME', $db_username);
@@ -39,4 +44,5 @@ define('GF_DB_NAME', $db_name);
 define('GF_GITHUB_CLIENT_ID', $githubClientId);
 define('GF_GITHUB_CLIENT_SECRET', $githubClientSecret);
 define('GF_VERSION', 'v0.0.1-beta');
+define('GF_BASE_URL', $baseUrl);
 

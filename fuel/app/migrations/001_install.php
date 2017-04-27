@@ -25,10 +25,6 @@ class Install {
                 'type'       => 'int',
                 'constraint' => 11,
             ],
-            'account_active' => [
-                'type'       => 'int',
-                'constraint' => 1,
-            ],
             'email'          => [
                 'type'       => 'varchar',
                 'constraint' => 50,
@@ -51,10 +47,6 @@ class Install {
             'updated_at'     => [
                 'type'       => 'int',
                 'constraint' => 11,
-            ],
-            'invite_pending' => [
-                'type'       => 'int',
-                'constraint' => 1,
             ],
         ], ['id'], true, 'InnoDB', 'utf8_unicode_ci');
 

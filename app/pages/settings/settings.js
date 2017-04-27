@@ -11,6 +11,9 @@ angular.module('AppSettings', [
         }).when('/settings/users', {
             templateUrl: 'app/pages/settings/pages/users.html',
             controller: 'usersController',
+        }).when('/settings/users/add', {
+            templateUrl: 'app/pages/settings/pages/userAdd.html',
+            controller: 'userAddController',
         }).when('/settings/oauth-applications', {
             templateUrl: 'app/pages/settings/pages/oauth-applications.html',
             controller: 'oAuthController',
@@ -88,9 +91,11 @@ angular.module('AppSettings', [
     '$rootScope',
     '$routeParams',
     'Utils',
-    function ($scope, $rootScope, $routeParams, Utils) {
+    'Api',
+    'UserConst',
+    function ($scope, $rootScope, $routeParams, Utils, Api, UserConst) {
         Utils.setTitle('Users');
-
+        $scope.userGroup = UserConst;
         $rootScope.$broadcast('setBreadcrumb', [
             {
                 link: "",
@@ -101,6 +106,76 @@ angular.module('AppSettings', [
                 name: 'Users'
             }
         ]);
+
+        $scope.totalItems = 0;
+        $scope.currentPage = 1;
+        $scope.itemsPerPage = 10;
+        $scope.users = [];
+        $scope.loading = false;
+        $scope.load = function () {
+            var offset = ($scope.currentPage * $scope.itemsPerPage) - $scope.itemsPerPage;
+            $scope.loading = true;
+            Api.getUsers(offset).then(function (data) {
+                $scope.loading = false;
+                console.log(data);
+                $scope.users = data.users;
+                $scope.totalItems = data.total;
+            }, function (reason) {
+                $scope.loading = false;
+                Utils.notification(reason, 'red');
+            });
+        };
+
+        $scope.load();
+    }
+]).controller('userAddController', [
+    '$scope',
+    '$rootScope',
+    '$routeParams',
+    'Utils',
+    'Api',
+    'UserConst',
+    '$location',
+    function ($scope, $rootScope, $routeParams, Utils, Api, UserConst, $location) {
+        Utils.setTitle('Add User');
+
+        $scope.userGroup = UserConst;
+        // $scope.permissionDisabled = $scope.user.group == UserConst.administrator;
+        // $scope.user.profile_fields
+        $scope.userEdit = {};
+
+        $rootScope.$broadcast('setBreadcrumb', [
+            {
+                link: "",
+                name: 'Settings'
+            },
+            {
+                link: "",
+                name: 'Users'
+            },
+            {
+                link: "",
+                name: 'Add new'
+            }
+        ]);
+
+        $scope.savingUser = false;
+        $scope.errorMessage = false;
+        $scope.saveUser = function () {
+            $scope.errorMessage = false;
+            var user = angular.copy($scope.userEdit);
+            $scope.savingUser = true;
+            Api.saveUser(user).then(function (data) {
+                if (data.user_id) {
+                    $location.path('settings/users');
+                }
+                $scope.savingUser = false;
+            }, function (reason) {
+                $scope.errorMessage = reason;
+                $scope.savingUser = false;
+            });
+        };
+
     }
 ]).controller('oAuthController', [
     '$scope',

@@ -154,15 +154,19 @@ class Controller_Setup_Api extends Controller_Rest {
                 'group' => \Gf\Auth\Users::$administrator,
             ]);
             $user_id = $users->create_user(null, $email, $password, \Gf\Auth\Users::$administrator, [
-                'account_active' => 1,
-            ], [
+                'account_active'  => 1,
+                'administrator'   => 1,
+                'create_projects' => 1,
             ]);
 
             $session = \Gf\Auth\Auth::instance()->force_login($user_id);
             \Gf\Auth\SessionManager::instance()->create_snapshot($session, null, null, \Gf\Platform::$web);
 
+            $baseUrl = \Fuel\Core\Uri::base(false);
+
             \Gf\Config::instance()->set([
-                'ready' => 1,
+                'ready'    => 1,
+                'base_url' => $baseUrl,
             ])->save();
 
             $r = [

@@ -21,9 +21,11 @@ class Users {
     public $db = 'default';
 
     public static $administrator = 100;       // no level
+    public static $member = 90;
 
     public $groups = [
         100 => 'administrator',
+        90  => 'member',
     ];
 
     public static $instance;
@@ -163,13 +165,12 @@ class Users {
      * @param      $email
      * @param      $password
      * @param      $group
-     * @param      $properties
      * @param      $profile_fields
      *
      * @return int
      * @throws \Exception
      */
-    public function create_user ($username = null, $email, $password, $group, $properties, $profile_fields) {
+    public function create_user ($username = null, $email, $password, $group, $profile_fields) {
         $insert = [];
 
         if (is_null($username)) {
@@ -208,10 +209,7 @@ class Users {
         $insert['password'] = Fuel_Auth::instance()
             ->hash_password($password);
 
-        if (isset($properties['account_active'])) $insert['account_active'] = $properties['account_active'];
-
         $insert['created_at'] = Utils::timeNow();
-        $properties['account_active'] = isset($properties['account_active']) ? $properties['account_active'] : 0;
         $insert['profile_fields'] = serialize($profile_fields);
 
         return $this->insert($insert);

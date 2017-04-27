@@ -18331,3 +18331,6 @@ Gitftp
   padding: 15px 20px 0 0;
   display: block;
 }
+.table-v-m tbody tr td {
+  vertical-align: middle;
+}

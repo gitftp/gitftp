@@ -10,6 +10,44 @@ angular.module('ServiceApi', []).factory('Api', [
     function ($http, $q, Utils, $rootScope, $ngConfirm, $timeout) {
         return {
             /**
+             * Create or save user
+             */
+            saveUser: function (user) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'users/save_user', {
+                    user: user,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+
+                return defer.promise;
+            },
+            /**
+             * Get list of users
+             */
+            getUsers: function (offset) {
+                var defer = $q.defer();
+                $http.post(API_PATH + 'users/list', {
+                    offset: offset,
+                }).then(function (res) {
+                    if (res.data.status) {
+                        defer.resolve(res.data.data);
+                    } else {
+                        defer.reject(res.data.reason);
+                    }
+                }, function () {
+                    defer.reject(API_CONNECTION_ERROR);
+                });
+
+                return defer.promise;
+            },
+            /**
              * Test connection to server
              */
             testServerConnectionByData: function (server_data, writeTest) {

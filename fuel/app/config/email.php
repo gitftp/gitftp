@@ -47,8 +47,7 @@ return [
          * Default sender details
          */
         'from'           => [
-            'email' => 'no-reply@gitftp.com',
-            'name'  => 'Gitftp, deployments',
+            'name' => 'Gitftp, deployments',
         ],
 
         /**

@@ -62,4 +62,9 @@ angular.module('App', [
     'server_type_ftp': 1,
     'server_type_sftp': 2,
     'server_type_local': 3,
+}).constant('UserConst', {
+    90: 'Member',
+    100: 'Administrator',
+    'member': 90,
+    'administrator': 100,
 });

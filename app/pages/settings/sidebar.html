@@ -16,6 +16,11 @@
         SITE
     </p>
     <ul class="nav scroll-y" ui-nav="">
+        <li ng-class="{'nav-active': currentPage == '/settings/users'}">
+            <a href="settings/users" class="auto">
+                Users
+            </a>
+        </li>
         <li ng-class="{'nav-active': currentPage == '/settings/oauth-applications'}">
             <a href="settings/oauth-applications" class="auto">
                 OAuth applications

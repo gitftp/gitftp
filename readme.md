@@ -39,6 +39,6 @@ Made on top of the FuelPHP framework
 
 ## Copyright and license
 
-Copyright (C) 2014-2016 jquery-confirm
+Copyright (C) 2014-2017 Boniface Pereira
 
 Licensed under [the MIT license](LICENSE).

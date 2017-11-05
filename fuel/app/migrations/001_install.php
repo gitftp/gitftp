@@ -379,6 +379,12 @@ class Install {
                 'constraint' => 50,
                 'default'    => 1,
             ],
+            'deploy_pid'   => [
+                'type'       => 'varchar',
+                'constraint' => 50,
+                'default'    => '',
+                'null'       => true,
+            ],
         ], [
             'id',
         ], true, 'InnoDB', 'utf8_unicode_ci');

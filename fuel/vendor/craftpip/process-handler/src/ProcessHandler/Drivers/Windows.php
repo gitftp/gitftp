@@ -3,9 +3,14 @@
 namespace Craftpip\ProcessHandler\Drivers;
 
 use Craftpip\ProcessHandler\Exception\ProcessHandlerException;
+use Craftpip\ProcessHandler\Process as Process2;
 use Symfony\Component\Process\Process;
 
 class Windows implements DriversInterface {
+
+    /**
+     * @return \Craftpip\ProcessHandler\Process[]
+     */
     function getAllProcesses () {
         $command = "tasklist /V";
         $process = new Process($command);
@@ -15,6 +20,11 @@ class Windows implements DriversInterface {
         return $this->parseOutput($op);
     }
 
+    /**
+     * @param $pid
+     *
+     * @return \Craftpip\ProcessHandler\Process[]
+     */
     function getProcessByPid ($pid) {
         $command = "tasklist /V /fi \"pid eq $pid\"";
         $process = new Process($command);
@@ -24,6 +34,11 @@ class Windows implements DriversInterface {
         return $this->parseOutput($op);
     }
 
+    /**
+     * @param $processName
+     *
+     * @return \Craftpip\ProcessHandler\Process[]
+     */
     function getProcessByProcessName ($processName) {
         $command = "tasklist /V /fi \"imagename eq $processName\"";
         $process = new Process($command);
@@ -33,6 +48,11 @@ class Windows implements DriversInterface {
         return $this->parseOutput($op);
     }
 
+    /**
+     * @param $output
+     *
+     * @return \Craftpip\ProcessHandler\Process[]
+     */
     private function parseOutput ($output) {
         $op = explode("\n", $output);
         if (count($op) == 1) {
@@ -49,7 +69,7 @@ class Windows implements DriversInterface {
             if ($k < 2)
                 continue;
 
-            $processes[] = [
+            $p = [
                 'name'         => trim(substr($o, 0, $cs[0] + 1)),
                 'pid'          => trim(substr($o, $cs[0] + 1, $cs[1] + 1)),
                 'session_name' => trim(substr($o, $cs[0] + $cs[1] + 2, $cs[2] + 1)),
@@ -60,6 +80,9 @@ class Windows implements DriversInterface {
                 'cpu_time'     => trim(substr($o, $cs[0] + $cs[1] + $cs[2] + $cs[3] + $cs[4] + $cs[5] + $cs[6] + 7, $cs[7] + 1)),
                 'window_title' => trim(substr($o, $cs[0] + $cs[1] + $cs[2] + $cs[3] + $cs[4] + $cs[5] + $cs[6] + $cs[7] + 8, $cs[8] + 1)),
             ];
+
+            $processes[] = new Process2($p['name'], $p['pid'], $p['session_name'], $p['session'], $p['mem_used'], $p['status'],
+                $p['username'], $p['cpu_time'], $p['window_title']);
         }
 
         return $processes;

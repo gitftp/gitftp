@@ -230,6 +230,10 @@ class Controller_Console_Api_Projects extends Controller_Console_Authenticate {
                 'status'     => Record::status_new,
             ]);
 
+            /**
+             * Makes async call to
+             * @see \Controller_Async::get_project();
+             */
             \Gf\Utils::asyncCall('project', $project_id);
 
             $r = [

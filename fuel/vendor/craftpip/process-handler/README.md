@@ -20,12 +20,25 @@ use \Symfony\Component\Process\Process;
 $processHandler = new ProcessHandler();
 
 // Spawn a process and check if a process by its pid exists.
-$process = new Process('ls');
-$process->start();
-$pid = $process->getPid(); // 8378
-$processes = $processHandler->api->getProcessByPid($pid);
-if(count($processes)){
+$symfonyProcess = new Process('ls');
+$symfonyProcess->start();
+$pid = $symfonyProcess->getPid(); // 8378
+
+$process = $processHandler->getProcess($pid);
+if($process){
+    $name = $process->getName();
+    $pid = $process->getPid();
+    $mem_used = $process->getMemUsed();
+    $cpu_time = $process->getCpuTime();
+    $session = $process->getSession();
+    $session_name = $process->getSessionName();
+    $status = $process->getStatus();
+    $username = $process->getUsername();
+    $window_title = $process->getWindowTitle();
+    $is_running = $process->isRunning();
+    
     /*
+    Examples
     returns the following on UNIX
     [0] => Array
             (
@@ -60,14 +73,15 @@ if(count($processes)){
 
 
 // get all processes 
-$allProcesses = $processHandler->api->getAllProcesses();
+$allProcesses = $processHandler->getAllProcesses();
 ```
 
 ## Methods
 ```php
 $processHandler = new ProcessHandler();
-$processHandler->api->getAllProcesses();
-$processHandler->api->getProcessByPid($pid);
+$processHandler->getAllProcesses();
+$processHandler->getProcess($pid);
+$processHandler->isRunning($pid);
 ```
 
 ## Installation

@@ -292,6 +292,8 @@ class Users {
      */
     private function update ($where, $fields) {
         if (isset($fields['profile_fields']) && !\Str::is_serialized($fields['profile_fields'])) $fields['profile_fields'] = serialize($fields['profile_fields']);
+        if (isset($fields['password']))
+            $fields['password'] = $this->hash_password($fields['password']);
 
         return \DB::update($this->usersTable)
             ->set($fields)

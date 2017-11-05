@@ -33,7 +33,7 @@ class Controller_Async extends \Fuel\Core\Controller {
         $c = "${p}/php ${d}oil r deploy:project_using_process_lock $project_id";
         $process = new \Symfony\Component\Process\Process($c);
         $process->run();
-        $process->setIdleTimeout(60);
+        $process->setIdleTimeout(0);
         $process->setTimeout(0);
         echo $process->getOutput();
         echo $process->getErrorOutput();

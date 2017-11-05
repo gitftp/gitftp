@@ -1,5 +1,7 @@
 <?php
 
+use Fuel\Core\Controller;
+use Fuel\Core\Response;
 use Gf\Auth\Auth;
 use Gf\Auth\OAuth;
 
@@ -10,7 +12,7 @@ class Controller_Init extends Controller {
             Response::redirect('setup');
 
         if (!$user_id = Auth::instance()->user_id) {
-            \Fuel\Core\Response::redirect('login');
+            Response::redirect('login');
         } else {
             $user = Auth::instance()->user;
             $user = \Gf\Auth\Users::instance()->parse($user);
@@ -20,7 +22,7 @@ class Controller_Init extends Controller {
             $availableProviders = OAuth::getAvailableProviders();
             $readyProviders = OAuth::getReadyProviders($user_id);
 
-            $projects = \Gf\Project::get([
+            $projects = \Gf\Project::get([ 
                 'owner_id' => $user_id,
             ], [
                 'id',

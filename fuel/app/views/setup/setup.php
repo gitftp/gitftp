@@ -222,7 +222,7 @@
                                     </p>
                                     <span>Name: </span> <em>Anything you like</em> <br>
                                     <span>URL: </span> {{base}} <br>
-                                    <span>Callback URL: </span> {{githubCallback}} <br>
+                                    <span>Callback URL: </span> {{bitbucketCallback}} <br>
                                     <span>Permissions:</span> Account: Read, Projects: Read, Webhooks: Read and Write, Repositories: Read
                                 </div>
                             </div>

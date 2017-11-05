@@ -29,9 +29,14 @@ class Controller_Async extends \Fuel\Core\Controller {
 
     private function project_using_process_lock ($project_id) {
         $d = DOCROOT;
-        $process = new \Symfony\Component\Process\Process("php ${d}oil r deploy:project_using_process_lock $project_id");
+        $p = PHP_BINDIR;
+        $c = "${p}/php ${d}oil r deploy:project_using_process_lock $project_id";
+        $process = new \Symfony\Component\Process\Process($c);
         $process->run();
+        $process->setIdleTimeout(60);
+        $process->setTimeout(0);
         echo $process->getOutput();
+        echo $process->getErrorOutput();
     }
 
 }

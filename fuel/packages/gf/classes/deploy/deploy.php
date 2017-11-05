@@ -110,6 +110,11 @@ class Deploy {
     private $isCli = false;
 
     /**
+     * @var int
+     */
+    public $maxExecutionTime = 0;
+
+    /**
      * Gitftp constructor.
      *
      * @param $project_id
@@ -118,7 +123,7 @@ class Deploy {
      */
     protected function __construct ($project_id) {
         $af = set_time_limit(0);
-        $max = ini_get('max_execution_time');
+        $this->maxExecutionTime = ini_get('max_execution_time');
 
         /*
         if(!$af)
@@ -298,6 +303,7 @@ class Deploy {
             $p->run();
             $o = $p->getOutput();
             DeployLog::log("\$ php -v \n$o");
+            DeployLog::log("\$ php max_timeout " . $this->maxExecutionTime);
 
             Record::update([
                 'id' => $record_id,
@@ -369,6 +375,7 @@ class Deploy {
             $p->run();
             $o = $p->getOutput();
             DeployLog::log("\$ php -v \n$o");
+            DeployLog::log("\$ php max_timeout " . $this->maxExecutionTime);
 
             $this->currentServer = $this->getCacheServerData($record['server_id']);
 
@@ -457,6 +464,7 @@ class Deploy {
             $p->run();
             $o = $p->getOutput();
             DeployLog::log("\$ php -v \n$o");
+            DeployLog::log("\$ php max_timeout " . $this->maxExecutionTime);
 
             DeployLog::log('Starting..', __FUNCTION__);
 

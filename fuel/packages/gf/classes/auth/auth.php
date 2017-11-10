@@ -287,8 +287,8 @@ class Auth {
 //                    $session_key,
 //                ];
 //            } else {
-            if ($user['account_active'] == 0)
-                throw new Exception\UserException('Your account is not active. please contact the site administrator for more information.');
+//            if ($user['account_active'] == 0)
+//                throw new Exception\UserException('Your account is not active. please contact the site administrator for more information.');
 
             $this->auth_instance->login($user['username'], $password);
 

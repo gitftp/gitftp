@@ -1,4 +1,5 @@
 <?php
+
 namespace Gf\Git;
 
 use Gf\Deploy\Helper\DeployLog;
@@ -231,6 +232,21 @@ class GitLocal {
                     'a' => 'D',
                 ];
                 $deleted += 1;
+            } elseif ($mod == 'R') {
+                // renamed file
+                // looks like this in the output
+                //R100	lib/ionic/fonts/ionicons.woff	fonts/ionicons.woff
+                $line = explode("\t", $line);
+                $files[] = [
+                    'f' => $line[1],
+                    'a' => 'D',
+                ];
+                $deleted += 1;
+                $files[] = [
+                    'f' => $line[2],
+                    'a' => 'A',
+                ];
+                $added += 1;
             } else {
                 // ignore this
             }

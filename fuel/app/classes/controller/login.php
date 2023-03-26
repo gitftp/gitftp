@@ -25,6 +25,7 @@ class Controller_Login extends Controller {
 
             $auth = \Gf\Auth\Auth::instance();
             $session = $auth->login($email, $password);
+//            echo 'asd';
             \Gf\Auth\SessionManager::instance()->create_snapshot($session, null, null, \Gf\Platform::$web);
 
             $r = [

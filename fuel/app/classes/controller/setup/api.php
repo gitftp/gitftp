@@ -39,7 +39,7 @@ class Controller_Setup_Api extends Controller_Rest {
             $password = Input::json('db.password');
             $db_name = Input::json('db.dbname');
             // ready. install the schema to database here.
-            \Gf\Misc::testDatabase($host, $db_name, $username, $password);
+            \Gf\Misc::testDatabase($host, $db_name, $username, $password, '3307');
 
             \Gf\Config::instance()->set([
                 'mysql.host'     => $host,

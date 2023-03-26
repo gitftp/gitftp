@@ -1,0 +1,22 @@
+.al{
+  min-width: 300px;
+  padding: 0 10px;
+  padding-bottom: 15px;
+  padding-right: 25px;
+}
+pre{
+  overflow: auto;
+  max-height: 300px;
+  max-width: 100%;
+}
+.trace{
+  background-color: ghostwhite;
+  padding: 10px 15px;
+  border-radius: 20px;
+  line-height: 20px;
+  margin-top: 10px;
+}
+.st{
+  cursor: pointer;
+
+}

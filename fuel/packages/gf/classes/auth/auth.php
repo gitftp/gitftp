@@ -241,6 +241,7 @@ class Auth {
      */
     public function validate ($username_email, $password) {
         $user_table = $this->user_instance->usersTable;
+
         $pass_hash = $this->user_instance->hash_password($password);
 
         $user = \DB::query("

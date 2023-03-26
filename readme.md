@@ -22,13 +22,19 @@ Download the latest release [here](https://github.com/gitftp/gitftp/releases),
 unzip the files and open it on the browser.  
 The software will check for dependencies and ask for database setup
 
+
+## Build
+
+npm install
+
+
 ## Issues
 
 Please post issues and feature request here [Github issues](https://github.com/gitftp/gitftp/issues)
 
 ## Roadmap
 * Support multiple users
-* Email clients
+* Email clients`
 * Pthreads for parallel file upload
 * Add templates
 * Pre and post deploy commands LOCAL

@@ -442,6 +442,7 @@ class Deploy {
                 'status'        => Record::status_failed,
                 'failed_reason' => $e->getMessage(),
             ]);
+            echo $e->getFile();
             throw $e;
         }
     }

@@ -1,0 +1,29 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <div style="width: 300px;padding: 2px 20px">
+      <h3>
+        Projects
+      </h3>
+    </div>
+  </mat-drawer>
+
+  <div class="example-sidenav-content">
+    <mat-toolbar color="">
+      <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>
+        <img src="./assets/logo-sm-2-name.png"
+             alt="">
+      </span>
+<!--      <span class="example-spacer"></span>-->
+<!--      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">-->
+<!--        <mat-icon>favorite</mat-icon>-->
+<!--      </button>-->
+<!--      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">-->
+<!--        <mat-icon>share</mat-icon>-->
+<!--      </button>-->
+    </mat-toolbar>
+<!--    <router-outlet></router-outlet>-->
+  </div>
+</mat-drawer-container>

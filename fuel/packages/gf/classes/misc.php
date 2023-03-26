@@ -53,8 +53,8 @@ class Misc {
      *
      * @return bool
      */
-    public static function testDatabase ($host, $db_name, $username, $password) {
-        $db = new \PDO("mysql:host=$host;dbname=$db_name", $username, $password);
+    public static function testDatabase ($host, $db_name, $username, $password, $port) {
+        $db = new \PDO("mysql:host=$host;dbname=$db_name;port=$port", $username, $password);
 
         return true;
     }

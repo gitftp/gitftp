@@ -1,0 +1,36 @@
+<mat-dialog-content>
+  <div class="al">
+    <h2>
+      Error
+    </h2>
+    <p>
+      {{req.message}}
+    </p>
+    <div style="text-align: right">
+      <span *ngIf="req.exception && req.exception.message && !showTrace"
+            (click)="showTrace = true"
+            class="st">
+        [Show trace]
+      </span>
+    </div>
+    <div *ngIf="req.exception && req.exception.message && showTrace"
+         class="trace">
+      <strong>
+        {{req.exception.message}}
+      </strong>
+      <br>
+      <strong style="margin: 10px 0; display: inline-block">
+        <em>file:</em> {{req.exception.file}}:{{req.exception.line}}
+      </strong> <br>
+      <em>
+        Trace:
+      </em>
+      <code>{{req.exception.trace }}</code>
+    </div>
+
+    <div style="height: 15px">
+
+    </div>
+    <button mat-flat-button type="button" mat-dialog-close="" color="primary">Close</button>
+  </div>
+</mat-dialog-content>

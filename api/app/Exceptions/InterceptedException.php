@@ -20,6 +20,6 @@ class InterceptedException extends \Exception{
     }
 
     public function __construct(\Exception $e) {
-        parent::__construct($e->getMessage(), $e->getCode(), $e);
+        parent::__construct($e->getMessage(), (int)$e->getCode(), $e);
     }
 }

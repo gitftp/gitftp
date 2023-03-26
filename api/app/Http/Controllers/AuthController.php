@@ -74,6 +74,7 @@ class AuthController extends Controller {
             }
 
 
+
             $r = [
                 'status'  => true,
                 'data'    => [],
@@ -93,12 +94,19 @@ class AuthController extends Controller {
     }
 
 
+
     public function doSetup(Request $request) {
         try {
             $user = $request->user;
-
-            Artisan::call('migrate');
-
+            DB::statement("create table `options`
+(
+    option_id int auto_increment primary key,
+    name      varchar(40) null,
+    value     longtext    null
+)
+    charset = utf8mb4;
+");
+//            Artisan::call('migrate');
             $r = [
                 'status'  => true,
                 'data'    => [],

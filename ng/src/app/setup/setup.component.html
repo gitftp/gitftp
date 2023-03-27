@@ -87,6 +87,12 @@
         <input matInput
                formControlName="port">
       </mat-form-field>
+      <mat-form-field appearance="outline"
+                      class="mr2">
+        <mat-label>Unix socket</mat-label>
+        <input matInput
+               formControlName="socket">
+      </mat-form-field>
       <div>
         <p *ngIf="dbMsg"
            style="color: forestgreen;
@@ -135,6 +141,7 @@
         <input matInput
                formControlName="confirm_password">
       </mat-form-field>
+
       <div>
         <p *ngIf="setupProgress"
            style="color: black;

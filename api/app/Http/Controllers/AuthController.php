@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
 use App\Models\Helper;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -48,32 +49,15 @@ class AuthController extends Controller {
     public function saveSetup(Request $request) {
         try {
             $db = $request->database;
-            try {
-                $env = file_get_contents(base_path() . '/.env-placeholders');
-            } catch (\Exception $e) {
-                throw new \Exception('[5067] .env-placeholder file not found.');
-            }
 
-            $env = str_replace([
-                '{host}',
-                '{port}',
-                '{database}',
-                '{username}',
-                '{password}',
-            ], [
-                $db['host'],
-                $db['port'],
-                $db['database'],
-                $db['username'],
-                $db['password'],
-            ], $env);
-            try {
-                file_put_contents(base_path() . '/.env', $env);
-            } catch (\Exception $e) {
-                throw new \Exception('[5068] Could not write .env file', 0, $e);
-            }
-
-
+            \Config::instance()
+                   ->set('mysql.host', $db['host'])
+                   ->set('mysql.port', $db['port'])
+                   ->set('mysql.database', $db['database'])
+                   ->set('mysql.username', $db['username'])
+                   ->set('mysql.password', $db['password'])
+                   ->set('mysql.socket', $db['socket'])
+                   ->save();
 
             $r = [
                 'status'  => true,
@@ -94,22 +78,23 @@ class AuthController extends Controller {
     }
 
 
-
     public function doSetup(Request $request) {
         try {
             $user = $request->user;
-            DB::statement("create table `options`
-(
-    option_id int auto_increment primary key,
-    name      varchar(40) null,
-    value     longtext    null
-)
-    charset = utf8mb4;
-");
-//            Artisan::call('migrate');
+            Artisan::call('migrate');
+
+            // create users here
+            $userId = User::create($user['email'], $user['password']);
+
+            $token = User::generateToken($userId);
+
+            \Config::instance()->set('setup', '1')->save();
+
             $r = [
                 'status'  => true,
-                'data'    => [],
+                'data'    => [
+                    'token' => $token,
+                ],
                 'message' => '',
             ];
         } catch (\Exception $e) {
@@ -157,6 +142,11 @@ class AuthController extends Controller {
     public function dependencyCheck(Request $request) {
         try {
             $deps = Helper::dependenciesCheck();
+            $setup = \Config::instance()
+                            ->get('setup', false);
+            if ($setup) {
+                throw new UserException("The app has already been setup.");
+            };
             $r = [
                 'status'  => true,
                 'data'    => $deps,
@@ -177,7 +167,10 @@ class AuthController extends Controller {
 
     public function checkState(Request $request) {
         try {
-            if (!env('DB_USERNAME')) {
+            $setup = \Config::instance()
+                            ->get('setup', false);
+
+            if (!$setup) {
                 // if the database is setup, then we go forward
                 $nextPage = 'setup';
             }

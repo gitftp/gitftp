@@ -26,8 +26,9 @@ export class SetupComponent implements OnInit {
 
   dbForm!: FormGroup;
 
-  // page: string = 'deps';
-  page: string = 'user';
+  page: string = 'deps';
+
+  // page: string = 'user';
 
   prepareDatabaseForm() {
     this.dbForm = this.fb.group({
@@ -36,6 +37,7 @@ export class SetupComponent implements OnInit {
       password: ['root', []],
       database: ['gf2', [Validators.required]],
       port: ['3306', [Validators.required]],
+      socket: ['', []],
     });
   }
 
@@ -189,7 +191,14 @@ export class SetupComponent implements OnInit {
       .subscribe({
         next: (res) => {
           this.checkingDeps = false;
-          this.deps = res.data;
+          if (res.status) {
+            this.deps = res.data;
+          }else{
+            this.helper.alert({
+              message: res.message,
+              type: 'Error',
+            });
+          }
         },
         error: (err) => {
           this.checkingDeps = false;

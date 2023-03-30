@@ -18,13 +18,24 @@ export class FirstComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.api.post('auth/check', {})
+    let user = this.helper
+      .getUser();
+
+    this.api.post('auth/check', {
+      token: user.token,
+    })
       .subscribe((res: ApiResponse) => {
         if(res.status){
           let next = res.data.nextPage;
           switch(next){
             case 'setup':
               this.router.navigate(['auth', 'setup']);
+              break;
+            case 'login':
+              this.router.navigate(['auth', 'login']);
+              break;
+            case 'home':
+              this.router.navigate(['home']);
               break;
           }
           console.log(res.data)

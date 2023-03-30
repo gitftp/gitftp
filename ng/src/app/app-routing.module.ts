@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {FirstComponent} from "./first/first.component";
 import {MinimalComponent} from "./layout/minimal/minimal.component";
+import {BaseComponent} from "./layout/base/base.component";
 
 const routes: Routes = [
   {
@@ -10,6 +11,7 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: MinimalComponent,
     loadChildren: () => {
       return import('./layout/minimal/minimal.module').then((m) => {
         return m.MinimalModule;
@@ -18,6 +20,7 @@ const routes: Routes = [
   },
   {
     path: '',
+    component: BaseComponent,
     loadChildren: () => {
       return import('./layout/base/base.module').then((m) => {
         return m.BaseModule;

@@ -38,6 +38,54 @@ class AuthController extends Controller {
         return $r;
     }
 
+    public function login(Request $request) {
+        try {
+
+            $email = $request->email;
+            $password = $request->password;
+
+            $hashed = User::hash($password);
+            $users = DB::query("select * from users;");
+            $user = User::query()
+                        ->where([
+                            'email'    => $email,
+                            'password' => User::hash($password),
+                        ])
+                        ->get([
+                            'user_id',
+                            'email',
+                            'last_login',
+                        ])
+                        ->first();
+
+            if ($user) {
+                $token = User::generateToken($user->user_id);
+            }
+            else {
+                throw new UserException('Sorry, invalid email or password');
+            }
+
+            $r = [
+                'status'  => true,
+                'data'    => [
+                    'token' => $token,
+                    'user' => $user,
+                ],
+                'message' => '',
+            ];
+        } catch (\Exception $e) {
+            $e = ExceptionInterceptor::intercept($e);
+            $r = [
+                'status'    => false,
+                'message'   => $e->getMessage(),
+                'exception' => $e->getJson(),
+                'data'      => [],
+            ];
+        }
+
+        return $r;
+    }
+
     /**
      * Save the config that is provided,
      * in a new .env file. copy from .env-placeholder
@@ -88,7 +136,9 @@ class AuthController extends Controller {
 
             $token = User::generateToken($userId);
 
-            \Config::instance()->set('setup', '1')->save();
+            \Config::instance()
+                   ->set('setup', '1')
+                   ->save();
 
             $r = [
                 'status'  => true,
@@ -170,6 +220,7 @@ class AuthController extends Controller {
             $setup = \Config::instance()
                             ->get('setup', false);
 
+            DB::query();
             if (!$setup) {
                 // if the database is setup, then we go forward
                 $nextPage = 'setup';
@@ -177,6 +228,16 @@ class AuthController extends Controller {
             else {
                 // check if user if logged in
                 $nextPage = 'login';
+            }
+
+            $token = $request->token;
+            if($token){
+                $user = User::query()->where([
+                    'login_hash' => $token,
+                ])->get()->first();
+                if($user){
+                    $nextPage = 'home';
+                }
             }
 
             $r = [

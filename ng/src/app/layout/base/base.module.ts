@@ -11,14 +11,45 @@ import {DashboardComponent} from "../../dashboard/dashboard.component";
 
 let routes: Routes = [
   {
-    path: 'home',
-    component: BaseComponent,
+    path: '',
     loadChildren: () => {
       return import('./../../dashboard/dashboard.module').then((a) => {
         return a.DashboardModule;
       });
     }
-  }
+  },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../project-create/project-create.module').then((a) => {
+        return a.ProjectCreateModule;
+      });
+    }
+  },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../profile/profile.module').then((a) => {
+        return a.ProfileModule;
+      });
+    }
+  },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../git-accounts/git-accounts.module').then((a) => {
+        return a.GitAccountsModule;
+      });
+    }
+  },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../git-accounts-create/git-accounts-create.module').then((a) => {
+        return a.GitAccountsCreateModule;
+      });
+    }
+  },
 ]
 
 @NgModule({

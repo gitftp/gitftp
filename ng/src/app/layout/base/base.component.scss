@@ -1,3 +1,47 @@
-mat-drawer-container{
+mat-drawer-container {
   height: 100%;
+}
+
+.menu-container {
+  width: 300px;
+  padding: 2px 20px;
+}
+
+.m-item-c{
+  //background-color: lightblue;
+  padding-left: 10px;
+  //border-left: solid 1px #888;
+  position: relative;
+
+  &:before{
+    content: '';
+    position: absolute;
+    width: 1px;
+    top:10px;
+    bottom: 14px;
+    left: 1px;
+    //right: 0;
+    background-color: #222;
+  }
+}
+
+.m-item {
+  padding: 5px 0px;
+  margin: 5px 0px;
+  cursor: pointer;
+  //border-top: solid 1px;
+  //border-bottom: solid 1px;
+  //background-color: lightcoral;
+  user-select: none;
+
+  > * {
+    vertical-align: middle;
+  }
+
+  mat-icon {
+    vertical-align: middle;
+    margin-top: -3px;
+    margin-right: 5px;
+    //width: 24px;
+  }
 }

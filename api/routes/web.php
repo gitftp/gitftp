@@ -24,9 +24,22 @@ ini_set('display_errors', 1);
 
 $router->group([
     'middleware' => [
+        'exceptionHandler',
+        'auth',
+    ],
+], function ($router) {
+    $router->post('oauth/all-providers', 'OAuthController@allProviders');
+    $router->post('oauth/save-provider', 'OAuthController@saveProvider');
+    $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
+    $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
+    $router->get('connect', 'OAuthController@connect');
+
+});
+
+$router->group([
+    'middleware' => [
         //        'cors',
         'exceptionHandler',
-        //        'auth',
     ],
 ], function ($router) {
     /**
@@ -36,13 +49,14 @@ $router->group([
     $router->post('auth/check', 'AuthController@checkState');
     $router->post('auth/save-setup', 'AuthController@saveSetup');
     $router->post('auth/init-setup', 'AuthController@doSetup');
+    $router->post('auth/login', 'AuthController@login');
     /**
      * check if the dependencies are satisfied
      */
     $router->post('auth/deps', 'AuthController@dependencyCheck');
     $router->post('auth/db-test', 'AuthController@dbTest');
 
-    $router->get('', function () use ($router) {
+    $router->get('version', function () use ($router) {
         return $router->app->version();
     });
 });

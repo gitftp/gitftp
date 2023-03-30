@@ -42,9 +42,12 @@ class Config {
         return $this;
     }
 
+    public function remove($key){
+        Arr::delete($this->currentConfigs, $key);
+        return $this;
+    }
+
     public function get($key, $default = false){
        return Arr::get($this->currentConfigs, $key, $default);
     }
 }
-
-Config::instance()->load();

@@ -33,12 +33,13 @@ class User extends Model
 
     public static function generateToken($userId){
         $token = md5(time());
-        return self::query()->where([
+        self::query()->where([
             'user_id' => $userId
         ])->update([
-            'last_login' => '',
+            'last_login' => Helper::getDateTime(),
             'login_hash' => $token,
         ]);
+        return $token;
     }
 
     public static function removeToken($userId){
@@ -72,5 +73,11 @@ class User extends Model
         // need a better hash
         return md5($p);
     }
+
+    public static function getLoggedInUserToken(){
+        $request = app('request');
+        return $request->token;
+    }
+
 
 }

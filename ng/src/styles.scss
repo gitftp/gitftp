@@ -101,3 +101,25 @@ mat-dialog-content{
 .mat-mdc-dialog-container .mdc-dialog__content{
   letter-spacing: 0px !important;
 }
+.mdc-notched-outline--upgraded .mdc-floating-label--float-above {
+  max-width: 154.333333% !important;
+}
+.mat-toolbar, .mat-drawer-content{
+  background-color: white;
+}
+.mat-drawer {
+  background-color: ghostwhite;
+}
+mat-card{
+
+}
+
+
+
+
+// custom classes
+.page{
+  padding: 0 30px;
+}
+
+

@@ -5,11 +5,30 @@ namespace App\Models;
 
 class Helper {
 
-    public static function getLastInsertId(){
-        return \DB::getPdo()->lastInsertId();
+    public static function encode($a) {
+        $a = urlencode($a);
+        $a = base64_encode($a);
+
+        return $a;
     }
 
-    public static function testDatabaseConnection($host, $db_name, $username, $password, $port){
+    public static function decode($a) {
+        $a = base64_decode($a);
+        $a = urldecode($a);
+
+        return $a;
+    }
+
+    public static function getDateTime() {
+        return date('Y-m-d H:i:s');
+    }
+
+    public static function getLastInsertId() {
+        return \DB::getPdo()
+                  ->lastInsertId();
+    }
+
+    public static function testDatabaseConnection($host, $db_name, $username, $password, $port) {
         $db = new \PDO("mysql:host=$host;dbname=$db_name;port=$port", $username, $password);
 
         return true;
@@ -18,13 +37,14 @@ class Helper {
     /**
      * @return array
      */
-    public static function dependenciesCheck () {
+    public static function dependenciesCheck() {
         $allOk = true;
         // testing php.
         $php = 2;
         if (version_compare(PHP_VERSION, '5.3', '>=')) {
             $php = 1;
-        } else {
+        }
+        else {
             $allOk = false;
         }
 
@@ -35,7 +55,8 @@ class Helper {
         if (strpos($op, 'git version') !== false) {
             $git = 1;
             $git_version = str_replace('git version', '', $op);
-        } else {
+        }
+        else {
             $allOk = false;
         }
 
@@ -43,10 +64,16 @@ class Helper {
         $os_name = PHP_OS;
 
         return [
-            'git' => [$git, $git_version],
-            'php' => [$php, PHP_VERSION],
-            'os'  => $os_name,
-            'status'  => $allOk,
+            'git'    => [
+                $git,
+                $git_version,
+            ],
+            'php'    => [
+                $php,
+                PHP_VERSION,
+            ],
+            'os'     => $os_name,
+            'status' => $allOk,
         ];
     }
 

@@ -3,8 +3,7 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // custom additions
-require_once __DIR__ . '/../gitftp/Arr.php';
-require_once __DIR__ . '/../gitftp/Config.php';
+require_once __DIR__ . '/../gitftp/main.php';
 
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(dirname(__DIR__)))->bootstrap();
 

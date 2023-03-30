@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
-import {UserService} from "./user.service";
+import {HelperService} from "./helper.service";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class ApiService {
 
   constructor(
     private http: HttpClient,
-    private userService: UserService,
+    private helper: HelperService,
   ) {
   }
 
@@ -21,8 +21,8 @@ export class ApiService {
       let headers = {
         // 'token': this.userService.getToken(),
       };
-      // data = data || {};
-      // data.token = this.userService.getToken();
+      data = data || {};
+      data.token = this.helper.getUser()?.token;
       this.http.post(this.baseUrl + url, data, {
         // headers: headers,
       })
@@ -47,7 +47,7 @@ export class ApiService {
       this.http.get(this.baseUrl + url, {
         headers: headers,
         params: {
-          token: this.userService.getToken(),
+          token: this.helper.getUser()?.token,
         }
       })
         .subscribe({

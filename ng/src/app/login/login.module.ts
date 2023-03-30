@@ -38,6 +38,7 @@ let routes: Routes = [
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
   ]
 })
 export class LoginModule {

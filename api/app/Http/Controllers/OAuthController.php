@@ -6,6 +6,7 @@ use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
 use App\Models\Helper;
 use App\Models\User;
+use OAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -79,30 +80,14 @@ class OAuthController extends Controller {
 
     public function connect(Request $request) {
         try {
-
-            //            const CONFIG_OAUTHSTATE = 'asd';
-
-
-            if (!$request->code) {
+            if (!$request->code and $request->me) {
                 // making a request
                 $appId = $request->me;
                 $appId = Helper::decode($appId);
-
                 $o = new \OAuth([
                     'app_id' => $appId,
                 ]);
-                $driver = $o->getDriver();
-                $redirectUrl = $driver->getAuthorizationUrl($o->getAppOptions());
-                $state = $driver->getState();
-                \Config::instance()
-                       ->set(\OAuth::CONFIG_OAUTHSTATE . '.' . $state, [
-                           'app_id' => $appId,
-                       ])
-                       ->save();
-                header('Location: ' . $redirectUrl);
-                ob_flush();
-                flush();
-                die;
+                $o->redirectForLogin();
             }
             elseif (!$request->state) {
                 throw new \Exception('OAuth state mismatched');
@@ -111,74 +96,16 @@ class OAuthController extends Controller {
                 throw new \Exception($request->error);
             }
             else {
+                // receiving a request
                 $state = $request->state;
                 $code = $request->code;
-                $previousState = \Config::instance()
-                                        ->get(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
-                if (!$previousState) {
-                    throw new \Exception("OAuth previous state was not found. please try again");
-                }
+                $previousState = OAUth::getState($state);
                 $appId = $previousState['app_id'];
                 $o = new \OAuth([
                     'app_id' => $appId,
                 ]);
-                $driver = $o->getDriver();
-                $token = $driver->getAccessToken('authorization_code', [
-                    'code' => $code,
-                ]);
-                $owner = $driver->getResourceOwner($token);
-                $gitUsername = $owner->getNickname();
-                $gitName = $owner->getName();
-                $gitUid = $owner->getId();
-                $gitEmail = $owner->getEmail();
-                $gitUrl = $owner->getUrl();
-                $accessToken = serialize($token);
-                $justToken = $token->getToken();
-                $expires = $token->getExpires();
-                $refreshToken = $token->getRefreshToken();
-
-                $exists = DB::select("
-                    select * from oauth_app_accounts app
-                    where app.git_username = '$gitUsername'
-                    and app.oauth_app_id = '$appId'
-                ");
-
-                $set = [
-                    'oauth_app_id'  => $appId,
-                    'git_username'  => $gitUsername,
-                    'git_name'      => $gitName,
-                    'git_uid'       => $gitUid,
-                    'git_email'     => $gitEmail,
-                    'git_url'       => $gitUrl,
-                    'access_token'  => $accessToken,
-                    'token'  => $justToken,
-                    'expires'       => $expires,
-                    'refresh_token' => $refreshToken,
-                    'created_at'    => Helper::getDateTime(),
-                    'created_by'    => 0,
-                ];
-                if (count($exists)) {
-                    DB::table('oauth_app_accounts')
-                      ->where([
-                          'oauth_app_id' => $appId,
-                          'git_username' => $gitUsername,
-                      ])
-                      ->update($set);
-                }
-                else {
-                    // git username is unique tho
-                    DB::table('oauth_app_accounts')
-                      ->insert($set);
-                }
-
-                \Config::instance()
-                       ->remove(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
-                header('Location: http://localhost:4200/git-accounts');
-                ob_flush();
-                flush();
-                die;
+                $o->readLoginResponse($code);
             }
-
 
             $r = [
                 'status'  => true,

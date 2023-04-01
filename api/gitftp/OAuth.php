@@ -1,14 +1,23 @@
 <?php
 
 use Illuminate\Support\Facades\DB;
+use App\Models\Helper;
+use League\OAuth2\Client\Token\AccessToken;
 
 class OAuth {
 
     const GITHUB = 'github';
     const BITBUCKET = 'bitbucket';
+    const CONFIG_OAUTHSTATE = 'oauth2state';
 
     private $appId;
     private $accountId;
+    public $app = [];
+    /**
+     * Driver options
+     * @var array
+     */
+    private $appOptions = [];
 
     /**
      * @param array $options [app_id or account_id] in options
@@ -16,7 +25,6 @@ class OAuth {
      * @throws \App\Exceptions\AppException
      */
     public function __construct(array $options) {
-
         if (isset($options['account_id'])) {
             $this->accountId = $options['account_id'];
             //        if($provider != self::GITHUB and $provider )
@@ -29,7 +37,7 @@ class OAuth {
                     from oauth_app_accounts oaa
                     inner join oauth_apps oa on oaa.oauth_app_id = oa.oauth_app_id
                     inner join providers p on oa.provider_id = p.provider_id
-                where oaa.account_id = '{${this->accountId}}'
+                where oaa.account_id = '{${$this->accountId}}'
             ");
 
             if (empty($rows)) {
@@ -40,47 +48,33 @@ class OAuth {
             $this->appId = $this->app->oauth_app_id;
         }
         elseif (isset($options['app_id'])) {
-            $this->appId = $appId;
-            //        if($provider != self::GITHUB and $provider )
-            $apps = DB::select("
+            $this->appId = $options['app_id'];
+            $rows = DB::select("
                 select
                     oa.client_id,
                     oa.client_secret,
                     p.provider_key
                     from oauth_apps oa
                     inner join providers p on oa.provider_id = p.provider_id
-                    where oa.oauth_app_id = '$appId'
+                    where oa.oauth_app_id = '{${$this->appId}}'
             ");
 
-            if (empty($apps)) {
+            if (empty($rows)) {
                 throw new \Exception('app not found, please try again');
             }
 
-            $this->app = $apps[0];
+            $this->app = $rows[0];
         }
         else {
-            // invalid options
+            throw new \App\Exceptions\AppException('Invalid request');
         }
-
-
-        //        $this->appConfig =
     }
 
     private function getCallbackUrl() {
-        $appId = \App\Models\Helper::encode($this->appId);
-        $token = \App\Models\User::getLoggedInUserToken();
         $r = \Illuminate\Support\Facades\URL::to("connect");
 
         return $r;
     }
-
-    //    https://github.com/login/oauth/authorize?scope=repo%2Cuser%3Aemail%2Cadmin%3Arepo_hook%2Cadmin%3Aorg_hook&state=4b7c7ffe849ed23e331f7c4754b56882&response_type=code&approval_prompt=auto&redirect_uri=http%3A%2F%2Fgf.local%2Fapi%2Fconnect&client_id=0
-    //    https://github.com/login/oauth/authorize?scope=repo%2Cuser%3Aemail%2Cadmin%3Arepo_hook%2Cadmin%3Aorg_hook&state=e85258a0e1c4838bfdc2402ba06c5c77&response_type=code&approval_prompt=auto&redirect_uri=http%3A%2F%2Fgf.bon1.in%2Foauth%2Fauthorize%2Fgithub&client_id=174eb32a55553a324d5f
-
-    // client id and secret.
-    public $app = [];
-
-    private $appOptions = [];
 
     public function getDriver() {
         switch ($this->app->provider_key) {
@@ -107,56 +101,123 @@ class OAuth {
         return $driver;
     }
 
-    const CONFIG_OAUTHSTATE = 'oauth2state';
-
-    private $isCallback = false;
-
     public function getAppOptions() {
         return $this->appOptions;
     }
 
-    public function init() {
+
+    public function refreshToken(AccessToken $token) {
+        if(!$this->accountId)
+            throw new \App\Exceptions\AppException('please set account id');
+
+
         $driver = $this->getDriver();
-        $request = app('request');
-
-        if (!$request->code) {
-            $redirectUrl = $driver->getAuthorizationUrl($this->appOptions);
-            $state = $driver->getState();
-            Config::instance()
-                  ->set(self::CONFIG_OAUTHSTATE . '.' . $state, [
-                      'app_id' => $this->appId,
-                  ])
-                  ->save();
-            header('Location: ' . $redirectUrl);
-            ob_flush();
-            flush();
-            die;
-        }
-        elseif (!$request->state) {
-            throw new \Exception('OAuth state mismatched');
-        }
-        elseif ($request->error) {
-            throw new \Exception($request->error);
-        }
-        else {
-            $this->isCallback = true;
-            $request->state;
-            $token = $driver->getAccessToken('authorization_code', [
-                'code' => $request->code,
-            ]);
-            $this->token = $token;
-
-            $owner = $driver->getResourceOwner($token);
-            //            $this->user = $this->parseUserData($owner->toArray());
-            $gitUsername = $owner->login;
-            $gitName = $owner->name;
-            $gitUid = $owner->id;
-        }
+        $refreshToken = $token->getRefreshToken();
+        $newToken = $driver->getAccessToken('refresh_token', [
+            'refresh_token' => $refreshToken,
+        ]);
+        DB::table('oauth_app_accounts')
+          ->where([
+              'oauth_app_id' => $this->accountId,
+          ])
+          ->update([
+              'access_token'  => serialize($newToken),
+              'token'         => $newToken->getToken(),
+              'expires'       => $newToken->getExpires(),
+              'refresh_token' => $newToken->getRefreshToken(),
+              'updated_at'    => \App\Models\Helper::getDateTime(),
+          ]);
+        return $newToken;
     }
 
-    private $token;
+    public function redirectForLogin() {
+        $driver = $this->getDriver();
+        $redirectUrl = $driver->getAuthorizationUrl($driver->getAppOptions());
+        $state = $driver->getState();
+        self::saveState($state, $this->appId);
+        header('Location: ' . $redirectUrl);
+        ob_flush();
+        flush();
+        die;
+    }
 
+    public static function saveState($state, $appId) {
+        \Config::instance()
+               ->set(\OAuth::CONFIG_OAUTHSTATE . '.' . $state, [
+                   'app_id' => $$appId,
+               ])
+               ->save();
+    }
 
+    public static function getState($state, $remove = false) {
+        $state = \Config::instance()
+                        ->get(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
+        if (!$state) {
+            throw new \Exception("OAuth previous state was not found. please try again");
+        }
+
+        \Config::instance()
+               ->remove(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
+
+        return $state;
+    }
+
+    public function readLoginResponse($code) {
+        $driver = $this->getDriver();
+        $token = $driver->getAccessToken('authorization_code', [
+            'code' => $code,
+        ]);
+        $owner = $driver->getResourceOwner($token);
+        $gitUsername = $owner->getNickname();
+        $gitName = $owner->getName();
+        $gitUid = $owner->getId();
+        $gitEmail = $owner->getEmail();
+        $gitUrl = $owner->getUrl();
+        $accessToken = serialize($token);
+        $justToken = $token->getToken();
+        $expires = $token->getExpires();
+        $refreshToken = $token->getRefreshToken();
+
+        $appId = $this->appId;
+        $exists = DB::select("
+                    select * from oauth_app_accounts app
+                    where app.git_username = '$gitUsername'
+                    and app.oauth_app_id = ''
+                ");
+
+        $set = [
+            'oauth_app_id'  => $appId,
+            'git_username'  => $gitUsername,
+            'git_name'      => $gitName,
+            'git_uid'       => $gitUid,
+            'git_email'     => $gitEmail,
+            'git_url'       => $gitUrl,
+            'access_token'  => $accessToken,
+            'token'         => $justToken,
+            'expires'       => $expires,
+            'refresh_token' => $refreshToken,
+            'created_at'    => \App\Models\Helper::getDateTime(),
+            'created_by'    => 0,
+        ];
+        if (count($exists)) {
+            DB::table('oauth_app_accounts')
+              ->where([
+                  'oauth_app_id' => $appId,
+                  'git_username' => $gitUsername,
+              ])
+              ->update($set);
+        }
+        else {
+            // git username is unique tho
+            DB::table('oauth_app_accounts')
+              ->insert($set);
+        }
+
+        header('Location: http://localhost:4200/git-accounts');
+        ob_flush();
+        flush();
+        die;
+    }
 }
 
 //https://github.com/login/oauth/authorize?state=5afb7e7ea6ad3463c33e49e19476fd26&response_type=code&approval_prompt=auto&client_id=174

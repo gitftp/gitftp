@@ -58,6 +58,14 @@ let routes: Routes = [
       });
     }
   },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../projects/projects.module').then((a) => {
+        return a.ProjectsModule;
+      });
+    }
+  },
 ]
 
 @NgModule({

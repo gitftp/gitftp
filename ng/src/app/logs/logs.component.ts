@@ -19,7 +19,7 @@ export class LogsComponent implements OnInit {
       let th = document.getElementsByClassName('mat-toolbar')[0].clientHeight;
       let bh = document.getElementsByTagName('body')[0].clientHeight;
       // console.log(th, bh);
-      document.getElementsByClassName('lf')[0].setAttribute('style', 'height: ' + (bh - th) + 'px');
+      document.getElementsByClassName('lf')[0].setAttribute('style', 'height: ' + ((bh - th) - 10) + 'px');
     }, 4);
   }
 

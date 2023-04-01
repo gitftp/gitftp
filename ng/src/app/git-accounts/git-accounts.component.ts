@@ -10,6 +10,7 @@ import {GitAccountsCreateComponent} from "../git-accounts-create/git-accounts-cr
 })
 export class GitAccountsComponent implements OnInit {
   displayedColumns: string[] = [
+    'provider',
     'username',
     'token',
     'expires',

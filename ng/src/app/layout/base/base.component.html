@@ -1,43 +1,83 @@
-<mat-drawer-container class="example-container" autosize >
-  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="true" >
-      <h3 style="margin: 30px 25px">
-        Projects
-      </h3>
-    <div style="" class="menu-container">
+<mat-drawer-container class="example-container"
+                      autosize>
+  <mat-drawer #drawer
+              class="example-sidenav"
+              mode="side"
+              [opened]="true">
+    <h3 style="margin: 21px 25px 30px">
+      Menu
+    </h3>
+    <div style=""
+         class="menu-container">
       <div style="height: 1px;">
       </div>
-      <div class="m-item" routerLink="/home">
+      <div class="m-item"
+           routerLink="/home">
         <mat-icon>
           home
         </mat-icon>
         Home
       </div>
-      <div class="m-item" routerLink="/project/create">
+      <div class="m-item-c">
+        <ng-container *ngFor="let p of projects">
+          <div class="m-item"
+               [routerLink]="'/project/' + encode(p.project_id)">
+            <mat-icon>
+              code
+            </mat-icon>
+            {{p.name}}
+          </div>
+          <div class="m-item-c2">
+            <div class="m-item"
+                 [routerLink]="'/project/' + encode(p.project_id)">
+              <mat-icon>
+                code
+              </mat-icon>
+              Servers
+            </div>
+            <div class="m-item"
+                 [routerLink]="'/project/' + encode(p.project_id)">
+              <mat-icon>
+                code
+              </mat-icon>
+              Project settings
+            </div>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="m-item"
+           routerLink="/project/create">
         <mat-icon>
           add
         </mat-icon>
         Add project
       </div>
-      <div class="m-item" (click)="menuShow.settings = !menuShow.settings">
+      <div class="m-item"
+           (click)="menuShow.settings = !menuShow.settings">
         <mat-icon>
           settings
         </mat-icon>
         Settings
       </div>
-      <div class="m-item-c" *ngIf="menuShow.settings">
-        <div class="m-item" routerLink="/profile">
+      <div class="m-item-c"
+           *ngIf="menuShow.settings">
+        <div class="m-item"
+             routerLink="/profile">
           <mat-icon>
             user
           </mat-icon>
           Profile
         </div>
-        <div class="m-item" routerLink="/git-accounts">
+        <div class="m-item"
+             routerLink="/git-accounts">
           <mat-icon>
             git
           </mat-icon>
           Git accounts
         </div>
-        <div class="m-item" routerLink="/logs">
+        <div class="m-item"
+             routerLink="/logs">
           <mat-icon>
             log
           </mat-icon>
@@ -49,7 +89,11 @@
 
   <div class="example-sidenav-content">
     <mat-toolbar color="">
-      <button mat-icon-button (click)="drawer.toggle()" (mouseenter)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+      <button mat-icon-button
+              (click)="drawer.toggle()"
+              (mouseenter)="drawer.toggle()"
+              class="example-icon"
+              aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
       <span>
@@ -57,13 +101,13 @@
              style="height: 40px;margin-left: 10px"
              alt="">
       </span>
-<!--      <span class="example-spacer"></span>-->
-<!--      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">-->
-<!--        <mat-icon>favorite</mat-icon>-->
-<!--      </button>-->
-<!--      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">-->
-<!--        <mat-icon>share</mat-icon>-->
-<!--      </button>-->
+      <!--      <span class="example-spacer"></span>-->
+      <!--      <button mat-icon-button class="example-icon favorite-icon" aria-label="Example icon-button with heart icon">-->
+      <!--        <mat-icon>favorite</mat-icon>-->
+      <!--      </button>-->
+      <!--      <button mat-icon-button class="example-icon" aria-label="Example icon-button with share icon">-->
+      <!--        <mat-icon>share</mat-icon>-->
+      <!--      </button>-->
     </mat-toolbar>
     <router-outlet></router-outlet>
   </div>

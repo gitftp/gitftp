@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\DB;
 use App\Models\Helper;
+use JetBrains\PhpStorm\NoReturn;
+use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Token\AccessToken;
 
 class OAuth {
@@ -26,7 +28,7 @@ class OAuth {
      */
     public function __construct(array $options) {
         if (isset($options['account_id'])) {
-            $this->accountId = $options['account_id'];
+            $accountId = $this->accountId = $options['account_id'];
             //        if($provider != self::GITHUB and $provider )
             $rows = DB::select("
                 select
@@ -37,18 +39,18 @@ class OAuth {
                     from oauth_app_accounts oaa
                     inner join oauth_apps oa on oaa.oauth_app_id = oa.oauth_app_id
                     inner join providers p on oa.provider_id = p.provider_id
-                where oaa.account_id = '{${$this->accountId}}'
+                where oaa.account_id = '$accountId'
             ");
 
             if (empty($rows)) {
                 throw new \App\Exceptions\AppException('app not found, please try again');
             }
 
-            $this->app = $rows[0];
+            $this->app = $appId = $rows[0];
             $this->appId = $this->app->oauth_app_id;
         }
         elseif (isset($options['app_id'])) {
-            $this->appId = $options['app_id'];
+            $this->appId = $appId = $options['app_id'];
             $rows = DB::select("
                 select
                     oa.client_id,
@@ -56,7 +58,7 @@ class OAuth {
                     p.provider_key
                     from oauth_apps oa
                     inner join providers p on oa.provider_id = p.provider_id
-                    where oa.oauth_app_id = '{${$this->appId}}'
+                    where oa.oauth_app_id = '$appId'
             ");
 
             if (empty($rows)) {
@@ -76,7 +78,7 @@ class OAuth {
         return $r;
     }
 
-    public function getDriver() {
+    public function getDriver(): AbstractProvider {
         switch ($this->app->provider_key) {
             case 'github':
                 $this->appOptions['scope'] = 'repo,user:email,admin:repo_hook,admin:org_hook';
@@ -107,7 +109,7 @@ class OAuth {
 
 
     public function refreshToken(AccessToken $token) {
-        if(!$this->accountId)
+        if (!$this->accountId)
             throw new \App\Exceptions\AppException('please set account id');
 
 
@@ -127,12 +129,13 @@ class OAuth {
               'refresh_token' => $newToken->getRefreshToken(),
               'updated_at'    => \App\Models\Helper::getDateTime(),
           ]);
+
         return $newToken;
     }
 
-    public function redirectForLogin() {
+    public function redirectForLogin(): void {
         $driver = $this->getDriver();
-        $redirectUrl = $driver->getAuthorizationUrl($driver->getAppOptions());
+        $redirectUrl = $driver->getAuthorizationUrl($this->getAppOptions());
         $state = $driver->getState();
         self::saveState($state, $this->appId);
         header('Location: ' . $redirectUrl);
@@ -144,22 +147,22 @@ class OAuth {
     public static function saveState($state, $appId) {
         \Config::instance()
                ->set(\OAuth::CONFIG_OAUTHSTATE . '.' . $state, [
-                   'app_id' => $$appId,
+                   'app_id' => $appId,
                ])
                ->save();
     }
 
     public static function getState($state, $remove = false) {
-        $state = \Config::instance()
-                        ->get(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
-        if (!$state) {
+        $s = \Config::instance()
+                    ->get(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
+        if (!$s) {
             throw new \Exception("OAuth previous state was not found. please try again");
         }
 
         \Config::instance()
                ->remove(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
 
-        return $state;
+        return $s;
     }
 
     public function readLoginResponse($code) {

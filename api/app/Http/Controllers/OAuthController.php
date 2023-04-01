@@ -46,7 +46,7 @@ class OAuthController extends Controller {
             $accounts = DB::select("
     select
         oaa.git_username,
-        oaa.access_token,
+        oaa.token as access_token,
         oaa.expires,
         oa.client_id,
         p.provider_name,

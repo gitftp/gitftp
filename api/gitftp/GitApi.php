@@ -7,12 +7,22 @@ use League\OAuth2\Client\Token\AccessToken;
 class GitApi {
 
     private $accountId;
+    private $account;
 
     public function __construct($accountId) {
         $this->accountId = $accountId;
         $this->prepare();
     }
 
+
+    private function getAllRepos() {
+        //        $this->driver
+    }
+
+    /**
+     * @var \Craftpip\GitApi\GitApiInterface
+     */
+    private $provider;
 
     /**
      * get app,
@@ -40,6 +50,7 @@ class GitApi {
             throw new AppException('Account not found');
         }
         $account = $account[0];
+        $this->account = $account;
         $this->token = unserialize($account->access_token);
         $expires = $this->token->getExpires();
         if (!empty($expires)) {
@@ -50,7 +61,41 @@ class GitApi {
                 $this->token = $o->refreshToken($this->token);
             }
         }
+        $this->oauth = new OAuth([
+            'account_id' => $this->accountId,
+        ]);
+        $this->driver = $this->oauth->getDriver();
+        $this->driverAppOptions = $this->oauth->getAppOptions();
+        switch ($this->account->provider_key) {
+            case 'github':
+                $this->provider = new Github($this->account->git_username);
+                break;
+            case 'bitbucket':
+                //                $this->provider = new
+                break;
+            default:
+                break;
+        }
+
+        $this->provider->authenticate($this->token->getToken());
     }
+
+    /**
+     * @return GitProviderInterface
+     */
+    public function getProvider(): GitProviderInterface {
+        return $this->provider;
+    }
+
+    private $driverAppOptions;
+    /**
+     * @var \League\OAuth2\Client\Provider\AbstractProvider
+     */
+    private $driver;
+    /**
+     * @var OAuth
+     */
+    private $oauth;
 
     /**
      * @var AccessToken

@@ -113,13 +113,37 @@ mat-dialog-content{
 mat-card{
 
 }
+.mat-mdc-table {
+  box-shadow: none;
+  border-top: solid 1px #e0e0e0 !important;
+  border-bottom: solid 1px #e0e0e0 !important;
 
+  tr{
+    td:first-child, th:first-child{
+      padding-left: 30px !important;
+    }
+  }
+}
 
 
 
 // custom classes
 .page{
   padding: 0 30px;
+
+  .header{
+    margin: 15px 0;
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+    .btns{
+      margin-left: 20px;
+      > *{
+        margin-right: 10px;
+      }
+    }
+  }
 }
 
 

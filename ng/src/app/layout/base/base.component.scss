@@ -4,7 +4,7 @@ mat-drawer-container {
 
 .menu-container {
   width: 300px;
-  padding: 2px 20px;
+  padding: 2px 15px;
 }
 
 .m-item-c{
@@ -26,13 +26,16 @@ mat-drawer-container {
 }
 
 .m-item {
-  padding: 5px 0px;
-  margin: 5px 0px;
+  padding: 12px 10px;
+  margin: 0px 0px;
   cursor: pointer;
-  //border-top: solid 1px;
-  //border-bottom: solid 1px;
-  //background-color: lightcoral;
+  -webkit-user-select: none;
   user-select: none;
+  border-radius: 6px;
+
+  &:hover{
+    background-color: #cbe8f3;
+  }
 
   > * {
     vertical-align: middle;
@@ -42,6 +45,7 @@ mat-drawer-container {
     vertical-align: middle;
     margin-top: -3px;
     margin-right: 5px;
+    color: #4d4d4f;
     //width: 24px;
   }
 }

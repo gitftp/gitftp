@@ -10,6 +10,8 @@ import {MatIconModule} from "@angular/material/icon";
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "../login/login.component";
 import {SetupComponent} from "../setup/setup.component";
+import {MatOptionModule} from "@angular/material/core";
+import {MatSelectModule} from "@angular/material/select";
 
 let routes: Routes = [
   {
@@ -33,6 +35,8 @@ let routes: Routes = [
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
   ]
 })
 export class ProjectCreateModule { }

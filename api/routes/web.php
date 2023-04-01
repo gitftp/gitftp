@@ -32,8 +32,17 @@ $router->group([
     $router->post('oauth/save-provider', 'OAuthController@saveProvider');
     $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
     $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
-    $router->get('connect', 'OAuthController@connect');
+    $router->post('oauth/git-accounts', 'OAuthController@gitAccounts');
+    $router->post('repo/get-all', 'RepoController@getAll');
+//    $router->get('connect', 'OAuthController@connect');
+});
 
+$router->group([
+    'middleware' => [
+        'exceptionHandler',
+    ],
+], function ($router) {
+    $router->get('connect', 'OAuthController@connect');
 });
 
 $router->group([

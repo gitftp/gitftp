@@ -1,9 +1,9 @@
 <mat-drawer-container class="example-container" autosize >
   <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="true" >
-    <div style="" class="menu-container">
-      <h3>
+      <h3 style="margin: 30px 25px">
         Projects
       </h3>
+    <div style="" class="menu-container">
       <div style="height: 1px;">
       </div>
       <div class="m-item" routerLink="/home">
@@ -37,18 +37,24 @@
           </mat-icon>
           Git accounts
         </div>
+        <div class="m-item" routerLink="/logs">
+          <mat-icon>
+            log
+          </mat-icon>
+          Logs
+        </div>
       </div>
     </div>
   </mat-drawer>
 
   <div class="example-sidenav-content">
     <mat-toolbar color="">
-      <button mat-icon-button (click)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
+      <button mat-icon-button (click)="drawer.toggle()" (mouseenter)="drawer.toggle()" class="example-icon" aria-label="Example icon-button with menu icon">
         <mat-icon>menu</mat-icon>
       </button>
       <span>
         <img src="./assets/logo.png"
-             style="height: 40px;"
+             style="height: 40px;margin-left: 10px"
              alt="">
       </span>
 <!--      <span class="example-spacer"></span>-->

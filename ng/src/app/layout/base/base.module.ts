@@ -50,6 +50,14 @@ let routes: Routes = [
       });
     }
   },
+  {
+    path: '',
+    loadChildren: () => {
+      return import('./../../logs/logs.module').then((a) => {
+        return a.LogsModule;
+      });
+    }
+  },
 ]
 
 @NgModule({

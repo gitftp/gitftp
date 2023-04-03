@@ -12,6 +12,9 @@
       <div style="height: 1px;">
       </div>
       <div class="m-item"
+           [ngClass]="{
+              selected: page == 'home'
+           }"
            routerLink="/home">
         <mat-icon>
           home
@@ -21,39 +24,56 @@
       <div class="m-item-c">
         <ng-container *ngFor="let p of projects">
           <div class="m-item"
-               [routerLink]="'/project/' + encode(p.project_id)">
+               title="{{p.name}}"
+               [ngClass]="{
+              selected: page == ('project' + p.project_id)
+           }"
+               [routerLink]="'/project/' + encode(p.project_id) + ''">
             <mat-icon>
               code
             </mat-icon>
             {{p.name}}
           </div>
-          <div class="m-item-c2">
+          <div class="m-item-c2" *ngIf="menuShow['project' + p.project_id]">
             <div class="m-item"
-                 [routerLink]="'/project/' + encode(p.project_id)">
+                 [ngClass]="{
+              selected: page == ('project' + p.project_id + 'servers')
+           }"
+                 [routerLink]="'/project/' + encode(p.project_id) + '/servers'">
               <mat-icon>
-                code
+                dns
               </mat-icon>
               Servers
             </div>
             <div class="m-item"
-                 [routerLink]="'/project/' + encode(p.project_id)">
+                 [ngClass]="{
+              selected: page == ('project' + p.project_id + 'settings')
+           }"
+                 [routerLink]="'/project/' + encode(p.project_id) + '/settings'">
               <mat-icon>
-                code
+                settings
               </mat-icon>
               Project settings
             </div>
           </div>
         </ng-container>
+        <div class="m-item"
+             [ngClass]="{
+              selected: page == ('project-create')
+           }"
+             routerLink="/project/create">
+          <mat-icon>
+            add
+          </mat-icon>
+          Add Project
+        </div>
       </div>
 
+
       <div class="m-item"
-           routerLink="/project/create">
-        <mat-icon>
-          add
-        </mat-icon>
-        Add project
-      </div>
-      <div class="m-item"
+           [ngClass]="{
+              selected: page == ('settings')
+           }"
            (click)="menuShow.settings = !menuShow.settings">
         <mat-icon>
           settings
@@ -63,6 +83,9 @@
       <div class="m-item-c"
            *ngIf="menuShow.settings">
         <div class="m-item"
+             [ngClass]="{
+              selected: page == ('profile')
+           }"
              routerLink="/profile">
           <mat-icon>
             user
@@ -70,13 +93,19 @@
           Profile
         </div>
         <div class="m-item"
+             [ngClass]="{
+              selected: page == ('git-accounts')
+           }"
              routerLink="/git-accounts">
           <mat-icon>
             git
           </mat-icon>
-          Git accounts
+          Git Accounts
         </div>
         <div class="m-item"
+             [ngClass]="{
+              selected: page == ('logs')
+           }"
              routerLink="/logs">
           <mat-icon>
             log

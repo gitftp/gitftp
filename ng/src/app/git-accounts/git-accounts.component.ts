@@ -26,6 +26,8 @@ export class GitAccountsComponent implements OnInit {
 
   ngOnInit() {
     this.load();
+    this.helper
+      .setPage('git-accounts');
   }
 
   loading: boolean = false;

@@ -38,6 +38,7 @@ $router->group([
     $router->post('proj/create', 'ProjectController@create');
     $router->post('dash/sidebar', 'ProjectController@sidebar');
     $router->post('proj/view', 'ProjectController@view');
+    $router->post('server/test', 'ProjectController@serverTest');
 });
 
 $router->group([

@@ -10,6 +10,7 @@
         "http-interop/http-factory-guzzle": "^1.0",
         "knplabs/github-api": "^3.0",
         "laravel/lumen-framework": "^10.0",
+        "league/flysystem": "^3.0",
         "league/oauth2-client": "^2.6",
         "league/oauth2-github": "^3.1"
     },

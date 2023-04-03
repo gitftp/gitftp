@@ -5,6 +5,7 @@ mat-drawer-container {
 .menu-container {
   width: 250px;
   padding: 2px 15px;
+  padding-bottom: 100px;
 }
 
 .m-item-c {
@@ -18,8 +19,8 @@ mat-drawer-container {
     position: absolute;
     width: 4px;
     border-radius: 4px;
-    top: 10px;
-    bottom: 14px;
+    top: 12px;
+    bottom: 12px;
     left: -2px;
     //right: 0;
     background-color: #ddd;
@@ -28,7 +29,8 @@ mat-drawer-container {
 
 .m-item-c2 {
   //background-color: lightblue;
-  padding-left: 30px;
+  //margin-left: 30px;
+  margin-left: 15px;
   //border-left: solid 1px #888;
   position: relative;
 
@@ -37,16 +39,16 @@ mat-drawer-container {
     position: absolute;
     width: 4px;
     border-radius: 4px;
-    top: 10px;
-    bottom: 14px;
-    left: 18px;
+    top: 12px;
+    bottom: 12px;
+    left: -12px;
     background-color: #848484;
   }
 }
 
 .m-item {
-  padding: 12px 10px;
-  margin: 0px 0px;
+  padding: 9px 10px;
+  margin: 4px 0px;
   cursor: pointer;
   -webkit-user-select: none;
   user-select: none;
@@ -58,8 +60,18 @@ mat-drawer-container {
   /* width: 91%; */
   overflow: hidden;
 
+  &.selected {
+    background-color: #cbe8fb;
+    font-weight: 500;
+
+  }
+
   &:hover {
-    background-color: #cbe8f3;
+    background-color: #cbe8fb;
+  }
+
+  &.selected:hover{
+
   }
 
   > * {

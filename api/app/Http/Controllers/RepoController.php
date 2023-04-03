@@ -24,7 +24,19 @@ class RepoController extends Controller {
             $accountId = $request->account_id;
 
             if ($projectId) {
-                // @todo:
+                $projObj = DB::select("
+                    select
+                        p.git_name,
+                        p.git_username,
+                        p.account_id
+                        from projects p
+                        where p.project_id = '$projectId'
+                ");
+                if (empty($projObj))
+                    throw new UserException('The project was not found');
+                $username = $projObj[0]->git_username;
+                $repository_name = $projObj[0]->git_name;
+                $accountId = $projObj[0]->account_id;
             }
             else {
                 list($username, $repository_name) = explode('/', $fullName);

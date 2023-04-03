@@ -38,6 +38,39 @@ class ProjectController extends Controller {
         return $r;
     }
 
+    public function serverTest(Request $request) {
+        try {
+            $projectId = $request->project_id;
+            $serverConfig = $request->payload;
+            $writeTest = $request->write_test;
+
+            $c = new \Connection();
+            $c->setServer((object)$serverConfig)
+              ->connect();
+            $list = $c->getConnection()
+                      ->listContents($serverConfig['path'])->sortByPath()->toArray();
+//                      ->listContents('/folda')->toArray();
+
+            $r = [
+                'status'  => true,
+                'data'    => [
+                    'list' => $list,
+                ],
+                'message' => '',
+            ];
+        } catch (\Exception $e) {
+            $e = ExceptionInterceptor::intercept($e);
+            $r = [
+                'status'    => false,
+                'message'   => $e->getMessage(),
+                'exception' => $e->getJson(),
+                'data'      => [],
+            ];
+        }
+
+        return $r;
+    }
+
     public function view(Request $request) {
         try {
             $projectId = $request->project_id;

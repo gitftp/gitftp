@@ -1,0 +1,25 @@
+<div class="page">
+
+  <mat-spinner style="margin-top: 30px"
+               diameter="50"
+               *ngIf="loading"></mat-spinner>
+
+  <div *ngIf="project">
+    <div class="header"
+         style="margin-bottom: 0">
+      <mat-icon>code</mat-icon>
+      <h2>
+        {{project?.name}}</h2>
+      <div class="btns">
+        <!--        <button mat-stroked-button-->
+        <!--                color="primary"-->
+        <!--                routerLink="/git-accounts/create">Create-->
+        <!--        </button>-->
+      </div>
+    </div>
+    <p class="subheader">
+      {{project?.path}}
+    </p>
+  </div>
+</div>
+<router-outlet (activate)="pageChanged($event)"></router-outlet>

@@ -1,4 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {HelperService} from "../helper.service";
 
 @Component({
   selector: 'app-logs',
@@ -9,7 +10,9 @@ import {Component, OnInit, ViewChild} from '@angular/core';
   ]
 })
 export class LogsComponent implements OnInit {
-  constructor() {
+  constructor(
+    private helper: HelperService,
+  ) {
   }
 
   @ViewChild('frame') frame: any;
@@ -25,6 +28,7 @@ export class LogsComponent implements OnInit {
 
   ngOnInit() {
     this.onResize();
+    this.helper.setPage('logs');
     // document
     // width="100%"
     // style="height: 500px"

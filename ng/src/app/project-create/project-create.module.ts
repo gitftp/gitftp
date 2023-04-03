@@ -16,6 +16,7 @@ import {MatListModule} from "@angular/material/list";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import { ProjectCreateConfirmComponent } from './project-create-confirm/project-create-confirm.component';
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 let routes: Routes = [
   {

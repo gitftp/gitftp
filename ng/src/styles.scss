@@ -47,15 +47,15 @@ body {
   //background-color: ghostwhite;
 }
 
-p{
+p {
   //line
 }
 
-.mr2{
+.mr2 {
   margin-right: 10px;
 }
 
-.footer{
+.footer {
   background: white;
   /* width: 100%; */
   /* margin: 0px 55px; */
@@ -76,14 +76,16 @@ p{
   padding-top: 19px;
   padding-bottom: 12px;
 }
+
 .mat-mdc-text-field-wrapper .mat-mdc-form-field-flex .mat-mdc-floating-label {
   top: 27px;
 }
-.mat-mdc-dialog-container .mdc-dialog__content{
+
+.mat-mdc-dialog-container .mdc-dialog__content {
   font-family: inherit !important;
 }
 
-.mdc-button{
+.mdc-button {
   font-size: 16px;
 }
 
@@ -94,61 +96,105 @@ p{
 [mat-flat-button] {
   color: white !important;
 }
-mat-dialog-content{
+
+mat-dialog-content {
   color: black !important;
   font-weight: initial !important;
 }
-.mat-mdc-dialog-container .mdc-dialog__content{
+
+.mat-mdc-dialog-container .mdc-dialog__content {
   letter-spacing: 0px !important;
 }
+
 .mdc-notched-outline--upgraded .mdc-floating-label--float-above {
   max-width: 154.333333% !important;
 }
-.mat-toolbar, .mat-drawer-content{
+
+.mat-toolbar, .mat-drawer-content {
   background-color: white;
 }
+
 .mat-drawer {
   background-color: ghostwhite;
 }
-mat-card{
+
+mat-card {
 
 }
+
 .mat-mdc-table {
   box-shadow: none;
   border-top: solid 1px #e0e0e0 !important;
   border-bottom: solid 1px #e0e0e0 !important;
 
-  tr{
-    td:first-child, th:first-child{
+  tr {
+    td:first-child, th:first-child {
       padding-left: 30px !important;
     }
   }
 }
 
+mat-hint {
+  font-size: 12px;
+  line-height: 13px;
+}
 
+// boostrap overrides
+.bootstrap-wrapper .container {
+  padding-left: 0px;
+  padding-right: 0px;
+  margin-right: 0;
+  margin-left: 0px;
+
+  mat-form-field{
+    width: 100%;
+  }
+}
+.bootstrap-wrapper .row{
+  margin-right: -5px;
+  margin-left: -5px;
+}
+.bootstrap-wrapper .col-1, .bootstrap-wrapper .col-2, .bootstrap-wrapper .col-3, .bootstrap-wrapper .col-4, .bootstrap-wrapper .col-5, .bootstrap-wrapper .col-6, .bootstrap-wrapper .col-7, .bootstrap-wrapper .col-8, .bootstrap-wrapper .col-9, .bootstrap-wrapper .col-10, .bootstrap-wrapper .col-11, .bootstrap-wrapper .col-12, .bootstrap-wrapper .col, .bootstrap-wrapper .col-auto, .bootstrap-wrapper .col-sm-1, .bootstrap-wrapper .col-sm-2, .bootstrap-wrapper .col-sm-3, .bootstrap-wrapper .col-sm-4, .bootstrap-wrapper .col-sm-5, .bootstrap-wrapper .col-sm-6, .bootstrap-wrapper .col-sm-7, .bootstrap-wrapper .col-sm-8, .bootstrap-wrapper .col-sm-9, .bootstrap-wrapper .col-sm-10, .bootstrap-wrapper .col-sm-11, .bootstrap-wrapper .col-sm-12, .bootstrap-wrapper .col-sm, .bootstrap-wrapper .col-sm-auto, .bootstrap-wrapper .col-md-1, .bootstrap-wrapper .col-md-2, .bootstrap-wrapper .col-md-3, .bootstrap-wrapper .col-md-4, .bootstrap-wrapper .col-md-5, .bootstrap-wrapper .col-md-6, .bootstrap-wrapper .col-md-7, .bootstrap-wrapper .col-md-8, .bootstrap-wrapper .col-md-9, .bootstrap-wrapper .col-md-10, .bootstrap-wrapper .col-md-11, .bootstrap-wrapper .col-md-12, .bootstrap-wrapper .col-md, .bootstrap-wrapper .col-md-auto, .bootstrap-wrapper .col-lg-1, .bootstrap-wrapper .col-lg-2, .bootstrap-wrapper .col-lg-3, .bootstrap-wrapper .col-lg-4, .bootstrap-wrapper .col-lg-5, .bootstrap-wrapper .col-lg-6, .bootstrap-wrapper .col-lg-7, .bootstrap-wrapper .col-lg-8, .bootstrap-wrapper .col-lg-9, .bootstrap-wrapper .col-lg-10, .bootstrap-wrapper .col-lg-11, .bootstrap-wrapper .col-lg-12, .bootstrap-wrapper .col-lg, .bootstrap-wrapper .col-lg-auto, .bootstrap-wrapper .col-xl-1, .bootstrap-wrapper .col-xl-2, .bootstrap-wrapper .col-xl-3, .bootstrap-wrapper .col-xl-4, .bootstrap-wrapper .col-xl-5, .bootstrap-wrapper .col-xl-6, .bootstrap-wrapper .col-xl-7, .bootstrap-wrapper .col-xl-8, .bootstrap-wrapper .col-xl-9, .bootstrap-wrapper .col-xl-10, .bootstrap-wrapper .col-xl-11, .bootstrap-wrapper .col-xl-12, .bootstrap-wrapper .col-xl, .bootstrap-wrapper .col-xl-auto{
+  padding-right: 5px;
+  padding-left: 5px;
+}
+
+// end v
 
 // custom classes
-.page{
+.page {
   padding: 0 30px;
 
-  .header{
+  .header {
     margin: 15px 0;
+
+    > mat-icon {
+      margin-right: 10px;
+    }
+
     > * {
       display: inline-block;
       vertical-align: middle;
     }
-    .btns{
+
+    .btns {
       margin-left: 20px;
-      > *{
+
+      > * {
         margin-right: 10px;
       }
     }
   }
+
+  .subheader {
+    margin-top: -6px;
+    color: #666;
+    margin-bottom: 20px;
+  }
 }
 
 
-
-.table2{
+.table2 {
   //width: calc(100% - 40px);
   margin-left: 15px;
   margin-right: 15px;
@@ -157,17 +203,19 @@ mat-card{
   border-radius: 9px;
   overflow: hidden;
 
-  table{
+  table {
     border-top: none !important;
     border-bottom: none !important;
     //min-width: initial;
-    tr:first-child > *{
+    tr:first-child > * {
       //border-top: none !important;
     }
-    tr{
-      td:first-child, th:first-child{
+
+    tr {
+      td:first-child, th:first-child {
         padding-left: 20px !important;
       }
     }
   }
 }
+

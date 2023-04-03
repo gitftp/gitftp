@@ -1,0 +1,70 @@
+
+<mat-dialog-content style="padding-top: 0px;">
+
+
+  <div style="padding: 0px 6px 10px;
+    min-width: 800px;position: relative"
+       class="bootstrap-wrapper">
+    <div class="container" style="position: sticky; padding-top: 25px; top: 0;z-index: 2; background-color: white">
+      <div class="row">
+        <div class="col-12">
+          <h2 style="margin-top: 0px">
+            Locate deploy path
+          </h2>
+          <mat-form-field appearance="outline">
+<!--            <mat-label>Browse path</mat-label>-->
+            <mat-spinner [ngClass]="{
+            'hide': !calling
+            }" matPrefix style="width: 50px;padding-left: 5px" diameter="20"></mat-spinner>
+            <input matInput
+                   (keyup.enter)="submit()"
+                   (input)="callT()"
+                   placeholder="Type path"
+                   style="font-family: 'Lucida Console', monospace, sans-serif"
+                   [(ngModel)]="path">
+            <button matSuffix
+                    type="button"
+                    mat-icon-button
+                    (click)="submit()"
+                    matTooltip="Select path"
+                    style="margin-right: 5px;"
+                    color="primary">
+              <mat-icon>check</mat-icon>
+            </button>
+          </mat-form-field>
+          <p style="margin-top: 0px;color: orangered">{{error}}
+          {{projRoot ? 'This is the Gitftp installation dir, Navigate up to get parent directories' : ''}}</p>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <div (click)="goBack();call();"
+               class="f dir">
+            <mat-icon>arrow_upward</mat-icon>
+            <span class="fp">
+../ [Navigate up]
+          </span>
+          </div>
+          <div *ngFor="let f of files"
+               (click)="gotoPath(f)"
+               class="f {{f.type}}">
+            <mat-icon *ngIf="f.type == 'dir'">folder</mat-icon>
+            <mat-icon *ngIf="f.type == 'file'">insert_drive_file</mat-icon>
+            <span class="fp">
+
+          {{f.path}}
+          </span>
+            <span class="fs">
+
+            {{f.file_size}}
+          </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

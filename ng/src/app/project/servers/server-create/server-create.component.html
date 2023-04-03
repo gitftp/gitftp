@@ -1,0 +1,121 @@
+<div class="page bootstrap-wrapper">
+
+  <div class="header"
+       style="margin-bottom: 0">
+    <h2>
+      Create server</h2>
+    <div class="btns">
+
+    </div>
+  </div>
+
+  <form [formGroup]="form">
+    <div style="margin-top: 10px">
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <h3>
+              <span>Environment details</span>
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-3">
+            <mat-form-field appearance="outline"
+                            class="mr2">
+              <mat-label>Server name</mat-label>
+              <input matInput
+                     formControlName="server_name">
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-form-field appearance="outline"
+                            class="mr2">
+              <mat-label>Branch to deploy</mat-label>
+              <mat-select formControlName="branch" [disabled]="gettingBranches">
+                <mat-option [value]="b"
+                            *ngFor="let b of branches">{{b}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4">
+            <mat-form-field appearance="outline">
+              <mat-label>Current revision</mat-label>
+              <input matInput
+                     placeholder="SHA hash"
+                     formControlName="revision">
+              <mat-hint>Leave empty if fresh upload</mat-hint>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <mat-checkbox style="margin-top: -4px;"
+                          formControlName="auto_deploy">
+              Continuous deployment <br>
+              <mat-hint>Deploy will be triggered when commits are pushed to repository</mat-hint>
+
+            </mat-checkbox>
+            <div>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <div class="container">
+        <div class="row">
+          <div class="col-6">
+            <h3 style="margin-top: 30px;">
+              <span>Server connection</span>
+            </h3>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div style="margin-bottom: 10px;">
+              <mat-radio-group aria-label="Select an option"
+                               formControlName="type">
+                <mat-radio-button style="margin-right: 20px;"
+                                  value="local">Local
+                </mat-radio-button>
+                <mat-radio-button style="margin-right: 20px;"
+                                  value="ftp">FTP
+                </mat-radio-button>
+                <mat-radio-button style="margin-right: 20px;"
+                                  value="sftp">SFTP
+                </mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <mat-form-field appearance="outline">
+              <mat-label>Deploy path</mat-label>
+              <input matInput
+                     placeholder="../path/to/htdocs/"
+                     formControlName="path">
+              <button matSuffix
+                      mat-icon-button
+                      type="button"
+                      matTooltip="Browse server"
+                      (click)="browseDir()"
+                      aria-label="Clear"
+                      style="margin-right: 5px;">
+                <mat-icon>folder_open</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </form>
+</div>
+
+<div style="height: 200px;"></div>
+{{form.value | json}}

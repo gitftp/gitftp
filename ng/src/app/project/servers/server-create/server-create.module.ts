@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ProjectsComponent } from './projects.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ServerCreateComponent} from './server-create.component';
 import {RouterModule, Routes} from "@angular/router";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
@@ -13,18 +13,22 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatRadioModule} from "@angular/material/radio";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 let routes: Routes = [
   {
-    path: 'project/:id',
-    component: ProjectsComponent
+    path: '',
+    component: ServerCreateComponent,
   }
-]
+];
+
 
 @NgModule({
   declarations: [
-    ProjectsComponent
+    ServerCreateComponent
   ],
   imports: [
     CommonModule,
@@ -41,6 +45,10 @@ let routes: Routes = [
     MatProgressSpinnerModule,
     MatDialogModule,
     MatTableModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    MatTooltipModule,
   ]
 })
-export class ProjectsModule { }
+export class ServerCreateModule {
+}

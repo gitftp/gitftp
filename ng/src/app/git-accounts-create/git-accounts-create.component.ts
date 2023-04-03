@@ -25,6 +25,8 @@ export class GitAccountsCreateComponent implements OnInit {
 
   ngOnInit() {
     this.getProviders();
+    this.helper
+      .setPage('git-accounts');
   }
 
 

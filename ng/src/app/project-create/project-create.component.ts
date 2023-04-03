@@ -23,6 +23,7 @@ export class ProjectCreateComponent implements OnInit {
 
   ngOnInit() {
     this.loadRepos();
+    this.helper.setPage('project-create');
   }
 
   create(selectedRepo: RepoObject) {

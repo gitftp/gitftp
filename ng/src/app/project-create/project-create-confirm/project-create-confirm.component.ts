@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {RepoObject} from "../project-create.component";
 import {HelperService} from "../../helper.service";
 import {ApiResponse, ApiService} from "../../api.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-project-create-confirm',
@@ -18,6 +19,8 @@ export class ProjectCreateConfirmComponent implements OnInit {
     },
     private helper: HelperService,
     private apiService: ApiService,
+
+    private router: Router,
   ) {
 
   }
@@ -44,7 +47,17 @@ export class ProjectCreateConfirmComponent implements OnInit {
           this.creating = false
           this.dialogRef.disableClose = false;
           if (res.status) {
-
+            this.router.navigate([
+              'project',
+              this.helper.encode(res.data.project_id),
+            ]);
+            this.helper.emit({
+              name: 'projectCreate',
+              data: {
+                id: res.data.project_id,
+              }
+            });
+            this.dialogRef.close();
           } else {
             this.helper.alertError(res);
           }

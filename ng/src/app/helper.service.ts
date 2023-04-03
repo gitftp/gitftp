@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {MatDialog} from "@angular/material/dialog";
 import {AlertComponent} from "./components/alert/alert.component";
@@ -8,10 +8,23 @@ import {ApiResponse} from "./api.service";
   providedIn: 'root'
 })
 export class HelperService {
+  appEvents: EventEmitter<AppEvent> = new EventEmitter<AppEvent>();
+
   constructor(
     private dialog: MatDialog,
   ) {
 
+  }
+
+  emit(e: AppEvent) {
+    this.appEvents.emit(e);
+  }
+
+  setPage(page: string) {
+    this.appEvents.emit({
+      data: page,
+      name: 'setPage'
+    });
   }
 
   bytes(bytes: any, precision: any) {
@@ -103,4 +116,9 @@ export interface User {
   user_id: number;
   email: string;
   last_login: string;
+}
+
+export interface AppEvent {
+  name: string,
+  data: any,
 }

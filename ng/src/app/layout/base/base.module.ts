@@ -61,11 +61,19 @@ let routes: Routes = [
   {
     path: '',
     loadChildren: () => {
-      return import('./../../projects/projects.module').then((a) => {
-        return a.ProjectsModule;
+      return import('../../project/project.module').then((a) => {
+        return a.ProjectModule;
       });
     }
   },
+  // {
+  //   path: '',
+  //   loadChildren: () => {
+  //     return import('./../../servers/servers.module').then((a) => {
+  //       return a.ServersModule;
+  //     });
+  //   }
+  // },
 ]
 
 @NgModule({

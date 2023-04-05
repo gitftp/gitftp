@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {ProjectObject} from "../../project.component";
 import {ApiResponse, ApiService} from "../../../api.service";
 import {HelperService} from "../../../helper.service";
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {BrowseServerComponent} from "../browse-server/browse-server.component";
@@ -19,6 +19,7 @@ export class ServerCreateComponent {
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
     private dialog: MatDialog,
+    private router: Router,
   ) {
 
     this.form = this.fb.group({
@@ -53,6 +54,36 @@ export class ServerCreateComponent {
 
   projectId: string = '';
   project?: ProjectObject;
+
+  saving: boolean = false;
+
+  save() {
+    this.saving = true;
+    this.apiService.post('server/save', {
+      project_id: this.projectId,
+      server_id: null,
+      payload: this.form.value,
+    })
+      .subscribe({
+        next: (res: ApiResponse) => {
+          this.saving = false;
+          console.log(res)
+          if (res.status) {
+            // this.helper.alert('Server')
+            this.router.navigate([
+              'project',
+              this.helper.encode(this.projectId),
+              'servers',
+            ]);
+          } else {
+            this.helper.alertError(res);
+          }
+        }, error: err => {
+          this.saving = false;
+          this.helper.alertError(err);
+        }
+      })
+  }
 
   ngOnInit() {
   }
@@ -92,7 +123,7 @@ export class ServerCreateComponent {
     })
       .afterClosed().subscribe({
       next: r => {
-        if(r){
+        if (r) {
           this.form.get('path')?.setValue(r);
         }
       }
@@ -100,7 +131,7 @@ export class ServerCreateComponent {
   }
 }
 
-export interface ServerObject{
+export interface ServerObject {
   server_name: string,
   branch: string,
   type: string,

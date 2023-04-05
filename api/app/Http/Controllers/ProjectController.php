@@ -38,6 +38,68 @@ class ProjectController extends Controller {
         return $r;
     }
 
+    public function serverSave(Request $request) {
+        try {
+
+            $projectId = $request->project_id;
+            $serverId = $request->server_id;
+            $serverConfig = $request->payload;
+
+            $set = [
+                'server_name' => $serverConfig['server_name'],
+                'project_id'  => $projectId,
+                'branch'      => $serverConfig['branch'],
+                'type'        => $serverConfig['type'],
+                'secure'      => $serverConfig['secure'],
+                'host'        => $serverConfig['host'],
+                'port'        => $serverConfig['port'],
+                'username'    => $serverConfig['username'],
+                'password'    => $serverConfig['password'],
+                'path'        => $serverConfig['path'],
+                'key_id'      => $serverConfig['key_id'],
+                'auto_deploy' => $serverConfig['auto_deploy'],
+                //                'created_at'  => $serverConfig['created_at'],
+                //                'updated_at'  => $serverConfig['updated_at'],
+                'revision'    => $serverConfig['revision'],
+            ];
+
+            if ($serverId) {
+                $set['updated_at'] = Helper::getDateTime();
+                //                $set['updated_by'] = $request->userId;
+                DB::table('servers')
+                  ->where([
+                      'server_id' => $serverId,
+                  ])
+                  ->update($set);
+            }
+            else {
+                $set['created_by'] = $request->userId;
+                $set['created_at'] = Helper::getDateTime();
+                DB::table('servers')
+                  ->insert($set);
+                $serverId = Helper::getLastInsertId();
+            }
+
+            $r = [
+                'status'  => true,
+                'data'    => [
+                    'server_id' => $serverId,
+                ],
+                'message' => '',
+            ];
+        } catch (\Exception $e) {
+            $e = ExceptionInterceptor::intercept($e);
+            $r = [
+                'status'    => false,
+                'message'   => $e->getMessage(),
+                'exception' => $e->getJson(),
+                'data'      => [],
+            ];
+        }
+
+        return $r;
+    }
+
     public function serverTest(Request $request) {
         try {
             $projectId = $request->project_id;
@@ -48,17 +110,35 @@ class ProjectController extends Controller {
             $c->setServer((object)$serverConfig)
               ->connect();
             $list = $c->getConnection()
-                      ->listContents($serverConfig['path'])->sortByPath()->toArray();
-//                      ->listContents('/folda')->toArray();
+                      ->listContents($serverConfig['path'], false)
+                      ->sortByPath()
+                      ->toArray();
+            //                      ->listContents('/folda')->toArray();
+
+            //            $c->getConnection()->
+
+            $message = '';
+            if ($writeTest) {
+                $p = $serverConfig['path'];
+                $last = substr($p, strlen($p) - 1);
+                if ($last != '/') {
+                    $p .= '/';
+                }
+                $c->getConnection()
+                  ->write($p . 'gitftp-write-text.txt', '', []);
+                $c->getConnection()
+                  ->delete($p . 'gitftp-write-test.txt');
+                $message = "Write & delete at this dir was successful";
+            }
 
             $r = [
                 'status'  => true,
                 'data'    => [
                     'list' => $list,
                 ],
-                'message' => '',
+                'message' => $message,
             ];
-        } catch (\Exception $e) {
+        } catch (\Throwable $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
                 'status'    => false,

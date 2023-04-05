@@ -75,16 +75,23 @@ export class BrowseServerComponent implements OnInit {
   error: string = '';
   calling: boolean = false;
   projRoot: boolean = false;
+  message: string = '';
 
-  call() {
+  call(writeTest: boolean = false) {
     this.error = '';
     let ser = Object.assign({}, this.server);
     ser.path = this.path;
     this.calling = true;
+    if (writeTest) {
+      if (!confirm("Gitftp will attempt to write & delete gitftp-write-test.txt file on this path")) {
+        return;
+      }
+    }
     this.projRoot = false
+    this.message = '';
     this.apiService.post('server/test', {
       payload: ser,
-      write_test: false,
+      write_test: writeTest,
       project_id: this.projectId
     })
       .subscribe({
@@ -92,8 +99,9 @@ export class BrowseServerComponent implements OnInit {
           this.calling = false;
           console.log(res);
           if (res.status) {
+            this.message = res.message;
             this.files = res.data.list.map((a: any) => {
-              if(a.path.indexOf('gitftp.md') != -1){
+              if (a.path.indexOf('gitftp.md') != -1) {
                 this.projRoot = true;
               }
               a.file_size = this.helper.bytes(a.file_size, 1);

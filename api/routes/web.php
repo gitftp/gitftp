@@ -39,6 +39,7 @@ $router->group([
     $router->post('dash/sidebar', 'ProjectController@sidebar');
     $router->post('proj/view', 'ProjectController@view');
     $router->post('server/test', 'ProjectController@serverTest');
+    $router->post('server/save', 'ProjectController@serverSave');
 });
 
 $router->group([

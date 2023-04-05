@@ -16,6 +16,8 @@ import {MatTableModule} from "@angular/material/table";
 import {MatCheckboxModule} from "@angular/material/checkbox";
 import {MatRadioModule} from "@angular/material/radio";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatSliderModule} from "@angular/material/slider";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 
 let routes: Routes = [
@@ -48,6 +50,7 @@ let routes: Routes = [
     MatCheckboxModule,
     MatRadioModule,
     MatTooltipModule,
+    MatSlideToggleModule,
   ]
 })
 export class ServerCreateModule {

@@ -32,7 +32,10 @@
               <mat-icon>check</mat-icon>
             </button>
           </mat-form-field>
-          <p style="margin-top: 0px;color: orangered">{{error}}
+          <button type="button" style="float: right;margin-top: -13px;" mat-stroked-button color="primary" (click)="call(true)">
+            Test write permission
+          </button>
+          <p style="margin-top: 0px;color: {{error ? 'orangered' : ''}}">{{message}} {{error}}&nbsp;
           {{projRoot ? 'This is the Gitftp installation dir, Navigate up to get parent directories' : ''}}</p>
 
         </div>

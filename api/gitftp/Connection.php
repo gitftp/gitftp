@@ -32,7 +32,7 @@ class Connection {
     }
 
     /**
-     * @var \League\Flysystem\Filesystem
+     * @var \League\Flysystem\FilesystemAdapter
      */
     private $connection;
 
@@ -60,7 +60,7 @@ class Connection {
     }
 
     /**
-     * @return \League\Flysystem\Filesystem
+     * @return \League\Flysystem\FilesystemAdapter
      */
     public function getConnection() {
         return $this->connection;

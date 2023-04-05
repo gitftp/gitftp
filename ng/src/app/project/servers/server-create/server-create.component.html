@@ -9,7 +9,7 @@
     </div>
   </div>
 
-  <form [formGroup]="form">
+  <form [formGroup]="form" (submit)="save()">
     <div style="margin-top: 10px">
       <div class="container">
         <div class="row">
@@ -32,7 +32,8 @@
             <mat-form-field appearance="outline"
                             class="mr2">
               <mat-label>Branch to deploy</mat-label>
-              <mat-select formControlName="branch" [disabled]="gettingBranches">
+              <mat-select formControlName="branch"
+                          [disabled]="gettingBranches">
                 <mat-option [value]="b"
                             *ngFor="let b of branches">{{b}}</mat-option>
               </mat-select>
@@ -79,19 +80,71 @@
               <mat-radio-group aria-label="Select an option"
                                formControlName="type">
                 <mat-radio-button style="margin-right: 20px;"
-                                  value="local">Local
-                </mat-radio-button>
-                <mat-radio-button style="margin-right: 20px;"
                                   value="ftp">FTP
                 </mat-radio-button>
                 <mat-radio-button style="margin-right: 20px;"
                                   value="sftp">SFTP
+                </mat-radio-button>
+                <mat-radio-button style="margin-right: 20px;"
+                                  value="local">Local
                 </mat-radio-button>
               </mat-radio-group>
             </div>
           </div>
         </div>
         <div class="row">
+
+          <div class="col-7">
+
+            <div class="row">
+              <div class="col-12"
+                   *ngIf="form.get('type')?.value == 'ftp'">
+                <mat-checkbox formControlName="secure"
+                              style="margin-bottom: 15px;">
+                  Use FTP over TLS (FTPS) (recommended)
+                </mat-checkbox>
+              </div>
+              <div class="col-6"
+                   *ngIf="form.get('type')?.value == 'ftp' || form.get('type')?.value == 'sftp'">
+                <mat-form-field appearance="outline">
+                  <mat-label>Host</mat-label>
+                  <input matInput
+                         formControlName="host">
+                </mat-form-field>
+              </div>
+              <div class="col-6"
+                   *ngIf="form.get('type')?.value == 'ftp' || form.get('type')?.value == 'sftp'">
+                <mat-form-field appearance="outline">
+                  <mat-label>Port</mat-label>
+                  <input matInput
+                         formControlName="port">
+                </mat-form-field>
+              </div>
+              <div class="col-6"
+                   *ngIf="form.get('type')?.value == 'ftp' || form.get('type')?.value == 'sftp'">
+                <mat-form-field appearance="outline">
+                  <mat-label>Username</mat-label>
+                  <input matInput
+                         formControlName="username">
+                </mat-form-field>
+              </div>
+              <div class="col-6"
+                   *ngIf="form.get('type')?.value == 'ftp' || form.get('type')?.value == 'sftp'">
+                <mat-form-field appearance="outline">
+                  <mat-label>Password</mat-label>
+                  <input matInput
+                         formControlName="password">
+                </mat-form-field>
+              </div>
+              <div class="col-12"
+                   *ngIf="form.get('type')?.value == 'sftp'">
+                <mat-slide-toggle style="margin-bottom: 20px;"
+                                  formControlName="password">Use public key for authentication
+                </mat-slide-toggle>
+              </div>
+            </div>
+          </div>
+
           <div class="col-6">
             <mat-form-field appearance="outline">
               <mat-label>Deploy path</mat-label>
@@ -109,9 +162,12 @@
               </button>
             </mat-form-field>
           </div>
+          <div class="col-12">
+            <button type="submit" mat-flat-button color="primary">
+              Save
+            </button>
+          </div>
         </div>
-
-
       </div>
     </div>
   </form>

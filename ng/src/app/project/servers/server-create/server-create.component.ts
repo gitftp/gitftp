@@ -50,10 +50,37 @@ export class ServerCreateComponent {
     // this.helper.setPage('project' + this.projectId);
     this.helper.setPage('project' + this.projectId + 'servers');
     this.getBranches();
+    this.activatedRoute.params.subscribe((params: any) => {
+      // console.log(params);
+      this.serverId = this.helper.decode(params.id);
+      this.load();
+    });
   };
 
   projectId: string = '';
+  serverId: string = '';
   project?: ProjectObject;
+
+  loading: boolean = false;
+
+  load() {
+    this.loading = true;
+    this.apiService.post('servers/list', {
+      server_id: this.serverId,
+      project_id: this.projectId,
+    }).subscribe({
+      next: (res: ApiResponse) => {
+        console.log(res);
+        if (res.status) {
+          this.form.patchValue(res.data.servers[0]);
+        } else {
+          this.helper.alertError(res);
+        }
+      }, error: err => {
+        this.helper.alertError(err);
+      },
+    })
+  }
 
   saving: boolean = false;
 
@@ -61,7 +88,7 @@ export class ServerCreateComponent {
     this.saving = true;
     this.apiService.post('server/save', {
       project_id: this.projectId,
-      server_id: null,
+      server_id: this.serverId,
       payload: this.form.value,
     })
       .subscribe({

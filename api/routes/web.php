@@ -33,13 +33,17 @@ $router->group([
     $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
     $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
     $router->post('oauth/git-accounts', 'OAuthController@gitAccounts');
-    $router->post('repo/get-all', 'RepoController@getAll');
-    $router->post('repo/get-branches', 'RepoController@getBranches');
     $router->post('proj/create', 'ProjectController@create');
     $router->post('dash/sidebar', 'ProjectController@sidebar');
     $router->post('proj/view', 'ProjectController@view');
     $router->post('server/test', 'ProjectController@serverTest');
     $router->post('server/save', 'ProjectController@serverSave');
+    $router->post('servers/list', 'ProjectController@serverList');
+
+
+    $router->post('repo/get-all', 'RepoController@getAll');
+    $router->post('repo/get-branches', 'RepoController@getBranches');
+    $router->post('repo/get-commits', 'RepoController@getCommits');
 });
 
 $router->group([

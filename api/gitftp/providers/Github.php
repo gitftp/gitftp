@@ -8,12 +8,13 @@ class Github implements GitProviderInterface {
      */
     private $instance;
     private $username;
+
     public function __construct($username) {
         $this->instance = new Client();
         $this->username = $username;
     }
 
-    public function getInstance(){
+    public function getInstance() {
         return $this->instance;
     }
 
@@ -23,7 +24,7 @@ class Github implements GitProviderInterface {
 
 
     public function getRepositories() {
-            $a = $this->instance->api('user')
+        $a = $this->instance->api('user')
                             ->repositories($this->username);
         $response = array();
 
@@ -163,5 +164,36 @@ class Github implements GitProviderInterface {
 
         return $response;
     }
+
+    function commits($repoName, $branch = null, $username = null): array {
+        if (is_null($username))
+            $username = $this->username;
+
+        $options = [];
+        if (!is_null($branch)) {
+            //            [
+            //                'sha' => $branch,
+            //            ]
+            $options['sha'] = $branch;
+        }
+        $commits = $this->instance->repository()
+                                  ->commits()
+                                  ->all($username, $repoName, $options);
+
+        $revisions = [];
+
+        foreach ($commits as $item) {
+            $revisions[] = [
+                'sha'           => $item['sha'],
+                'message'       => $item['commit']['message'],
+                'author_avatar' => $item['author']['avatar_url'],
+                'author'        => $item['author']['login'],
+                'time'          => strtotime($item['commit']['author']['date']),
+            ];
+        }
+
+        return $revisions;
+    }
+
 
 }

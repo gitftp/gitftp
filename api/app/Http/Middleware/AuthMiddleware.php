@@ -41,11 +41,11 @@ class AuthMiddleware {
     }
 
     private function errorResponse(){
-        return response()->json(json_encode([
+        return response()->json([
             'status'  => false,
             'data'    => [],
             'message' => 'Invalid session',
-        ]), 200, $headers = [
+        ], 200, $headers = [
             'Access-Control-Allow-Origin'      => '*',
             'Access-Control-Allow-Methods'     => 'POST, GET, OPTIONS, PUT, DELETE',
             'Access-Control-Allow-Credentials' => 'true',

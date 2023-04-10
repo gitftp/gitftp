@@ -17,6 +17,46 @@ class RepoController extends Controller {
 
     }
 
+    public function getCommits(Request $request) {
+        try {
+            $projectId = $request->project_id;
+            $branchName = $request->branch_name;
+
+            $ac = DB::select("
+            select
+                oaa.account_id,
+                oaa.git_name,
+                oaa.git_username,
+                from oauth_app_accounts oaa
+            inner join projects p on oaa.account_id = p.account_id
+            where p.project_id = '$projectId'
+            ");
+            $ac = $ac[0];
+            $accountId = $ac->account_id;
+
+            $ga = new \GitApi($accountId);
+            $revisions = $ga->getProvider()->commits($ac->git_name, $branchName, $ac->git_username);
+
+            $r = [
+                'status'  => true,
+                'data'    => [
+                    'revisions' => $revisions,
+                ],
+                'message' => '',
+            ];
+        } catch (\Exception $e) {
+            $e = ExceptionInterceptor::intercept($e);
+            $r = [
+                'status'    => false,
+                'message'   => $e->getMessage(),
+                'exception' => $e->getJson(),
+                'data'      => [],
+            ];
+        }
+
+        return $r;
+    }
+
     public function getBranches(Request $request) {
         try {
             $projectId = $request->project_id;

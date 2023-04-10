@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {Observable, Subscriber} from "rxjs";
 import {HelperService} from "./helper.service";
 
 @Injectable({
@@ -15,6 +15,32 @@ export class ApiService {
     private helper: HelperService,
   ) {
   }
+
+
+  getRevisions(projectId: string, branchName: string): Observable<any> {
+    return new Observable((a: Subscriber<any>) => {
+      this.post('repo/revisions', {
+        project_id: projectId,
+        branch_name: branchName,
+      })
+        .subscribe({
+          next: (res: ApiResponse) => {
+            if (res.status) {
+              a.next(res.data.revisions);
+            } else {
+              this.helper.alertError(res);
+            }
+          }, error: (e: any) => {
+            console.error(e);
+            a.error(e);
+          },
+          complete: () => {
+            a.complete();
+          }
+        });
+    })
+  }
+
 
   post(url: string, data: any, options: {} = {}): Observable<ApiResponse> {
     return new Observable((a) => {
@@ -42,8 +68,7 @@ export class ApiService {
 
   get(url: string, options: {} = {}): Observable<ApiResponse> {
     return new Observable((a) => {
-      let headers = {
-      };
+      let headers = {};
       this.http.get(this.baseUrl + url, {
         headers: headers,
         params: {

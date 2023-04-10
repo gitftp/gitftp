@@ -39,10 +39,18 @@ let routes: Routes = [
     }
   },
   {
-    path: 'server/add',
+    path: 'server',
     loadChildren: () => {
       return import('./../servers/server-create/server-create.module').then((a) => {
         return a.ServerCreateModule;
+      });
+    }
+  },
+  {
+    path: 'deploy',
+    loadChildren: () => {
+      return import('../../deploy/deploy.module').then((a) => {
+        return a.DeployModule;
       });
     }
   },

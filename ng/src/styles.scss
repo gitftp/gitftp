@@ -219,3 +219,32 @@ mat-hint {
   }
 }
 
+
+.label{
+  background-color: #0c82df;
+  color: white;
+  padding: 3px 5px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+
+.field-nude{
+  //background-color: transparent;
+  .mat-mdc-text-field-wrapper{
+    background-color: transparent !important;
+  }
+  .mdc-line-ripple{
+    //display: none;
+  }
+  .mdc-text-field{
+    border-radius: 6px;
+  }
+  .mat-mdc-select-arrow-wrapper{
+    display: none;
+  }
+
+  &.mat-mdc-form-field .mat-mdc-form-field-focus-overlay{
+    display: none;
+  }
+}

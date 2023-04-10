@@ -38,6 +38,42 @@ class ProjectController extends Controller {
         return $r;
     }
 
+    public function serverList(Request $request) {
+        try {
+
+            $serverId = $request->server_id;
+
+            $query = DB::table('servers')
+                       ->where([
+                           'project_id' => $request->project_id,
+                       ]);
+            if ($serverId) {
+                $query->where([
+                    'server_id' => $serverId,
+                ]);
+            }
+            $servers = $query->get();
+
+            $r = [
+                'status'  => true,
+                'data'    => [
+                    'servers' => $servers,
+                ],
+                'message' => '',
+            ];
+        } catch (\Exception $e) {
+            $e = ExceptionInterceptor::intercept($e);
+            $r = [
+                'status'    => false,
+                'message'   => $e->getMessage(),
+                'exception' => $e->getJson(),
+                'data'      => [],
+            ];
+        }
+
+        return $r;
+    }
+
     public function serverSave(Request $request) {
         try {
 
@@ -125,7 +161,7 @@ class ProjectController extends Controller {
                     $p .= '/';
                 }
                 $c->getConnection()
-                  ->write($p . 'gitftp-write-text.txt', '', []);
+                  ->write($p . 'gitftp-write-test.txt', '', []);
                 $c->getConnection()
                   ->delete($p . 'gitftp-write-test.txt');
                 $message = "Write & delete at this dir was successful";

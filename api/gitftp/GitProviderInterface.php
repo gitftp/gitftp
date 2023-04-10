@@ -22,4 +22,6 @@ interface GitProviderInterface {
     function removeHook($repoName, $id);
 
     function updateHook($repoName, $id, $url);
+
+    function commits ($repoName, $branch, $username = null);
 }

@@ -22,7 +22,11 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 
 let routes: Routes = [
   {
-    path: '',
+    path: 'add',
+    component: ServerCreateComponent,
+  },
+  {
+    path: 'setup/:id',
     component: ServerCreateComponent,
   }
 ];

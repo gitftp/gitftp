@@ -13,6 +13,11 @@ import { FirstComponent } from './first/first.component';
 import { AlertComponent } from './components/alert/alert.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatCardModule} from "@angular/material/card";
+import {NgIconsModule} from "@ng-icons/core";
+import {
+  ionGitBranch,
+  ionGitBranchOutline,
+} from "@ng-icons/ionicons";
 
 @NgModule({
   declarations: [
@@ -27,6 +32,10 @@ import {MatCardModule} from "@angular/material/card";
     HttpClientModule,
     MatDialogModule,
     MatButtonModule,
+    NgIconsModule.withIcons({
+      ionGitBranch,
+      ionGitBranchOutline,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],

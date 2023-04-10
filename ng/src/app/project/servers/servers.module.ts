@@ -16,6 +16,8 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
 import { BrowseServerComponent } from './browse-server/browse-server.component';
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {NgIconsModule} from "@ng-icons/core";
+import {ionGitBranch, ionGitBranchOutline} from "@ng-icons/ionicons";
 
 
 let routes: Routes = [
@@ -47,6 +49,10 @@ let routes: Routes = [
     MatDialogModule,
     MatTableModule,
     MatTooltipModule,
+    NgIconsModule.withIcons({
+      ionGitBranch,
+      ionGitBranchOutline,
+    }),
   ]
 })
 export class ServersModule {

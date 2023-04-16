@@ -20,13 +20,13 @@ class RepoController extends Controller {
     public function getCommits(Request $request) {
         try {
             $projectId = $request->project_id;
-            $branchName = $request->branch_name;
+            $branchName = $request->branch;
 
             $ac = DB::select("
             select
                 oaa.account_id,
-                oaa.git_name,
-                oaa.git_username,
+                p.git_name,
+                oaa.git_username
                 from oauth_app_accounts oaa
             inner join projects p on oaa.account_id = p.account_id
             where p.project_id = '$projectId'
@@ -35,12 +35,12 @@ class RepoController extends Controller {
             $accountId = $ac->account_id;
 
             $ga = new \GitApi($accountId);
-            $revisions = $ga->getProvider()->commits($ac->git_name, $branchName, $ac->git_username);
+            $commits = $ga->getProvider()->commits($ac->git_name, $branchName, $ac->git_username);
 
             $r = [
                 'status'  => true,
                 'data'    => [
-                    'revisions' => $revisions,
+                    'commits' => $commits,
                 ],
                 'message' => '',
             ];

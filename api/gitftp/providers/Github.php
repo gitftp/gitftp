@@ -188,7 +188,7 @@ class Github implements GitProviderInterface {
                 'message'       => $item['commit']['message'],
                 'author_avatar' => $item['author']['avatar_url'],
                 'author'        => $item['author']['login'],
-                'time'          => strtotime($item['commit']['author']['date']),
+                'time'          => \App\Models\Helper::getDateTimeFromTime($item['commit']['author']['date']),
             ];
         }
 

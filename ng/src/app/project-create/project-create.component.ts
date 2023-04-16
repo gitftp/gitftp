@@ -53,7 +53,7 @@ export class ProjectCreateComponent implements OnInit {
 
   loadRepos() {
     this.loading = true;
-    this.apiService.post('repo/get-all', {})
+    this.apiService.post('repo/git/all-repos', {})
       .subscribe({
         next: (res: ApiResponse) => {
           this.loading = false;

@@ -15,6 +15,9 @@ import {MatSlideToggleModule} from "@angular/material/slide-toggle";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {NgIconComponent} from "@ng-icons/core";
 import {MatChipsModule} from "@angular/material/chips";
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 
 
 let routes: Routes = [
@@ -49,6 +52,8 @@ let routes: Routes = [
     MatTooltipModule,
     ReactiveFormsModule,
     NgIconComponent,
+    MatProgressSpinnerModule,
+    MatCardModule,
   ]
 })
 export class DeployModule { }

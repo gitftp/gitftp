@@ -122,7 +122,7 @@ export class ServerCreateComponent {
   getBranches() {
     this.gettingBranches = true;
     console.log(this.projectId);
-    this.apiService.post('repo/get-branches', {
+    this.apiService.post('repo/git/branches', {
       project_id: this.projectId,
     })
       .subscribe({

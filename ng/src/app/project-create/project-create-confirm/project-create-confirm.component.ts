@@ -75,7 +75,7 @@ export class ProjectCreateConfirmComponent implements OnInit {
 
   getBranches() {
     this.gettingBranches = true;
-    this.apiService.post('repo/get-branches', {
+    this.apiService.post('repo/git/branches', {
       account_id: this.data.repo.account_id,
       full_name: this.data.repo.full_name,
     })

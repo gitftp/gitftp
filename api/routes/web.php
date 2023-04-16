@@ -39,11 +39,9 @@ $router->group([
     $router->post('server/test', 'ProjectController@serverTest');
     $router->post('server/save', 'ProjectController@serverSave');
     $router->post('servers/list', 'ProjectController@serverList');
-
-
-    $router->post('repo/get-all', 'RepoController@getAll');
-    $router->post('repo/get-branches', 'RepoController@getBranches');
-    $router->post('repo/get-commits', 'RepoController@getCommits');
+    $router->post('repo/git/all-repos', 'RepoController@getAll');
+    $router->post('repo/git/branches', 'RepoController@getBranches');
+    $router->post('repo/git/commits', 'RepoController@getCommits');
 });
 
 $router->group([

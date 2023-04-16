@@ -5,6 +5,7 @@ import {ApiResponse, ApiService} from "../api.service";
 import {ServerObject} from "../project/servers/servers.component";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute} from "@angular/router";
+import {DeployModule} from "./deploy.module";
 
 @Component({
   selector: 'app-deploy',
@@ -76,8 +77,12 @@ export class DeployComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.form.get('type')?.valueChanges.subscribe((a: any) => {
+      this.onChangeType();
+    });
   }
+
+  type: string = '';
 
   getSelectedBranch() {
     let sid = this.form.get('server_id')?.value;
@@ -92,34 +97,72 @@ export class DeployComponent implements OnInit {
     return f;
   }
 
-  onChangeType() {
+  onChangeType(o: boolean = false) {
+    if (this.form.get('type')?.value == this.type && !o)
+      return;
+
     if (this.form.get('type')?.value == 'fresh') {
-      this.getLatestRevision();
+      this.getLatestCommit();
     }
     if (this.form.get('type')?.value == 'deploy') {
 
     }
+    this.type = this.form.get('type')?.value;
   }
 
-  loading: boolean = false;
+  latestCommits: CommitObject[] = [];
+  loadingLatestCommit: boolean = false;
 
-  getLatestRevision() {
-    this.loading = true;
-    this.apiService.post('servers/list', {
-      server_id: this.serverId
+  getLatestCommit() {
+    this.loadingLatestCommit = true;
+    this.apiService.post('repo/git/commits', {
+      project_id: this.projectId,
+      branch: this.getSelectedBranch()?.branch,
     })
       .subscribe({
         next: (res: ApiResponse) => {
+          this.loadingLatestCommit = false;
+          console.log(res);
           if (res.status) {
-            console.log(res);
-
+            this.latestCommits = res.data.commits;
           } else {
             this.helper.alertError(res.message);
           }
         }, error: err => {
+          this.loadingLatestCommit = false;
           this.helper.alertError(err);
         },
       })
   }
 
+  deploying: boolean = false;
+
+  public freshDeploy() {
+
+    this.deploying = true;
+    this.apiService.post('repo/deploy/fresh', {})
+      .subscribe({
+        next: (res: ApiResponse) => {
+          this.deploying = false;
+          if (res.status) {
+
+          } else {
+            this.helper.alertError(res);
+          }
+        },
+        error: err => {
+          this.deploying = false;
+          this.helper.alertError(err);
+        }
+      })
+  }
+}
+
+
+export interface CommitObject {
+  sha: string;
+  message: string;
+  author_avatar: string;
+  author: string;
+  time: string;
 }

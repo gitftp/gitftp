@@ -8,6 +8,7 @@
         <mat-form-field class="field-nude"
                         style="width: 500px;margin-left: -7px;">
           <mat-select formControlName="server_id"
+                      (selectionChange)="onChangeType(true)"
                       placeholder="[select]">
             <mat-option *ngFor="let s of servers; let indx = index"
                         [value]="s.server_id"
@@ -24,7 +25,10 @@
     font-size: 21px;
     vertical-align: middle;"
                  name="ionGitBranch"></ng-icon>
+        <strong>
+
         {{getSelectedBranch()?.branch}}
+        </strong>
       </div>
       <div class="btns">
 
@@ -32,34 +36,95 @@
     </div>
   </form>
 
-  <form [formGroup]="form">
-    <div style="margin-top: 10px">
-      <div class="container">
-        <div class="row">
-          <div class="col-6">
-            <h3>
-              <span>Deployment type</span>
-            </h3>
+  <div style="margin-top: 10px">
+    <div class="container">
+      <div class="row">
+        <div class="col-6">
+          <h3 class="no-m-t">
+            <span>Deployment type</span>
+          </h3>
 
-          </div>
         </div>
-        <div class="row">
-          <div class="col-3">
-            <mat-chip-listbox aria-label="Fish selection" formControlName="type">
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <form [formGroup]="form">
+
+            <mat-chip-listbox aria-label="Fish selection"
+                              formControlName="type">
               <mat-chip-option value="deploy">Deploy</mat-chip-option>
               <mat-chip-option value="fresh">Fresh upload</mat-chip-option>
             </mat-chip-listbox>
+          </form>
 
-          </div>
-          <div class="row" *ngIf="form.get('type')?.value == 'fresh'">
-            <div class="col-3">
-asdsdsads
+          <!--          <mat-radio-group [(ngModel)]="type"-->
+          <!--                           (change)="onChangeType()">-->
+          <!--            <mat-radio-button style="margin-right: 20px;"-->
+          <!--                              value="deploy">Deploy-->
+          <!--            </mat-radio-button>-->
+          <!--            <mat-radio-button value="fresh">Fresh</mat-radio-button>-->
+          <!--          </mat-radio-group>-->
+        </div>
+        <div class="col-12">
+          <div class="row"
+               *ngIf="form.value.type == 'fresh'">
+            <div class="col-12">
+              <p>
+                <mat-icon class="vm muted2">info</mat-icon>
+                <span class="vm">
+                  All project files will be uploaded to the server.
+                  Files will be updated if they already exists.
+                </span>
+              </p>
+            </div>
+            <div class="col-6">
+              <mat-label>
+                Revision to be deployed
+              </mat-label>
+
+              <div style="padding: 20px 0;"
+                   *ngIf="loadingLatestCommit">
+                <mat-spinner diameter="30"></mat-spinner>
+              </div>
+              <!--                  getting latest commit here. -->
+
+              <div class="commit"
+                   *ngIf="latestCommits.length && !loadingLatestCommit">
+                <div class="sha c">
+                  {{latestCommits[0].sha | slice: 0: 8}}
+                </div>
+                <div class="m">
+                  {{latestCommits[0].message}}
+
+                </div>
+                <div class="mc">
+                  <img [src]="latestCommits[0].author_avatar"
+                       alt="">
+                  <span>
+                    {{latestCommits[0].author}}
+                  </span>
+                  <span style="color: #888;">
+                    committed
+                    {{latestCommits[0].time | date: 'medium' | lowercase}}
+                  </span>
+                </div>
+
+              </div>
+
+
+              <button type="submit"
+                      mat-flat-button
+                      btn-big
+                      (click)="freshDeploy()"
+                      color="primary">
+                Deploy
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </form>
+  </div>
 </div>
 <div style="height: 200px;"></div>
 {{form.value|json }}

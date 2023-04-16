@@ -23,6 +23,10 @@ class Helper {
         return date('Y-m-d H:i:s');
     }
 
+    public static function getDateTimeFromTime($date) {
+        return date('Y-m-d H:i:s', strtotime($date));
+    }
+
     public static function getLastInsertId() {
         return \DB::getPdo()
                   ->lastInsertId();

@@ -185,10 +185,11 @@ class Github implements GitProviderInterface {
         foreach ($commits as $item) {
             $revisions[] = [
                 'sha'           => $item['sha'],
-                'message'       => $item['commit']['message'],
-                'author_avatar' => $item['author']['avatar_url'],
-                'author'        => $item['author']['login'],
-                'time'          => \App\Models\Helper::getDateTimeFromTime($item['commit']['author']['date']),
+                'message'       => Arr::get($item, 'commit.message', ''),
+                'author_avatar' => Arr::get($item, 'author.avatar_url', ''),
+                'author'        => Arr::get($item, 'author.login', ''),
+                'author_name'   => Arr::get($item, 'commit.author.name', ''),
+                'time'          => \App\Models\Helper::getDateTimeFromTime(Arr::get($item, 'commit.author.date'), ''),
             ];
         }
 

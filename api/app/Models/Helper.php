@@ -4,6 +4,25 @@ namespace App\Models;
 
 
 class Helper {
+    /**
+     * System directory separator.
+     * will change the DS to the one that the OS understands
+     *
+     * @param $path
+     *
+     * @return mixed
+     */
+    public static function systemDS($path) {
+        $replace = "\\";
+        if (DS == "\\")
+            $replace = "/";
+
+        return str_replace($replace, DS, $path);
+    }
+
+    public static function getRepoPath($project_id) {
+        return "repositories" . DS . "$project_id" . DS;
+    }
 
     public static function encode($a) {
         $a = urlencode($a);

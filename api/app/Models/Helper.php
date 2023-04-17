@@ -6,7 +6,7 @@ namespace App\Models;
 class Helper {
     /**
      * System directory separator.
-     * will change the DS to the one that the OS understands
+     * will change the DIRECTORY_SEPARATOR to the one that the OS understands
      *
      * @param $path
      *
@@ -14,14 +14,14 @@ class Helper {
      */
     public static function systemDS($path) {
         $replace = "\\";
-        if (DS == "\\")
+        if (DIRECTORY_SEPARATOR == "\\")
             $replace = "/";
 
-        return str_replace($replace, DS, $path);
+        return str_replace($replace, DIRECTORY_SEPARATOR, $path);
     }
 
     public static function getRepoPath($project_id) {
-        return "repositories" . DS . "$project_id" . DS;
+        return "repositories" . DIRECTORY_SEPARATOR . "$project_id" . DIRECTORY_SEPARATOR;
     }
 
     public static function encode($a) {

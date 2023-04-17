@@ -27,7 +27,7 @@
                  name="ionGitBranch"></ng-icon>
         <strong>
 
-        {{getSelectedBranch()?.branch}}
+          {{getSelectedBranch()?.branch}}
         </strong>
       </div>
       <div class="btns">
@@ -52,8 +52,12 @@
 
             <mat-chip-listbox aria-label="Fish selection"
                               formControlName="type">
-              <mat-chip-option value="deploy">Deploy</mat-chip-option>
-              <mat-chip-option value="fresh">Fresh upload</mat-chip-option>
+              <mat-chip-option value="deploy"
+                               [disabled]="form.get('type')?.value == 'deploy'">Deploy
+              </mat-chip-option>
+              <mat-chip-option value="fresh"
+                               [disabled]="form.get('type')?.value == 'fresh'">Fresh upload
+              </mat-chip-option>
             </mat-chip-listbox>
           </form>
 

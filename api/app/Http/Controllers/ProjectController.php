@@ -5,12 +5,8 @@ namespace App\Http\Controllers;
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
 use App\Models\Helper;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 class ProjectController extends Controller {
     public function __construct() {
@@ -142,7 +138,7 @@ class ProjectController extends Controller {
             $serverConfig = $request->payload;
             $writeTest = $request->write_test;
 
-            $c = new \Connection();
+            $c = new \App\Models\Connection();
             $c->setServer((object)$serverConfig)
               ->connect();
             $list = $c->getConnection()

@@ -1,8 +1,6 @@
 <?php
 
-use App\Exceptions\AppException;
-use Illuminate\Support\Facades\DB;
-use League\OAuth2\Client\Token\AccessToken;
+namespace App\Models;
 
 class Connection {
 
@@ -42,11 +40,11 @@ class Connection {
     public function connect() {
         switch ($this->type) {
             case self::LOCAL:
-//                $filesystem = new \League\Flysystem\Filesystem(new \League\Flysystem\Local\LocalFilesystemAdapter($this->server->path));
+                //                $filesystem = new \League\Flysystem\Filesystem(new \League\Flysystem\Local\LocalFilesystemAdapter($this->server->path));
                 $ad = new \League\Flysystem\Local\LocalFilesystemAdapter('./../');
                 $filesystem = new \League\Flysystem\Filesystem($ad);
                 $this->connection = $filesystem;
-//                $ad->listContents('/')
+                //                $ad->listContents('/')
                 break;
             case self::FTP:
             case self::SFTP:

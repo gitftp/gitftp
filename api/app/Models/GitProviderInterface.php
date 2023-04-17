@@ -1,8 +1,6 @@
 <?php
 
-use App\Exceptions\AppException;
-use Illuminate\Support\Facades\DB;
-use League\OAuth2\Client\Token\AccessToken;
+namespace App\Models;
 
 interface GitProviderInterface {
     function __construct($username);
@@ -23,5 +21,5 @@ interface GitProviderInterface {
 
     function updateHook($repoName, $id, $url);
 
-    function commits ($repoName, $branch, $username = null);
+    function commits($repoName, $branch, $username = null);
 }

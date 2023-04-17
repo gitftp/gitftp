@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
+use App\Models\GitLocal;
 use App\Models\Helper;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -41,13 +42,11 @@ class DeployController extends Controller {
                 throw new UserException('Project not found');
             }
 
-
-
-
-//            $repoPath = Helper::systemDS(
-//
-//            );
-
+            $repoPath = Helper::systemDS(
+                storage_path() . DIRECTORY_SEPARATOR . Helper::getRepoPath($projectId),
+            );
+            $gl = new GitLocal($repoPath);
+            $rev = $gl->verifyHash($revision);
 
 
             $r = [

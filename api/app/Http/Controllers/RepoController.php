@@ -4,13 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
-use App\Models\Helper;
-use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 class RepoController extends Controller {
     public function __construct() {
@@ -34,7 +29,7 @@ class RepoController extends Controller {
             $ac = $ac[0];
             $accountId = $ac->account_id;
 
-            $ga = new \GitApi($accountId);
+            $ga = new \App\Models\GitApi($accountId);
             $commits = $ga->getProvider()->commits($ac->git_name, $branchName, $ac->git_username);
 
             $r = [
@@ -82,7 +77,7 @@ class RepoController extends Controller {
                 list($username, $repository_name) = explode('/', $fullName);
             }
 
-            $ga = new \GitApi($accountId);
+            $ga = new \App\Models\GitApi($accountId);
             $branches = $ga->getProvider()
                            ->getBranches($repository_name, $username);
 
@@ -120,7 +115,7 @@ class RepoController extends Controller {
 
             $repos = [];
             foreach ($accounts as $account) {
-                $ga = new \GitApi($account->account_id);
+                $ga = new \App\Models\GitApi($account->account_id);
                 $r = $ga->getProvider()
                         ->getRepositories();
                 $r = array_map(function ($a) use ($account) {

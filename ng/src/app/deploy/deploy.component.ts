@@ -140,9 +140,15 @@ export class DeployComponent implements OnInit {
   public freshDeploy() {
 
     this.deploying = true;
-    this.apiService.post('repo/deploy/fresh', {})
+    this.apiService.post('deploy', {
+      project_id: this.projectId,
+      server_id: this.serverId,
+      deploy_type: this.type,
+      revision: this.latestCommits[0].sha,
+    })
       .subscribe({
         next: (res: ApiResponse) => {
+          console.log(res);
           this.deploying = false;
           if (res.status) {
 

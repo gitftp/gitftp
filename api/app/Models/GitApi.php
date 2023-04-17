@@ -1,10 +1,13 @@
 <?php
 
+namespace App\Models;
+
 use App\Exceptions\AppException;
+use App\Models\providers\Github;
 use Illuminate\Support\Facades\DB;
 use League\OAuth2\Client\Token\AccessToken;
 
-class GitLocal {
+class GitApi {
 
     private $accountId;
     private $account;
@@ -101,4 +104,39 @@ class GitLocal {
      * @var AccessToken
      */
     private $token;
+
+
+    /**
+     * creates url that is used for clone,
+     * this clone url uses token for authentication
+     *
+     * @param $clone_url
+     *
+     * @return string
+     * @throws AppException
+     */
+    public function createAuthCloneUrl ($clone_url): string {
+        $token = $this->token->getToken();
+
+        if ($this->account->provider_key == OAuth::BITBUCKET) {
+            $username = "x-token-auth";
+            $password = $token;
+        } elseif ($this->account->provider_key == OAuth::GITHUB) {
+            $username = $this->account->git_username; // i doubt this
+            $password = $token;
+        } else {
+            throw new AppException("Invalid provider");
+        }
+
+        $repo_url = parse_url($clone_url);
+        $repo_url['user'] = $username;
+
+        if ($password) {
+            $repo_url['pass'] = $password;
+        }
+        $url = http_build_url($repo_url);
+
+        return $url;
+    }
+
 }

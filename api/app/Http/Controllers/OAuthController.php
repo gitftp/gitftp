@@ -3,15 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
-use App\Exceptions\UserException;
 use App\Models\Helper;
-use App\Models\User;
-use OAuth;
+use App\Models\OAuth;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Schema;
 
 class OAuthController extends Controller {
     public function __construct() {
@@ -84,7 +79,7 @@ class OAuthController extends Controller {
                 // making a request
                 $appId = $request->me;
                 $appId = Helper::decode($appId);
-                $o = new \OAuth([
+                $o = new \App\Models\OAuth([
                     'app_id' => $appId,
                 ]);
                 $o->redirectForLogin();
@@ -101,7 +96,7 @@ class OAuthController extends Controller {
                 $code = $request->code;
                 $previousState = OAUth::getState($state);
                 $appId = $previousState['app_id'];
-                $o = new \OAuth([
+                $o = new \App\Models\OAuth([
                     'app_id' => $appId,
                 ]);
                 $o->readLoginResponse($code);

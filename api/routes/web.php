@@ -42,6 +42,7 @@ $router->group([
     $router->post('repo/git/all-repos', 'RepoController@getAll');
     $router->post('repo/git/branches', 'RepoController@getBranches');
     $router->post('repo/git/commits', 'RepoController@getCommits');
+    $router->post('deploy', 'DeployController@deploy');
 });
 
 $router->group([

@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models\providers;
+
+use App\Models\GitProviderInterface;
+use Arr;
 use Github\Client;
 
 class Github implements GitProviderInterface {

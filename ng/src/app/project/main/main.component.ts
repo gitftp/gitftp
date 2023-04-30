@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {AppEvent, HelperService} from "../../helper.service";
 import {ActivatedRoute} from "@angular/router";
-import {ApiService} from "../../api.service";
+import {ApiResponse, ApiService} from "../../api.service";
 import {ProjectObject} from "../project.component";
+import {RepoService} from "../../repo.service";
 
 @Component({
   selector: 'app-main',
@@ -14,6 +15,7 @@ export class MainComponent implements OnInit {
     private apiService: ApiService,
     private helper: HelperService,
     private activatedRoute: ActivatedRoute,
+    private repo: RepoService,
   ) {
 
   }
@@ -35,6 +37,21 @@ export class MainComponent implements OnInit {
     //     console.log('load main')
     //   }
     // });
+  }
+
+  clone() {
+    this.repo.requestDeploy({
+      projectId: this.projectId,
+      type: 'clone',
+    })
+      .subscribe({
+        next: (res: ApiResponse) => {
+          console.log(res)
+        },
+        error: err => {
+          console.log(err)
+        },
+      })
   }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Console\Commands\DeployRunnerCommand;
 use Illuminate\Console\Scheduling\Schedule;
+use Laravel\Lumen\Console\Commands\ServeCommand;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -13,7 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        DeployRunnerCommand::class
     ];
 
     /**

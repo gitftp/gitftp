@@ -16,7 +16,6 @@ export class ApiService {
   ) {
   }
 
-
   getRevisions(projectId: string, branchName: string): Observable<any> {
     return new Observable((a: Subscriber<any>) => {
       this.post('repo/revisions', {

@@ -35,7 +35,7 @@ $router->group([
     $router->post('oauth/git-accounts', 'OAuthController@gitAccounts');
     $router->post('proj/create', 'ProjectController@create');
     $router->post('dash/sidebar', 'ProjectController@sidebar');
-    $router->post('proj/view', 'ProjectController@view');
+    $router->post('get-project', 'ProjectController@getProject');
     $router->post('server/test', 'ProjectController@serverTest');
     $router->post('server/save', 'ProjectController@serverSave');
     $router->post('servers/list', 'ProjectController@serverList');
@@ -43,6 +43,7 @@ $router->group([
     $router->post('repo/git/branches', 'RepoController@getBranches');
     $router->post('repo/git/commits', 'RepoController@getCommits');
     $router->post('deploy', 'DeployController@deploy');
+    $router->post('add-deploy-request', 'DeployController@addDeploymentRequest');
 });
 
 $router->group([

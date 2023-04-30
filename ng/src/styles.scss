@@ -183,7 +183,12 @@ mat-hint {
       > * {
         margin-right: 10px;
       }
+      &.btns-right{
+        margin-top: 10px;
+        float: right;
+      }
     }
+
   }
 
   .subheader {

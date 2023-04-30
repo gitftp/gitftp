@@ -146,7 +146,7 @@ class OAuth {
 
       public static function saveState($state, $appId) {
             \Config::instance()
-                   ->set(\OAuth::CONFIG_OAUTHSTATE . '.' . $state, [
+                   ->set(OAuth::CONFIG_OAUTHSTATE . '.' . $state, [
                        'app_id' => $appId,
                    ])
                    ->save();
@@ -154,13 +154,13 @@ class OAuth {
 
       public static function getState($state, $remove = false) {
             $s = \Config::instance()
-                        ->get(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
+                        ->get(OAuth::CONFIG_OAUTHSTATE . '.' . $state);
             if (!$s) {
                   throw new \Exception("OAuth previous state was not found. please try again");
             }
 
             \Config::instance()
-                   ->remove(\OAuth::CONFIG_OAUTHSTATE . '.' . $state);
+                   ->remove(OAuth::CONFIG_OAUTHSTATE . '.' . $state);
 
             return $s;
       }

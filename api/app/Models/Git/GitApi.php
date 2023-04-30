@@ -1,12 +1,17 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Git;
 
 use App\Exceptions\AppException;
-use App\Models\providers\Github;
+use App\Models\Git\GitApi\Github;
+use App\Models\Git\GitApi\GitProviderInterface;
+use App\Models\OAuth;
 use Illuminate\Support\Facades\DB;
 use League\OAuth2\Client\Token\AccessToken;
 
+/**
+ * Api interface for Git providers
+ */
 class GitApi {
 
     private $accountId;

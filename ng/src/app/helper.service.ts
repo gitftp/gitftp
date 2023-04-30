@@ -36,22 +36,23 @@ export class HelperService {
     return (bytes / Math.pow(1024, Math.floor(number))).toFixed(precision) + ' ' + units[number];
   }
 
-
   encode(a: any) {
     a = encodeURIComponent(a);
     a = btoa(a);
-    a = a.replace(/=/ig, '');
+    a = a.replace(/=/ig, '-');
     return a;
   }
 
   decode(a: any) {
+    if(!a)
+      return '';
+    a = a.replace(/-/ig, '=');
     a = atob(a);
     a = decodeURIComponent(a);
     return a;
   }
 
   // ive decided to write user service stuff here
-
 
   isUserLoggedIn() {
     let user = this.getUser();

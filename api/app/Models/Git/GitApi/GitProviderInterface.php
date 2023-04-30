@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Git\GitApi;
 
 interface GitProviderInterface {
     function __construct($username);

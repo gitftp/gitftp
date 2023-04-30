@@ -14,6 +14,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {MatChipsModule} from "@angular/material/chips";
 
 
 let routes: Routes = [
@@ -48,6 +49,7 @@ let routes: Routes = [
     MatProgressSpinnerModule,
     MatDialogModule,
     MatTableModule,
+    MatChipsModule,
   ]
 })
 export class ProjectModule {

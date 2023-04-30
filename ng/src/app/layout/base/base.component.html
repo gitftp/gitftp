@@ -4,7 +4,7 @@
               class="example-sidenav"
               mode="side"
               [opened]="true">
-    <h3 style="margin: 21px 25px 30px">
+    <h3 style="margin: 21px 25px 30px; user-select: none">
       Menu
     </h3>
     <div style=""
@@ -34,7 +34,8 @@
             </mat-icon>
             {{p.name}}
           </div>
-          <div class="m-item-c2" *ngIf="menuShow['project' + p.project_id]">
+          <div class="m-item-c2"
+               *ngIf="menuShow['project' + p.project_id]">
             <div class="m-item"
                  [ngClass]="{
               selected: page == ('project' + p.project_id + 'servers')
@@ -126,7 +127,7 @@
       </button>
       <span>
         <img src="./assets/logo.png"
-             style="height: 40px;margin-left: 10px"
+             style="height: 40px;margin-left: 10px; user-select: none"
              alt="">
       </span>
       <!--      <span class="example-spacer"></span>-->

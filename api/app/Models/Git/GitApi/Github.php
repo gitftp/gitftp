@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Models\providers;
+namespace App\Models\Git\GitApi;
 
-use App\Models\GitProviderInterface;
+use App\Models\GitApi\Exception;
 use Arr;
 use Github\Client;
 

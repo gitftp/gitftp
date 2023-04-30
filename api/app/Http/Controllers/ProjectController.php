@@ -138,7 +138,7 @@ class ProjectController extends Controller {
             $serverConfig = $request->payload;
             $writeTest = $request->write_test;
 
-            $c = new \App\Models\Connection();
+            $c = new \App\Models\Deploy\Connection();
             $c->setServer((object)$serverConfig)
               ->connect();
             $list = $c->getConnection()
@@ -183,9 +183,10 @@ class ProjectController extends Controller {
         return $r;
     }
 
-    public function view(Request $request) {
+    public function getProject(Request $request) {
         try {
             $projectId = $request->project_id;
+            $userId = $request->userId;
 
             $projects = DB::select("
             select
@@ -196,6 +197,7 @@ class ProjectController extends Controller {
                 inner join oauth_apps oa on oaa.oauth_app_id = oa.oauth_app_id
                 inner join providers p2 on oa.provider_id = p2.provider_id
                 where p.project_id = '$projectId'
+                and p.user_id = $userId
             ");
 
             if (empty($projects)) {
@@ -204,6 +206,9 @@ class ProjectController extends Controller {
             else {
                 $project = $projects[0];
             }
+
+            $repoPath = Helper::getRepoPath($projectId);
+            $project->clone_dir = $repoPath;
 
             $r = [
                 'status'  => true,

@@ -1,4 +1,35 @@
-main
-<div class="table2">
+<!--<div class="table2">-->
+<!--  main-->
+<!--  {{project | json}}-->
+<!--</div>-->
+<div class="page">
 
+  <div *ngIf="project?.clone_state != 'cloned'"
+       style="padding: 30px 0;border-top: solid 1px #ddd">
+
+    <h2>
+      <mat-icon
+        class="vm"
+        style="font-size: 50px;
+              height: auto;
+              width: auto;
+          }">
+        filter_hdr
+      </mat-icon>
+<!--        blur_on-->
+      <span class="vm m-l-10">
+        Get started
+      </span>
+    </h2>
+
+    <p>
+      Gitftp will clone the project on this machine
+      <br>
+      Project will be cloned at <code>&lt;gitftp installation dir&gt;/storage/{{project?.clone_dir}}</code>
+    </p>
+
+    <button type="button" mat-flat-button btn-big="" color="primary" (click)="clone()">
+      Start clone
+    </button>
+  </div>
 </div>

@@ -1,0 +1,39 @@
+<div style="padding: 25px">
+  <h2 style="margin-top: 0">Create Project</h2>
+  <p style="min-width: 400px; margin-bottom: 30px;">
+    <span style="color: #777;">Project location</span> <br>
+    {{data.repo.clone_url}}
+  </p>
+  <mat-form-field appearance="outline"
+                  style="width: 100%">
+    <mat-label>Project name</mat-label>
+    <input matInput
+           [(ngModel)]="projectName">
+  </mat-form-field>
+  <p style="margin-top: 0px;
+    margin-bottom: 5px;">
+    Available branches:
+  </p>
+  <code *ngFor="let b of branches; let indx = index">{{indx ? ', ' : ''}}{{b}}</code>
+  <mat-spinner *ngIf="gettingBranches"
+               [diameter]="30"></mat-spinner>
+  <p>
+    <small>
+      <mat-icon style="font-size: 17px;
+    height: 18px;
+    line-height: 14px;
+    vertical-align: middle;
+    width: 20px;
+    color: #444;">info
+      </mat-icon>
+      Web hooks will be created for this project
+    </small>
+  </p>
+  <button type="button"
+          mat-flat-button
+          color="primary"
+          [disabled]="creating || !projectName"
+          (click)="create()">
+    Create
+  </button>
+</div>

@@ -1,0 +1,37 @@
+.f {
+  padding: 6px 17px 5px;
+  background-color: white;
+  border-radius: 4px;
+  transition: background-color .3s;
+  opacity: .5;
+}
+
+.f mat-icon {
+  color: #444;
+  margin-right: 14px
+}
+
+.f > * {
+  vertical-align: middle;
+}
+.f.dir{
+  cursor: pointer;
+  opacity: 1;
+}
+.f .fs {
+  float: right;
+  margin-top: 5px
+}
+
+.f:hover {
+  background-color: lightblue;
+}
+//
+//::ng-deep{
+//  mat-mdc-dialog-content{
+//
+//  }
+//}
+.hide{
+  opacity: 0;
+}

@@ -1,0 +1,61 @@
+<div style="height: 15px"></div>
+<div class="page">
+  <!--  <mat-card>-->
+  <!--    <mat-card-content>-->
+  <h2 style="">
+    Connect git account
+  </h2>
+  <p>
+    Connect with your account at Github or Bitbucket
+  </p>
+
+  <h2>
+    Step 1
+  </h2>
+  <div>
+    <p>
+      Create an OAuth application in your account, this application will be used to login in Accounts.
+    </p>
+    <form [formGroup]="form">
+      <mat-form-field appearance="outline" class="mr2">
+        <mat-label>Git provider</mat-label>
+        <mat-select (selectionChange)="providerChanged()" formControlName="provider_id">
+          <mat-option [value]="p.provider_id" *ngFor="let p of providers">{{p.provider_name}}</mat-option>
+        </mat-select>
+        <!--        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+        <!--        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="mr2" *ngIf="this.labels['label1']">
+        <mat-label>{{labels?.label1 || 'Client ID'}}</mat-label>
+        <input matInput formControlName="client_id">
+        <!--        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+        <!--        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+      <mat-form-field appearance="outline" *ngIf="this.labels['label1']">
+        <mat-label>{{labels?.label2 || 'Client Secret'}}</mat-label>
+        <input matInput formControlName="client_secret">
+<!--        <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>-->
+<!--        <mat-hint>Hint</mat-hint>-->
+      </mat-form-field>
+    </form>
+  </div>
+  <div ng-if="form.valid">
+      <h2>
+          Step 2
+      </h2>
+      <p>
+          Login through the OAuth app you created
+      </p>
+      <button type="button"
+              style="height: 69px;
+    padding: 0 84px;
+    border-radius: 50px;"
+              mat-stroked-button
+              (click)="connect()"
+              [disabled]="connecting"
+              color="primary"
+      >Login to {{selectedProvider?.provider_name}}</button>
+      <!--    </mat-card-content>-->
+      <!--  </mat-card>-->
+  </div>
+</div>

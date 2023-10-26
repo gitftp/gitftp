@@ -1,0 +1,89 @@
+<div class="page">
+  <div class="header">
+
+  <h2>Git accounts</h2>
+  <div class="btns">
+    <button mat-stroked-button
+            color="primary"
+            routerLink="/git-accounts/create">Create
+    </button>
+  </div>
+  </div>
+</div>
+<div class="table2">
+  <table mat-table
+         [dataSource]="dataSource"
+         class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell
+          *matHeaderCellDef> Actions
+      </th>
+      <td mat-cell
+          *matCellDef="let element">
+        <button type="button" mat-button (click)="remove(element)"
+                color="primary">
+          Remove
+        </button>
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="username">
+      <th mat-header-cell
+          *matHeaderCellDef>Identification
+      </th>
+      <td mat-cell
+          *matCellDef="let element">
+        <span style="color: #999;">Logged in as</span> @{{element.git_username}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="provider">
+      <th mat-header-cell
+          *matHeaderCellDef>Provider
+      </th>
+      <td mat-cell
+          *matCellDef="let element">
+        {{element.provider_name}}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="expires">
+      <th mat-header-cell
+          *matHeaderCellDef> Token expires
+      </th>
+      <td mat-cell
+          *matCellDef="let element"> {{element.expires}} </td>
+    </ng-container>
+    <ng-container matColumnDef="token">
+      <th mat-header-cell
+          *matHeaderCellDef> Token
+      </th>
+      <td mat-cell
+          *matCellDef="let element"> {{element.access_token}} </td>
+    </ng-container>
+    <ng-container matColumnDef="client_id">
+      <th mat-header-cell
+          *matHeaderCellDef> OAuth client
+      </th>
+      <td mat-cell
+          *matCellDef="let element"> {{element.client_id}} </td>
+    </ng-container>
+
+
+    <tr mat-header-row
+        *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+        *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+
+
+
+
+
+
+
+

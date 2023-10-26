@@ -1,0 +1,206 @@
+<div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <div project-sidebar page="page"></div>
+            </div>
+            <div class="col-md-9">
+                <div class="panel panel-card">
+
+                    <div class="panel-body p-70" ng-if="loading">
+                        <div class="loader" style="width: 60px">
+                            <svg class="circular" viewBox="25 25 50 50">
+                                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3"
+                                        stroke-miterlimit="10"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <div class="panel-body" ng-if="!loading">
+                        <h3 class=" m-t-5">
+                            Deploy to {{server.name}}
+                        </h3>
+                        <div class="m-b-20">
+                            from <img src="assets/img/branch.svg" style="height: 12px" alt=""> {{server.branch}}
+                            <span ng-if="server.revision"> on <code>{{server.revision | sha}}</code></span>
+                        </div>
+                        <hr>
+
+                        <div class="alert alert-danger" role="alert" ng-if="project.clone_state != 3">
+                            The project cloning has not been completed.
+                            <div ng-if="project.clone_state == 1">
+                                Please start the project cloning process from the project page.
+                            </div>
+                            <div ng-if="project.clone_state == 2">
+                                Cloning is in process, please standby until the cloning is done.
+                            </div>
+                        </div>
+                        <div class="alert alert-info alert-dismissible" role="alert" ng-if="!server.revision">
+                            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                            This server is not deployed yet.
+                            Therefore update to latest options is disabled. <br>
+                            Please continue with your first fresh upload
+                        </div>
+                        <h4>
+                            Deployment type
+                        </h4>
+                        <div class="md-form-group no-p-t p-b-10">
+                            <div>
+                                <div class="radio inline radio-buttons m-r-10" ng-class="{disabled: !server.revision}">
+                                    <label class="ui-checks">
+                                        <input type="radio" ng-disabled="!server.revision" ng-model="deploy.type" name="deploy_type" value="2" ng-change="typeChange()">
+                                        <i></i>
+                                        Deploy
+                                    </label>
+                                </div>
+                                <div class="radio inline radio-buttons m-r-10">
+                                    <label class="ui-checks">
+                                        <input type="radio" ng-model="deploy.type" name="deploy_type" value="3" ng-change="typeChange()">
+                                        <i></i>
+                                        Fresh upload
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="row" ng-if="deploy.type == 2">
+                                <div class="col-md-12">
+                                    <form name="deployDeployForm" ng-submit="revisionDeploy()">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <p>
+                                                <span ng-if="!fetchingComparision" class="pull-right">
+                                                    <u><a ng-click="deploySpecific()" title="Select the revision you want to deploy">Change target revision</a></u>
+                                                </span>
+                                                    Deploy changes between <code>{{server.revision | sha}}</code>
+                                                    <i class="zmdi zmdi-arrow-right"></i>
+                                                    <code>{{targetCommit | sha}}</code>
+                                                    </span>
+                                                </p>
+
+
+                                                <div class="p-30" ng-if="fetchingComparision">
+                                                    <div class="loader" style="width: 60px">
+                                                        <svg class="circular" viewBox="25 25 50 50">
+                                                            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                        </svg>
+                                                    </div>
+                                                    <p class="text-center m-t-10">
+                                                        fetching changes
+                                                    </p>
+                                                </div>
+                                                <div class="" ng-if="!fetchingComparision">
+                                                    <div class="alert alert-info" ng-if="targetChanges.files && targetChanges.files.length == 0">
+                                                        The <strong>server is up-to-date</strong>, nothing to deploy <br>
+                                                        <small>The latest revision and server revision are identical.</small>
+                                                    </div>
+                                                </div>
+                                                <div class="" ng-if="compareError">
+                                                    <div class="alert alert-danger">
+                                                        <i class="zmdi zmdi-alert-circle-o"></i>
+                                                        {{compareError}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <div class="m-b-10" ng-if="targetChanges.files && targetChanges.files.length">
+                                                    <p>
+                                                        <strong>Changed files</strong>
+                                                    </p>
+                                                    <div class="row">
+
+                                                        <div class="col-md-3" ng-repeat="f in targetChanges.files">
+                                                            <div class="m-b-5 changedFile text-ellipsis">
+                                                            <span title="{{f.a == 'D' ? 'Delete': 'Upload'}} {{f.f}}">
+                                                            <i class="zmdi zmdi-edit zmdi-hc-fw" ng-if="f.a == 'M'"></i>
+                                                            <i class="zmdi zmdi-plus zmdi-hc-fw" ng-if="f.a == 'A'"></i>
+                                                            <i class="zmdi zmdi-minus zmdi-hc-fw" ng-if="f.a == 'D'"></i>
+                                                            {{f.f | fileName}}
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <div ng-if="targetChanges.commits && targetChanges.commits.length">
+                                                    <p>
+                                                        <strong>Commits</strong>
+                                                    </p>
+                                                    <ul class="list-group">
+                                                        <li class="list-group-item" ng-repeat="r in targetChanges.commits">
+                                                            <strong>{{r.message}}</strong>
+                                                            <code class="pull-right">
+                                                                <small class="">{{r.sha | sha}}</small>
+                                                            </code>
+                                                            <br>
+                                                            <small class="text-muted">{{r.author}} committed on {{r.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}</small>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+
+                                                <button type="submit" class="btn btn-primary btn-rounded m-r-10"
+                                                        ng-disabled="project.clone_state != 3 || !targetChanges.files.length || fetchingComparision || revisionDeployProcessing || revisionDeployProcessing || deployDeployForm.$invalid">
+                                                    {{deployProcessing ? 'Applying for deploy' : 'Deploy'}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <div class="row" ng-if="deploy.type == 3">
+                                <div class="col-md-8">
+                                    <form name="freshUploadForm" ng-submit="freshDeploy()">
+                                        <p>
+                                            <i class="zmdi zmdi-info-outline zmdi-hc-fw"></i> All files will be uploaded to the server. Files will be updated if they already exists.
+                                        </p>
+                                        <p class="text-muted">
+                                            Revision to be deployed
+                                        </p>
+                                        <div class="p-30" ng-if="gettingLatest">
+                                            <div class="loader" style="width: 60px">
+                                                <svg class="circular" viewBox="25 25 50 50">
+                                                    <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                        <div class="list-group" ng-if="!gettingLatest">
+                                            <div class="list-group-item" ng-if="selectedCommit && selectedCommit.author">
+                                                <span class="pull-right"><code>{{selectedCommit.sha | sha}}</code></span>
+                                                <strong>{{selectedCommit.message}}</strong> <br>
+                                                {{selectedCommit.author}} committed on {{selectedCommit.time | amFromUnix | amDateFormat : "MMM DD, YYYY"}}
+                                            </div>
+                                            <div class="list-group-item" ng-if="selectedCommit && !selectedCommit.author">
+                                                <code>{{selectedCommit.sha | sha}}</code>
+                                            </div>
+
+                                            <p class="m-t-5">
+                                                <a ng-click="selectRevision()" class="pull-right">Select revision</a>
+                                            <div class="clearfix"></div>
+                                            </p>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-rounded m-r-10"
+                                                ng-disabled="project.clone_state != 3 || gettingLatest || freshDeployProcessing || freshUploadForm.$invalid">
+                                            {{freshDeployProcessing ? 'Applying for deploy' : 'Deploy'}}
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space10"></div>
+                    </div>
+                </div>
+                <br><br><br><br><br>
+            </div>
+        </div>
+    </div>
+</div>

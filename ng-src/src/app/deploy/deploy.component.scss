@@ -1,0 +1,46 @@
+.mdc-evolution-chip-set{
+  margin-bottom: 15px;
+}
+.commit {
+  border: solid 1px #ddd;
+  margin: 10px 0 20px;
+  position: relative;
+  padding: 10px 15px;
+  background-color: ghostwhite;
+  border-radius: 6px;
+  padding: 10px 15px;
+
+  .m {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .mc {
+    vertical-align: middle;
+
+    > * {
+      vertical-align: middle
+    }
+
+    img {
+      height: 24px;
+      border-radius: 50px;
+    }
+  }
+
+  .sha {
+    float: right;
+    //font-family: monospace;
+    //width: 145px;
+    //overflow: hidden;
+    //text-overflow: ellipsis;
+    //background-color: #fff;
+    color: dodgerblue;
+    padding: 1px 10px;
+    /* color: dodgerblue; */
+    border-radius: 6px;
+    margin-top: -1px;
+    //font-weight: bold;
+    font-size: 14px;
+  }
+}

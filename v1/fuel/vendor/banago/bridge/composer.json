@@ -1,0 +1,21 @@
+{
+    "name": "banago/bridge",
+    "description": "A PHP class to transfer data using different protocols (sftp, ftp, http, etc). Utilizes PHPs ssh2, ftp and curl functions if available.",
+    "license": "LGPL v3",
+    "keywords": ["banago", "ftp", "sftp", "ssh"],
+    "authors": [
+        {
+            "name": "Baki Goxhaj",
+            "email": "banago@gmail.com",
+            "homepage": "http://wplancer.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {},
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Banago\\Bridge\\": "src"
+        }
+    }
+}

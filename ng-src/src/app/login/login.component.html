@@ -1,0 +1,56 @@
+<div class="lc">
+  <div class="l">
+    <img src="assets/logo.png"
+         class="logo"
+         alt="">
+    <!--    <mat-card>-->
+    <!--      <mat-card-content>-->
+
+    <h1 class="head-t"
+        style="margin-top: 36px;">Login</h1>
+    <p>
+      Please enter credentials to log into Gitftp
+    </p>
+
+    <!--      </mat-card-content>-->
+    <!--    </mat-card>-->
+  </div>
+
+  <div class="l">
+    <!--    <h2>Create admin user</h2>-->
+    <!--    <p>-->
+    <!--      Please enter new credentials to log into Gitftp-->
+    <!--    </p>-->
+
+    <form
+      (submit)="submit()"
+      [formGroup]="form"
+      style="width: 500px;">
+      <mat-form-field appearance="outline"
+                      style="width: 300px"
+                      class="mr2">
+        <mat-label>Email</mat-label>
+        <input matInput
+               formControlName="email">
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="outline"
+                      style="width: 300px"
+                      class="mr2">
+        <mat-label>Password</mat-label>
+        <input matInput
+               formControlName="password">
+      </mat-form-field>
+
+      <div>
+
+        <button type="submit"
+                color="primary"
+                mat-flat-button>
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+
+</div>

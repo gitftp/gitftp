@@ -1,0 +1,17 @@
+fuel/app/logs/*
+!fuel/app/logs/.gitkeep
+.idea
+fuel/app/cache/*
+!fuel/app/cache/.gitkeep
+fuel/vendor/**/.git
+v1/repositories/*
+!v1/repositories/.htaccess
+!v1/repositories/keys/.gitkeep
+logs/*
+!logs/.gitkeep
+.config.json
+docs/
+nbproject/
+bower_components/
+node_modules/
+composer.lock

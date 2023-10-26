@@ -1,7 +1,6 @@
 <?php
 
 return [
-
     'default' => 'mysql',
     'migrations' => 'migrations',
     'connections' => [

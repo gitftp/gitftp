@@ -52,7 +52,8 @@ class Helper {
     }
 
     public static function testDatabaseConnection($host, $db_name, $username, $password, $port) {
-        $db = new \PDO("mysql:host=$host;dbname=$db_name;port=$port", $username, $password);
+        $s = "mysql:host=$host;dbname=$db_name;port=$port";
+        $db = new \PDO($s, $username, $password);
 
         return true;
     }

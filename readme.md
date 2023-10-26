@@ -22,6 +22,9 @@ Download the latest release [here](https://github.com/gitftp/gitftp/releases),
 unzip the files and open it on the browser.  
 The software will check for dependencies and ask for database setup
 
+## Docker
+
+`docker-compose down --remove-orphans && docker-compose build --no-cache && docker-compose up -d`
 
 ## Build
 

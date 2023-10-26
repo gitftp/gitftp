@@ -1,0 +1,10 @@
+prepare php installation
+
+apt update
+install apache2
+install php
+-- layer one
+
+install nano
+create index.php
+

@@ -31,8 +31,9 @@ $router->group([
     $router->post('oauth/all-providers', 'OAuthController@allProviders');
     $router->post('oauth/save-provider', 'OAuthController@saveProvider');
     $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
-    $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
+//    $router->post('oauth/save-oauth-app', 'OAuthController@saveOauthApp');
     $router->post('oauth/git-accounts', 'OAuthController@gitAccounts');
+    $router->post('oauth/delete-git-accounts', 'OAuthController@deleteGitAccounts');
     $router->post('proj/create', 'ProjectController@create');
     $router->post('dash/sidebar', 'ProjectController@sidebar');
     $router->post('get-project', 'ProjectController@getProject');

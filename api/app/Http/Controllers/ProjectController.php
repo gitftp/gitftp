@@ -240,6 +240,9 @@ class ProjectController extends Controller {
             , p.project_id
             , p.name
             from projects p
+                inner join oauth_app_accounts oaa on p.account_id = oaa.account_id
+                inner join oauth_apps oa on oaa.oauth_app_id = oa.oauth_app_id
+                inner join providers p2 on oa.provider_id = p2.provider_id
                 where p.user_id = '$userId'
             ");
 

@@ -1,0 +1,19 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="test4" type="docker-deploy" factoryName="docker-image" server-name="docker-windows">
+    <deployment type="docker-image">
+      <settings>
+        <option name="imageTag" value="httpd:latest" />
+        <option name="containerName" value="" />
+        <option name="volumeBindings">
+          <list>
+            <DockerVolumeBindingImpl>
+              <option name="containerPath" value="/usr/local/apache2/htdocs" />
+              <option name="hostPath" value="C:/xampp/htdocs" />
+            </DockerVolumeBindingImpl>
+          </list>
+        </option>
+      </settings>
+    </deployment>
+    <method v="2" />
+  </configuration>
+</component>

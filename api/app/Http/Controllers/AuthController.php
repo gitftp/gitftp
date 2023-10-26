@@ -12,33 +12,37 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 
-class AuthController extends Controller {
-    public function __construct() {
+class AuthController extends Controller
+{
+    public function __construct()
+    {
 
     }
 
-    public function example(Request $request) {
+    public function example(Request $request)
+    {
         try {
 
             $r = [
-                'status'  => true,
-                'data'    => [],
+                'status' => true,
+                'data' => [],
                 'message' => '',
             ];
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
         return $r;
     }
 
-    public function login(Request $request) {
+    public function login(Request $request)
+    {
         try {
 
             $email = $request->email;
@@ -47,27 +51,26 @@ class AuthController extends Controller {
             $hashed = User::hash($password);
             $users = DB::query("select * from users;");
             $user = User::query()
-                        ->where([
-                            'email'    => $email,
-                            'password' => User::hash($password),
-                        ])
-                        ->get([
-                            'user_id',
-                            'email',
-                            'last_login',
-                        ])
-                        ->first();
+                ->where([
+                    'email' => $email,
+                    'password' => User::hash($password),
+                ])
+                ->get([
+                    'user_id',
+                    'email',
+                    'last_login',
+                ])
+                ->first();
 
             if ($user) {
                 $token = User::generateToken($user->user_id);
-            }
-            else {
+            } else {
                 throw new UserException('Sorry, invalid email or password');
             }
 
             $r = [
-                'status'  => true,
-                'data'    => [
+                'status' => true,
+                'data' => [
                     'token' => $token,
                     'user' => $user,
                 ],
@@ -76,10 +79,10 @@ class AuthController extends Controller {
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
@@ -94,31 +97,33 @@ class AuthController extends Controller {
      *
      * @return array
      */
-    public function saveSetup(Request $request) {
+    public function saveSetup(Request $request)
+    {
         try {
             $db = $request->database;
 
             \Config::instance()
-                   ->set('mysql.host', $db['host'])
-                   ->set('mysql.port', $db['port'])
-                   ->set('mysql.database', $db['database'])
-                   ->set('mysql.username', $db['username'])
-                   ->set('mysql.password', $db['password'])
-                   ->set('mysql.socket', $db['socket'])
-                   ->save();
+                ->set('mysql.host', $db['host'])
+                ->set('mysql.port', $db['port'])
+                ->set('mysql.database', $db['database'])
+                ->set('mysql.username', $db['username'])
+                ->set('mysql.password', $db['password'])
+                ->set('mysql.socket', $db['socket'])
+                ->set('public_domain', $request->user['public_domain'] . '/')
+                ->save();
 
             $r = [
-                'status'  => true,
-                'data'    => [],
+                'status' => true,
+                'data' => [],
                 'message' => '',
             ];
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
@@ -126,7 +131,8 @@ class AuthController extends Controller {
     }
 
 
-    public function doSetup(Request $request) {
+    public function doSetup(Request $request)
+    {
         try {
             $user = $request->user;
             Artisan::call('migrate');
@@ -137,12 +143,12 @@ class AuthController extends Controller {
             $token = User::generateToken($userId);
 
             \Config::instance()
-                   ->set('setup', '1')
-                   ->save();
+                ->set('setup', '1')
+                ->save();
 
             $r = [
-                'status'  => true,
-                'data'    => [
+                'status' => true,
+                'data' => [
                     'token' => $token,
                 ],
                 'message' => '',
@@ -150,17 +156,18 @@ class AuthController extends Controller {
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
         return $r;
     }
 
-    public function dbTest(Request $request) {
+    public function dbTest(Request $request)
+    {
         try {
 
             $host = $request->host;
@@ -172,77 +179,78 @@ class AuthController extends Controller {
             $conn = Helper::testDatabaseConnection($host, $database, $username, $password, $port);
 
             $r = [
-                'status'  => true,
-                'data'    => [],
+                'status' => true,
+                'data' => [],
                 'message' => '',
             ];
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
         return $r;
     }
 
-    public function dependencyCheck(Request $request) {
+    public function dependencyCheck(Request $request)
+    {
         try {
             $deps = Helper::dependenciesCheck();
             $setup = \Config::instance()
-                            ->get('setup', false);
+                ->get('setup', false);
             if ($setup) {
                 throw new UserException("The app has already been setup.");
             };
             $r = [
-                'status'  => true,
-                'data'    => $deps,
+                'status' => true,
+                'data' => $deps,
                 'message' => '',
             ];
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
-                'data'      => [],
+                'data' => [],
             ];
         }
 
         return $r;
     }
 
-    public function checkState(Request $request) {
+    public function checkState(Request $request)
+    {
         try {
             $setup = \Config::instance()
-                            ->get('setup', false);
+                ->get('setup', false);
 
             DB::query();
             if (!$setup) {
                 // if the database is setup, then we go forward
                 $nextPage = 'setup';
-            }
-            else {
+            } else {
                 // check if user if logged in
                 $nextPage = 'login';
             }
 
             $token = $request->token;
-            if($token){
+            if ($token) {
                 $user = User::query()->where([
                     'login_hash' => $token,
                 ])->get()->first();
-                if($user){
+                if ($user) {
                     $nextPage = 'home';
                 }
             }
 
             $r = [
-                'status'  => true,
-                'data'    => [
+                'status' => true,
+                'data' => [
                     'nextPage' => $nextPage,
                 ],
                 'message' => '',
@@ -250,9 +258,9 @@ class AuthController extends Controller {
         } catch (\Exception $e) {
             $e = ExceptionInterceptor::intercept($e);
             $r = [
-                'status'    => false,
-                'data'      => [],
-                'message'   => $e->getMessage(),
+                'status' => false,
+                'data' => [],
+                'message' => $e->getMessage(),
                 'exception' => $e->getJson(),
             ];
         }

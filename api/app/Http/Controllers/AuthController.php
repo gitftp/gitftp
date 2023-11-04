@@ -236,17 +236,17 @@ class AuthController extends Controller
             } else {
                 // check if user if logged in
                 $nextPage = 'login';
-            }
-
-            $token = $request->token;
-            if ($token) {
-                $user = User::query()->where([
-                    'login_hash' => $token,
-                ])->get()->first();
-                if ($user) {
-                    $nextPage = 'home';
+                $token = $request->token;
+                if ($token) {
+                    $user = User::query()->where([
+                        'login_hash' => $token,
+                    ])->get()->first();
+                    if ($user) {
+                        $nextPage = 'home';
+                    }
                 }
             }
+
 
             $r = [
                 'status' => true,

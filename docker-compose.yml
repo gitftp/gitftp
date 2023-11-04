@@ -3,6 +3,7 @@ services:
     build: docker
     ports:
       - '90:80'
+#      - '9003:9003'
     volumes:
       - type: bind
         source: .

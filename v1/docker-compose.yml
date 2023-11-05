@@ -1,0 +1,28 @@
+services:
+  gfserver:
+    build: docker
+    ports:
+      - '81:80'
+#      - '9003:9003'
+    volumes:
+      - type: bind
+        source: .
+        target: /var/www/html
+      - ./docker/sites-available:/etc/apache2/sites-available
+    tty: true
+    environment:
+      hello: 'there'
+    command: ["sh", "/root/start.sh"]
+    restart: always
+#    platform: 'linux/amd64'
+  gfdatabase:
+    image: 'mysql:5.7.42-debian'
+    ports:
+      - '3306:3306'
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=gf
+    volumes:
+      - ./docker/mysql:/var/lib/mysql
+    platform: linux/amd64

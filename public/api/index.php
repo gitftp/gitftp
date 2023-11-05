@@ -2,8 +2,7 @@
 
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
+
 define('LARAVEL_START', microtime(true));
 
 /*

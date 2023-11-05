@@ -2,8 +2,8 @@
 
 class LogsViewer {
     private $paths = [
-        './../../api/storage/logs',
-//        './storage/logs2',
+        './storage/logs',
+        './storage/logs2',
     ];
     private $logs = [];
     private $file;

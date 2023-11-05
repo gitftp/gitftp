@@ -9,8 +9,8 @@ import {MatSidenavModule} from "@angular/material/sidenav";
 import {MatButtonModule} from "@angular/material/button";
 import {MatToolbarModule} from "@angular/material/toolbar";
 import {MatIconModule} from "@angular/material/icon";
-import { FirstComponent } from './first/first.component';
-import { AlertComponent } from './components/alert/alert.component';
+import {FirstComponent} from './first/first.component';
+import {AlertComponent} from './components/alert/alert.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatCardModule} from "@angular/material/card";
 import {NgIconsModule} from "@ng-icons/core";
@@ -19,12 +19,13 @@ import {
   ionGitBranchOutline,
 } from "@ng-icons/ionicons";
 import {APP_BASE_HREF} from "@angular/common";
+import {OverlayLoadingComponent} from './components/overlay-loading/overlay-loading.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FirstComponent,
-    AlertComponent
+    AlertComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,6 +47,7 @@ import {APP_BASE_HREF} from "@angular/common";
   ],
   bootstrap: [AppComponent],
   exports: [
+
   ]
 })
 export class AppModule {

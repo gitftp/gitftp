@@ -3,15 +3,16 @@
   <!--  <mat-card>-->
   <!--    <mat-card-content>-->
   <h2 style="">
-    Connect git account
+    Connect your git account
   </h2>
   <p>
-    Connect with your account at Github or Bitbucket
+    <mat-icon>info</mat-icon> Github uses your create OAuth Apps to login to the application, you can create your app -tell how-
   </p>
+  <div class="p-b-10"></div>
 
-  <h2>
-    Step 1
-  </h2>
+  <h3>
+    Select your OAuth Application
+  </h3>
   <div>
     <p>
       Create an OAuth application in your account, this application will be used to login in Accounts.
@@ -39,12 +40,12 @@
       </mat-form-field>
     </form>
   </div>
-  <div ng-if="form.valid">
-      <h2>
-          Step 2
-      </h2>
+  <div *ngIf="form.valid">
+      <h3>
+          Login to {{selectedProvider?.provider_name || '-select your provider-'}}
+      </h3>
       <p>
-          Login through the OAuth app you created
+          Login with the account whose repository you want to deploy
       </p>
       <button type="button"
               style="height: 69px;

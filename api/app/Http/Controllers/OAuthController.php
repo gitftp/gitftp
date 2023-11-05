@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
-use App\Models\Helper;
-use App\Models\OAuth;
+use App\Helpers\Helper;
+use App\Helpers\OAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -116,7 +116,7 @@ class OAuthController extends Controller
                 // making a request
                 $appId = $request->me;
                 $appId = Helper::decode($appId);
-                $o = new \App\Models\OAuth([
+                $o = new \App\Helpers\OAuth([
                     'app_id' => $appId,
                 ]);
                 $data['asd'] = $o->redirectForLogin();
@@ -130,7 +130,7 @@ class OAuthController extends Controller
                 $code = $request->code;
                 $previousState = OAUth::getState($state);
                 $appId = $previousState['app_id'];
-                $o = new \App\Models\OAuth([
+                $o = new \App\Helpers\OAuth([
                     'app_id' => $appId,
                 ]);
                 $o->readLoginResponse($code);

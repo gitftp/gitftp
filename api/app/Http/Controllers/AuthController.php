@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
-use App\Models\Helper;
+use App\Helpers\Helper;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -111,6 +111,9 @@ class AuthController extends Controller
                 ->set('mysql.socket', $db['socket'])
                 ->set('public_domain', $request->user['public_domain'] . '/')
                 ->save();
+
+            $a = file_get_contents('../../api/app/Helpers/WhitespacePathNormalizer.php');
+            file_put_contents('../../api/vendor/league/flysystem/src/WhitespacePathNormalizer.php', $a);
 
             $r = [
                 'status' => true,

@@ -15,6 +15,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatTableModule} from "@angular/material/table";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatChipsModule} from "@angular/material/chips";
+import {OverlayLoadingComponent} from "../components/overlay-loading/overlay-loading.component";
 
 
 let routes: Routes = [
@@ -50,6 +51,8 @@ let routes: Routes = [
     MatDialogModule,
     MatTableModule,
     MatChipsModule,
+  ],
+  exports: [
   ]
 })
 export class ProjectModule {

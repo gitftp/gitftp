@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
-use App\Models\Deploy\Deploy;
-use App\Models\Git\GitLocal;
-use App\Models\Helper;
+use App\Helpers\Deploy\Deploy;
+use App\Helpers\Git\GitLocal;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;

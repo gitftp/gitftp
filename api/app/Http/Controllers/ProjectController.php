@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ExceptionInterceptor;
 use App\Exceptions\UserException;
-use App\Models\Helper;
+use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -137,8 +137,12 @@ class ProjectController extends Controller {
             $projectId = $request->project_id;
             $serverConfig = $request->payload;
             $writeTest = $request->write_test;
+            if(is_null($serverConfig['path'])){
+                $serverConfig['path'] = './';
+            }
 
-            $c = new \App\Models\Deploy\Connection();
+
+            $c = new \App\Helpers\Deploy\Connection();
             $c->setServer((object)$serverConfig)
               ->connect();
             $list = $c->getConnection()

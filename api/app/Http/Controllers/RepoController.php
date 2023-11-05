@@ -29,7 +29,7 @@ class RepoController extends Controller {
             $ac = $ac[0];
             $accountId = $ac->account_id;
 
-            $ga = new \App\Models\Git\GitApi($accountId);
+            $ga = new \App\Helpers\Git\GitApi($accountId);
             $commits = $ga->getProvider()->commits($ac->git_name, $branchName, $ac->git_username);
 
             $r = [
@@ -77,7 +77,7 @@ class RepoController extends Controller {
                 list($username, $repository_name) = explode('/', $fullName);
             }
 
-            $ga = new \App\Models\Git\GitApi($accountId);
+            $ga = new \App\Helpers\Git\GitApi($accountId);
             $branches = $ga->getProvider()
                            ->getBranches($repository_name, $username);
 
@@ -115,7 +115,7 @@ class RepoController extends Controller {
 
             $repos = [];
             foreach ($accounts as $account) {
-                $ga = new \App\Models\Git\GitApi($account->account_id);
+                $ga = new \App\Helpers\Git\GitApi($account->account_id);
                 $r = $ga->getProvider()
                         ->getRepositories();
                 $r = array_map(function ($a) use ($account) {

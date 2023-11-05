@@ -11,7 +11,7 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        \DB::statement("
+        DB::statement("
 create table if not exists deployments
 (
 deployment_id   int auto_increment
@@ -34,7 +34,7 @@ failed_reason   text         null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists deployments_ext
 (
 deployment_ext_id int auto_increment
@@ -44,7 +44,7 @@ deployment_id     int  null
 );
 ");
 
-        \DB::statement("
+        DB::statement("
 create table if not exists oauth_app_accounts
 (
 account_id    int auto_increment
@@ -66,7 +66,7 @@ updated_by    int          null,
 status        int(1)       null
 );
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists oauth_apps
 (
 oauth_app_id  int auto_increment
@@ -81,7 +81,7 @@ updated_at    datetime    null,
 updated_by    int         null
 );
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists options
 (
 option_id int auto_increment
@@ -91,7 +91,7 @@ value     longtext    null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists projects
 (
 project_id   int auto_increment
@@ -120,7 +120,7 @@ deploy_pid   varchar(50)  null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists providers
 (
 provider_id           int auto_increment
@@ -132,7 +132,7 @@ provider_param_1_name varchar(20) null,
 provider_param_2_name varchar(20) null
 );
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists servers
 (
 server_id   int auto_increment
@@ -156,7 +156,7 @@ revision    varchar(50)  null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists skeys
 (
 key_id     int auto_increment
@@ -167,7 +167,7 @@ created_at datetime null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists users
 (
 user_id        int auto_increment
@@ -184,7 +184,7 @@ updated_at     datetime     null
 )
 charset = utf8mb4;
 ");
-        \DB::statement("
+        DB::statement("
 create table if not exists users_git_providers
 (
 users_provider_id int auto_increment
@@ -211,16 +211,16 @@ charset = utf8mb4;
      */
     public function down(): void
     {
-        \DB::statement("drop table deployments;");
-        \DB::statement("drop table deployments_ext;");
-        \DB::statement("drop table oauth_app_accounts;");
-        \DB::statement("drop table oauth_apps;");
-        \DB::statement("drop table options;");
-        \DB::statement("drop table projects;");
-        \DB::statement("drop table providers;");
-        \DB::statement("drop table servers;");
-        \DB::statement("drop table skeys;");
-        \DB::statement("drop table users;");
-        \DB::statement("drop table users_git_providers;");
+        DB::statement("drop table deployments;");
+        DB::statement("drop table deployments_ext;");
+        DB::statement("drop table oauth_app_accounts;");
+        DB::statement("drop table oauth_apps;");
+        DB::statement("drop table options;");
+        DB::statement("drop table projects;");
+        DB::statement("drop table providers;");
+        DB::statement("drop table servers;");
+        DB::statement("drop table skeys;");
+        DB::statement("drop table users;");
+        DB::statement("drop table users_git_providers;");
     }
 };

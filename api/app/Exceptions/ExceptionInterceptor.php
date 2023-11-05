@@ -14,7 +14,7 @@ class ExceptionInterceptor {
      *
      * @return InterceptedException
      */
-    public static function intercept(\Exception $e) {
+    public static function intercept(\Exception | \TypeError $e) {
         Log::error($e);
         return new InterceptedException($e);
         // we dont need intercepting of message,

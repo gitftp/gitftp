@@ -18,6 +18,7 @@ import {MatRadioModule} from "@angular/material/radio";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {MatSliderModule} from "@angular/material/slider";
 import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {OverlayLoadingModule} from "../../../components/overlay-loading/overlay-loading.module";
 
 
 let routes: Routes = [
@@ -55,6 +56,7 @@ let routes: Routes = [
     MatRadioModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    OverlayLoadingModule,
   ]
 })
 export class ServerCreateModule {

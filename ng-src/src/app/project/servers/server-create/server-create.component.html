@@ -9,7 +9,8 @@
     </div>
   </div>
 
-  <form [formGroup]="form" (submit)="save()">
+  <form [formGroup]="form" (submit)="save()" class="pr">
+    <overlay-loading *ngIf="loading || gettingBranches"></overlay-loading>
     <div style="margin-top: 10px">
       <div class="container">
         <div class="row">

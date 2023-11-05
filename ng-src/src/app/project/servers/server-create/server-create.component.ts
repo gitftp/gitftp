@@ -61,7 +61,7 @@ export class ServerCreateComponent {
   serverId: string = '';
   project?: ProjectObject;
 
-  loading: boolean = false;
+  loading: boolean = true;
 
   load() {
     this.loading = true;
@@ -70,6 +70,7 @@ export class ServerCreateComponent {
       project_id: this.projectId,
     }).subscribe({
       next: (res: ApiResponse) => {
+        this.loading = false;
         console.log(res);
         if (res.status) {
           this.form.patchValue(res.data.servers[0]);
@@ -77,6 +78,7 @@ export class ServerCreateComponent {
           this.helper.alertError(res);
         }
       }, error: err => {
+        this.loading = false;
         this.helper.alertError(err);
       },
     })

@@ -28,7 +28,7 @@ class DeployController extends Controller {
             $pro = DB::select("
                 select
                     p.clone_state
-                    from projects p
+                    from projetcs p
                 where p.project_id = $projectId
                 and p.user_id = $userId
             ");

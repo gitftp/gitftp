@@ -34,7 +34,7 @@ RUN { \
     echo 'xdebug.client_port = 9003';\
     echo 'xdebug.start_with_request=yes';\
     echo 'xdebug.log="/var/log/apache2/xdebug.log"';\
-#    echo 'xdebug.idekey = PHPSTORM';\
+    echo 'xdebug.idekey = PHPSTORM';\
     echo 'xdebug.discover_client_host=false';\
 } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
